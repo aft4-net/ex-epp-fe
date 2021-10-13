@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "projects": {
+    "epp": {
+      "projectType": "application",
+      "root": "apps/epp",
+      "sourceRoot": "apps/epp/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/epp",
+            "index": "apps/epp/src/index.html",
+            "main": "apps/epp/src/main.ts",
+            "polyfills": "apps/epp/src/polyfills.ts",
+            "tsConfig": "apps/epp/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/epp/src/favicon.ico", "apps/epp/src/assets", {
+              "glob": "**/*",
+              "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+              "output": "/assets/"
+            }],
+            "styles": ["apps/epp/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/epp/src/environments/environment.ts",
+                  "with": "apps/epp/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "epp:build:production"
+            },
+            "development": {
+              "browserTarget": "epp:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "epp:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/epp/src/**/*.ts",
+              "apps/epp/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/epp"],
+          "options": {
+            "jestConfig": "apps/epp/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "epp-e2e": {
+      "root": "apps/epp-e2e",
+      "sourceRoot": "apps/epp-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/epp-e2e/cypress.json",
+            "devServerTarget": "epp:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "epp:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/epp-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "ng-zorro": {
+      "projectType": "library",
+      "root": "libs/ng-zorro",
+      "sourceRoot": "libs/ng-zorro/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ng-zorro"],
+          "options": {
+            "jestConfig": "libs/ng-zorro/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ng-zorro/src/**/*.ts",
+              "libs/ng-zorro/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "passport": {
+      "projectType": "application",
+      "root": "apps/passport",
+      "sourceRoot": "apps/passport/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/passport",
+            "index": "apps/passport/src/index.html",
+            "main": "apps/passport/src/main.ts",
+            "polyfills": "apps/passport/src/polyfills.ts",
+            "tsConfig": "apps/passport/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/passport/src/favicon.ico",
+              "apps/passport/src/assets"
+            ],
+            "styles": ["apps/passport/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/passport/src/environments/environment.ts",
+                  "with": "apps/passport/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "passport:build:production"
+            },
+            "development": {
+              "browserTarget": "passport:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "passport:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/passport/src/**/*.ts",
+              "apps/passport/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/passport"],
+          "options": {
+            "jestConfig": "apps/passport/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "passport-e2e": {
+      "root": "apps/passport-e2e",
+      "sourceRoot": "apps/passport-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/passport-e2e/cypress.json",
+            "devServerTarget": "passport:serve:development",
+            "tsConfig": "apps/passport-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "passport:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/passport-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "npm"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "passport"
+}

@@ -1,0 +1,48 @@
+{
+  "npmScope": "exec-epp",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "epp": {
+      "tags": []
+    },
+    "epp-e2e": {
+      "tags": [],
+      "implicitDependencies": ["epp"]
+    },
+    "ng-zorro": {
+      "tags": []
+    },
+    "passport": {
+      "tags": []
+    },
+    "passport-e2e": {
+      "tags": [],
+      "implicitDependencies": ["passport"]
+    }
+  }
+}
