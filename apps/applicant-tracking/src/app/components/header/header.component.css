@@ -1,0 +1,17 @@
+.logo {
+
+    float: left;
+  }
+
+  [nz-menu] {
+    line-height: 64px;
+  }
+
+  .nz-header {
+    background: #fff;
+    padding: 0;
+  }
+
+  .menu-conatainer{
+    float: right;
+  }
