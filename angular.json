@@ -1,6 +1,125 @@
 {
   "version": 1,
   "projects": {
+    "applicant-tracking": {
+      "projectType": "application",
+      "root": "apps/applicant-tracking",
+      "sourceRoot": "apps/applicant-tracking/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/applicant-tracking",
+            "index": "apps/applicant-tracking/src/index.html",
+            "main": "apps/applicant-tracking/src/main.ts",
+            "polyfills": "apps/applicant-tracking/src/polyfills.ts",
+            "tsConfig": "apps/applicant-tracking/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/applicant-tracking/src/favicon.ico",
+              "apps/applicant-tracking/src/assets"
+            ],
+            "styles": ["apps/applicant-tracking/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/applicant-tracking/src/environments/environment.ts",
+                  "with": "apps/applicant-tracking/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "applicant-tracking:build:production"
+            },
+            "development": {
+              "browserTarget": "applicant-tracking:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "applicant-tracking:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/applicant-tracking/src/**/*.ts",
+              "apps/applicant-tracking/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/applicant-tracking"],
+          "options": {
+            "jestConfig": "apps/applicant-tracking/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "applicant-tracking-e2e": {
+      "root": "apps/applicant-tracking-e2e",
+      "sourceRoot": "apps/applicant-tracking-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/applicant-tracking-e2e/cypress.json",
+            "devServerTarget": "applicant-tracking:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "applicant-tracking:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/applicant-tracking-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
     "epp": {
       "projectType": "application",
       "root": "apps/epp",
@@ -17,13 +136,16 @@
             "polyfills": "apps/epp/src/polyfills.ts",
             "tsConfig": "apps/epp/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/epp/src/favicon.ico", "apps/epp/src/assets", {
-              "glob": "**/*",
-              "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-              "output": "/assets/"
-            }],
-            "styles": ["apps/epp/src/styles.scss"
+            "assets": [
+              "apps/epp/src/favicon.ico",
+              "apps/epp/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
+            "styles": ["apps/epp/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -263,6 +385,125 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/passport-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "timesheet": {
+      "projectType": "application",
+      "root": "apps/timesheet",
+      "sourceRoot": "apps/timesheet/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/timesheet",
+            "index": "apps/timesheet/src/index.html",
+            "main": "apps/timesheet/src/main.ts",
+            "polyfills": "apps/timesheet/src/polyfills.ts",
+            "tsConfig": "apps/timesheet/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/timesheet/src/favicon.ico",
+              "apps/timesheet/src/assets"
+            ],
+            "styles": ["apps/timesheet/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/timesheet/src/environments/environment.ts",
+                  "with": "apps/timesheet/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "timesheet:build:production"
+            },
+            "development": {
+              "browserTarget": "timesheet:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "timesheet:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/timesheet/src/**/*.ts",
+              "apps/timesheet/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/timesheet"],
+          "options": {
+            "jestConfig": "apps/timesheet/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "timesheet-e2e": {
+      "root": "apps/timesheet-e2e",
+      "sourceRoot": "apps/timesheet-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/timesheet-e2e/cypress.json",
+            "devServerTarget": "timesheet:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "timesheet:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/timesheet-e2e/**/*.{js,ts}"]
           }
         }
       }

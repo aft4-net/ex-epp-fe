@@ -27,6 +27,13 @@
     ]
   },
   "projects": {
+    "applicant-tracking": {
+      "tags": []
+    },
+    "applicant-tracking-e2e": {
+      "tags": [],
+      "implicitDependencies": ["applicant-tracking"]
+    },
     "epp": {
       "tags": []
     },
@@ -43,6 +50,13 @@
     "passport-e2e": {
       "tags": [],
       "implicitDependencies": ["passport"]
+    },
+    "timesheet": {
+      "tags": []
+    },
+    "timesheet-e2e": {
+      "tags": [],
+      "implicitDependencies": ["timesheet"]
     }
   }
 }
