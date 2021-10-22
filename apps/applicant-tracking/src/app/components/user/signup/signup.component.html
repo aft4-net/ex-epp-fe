@@ -48,11 +48,7 @@
       errorMsg="Confirm password should match with password."
     ></app-input>
 
-    <app-button
-      label="Sign up"
-      [disabled]="!signUpForm.valid"
-      type="primary"
-    ></app-button>
+    <app-button label="Sign up" [disabled]="!signUpForm.valid" type="primary"></app-button>
   </form>
 
   <ng-template #passwordSuffixIcon>
