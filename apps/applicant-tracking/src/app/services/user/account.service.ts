@@ -30,7 +30,7 @@ export class AccountService {
 
   signIn(signInRequest: SignInRequest) {
     console.log('testing2');
-      return this.http.post<ResponseDTO<SignInResponse>>(this.baseUrl + 'SignUp', signInRequest).pipe(
+      return this.http.post<ResponseDTO<SignInResponse>>(this.baseUrl + 'Signin', signInRequest).pipe(
         map((user) => {
           console.log(user);
           if(user.data && user.data.token){
@@ -53,5 +53,5 @@ export class AccountService {
     this.userSubject.next(null);
     this.router.navigate(['user/signin']);
   }
-  
+
 }
