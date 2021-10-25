@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~ng-zorro-antd/ng-zorro-antd.min.css";
+
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 1440px;
+    height: 100%;
+    background-color: #E5E5E5;
+    align-self: center;
+}
+
+
+.ant-drawer-content-wrapper {
+    margin-top: 127px;
+    min-height: 900px;
+
+    .ant-drawer-body {
+        margin: 0;
+        padding: 0;
+    }
+}
