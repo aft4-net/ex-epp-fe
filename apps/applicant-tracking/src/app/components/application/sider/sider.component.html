@@ -1,0 +1,21 @@
+<nz-layout class="inner-layout">
+  <nz-sider nzTheme="light">
+    <ul nz-menu nzMode="inline" class="sider-menu">
+      <li [routerLink]="['/application/personal-info']" nz-menu-item nzSelected>
+        Personal Information
+      </li>
+      <li [routerLink]="['/application/page-info']" nz-menu-item>
+        Areas of Interst
+      </li>
+      <li nz-menu-item>Education</li>
+      <li nz-menu-item>Work Experiance</li>
+      <li nz-menu-item>Links</li>
+      <li nz-menu-item>Additional Documents</li>
+      <li nz-menu-item>Review and Submit</li>
+    </ul>
+  </nz-sider>
+
+  <nz-content class="inner-content">
+    <router-outlet></router-outlet>
+  </nz-content>
+</nz-layout>
