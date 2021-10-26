@@ -1,0 +1,43 @@
+<nz-card class="card-view">
+  <div class="title">Sign in</div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <app-input
+      [form]="loginForm"
+      fcn="email"
+      name="email"
+      type="email"
+      label="Email"
+      placeholder="example@email.com"
+      errorMsg="Please provide valid email address."
+    ></app-input>
+    <app-input
+      [form]="loginForm"
+      fcn="password"
+      name="password"
+      [type]="showPassword ? 'text' : 'password'"
+      label="Password"
+      placeholder="Enter your password"
+      [suffixIcon]="passwordSuffixIcon"
+      errorMsg="Password length should be greater or equal to 8."
+    ></app-input>
+  </form>
+  <app-button
+    label="Sign in"
+    [disabled]="!loginForm.valid"
+    type="primary"
+  ></app-button>
+
+  <div class="info">
+    Don't have an account?
+    <a [routerLink]="['/user/signup']"> Sign up </a>
+  </div>
+  <ng-template #passwordSuffixIcon>
+    <i
+      class="clickable-icon"
+      (click)="togglePasswordView()"
+      nz-icon
+      [nzType]="!showPassword ? 'eye-invisible' : 'eye'"
+      nzTheme="outline"
+    ></i>
+  </ng-template>
+</nz-card>
