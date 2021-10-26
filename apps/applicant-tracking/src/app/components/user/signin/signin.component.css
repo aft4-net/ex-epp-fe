@@ -3,6 +3,8 @@
   border-radius: 10px;
   width:fit-content;
   min-width: 30%;
+  border-width: 0.75px;
+  border-color: #DADADA;
 }
 .title {
   font-weight: 500;

@@ -7,7 +7,9 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Validator } from '../../../interfaces/validator';
+import { AccountService } from '../../../services/user/account.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +17,7 @@ import { Validator } from '../../../interfaces/validator';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit, Validator {
-  showPassword: boolean = false;
+  showPassword = false;
   signUpForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
@@ -40,7 +42,16 @@ export class SignupComponent implements OnInit, Validator {
     return this.signUpForm?.get('confirmPassword');
   }
 
-  signup() {}
+  signup() {
+    this.accountService.signUp(this.signUpForm.value).subscribe(response => {
+      this.router.navigateByUrl('');
+      console.log(response.message);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
@@ -52,7 +63,7 @@ export class SignupComponent implements OnInit, Validator {
     };
   }
 
-  constructor() {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
     this.signUpForm.controls.password.valueChanges.subscribe(() => {

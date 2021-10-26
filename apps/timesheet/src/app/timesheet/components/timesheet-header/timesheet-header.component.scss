@@ -1,0 +1,36 @@
+.breadcrumb {
+    width: 242px;
+    height: 48px;
+    margin-top: 14.5px;
+    margin-left: 24px;
+}
+
+.total-hours-completed {
+    display: flex;
+    align-items: center;
+    width: 360px;
+    height: 33px;
+    margin-top: 22px;
+    margin-right: 24px;
+    margin-bottom: 22px;
+
+    h5 {
+        width: 171px;
+        height: 33px;
+        text-align: right;
+        margin-right: 12px;
+        margin-bottom: 0;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    button {
+        width: 159px;
+        height: 33px;
+        padding: 8px, 16px, 8px, 16px;
+        background-color: #BFBFBF;
+        border-radius: 2px;
+        border-width: 1px;
+        border-color: #F5F5F5;
+    }
+}

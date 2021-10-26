@@ -1,6 +1,6 @@
 <nz-card class="card-view">
   <div class="title">Sign in</div>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form  [formGroup]="loginForm" (ngSubmit)="login()">
     <app-input
       [form]="loginForm"
       fcn="email"
@@ -21,7 +21,7 @@
       errorMsg="Password length should be greater or equal to 8."
     ></app-input>
   </form>
-  <app-button
+  <app-button class="login-button"
     label="Sign in"
     [disabled]="!loginForm.valid"
     type="primary"
@@ -29,7 +29,7 @@
 
   <div class="info">
     Don't have an account?
-    <a [routerLink]="['/user/signup']"> Sign up </a>
+    <a style="color: #1890ff;" [routerLink]="['/user/signup']"> Sign up </a>
   </div>
   <ng-template #passwordSuffixIcon>
     <i
