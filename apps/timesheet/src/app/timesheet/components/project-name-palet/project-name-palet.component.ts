@@ -29,5 +29,6 @@ export class ProjectNamePaletComponent implements OnInit {
 
   showFormDrawer() {
     this.editClicked.emit(ClickEventLocation.dateColumn);
+    this.popoverVisible = false;
   }
 }
