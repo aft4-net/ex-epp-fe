@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TimesheetService } from './services/timesheet.service';
+
+import { ClickEventLocation } from '../models/clickEventLocation';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -8,6 +11,7 @@ import { TimesheetService } from './services/timesheet.service';
   styleUrls: ['./timesheet.component.scss']
 })
 export class TimesheetComponent implements OnInit {
+  clickEventLocation = ClickEventLocation.formDrawer;
   drawerVisible = false;
   validateForm!: FormGroup;
 
@@ -52,12 +56,14 @@ export class TimesheetComponent implements OnInit {
   }
   
 
-  dateColumnClicked() {
-    this.drawerVisible = true;
+  onDateColumnClicked(clickEventLocation: ClickEventLocation) {
+    this.clickEventLocation = clickEventLocation;
+    this.showFormDrawer();
   }
 
-  closeTimesheetDrawer() {
-    this.drawerVisible = false;
+  onEditButtonClicked(clickEventLocation: ClickEventLocation) {    
+    this.clickEventLocation = clickEventLocation;
+    this.showFormDrawer();
   }
  
   resetForm(): void {
@@ -92,4 +98,17 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
+  showFormDrawer() {
+    if (this.clickEventLocation == ClickEventLocation.dateColumn) {
+      this.drawerVisible = true;
+    }
+
+    console.log({DrawerVisible: this.drawerVisible})
+
+    this.clickEventLocation = ClickEventLocation.formDrawer;
+  }
+
+  closeFormDrawer() {
+    this.drawerVisible = false;
+  }
 }
