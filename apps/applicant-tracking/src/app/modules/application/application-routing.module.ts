@@ -4,6 +4,7 @@ import { PersonalInformationComponent } from '../../components/application/perso
 const routes: Routes = [{ path: 'personal-information', component: PersonalInformationComponent }];
 
 @NgModule({
+
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
