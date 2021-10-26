@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validator } from '../../../interfaces/validator';
-import { AccountService } from '../../../services/user/account.service';
 
 @Component({
   selector: 'app-signup',
@@ -43,12 +42,7 @@ export class SignupComponent implements OnInit, Validator {
   }
 
   signup() {
-    this.accountService.signUp(this.signUpForm.value).subscribe(response => {
-      this.router.navigateByUrl('');
-      console.log(response.message);
-    }, error => {
-      console.log(error);
-    });
+
   }
 
 
@@ -63,7 +57,7 @@ export class SignupComponent implements OnInit, Validator {
     };
   }
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.signUpForm.controls.password.valueChanges.subscribe(() => {
