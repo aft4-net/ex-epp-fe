@@ -1,0 +1,57 @@
+.project-name-palet {    
+    display: flex;
+    
+    width: 192px;
+    height: 64px;
+    padding: 8px, 4px, 8px, 4px;
+    margin-bottom: 8px;
+    
+    background-color: #DCFFDC;
+    border-radius: 2px;
+
+    &:hover {
+        background-color: #B7FFB7;
+    }
+
+    h2 {
+        width: 122px;
+        height: 52;
+        margin-left: 14.5px;
+
+        color: #262626;
+        font-family: sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .elipses-and-hours {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 41px;
+        height: 57px;
+        padding-top: 4px;
+        margin-right: 14.5px;
+
+        i {
+            transform: rotate(90deg);
+            cursor: pointer;
+        }
+
+        h2 {
+            width: 41px;
+            height: 15px;
+
+            columns: #262626;
+            font-family: sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            line-height: 22px;
+            text-align: right;
+        }
+    }
+}
