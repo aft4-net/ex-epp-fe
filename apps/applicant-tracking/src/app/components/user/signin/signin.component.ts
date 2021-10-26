@@ -47,7 +47,5 @@ export class SigninComponent implements OnInit {
   
   constructor(private accountService: AccountService, private router: Router, private rout : ActivatedRoute) {}
 
-  constructor() {}
-
   ngOnInit(): void {}
 }
