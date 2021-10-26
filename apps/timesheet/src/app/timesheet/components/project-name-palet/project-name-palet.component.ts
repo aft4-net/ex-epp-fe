@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ClickEventLocation } from '../../../models/clickEventLocation';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -6,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project-name-palet.component.scss']
 })
 export class ProjectNamePaletComponent implements OnInit {
+  @Output() paletEllipsisClicked = new EventEmitter<ClickEventLocation>();
+  @Output() editClicked = new EventEmitter<ClickEventLocation>()
+  
+  clickEventLocation = ClickEventLocation.paletEllipsis;
   popoverVisible = false;
 
   constructor() { }
@@ -13,15 +18,17 @@ export class ProjectNamePaletComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onPlateClick() {
-    console.log("project name palate clicked.")
-  }
-
   showPopover() {
-    //this.popoverVisible = true;
+    this.paletEllipsisClicked.emit(this.clickEventLocation);
+    this.popoverVisible = true;
   }
 
   closePopover() {
+    this.popoverVisible = false;
+  }
+
+  showFormDrawer() {
+    this.editClicked.emit(ClickEventLocation.dateColumn);
     this.popoverVisible = false;
   }
 }

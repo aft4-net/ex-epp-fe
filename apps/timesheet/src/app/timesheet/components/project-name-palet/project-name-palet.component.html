@@ -1,24 +1,29 @@
-<div class="project-name-palet" (click)="onPlateClick()">
+<div class="project-name-palet">
     <h2>
         Security Finance Corporation (SFC)
     </h2>
     <div class="elipses-and-hours">
         <i 
-            nz-icon 
-            nzType="ellipsis" 
-            nzTheme="outline"
-            nz-popover
+            nz-icon nzType="ellipsis" 
+            nzTheme="outline" 
+            nz-popover 
             nzPopoverPlacement="right"
-            [(nzPopoverVisible)]="popoverVisible"
-            [nzPopoverTrigger]="null"
+            [(nzPopoverVisible)]="popoverVisible" 
+            nzPopoverTrigger="click"
             (click)="showPopover()"
-            [nzPopoverContent] = "palet_popover"
+            [nzPopoverContent]="palet_popover"
         ></i>
         <h2>4 Hrs</h2>
     </div>
 </div>
 
 <ng-template #palet_popover>
-    <p>This a popover</p>
-    <button nz-button (click)="closePopover()">Close popover</button>
+    <div class="edit-delete">
+        <button nz-button (click)="showFormDrawer()">
+            Edit
+        </button>
+        <button nz-button>
+            Delete
+        </button>
+    </div>
 </ng-template>

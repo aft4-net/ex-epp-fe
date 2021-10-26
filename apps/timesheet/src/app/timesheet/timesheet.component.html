@@ -2,13 +2,20 @@
     <app-timesheet-header class="timesheet-header"></app-timesheet-header>
     <app-date-selector class="date-selector"></app-date-selector>
     <div class="day-and-date-column">
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
-        <app-day-and-date-column (click)="dateColumnClicked()"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        <app-day-and-date-column (editButtonClicked)="onEditButtonClicked($event)"
+            (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
     </div>
 </div>
 
@@ -21,7 +28,7 @@
                 <label for="to-date" id="to-date">To Date:</label>
                 <nz-date-picker name="to-date" [nzSize]="'small'"></nz-date-picker>
             </div>
-            <i nz-icon nzType="close" nzTheme="outline" (click)="closeTimesheetDrawer()"></i>
+            <i nz-icon nzType="close" nzTheme="outline" (click)="closeFormDrawer()"></i>
         </div>
         <div class="timesheet-detail">
             <label for="client">Client</label>
@@ -29,7 +36,7 @@
             <label for="project">Project</label>
             <nz-select name="project"></nz-select>
             <label for="hours">Hours</label>
-            <nz-select name="hours"></nz-select>
+            <input nz-input placeholder="hours">
             <label for="notes">Notes</label>
             <textarea name="notes" nz-input rows="4"></textarea>
             <div class="save-and-clear">
@@ -39,8 +46,3 @@
         </div>
     </div>
 </nz-drawer>
-
-<ng-template #palet_popover>
-    <p>This a popover</p>
-    <button nz-button>Close popover</button>
-</ng-template>
