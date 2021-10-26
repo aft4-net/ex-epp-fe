@@ -17,6 +17,10 @@ import { DateSelectorComponent } from './components/date-selector/date-selector.
 import { DayAndDateColumnComponent } from './components/day-and-date-column/day-and-date-column.component';
 import { ProjectNamePaletComponent } from './components/project-name-palet/project-name-palet.component';
 
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+
 @NgModule({
   declarations: [
     TimesheetComponent,
@@ -35,7 +39,11 @@ import { ProjectNamePaletComponent } from './components/project-name-palet/proje
     NzDrawerModule,
     NzSelectModule,
     NzInputModule,
-    NzPopoverModule
+    NzPopoverModule,
+    NzLayoutModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NzFormModule
   ]
 })
 export class TimesheetModule { }
