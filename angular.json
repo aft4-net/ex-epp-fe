@@ -510,6 +510,7 @@
     }
   },
   "cli": {
+    "analytics": "18be40f4-511c-467d-88f8-792262e2502c",
     "defaultCollection": "@nrwl/angular",
     "packageManager": "npm"
   },
@@ -540,5 +541,5 @@
       "style": "scss"
     }
   },
-  "defaultProject": "applicant-tracking"
+  "defaultProject": "passport" 
 }
