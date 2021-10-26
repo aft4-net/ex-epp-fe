@@ -19,6 +19,7 @@ export class InputComponent {
   @Input() prefixIcon: any;
   @Input() fcn : string = "";
   @Input() form: any;
+  @Input() maxLength: number=1000;
   constructor() {}
 
 }

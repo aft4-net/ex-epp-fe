@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,13 +13,16 @@ import { AccountService } from '../../../services/user/account.service';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css'],
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent {
   showPassword: boolean = false;
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', 
+    [Validators.required, 
+      Validators.email]),
+
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
+      Validators.minLength(8)
     ]),
   });
   get loginEmail(): AbstractControl | null {
@@ -47,8 +50,4 @@ export class SigninComponent implements OnInit {
   }
   
   constructor(private accountService: AccountService, private router: Router, private rout : ActivatedRoute) {}
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

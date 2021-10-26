@@ -9,6 +9,7 @@
       label="Email"
       placeholder="example@email.com"
       errorMsg="Please provide valid email address."
+      [maxLength]=50
     ></app-input>
     <app-input
       [form]="loginForm"
@@ -19,17 +20,18 @@
       placeholder="Enter your password"
       [suffixIcon]="passwordSuffixIcon"
       errorMsg="Password length should be greater or equal to 8."
+      [maxLength]=50
     ></app-input>
   </form>
   <app-button class="login-button"
     label="Sign in"
-    [disabled]="!loginForm.valid"
+    [disabled]="!loginForm.valid" 
     type="primary"
   ></app-button>
 
   <div class="info">
     Don't have an account?
-    <a style="color: #1890ff;" [routerLink]="['/user/signup']"> Sign up </a>
+    <a  [routerLink]="['/user/signup']"> Sign up </a>
   </div>
   <ng-template #passwordSuffixIcon>
     <i
