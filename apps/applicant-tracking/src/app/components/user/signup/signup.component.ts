@@ -17,7 +17,7 @@ import { AccountService } from '../../../services/user/account.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit, Validator {
-  showPassword: boolean = false;
+  showPassword = false;
   signUpForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
