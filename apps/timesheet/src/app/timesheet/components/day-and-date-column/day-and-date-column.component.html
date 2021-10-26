@@ -1,12 +1,12 @@
 <h5 class="day">Monday</h5>
-<div class="date-column">
+<div class="date-column" (click)="showFormDrawer()">
     <div class="date-and-hour">
         <h1 class="date">26</h1>
         <h3 class="hour">0 Hrs</h3>
     </div>
     <div>
-        <app-project-name-palet></app-project-name-palet>
-        <app-project-name-palet></app-project-name-palet>
-        <app-project-name-palet></app-project-name-palet>
+        <app-project-name-palet (editClicked)="onEditButtonClicked($event)" (paletEllipsisClicked)="onPaletEllipsisClicked($event)"></app-project-name-palet>
+        <app-project-name-palet (paletEllipsisClicked)="onPaletEllipsisClicked($event)"></app-project-name-palet>
+        <app-project-name-palet (paletEllipsisClicked)="onPaletEllipsisClicked($event)"></app-project-name-palet>
     </div>
 </div>
