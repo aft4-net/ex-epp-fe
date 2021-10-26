@@ -1,0 +1,131 @@
+
+/* Time sheet header */
+
+.timesheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 1440px;
+    height: 77px;
+
+    background-color: #FFFFFF;
+    padding: 12px, 24px, 12px, 24px;
+    border-bottom-width: 0.5px;
+    border-bottom-style: solid;
+    border-top-width: 0.5px;
+    border-top-style: solid;
+    border-color: #DADADA;
+}
+
+/* Date selector and Button */
+
+.date-selector {
+    display: flex;
+    width: 1440px;
+    background-color: #FFFFFF;
+}
+
+/* Day of week and Date Column */
+
+.day-and-date-column {
+    display: flex;
+    width: 1440px;
+    background-color: #FFFFFF;
+    padding-left: 24px;
+}
+
+/* Form drawer */
+
+.timesheet-date-range {
+    display: flex;
+    width: 400px;
+    height: 52px;
+    background-color: #FDFDFD;
+
+    border-width: 0.7px;
+    border-style: solid;
+    border-color: #DADADA;
+
+    .from-date-to-date {
+        width: 300px;
+        height: 28px;
+
+        margin-left: 20px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+
+        #from-date {
+            width: fit-content;
+            height: 24px;
+        }
+
+        #to-date {
+            width: fit-content;
+            height: 24px;
+
+            margin-left: 12px;
+        }
+
+        nz-date-picker {
+            width: 74px;
+            height: 28px;
+
+            margin-left: 4px;
+        }
+    }
+
+    i {
+        width: 20px;
+        height: 20px;
+
+        margin-top: 16px;
+        margin-left: 28px;
+        padding: 3.5px;
+
+        cursor: pointer;
+    }
+}
+
+.timesheet-detail {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 721px;
+
+    padding-top: 16px;
+    padding-right: 23.5px;
+    padding-bottom: 25px;
+    padding-left: 23.5px;
+
+    label {
+        width: fit-content;
+        height: 24px;
+
+        margin-top: 9px;
+    }
+
+    nz-select {
+        width: 352px;
+        height: 35px;
+
+        margin-top: 5px;
+    }
+
+    textarea {
+        width: 352px;
+        height: 80px;
+
+        margin-top: 5px;
+    }
+
+    .save-and-clear {
+        width: 350px;
+        height: 33px;
+
+        margin-top: 8px;
+
+        button {
+            margin-right: 16px;
+        }
+    }
+}
