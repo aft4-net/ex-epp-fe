@@ -3,11 +3,10 @@
         <p>Step 1-personal Innformation</p>
     </h1>
     <form [formGroup]="personalInformation">
-        <div nz-row nzJustify="end">
-            <div nz-col nzSpan="13"> Autofill this application faster by uploading your resume
-            </div>
-            <div nz-col nzSpan="4">
-                <app-button label="uploading" [disabled]="!personalInformation.valid" type="primary"></app-button>
+        <div nz-row nzJustify="center"> 
+            <div nz-col nzSpan="8">Autofill this application faster by uploading your resume</div>
+            <div nz-col nzSpan="3">
+                <app-button m-3 label="uploading" [disabled]="!personalInformation.valid" type="primary"></app-button>
             </div>
         </div>
         <div nz-row [nzGutter]="16">

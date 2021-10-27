@@ -12,6 +12,7 @@ import {
   styleUrls: ['./personal-information.component.scss']
 })
 export class PersonalInformationComponent implements OnInit {
+  previewImage!: string;
   personalInformation = new FormGroup({ 
   imgPhoto: new FormControl('', [Validators.required]),
   firstName: new FormControl('', [Validators.required]),
