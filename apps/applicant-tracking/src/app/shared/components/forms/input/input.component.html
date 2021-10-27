@@ -1,10 +1,20 @@
 <div [formGroup]="form">
-<nz-form-item class="form-item-container">
-  <div class="label">{{ label }}</div>
-  <nz-form-control [nzErrorTip]="errorMsg">
-    <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
-      <input [formControlName]="fcn" [type]="type" nz-input [placeholder]="placeholder" />
-    </nz-input-group>
-  </nz-form-control>
-</nz-form-item>
+  <nz-form-item class="form-item-container">
+    <div class="label">{{ label }}</div>
+    <nz-form-control [nzHasFeedback]="showErrorIcon" [nzErrorTip]="displayError ? errorMsg : ''">
+      <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
+        <input
+          [formControlName]="fcn"
+          [type]="type"
+          nz-input
+          [placeholder]="placeholder"
+          [maxlength]="maxLength"
+          (focusout)="onfocustout()"
+          (focus)="onfocus()"
+          tabindex=""
+          (paste)='preventPaste($event, disablePaste)'
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
 </div>

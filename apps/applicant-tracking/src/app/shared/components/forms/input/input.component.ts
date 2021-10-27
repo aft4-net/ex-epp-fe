@@ -5,10 +5,12 @@ import { FormGroup } from '@angular/forms';
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.css'],
-
 })
 export class InputComponent {
   disabled: boolean = false;
+  @Input() focusout: boolean = false;
+  @Input() displayError: boolean = false;
+
   @Input() type = 'text';
   @Input() name: string = '';
   @Input() isRequired: boolean = false;
@@ -17,8 +19,23 @@ export class InputComponent {
   @Input() errorMsg: string = '';
   @Input() suffixIcon: any;
   @Input() prefixIcon: any;
-  @Input() fcn : string = "";
+  @Input() fcn: string = '';
   @Input() form: any;
+  @Input() maxLength: number = 1000;
+  @Input() showErrorIcon = true;
+  @Input() disablePaste = false;
   constructor() {}
-
+  onfocustout() {
+    this.focusout = true;
+  }
+  onfocus() {
+    this.focusout = false;
+  }
+  preventPaste(e: any, prevent: any) {
+    if (prevent) {
+      e.preventDefault();
+      return false;
+    }
+    return true;
+  }
 }

@@ -9,19 +9,27 @@
       label="Email"
       placeholder="example@email.com"
       errorMsg="Please provide valid email address."
+      #email
+      [displayError]="email.focusout"
+      [maxLength]="50"
     ></app-input>
     <app-input
       [form]="loginForm"
       fcn="password"
       name="password"
+      #password
       [type]="showPassword ? 'text' : 'password'"
       label="Password"
       placeholder="Enter your password"
       [suffixIcon]="passwordSuffixIcon"
-      errorMsg="Password length should be greater or equal to 8."
+      [showErrorIcon]="false"
+      errorMsg="Password length should be minimum 8."
+      [displayError]="password.focusout"
+      [maxLength]="50"
     ></app-input>
   </form>
   <app-button
+    class="login-button"
     label="Sign in"
     [disabled]="!loginForm.valid"
     type="primary"
