@@ -16,6 +16,7 @@ import { TimesheetHeaderComponent } from './components/timesheet-header/timeshee
 import { DateSelectorComponent } from './components/date-selector/date-selector.component';
 import { DayAndDateColumnComponent } from './components/day-and-date-column/day-and-date-column.component';
 import { ProjectNamePaletComponent } from './components/project-name-palet/project-name-palet.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -25,17 +26,18 @@ import { ProjectNamePaletComponent } from './components/project-name-palet/proje
     DayAndDateColumnComponent,
     ProjectNamePaletComponent
   ],
-  imports: [
-    CommonModule,
-    TimesheetRoutingModule,
-    NzBreadCrumbModule,
-    NzButtonModule,
-    NzIconModule,
-    NzDatePickerModule,
-    NzDrawerModule,
-    NzSelectModule,
-    NzInputModule,
-    NzPopoverModule
-  ]
+    imports: [
+        CommonModule,
+        TimesheetRoutingModule,
+        NzBreadCrumbModule,
+        NzButtonModule,
+        NzIconModule,
+        NzDatePickerModule,
+        NzDrawerModule,
+        NzSelectModule,
+        NzInputModule,
+        NzPopoverModule,
+        FormsModule
+    ]
 })
 export class TimesheetModule { }
