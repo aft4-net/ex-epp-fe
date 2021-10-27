@@ -1,13 +1,15 @@
 <nz-form-item class="form-item-container">
   <div class="label" nzRequired>{{ label }}</div>
   <div [formGroup]="form" class="w-full">
-    <nz-form-control nzHasFeedback [nzErrorTip]="errorMsg">
+    <nz-form-control nzHasFeedback  [nzErrorTip]="displayError ? errorMsg : ''">
       <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
         <input
           [formControlName]="fcn"
           [type]="type"
           nz-input
           [placeholder]="placeholder"
+          (focusout)="onfocustout()"
+          (focus)="onfocus()"
         />
       </nz-input-group>
     </nz-form-control>

@@ -1,13 +1,9 @@
 <div class="m-10">
-  <h1>
-    <p>Step 1-personal Innformation</p>
-  </h1>
+  <h2 class="">Step 1- Personal Information</h2>
   <form [formGroup]="personalInformation">
-    <div nz-row nzJustify="end">
-      <div nz-col nzSpan="13">
-        Autofill this application faster by uploading your resume
-      </div>
-      <div nz-col nzSpan="4">
+    <div nz-row nzJustify="center" class="flex gap-5">
+      <div>Autofill this application faster by uploading your resume</div>
+      <div>
         <app-button
           label="uploading"
           [disabled]="!personalInformation.valid"
@@ -67,10 +63,12 @@
             fcn="phoneNumber"
             name="phoneNumber"
             type="text"
+            #phonenumber
             label="Phone Number"
             placeholder="987367687"
             errorMsg="Please a provide valid phone number."
             (onChange)="onCountryChange($event)"
+            [displayError]="phonenumber.focusout"
           >
           </app-phone-input>
         </div>
@@ -95,7 +93,6 @@
           label="Save and Continue"
           [disabled]="!personalInformation.valid"
           type="primary"
-          
         >
         </app-button>
       </div>

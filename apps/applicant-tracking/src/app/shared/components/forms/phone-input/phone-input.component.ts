@@ -8,6 +8,9 @@ import data from '../../../../../assets/files/CountryCodes.json';
 })
 export class PhoneInputComponent implements OnInit {
   disabled: boolean = false;
+  @Input() focusout: boolean = false;
+  @Input() displayError: boolean = false;
+  
   @Input() type = 'text';
   @Input() name: string = '';
   @Input() isRequired: boolean = false;
@@ -20,6 +23,7 @@ export class PhoneInputComponent implements OnInit {
   @Input() form: any;
   @Input() selectedValue: any;
   @Input() isValid: boolean = false;
+  
 
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
   
@@ -27,6 +31,13 @@ export class PhoneInputComponent implements OnInit {
   optionList: any = [];
   ngOnInit(): void {
     this.optionList = data;
+  }
+
+  onfocustout() {
+    this.focusout = true;
+  }
+  onfocus() {
+    this.focusout = false;
   }
 
   compareFn = (o1: any, o2: any) =>
