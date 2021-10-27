@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {DatePipe, WeekDay} from "@angular/common";
+import {DaydateModel} from "../models/daydate.model";
+import {DayAndDateService} from "./services/day-and-date.service";
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TimesheetService } from './services/timesheet.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TimesheetService} from './services/timesheet.service';
 
-import { ClickEventLocation } from '../models/clickEventLocation';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {ClickEventLocation} from '../models/clickEventLocation';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -17,14 +20,14 @@ export class TimesheetComponent implements OnInit {
   validateForm!: FormGroup;
 
   clients = [
-    { id: 1, client: 'client one' },
-    { id: 2, client: 'client two' },
-    { id: 3, client: 'client three' },
+    {id: 1, client: 'client one'},
+    {id: 2, client: 'client two'},
+    {id: 3, client: 'client three'},
   ];
   projects = [
-    { id: 1, project: 'project one' },
-    { id: 2, project: 'project two' },
-    { id: 3, project: 'project three' },
+    {id: 1, project: 'project one'},
+    {id: 2, project: 'project two'},
+    {id: 3, project: 'project three'},
   ];
 
   formData = {
@@ -34,9 +37,24 @@ export class TimesheetComponent implements OnInit {
     hours: null,
     notes: '',
   };
-  
 
-  constructor(private fb: FormBuilder, private timesheetService:TimesheetService,private notification: NzNotificationService) {}
+  date = new Date();
+  public weekDays: any[] = [];
+  curr = new Date;
+  firstday1: any;
+  lastday1: any;
+  parentCount = null;
+  nextWeeks = null;
+  lastWeeks = null;
+
+
+  constructor(
+    private fb: FormBuilder,
+    private timesheetService: TimesheetService,
+    private notification: NzNotificationService,
+    private dayAndDateService: DayAndDateService
+  ) {
+  }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -47,19 +65,51 @@ export class TimesheetComponent implements OnInit {
       hour: [null, [Validators.required]],
       notes: [null, [Validators.required]],
     });
+    this.weekDays = this.dayAndDateService.weekByDate(this.curr);
   }
-  
+
+  selectedDate(count: any) {
+    this.parentCount = count;
+    if (count != null) {
+      this.weekDays = this.dayAndDateService.weekByDate(count);
+    } else {
+      window.location.reload();
+    }
+  }
+
+  selectedDateCanceled(curr: any) {
+    if (curr != null) {
+      this.weekDays = this.dayAndDateService.weekByDate(curr);
+    } else {
+      window.location.reload();
+    }
+  }
+
+nextWeek(count: any) {
+    this.nextWeeks = count;
+    console.log(this.nextWeeks);
+    let ss = this.dayAndDateService.getWeekend();
+    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+  }
+
+  lastastWeek(count: any) {
+    this.lastWeeks = count;
+    console.log(this.lastWeeks);
+    let ss = this.dayAndDateService.getWeekendFirstDay();
+    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
+  }
+
 
   onDateColumnClicked(clickEventLocation: ClickEventLocation) {
     this.clickEventLocation = clickEventLocation;
     this.showFormDrawer();
   }
 
-  onEditButtonClicked(clickEventLocation: ClickEventLocation) {    
+  onEditButtonClicked(clickEventLocation: ClickEventLocation) {
     this.clickEventLocation = clickEventLocation;
     this.showFormDrawer();
   }
- 
+
   resetForm(): void {
     this.validateForm.reset();
   }
@@ -75,7 +125,7 @@ export class TimesheetComponent implements OnInit {
 
     try {
       let dataToSend = {
-        timesheetDate: this.validateForm.value.fromDate !=null? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
+        timesheetDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
         client: this.validateForm.value.client,
         project: this.validateForm.value.project,
         hour: this.validateForm.value.hour,
@@ -84,8 +134,8 @@ export class TimesheetComponent implements OnInit {
 
       console.log('sssssssssssssssssssss');
       console.log(dataToSend);
-     // this.timesheetService.addTimesheet(dataToSend);
-       this.createNotification('success');
+      // this.timesheetService.addTimesheet(dataToSend);
+      this.createNotification('success');
 
     } catch (err) {
       console.error(err);
@@ -113,5 +163,4 @@ export class TimesheetComponent implements OnInit {
       'Your Timesheet Added Successfully.'
     );
   }
-  
 }
