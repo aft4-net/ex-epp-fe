@@ -59,19 +59,6 @@
                         nzLabel="{{ project.project }}"
                     ></nz-option>
                 </nz-select>
-                <label for="hours">Tasks</label>
-                <nz-select name="tasks"
-                formControlName="task"
-                [(ngModel)]="formData.task"
-                >
-                <nz-option
-                    ng-selected="task.label == formData.task"
-                    *ngFor="let task of tasks"
-                    nzValue="{{ task.task }}"
-                    nzLabel="{{ task.task }}"
-                ></nz-option>
-                </nz-select>
-                
                 <label for="hours">Hours</label>
                 <nz-form-item>
                     
@@ -105,12 +92,12 @@
                 <div class="save-and-clear">
                     <button 
                     nz-button
-                    [disabled]="!formData.client || !formData.project || !formData.task ||!formData.hours"
+                    [disabled]="!formData.client || !formData.project ||!formData.hours"
                     >Save</button>
                     <button 
                     nz-button
                     nz-button (click)="resetForm()"
-                    [disabled]="!formData.client && !formData.project && !formData.task &&!formData.hours && !formData.notes"
+                    [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.notes"
                     >Clear</button>
                 </div>
             </div>

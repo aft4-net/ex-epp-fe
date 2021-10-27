@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TimesheetService } from './services/timesheet.service';
 
 import { ClickEventLocation } from '../models/clickEventLocation';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -25,23 +26,17 @@ export class TimesheetComponent implements OnInit {
     { id: 2, project: 'project two' },
     { id: 3, project: 'project three' },
   ];
-  tasks = [
-    { id: 1, task: 'task one' },
-    { id: 2, task: 'task two' },
-    { id: 3, task: 'task three' },
-  ];
 
   formData = {
     timesheetDate: new Date(),
     client: '',
     project: '',
-    task: '',
     hours: null,
     notes: '',
   };
   
 
-  constructor(private fb: FormBuilder, private timesheetService:TimesheetService) {}
+  constructor(private fb: FormBuilder, private timesheetService:TimesheetService,private notification: NzNotificationService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -49,7 +44,6 @@ export class TimesheetComponent implements OnInit {
       toDate: [null],
       client: [null, [Validators.required]],
       project: [null, [Validators.required]],
-      task: [null, [Validators.required]],
       hour: [null, [Validators.required]],
       notes: [null, [Validators.required]],
     });
@@ -84,7 +78,6 @@ export class TimesheetComponent implements OnInit {
         timesheetDate: this.validateForm.value.fromDate !=null? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
         client: this.validateForm.value.client,
         project: this.validateForm.value.project,
-        task: this.validateForm.value.task,
         hour: this.validateForm.value.hour,
         note: this.validateForm.value.notes,
       };
@@ -92,6 +85,7 @@ export class TimesheetComponent implements OnInit {
       console.log('sssssssssssssssssssss');
       console.log(dataToSend);
      // this.timesheetService.addTimesheet(dataToSend);
+       this.createNotification('success');
 
     } catch (err) {
       console.error(err);
@@ -111,4 +105,13 @@ export class TimesheetComponent implements OnInit {
   closeFormDrawer() {
     this.drawerVisible = false;
   }
+
+  createNotification(type: string): void {
+    this.notification.create(
+      type,
+      'Timesheet',
+      'Your Timesheet Added Successfully.'
+    );
+  }
+  
 }
