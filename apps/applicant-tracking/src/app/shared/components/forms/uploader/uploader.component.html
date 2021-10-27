@@ -1,0 +1,9 @@
+<nz-upload
+  [nzAccept]="acceptedFiles"
+  [nzBeforeUpload]="beforeUpload"
+  (nzChange)="onChangeEvent($event)"
+  [nzDisabled]="disabled"
+
+>
+  <ng-content></ng-content>
+</nz-upload>

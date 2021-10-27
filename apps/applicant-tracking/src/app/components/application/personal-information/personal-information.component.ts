@@ -7,7 +7,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+
 import { phone } from 'phone';
+
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @Component({
   selector: 'exec-epp-personal-information',
@@ -32,6 +35,7 @@ export class PersonalInformationComponent implements OnInit {
       this.validatePhoneNumber(),
     ]),
   });
+  zizhi_prove: any;
 
   onCountryChange(value: any) {
     this.selectedValue = { ...value };
@@ -51,6 +55,33 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   constructor() {}
+  fileList: any[] = [];
+  beforeUpload = (file: any): boolean => {
+    const type = file.type;
+
+    const str = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
+    if (str.indexOf(type) < 0) {
+      return false;
+    }
+    const isLt20M = file.size / 1024 / 1024 < 30;
+    if (!isLt20M) {
+      return false;
+    }
+    this.fileList = this.fileList.concat(file);
+    return true;
+  };
+  getFileUrl({ file, fileList }: any): void {
+    const status = file.status;
+    if (status === 'done') {
+      this.zizhi_prove = file.response.data;
+    } else if (status === 'error') {
+      console.log('dfj');
+    }
+  }
 
   ngOnInit(): void {}
+
+  onClick(e: any) {
+    console.log(e);
+  }
 }

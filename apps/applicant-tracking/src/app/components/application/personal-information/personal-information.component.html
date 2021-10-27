@@ -1,100 +1,125 @@
-<div class="m-10">
-  <h2 class="">Step 1- Personal Information</h2>
-  <form [formGroup]="personalInformation">
-    <div nz-row nzJustify="center" class="flex gap-5">
+<div class="m-5">
+  <h2 class="font-bold">Step 1- Personal Information</h2>
+  <form [formGroup]="personalInformation" class="flex flex-col gap-5">
+    <div class="flex gap-5 justify-center">
       <div>Autofill this application faster by uploading your resume</div>
       <div>
-        <app-button
-          label="uploading"
-          [disabled]="!personalInformation.valid"
-          type="primary"
-        ></app-button>
-      </div>
-    </div>
-    <div nz-row [nzGutter]="16">
-      <div nz-col class="gutter-row" [nzSpan]="12">
-        <div class="inner-box">
-          <app-input
-            [form]="personalInformation"
-            fcn="firstName"
-            name="first-name"
-            type="text"
-            label="First Name"
-            placeholder="Enter your first name"
-            errorMsg="Please provide first name."
-          >
-          </app-input>
-        </div>
-      </div>
-      <div nz-col class="gutter-row" [nzSpan]="12">
-        <div class="inner-box">
-          <app-input
-            [form]="personalInformation"
-            fcn="last-Name"
-            name="last-name"
-            type="text"
-            label="Last Name"
-            placeholder="Enter your last name"
-            errorMsg="Please provide last name."
-          >
-          </app-input>
-        </div>
-      </div>
-    </div>
-    <div nz-row [nzGutter]="16">
-      <div nz-col class="gutter-row" [nzSpan]="12">
-        <div class="inner-box">
-          <app-input
-            [form]="personalInformation"
-            fcn="email"
-            name="email"
-            type="email"
-            label="Email"
-            placeholder="example@email.com"
-            errorMsg="Please provide a valid email address."
-          ></app-input>
-        </div>
-      </div>
-      <div nz-col class="gutter-row" [nzSpan]="12">
-        <div class="inner-box">
-          <app-phone-input
-            [selectedValue]="selectedValue"
-            [form]="personalInformation"
-            fcn="phoneNumber"
-            name="phoneNumber"
-            type="text"
-            #phonenumber
-            label="Phone Number"
-            placeholder="987367687"
-            errorMsg="Please a provide valid phone number."
-            (onChange)="onCountryChange($event)"
-            [displayError]="phonenumber.focusout"
-          >
-          </app-phone-input>
-        </div>
-      </div>
-    </div>
-    <div nz-row [nzGutter]="16">
-      <div nz-col class="gutter-row" [nzSpan]="12">
-        <div class="inner-box">
-          <app-country-selector
-            label="Country"
-            placeholder="Enter your password"
-            errorMsg="Country should be selected"
-            [selectedValue]="selectedValue"
-            (onChange)="onCountryChange($event)"
-          ></app-country-selector>
-        </div>
-      </div>
-    </div>
-    <div nz-row nzJustify="end">
-      <div nz-col nzSpan="5">
-        <app-button
-          label="Save and Continue"
-          [disabled]="!personalInformation.valid"
-          type="primary"
+        <app-uploader
+          acceptedFiles="application/pdf"
+          [beforeUpload]="beforeUpload"
+          (nzChange)="getFileUrl($event)"
         >
+          <app-button type="default" (onClick)="onClick($event)">
+            Upload Resume
+          </app-button>
+        </app-uploader>
+      </div>
+    </div>
+    <div class="flex gap-5">
+      <app-avatar icon="user" [size]="65"></app-avatar>
+      <app-uploader
+        acceptedFiles="image/*"
+        [beforeUpload]="beforeUpload"
+        (nzChange)="getFileUrl($event)"
+        class="flex items-center"
+      >
+        <app-button>
+          <i nz-icon nzType="upload"></i>
+          <span>upload files</span>
         </app-button>
+      </app-uploader>
+      <app-button
+        class="flex items-center"
+        type="default"
+        (onClick)="onClick($event)"
+      >
+        <i nz-icon nzType="delete"></i>
+        <span>Delete</span>
+      </app-button>
+    </div>
+    <div>
+      <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div class="inner-box">
+            <app-input
+              [form]="personalInformation"
+              fcn="firstName"
+              name="first-name"
+              type="text"
+              label="First Name"
+              placeholder="Enter your first name"
+              errorMsg="Please provide first name."
+            >
+            </app-input>
+          </div>
+        </div>
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div class="inner-box">
+            <app-input
+              [form]="personalInformation"
+              fcn="last-Name"
+              name="last-name"
+              type="text"
+              label="Last Name"
+              placeholder="Enter your last name"
+              errorMsg="Please provide last name."
+            >
+            </app-input>
+          </div>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div class="inner-box">
+            <app-input
+              [form]="personalInformation"
+              fcn="email"
+              name="email"
+              type="email"
+              label="Email"
+              placeholder="example@email.com"
+              errorMsg="Please provide a valid email address."
+            ></app-input>
+          </div>
+        </div>
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div class="inner-box">
+            <app-phone-input
+              [selectedValue]="selectedValue"
+              [form]="personalInformation"
+              fcn="phoneNumber"
+              name="phoneNumber"
+              type="text"
+              #phonenumber
+              label="Phone Number"
+              placeholder="987367687"
+              errorMsg="Please a provide valid phone number."
+              (onChange)="onCountryChange($event)"
+              [displayError]="phonenumber.focusout"
+            >
+            </app-phone-input>
+          </div>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div class="inner-box">
+            <app-country-selector
+              label="Country"
+              placeholder="Enter your password"
+              errorMsg="Country should be selected"
+              [selectedValue]="selectedValue"
+              (onChange)="onCountryChange($event)"
+            ></app-country-selector>
+          </div>
+        </div>
+      </div>
+      <div nz-row nzJustify="end">
+        <div nz-col nzSpan="5">
+          <app-button [disabled]="!personalInformation.valid" type="primary">
+            Save and Continue
+          </app-button>
+        </div>
       </div>
     </div>
   </form>
