@@ -29,10 +29,8 @@ export class AccountService {
   }
 
   signIn(signInRequest: SignInRequest) {
-    console.log('testing2');
       return this.http.post<ResponseDTO<SignInResponse>>(this.baseUrl + 'Signin', signInRequest).pipe(
         map((user) => {
-          console.log(user);
           if(user.data && user.data.token){
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.data ||'{}'));
             this.userSubject.next(user.data);

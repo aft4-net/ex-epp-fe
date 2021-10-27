@@ -41,7 +41,6 @@ export class PersonalInformationComponent implements OnInit {
   validatePhoneNumber(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       var phonenumber = this.selectedValue.dial_code + control.value;
-      console.log(phonenumber);
       var { isValid } = phone(phonenumber);
       return !isValid ? { confirmPassword: { value: control.value } } : null;
     };
