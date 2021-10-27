@@ -65,38 +65,38 @@ export class TimesheetComponent implements OnInit {
       hour: [null, [Validators.required]],
       notes: [null, [Validators.required]],
     });
-    this.weekDays = this.dayAndDateService.myFunction1(this.curr);
+    this.weekDays = this.dayAndDateService.weekByDate(this.curr);
   }
 
-  displayCounter(count: any) {
+  selectedDate(count: any) {
     this.parentCount = count;
     if (count != null) {
-      this.weekDays = this.dayAndDateService.myFunction1(count);
+      this.weekDays = this.dayAndDateService.weekByDate(count);
     } else {
       window.location.reload();
     }
   }
 
-  myFunction2(curr: any) {
+  selectedDateCanceled(curr: any) {
     if (curr != null) {
-      this.weekDays = this.dayAndDateService.myFunction1(curr);
+      this.weekDays = this.dayAndDateService.weekByDate(curr);
     } else {
       window.location.reload();
     }
   }
 
-  displayCounterForNextWeek(count: any) {
+nextWeek(count: any) {
     this.nextWeeks = count;
     console.log(this.nextWeeks);
     let ss = this.dayAndDateService.getWeekend();
-    this.weekDays = this.dayAndDateService.myFunction10(ss, count);
+    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
   }
 
-  displayCounterForLastWeek(count: any) {
+  lastastWeek(count: any) {
     this.lastWeeks = count;
     console.log(this.lastWeeks);
     let ss = this.dayAndDateService.getWeekendFirstDay();
-    this.weekDays = this.dayAndDateService.myFunction11(ss, count);
+    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
   }
 
 
