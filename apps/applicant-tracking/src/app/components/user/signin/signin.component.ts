@@ -33,7 +33,8 @@ export class SigninComponent {
   }
 
   login() {
-    
+    alert('what');
+    console.log(this.loginForm);
     this.accountService.signIn(this.loginForm.value).subscribe(response => {
       const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
       this.router.navigateByUrl(returnUrl);

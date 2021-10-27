@@ -1,10 +1,11 @@
 <div [formGroup]="form">
 <nz-form-item class="form-item-container">
   <div class="label">{{ label }}</div>
-  <nz-form-control [nzErrorTip]="errorMsg">
+  <nz-form-control>
     <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
-      <input [formControlName]="fcn" [type]="type" nz-input [placeholder]="placeholder" [maxlength]="maxLength" />
+      <input [formControlName]="fcn" [type]="type" nz-input [placeholder]="placeholder" [maxlength]="maxLength" (focusout)="onfocustout()" (focus)="onfocus()" tabindex="" />
     </nz-input-group>
   </nz-form-control>
+  <div class="error-display"  *ngIf="displayError">{{ errorMsg }}</div>
 </nz-form-item>
 </div>
