@@ -11,7 +11,7 @@ import {
   EyeInvisibleOutline,
   LockOutline
 } from '@ant-design/icons-angular/icons';
-
+import { NzGridModule } from 'ng-zorro-antd/grid';
 const icons: any[] = [
   EyeInvisibleOutline,
   LockOutline
@@ -20,6 +20,6 @@ const icons: any[] = [
 @NgModule({
   declarations: [],
   imports: [CommonModule, NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule.forRoot(icons),],
-  exports: [NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule],
+  exports: [NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule,NzGridModule],
 })
 export class AntdFormModule {}

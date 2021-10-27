@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Validator } from '../../../interfaces/validator';
 
 @Component({
@@ -15,7 +16,7 @@ import { Validator } from '../../../interfaces/validator';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit, Validator {
-  showPassword: boolean = false;
+  showPassword = false;
   signUpForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
@@ -40,7 +41,11 @@ export class SignupComponent implements OnInit, Validator {
     return this.signUpForm?.get('confirmPassword');
   }
 
-  signup() {}
+  signup() {
+
+  }
+
+
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
