@@ -25,20 +25,19 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   personalInformation = new FormGroup({
-    imgPhoto: new FormControl('', [Validators.required]),
-    firstName: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', [Validators.required]), 
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl(this.selectedValue?.name, [Validators.required]),
     phoneNumber: new FormControl('', [
       Validators.required,
       this.validatePhoneNumber(),
     ]),
   });
-  zizhi_prove: any;
 
   onCountryChange(value: any) {
     this.selectedValue = { ...value };
+    this.personalInformation.controls.country.setValue(value?.name);
     this.personalInformation.controls.phoneNumber.updateValueAndValidity();
   }
 
@@ -53,9 +52,13 @@ export class PersonalInformationComponent implements OnInit {
   get signUpEmail(): AbstractControl | null {
     return this.personalInformation?.get('email');
   }
+   validateLetterName(str:string) {
+    return str.length === 1 && str.match(/[a-z]/i);
+  }
 
   constructor() {}
   fileList: any[] = [];
+  url = '';
   beforeUpload = (file: any): boolean => {
     const type = file.type;
 
@@ -67,21 +70,28 @@ export class PersonalInformationComponent implements OnInit {
     if (!isLt20M) {
       return false;
     }
-    this.fileList = this.fileList.concat(file);
+    this.fileList = [file];
     return true;
   };
   getFileUrl({ file, fileList }: any): void {
+    console.log("ejrhhjer");
     const status = file.status;
     if (status === 'done') {
-      this.zizhi_prove = file.response.data;
+      this.url = file.response.data;
+      console.log(file);
     } else if (status === 'error') {
       console.log('dfj');
     }
+    
   }
 
   ngOnInit(): void {}
-
+  onInputClick(e: any){
+  }
   onClick(e: any) {
-    console.log(e);
+    console.log(this.fileList);
+  }
+  onUploadChange(e: any) {
+    
   }
 }

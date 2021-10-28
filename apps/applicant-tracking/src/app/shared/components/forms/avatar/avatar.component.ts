@@ -13,7 +13,7 @@ export class AvatarComponent implements OnInit {
   @Input() icon: any;
   @Input() size: any;
   @Input() url: string = '';
-
+  @Input() shape:any;
   constructor() {}
 
   ngOnInit(): void {}

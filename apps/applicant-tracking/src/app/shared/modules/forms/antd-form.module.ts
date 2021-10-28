@@ -13,7 +13,8 @@ import {
   EyeInvisibleOutline,
   LockOutline,
   UserOutline,
-  DeleteOutline
+  DeleteOutline,
+  PlusOutline
 } from '@ant-design/icons-angular/icons';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -24,7 +25,8 @@ const icons: any[] = [
   EyeInvisibleOutline,
   LockOutline,
   UserOutline,
-  DeleteOutline
+  DeleteOutline,
+  PlusOutline
 ];
 
 @NgModule({

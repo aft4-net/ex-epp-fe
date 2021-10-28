@@ -3,7 +3,12 @@
   [nzBeforeUpload]="beforeUpload"
   (nzChange)="onChangeEvent($event)"
   [nzDisabled]="disabled"
-
+  [nzAction]="action"
+  [nzFileList]="fileList"
 >
   <ng-content></ng-content>
 </nz-upload>
+<ng-template #thecontent>
+This is the content
+</ng-template>
+

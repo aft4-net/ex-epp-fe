@@ -10,7 +10,9 @@ export class UploaderComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() acceptedFiles : string = '';
   @Input() beforeUpload : any;
-  
+  @Input() action : any;
+  @Input() file : any;
+  @Input() fileList :any;
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
 
