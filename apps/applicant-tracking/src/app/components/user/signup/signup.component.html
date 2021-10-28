@@ -60,11 +60,9 @@
       [disablePaste]="true"
     ></app-input>
 
-    <app-button
-      label="Sign up"
-      [disabled]="!signUpForm.valid"
-      type="primary"
-    ></app-button>
+    <app-button [disabled]="!signUpForm.valid" type="primary">
+      Sign up
+    </app-button>
   </form>
 
   <ng-template #passwordSuffixIcon>
