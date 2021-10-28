@@ -12,7 +12,8 @@
       #email
       [displayError]="email.focusout"
       [maxLength]="50"
-    ></app-input>
+    >
+    </app-input>
     <app-input
       [form]="loginForm"
       fcn="password"
@@ -28,16 +29,13 @@
       [maxLength]="50"
     ></app-input>
   </form>
-  <app-button
-    class="login-button"
-    label="Sign in"
-    [disabled]="!loginForm.valid"
-    type="primary"
-  ></app-button>
+  <app-button class="login-button" [disabled]="!loginForm.valid" type="primary">
+    Sign in
+  </app-button>
 
   <div class="info">
     Don't have an account?
-    <a [routerLink]="['/user/signup']"> Sign up </a>
+    <a [routerLink]="['/user/signup']"> Sign in </a>
   </div>
   <ng-template #passwordSuffixIcon>
     <i
