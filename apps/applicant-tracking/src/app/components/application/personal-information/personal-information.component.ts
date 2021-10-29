@@ -22,7 +22,7 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   personalInformation = new FormGroup({
-    imgPhoto: new FormControl('', [Validators.required]),
+    imgPhoto: new FormControl(''),
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),

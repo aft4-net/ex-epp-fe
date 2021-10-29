@@ -21,8 +21,8 @@ export class SigninComponent {
       Validators.email]),
 
     password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8)
+      Validators.minLength(8),
+      Validators.required
     ]),
   });
   get loginEmail(): AbstractControl | null {
