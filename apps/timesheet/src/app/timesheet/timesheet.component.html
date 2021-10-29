@@ -1,28 +1,20 @@
 <div class="container">
-
   <app-timesheet-header class="timesheet-header"></app-timesheet-header>
-  <app-date-selector [dates10]="firstday1 | date:'MMM d -' "
-                     [dates11]="lastday1 | date:'MMM d, y'" class="date-selector"
-                     (valueChange)='selectedDate($event)'
-                     (valueChangeNextWeek)="nextWeek($event)"
-                     (valueChangeLastWeek)="lastastWeek($event)"
-  ></app-date-selector>
+  <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'"
+    class="date-selector" (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
+    (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
   <div class="day-and-date-column">
     <div *ngFor="let myD of weekDays">
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
-                               (editButtonClicked)="onEditButtonClicked($event)"
-                               (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
+        (editButtonClicked)="onEditButtonClicked($event)" (dateColumnClicked)="onDateColumnClicked($event)">
+      </app-day-and-date-column>
     </div>
   </div>
 </div>
 
 <nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false" [nzWidth]="400">
   <div *nzDrawerContent>
-    <form
-      nz-form
-      [formGroup]="validateForm"
-      (ngSubmit)="submitForm()"
-    >
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <div class="timesheet-date-range">
         <div class="from-date-to-date">
           <label for="from-date" id="from-date">From Date:</label>
@@ -35,44 +27,27 @@
       </div>
       <div class="timesheet-detail">
         <label for="client">Client</label>
-        <nz-select formControlName="client"
-                   [(ngModel)]="formData.client"
-        >
-          <nz-option
-            ng-selected="client.label == formData.client"
-            *ngFor="let client of clients"
-            nzValue="{{ client.client }}"
-            nzLabel="{{ client.client }}"
-          ></nz-option>
+        <nz-select formControlName="client" [(ngModel)]="formData.client" *ngIf="clients.length else elseBlock">
+          <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients "
+            nzValue="{{ client.Name }}" nzLabel="{{ client.Name }}"></nz-option>
         </nz-select>
+
         <label for="project">Project</label>
-        <nz-select formControlName="project"
-                   [(ngModel)]="formData.project"
-        >
-          <nz-option
-            ng-selected="project.label == formData.project"
-            *ngFor="let project of projects"
-            nzValue="{{ project.project }}"
-            nzLabel="{{ project.project }}"
-          ></nz-option>
+        <nz-select formControlName="project" [(ngModel)]="formData.project" *ngIf="projects.length else elseBlock">
+          <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
+            nzValue="{{ project.Name }}" nzLabel="{{ project.Name }}"></nz-option>
         </nz-select>
+        <ng-template #elseBlock>
+          <nz-select formControlName="inactive" nzDisabled>
+            <nz-option> </nz-option>
+          </nz-select>
+        </ng-template>
         <label for="hours">Hours</label>
         <nz-form-item>
 
-          <nz-form-control
-            nzHasFeedback
-            nzValidatingTip="Validating..."
-            [nzErrorTip]="userErrorTpl"
-          >
-            <input
-              [(ngModel)]="formData.hours"
-              nz-input
-              formControlName="hour"
-              placeholder=""
-
-              type="number"
-              min="1" max="24"
-            />
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input [(ngModel)]="formData.hours" nz-input formControlName="hour" placeholder="" type="number" min="1"
+              max="24" />
             <ng-template #userErrorTpl let-control>
               <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
             </ng-template>
@@ -80,23 +55,14 @@
         </nz-form-item>
 
         <label for="notes">Notes</label>
-        <textarea
-          [(ngModel)]="formData.notes"
-          formControlName="notes"
-          nz-input rows="4">
+        <textarea [(ngModel)]="formData.notes" formControlName="notes" nz-input rows="4">
                   {{ formData.notes }}
                 </textarea>
         <div class="save-and-clear">
-          <button
-            nz-button
-            [disabled]="!formData.client || !formData.project ||!formData.hours"
-          >Save
+          <button nz-button [disabled]="!formData.client || !formData.project ||!formData.hours">Save
           </button>
-          <button
-            nz-button
-            nz-button (click)="resetForm()"
-            [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.notes"
-          >Clear
+          <button nz-button nz-button (click)="resetForm()"
+            [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.notes">Clear
           </button>
         </div>
       </div>

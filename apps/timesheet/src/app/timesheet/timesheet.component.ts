@@ -1,60 +1,54 @@
-import {Component, OnInit} from '@angular/core';
-import {DatePipe, WeekDay} from "@angular/common";
-import {DaydateModel} from "../models/daydate.model";
-import {DayAndDateService} from "./services/day-and-date.service";
+import { Component, OnInit } from '@angular/core';
+import { DayAndDateService } from './services/day-and-date.service';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TimesheetService} from './services/timesheet.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TimesheetService } from './services/timesheet.service';
 
-import {ClickEventLocation} from '../models/clickEventLocation';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
+import { ClickEventLocation } from '../models/clickEventLocation';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { TimesheetApiService } from './services/api/timesheet-api.service';
+import { Employee } from '../models/employee';
+import { Project } from '../models/project';
+import { Client } from '../models/Client';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
   templateUrl: './timesheet.component.html',
-  styleUrls: ['./timesheet.component.scss']
+  styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
   clickEventLocation = ClickEventLocation.formDrawer;
   drawerVisible = false;
   validateForm!: FormGroup;
 
-  clients = [
-    {id: 1, client: 'client one'},
-    {id: 2, client: 'client two'},
-    {id: 3, client: 'client three'},
-  ];
-  projects = [
-    {id: 1, project: 'project one'},
-    {id: 2, project: 'project two'},
-    {id: 3, project: 'project three'},
-  ];
+  clients: Client[] = [];
+  projects: Project[] = [];
+  employee: Employee[] = [];
 
   formData = {
     timesheetDate: new Date(),
-    client: '',
-    project: '',
+    client: this.clients,
+    project: this.projects,
     hours: null,
     notes: '',
   };
 
   date = new Date();
   public weekDays: any[] = [];
-  curr = new Date;
+  curr = new Date();
   firstday1: any;
   lastday1: any;
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
 
-
   constructor(
     private fb: FormBuilder,
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
-    private dayAndDateService: DayAndDateService
-  ) {
-  }
+    private dayAndDateService: DayAndDateService,
+    private apiService: TimesheetApiService
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -66,6 +60,8 @@ export class TimesheetComponent implements OnInit {
       notes: [null, [Validators.required]],
     });
     this.weekDays = this.dayAndDateService.weekByDate(this.curr);
+
+    this.getEmployee();
   }
 
   selectedDate(count: any) {
@@ -85,7 +81,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-nextWeek(count: any) {
+  nextWeek(count: any) {
     this.nextWeeks = count;
     console.log(this.nextWeeks);
     let ss = this.dayAndDateService.getWeekend();
@@ -98,7 +94,6 @@ nextWeek(count: any) {
     let ss = this.dayAndDateService.getWeekendFirstDay();
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
   }
-
 
   onDateColumnClicked(clickEventLocation: ClickEventLocation) {
     this.clickEventLocation = clickEventLocation;
@@ -115,7 +110,6 @@ nextWeek(count: any) {
   }
 
   submitForm(): void {
-
     for (const i in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(i)) {
         this.validateForm.controls[i].markAsDirty();
@@ -125,7 +119,10 @@ nextWeek(count: any) {
 
     try {
       let dataToSend = {
-        timesheetDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
+        timesheetDate:
+          this.validateForm.value.fromDate != null
+            ? this.validateForm.value.fromDate.toISOString().substring(0, 10)
+            : null,
         client: this.validateForm.value.client,
         project: this.validateForm.value.project,
         hour: this.validateForm.value.hour,
@@ -136,7 +133,6 @@ nextWeek(count: any) {
       console.log(dataToSend);
       // this.timesheetService.addTimesheet(dataToSend);
       this.createNotification('success');
-
     } catch (err) {
       console.error(err);
     }
@@ -147,7 +143,7 @@ nextWeek(count: any) {
       this.drawerVisible = true;
     }
 
-    console.log({DrawerVisible: this.drawerVisible})
+    console.log({ DrawerVisible: this.drawerVisible });
 
     this.clickEventLocation = ClickEventLocation.formDrawer;
   }
@@ -161,6 +157,22 @@ nextWeek(count: any) {
       type,
       'Timesheet',
       'Your Timesheet Added Successfully.'
+    );
+  }
+
+  getEmployee() {
+    this.apiService.getEmployee().subscribe((data) =>  {this.employee = data;
+
+      let pid = null;
+      data.map(x=> {pid=x.ProjectId });
+
+       if(pid !=0) this.apiService.getProject().subscribe(project => {
+          this.projects = project;
+          this.apiService.getClient().subscribe(client => {
+            this.clients = client;
+          });
+        });
+      }
     );
   }
 }
