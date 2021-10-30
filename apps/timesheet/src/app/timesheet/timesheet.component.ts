@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {DatePipe, WeekDay} from "@angular/common";
-import {DaydateModel} from "../models/daydate.model";
-import {DayAndDateService} from "./services/day-and-date.service";
-
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TimesheetService} from './services/timesheet.service';
 
+import {TimesheetService} from './services/timesheet.service';
+import {DayAndDateService} from "./services/day-and-date.service";
 import {ClickEventLocation} from '../models/clickEventLocation';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import { Timesheet } from '../models/timesheetModels';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -18,6 +16,8 @@ export class TimesheetComponent implements OnInit {
   clickEventLocation = ClickEventLocation.formDrawer;
   drawerVisible = false;
   validateForm!: FormGroup;
+
+  timesheet: Timesheet | null = null;
 
   clients = [
     {id: 1, client: 'client one'},
@@ -57,6 +57,14 @@ export class TimesheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let userId = localStorage.getItem("userId");
+    if(userId){
+      this.timesheetService.getTimeSheet(userId).subscribe(response => {
+        this.timesheet = response ? response[0] : null;
+        console.log(this.timesheet);
+      })
+    }
+
     this.validateForm = this.fb.group({
       fromDate: [null, [Validators.required]],
       toDate: [null],
