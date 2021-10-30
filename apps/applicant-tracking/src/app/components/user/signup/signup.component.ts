@@ -3,33 +3,26 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Validator } from '../../../interfaces/validator';
+import { FormValidator } from '../../../utils/validator';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
-export class SignupComponent implements OnInit, Validator {
+export class SignupComponent implements OnInit {
   showPassword = false;
+
+  constructor(private validator: FormValidator) {}
+
   signUpForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
-    confirmPassword: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      this.validateConfirmPassword(),
-    ]),
+    firstName: new FormControl('', []),
+    lastName: new FormControl('', []),
+    email: new FormControl('', []),
+    password: new FormControl('', []),
+    confirmPassword: new FormControl('', []),
   });
   get signUpEmail(): AbstractControl | null {
     return this.signUpForm?.get('email');
@@ -41,27 +34,40 @@ export class SignupComponent implements OnInit, Validator {
     return this.signUpForm?.get('confirmPassword');
   }
 
-  signup() {
-    
-
-  }
-
+  signup() {}
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
 
-  validateConfirmPassword(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const isValid = this.signUpForm?.get('password')?.value !== control.value;
-      return isValid ? { confirmPassword: { value: control.value } } : null;
-    };
-  }
-
-  constructor() {}
-
   ngOnInit(): void {
+    this.signUpForm.controls.firstName.setValidators([
+      this.validator.validateName(),
+      Validators.required,
+    ]);
+    this.signUpForm.controls.lastName.setValidators([
+      this.validator.validateName(),
+      Validators.required,
+    ]);
+    this.signUpForm.controls.email.setValidators([
+      this.validator.validateEmail(),
+      Validators.required,
+    ]);
+    this.signUpForm.controls.password.setValidators([
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
+    ]);
+
     this.signUpForm.controls.password.valueChanges.subscribe(() => {
+      this.signUpForm.controls.confirmPassword.setValidators([
+        Validators.required,
+        Validators.minLength(8),
+        this.validator.validatePassword(),
+        this.validator.validateConfirmPassword(
+          this.signUpForm?.get('password')?.value
+        ),
+      ]);
       this.signUpForm.controls.confirmPassword.updateValueAndValidity();
     });
   }
