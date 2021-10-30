@@ -8,7 +8,7 @@
     
   <div class="day-and-date-column">
     <div *ngFor="let myD of weekDays">
-      <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
+      <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' " [date]="myD" [timesheet]="timesheet"
         (editButtonClicked)="onEditButtonClicked($event)" (dateColumnClicked)="onDateColumnClicked($event)">
       </app-day-and-date-column>
     </div>

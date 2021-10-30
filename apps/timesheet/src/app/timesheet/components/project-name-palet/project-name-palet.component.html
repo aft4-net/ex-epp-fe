@@ -1,6 +1,6 @@
 <div class="project-name-palet">
     <h2>
-        Security Finance Corporation (SFC)
+        {{ project?.name }}
     </h2>
     <div class="elipses-and-hours">
         <i 
@@ -13,7 +13,7 @@
             (click)="showPopover()"
             [nzPopoverContent]="palet_popover"
         ></i>
-        <h2>4 Hrs</h2>
+        <h2>{{ timeEntry?.hour }} Hrs</h2>
     </div>
 </div>
 

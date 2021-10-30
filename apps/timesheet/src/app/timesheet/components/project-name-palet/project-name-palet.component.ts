@@ -1,5 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ClickEventLocation } from '../../../models/clickEventLocation';
+import { Project } from '../../../models/project';
+import { TimeEntry } from '../../../models/timesheetModels';
+import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -9,13 +12,20 @@ import { ClickEventLocation } from '../../../models/clickEventLocation';
 export class ProjectNamePaletComponent implements OnInit {
   @Output() paletEllipsisClicked = new EventEmitter<ClickEventLocation>();
   @Output() editClicked = new EventEmitter<ClickEventLocation>()
+  @Input() timeEntry: TimeEntry | null = null;
+  project: Project | null = null;
   
   clickEventLocation = ClickEventLocation.paletEllipsis;
   popoverVisible = false;
 
-  constructor() { }
+  constructor(private timesheetService: TimesheetService) { }
 
   ngOnInit(): void {
+    if(this.timeEntry) {
+      this.timesheetService.getProject(this.timeEntry.projectId).subscribe(response => {
+        this.project = response ? response[0] : null;
+      });
+    }
   }
 
   showPopover() {

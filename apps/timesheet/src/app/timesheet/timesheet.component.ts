@@ -61,7 +61,6 @@ export class TimesheetComponent implements OnInit {
     if(userId){
       this.timesheetService.getTimeSheet(userId).subscribe(response => {
         this.timesheet = response ? response[0] : null;
-        console.log(this.timesheet);
       })
     }
 
