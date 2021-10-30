@@ -5,6 +5,8 @@
   min-width: 30%;
   border-width: 0.75px;
   border-color: #DADADA;
+  max-width: 300px;
+
 }
 .title {
   font-weight: 500;

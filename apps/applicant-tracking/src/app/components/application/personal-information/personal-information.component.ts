@@ -11,6 +11,7 @@ import {
 import { phone } from 'phone';
 
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { FormValidator } from '../../../utils/validator';
 
 @Component({
   selector: 'exec-epp-personal-information',
@@ -25,14 +26,16 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   personalInformation = new FormGroup({
-    firstName: new FormControl('', [Validators.required]), 
-    lastName: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    country: new FormControl(this.selectedValue?.name, [Validators.required]),
-    phoneNumber: new FormControl('', [
+    firstName: new FormControl('', []),
+    lastName: new FormControl('', []),
+    email: new FormControl('', [
       Validators.required,
-      this.validatePhoneNumber(),
+      Validators.pattern(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      ),
     ]),
+    country: new FormControl(this.selectedValue?.name, [Validators.required]),
+    phoneNumber: new FormControl('', []),
   });
 
   onCountryChange(value: any) {
@@ -41,22 +44,29 @@ export class PersonalInformationComponent implements OnInit {
     this.personalInformation.controls.phoneNumber.updateValueAndValidity();
   }
 
-  validatePhoneNumber(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      var phonenumber = this.selectedValue.dial_code + control.value;
-      var { isValid } = phone(phonenumber);
-      return !isValid ? { confirmPassword: { value: control.value } } : null;
-    };
-  }
-
   get signUpEmail(): AbstractControl | null {
     return this.personalInformation?.get('email');
   }
-   validateLetterName(str:string) {
-    return str.length === 1 && str.match(/[a-z]/i);
+
+  validateName(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      var name = control.value;
+      var isValid = name.match('^[a-zA-Z]*$');
+      return !isValid ? { value: control.value } : null;
+    };
   }
 
-  constructor() {}
+  validateEmail(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      var email = control.value;
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var isValid = re.test(String(email).toLowerCase());
+      return !isValid ? { value: control.value } : null;
+    };
+  }
+
+  constructor(private validator: FormValidator) {}
   fileList: any[] = [];
   url = '';
   beforeUpload = (file: any): boolean => {
@@ -74,7 +84,7 @@ export class PersonalInformationComponent implements OnInit {
     return true;
   };
   getFileUrl({ file, fileList }: any): void {
-    console.log("ejrhhjer");
+    console.log('ejrhhjer');
     const status = file.status;
     if (status === 'done') {
       this.url = file.response.data;
@@ -82,16 +92,32 @@ export class PersonalInformationComponent implements OnInit {
     } else if (status === 'error') {
       console.log('dfj');
     }
-    
   }
 
-  ngOnInit(): void {}
-  onInputClick(e: any){
+  ngOnInit(): void {
+    this.personalInformation.controls.firstName.setValidators([
+      this.validator.validateName(),
+      Validators.required,
+    ]);
+    this.personalInformation.controls.lastName.setValidators([
+      this.validator.validateName(),
+      Validators.required,
+    ]);
+    this.personalInformation.controls.email.setValidators([
+      this.validator.validateEmail(),
+      Validators.required,
+    ]);
+    
+    this.personalInformation.controls.country.valueChanges.subscribe(() => {
+      this.personalInformation.controls.phoneNumber.setValidators([
+        this.validator.validatePhoneNumber(this.selectedValue.dial_code),
+        Validators.required,
+      ]);
+    });
   }
+  onInputClick(e: any) {}
   onClick(e: any) {
     console.log(this.fileList);
   }
-  onUploadChange(e: any) {
-    
-  }
+  onUploadChange(e: any) {}
 }

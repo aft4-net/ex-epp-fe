@@ -47,11 +47,13 @@
             <app-input
               [form]="personalInformation"
               fcn="firstName"
+              #firstname
               name="first-name"
               type="text"
               label="First Name"
               placeholder="Enter your first name"
-              errorMsg="Please provide first name."
+              errorMsg="Please provide a valid first name."
+              [displayError]="firstname.focusout"
             >
             </app-input>
           </div>
@@ -62,10 +64,12 @@
               [form]="personalInformation"
               fcn="lastName"
               name="last-name"
+              #lastname
               type="text"
               label="Last Name"
               placeholder="Enter your last name"
-              errorMsg="Please provide last name."
+              errorMsg="Please provide only characters to last name."
+              [displayError]="lastname.focusout"
             >
             </app-input>
           </div>
@@ -78,10 +82,12 @@
               [form]="personalInformation"
               fcn="email"
               name="email"
+              #email
               type="email"
               label="Email"
               placeholder="example@email.com"
               errorMsg="Please provide a valid email address."
+              [displayError]="email.focusout"
             ></app-input>
           </div>
         </div>

@@ -44,7 +44,7 @@
       [suffixIcon]="passwordSuffixIcon"
       placeholder="Enter your password"
       [showErrorIcon]="false"
-      errorMsg="Password length should be greater or equal to 8."
+      errorMsg="Password must be atleast 8 characters long and contain either a number or special character."
       [displayError]="password.focusout"
     ></app-input>
     <app-input
@@ -55,7 +55,7 @@
       #confirmpassword
       label="Confirm Password"
       placeholder="Confirm your password"
-      errorMsg="Confirm password should match with password."
+      errorMsg="Confirm password should match password field."
       [displayError]="confirmpassword.focusout"
       [disablePaste]="true"
     ></app-input>

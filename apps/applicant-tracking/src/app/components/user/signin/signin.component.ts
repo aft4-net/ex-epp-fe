@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
+import { FormValidator } from '../../../utils/validator';
 
 @Component({
   selector: 'app-signin',
@@ -16,14 +17,8 @@ import { AccountService } from '../../../services/user/account.service';
 export class SigninComponent {
   showPassword: boolean = false;
   loginForm = new FormGroup({
-    email: new FormControl('', 
-    [Validators.required, 
-      Validators.email]),
-
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8)
-    ]),
+    email: new FormControl('', []),
+    password: new FormControl('', []),
   });
   get loginEmail(): AbstractControl | null {
     return this.loginForm.get('email');
@@ -33,19 +28,39 @@ export class SigninComponent {
   }
 
   login() {
-    this.accountService.signIn(this.loginForm.value).subscribe(response => {
-      const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
-      this.router.navigateByUrl(returnUrl);
-      },error => {
-          console.log(error);
+    this.accountService.signIn(this.loginForm.value).subscribe(
+      (response) => {
+        const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
+        this.router.navigateByUrl(returnUrl);
+      },
+      (error) => {
+        console.log(error);
       }
-);
+    );
   }
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
-  
-  constructor(private accountService: AccountService, private router: Router, private rout : ActivatedRoute) {}
 
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private rout: ActivatedRoute,
+    private validator: FormValidator
+  ) {}
+
+  ngOnInit(): void {
+    
+    this.loginForm.controls.email.setValidators([
+      this.validator.validateEmail(),
+      Validators.required,
+    ]);
+    this.loginForm.controls.password.setValidators([
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
+    ]);
+  
+  }
 }
