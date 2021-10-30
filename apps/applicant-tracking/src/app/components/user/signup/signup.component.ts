@@ -42,6 +42,8 @@ export class SignupComponent implements OnInit, Validator {
   }
 
   signup() {
+    
+
   }
 
 
