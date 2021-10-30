@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {TimesheetService} from './services/timesheet.service';
 import {DayAndDateService} from "./services/day-and-date.service";
-import {ClickEventLocation} from '../models/clickEventLocation';
+import {ClickEventType} from '../models/clickEventType';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import { Timesheet } from '../models/timesheetModels';
 
@@ -13,7 +13,7 @@ import { Timesheet } from '../models/timesheetModels';
   styleUrls: ['./timesheet.component.scss']
 })
 export class TimesheetComponent implements OnInit {
-  clickEventLocation = ClickEventLocation.formDrawer;
+  clickEventType = ClickEventType.none;
   drawerVisible = false;
   validateForm!: FormGroup;
 
@@ -107,13 +107,13 @@ nextWeek(count: any) {
   }
 
 
-  onDateColumnClicked(clickEventLocation: ClickEventLocation) {
-    this.clickEventLocation = clickEventLocation;
+  onDateColumnClicked(clickEventType: ClickEventType) {
+    this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
-  onEditButtonClicked(clickEventLocation: ClickEventLocation) {
-    this.clickEventLocation = clickEventLocation;
+  onEditButtonClicked(clickEventType: ClickEventType) {
+    this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
@@ -150,13 +150,13 @@ nextWeek(count: any) {
   }
 
   showFormDrawer() {
-    if (this.clickEventLocation == ClickEventLocation.dateColumn) {
+    if (this.clickEventType == ClickEventType.dateColumn) {
       this.drawerVisible = true;
     }
 
     console.log({DrawerVisible: this.drawerVisible})
 
-    this.clickEventLocation = ClickEventLocation.formDrawer;
+    this.clickEventType = ClickEventType.formDrawer;
   }
 
   closeFormDrawer() {

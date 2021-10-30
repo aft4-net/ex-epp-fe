@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ClickEventLocation } from '../../../models/clickEventLocation';
+import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
 import { TimeEntry } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
@@ -10,12 +10,13 @@ import { TimesheetService } from '../../services/timesheet.service';
   styleUrls: ['./project-name-palet.component.scss']
 })
 export class ProjectNamePaletComponent implements OnInit {
-  @Output() paletEllipsisClicked = new EventEmitter<ClickEventLocation>();
-  @Output() editClicked = new EventEmitter<ClickEventLocation>()
+  @Output() projectNamePaletClicked = new EventEmitter<ClickEventType>()
+  @Output() paletEllipsisClicked = new EventEmitter<ClickEventType>();
+  @Output() editClicked = new EventEmitter<ClickEventType>()
   @Input() timeEntry: TimeEntry | null = null;
   project: Project | null = null;
   
-  clickEventLocation = ClickEventLocation.paletEllipsis;
+  clickEventType = ClickEventType.none;
   popoverVisible = false;
 
   constructor(private timesheetService: TimesheetService) { }
@@ -28,8 +29,12 @@ export class ProjectNamePaletComponent implements OnInit {
     }
   }
 
+  onProjectNamePaletClicked() {
+    console.log("Project name palet clicked.");
+  }
+
   showPopover() {
-    this.paletEllipsisClicked.emit(this.clickEventLocation);
+    this.paletEllipsisClicked.emit(this.clickEventType);
     this.popoverVisible = true;
   }
 
@@ -38,7 +43,7 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   showFormDrawer() {
-    this.editClicked.emit(ClickEventLocation.dateColumn);
+    this.editClicked.emit(ClickEventType.dateColumn);
     this.popoverVisible = false;
   }
 }

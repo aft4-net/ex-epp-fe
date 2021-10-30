@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
-import { ClickEventLocation } from '../../../models/clickEventLocation';
+import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 
@@ -10,8 +10,8 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
-  @Output() dateColumnClicked = new EventEmitter<ClickEventLocation>()
-  @Output() editButtonClicked = new EventEmitter<ClickEventLocation>()
+  @Output() dateColumnClicked = new EventEmitter<ClickEventType>()
+  @Output() editButtonClicked = new EventEmitter<ClickEventType>()
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
@@ -22,7 +22,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   constructor(private timesheetService: TimesheetService) {
   }
 
-  clickEventLocation = ClickEventLocation.dateColumn;
+  clickEventType = ClickEventType.none;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
@@ -36,19 +36,19 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
   }
 
-  onPaletEllipsisClicked(clickEventLocation: ClickEventLocation) {
-    this.clickEventLocation = clickEventLocation;
+  onPaletEllipsisClicked(clickEventType: ClickEventType) {
+    this.clickEventType = clickEventType;
   }
 
-  onEditButtonClicked(clickEventLocation: ClickEventLocation) {
-    this.editButtonClicked.emit(clickEventLocation);
+  onEditButtonClicked(clickEventType: ClickEventType) {
+    this.editButtonClicked.emit(clickEventType);
   }
 
   showFormDrawer() {
-    if (this.clickEventLocation === ClickEventLocation.dateColumn) {
-      this.dateColumnClicked.emit(this.clickEventLocation);
+    if (this.clickEventType === ClickEventType.dateColumn) {
+      this.dateColumnClicked.emit(this.clickEventType);
     }
 
-    this.clickEventLocation = ClickEventLocation.dateColumn;
+    this.clickEventType = ClickEventType.dateColumn;
   }
 }
