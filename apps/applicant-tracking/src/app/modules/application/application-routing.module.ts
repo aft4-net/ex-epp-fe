@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SiderComponent } from '../../components/application/sider/sider.component';
 import { PersonalInformationComponent } from '../../components/application/personal-information/personal-information.component';
+import { AreaInterestComponent } from '../../components/application/area-interest/area-interest.component';
 
 const routes: Routes = [
   {
@@ -9,10 +10,8 @@ const routes: Routes = [
     component: SiderComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'personal-info' },
-      {
-        path: 'personal-info',
-        component: PersonalInformationComponent,
-      },
+      { path: 'personal-info', component: PersonalInformationComponent },
+      { path: 'area-of-interest', component: AreaInterestComponent },
     ],
   },
 ];

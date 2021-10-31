@@ -5,6 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms'; 
+import { Router } from '@angular/router';
+
+import { AccountService } from '../../../services/user/account.service';
 
 @Component({
   selector: 'exec-epp-personal-information',
@@ -24,11 +27,12 @@ get signUpEmail(): AbstractControl | null {
   return this.personalInformation?.get('email');
 }
 
-constructor() {}
+constructor(private router: Router, private accountService: AccountService) {}
 
 ngOnInit(): void {
-  
+
 }
+
 }
 
 

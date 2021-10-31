@@ -17,7 +17,7 @@ import { SignUpResponse } from '../../models/user/signUpResponse';
 export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
-  baseUrl = 'http://localhost:14696/api/v1/';
+  baseUrl = 'https://localhost:14696/api/v1/';
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
@@ -47,6 +47,10 @@ export class AccountService {
   signUp(signUpRequest: SignUpRequest) {
     return this.http.post<ResponseDTO<SignUpResponse>>(this.baseUrl + 'SignUp', signUpRequest);
   };
+
+  generalInfo(id?:number){
+    return this.http.get<ResponseDTO<SignInResponse>>(this.baseUrl + '?id=' + id);
+  }
 
   signOut() {
     localStorage.removeItem('loggedInUserInfo');
