@@ -3,14 +3,9 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
-import { phone } from 'phone';
-
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { FormValidator } from '../../../utils/validator';
 
 @Component({
@@ -26,16 +21,23 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   personalInformation = new FormGroup({
-    firstName: new FormControl('', []),
-    lastName: new FormControl('', []),
-    email: new FormControl('', [
+    firstName: new FormControl('', [
+      this.validator.validateName(),
       Validators.required,
-      Validators.pattern(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      ),
+    ]),
+    lastName: new FormControl('', [
+      this.validator.validateName(),
+      Validators.required,
+    ]),
+    email: new FormControl('', [
+      this.validator.validateEmail(),
+      Validators.required,
     ]),
     country: new FormControl(this.selectedValue?.name, [Validators.required]),
-    phoneNumber: new FormControl('', []),
+    phoneNumber: new FormControl('', [
+      this.validator.validatePhoneNumber(this.selectedValue?.dial_code),
+      Validators.required,
+    ]),
   });
 
   onCountryChange(value: any) {
@@ -46,24 +48,6 @@ export class PersonalInformationComponent implements OnInit {
 
   get signUpEmail(): AbstractControl | null {
     return this.personalInformation?.get('email');
-  }
-
-  validateName(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      var name = control.value;
-      var isValid = name.match('^[a-zA-Z]*$');
-      return !isValid ? { value: control.value } : null;
-    };
-  }
-
-  validateEmail(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      var email = control.value;
-      const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      var isValid = re.test(String(email).toLowerCase());
-      return !isValid ? { value: control.value } : null;
-    };
   }
 
   constructor(private validator: FormValidator) {}
@@ -95,19 +79,6 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.personalInformation.controls.firstName.setValidators([
-      this.validator.validateName(),
-      Validators.required,
-    ]);
-    this.personalInformation.controls.lastName.setValidators([
-      this.validator.validateName(),
-      Validators.required,
-    ]);
-    this.personalInformation.controls.email.setValidators([
-      this.validator.validateEmail(),
-      Validators.required,
-    ]);
-    
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
       this.personalInformation.controls.phoneNumber.setValidators([
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
