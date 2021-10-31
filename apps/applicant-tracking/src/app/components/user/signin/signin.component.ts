@@ -17,8 +17,15 @@ import { FormValidator } from '../../../utils/validator';
 export class SigninComponent {
   showPassword: boolean = false;
   loginForm = new FormGroup({
-    email: new FormControl('', []),
-    password: new FormControl('', []),
+    email: new FormControl('', [
+      this.validator.validateEmail(),
+      Validators.required,
+    ]),
+    password: new FormControl('', [
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
+    ]),
   });
   get loginEmail(): AbstractControl | null {
     return this.loginForm.get('email');
@@ -50,17 +57,5 @@ export class SigninComponent {
     private validator: FormValidator
   ) {}
 
-  ngOnInit(): void {
-    
-    this.loginForm.controls.email.setValidators([
-      this.validator.validateEmail(),
-      Validators.required,
-    ]);
-    this.loginForm.controls.password.setValidators([
-      this.validator.validatePassword(),
-      Validators.required,
-      Validators.minLength(8),
-    ]);
-  
-  }
+  ngOnInit(): void {}
 }

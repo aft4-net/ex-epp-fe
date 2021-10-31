@@ -18,11 +18,28 @@ export class SignupComponent implements OnInit {
   constructor(private validator: FormValidator) {}
 
   signUpForm = new FormGroup({
-    firstName: new FormControl('', []),
-    lastName: new FormControl('', []),
-    email: new FormControl('', []),
-    password: new FormControl('', []),
-    confirmPassword: new FormControl('', []),
+    firstName: new FormControl('', [
+      this.validator.validateName(),
+      Validators.required,
+    ]),
+    lastName: new FormControl('', [
+      this.validator.validateName(),
+      Validators.required,
+    ]),
+    email: new FormControl('', [
+      this.validator.validateEmail(),
+      Validators.required,
+    ]),
+    password: new FormControl('', [
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+    confirmPassword: new FormControl('', [
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
+    ]),
   });
   get signUpEmail(): AbstractControl | null {
     return this.signUpForm?.get('email');
@@ -41,32 +58,12 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.signUpForm.controls.firstName.setValidators([
-      this.validator.validateName(),
-      Validators.required,
-    ]);
-    this.signUpForm.controls.lastName.setValidators([
-      this.validator.validateName(),
-      Validators.required,
-    ]);
-    this.signUpForm.controls.email.setValidators([
-      this.validator.validateEmail(),
-      Validators.required,
-    ]);
-    this.signUpForm.controls.password.setValidators([
-      this.validator.validatePassword(),
-      Validators.required,
-      Validators.minLength(8),
-    ]);
-
-    this.signUpForm.controls.password.valueChanges.subscribe(() => {
+    this.signUpForm.controls.password.valueChanges.subscribe((val) => {
       this.signUpForm.controls.confirmPassword.setValidators([
+        this.validator.validateConfirmPassword(val),
+        this.validator.validatePassword(),
         Validators.required,
         Validators.minLength(8),
-        this.validator.validatePassword(),
-        this.validator.validateConfirmPassword(
-          this.signUpForm?.get('password')?.value
-        ),
       ]);
       this.signUpForm.controls.confirmPassword.updateValueAndValidity();
     });
