@@ -16,6 +16,9 @@ import { ApplicantGeneralInfoService } from '../../../services/applicant/applica
 import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
 import { first } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AccountService } from '../../../services/user/account.service';
+import { SignInResponse } from '../../../models/user/signInResponse';
 
 @Component({
   selector: 'exec-epp-personal-information',
@@ -23,6 +26,7 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./personal-information.component.scss'],
 })
 export class PersonalInformationComponent implements OnInit {
+  loggedInUser:any;
   photoUrl = '';
   resumeUrl = '';
   photoResponseUrl = '';
@@ -68,10 +72,12 @@ export class PersonalInformationComponent implements OnInit {
     return str.length === 1 && str.match(/[a-z]/i);
   }
 
-  constructor(private applicantService: ApplicantGeneralInfoService) {
+  constructor(private applicantService: ApplicantGeneralInfoService, 
+    private router:Router,
+    private acctServce: AccountService) {
     this.photoUrl = environment.photoUploadUrl;
     this.resumeUrl = environment.resumeUploadUrl;
-    this.update_url =  '/applicant/update'
+    this.update_url =  '/Applicant/Register';
 
   }
   
@@ -94,7 +100,7 @@ export class PersonalInformationComponent implements OnInit {
     return true;
   };
   ngOnInit(): void {
-   ;
+ ;
   }
   onPhotoUploadChange() {
     this.photFileList?.map((file:any )=> {
@@ -116,7 +122,9 @@ export class PersonalInformationComponent implements OnInit {
   }
   onFormSubmit()
   {
+    
     const personInfo: PersonalInfoModel =   {
+      guid: 'ccfab781-305d-4ead-8da5-b080b69c3a0b',
       email: this.personalInformation.get('email')?.value,  
       firstName: this.personalInformation.get('firstName')?.value,  
       lastName: this.personalInformation.get('lastName')?.value,  
@@ -125,9 +133,16 @@ export class PersonalInformationComponent implements OnInit {
       photoUrl: this.photoResponseUrl,  
       resumeUrl: this.resumeResponseUrl 
     };
+
     this.applicantService.put(this.update_url,personInfo).subscribe(
       () => {
+        console.log(this.acctServce.loggedInUser);
+        console.log(localStorage.getItem('loggedInUserInfo'));
         console.log('success');
+        this.applicantService.setRoutInfo('/application/area-of-interest');
+        this.router.navigate(['/application/area-of-interest']);
+       
+
       }, err => {
         //this.errors = err;
         //this.isSubmitting = false;

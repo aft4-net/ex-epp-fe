@@ -29,7 +29,7 @@
       [maxLength]="50"
     ></app-input>
   </form>
-  <app-button class="login-button" [disabled]="!loginForm.valid" type="primary">
+  <app-button class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="login()">
     Sign in
   </app-button>
 

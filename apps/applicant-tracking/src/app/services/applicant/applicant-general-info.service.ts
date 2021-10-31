@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'apps/applicant-tracking/src/environments/environment';
 import { Observable, throwError } from 'rxjs';
@@ -9,6 +9,8 @@ import { PersonalInfoModel } from '../../models/applicant/personal-info.model';
   providedIn: 'root'
 })
 export class ApplicantGeneralInfoService {
+  header = new HttpHeaders({ 'Content-Type': 'application/json' });
+  routerInfo = '/application/personal-information';
   constructor( private http: HttpClient  ) { }
   private formatErrors(error:any) {
     return  throwError(error.error);
@@ -23,7 +25,8 @@ export class ApplicantGeneralInfoService {
   put(path: string, body: PersonalInfoModel): Observable<any> {
     return this.http.put(
       environment.api_url + path,
-      JSON.stringify(body)
+      JSON.stringify(body),
+      {headers: this.header}
     ).pipe(catchError(this.formatErrors));
   }
 
@@ -31,6 +34,15 @@ export class ApplicantGeneralInfoService {
     return this.http.get<PersonalInfoModel>(`${environment.api_url}${path}`, { params })
       .pipe(catchError(this.formatErrors));
   }
+  setRoutInfo(path: string)
+  {
+    this.routerInfo = path;
+  }
+  getRoutInfo()
+  {
+    return this.routerInfo;
+  }
+
 
 
 }

@@ -17,6 +17,7 @@ import { SignUpResponse } from '../../models/user/signUpResponse';
 export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
+  loggedInUser: any;
   baseUrl = 'http://localhost:14696/api/v1/';
 
   constructor(private http: HttpClient, private router: Router) {
@@ -34,6 +35,7 @@ export class AccountService {
           if(user.data && user.data.token){
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.data ||'{}'));
             this.userSubject.next(user.data);
+            this.loggedInUser = user.data;
             return user;
           }
           return user;

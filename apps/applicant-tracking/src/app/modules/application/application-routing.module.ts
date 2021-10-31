@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SiderComponent } from '../../components/application/sider/sider.component';
 import { PersonalInformationComponent } from '../../components/application/personal-information/personal-information.component';
+import { AreaOfInterestComponent } from '../../components/application/areas-of-interest/area-of-interest.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
         path: 'personal-information',
         component: PersonalInformationComponent,
       },
+      {
+        path: 'area-of-interest',
+        component:AreaOfInterestComponent
+
+      }
     ],
   },
 ];

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
 interface RouteLinks {
   name: string;
   link: string;
@@ -11,7 +12,7 @@ interface RouteLinks {
   styleUrls: ['./sider.component.css'],
 })
 export class SiderComponent implements OnInit {
-  route: string = '';
+  route = '';
   menu_links = [
     {
       name: 'Personal Information',
@@ -43,11 +44,13 @@ export class SiderComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private applicanService:ApplicantGeneralInfoService) {
     router.events.subscribe((evt: any) => {
       if (evt instanceof NavigationEnd) this.route = evt.url;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route = this.applicanService.getRoutInfo();
+  }
 }
