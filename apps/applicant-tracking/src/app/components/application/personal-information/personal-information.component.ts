@@ -32,7 +32,7 @@ export class PersonalInformationComponent implements OnInit {
       this.validator.validateName(),
       Validators.required,
     ]),
-    email: new FormControl('', [
+    email: new FormControl({value:'', disabled:true}, [
       this.validator.validateEmail(),
       Validators.required,
     ]),

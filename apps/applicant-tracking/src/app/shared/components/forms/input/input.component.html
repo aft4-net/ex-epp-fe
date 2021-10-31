@@ -4,6 +4,7 @@
     <nz-form-control
       [nzHasFeedback]="showErrorIcon"
       [nzErrorTip]="displayError ? errorMsg : ''"
+      
     >
       <nz-input-group [nzSuffix]="suffixIcon" [nzPrefix]="prefixIcon">
         <input
@@ -16,7 +17,7 @@
           (focus)="onfocus()"
           tabindex=""
           (paste)="preventPaste($event, disablePaste)"
-          [disabled]="true"
+          
         />
       </nz-input-group>
     </nz-form-control>
