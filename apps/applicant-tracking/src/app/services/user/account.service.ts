@@ -17,7 +17,7 @@ import { SignUpResponse } from '../../models/user/signUpResponse';
 export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
-  baseUrl = 'https://localhost:14696/api/v1/';
+  baseUrl = 'http://localhost:14696/api/v1/';
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
