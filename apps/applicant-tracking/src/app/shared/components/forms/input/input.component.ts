@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./input.component.css'],
 })
 export class InputComponent {
-  disabled: boolean = false;
+  @Input() disabled: boolean = false;
   @Input() focusout: boolean = false;
   @Input() displayError: boolean = false;
 

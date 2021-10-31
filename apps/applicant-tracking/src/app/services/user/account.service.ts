@@ -46,6 +46,10 @@ export class AccountService {
     return this.http.post<ResponseDTO<SignUpResponse>>(this.baseUrl + 'SignUp', signUpRequest);
   };
 
+  generalInfo(id?:number){
+    return this.http.get<ResponseDTO<SignInResponse>>(this.baseUrl + '?id=' + id);
+  }
+
   signOut() {
     localStorage.removeItem('loggedInUserInfo');
     this.userSubject.next(null);

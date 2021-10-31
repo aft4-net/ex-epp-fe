@@ -6,7 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { FormValidator } from '../../../utils/validator';
+import { FormValidator } from '../../../utils/validator'; 
+import { Router } from '@angular/router';
+
+import { AccountService } from '../../../services/user/account.service';
 
 @Component({
   selector: 'exec-epp-personal-information',
@@ -50,7 +53,7 @@ export class PersonalInformationComponent implements OnInit {
     return this.personalInformation?.get('email');
   }
 
-  constructor(private validator: FormValidator) {}
+  constructor(private router: Router, private accountService: AccountService, private validator: FormValidator) {}
   fileList: any[] = [];
   url = '';
   beforeUpload = (file: any): boolean => {
