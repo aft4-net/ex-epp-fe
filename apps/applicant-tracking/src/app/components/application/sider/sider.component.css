@@ -3,6 +3,10 @@
   background-color: #fff;
 }
 
+.inner-side-bar{
+  border-right:  1px solid #DADADA;
+}
+
 .numberCircle {
   display: inline-block;
   line-height: 0px;
@@ -104,6 +108,7 @@
 }
 .ant-menu-item-selected {
   background-color: #DCFFDC !important;
+  border-right:  2px solid #000000;
   display: flex;
 }
 
