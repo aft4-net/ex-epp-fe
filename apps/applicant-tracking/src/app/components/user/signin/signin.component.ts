@@ -36,9 +36,10 @@ export class SigninComponent {
 
   login() {
     this.accountService.signIn(this.loginForm.value).subscribe(
-      (response) => {
-        const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
-        this.router.navigateByUrl(returnUrl);
+      (res) => {
+        console.log('routing not working');
+        this.router.navigateByUrl('application/personal-information');
+        window.location.reload();
       },
       (error) => {
         console.log(error);

@@ -3,6 +3,10 @@
   background-color: #fff;
 }
 
+.inner-side-bar{
+  border-right:  1px solid #DADADA;
+}
+
 .numberCircle {
   display: inline-block;
   line-height: 0px;

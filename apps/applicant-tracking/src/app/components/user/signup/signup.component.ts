@@ -5,7 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AccountService } from '../../../services/user/account.service';
 import { FormValidator } from '../../../utils/validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +17,7 @@ import { FormValidator } from '../../../utils/validator';
 export class SignupComponent implements OnInit {
   showPassword = false;
 
-  constructor(private validator: FormValidator) {}
+  constructor(private validator: FormValidator,private accountService: AccountService, private router: Router) {}
 
   signUpForm = new FormGroup({
     firstName: new FormControl('', [
@@ -51,7 +53,13 @@ export class SignupComponent implements OnInit {
     return this.signUpForm?.get('confirmPassword');
   }
 
-  signup() {}
+  signup() {
+    this.accountService.signUp(this.signUpForm.value).subscribe(response => {
+      this.router.navigateByUrl('/');
+    }, error => {
+      console.log(error);
+    })
+  }
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;

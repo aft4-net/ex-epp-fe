@@ -74,7 +74,7 @@ export class PersonalInformationComponent implements OnInit {
     console.log('ejrhhjer');
     const status = file.status;
     if (status === 'done') {
-      this.url = file.response.data;
+      this.url = file.response.Data;
       console.log(file);
     } else if (status === 'error') {
       console.log('dfj');
