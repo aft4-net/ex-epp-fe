@@ -24,7 +24,6 @@ export class TimesheetComponent implements OnInit {
   clients: Client[] = [];
   projects: Project[] = [];
   employee: Employee[] = [];
-  def = "";
 
   formData = {
     timesheetDate: new Date(),
@@ -165,7 +164,7 @@ export class TimesheetComponent implements OnInit {
     this.apiService.getEmployee().subscribe((data) =>  {this.employee = data;
 
       let pid = null;
-      data.map(x=> {pid=x.ProjectId });
+      data.map(x =>  pid = x.ProjectId );
 
        if(pid !=0) this.apiService.getProject().subscribe(project => {
           this.projects = project;
