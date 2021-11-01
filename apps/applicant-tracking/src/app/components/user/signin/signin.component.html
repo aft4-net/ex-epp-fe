@@ -28,10 +28,11 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
+    <app-button class="login-button" [disabled]="!loginForm.valid" type="primary">
+      Sign in
+    </app-button>
   </form>
-  <app-button class="login-button" [disabled]="!loginForm.valid" type="primary">
-    Sign in
-  </app-button>
+
 
   <div class="info">
     Don't have an account?

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { environment } from '../../../environments/environment';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { SignInRequest } from '../../models/user/signInRequest';
 import { SignInResponse } from '../../models/user/signInResponse';
@@ -17,7 +17,6 @@ import { SignUpResponse } from '../../models/user/signUpResponse';
 export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
-  baseUrl = 'http://localhost:14696/api/v1/';
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
@@ -29,11 +28,12 @@ export class AccountService {
   }
 
   signIn(signInRequest: SignInRequest) {
-      return this.http.post<ResponseDTO<SignInResponse>>(this.baseUrl + 'Signin', signInRequest).pipe(
+    console.log('testing2');
+      return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + 'Signin/Sign-In', signInRequest).pipe(
         map((user) => {
-          if(user.data && user.data.token){
-            localStorage.setItem('loggedInUserInfo', JSON.stringify(user.data ||'{}'));
-            this.userSubject.next(user.data);
+          if(user.Data && user.Data.Token){
+            localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
+            this.userSubject.next(user.Data);
             return user;
           }
           return user;
@@ -43,11 +43,11 @@ export class AccountService {
   
 
   signUp(signUpRequest: SignUpRequest) {
-    return this.http.post<ResponseDTO<SignUpResponse>>(this.baseUrl + 'SignUp', signUpRequest);
+    return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + 'Signup/Sign-Up', signUpRequest);
   };
 
   generalInfo(id?:number){
-    return this.http.get<ResponseDTO<SignInResponse>>(this.baseUrl + '?id=' + id);
+    return this.http.get<ResponseDTO<SignInResponse>>(environment.apiUrl + '?id=' + id);
   }
 
   signOut() {
