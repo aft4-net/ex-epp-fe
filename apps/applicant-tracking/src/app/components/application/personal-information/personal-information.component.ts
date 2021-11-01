@@ -12,6 +12,7 @@ import { ApplicantGeneralInfoService } from '../../../services/applicant/applica
 import { Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { MessageBar } from '../../../utils/feedbacks/message';
 
 @Component({
   selector: 'personal-information',
@@ -73,10 +74,11 @@ export class PersonalInformationComponent implements OnInit {
     private router: Router,
     private acctServce: AccountService,
     private validator: FormValidator,
-    private notification: NotificationBar
+    private notification: NotificationBar,
+    private message: MessageBar
   ) {
-    this.photoUrl = environment.photoUploadUrl;
-    this.resumeUrl = environment.resumeUploadUrl;
+    this.photoUrl = `${environment.apiUrl}/ApplicantProfile/FileUploadHandler`;
+    this.resumeUrl = `${environment.apiUrl}/ApplicantProfile/FileUploadHandler`;
   }
 
   beforeUploadPhoto = (file: any): boolean => {
@@ -115,16 +117,23 @@ export class PersonalInformationComponent implements OnInit {
     });
   }
 
-  getProfileUrl({ file, fileList }: any): void {
+  getProfileUrl({ file, fileList, event }: any): void {
     const status = file.status;
-    if (status === 'done') {
-      this.personalInformation.controls.profileUrl.setValue(file.response.Data);
+    
+    if (status === 'uploading') {
+      this.message.showMessage({type:'loading',content:'Loading', duration:0});
+    }
+    else if (status === 'done') {
+      this.message.stopMessage();
+      this.personalInformation.controls.profileUrl.setValue(`${environment.fileUrl}/${file.response.urlLink}`);
       this.notification.showNotification({
         type: 'success',
         content: 'Profile picture has been uploaded successfully!',
         duration: 5000,
       });
     } else if (status === 'error') {
+      
+      this.message.stopMessage();
       this.notification.showNotification({
         type: 'error',
         content: 'There is an error while uploading profile picture, please try again!',
@@ -133,16 +142,21 @@ export class PersonalInformationComponent implements OnInit {
     }
   }
 
-  getResumeUrl({ file, fileList }: any): void {
+  getResumeUrl({ file, fileList, event }: any): void {
     const status = file.status;
-    if (status === 'done') {
-      this.personalInformation.controls.resumeUrl.setValue(file.response.Data);
+    if (status === 'uploading') {
+      this.message.showMessage({type:'loading', content:'Loading', duration:0});
+    }
+    else if (status === 'done') {
+      this.message.stopMessage();
+      this.personalInformation.controls.resumeUrl.setValue(`${environment.fileUrl}/${file.response.urlLink}`);
       this.notification.showNotification({
         type: 'success',
         content: 'Resume has been uploaded successfully!',
         duration: 5000,
       });
     } else if (status === 'error') {
+      this.message.stopMessage();
       this.notification.showNotification({
         type: 'error',
         content: 'There is an error while uploading resume, please try again!',
@@ -161,5 +175,9 @@ export class PersonalInformationComponent implements OnInit {
   }
   onInputClick(e: any) {}
   onClick(e: any) {}
+  deleteProfile() {
+    this.personalInformation.controls.profileUrl.setValue('');
+    this.photoFileList = [];
+  }
   onUploadChange(e: any) {}
 }

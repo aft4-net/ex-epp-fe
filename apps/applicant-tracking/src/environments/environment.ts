@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  fileUrl:'http://localhost:14696',
   apiUrl:'http://localhost:14696/api/v1',
   resumeUploadUrl:'https://localhost:5001/api/upload',
   photoUploadUrl:'https://localhost:5001/api/upload'
