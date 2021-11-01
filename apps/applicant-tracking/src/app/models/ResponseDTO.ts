@@ -11,5 +11,5 @@ export interface ResponseDTO<T>
     responseStatus: ResponseStatus;
     message: string;
     exception: any;
-    data: T;
+    Data: T;
 }

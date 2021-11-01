@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SignInResponse } from '../../../models/user/signInResponse';
 import { AccountService } from '../../../services/user/account.service';
 
 @Component({
@@ -34,6 +35,7 @@ export class SigninComponent {
 
   login() {
     this.accountService.signIn(this.loginForm.value).subscribe(response => {
+       console.log(response);
       const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
       const nUrl = returnUrl===''?'/application/personal-information':returnUrl;
       this.router.navigate([nUrl]);

@@ -41,9 +41,9 @@ export class PersonalInformationComponent implements OnInit {
   };
 
   personalInformation = new FormGroup({
-    firstName: new FormControl('', [Validators.required]), 
-    lastName: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    firstName: new FormControl(this.acctServce.userInfo.FirstName??'', [Validators.required]), 
+    lastName: new FormControl(this.acctServce.userInfo.LastName??'', [Validators.required]),
+    email: new FormControl(this.acctServce.userInfo.Email??'', [Validators.required, Validators.email]),
     country: new FormControl(this.selectedValue?.name, [Validators.required]),
     phoneNumber: new FormControl('', [
       Validators.required,
@@ -100,7 +100,7 @@ export class PersonalInformationComponent implements OnInit {
     return true;
   };
   ngOnInit(): void {
- ;
+    console.log(localStorage.getItem('loggedInUserInfo'));
   }
   onPhotoUploadChange() {
     this.photFileList?.map((file:any )=> {
@@ -122,9 +122,8 @@ export class PersonalInformationComponent implements OnInit {
   }
   onFormSubmit()
   {
-    
-    const personInfo: PersonalInfoModel =   {
-      guid: 'ccfab781-305d-4ead-8da5-b080b69c3a0b',
+      const personInfo: PersonalInfoModel =   {
+      guid: this.acctServce.userInfo.Guid ?? '',
       email: this.personalInformation.get('email')?.value,  
       firstName: this.personalInformation.get('firstName')?.value,  
       lastName: this.personalInformation.get('lastName')?.value,  
@@ -136,13 +135,8 @@ export class PersonalInformationComponent implements OnInit {
 
     this.applicantService.put(this.update_url,personInfo).subscribe(
       () => {
-        console.log(this.acctServce.loggedInUser);
-        console.log(localStorage.getItem('loggedInUserInfo'));
-        console.log('success');
         this.applicantService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
-       
-
       }, err => {
         //this.errors = err;
         //this.isSubmitting = false;

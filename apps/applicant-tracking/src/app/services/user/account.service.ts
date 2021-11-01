@@ -32,10 +32,11 @@ export class AccountService {
   signIn(signInRequest: SignInRequest) {
       return this.http.post<ResponseDTO<SignInResponse>>(this.baseUrl + 'Signin', signInRequest).pipe(
         map((user) => {
-          if(user.data && user.data.token){
-            localStorage.setItem('loggedInUserInfo', JSON.stringify(user.data ||'{}'));
-            this.userSubject.next(user.data);
-            this.loggedInUser = user.data;
+          if(user.Data && user.Data.Token){
+            
+            localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
+            this.loggedInUser = user.Data;
+            this.userSubject.next(user.Data);
             return user;
           }
           return user;
