@@ -24,11 +24,12 @@ export class TimesheetComponent implements OnInit {
   clients: Client[] = [];
   projects: Project[] = [];
   employee: Employee[] = [];
+  def = "";
 
   formData = {
     timesheetDate: new Date(),
-    client: this.clients,
-    project: this.projects,
+    client: '',
+    project: '',
     hours: null,
     notes: '',
   };
@@ -168,8 +169,10 @@ export class TimesheetComponent implements OnInit {
 
        if(pid !=0) this.apiService.getProject().subscribe(project => {
           this.projects = project;
+          this.formData.project = project[0].Name;
           this.apiService.getClient().subscribe(client => {
             this.clients = client;
+            this.formData.client = client[0].Name;
           });
         });
       }
