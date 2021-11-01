@@ -46,8 +46,8 @@ export class AccountService {
     return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + 'Signup/Sign-Up', signUpRequest);
   };
 
-  generalInfo(id?:number){
-    return this.http.get<ResponseDTO<SignInResponse>>(environment.apiUrl + '?id=' + id);
+  generalInfo(email?:string){
+    return this.http.get<ResponseDTO<SignInResponse>>(environment.apiUrl + '?email=' + email);
   }
 
   signOut() {
