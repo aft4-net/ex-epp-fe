@@ -167,11 +167,11 @@ export class TimesheetComponent implements OnInit {
       data.map(x =>  pid = x.ProjectId );
 
        if(pid !=0) this.apiService.getProject().subscribe(project => {
-          this.projects = project;
-          this.formData.project = project[0].Name;
+           this.projects = project;
+           (project.length == 1)? this.formData.project = project[0].Name : this.formData.project='';
           this.apiService.getClient().subscribe(client => {
             this.clients = client;
-            this.formData.client = client[0].Name;
+            (client.length == 1)? this.formData.client = client[0].Name : this.formData.client = '';
           });
         });
       }
