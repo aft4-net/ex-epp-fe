@@ -16,10 +16,11 @@ export class aoiGuard implements CanActivate {
               this.profile = this.generalInfo[0];
               if (this.profile.phoneNo) {
                   this.router.navigateByUrl('application/personal-info');
+                  return false
                 }
             }, error =>{
               console.log(error);
             });
-        return false;
+        return true;
     }
 }
