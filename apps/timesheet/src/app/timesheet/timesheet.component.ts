@@ -108,11 +108,19 @@ nextWeek(count: any) {
 
 
   onDateColumnClicked(clickEventType: ClickEventType) {
+    console.log("On Data Column Clicked");
+    this.clickEventType = clickEventType;
+    this.showFormDrawer();
+  }
+
+  onProjectNamePaletClicked(clickEventType: ClickEventType) {
+    console.log("On Project Name Palet Clicked");
     this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
   onEditButtonClicked(clickEventType: ClickEventType) {
+    console.log("On Edit Button Clicked")
     this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
@@ -150,13 +158,11 @@ nextWeek(count: any) {
   }
 
   showFormDrawer() {
-    if (this.clickEventType == ClickEventType.dateColumn) {
+    if (this.clickEventType == ClickEventType.showFormDrawer) {
       this.drawerVisible = true;
     }
 
-    console.log({DrawerVisible: this.drawerVisible})
-
-    this.clickEventType = ClickEventType.formDrawer;
+    this.clickEventType = ClickEventType.none;
   }
 
   closeFormDrawer() {

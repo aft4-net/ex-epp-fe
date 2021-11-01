@@ -30,40 +30,6 @@
 
     overflow: hidden;
 
-    .date-and-hour {
-        display: flex;
-        justify-content: space-between;
-
-        .date {
-            width: 55px;
-            height: 28px;
-            margin-top: 6px;
-            margin-left: 8px;
-        
-            color: #595959;
-            font-family: sans-serif;
-            font-weight: 300;
-            font-style: normal;
-            font-size: 20px;
-            line-height: 28px;
-        }
-
-        .hour {
-            width: 76px;
-            height: 28px;
-            margin-top: 8px;
-            margin-right: 8px;
-        
-            color: #595959;
-            font-family: sans-serif;
-            font-weight: 300;
-            font-style: normal;
-            font-size: 16px;
-            line-height: 24px;
-            text-align: right;
-        }
-    }
-
     .date-column-highlight {
         display: flex;
         justify-content: center;
@@ -80,6 +46,40 @@
     .date-column-timesheet {
         width: 192px;
         height: 582px;
+
+        .date-and-hour {
+            display: flex;
+            justify-content: space-between;
+    
+            .date {
+                width: 55px;
+                height: 28px;
+                margin-top: 6px;
+                margin-left: 8px;
+            
+                color: #595959;
+                font-family: sans-serif;
+                font-weight: 300;
+                font-style: normal;
+                font-size: 20px;
+                line-height: 28px;
+            }
+    
+            .hour {
+                width: 76px;
+                height: 28px;
+                margin-top: 8px;
+                margin-right: 8px;
+            
+                color: #595959;
+                font-family: sans-serif;
+                font-weight: 300;
+                font-style: normal;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: right;
+            }
+        }
     }
 
     &:hover {

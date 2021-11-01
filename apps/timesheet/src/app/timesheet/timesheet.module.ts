@@ -47,7 +47,6 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
     ReactiveFormsModule,
     NzFormModule,
     NzNotificationModule
-
   ]
 })
 export class TimesheetModule {

@@ -15,35 +15,40 @@ export class ProjectNamePaletComponent implements OnInit {
   @Output() editClicked = new EventEmitter<ClickEventType>()
   @Input() timeEntry: TimeEntry | null = null;
   project: Project | null = null;
-  
+
   clickEventType = ClickEventType.none;
   popoverVisible = false;
 
   constructor(private timesheetService: TimesheetService) { }
 
   ngOnInit(): void {
-    if(this.timeEntry) {
+    if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.projectId).subscribe(response => {
         this.project = response ? response[0] : null;
       });
     }
   }
 
-  onProjectNamePaletClicked() {
-    console.log("Project name palet clicked.");
-  }
-
   showPopover() {
-    this.paletEllipsisClicked.emit(this.clickEventType);
-    this.popoverVisible = true;
-  }
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = ClickEventType.showPaletPopover;
+      this.paletEllipsisClicked.emit(this.clickEventType);
+      this.popoverVisible = true;
+    }
 
-  closePopover() {
-    this.popoverVisible = false;
+    this.clickEventType = ClickEventType.none;
   }
 
   showFormDrawer() {
-    this.editClicked.emit(ClickEventType.dateColumn);
+    if (this.clickEventType === ClickEventType.none) {
+      this.editClicked.emit(ClickEventType.showFormDrawer);
+      this.popoverVisible = false;
+    }
+
+    this.clickEventType = ClickEventType.none;
+  }
+
+  closePopover() {
     this.popoverVisible = false;
   }
 }

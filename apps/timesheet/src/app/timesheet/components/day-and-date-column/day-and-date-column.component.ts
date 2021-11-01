@@ -10,8 +10,8 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
-  @Output() dateColumnClicked = new EventEmitter<ClickEventType>()
-  @Output() editButtonClicked = new EventEmitter<ClickEventType>()
+  @Output() dateColumnClicked = new EventEmitter<ClickEventType>();
+  @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
@@ -37,18 +37,26 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   }
 
   onPaletEllipsisClicked(clickEventType: ClickEventType) {
-    this.clickEventType = clickEventType;
-  }
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+    }
+  }  
 
   onEditButtonClicked(clickEventType: ClickEventType) {
-    this.editButtonClicked.emit(clickEventType);
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+    }
+
+    this.showFormDrawer();
   }
 
   showFormDrawer() {
-    if (this.clickEventType === ClickEventType.dateColumn) {
-      this.dateColumnClicked.emit(this.clickEventType);
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = ClickEventType.showFormDrawer
     }
+    
+    this.dateColumnClicked.emit(this.clickEventType);
 
-    this.clickEventType = ClickEventType.dateColumn;
+    this.clickEventType = ClickEventType.none;
   }
 }
