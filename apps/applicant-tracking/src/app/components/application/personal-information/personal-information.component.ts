@@ -11,6 +11,7 @@ import { environment } from 'apps/applicant-tracking/src/environments/environmen
 import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 
 @Component({
   selector: 'personal-information',
@@ -24,7 +25,7 @@ export class PersonalInformationComponent implements OnInit {
   photoResponseUrl = '';
   resumeResponseUrl = '';
   update_url = '';
-  photFileList: any = [];
+  photoFileList: any = [];
   resumeFileList: any = [];
   selectedValue = {
     name: 'Ethiopia',
@@ -50,6 +51,8 @@ export class PersonalInformationComponent implements OnInit {
       this.validator.validatePhoneNumber(this.selectedValue?.dial_code),
       Validators.required,
     ]),
+    resumeUrl: new FormControl('', [Validators.required]),
+    profileUrl: new FormControl('', []),
   });
 
   onCountryChange(value: any) {
@@ -69,7 +72,8 @@ export class PersonalInformationComponent implements OnInit {
     private applicantService: ApplicantGeneralInfoService,
     private router: Router,
     private acctServce: AccountService,
-    private validator: FormValidator
+    private validator: FormValidator,
+    private notification: NotificationBar
   ) {
     this.photoUrl = environment.photoUploadUrl;
     this.resumeUrl = environment.resumeUploadUrl;
@@ -77,24 +81,33 @@ export class PersonalInformationComponent implements OnInit {
 
   beforeUploadPhoto = (file: any): boolean => {
     const type = file.type;
-    const str = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
+    const str = ['image/jpg', 'image/jpeg', 'image/png'];
     if (str.indexOf(type) < 0) {
       return false;
     }
-    const isLt20M = file.size / 1024 / 1024 < 30;
+    const isLt20M = file.size / 1024 / 1024 < 10;
     if (!isLt20M) {
       return false;
     }
-    this.photFileList = [file];
+    this.photoFileList = [file];
     return true;
   };
   beforeUploadResume = (file: any): boolean => {
+    const type = file.type;
+    const str = ['application/pdf'];
+    if (str.indexOf(type) < 0) {
+      return false;
+    }
+    const isLt20M = file.size / 1024 / 1024 < 5;
+    if (!isLt20M) {
+      return false;
+    }
     this.resumeFileList = [file];
     return true;
   };
 
   onPhotoUploadChange() {
-    this.photFileList?.map((file: any) => {
+    this.photoFileList?.map((file: any) => {
       if (file.response) {
         this.photoResponseUrl = file.response['dbPath'];
       }
@@ -102,30 +115,39 @@ export class PersonalInformationComponent implements OnInit {
     });
   }
 
-  fileList: any[] = [];
-  url = '';
-  beforeUpload = (file: any): boolean => {
-    const type = file.type;
-
-    const str = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
-    if (str.indexOf(type) < 0) {
-      return false;
-    }
-    const isLt20M = file.size / 1024 / 1024 < 30;
-    if (!isLt20M) {
-      return false;
-    }
-    this.fileList = [file];
-    return true;
-  };
-  getFileUrl({ file, fileList }: any): void {
-    console.log('ejrhhjer');
+  getProfileUrl({ file, fileList }: any): void {
     const status = file.status;
     if (status === 'done') {
-      this.url = file.response.Data;
-      console.log(file);
+      this.personalInformation.controls.profileUrl.setValue(file.response.Data);
+      this.notification.showNotification({
+        type: 'success',
+        content: 'Profile picture has been uploaded successfully!',
+        duration: 5000,
+      });
     } else if (status === 'error') {
-      console.log('dfj');
+      this.notification.showNotification({
+        type: 'error',
+        content: 'There is an error while uploading profile picture, please try again!',
+        duration: 5000,
+      });
+    }
+  }
+
+  getResumeUrl({ file, fileList }: any): void {
+    const status = file.status;
+    if (status === 'done') {
+      this.personalInformation.controls.resumeUrl.setValue(file.response.Data);
+      this.notification.showNotification({
+        type: 'success',
+        content: 'Resume has been uploaded successfully!',
+        duration: 5000,
+      });
+    } else if (status === 'error') {
+      this.notification.showNotification({
+        type: 'error',
+        content: 'There is an error while uploading resume, please try again!',
+        duration: 5000,
+      });
     }
   }
 
@@ -138,8 +160,6 @@ export class PersonalInformationComponent implements OnInit {
     });
   }
   onInputClick(e: any) {}
-  onClick(e: any) {
-    console.log(this.fileList);
-  }
+  onClick(e: any) {}
   onUploadChange(e: any) {}
 }

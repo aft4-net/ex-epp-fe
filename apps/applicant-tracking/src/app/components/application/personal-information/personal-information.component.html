@@ -6,9 +6,10 @@
       <div>
         <app-uploader
           acceptedFiles="application/pdf"
-          [beforeUpload]="beforeUpload"
-          (nzChange)="getFileUrl($event)"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          [beforeUpload]="beforeUploadResume"
+          (onChange)="getResumeUrl($event)"
+          [action]="resumeUrl"
+          [fileList]="resumeFileList"
         >
           <app-button type="default" (onClick)="onClick($event)">
             Upload Resume
@@ -17,14 +18,14 @@
       </div>
     </div>
     <div class="flex gap-5">
-      <app-avatar icon="user" [size]="65" [url]="url"></app-avatar>
+      <app-avatar icon="user" [size]="65" [url]="personalInformation.controls.profileUrl.value"></app-avatar>
       <app-uploader
         acceptedFiles="image/*"
-        [beforeUpload]="beforeUpload"
-        (onChange)="onUploadChange($event)"
+        [beforeUpload]="beforeUploadPhoto"
+        (onChange)="getProfileUrl($event)"
         class="flex items-center"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        [fileList]="fileList"
+        [action]="photoUrl"
+        [fileList]="photoFileList"
       >
         <app-button>
           <i nz-icon nzType="upload"></i>
