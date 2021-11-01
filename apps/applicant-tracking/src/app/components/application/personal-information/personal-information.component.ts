@@ -26,6 +26,8 @@ export class PersonalInformationComponent implements OnInit {
   photoResponseUrl = '';
   resumeResponseUrl = '';
   update_url = '';
+  uploadingResume = false;
+  uploadingProfile = false;
   photoFileList: any = [];
   resumeFileList: any = [];
   selectedValue = {
@@ -121,6 +123,7 @@ export class PersonalInformationComponent implements OnInit {
     const status = file.status;
     
     if (status === 'uploading') {
+      this.uploadingProfile = true;
       this.message.showMessage({type:'loading',content:'Loading', duration:0});
     }
     else if (status === 'done') {
@@ -131,6 +134,7 @@ export class PersonalInformationComponent implements OnInit {
         content: 'Profile picture has been uploaded successfully!',
         duration: 5000,
       });
+      this.uploadingProfile = false;
     } else if (status === 'error') {
       
       this.message.stopMessage();
@@ -139,12 +143,14 @@ export class PersonalInformationComponent implements OnInit {
         content: 'There is an error while uploading profile picture, please try again!',
         duration: 5000,
       });
+      this.uploadingProfile = false;
     }
   }
 
   getResumeUrl({ file, fileList, event }: any): void {
     const status = file.status;
     if (status === 'uploading') {
+      this.uploadingResume = true;
       this.message.showMessage({type:'loading', content:'Loading', duration:0});
     }
     else if (status === 'done') {
@@ -155,6 +161,7 @@ export class PersonalInformationComponent implements OnInit {
         content: 'Resume has been uploaded successfully!',
         duration: 5000,
       });
+      this.uploadingResume = false;
     } else if (status === 'error') {
       this.message.stopMessage();
       this.notification.showNotification({
@@ -162,6 +169,7 @@ export class PersonalInformationComponent implements OnInit {
         content: 'There is an error while uploading resume, please try again!',
         duration: 5000,
       });
+      this.uploadingResume = false;
     }
   }
 

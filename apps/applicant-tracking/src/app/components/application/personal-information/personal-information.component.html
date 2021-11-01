@@ -10,8 +10,9 @@
           (onChange)="getResumeUrl($event)"
           [action]="resumeUrl"
           [fileList]="resumeFileList"
+          [disabled]="uploadingResume"
         >
-          <app-button type="default" (onClick)="onClick($event)">
+          <app-button [disabled]="uploadingResume" type="default" (onClick)="onClick($event)">
             Upload Resume
           </app-button>
         </app-uploader>
@@ -26,8 +27,9 @@
         class="flex items-center"
         [action]="photoUrl"
         [fileList]="photoFileList"
+        [disabled]="uploadingProfile"
       >
-        <app-button>
+        <app-button [disabled]="uploadingProfile">
           <i nz-icon nzType="upload"></i>
           <span>upload files</span>
         </app-button>
