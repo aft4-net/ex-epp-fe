@@ -11,9 +11,7 @@ interface RouteLinks {
   selector: 'app-sider',
   templateUrl: './sider.component.html',
   styleUrls: ['./sider.component.css'],
-
 })
-
 export class SiderComponent implements OnInit {
   route: string = '';
 
@@ -26,14 +24,14 @@ export class SiderComponent implements OnInit {
 
   // generalInfo = {} as PersonalInformation[];
   // profile = <PersonalInformation>{}
-  checker1:any = false;
-  counter : any = 1;
+  checker1: any = false;
+  counter: any = 1;
   activePath(routePath: string) {
     if (this.route === '') this.route = this.router.url;
-    return  this.route == routePath;
- }
+    return this.route == routePath;
+  }
 
- personalCheck(){
+  personalCheck() {
     // this.accountService.generalInfo(32).subscribe(res => {
     //   this.generalInfo = res.data;
     //   this.profile = this.department[0];
@@ -44,20 +42,13 @@ export class SiderComponent implements OnInit {
     // });
   }
 
-
- 
-
-
   constructor(private router: Router, private accountService: AccountService) {
     router.events.subscribe((evt: any) => {
       if (evt instanceof NavigationEnd) this.route = evt.url;
-      
     });
   }
- 
 
   ngOnInit(): void {
     this.personalCheck();
   }
-  
 }

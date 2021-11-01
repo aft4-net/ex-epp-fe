@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SiderComponent } from '../../components/application/sider/sider.component';
 import { PersonalInformationComponent } from '../../components/application/personal-information/personal-information.component';
-import { AreaInterestComponent } from '../../components/application/area-interest/area-interest.component';
 import { AuthorizationCheck } from '../../services/autherization/authorizationCheck';
+import { AreaOfInterestComponent } from '../../components/application/areas-of-interest/area-of-interest.component';
 
 const routes: Routes = [
   {
@@ -13,9 +13,15 @@ const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'personal-information' },
       {
         path: 'personal-information',
-        component: PersonalInformationComponent, canActivate: [AuthorizationCheck]
+        component: PersonalInformationComponent,
+        //canActivate: [AuthorizationCheck]
       },
-      { path: 'area-of-interest', component: AreaInterestComponent, canActivate: [AuthorizationCheck] },
+      {
+        path: 'area-of-interest',
+        component:AreaOfInterestComponent,
+        //canActivate: [AuthorizationCheck]
+
+      }
     ],
   },
 ];

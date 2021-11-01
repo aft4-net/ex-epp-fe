@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SignInResponse } from '../../../models/user/signInResponse';
 import { AccountService } from '../../../services/user/account.service';
 import { FormValidator } from '../../../utils/validator';
 

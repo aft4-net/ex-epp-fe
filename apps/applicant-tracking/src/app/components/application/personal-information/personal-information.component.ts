@@ -6,17 +6,26 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { FormValidator } from '../../../utils/validator'; 
+import { FormValidator } from '../../../utils/validator';
+import { environment } from 'apps/applicant-tracking/src/environments/environment';
+import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
 import { Router } from '@angular/router';
-
 import { AccountService } from '../../../services/user/account.service';
 
 @Component({
-  selector: 'exec-epp-personal-information',
+  selector: 'personal-information',
   templateUrl: './personal-information.component.html',
   styleUrls: ['./personal-information.component.scss'],
 })
 export class PersonalInformationComponent implements OnInit {
+  loggedInUser: any;
+  photoUrl = '';
+  resumeUrl = '';
+  photoResponseUrl = '';
+  resumeResponseUrl = '';
+  update_url = '';
+  photFileList: any = [];
+  resumeFileList: any = [];
   selectedValue = {
     name: 'Ethiopia',
     dial_code: '+251',
@@ -32,7 +41,7 @@ export class PersonalInformationComponent implements OnInit {
       this.validator.validateName(),
       Validators.required,
     ]),
-    email: new FormControl({value:'', disabled:true}, [
+    email: new FormControl({ value: '', disabled: true }, [
       this.validator.validateEmail(),
       Validators.required,
     ]),
@@ -52,8 +61,47 @@ export class PersonalInformationComponent implements OnInit {
   get signUpEmail(): AbstractControl | null {
     return this.personalInformation?.get('email');
   }
+  validateLetterName(str: string) {
+    return str.length === 1 && str.match(/[a-z]/i);
+  }
 
-  constructor(private router: Router, private accountService: AccountService, private validator: FormValidator) {}
+  constructor(
+    private applicantService: ApplicantGeneralInfoService,
+    private router: Router,
+    private acctServce: AccountService,
+    private validator: FormValidator
+  ) {
+    this.photoUrl = environment.photoUploadUrl;
+    this.resumeUrl = environment.resumeUploadUrl;
+  }
+
+  beforeUploadPhoto = (file: any): boolean => {
+    const type = file.type;
+    const str = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
+    if (str.indexOf(type) < 0) {
+      return false;
+    }
+    const isLt20M = file.size / 1024 / 1024 < 30;
+    if (!isLt20M) {
+      return false;
+    }
+    this.photFileList = [file];
+    return true;
+  };
+  beforeUploadResume = (file: any): boolean => {
+    this.resumeFileList = [file];
+    return true;
+  };
+
+  onPhotoUploadChange() {
+    this.photFileList?.map((file: any) => {
+      if (file.response) {
+        this.photoResponseUrl = file.response['dbPath'];
+      }
+      return file;
+    });
+  }
+
   fileList: any[] = [];
   url = '';
   beforeUpload = (file: any): boolean => {

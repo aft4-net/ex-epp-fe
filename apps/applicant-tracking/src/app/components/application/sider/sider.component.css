@@ -140,12 +140,7 @@ a {
   margin: 0px 16px;
 }
 
-a:hover {
-  color:#595959;
-  text-decoration: underline;
-  text-decoration-color: #1890FF;
 
-}
 
 .ant-scroll-number-custom-component{
   border: 1px solid #1890FF;

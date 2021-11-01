@@ -17,6 +17,7 @@ import { SignUpResponse } from '../../models/user/signUpResponse';
 export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
+  loggedInUser:any;
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
@@ -32,7 +33,9 @@ export class AccountService {
       return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + 'Signin/Sign-In', signInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
+            
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
+            this.loggedInUser = user.Data;
             this.userSubject.next(user.Data);
             return user;
           }

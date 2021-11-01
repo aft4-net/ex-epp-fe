@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl:'http://localhost:14696/api/v1/'
+  apiUrl:'http://localhost:14696/api/v1',
+  resumeUploadUrl:'https://localhost:5001/api/upload',
+  photoUploadUrl:'https://localhost:5001/api/upload'
 };
 
 /*

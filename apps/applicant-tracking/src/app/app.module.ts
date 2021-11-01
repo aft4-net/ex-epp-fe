@@ -13,14 +13,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from './shared/modules/shared.module';
 import { ApplicationRoutingModule } from './app-routing.module';
-import { AreaInterestComponent } from './components/application/area-interest/area-interest.component';
 import { httpInterceptor } from './interceptor/httpInterceptor';
 import { errorInterceptor } from './interceptor/errorInterceptor';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, AreaInterestComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     FormsModule,
