@@ -18,6 +18,7 @@ import { FormValidator } from '../../../utils/validator';
 })
 export class SigninComponent {
   showPassword: boolean = false;
+  loading: boolean = false;
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
@@ -37,26 +38,19 @@ export class SigninComponent {
   }
 
   login() {
+    this.loading = true;
     this.accountService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        if (res.ResponseStatus.toString()==='Error'){
-          this.router.navigateByUrl('user/signin');
-          this.notification.showNotification({
-            type: 'error',
-            content: 'Please provide correct email and password combination!',
-            duration: 5000,
-          });
-        }
-        else{
-          this.router.navigateByUrl('application/personal-information');
-          window.location.reload();
-        }
+        this.router.navigateByUrl('application/personal-information');
+        window.location.reload();
+        this.loading = false;
       },
       (error) => {
         console.log(error);
+        this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: error,
+          content: 'User email and password is invalid, please try again!',
           duration: 5000,
         });
       }

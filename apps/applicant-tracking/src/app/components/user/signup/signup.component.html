@@ -60,7 +60,7 @@
       [disablePaste]="true"
     ></app-input>
 
-    <app-button [disabled]="!signUpForm.valid" type="primary">
+    <app-button [loading]="loading" [disabled]="!signUpForm.valid" type="primary">
       Sign up
     </app-button>
   </form>

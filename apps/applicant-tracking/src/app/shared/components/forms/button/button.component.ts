@@ -8,6 +8,7 @@ import { NzButtonType } from 'ng-zorro-antd/button';
 })
 export class ButtonComponent implements OnInit {
   @Input() disabled: boolean = false;
+  @Input() loading: boolean = false;
   @Input() type:NzButtonType = 'default';
   @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
 

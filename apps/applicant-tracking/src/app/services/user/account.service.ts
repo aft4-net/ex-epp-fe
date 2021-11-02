@@ -30,11 +30,10 @@ export class AccountService {
   }
 
   signIn(signInRequest: SignInRequest) {
-    console.log('testing2');
-      return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + 'Signin/Sign-In', signInRequest).pipe(
+    
+      return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + '/Signin/Sign-In', signInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
-            
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
             this.loggedInUser = user.Data;
             this.userSubject.next(user.Data);
@@ -47,7 +46,7 @@ export class AccountService {
   
 
   signUp(signUpRequest: SignUpRequest) {
-    return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + 'Signup/Sign-Up', signUpRequest);
+    return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + '/Signup/Sign-Up', signUpRequest);
   };
 
   generalInfo(email?:string){
@@ -58,6 +57,8 @@ export class AccountService {
     localStorage.removeItem('loggedInUserInfo');
     this.userSubject.next(null);
     this.router.navigate(['user/signin']);
+    window.location.reload();
+
   }
 
 }

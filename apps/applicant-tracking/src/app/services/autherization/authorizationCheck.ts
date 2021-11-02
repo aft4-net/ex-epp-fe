@@ -8,6 +8,7 @@ export class AuthorizationCheck implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const user = this.accountService.userInfo;
+        console.log(user);
         if (user.Token) {
             return true;
         }

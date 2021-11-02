@@ -15,12 +15,12 @@ const routes: Routes = [
       {
         path: 'personal-information',
         component: PersonalInformationComponent,
-        //canActivate: [AuthorizationCheck]
+        canActivate: [AuthorizationCheck]
       },
       {
         path: 'area-of-interest',
         component:AreaOfInterestComponent,
-        //canActivate: [AuthorizationCheck, aoiGuard]
+        canActivate: [aoiGuard, AuthorizationCheck]
 
       }
     ],
