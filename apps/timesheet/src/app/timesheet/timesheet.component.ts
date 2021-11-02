@@ -70,22 +70,10 @@ export class TimesheetComponent implements OnInit {
     let userId = localStorage.getItem("userId");
 
     if (userId) {
-      this.timesheetService.getTimeSheet(userId).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
-      })
+      this.getTimesheet(userId);
 
-      this.timesheetService.getProjects(userId).subscribe(response => {
-        this.projects = response;
-        (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
-        
-        let clientIds = this.projects?.map(project => project.clientId);
-        clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
-
-        this.timesheetService.getClients(clientIds).subscribe(response => {
-          this.clients = response;
-          (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
-        });
-      });
+      this.getProjectsAndClients(userId);
+      
     }
 
     this.validateForm = this.fb.group({
@@ -112,6 +100,25 @@ export class TimesheetComponent implements OnInit {
 // To calculate the no. of days between two dates
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
     console.log(Difference_In_Days);
+  }
+  
+  getTimesheet(userId: string) {
+    this.timesheetService.getTimeSheet(userId).subscribe(response => {
+      this.timesheet = response ? response[0] : null;
+    })
+  }
+
+  getProjectsAndClients(userId: string){
+    this.timesheetService.getProjects(userId).subscribe(response => {
+      this.projects = response;
+      
+      let clientIds = this.projects?.map(project => project.clientId);
+      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
+
+      this.timesheetService.getClients(clientIds).subscribe(response => {
+        this.clients = response;
+      });
+    });
   }
 
   disabledDate1 = (current: Date): boolean =>
@@ -206,7 +213,10 @@ export class TimesheetComponent implements OnInit {
   }
 
   showFormDrawer() {
-    if (this.clickEventType == ClickEventType.showFormDrawer) {
+    if (this.clickEventType == ClickEventType.showFormDrawer) {      
+      (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
+      (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
+      
       if (this.timeEntry) {
         let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
         this.formData.client = clientId ? clientId : "";
