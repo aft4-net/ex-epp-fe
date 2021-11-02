@@ -11,7 +11,7 @@ export class httpInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const user = this.accountService.userInfo;
         const isLoggedIn = user && user.Token;
-        const isApiUrl = request.url.startsWith(environment.apiUrl);
+        const isApiUrl = request.url.startsWith(environment.apiUrl) && !request.url.includes("FileUploadHandler");
         if (isLoggedIn && isApiUrl) {
             request = request.clone({
                 setHeaders: {

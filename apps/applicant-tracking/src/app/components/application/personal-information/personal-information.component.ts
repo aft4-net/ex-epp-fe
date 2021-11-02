@@ -36,18 +36,17 @@ export class PersonalInformationComponent implements OnInit {
     dial_code: '+251',
     code: 'ET',
   };
-  personalInformation : any;
-  setForm(){
-    this.personalInformation = new FormGroup({
-    firstName: new FormControl(this.loggedInUser.FirstName??'', [
+
+  personalInformation = new FormGroup({
+    firstName: new FormControl('', [
       this.validator.validateName(),
       Validators.required,
     ]),
-    lastName: new FormControl(this.loggedInUser.LastName ?? '', [
+    lastName: new FormControl('', [
       this.validator.validateName(),
       Validators.required,
     ]),
-    email: new FormControl({ value: this.loggedInUser.Email??'', disabled: true }, [
+    email: new FormControl({ value:'', disabled: true }, [
       this.validator.validateEmail(),
       Validators.required,
     ]),
@@ -59,8 +58,6 @@ export class PersonalInformationComponent implements OnInit {
     resumeUrl: new FormControl('', [Validators.required]),
     profileUrl: new FormControl('', []),
   });
-  }
-  
 
   onCountryChange(value: any) {
     this.selectedValue = { ...value };
@@ -81,10 +78,11 @@ export class PersonalInformationComponent implements OnInit {
     private acctServce: AccountService,
     private validator: FormValidator,
     private notification: NotificationBar,
-    private message: MessageBar
+    private message: MessageBar,
+    private personalInfoService: ApplicantGeneralInfoService
   ) {
-    this.photoUrl = `${environment.apiUrl}/ApplicantProfile/FileUploadHandler`;
-    this.resumeUrl = `${environment.apiUrl}/ApplicantProfile/FileUploadHandler`;
+    this.photoUrl = `${environment.apiUrl}/Applicant/FileUploadHandler`;
+    this.resumeUrl = `${environment.apiUrl}/Applicant/FileUploadHandler`;
   }
 
   beforeUploadPhoto = (file: any): boolean => {
@@ -125,14 +123,19 @@ export class PersonalInformationComponent implements OnInit {
 
   getProfileUrl({ file, fileList, event }: any): void {
     const status = file.status;
-    
+
     if (status === 'uploading') {
       this.uploadingProfile = true;
-      this.message.showMessage({type:'loading',content:'Loading', duration:0});
-    }
-    else if (status === 'done') {
+      this.message.showMessage({
+        type: 'loading',
+        content: 'Uploading',
+        duration: 0,
+      });
+    } else if (status === 'done') {
       this.message.stopMessage();
-      this.personalInformation.controls.profileUrl.setValue(`${environment.fileUrl}/${file.response.urlLink}`);
+      this.personalInformation.controls.profileUrl.setValue(
+        `${environment.fileUrl}/${file.response.urlLink}`
+      );
       this.notification.showNotification({
         type: 'success',
         content: 'Profile picture has been uploaded successfully!',
@@ -140,11 +143,11 @@ export class PersonalInformationComponent implements OnInit {
       });
       this.uploadingProfile = false;
     } else if (status === 'error') {
-      
       this.message.stopMessage();
       this.notification.showNotification({
         type: 'error',
-        content: 'There is an error while uploading profile picture, please try again!',
+        content:
+          'There is an error while uploading profile picture, please try again!',
         duration: 5000,
       });
       this.uploadingProfile = false;
@@ -155,11 +158,16 @@ export class PersonalInformationComponent implements OnInit {
     const status = file.status;
     if (status === 'uploading') {
       this.uploadingResume = true;
-      this.message.showMessage({type:'loading', content:'Loading', duration:0});
-    }
-    else if (status === 'done') {
+      this.message.showMessage({
+        type: 'loading',
+        content: 'Uploading',
+        duration: 0,
+      });
+    } else if (status === 'done') {
       this.message.stopMessage();
-      this.personalInformation.controls.resumeUrl.setValue(`${environment.fileUrl}/${file.response.urlLink}`);
+      this.personalInformation.controls.resumeUrl.setValue(
+        `${environment.fileUrl}/${file.response.urlLink}`
+      );
       this.notification.showNotification({
         type: 'success',
         content: 'Resume has been uploaded successfully!',
@@ -178,8 +186,22 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loggedInUser =  JSON.parse(localStorage.getItem('loggedInUserInfo')??'') ;
-    this.setForm();
+    this.loggedInUser = JSON.parse(
+      localStorage.getItem('loggedInUserInfo') ?? ''
+    );
+
+    this.personalInfoService.getPersonalInfo({email: this.loggedInUser.Email}).subscribe((response)=>{
+      var data = response.Data;
+      this.personalInformation.controls.firstName.setValue(data.FirstName);
+      this.personalInformation.controls.lastName.setValue(data.LastName);
+      this.personalInformation.controls.email.setValue(data.Email);
+      this.personalInformation.controls.phoneNumber.setValue(data.ContactNumber);
+      this.personalInformation.controls.resumeUrl.setValue(data.ResumeFile);
+      this.personalInformation.controls.profileUrl.setValue(data.ProfileImage);
+      this.personalInformation.controls.country.setValue(data.Country);
+      
+    });
+
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
       this.personalInformation.controls.phoneNumber.setValidators([
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
@@ -194,18 +216,16 @@ export class PersonalInformationComponent implements OnInit {
     this.photoFileList = [];
   }
   onUploadChange(e: any) {}
-  onFormSubmit()
-  {
-    
-    const personInfo: PersonalInfoModel =   {
+  onFormSubmit() {
+    const personInfo: PersonalInfoModel = {
       guid: this.acctServce.userInfo.Guid ?? '',
-      email: this.personalInformation.get('email')?.value,  
-      firstName: this.personalInformation.get('firstName')?.value,  
-      lastName: this.personalInformation.get('lastName')?.value,  
-      country: this.personalInformation.get('country')?.value,  
-      contactNumber: this.personalInformation.get('phoneNumber')?.value,  
-      photoUrl: this.photoResponseUrl,  
-      resumeUrl: this.resumeResponseUrl 
+      email: this.personalInformation.get('email')?.value,
+      firstName: this.personalInformation.get('firstName')?.value,
+      lastName: this.personalInformation.get('lastName')?.value,
+      country: this.personalInformation.get('country')?.value,
+      contactNumber: this.personalInformation.get('phoneNumber')?.value,
+      photoUrl: this.photoResponseUrl,
+      resumeUrl: this.resumeResponseUrl,
     };
 
     this.applicantService.updatePersonalInfo(personInfo).subscribe(
@@ -215,9 +235,8 @@ export class PersonalInformationComponent implements OnInit {
         console.log('success');
         this.applicantService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
-       
-
-      }, (err:any) => {
+      },
+      (err: any) => {
         //this.errors = err;
         //this.isSubmitting = false;
         console.log('error:' + err);

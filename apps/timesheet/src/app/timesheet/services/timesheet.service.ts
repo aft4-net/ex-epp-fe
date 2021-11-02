@@ -68,8 +68,21 @@ export class TimesheetService {
 
   }
 
-  getClients(){
-    return this.http.get<Client[]>(this.baseUrl + "clients");
+  getClients(clientIds?: number[]){
+    if(clientIds){
+      let params = new HttpParams();
+
+      for(const index in clientIds){
+        params = params.append("id", clientIds[index]);
+      }
+
+      let response = this.http.get<Client[]>(this.baseUrl + "clients", { observe: "response", params: params});
+
+      return response.pipe(map(r => r.body));
+    }
+    else {
+      return this.http.get<Client[]>(this.baseUrl + "clients");
+    }
   }
   
   getClient(clientId: number){

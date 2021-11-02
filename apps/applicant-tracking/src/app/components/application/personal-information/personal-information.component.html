@@ -21,7 +21,7 @@
     <div class="flex gap-5">
       <app-avatar icon="user" [size]="65" [url]="personalInformation.controls.profileUrl.value"></app-avatar>
       <app-uploader
-        acceptedFiles="image/*"
+        acceptedFiles="image/jpg, image/png, image/jpeg"
         [beforeUpload]="beforeUploadPhoto"
         (onChange)="getProfileUrl($event)"
         class="flex items-center"

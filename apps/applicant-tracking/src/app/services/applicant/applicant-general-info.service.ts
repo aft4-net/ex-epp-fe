@@ -25,11 +25,11 @@ export class ApplicantGeneralInfoService {
       .pipe(catchError(this.formatErrors));
   }
 
-  PersonalInfo(
-    params: HttpParams = new HttpParams()
-  ): Observable<PersonalInfoModel> {
+  getPersonalInfo(
+    params: any
+  ): Observable<any> {
     return this.http
-      .get<PersonalInfoModel>(`${environment.apiUrl}/Applicant/Register`, { params })
+      .get<any>(`${environment.apiUrl}/Applicant`, { params })
       .pipe(catchError(this.formatErrors));
   }
   setRoutInfo(path: string) {
