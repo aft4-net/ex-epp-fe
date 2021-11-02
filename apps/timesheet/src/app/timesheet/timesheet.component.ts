@@ -77,6 +77,8 @@ export class TimesheetComponent implements OnInit {
     });
 
     this.weekDays = this.dayAndDateService.weekByDate(this.curr);
+    this.firstday1 = this.weekDays[0];
+    this.lastday1 = this.weekDays[this.weekDays.length - 1];
   }
 
   selectedDate(count: any) {
