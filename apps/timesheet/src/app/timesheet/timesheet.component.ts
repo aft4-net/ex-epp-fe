@@ -59,7 +59,7 @@ export class TimesheetComponent implements OnInit {
     let userId = localStorage.getItem("userId");
 
     if (userId) {
-      this.getTimesheetAndTimeEntry(userId);
+      this.getTimesheet(userId);
 
       this.getProjectsAndClients(userId);
       
@@ -81,7 +81,7 @@ export class TimesheetComponent implements OnInit {
     //this.getEmployee();
   }
   
-  getTimesheetAndTimeEntry(userId: string) {
+  getTimesheet(userId: string) {
     this.timesheetService.getTimeSheet(userId).subscribe(response => {
       this.timesheet = response ? response[0] : null;
     })

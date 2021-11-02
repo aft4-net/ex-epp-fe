@@ -18,8 +18,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
-  
+
   timeEntrys: TimeEntry[] | null = null;
+  totalHours: number = 0;
 
   constructor(private timesheetService: TimesheetService) {
   }
@@ -34,6 +35,11 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     if (this.timesheet) {
       this.timesheetService.getTimeEntry(this.timesheet.guid, this.date).subscribe(response => {
         this.timeEntrys = response;
+
+        if (this.timesheet) {
+          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hours).reduce((prev, next) => prev + next, 0);
+          this.totalHours = totalHours ? totalHours : 0;
+        }
       });
     }
   }
@@ -50,7 +56,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.clickEventType = clickEventType;
       this.dateColumnClicked.emit(this.clickEventType);
     }
-  }  
+  }
 
   onEditButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
