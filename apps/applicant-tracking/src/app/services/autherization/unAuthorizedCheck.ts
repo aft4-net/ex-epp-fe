@@ -8,7 +8,7 @@ export class unAuthorizedCheck implements CanActivate {
 
     canActivate() {
         const user = this.accountService.userInfo;
-        if (!user.Token) {
+        if (!user?.Token) {
             return true;
         }
 

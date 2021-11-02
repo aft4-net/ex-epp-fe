@@ -5,9 +5,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PersonalInfoModel } from '../../models/applicant/personal-info.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+// @Injectable({
+//   providedIn: 'root',
+// })
+@Injectable({providedIn: 'root'})
 export class ApplicantGeneralInfoService {
   header = new HttpHeaders({ 'Content-Type': 'application/json' });
   routerInfo = '/application/personal-information';

@@ -13,7 +13,7 @@ export class AuthorizationCheck implements CanActivate {
             return true;
         }
 
-        this.router.navigate(['user/signin']
+        this.router.navigate(['/user/signin']
            // , { queryParams: { returnUrl: state.url }}
             );
         return false;
