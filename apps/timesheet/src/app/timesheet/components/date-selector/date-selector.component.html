@@ -4,7 +4,7 @@
 <button nz-button id="button-right"><i nz-icon nzType="right" nzTheme="outline"
         (click)="valueChangedNextWeek()"></i></button>
 
-<nz-date-picker class="date-picker" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+<nz-date-picker class="date-picker" [(ngModel)]="date" (ngModelChange)="onChange($event)" [nzDisabledDate]=""></nz-date-picker>
 <h1 class="date"> {{dates10}} {{dates11}} </h1>
 <!--<h1>Jul 26 - Aug 01, 2021</h1>-->
 <!--counter this weeks: {{CounterNextWeek}}-->
