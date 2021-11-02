@@ -31,17 +31,11 @@
     overflow: hidden;
 
     .date-column-highlight {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 192px;
-        height: 582px;
+        margin-top: 271px;
+        margin-left: 76px;
 
         opacity: 0;
-        z-index: -1;
     }
 
     .date-column-timesheet {
