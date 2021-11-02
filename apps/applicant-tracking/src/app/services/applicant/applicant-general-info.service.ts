@@ -24,7 +24,7 @@ export class ApplicantGeneralInfoService {
       .pipe(catchError(this.formatErrors));
   }
 
-  PersonalInfo(
+  getPersonalInfo(
     params: HttpParams = new HttpParams()
   ): Observable<PersonalInfoModel> {
     return this.http

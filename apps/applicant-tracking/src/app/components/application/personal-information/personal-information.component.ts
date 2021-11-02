@@ -79,8 +79,8 @@ export class PersonalInformationComponent implements OnInit {
     private notification: NotificationBar,
     private message: MessageBar
   ) {
-    this.photoUrl = `${environment.apiUrl}/ApplicantProfile/FileUploadHandler`;
-    this.resumeUrl = `${environment.apiUrl}/ApplicantProfile/FileUploadHandler`;
+    this.photoUrl = `${environment.apiUrl}/Applicant/FileUploadHandler`;
+    this.resumeUrl = `${environment.apiUrl}/Applicant/FileUploadHandler`;
   }
 
   beforeUploadPhoto = (file: any): boolean => {
