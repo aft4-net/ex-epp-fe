@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SignInResponse } from '../../../models/user/signInResponse';
 import { AccountService } from '../../../services/user/account.service';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
 
 @Component({
@@ -38,12 +39,26 @@ export class SigninComponent {
   login() {
     this.accountService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        console.log('routing not working');
-        this.router.navigateByUrl('application/personal-information');
-        window.location.reload();
+        if (res.ResponseStatus.toString()==='Error'){
+          this.router.navigateByUrl('user/signin');
+          this.notification.showNotification({
+            type: 'error',
+            content: 'Please provide correct email and password combination!',
+            duration: 5000,
+          });
+        }
+        else{
+          this.router.navigateByUrl('application/personal-information');
+          window.location.reload();
+        }
       },
       (error) => {
         console.log(error);
+        this.notification.showNotification({
+          type: 'error',
+          content: error,
+          duration: 5000,
+        });
       }
     );
   }
@@ -55,7 +70,7 @@ export class SigninComponent {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private rout: ActivatedRoute,
+    private notification: NotificationBar,
     private validator: FormValidator
   ) {}
 

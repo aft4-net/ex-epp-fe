@@ -21,7 +21,7 @@ export class TimesheetApiService {
   }
   
   getEmployee() : Observable<Employee[]>{
-    return this.http.get<Employee[]>(this.baseUrl + "EmployeeMock?id="+4);
+    return this.http.get<Employee[]>(this.baseUrl + "EmployeeMock?id="+2);
   }
 
   getProject() : Observable<Project[]>{

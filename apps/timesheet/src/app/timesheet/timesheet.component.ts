@@ -205,8 +205,10 @@ export class TimesheetComponent implements OnInit {
 
        if(pid != 0) this.apiService.getProject().subscribe(project => {
           this.projects = project;
+           (project.length == 1)? this.formData.project = project[0].name : this.formData.project='';
           this.apiService.getClient().subscribe(client => {
             this.clients = client;
+            (client.length == 1)? this.formData.client = client[0].name : this.formData.client = '';
           });
         });
       }
