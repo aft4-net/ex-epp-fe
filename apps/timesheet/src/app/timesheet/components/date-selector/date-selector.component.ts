@@ -24,7 +24,6 @@ export class DateSelectorComponent implements OnInit {
     this.valueChange.emit(result);
   }
   valueChangedNextWeek() { // You can give any function name
-
     this.CounterNextWeek = this.CounterNextWeek + 1;
     this.valueChangeNextWeek.emit(this.CounterNextWeek);
   }

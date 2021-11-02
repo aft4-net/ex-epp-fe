@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { DayAndDateService } from './services/day-and-date.service';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TimesheetService } from './services/timesheet.service';
 
-import { ClickEventLocation } from '../models/clickEventLocation';
+import { TimesheetService } from './services/timesheet.service';
+import { DayAndDateService } from "./services/day-and-date.service";
+import { ClickEventType } from '../models/clickEventType';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { TimeEntry, Timesheet } from '../models/timesheetModels';
+import { TimeEntryEvent } from '../models/clickEventEmitObjectType';
+import { Client } from '../models/client';
+import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
-import { Project } from '../models/project';
-import { Client } from '../models/Client';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -17,20 +18,24 @@ import { Client } from '../models/Client';
   styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
-  clickEventLocation = ClickEventLocation.formDrawer;
+  clickEventType = ClickEventType.none;
   drawerVisible = false;
   validateForm!: FormGroup;
 
-  clients: Client[] = [];
-  projects: Project[] = [];
+  timesheet: Timesheet | null = null;
+  timeEntry: TimeEntry | null = null;
+
+  clients: Client[] | null = null;
+  projects: Project[] | null = null;
   employee: Employee[] = [];
 
   formData = {
-    timesheetDate: new Date(),
-    client: '',
-    project: '',
-    hours: null,
-    notes: '',
+    fromDate: new Date(),
+    toDate: new Date(),
+    client: '', //this.clients,
+    project: '', //this.projects
+    hours: '',
+    note: '',
   };
 
   date = new Date();
@@ -51,17 +56,32 @@ export class TimesheetComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let userId = localStorage.getItem("userId");
+
+    if (userId) {
+      this.timesheetService.getTimeSheet(userId).subscribe(response => {
+        this.timesheet = response ? response[0] : null;
+      })
+
+      this.timesheetService.getClients().subscribe(response => this.clients = response);
+
+      this.timesheetService.getProjects(userId).subscribe(response => this.projects = response);
+    }
+
     this.validateForm = this.fb.group({
       fromDate: [null, [Validators.required]],
       toDate: [null],
       client: [null, [Validators.required]],
       project: [null, [Validators.required]],
-      hour: [null, [Validators.required]],
-      notes: [null, [Validators.required]],
+      hours: [null, [Validators.required]],
+      note: [null, [Validators.required]],
     });
-    this.weekDays = this.dayAndDateService.weekByDate(this.curr);
 
-    this.getEmployee();
+    this.weekDays = this.dayAndDateService.weekByDate(this.curr);
+    this.firstday1 = this.weekDays[0];
+    this.lastday1 = this.weekDays[this.weekDays.length - 1];
+
+    //this.getEmployee();
   }
 
   selectedDate(count: any) {
@@ -95,18 +115,36 @@ export class TimesheetComponent implements OnInit {
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
   }
 
-  onDateColumnClicked(clickEventLocation: ClickEventLocation) {
-    this.clickEventLocation = clickEventLocation;
+  onDateColumnClicked(clickEventType: ClickEventType) {
+    this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
-  onEditButtonClicked(clickEventLocation: ClickEventLocation) {
-    this.clickEventLocation = clickEventLocation;
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+    this.clickEventType = timeEntryEvent.clickEventType;
+    this.timeEntry = timeEntryEvent.timeEntry;
     this.showFormDrawer();
   }
 
-  resetForm(): void {
-    this.validateForm.reset();
+  onEditButtonClicked(clickEventType: ClickEventType) {
+    this.clickEventType = clickEventType;
+    this.showFormDrawer();
+  }
+
+  showFormDrawer() {
+    if (this.clickEventType == ClickEventType.showFormDrawer) {
+      if (this.timeEntry) {
+        let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
+        this.formData.client = clientId ? clientId : "";
+        this.formData.project = this.timeEntry.projectId.toString();
+        this.formData.hours = this.timeEntry.hours.toString();
+        this.formData.note = this.timeEntry.note;
+      }
+
+      this.drawerVisible = true;
+    }
+
+    this.clickEventType = ClickEventType.none;
   }
 
   submitForm(): void {
@@ -119,37 +157,35 @@ export class TimesheetComponent implements OnInit {
 
     try {
       let dataToSend = {
-        timesheetDate:
-          this.validateForm.value.fromDate != null
-            ? this.validateForm.value.fromDate.toISOString().substring(0, 10)
-            : null,
+        fromDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
+        toDate: this.validateForm.value.toDate != null ? this.validateForm.value.toDate.toISOString().substring(0, 10) : null,
         client: this.validateForm.value.client,
         project: this.validateForm.value.project,
-        hour: this.validateForm.value.hour,
-        note: this.validateForm.value.notes,
+        hours: this.validateForm.value.hours,
+        note: this.validateForm.value.note,
       };
 
       console.log('sssssssssssssssssssss');
       console.log(dataToSend);
       // this.timesheetService.addTimesheet(dataToSend);
-      this.createNotification('success');
+      //this.createNotification('success');
+
+      this.validateForm.reset();
+      this.closeFormDrawer();
     } catch (err) {
       console.error(err);
     }
   }
 
-  showFormDrawer() {
-    if (this.clickEventLocation == ClickEventLocation.dateColumn) {
-      this.drawerVisible = true;
-    }
-
-    console.log({ DrawerVisible: this.drawerVisible });
-
-    this.clickEventLocation = ClickEventLocation.formDrawer;
+  closeFormDrawer(): void {
+    this.timeEntry = null;
+    this.validateForm.reset();
+    this.drawerVisible = false;
   }
 
-  closeFormDrawer() {
-    this.drawerVisible = false;
+  resetForm(e: MouseEvent): void {
+    e.preventDefault();
+    this.validateForm.reset();
   }
 
   createNotification(type: string): void {
@@ -164,14 +200,14 @@ export class TimesheetComponent implements OnInit {
     this.apiService.getEmployee().subscribe((data) =>  {this.employee = data;
 
       let pid = null;
-      data.map(x =>  pid = x.ProjectId );
+      data.map(x=> { pid=x.ProjectId });
 
-       if(pid !=0) this.apiService.getProject().subscribe(project => {
-           this.projects = project;
-           (project.length == 1)? this.formData.project = project[0].Name : this.formData.project='';
+       if(pid != 0) this.apiService.getProject().subscribe(project => {
+          this.projects = project;
+           (project.length == 1)? this.formData.project = project[0].name : this.formData.project='';
           this.apiService.getClient().subscribe(client => {
             this.clients = client;
-            (client.length == 1)? this.formData.client = client[0].Name : this.formData.client = '';
+            (client.length == 1)? this.formData.client = client[0].name : this.formData.client = '';
           });
         });
       }
