@@ -27,8 +27,8 @@ export class TimesheetComponent implements OnInit {
 
   formData = {
     timesheetDate: new Date(),
-    client: this.clients,
-    project: this.projects,
+    client: '',
+    project: '',
     hours: null,
     notes: '',
   };
@@ -164,12 +164,14 @@ export class TimesheetComponent implements OnInit {
     this.apiService.getEmployee().subscribe((data) =>  {this.employee = data;
 
       let pid = null;
-      data.map(x=> {pid=x.ProjectId });
+      data.map(x =>  pid = x.ProjectId );
 
        if(pid !=0) this.apiService.getProject().subscribe(project => {
-          this.projects = project;
+           this.projects = project;
+           (project.length == 1)? this.formData.project = project[0].Name : this.formData.project='';
           this.apiService.getClient().subscribe(client => {
             this.clients = client;
+            (client.length == 1)? this.formData.client = client[0].Name : this.formData.client = '';
           });
         });
       }
