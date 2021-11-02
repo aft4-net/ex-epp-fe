@@ -50,7 +50,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.clickEventType = clickEventType;
       this.dateColumnClicked.emit(this.clickEventType);
     }
-  }  
+  }
 
   onEditButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
