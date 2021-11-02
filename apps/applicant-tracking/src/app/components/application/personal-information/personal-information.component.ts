@@ -31,6 +31,7 @@ export class PersonalInformationComponent implements OnInit {
   uploadingProfile = false;
   photoFileList: any = [];
   resumeFileList: any = [];
+  loading = false;
   selectedValue = {
     name: 'Ethiopia',
     dial_code: '+251',
@@ -46,7 +47,7 @@ export class PersonalInformationComponent implements OnInit {
       this.validator.validateName(),
       Validators.required,
     ]),
-    email: new FormControl({ value:'', disabled: true }, [
+    email: new FormControl({ value: '', disabled: true }, [
       this.validator.validateEmail(),
       Validators.required,
     ]),
@@ -190,17 +191,26 @@ export class PersonalInformationComponent implements OnInit {
       localStorage.getItem('loggedInUserInfo') ?? ''
     );
 
-    this.personalInfoService.getPersonalInfo({email: this.loggedInUser.Email}).subscribe((response)=>{
-      var data = response.Data;
-      this.personalInformation.controls.firstName.setValue(data.FirstName);
-      this.personalInformation.controls.lastName.setValue(data.LastName);
-      this.personalInformation.controls.email.setValue(data.Email);
-      this.personalInformation.controls.phoneNumber.setValue(data.ContactNumber);
-      this.personalInformation.controls.resumeUrl.setValue(data.ResumeFile);
-      this.personalInformation.controls.profileUrl.setValue(data.ProfileImage);
-      this.personalInformation.controls.country.setValue(data.Country);
-      
-    });
+    this.personalInfoService
+      .getPersonalInfo({ email: this.loggedInUser.Email })
+      .subscribe((response) => {
+        var data = response.Data;
+        console.log(data);
+        this.personalInformation.controls.firstName.setValue(data.FirstName);
+        this.personalInformation.controls.lastName.setValue(data.LastName);
+        this.personalInformation.controls.email.setValue(data.Email);
+        this.personalInformation.controls.phoneNumber.setValue(
+          data.ContactNumber
+        );
+        this.personalInformation.controls.resumeUrl.setValue(
+          data.ResumeFile ?? ''
+        );
+        this.personalInformation.controls.profileUrl.setValue(
+          data.ProfileImage ?? ''
+        );
+        data.Country ??
+          this.personalInformation.controls.country.setValue(data.Country);
+      });
 
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
       this.personalInformation.controls.phoneNumber.setValidators([
@@ -217,28 +227,35 @@ export class PersonalInformationComponent implements OnInit {
   }
   onUploadChange(e: any) {}
   onFormSubmit() {
-    const personInfo: PersonalInfoModel = {
-      guid: this.acctServce.userInfo.Guid ?? '',
-      email: this.personalInformation.get('email')?.value,
-      firstName: this.personalInformation.get('firstName')?.value,
-      lastName: this.personalInformation.get('lastName')?.value,
-      country: this.personalInformation.get('country')?.value,
-      contactNumber: this.personalInformation.get('phoneNumber')?.value,
-      photoUrl: this.photoResponseUrl,
-      resumeUrl: this.resumeResponseUrl,
+    this.loading = true;
+    const personInfo: any = {
+      email: this.acctServce?.userInfo?.Email ?? '',
+      FirstName: this.personalInformation.get('firstName')?.value,
+      LastName: this.personalInformation.get('lastName')?.value,
+      Country: this.personalInformation.get('country')?.value,
+      ContactNumber: this.personalInformation.get('phoneNumber')?.value,
+      ProfileImage: this.personalInformation.get('profileUrl')?.value,
+      ResumeFile: this.personalInformation.get('resumeUrl')?.value,
     };
 
     this.applicantService.updatePersonalInfo(personInfo).subscribe(
       () => {
-        console.log(this.acctServce.loggedInUser);
-        console.log(localStorage.getItem('loggedInUserInfo'));
-        console.log('success');
+        this.loading = false;
+        this.notification.showNotification({
+          type: 'success',
+          content: 'Personal Information has been updated.',
+          duration: 5000,
+        });
         this.applicantService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
       },
       (err: any) => {
-        //this.errors = err;
-        //this.isSubmitting = false;
+        this.loading = false;
+        this.notification.showNotification({
+          type: 'error',
+          content: 'Personal Information is not updated. Please try again',
+          duration: 5000,
+        });
         console.log('error:' + err);
       }
     );

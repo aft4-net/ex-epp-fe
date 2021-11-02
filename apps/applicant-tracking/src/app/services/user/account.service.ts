@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,8 +19,6 @@ export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
   loggedInUser:any;
-  header = new HttpHeaders({ 'Content-Type': 'application/json' });
-
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
@@ -38,7 +36,6 @@ export class AccountService {
           if(user.Data && user.Data.Token){
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
             this.loggedInUser = user.Data;
-            console.log(this.loggedInUser);
             this.userSubject.next(user.Data);
             return user;
           }
