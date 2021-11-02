@@ -19,7 +19,7 @@ export class ApplicantGeneralInfoService {
 
   updatePersonalInfo(body: PersonalInfoModel): Observable<any> {
     return this.http
-      .put(`${environment.apiUrl}/Applicant/Register`, JSON.stringify(body), {
+      .put(`${environment.apiUrl}/Applicant/ApplicantGeneralInfo`, JSON.stringify(body), {
         headers: this.header,
       })
       .pipe(catchError(this.formatErrors));

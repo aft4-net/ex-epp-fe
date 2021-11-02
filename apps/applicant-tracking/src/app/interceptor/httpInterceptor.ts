@@ -15,8 +15,7 @@ export class httpInterceptor implements HttpInterceptor {
         if (isLoggedIn && isApiUrl) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: `Bearer ${user.Token}`,
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+                    Authorization: `Bearer ${user.Token}`
                 }
             });
         }

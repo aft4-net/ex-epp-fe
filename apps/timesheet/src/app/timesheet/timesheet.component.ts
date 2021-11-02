@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { TimesheetService } from './services/timesheet.service';
-import { DayAndDateService } from "./services/day-and-date.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {DayAndDateService} from "./services/day-and-date.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TimesheetService} from './services/timesheet.service';
+import {differenceInCalendarDays} from 'date-fns';
+import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
 import { ClickEventType } from '../models/clickEventType';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TimeEntry, Timesheet } from '../models/timesheetModels';
@@ -11,6 +13,7 @@ import { Client } from '../models/client';
 import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
+
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -39,6 +42,7 @@ export class TimesheetComponent implements OnInit {
   };
 
   date = new Date();
+  futereDate: any;
   public weekDays: any[] = [];
   curr = new Date();
   firstday1: any;
@@ -46,6 +50,13 @@ export class TimesheetComponent implements OnInit {
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
+  startValue: Date | null = null;
+  endValue: Date | null = null;
+  @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
+  endValue1 = new Date();
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, this.date) > 0;
 
   constructor(
     private fb: FormBuilder,
@@ -74,11 +85,21 @@ export class TimesheetComponent implements OnInit {
       note: [null, [Validators.required]],
     });
 
-    this.weekDays = this.dayAndDateService.weekByDate(this.curr);
-    this.firstday1 = this.weekDays[0];
-    this.lastday1 = this.weekDays[this.weekDays.length - 1];
+    this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.calcualteNoOfDaysBetweenDates();
+  }
 
-    //this.getEmployee();
+// To calculate the time difference of two dates
+  calcualteNoOfDaysBetweenDates() {
+    let date1 = new Date("06/21/2019");
+    let date2 = new Date("07/30/2019");
+    let Difference_In_Time = date2.getTime() - date1.getTime();
+
+// To calculate the no. of days between two dates
+    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    console.log(Difference_In_Days);
   }
   
   getTimesheet(userId: string) {
@@ -100,10 +121,31 @@ export class TimesheetComponent implements OnInit {
     });
   }
 
+  disabledDate1 = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, this.date) > 0;
+
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.endValue) {
+      return false;
+    }
+    return startValue.getTime() < this.endValue1.getTime();
+  };
+
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.startValue) {
+      return false;
+    }
+    return endValue.getTime() <= this.startValue.getTime();
+  };
+
+
   selectedDate(count: any) {
     this.parentCount = count;
     if (count != null) {
-      this.weekDays = this.dayAndDateService.weekByDate(count);
+      this.weekDays = this.dayAndDateService.getWeekByDate(count);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     } else {
       window.location.reload();
     }
@@ -111,7 +153,9 @@ export class TimesheetComponent implements OnInit {
 
   selectedDateCanceled(curr: any) {
     if (curr != null) {
-      this.weekDays = this.dayAndDateService.weekByDate(curr);
+      this.weekDays = this.dayAndDateService.getWeekByDate(curr);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     } else {
       window.location.reload();
     }
@@ -120,8 +164,10 @@ export class TimesheetComponent implements OnInit {
   nextWeek(count: any) {
     this.nextWeeks = count;
     console.log(this.nextWeeks);
-    let ss = this.dayAndDateService.getWeekend();
+    let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
   }
 
   lastastWeek(count: any) {
@@ -129,11 +175,30 @@ export class TimesheetComponent implements OnInit {
     console.log(this.lastWeeks);
     let ss = this.dayAndDateService.getWeekendFirstDay();
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    // this.lastWeeks = count;
+    // let ss = this.dayAndDateService.getWeekendFirstDay();
+    // console.log(ss);
+    // this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+    // console.log( this.weekDays);
+    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    // this.lastday1 = this.dayAndDateService.getWeekendLastDay();
   }
 
+  checkFutureDate(event: Date) {
+    this.futereDate = event;
+  }
   onDateColumnClicked(clickEventType: ClickEventType) {
     this.clickEventType = clickEventType;
-    this.showFormDrawer();
+      if (this.futereDate <= this.date) {
+        this.showFormDrawer();
+      } else {
+        this.drawerVisible = false;
+        this.createNotificationError('error');
+        console.log("can't show time entry for future date");
+      }
+      this.futereDate=null;
   }
 
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
@@ -205,6 +270,14 @@ export class TimesheetComponent implements OnInit {
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
+  }
+
+  createNotificationError(type: string): void {
+    this.notification.create(
+      type,
+      'Timesheet',
+      'Future date timesheet entry not allowed!'
+    );
   }
 
   createNotification(type: string): void {
