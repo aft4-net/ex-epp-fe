@@ -28,7 +28,7 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
-    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary">
+    <app-button class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="login()">
       Sign in
     </app-button>
   </form>

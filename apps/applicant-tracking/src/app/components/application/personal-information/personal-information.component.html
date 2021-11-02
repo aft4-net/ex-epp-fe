@@ -1,6 +1,6 @@
 <div class="m-5">
   <h2 class="font-bold">Step 1- Personal Information</h2>
-  <form [formGroup]="personalInformation" class="flex flex-col gap-5">
+  <form [formGroup]="personalInformation" class="flex flex-col gap-5" (ngSubmit)="onFormSubmit()">
     <div class="flex gap-5 justify-center">
       <div>Autofill this application faster by uploading your resume</div>
       <div>

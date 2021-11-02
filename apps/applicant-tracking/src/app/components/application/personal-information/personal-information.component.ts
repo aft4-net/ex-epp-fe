@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
+import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
 
 @Component({
   selector: 'personal-information',
@@ -35,17 +36,18 @@ export class PersonalInformationComponent implements OnInit {
     dial_code: '+251',
     code: 'ET',
   };
-
-  personalInformation = new FormGroup({
-    firstName: new FormControl('', [
+  personalInformation : any;
+  setForm(){
+    this.personalInformation = new FormGroup({
+    firstName: new FormControl(this.loggedInUser.FirstName??'', [
       this.validator.validateName(),
       Validators.required,
     ]),
-    lastName: new FormControl('', [
+    lastName: new FormControl(this.loggedInUser.LastName ?? '', [
       this.validator.validateName(),
       Validators.required,
     ]),
-    email: new FormControl({ value: '', disabled: true }, [
+    email: new FormControl({ value: this.loggedInUser.Email??'', disabled: true }, [
       this.validator.validateEmail(),
       Validators.required,
     ]),
@@ -57,6 +59,8 @@ export class PersonalInformationComponent implements OnInit {
     resumeUrl: new FormControl('', [Validators.required]),
     profileUrl: new FormControl('', []),
   });
+  }
+  
 
   onCountryChange(value: any) {
     this.selectedValue = { ...value };
@@ -174,6 +178,8 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loggedInUser =  JSON.parse(localStorage.getItem('loggedInUserInfo')??'') ;
+    this.setForm();
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
       this.personalInformation.controls.phoneNumber.setValidators([
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
@@ -188,4 +194,34 @@ export class PersonalInformationComponent implements OnInit {
     this.photoFileList = [];
   }
   onUploadChange(e: any) {}
+  onFormSubmit()
+  {
+    
+    const personInfo: PersonalInfoModel =   {
+      guid: this.acctServce.userInfo.Guid ?? '',
+      email: this.personalInformation.get('email')?.value,  
+      firstName: this.personalInformation.get('firstName')?.value,  
+      lastName: this.personalInformation.get('lastName')?.value,  
+      country: this.personalInformation.get('country')?.value,  
+      contactNumber: this.personalInformation.get('phoneNumber')?.value,  
+      photoUrl: this.photoResponseUrl,  
+      resumeUrl: this.resumeResponseUrl 
+    };
+
+    this.applicantService.updatePersonalInfo(personInfo).subscribe(
+      () => {
+        console.log(this.acctServce.loggedInUser);
+        console.log(localStorage.getItem('loggedInUserInfo'));
+        console.log('success');
+        this.applicantService.setRoutInfo('/application/area-of-interest');
+        this.router.navigate(['/application/area-of-interest']);
+       
+
+      }, (err:any) => {
+        //this.errors = err;
+        //this.isSubmitting = false;
+        console.log('error:' + err);
+      }
+    );
+  }
 }

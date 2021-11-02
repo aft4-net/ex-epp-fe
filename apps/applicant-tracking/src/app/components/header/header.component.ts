@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AccountService } from '../../services/user/account.service';
 
 @Component({
@@ -7,9 +9,11 @@ import { AccountService } from '../../services/user/account.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  logoUrl :string = 'assets/logos/main-logo.png' ;
+  logoUrl = 'assets/logos/main-logo.png';
+
+  constructor(private accountService: AccountService, private router: Router) { }
   user : any ;
-  constructor(private accountService: AccountService) { }
+ 
 
   ngOnInit(): void {
     this.user = this.accountService.userInfo;
@@ -17,6 +21,11 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this.accountService.signOut();
+  }
+  signout() {
+    this.accountService.signOut();
+    this.router.navigate(['/user/signin']);
+
   }
 
 }
