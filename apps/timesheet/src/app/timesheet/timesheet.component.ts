@@ -53,7 +53,7 @@ export class TimesheetComponent implements OnInit {
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
     private apiService: TimesheetApiService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     let userId = localStorage.getItem("userId");
@@ -63,9 +63,18 @@ export class TimesheetComponent implements OnInit {
         this.timesheet = response ? response[0] : null;
       })
 
-      this.timesheetService.getClients().subscribe(response => this.clients = response);
+      this.timesheetService.getProjects(userId).subscribe(response => {
+        this.projects = response;
+        (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
+        
+        let clientIds = this.projects?.map(project => project.clientId);
+        clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
 
-      this.timesheetService.getProjects(userId).subscribe(response => this.projects = response);
+        this.timesheetService.getClients(clientIds).subscribe(response => {
+          this.clients = response;
+          (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
+        });
+      });
     }
 
     this.validateForm = this.fb.group({
@@ -193,24 +202,6 @@ export class TimesheetComponent implements OnInit {
       type,
       'Timesheet',
       'Your Timesheet Added Successfully.'
-    );
-  }
-
-  getEmployee() {
-    this.apiService.getEmployee().subscribe((data) =>  {this.employee = data;
-
-      let pid = null;
-      data.map(x=> { pid=x.ProjectId });
-
-       if(pid != 0) this.apiService.getProject().subscribe(project => {
-          this.projects = project;
-           (project.length == 1)? this.formData.project = project[0].name : this.formData.project='';
-          this.apiService.getClient().subscribe(client => {
-            this.clients = client;
-            (client.length == 1)? this.formData.client = client[0].name : this.formData.client = '';
-          });
-        });
-      }
     );
   }
 }
