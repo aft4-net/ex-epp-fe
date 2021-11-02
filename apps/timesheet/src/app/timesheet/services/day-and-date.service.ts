@@ -7,35 +7,19 @@ import {DaydateModel} from "../../models/daydate.model";
   providedIn: 'root'
 })
 export class DayAndDateService {
-  currentItem = 'Television';
   date = new Date();
-  maxDate = 7;
-  dates? = ['Monday', 'Tuesday', 'Wednsday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  myWeek: DaydateModel[] = [];
   public weekDays: DaydateModel[] = [];
-
-  constructor(private http: HttpClient) {
-  }
-
-
-  curr = new Date;
-  curr1 = new Date;
   firstday: any;
   lastday: any;
   firstday1: any;
   lastday1: any;
-  parentCount = null;
-  nextWeeks = null;
-  lastWeeks = null;
+
+  constructor(private http: HttpClient) {
+  }
 
   nextWeekDates(cuur1: any, increamt: any): any[] {
-    this.weekDays = [];
-    this.lastday = '';
-    this.firstday = '';
-    this.lastday1 = '';
-    this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
-    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
-    // this.firstday1 = null;
+    this.clearData();
+    this.computeFirstDay(cuur1);
     for (let i = 0; i <= 8; i++) {
       if (this.weekDays.length === 7) {
         break
@@ -53,18 +37,12 @@ export class DayAndDateService {
       }
     }
     return this.weekDays;
-    // return this.myFunctionWeek1(cuur1, increamt);
   }
 
   lastWeekDates(cuur1: any, decreament: any): any[] {
     if (cuur1 != null) {
-      this.weekDays = [];
-      this.lastday = '';
-      this.firstday = '';
-      this.lastday1 = '';
-      this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
-      this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - 6));
-      // this.firstday1 = null;
+      this.clearData();
+      this.computeFirstDayForPreviosWeek(cuur1);
       for (let i = 0; i >= -8; i--) {
         if (this.weekDays.length === 7) {
           break
@@ -78,19 +56,14 @@ export class DayAndDateService {
             bb = this.lastday;
             this.weekDays.push(bb);
             this.lastday1 = bb;
-            // if (this.firstday1 == null) {
-            //   this.firstday1 = this.lastday;
-            // }
           }
         }
       }
     }
     return this.weekDays;
-    // this.weekDays = this.myFunctionWeek0(cuur1, decreament);
-    // return this.weekDays;
   }
 
-  getWeekend(): any {
+  getWeekendLastDay(): any {
     return this.lastday1;
   }
 
@@ -98,16 +71,18 @@ export class DayAndDateService {
     return this.firstday1;
   }
 
-  
-  weekByDate(cuur1: any): any[] {
+
+  clearData() {
+    this.weekDays = [];
+    this.lastday = '';
+    this.firstday = '';
+    this.lastday1 = '';
+  }
+
+  getWeekByDate(cuur1: any): any[] {
     if (cuur1 != null) {
-      this.weekDays = [];
-      this.lastday = '';
-      this.firstday = '';
-      this.lastday1 = '';
-      this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
-      this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
-      // this.firstday1 = null;
+      this.clearData();
+      this.computeFirstDay(cuur1);
       for (let i = 0; i <= 8; i++) {
         if (this.weekDays.length === 7) {
           break
@@ -124,13 +99,18 @@ export class DayAndDateService {
           }
         }
       }
-    } else {
-      // this.myFunction2(this.curr1);
-      // this.ngOnInit();
-      window.location.reload();
     }
     return this.weekDays;
   }
 
+  computeFirstDayForPreviosWeek(cuur1: any) {
+    this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
+    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - 6));
+  }
+
+  computeFirstDay(cuur1: any) {
+    this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
+    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
+  }
 
 }

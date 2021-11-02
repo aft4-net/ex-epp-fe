@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DatePipe, WeekDay} from "@angular/common";
 import {DaydateModel} from "../models/daydate.model";
 import {DayAndDateService} from "./services/day-and-date.service";
 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TimesheetService} from './services/timesheet.service';
-
+import {differenceInCalendarDays} from 'date-fns';
 import {ClickEventLocation} from '../models/clickEventLocation';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -39,6 +40,7 @@ export class TimesheetComponent implements OnInit {
   };
 
   date = new Date();
+  futereDate: any;
   public weekDays: any[] = [];
   curr = new Date;
   firstday1: any;
@@ -46,7 +48,13 @@ export class TimesheetComponent implements OnInit {
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
-
+  startValue: Date | null = null;
+  endValue: Date | null = null;
+  @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
+  endValue1 = new Date();
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, this.date) > 0;
 
   constructor(
     private fb: FormBuilder,
@@ -65,13 +73,49 @@ export class TimesheetComponent implements OnInit {
       hour: [null, [Validators.required]],
       notes: [null, [Validators.required]],
     });
-    this.weekDays = this.dayAndDateService.weekByDate(this.curr);
+
+    this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.calcualteNoOfDaysBetweenDates();
   }
+
+// To calculate the time difference of two dates
+  calcualteNoOfDaysBetweenDates() {
+    let date1 = new Date("06/21/2019");
+    let date2 = new Date("07/30/2019");
+    let Difference_In_Time = date2.getTime() - date1.getTime();
+
+// To calculate the no. of days between two dates
+    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    console.log(Difference_In_Days);
+  }
+
+  disabledDate1 = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, this.date) > 0;
+
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.endValue) {
+      return false;
+    }
+    return startValue.getTime() < this.endValue1.getTime();
+  };
+
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.startValue) {
+      return false;
+    }
+    return endValue.getTime() <= this.startValue.getTime();
+  };
+
 
   selectedDate(count: any) {
     this.parentCount = count;
     if (count != null) {
-      this.weekDays = this.dayAndDateService.weekByDate(count);
+      this.weekDays = this.dayAndDateService.getWeekByDate(count);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     } else {
       window.location.reload();
     }
@@ -79,17 +123,21 @@ export class TimesheetComponent implements OnInit {
 
   selectedDateCanceled(curr: any) {
     if (curr != null) {
-      this.weekDays = this.dayAndDateService.weekByDate(curr);
+      this.weekDays = this.dayAndDateService.getWeekByDate(curr);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     } else {
       window.location.reload();
     }
   }
 
-nextWeek(count: any) {
+  nextWeek(count: any) {
     this.nextWeeks = count;
     console.log(this.nextWeeks);
-    let ss = this.dayAndDateService.getWeekend();
+    let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
   }
 
   lastastWeek(count: any) {
@@ -97,17 +145,36 @@ nextWeek(count: any) {
     console.log(this.lastWeeks);
     let ss = this.dayAndDateService.getWeekendFirstDay();
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    // this.lastWeeks = count;
+    // let ss = this.dayAndDateService.getWeekendFirstDay();
+    // console.log(ss);
+    // this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+    // console.log( this.weekDays);
+    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    // this.lastday1 = this.dayAndDateService.getWeekendLastDay();
   }
 
+  checkFutureDate(event: Date) {
+    this.futereDate = event;
+  }
 
   onDateColumnClicked(clickEventLocation: ClickEventLocation) {
     this.clickEventLocation = clickEventLocation;
-    this.showFormDrawer();
+    // this.showFormDrawer();
+    if (this.futereDate <= this.date) {
+      this.showFormDrawer();
+    } else {
+      this.drawerVisible = false;
+      this.createNotificationError('error');
+      console.log("can't show time entry for future date");
+    }
+    this.futereDate=null;
   }
 
   onEditButtonClicked(clickEventLocation: ClickEventLocation) {
     this.clickEventLocation = clickEventLocation;
-    this.showFormDrawer();
   }
 
   resetForm(): void {
@@ -154,6 +221,14 @@ nextWeek(count: any) {
 
   closeFormDrawer() {
     this.drawerVisible = false;
+  }
+
+  createNotificationError(type: string): void {
+    this.notification.create(
+      type,
+      'Timesheet',
+      'Future date timesheet entry not allowed!'
+    );
   }
 
   createNotification(type: string): void {

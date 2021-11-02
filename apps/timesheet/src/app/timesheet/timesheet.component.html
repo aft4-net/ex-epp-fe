@@ -1,15 +1,18 @@
 <div class="container">
 
+
   <app-timesheet-header class="timesheet-header"></app-timesheet-header>
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' "
                      [dates11]="lastday1 | date:'MMM d, y'" class="date-selector"
                      (valueChange)='selectedDate($event)'
                      (valueChangeNextWeek)="nextWeek($event)"
                      (valueChangeLastWeek)="lastastWeek($event)"
+
   ></app-date-selector>
   <div class="day-and-date-column">
     <div *ngFor="let myD of weekDays">
-      <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
+      <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE'"
+                               (click)="checkFutureDate(myD)"
                                (editButtonClicked)="onEditButtonClicked($event)"
                                (dateColumnClicked)="onDateColumnClicked($event)"></app-day-and-date-column>
     </div>

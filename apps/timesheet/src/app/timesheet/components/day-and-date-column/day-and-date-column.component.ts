@@ -13,11 +13,14 @@ export class DayAndDateColumnComponent implements OnInit {
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
 
+  @Output() disableFutureDate=new EventEmitter();
   constructor() {
   }
 
   clickEventLocation = ClickEventLocation.dateColumn;
-
+  disableFutureDates(){
+    this.disableFutureDate
+  }
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
   }
