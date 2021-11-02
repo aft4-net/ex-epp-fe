@@ -59,22 +59,10 @@ export class TimesheetComponent implements OnInit {
     let userId = localStorage.getItem("userId");
 
     if (userId) {
-      this.timesheetService.getTimeSheet(userId).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
-      })
+      this.getTimesheetAndTimeEntry(userId);
 
-      this.timesheetService.getProjects(userId).subscribe(response => {
-        this.projects = response;
-        (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
-        
-        let clientIds = this.projects?.map(project => project.clientId);
-        clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
-
-        this.timesheetService.getClients(clientIds).subscribe(response => {
-          this.clients = response;
-          (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
-        });
-      });
+      this.getProjectsAndClients(userId);
+      
     }
 
     this.validateForm = this.fb.group({
@@ -91,6 +79,27 @@ export class TimesheetComponent implements OnInit {
     this.lastday1 = this.weekDays[this.weekDays.length - 1];
 
     //this.getEmployee();
+  }
+  
+  getTimesheetAndTimeEntry(userId: string) {
+    this.timesheetService.getTimeSheet(userId).subscribe(response => {
+      this.timesheet = response ? response[0] : null;
+    })
+  }
+
+  getProjectsAndClients(userId: string){
+    this.timesheetService.getProjects(userId).subscribe(response => {
+      this.projects = response;
+      (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
+      
+      let clientIds = this.projects?.map(project => project.clientId);
+      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
+
+      this.timesheetService.getClients(clientIds).subscribe(response => {
+        this.clients = response;
+        (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
+      });
+    });
   }
 
   selectedDate(count: any) {

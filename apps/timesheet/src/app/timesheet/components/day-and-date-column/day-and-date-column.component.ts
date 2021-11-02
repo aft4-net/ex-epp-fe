@@ -18,7 +18,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
-
+  
   timeEntrys: TimeEntry[] | null = null;
 
   constructor(private timesheetService: TimesheetService) {
