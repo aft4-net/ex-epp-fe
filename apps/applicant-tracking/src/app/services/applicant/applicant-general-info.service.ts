@@ -26,10 +26,10 @@ export class ApplicantGeneralInfoService {
   }
 
   getPersonalInfo(
-    params: HttpParams = new HttpParams()
-  ): Observable<PersonalInfoModel> {
+    params: any
+  ): Observable<any> {
     return this.http
-      .get<PersonalInfoModel>(`${environment.apiUrl}/Applicant/Register`, { params })
+      .get<any>(`${environment.apiUrl}/Applicant`, { params })
       .pipe(catchError(this.formatErrors));
   }
   setRoutInfo(path: string) {
