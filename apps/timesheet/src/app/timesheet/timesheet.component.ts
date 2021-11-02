@@ -139,8 +139,6 @@ export class TimesheetComponent implements OnInit {
         this.formData.project = this.timeEntry.projectId.toString();
         this.formData.hours = this.timeEntry.hours.toString();
         this.formData.note = this.timeEntry.note;
-
-        this.timeEntry = null;
       }
 
       this.drawerVisible = true;
@@ -180,6 +178,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   closeFormDrawer(): void {
+    this.timeEntry = null;
     this.validateForm.reset();
     this.drawerVisible = false;
   }
