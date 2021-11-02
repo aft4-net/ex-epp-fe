@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { PersonalInformation } from '../../models/personal-information';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { SignInRequest } from '../../models/user/signInRequest';
 import { SignInResponse } from '../../models/user/signInResponse';
@@ -50,7 +51,7 @@ export class AccountService {
   };
 
   generalInfo(email?:string){
-    return this.http.get<ResponseDTO<SignInResponse>>(environment.apiUrl + '?email=' + email);
+    return this.http.get<ResponseDTO<PersonalInformation>>(environment.apiUrl + '?email=' + email);
   }
 
   signOut() {

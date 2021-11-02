@@ -8,8 +8,8 @@ enum ResponseStatus
 
 export interface ResponseDTO<T>
 {
-    responseStatus: ResponseStatus;
-    message: string;
-    exception: any;
+    ResponseStatus: ResponseStatus;
+    Message: string;
+    Exception: any;
     Data: T;
 }
