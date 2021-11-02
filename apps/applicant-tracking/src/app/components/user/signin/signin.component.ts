@@ -6,7 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SignInResponse } from '../../../models/user/signInResponse';
 import { AccountService } from '../../../services/user/account.service';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { FormValidator } from '../../../utils/validator';
 
 @Component({
   selector: 'app-signin',
@@ -15,14 +18,16 @@ import { AccountService } from '../../../services/user/account.service';
 })
 export class SigninComponent {
   showPassword: boolean = false;
+  loading: boolean = false;
   loginForm = new FormGroup({
-    email: new FormControl('', 
-    [Validators.required, 
-      Validators.email]),
-
-    password: new FormControl('', [
+    email: new FormControl('', [
+      this.validator.validateEmail(),
       Validators.required,
-      Validators.minLength(8)
+    ]),
+    password: new FormControl('', [
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
     ]),
   });
   get loginEmail(): AbstractControl | null {
@@ -33,19 +38,35 @@ export class SigninComponent {
   }
 
   login() {
-    this.accountService.signIn(this.loginForm.value).subscribe(response => {
-      const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
-      this.router.navigateByUrl(returnUrl);
-      },error => {
-          console.log(error);
+    this.loading = true;
+    this.accountService.signIn(this.loginForm.value).subscribe(
+      (res) => {
+        this.router.navigateByUrl('application/personal-information');
+        window.location.reload();
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+        this.notification.showNotification({
+          type: 'error',
+          content: 'User email and password is invalid, please try again!',
+          duration: 5000,
+        });
       }
-);
+    );
   }
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
-  
-  constructor(private accountService: AccountService, private router: Router, private rout : ActivatedRoute) {}
 
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private notification: NotificationBar,
+    private validator: FormValidator
+  ) {}
+
+  ngOnInit(): void {}
 }

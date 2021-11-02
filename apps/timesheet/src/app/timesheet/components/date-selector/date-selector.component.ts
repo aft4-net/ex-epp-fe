@@ -24,6 +24,7 @@ export class DateSelectorComponent implements OnInit {
     // this.date =result;
     this.valueChange.emit(result);
   }
+
   valueChangedNextWeek() {
     this.CounterNextWeek = this.CounterNextWeek + 1;
     this.valueChangeNextWeek.emit(this.CounterNextWeek);
@@ -31,9 +32,5 @@ export class DateSelectorComponent implements OnInit {
   valueChangedLastWeek() {
     this.CounterLastWeek = this.CounterLastWeek + 1;
     this.valueChangeLastWeek.emit(this.CounterLastWeek);
-  }
-
-  getWeek(result: Date): void {
-    // console.log('week: ', getISOWeek(result));
   }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AccountService } from '../../services/user/account.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  logoUrl :string = 'assets/logos/main-logo.png'  
-  constructor() { }
+  logoUrl = 'assets/logos/main-logo.png';
+
+  constructor(private accountService: AccountService, private router: Router) { }
+  user : any ;
+ 
 
   ngOnInit(): void {
+    this.user = this.accountService.userInfo;
+  }
+
+  logout(){
+    this.accountService.signOut();
+  }
+  signout() {
+    this.accountService.signOut();
+    this.router.navigate(['/user/signin']);
+
   }
 
 }
