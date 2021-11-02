@@ -6,7 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SignInResponse } from '../../../models/user/signInResponse';
 import { AccountService } from '../../../services/user/account.service';
+import { FormValidator } from '../../../utils/validator';
 
 @Component({
   selector: 'app-signin',
@@ -16,13 +18,14 @@ import { AccountService } from '../../../services/user/account.service';
 export class SigninComponent {
   showPassword: boolean = false;
   loginForm = new FormGroup({
-    email: new FormControl('', 
-    [Validators.required, 
-      Validators.email]),
-
-    password: new FormControl('', [
+    email: new FormControl('', [
+      this.validator.validateEmail(),
       Validators.required,
-      Validators.minLength(8)
+    ]),
+    password: new FormControl('', [
+      this.validator.validatePassword(),
+      Validators.required,
+      Validators.minLength(8),
     ]),
   });
   get loginEmail(): AbstractControl | null {
@@ -33,19 +36,28 @@ export class SigninComponent {
   }
 
   login() {
-    this.accountService.signIn(this.loginForm.value).subscribe(response => {
-      const returnUrl = this.rout.snapshot.queryParams['returnUrl'] || '';
-      this.router.navigateByUrl(returnUrl);
-      },error => {
-          console.log(error);
+    this.accountService.signIn(this.loginForm.value).subscribe(
+      (res) => {
+        console.log('routing not working');
+        this.router.navigateByUrl('application/personal-information');
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
       }
-);
+    );
   }
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
-  
-  constructor(private accountService: AccountService, private router: Router, private rout : ActivatedRoute) {}
 
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private rout: ActivatedRoute,
+    private validator: FormValidator
+  ) {}
+
+  ngOnInit(): void {}
 }

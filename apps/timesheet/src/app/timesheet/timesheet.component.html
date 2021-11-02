@@ -1,5 +1,4 @@
 <div class="container">
-
   <app-timesheet-header class="timesheet-header"></app-timesheet-header>
 
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'"
@@ -31,16 +30,22 @@
       </div>
       <div class="timesheet-detail">
         <label for="client">Client</label>
-        <nz-select formControlName="client" [(ngModel)]="formData.client">
+        <nz-select formControlName="client" [(ngModel)]="formData.client" *ngIf="clients?.length else elseBlock">
           <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
             nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
         </nz-select>
 
         <label for="project">Project</label>
-        <nz-select formControlName="project" [(ngModel)]="formData.project">
+        <nz-select formControlName="project" [(ngModel)]="formData.project" *ngIf="projects?.length else elseBlock">
           <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
             nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
         </nz-select>
+
+        <ng-template #elseBlock>
+          <nz-select formControlName="inactive" nzDisabled>
+            <nz-option> </nz-option>
+          </nz-select>
+        </ng-template>
 
         <label for="hours">Hours</label>
         <nz-form-item>
@@ -52,14 +57,14 @@
           </nz-form-control>
         </nz-form-item>
 
-        <label for="note">Notes</label>
+        <label for="note">Note</label>
         <textarea [(ngModel)]="formData.note" formControlName="note" nz-input rows="4">
                   {{ formData.note }}
                 </textarea>
         <div class="save-and-clear">
           <button nz-button [disabled]="!formData.client || !formData.project ||!formData.hours">Save
           </button>
-          <button nz-button nz-button (click)="resetForm($event)"
+          <button nz-button (click)="resetForm($event)"
             [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.note">Clear
           </button>
         </div>

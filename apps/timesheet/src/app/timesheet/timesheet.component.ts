@@ -9,12 +9,13 @@ import { TimeEntry, Timesheet } from '../models/timesheetModels';
 import { TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';
-import { delay } from 'rxjs/operators';
+import { TimesheetApiService } from './services/api/timesheet-api.service';
+import { Employee } from '../models/employee';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
   templateUrl: './timesheet.component.html',
-  styleUrls: ['./timesheet.component.scss']
+  styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
   clickEventType = ClickEventType.none;
@@ -26,33 +27,33 @@ export class TimesheetComponent implements OnInit {
 
   clients: Client[] | null = null;
   projects: Project[] | null = null;
+  employee: Employee[] = [];
 
   formData = {
     fromDate: new Date(),
     toDate: new Date(),
-    client: '',
-    project: '',
+    client: '', //this.clients,
+    project: '', //this.projects
     hours: '',
     note: '',
   };
 
   date = new Date();
   public weekDays: any[] = [];
-  curr = new Date;
+  curr = new Date();
   firstday1: any;
   lastday1: any;
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
 
-
   constructor(
     private fb: FormBuilder,
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
-    private dayAndDateService: DayAndDateService
-  ) {
-  }
+    private dayAndDateService: DayAndDateService,
+    private apiService: TimesheetApiService
+  ) {}
 
   ngOnInit(): void {
     let userId = localStorage.getItem("userId");
@@ -79,6 +80,8 @@ export class TimesheetComponent implements OnInit {
     this.weekDays = this.dayAndDateService.weekByDate(this.curr);
     this.firstday1 = this.weekDays[0];
     this.lastday1 = this.weekDays[this.weekDays.length - 1];
+
+    //this.getEmployee();
   }
 
   selectedDate(count: any) {
@@ -171,7 +174,6 @@ export class TimesheetComponent implements OnInit {
 
       this.validateForm.reset();
       this.closeFormDrawer();
-
     } catch (err) {
       console.error(err);
     }
@@ -192,6 +194,22 @@ export class TimesheetComponent implements OnInit {
       type,
       'Timesheet',
       'Your Timesheet Added Successfully.'
+    );
+  }
+
+  getEmployee() {
+    this.apiService.getEmployee().subscribe((data) =>  {this.employee = data;
+
+      let pid = null;
+      data.map(x=> { pid=x.ProjectId });
+
+       if(pid != 0) this.apiService.getProject().subscribe(project => {
+          this.projects = project;
+          this.apiService.getClient().subscribe(client => {
+            this.clients = client;
+          });
+        });
+      }
     );
   }
 }

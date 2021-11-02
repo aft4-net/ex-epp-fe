@@ -12,7 +12,8 @@
       #email
       [displayError]="email.focusout"
       [maxLength]="50"
-    ></app-input>
+    >
+    </app-input>
     <app-input
       [form]="loginForm"
       fcn="password"
@@ -23,17 +24,14 @@
       placeholder="Enter your password"
       [suffixIcon]="passwordSuffixIcon"
       [showErrorIcon]="false"
-      errorMsg="Password length should be minimum 8."
+      errorMsg="Password must be atleast 8 characters long and contain either a number or special character."
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
+    <app-button class="login-button" [disabled]="!loginForm.valid" type="primary">
+      Sign in
+    </app-button>
   </form>
-  <app-button
-    class="login-button"
-    label="Sign in"
-    [disabled]="!loginForm.valid"
-    type="primary"
-  ></app-button>
 
   <div class="info">
     Don't have an account?
