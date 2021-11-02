@@ -4,13 +4,14 @@ import { InputComponent } from '../../components/forms/input/input.component';
 import { ButtonComponent } from '../../components/forms/button/button.component';
 import { PhoneInputComponent } from '../../components/forms/phone-input/phone-input.component';
 import { CountrySelectorComponent } from '../../components/forms/country-selector/country-selector.component';
-
+import { UploaderComponent } from '../../components/forms/uploader/uploader.component';
+import { AvatarComponent } from '../../components/forms/avatar/avatar.component';
 import { AntdFormModule } from './antd-form.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent],
+  declarations: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent],
   imports: [CommonModule, AntdFormModule, FormsModule, ReactiveFormsModule],
-  exports: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent],
+  exports: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent],
 })
 export class CustomFormModule {}
