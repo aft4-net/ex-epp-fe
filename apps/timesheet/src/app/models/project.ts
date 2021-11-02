@@ -1,5 +1,6 @@
 export interface Project {
-    Id: number;
-    ClientId: number;
-    Name: string;
+    id: number;
+    name: string;
+    clientId: number;
+    employeeId: number;
 }
