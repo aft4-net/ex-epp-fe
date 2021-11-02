@@ -7,6 +7,7 @@ import { environment } from 'apps/timesheet/src/environments/environment';
 import { TimeEntry, Timesheet } from '../../models/timesheetModels';
 import { data } from 'autoprefixer';
 import { Project } from '../../models/project';
+import { Client } from '../../models/client';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class TimesheetService {
   }
 
   addTimesheet(timesheet: any) {
-    return this.http.post<any>('http://localhost:1337/timesheets', timesheet).subscribe({
+    return this.http.post<any>(this.baseUrl + 'timesheets', timesheet).subscribe({
       next: data => {
         //this.postId = data.id;
         console.log('response---------------');
@@ -65,6 +66,30 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
 
+  }
+
+  getClients(){
+    return this.http.get<Client[]>(this.baseUrl + "clients");
+  }
+  
+  getClient(clientId: number){
+    let params = new HttpParams();
+
+    params = params.append("id", clientId);
+
+    let response = this.http.get<Client[]>(this.baseUrl + "clients", { observe: "response", params: params});
+
+    return response.pipe(map(r => r.body));
+  }
+
+  getProjects(userId: string) {
+    let params = new HttpParams();
+
+    params = params.append("employeeId", userId);
+
+    let response = this.http.get<Project[]>(this.baseUrl + "projects", { observe: "response", params: params});
+    
+    return response.pipe(map(r => r.body));
   }
 
   getProject(projectId: number) {

@@ -16,8 +16,8 @@
       <h3 class="hour">0 Hrs</h3>
     </div>
     <div *ngFor="let timeEntry of timeEntrys">
-      <app-project-name-palet [timeEntry]="timeEntry" (editClicked)="onEditButtonClicked($event)"
-        (paletEllipsisClicked)="onPaletEllipsisClicked($event)"></app-project-name-palet>
+      <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)" (paletEllipsisClicked)="onPaletEllipsisClicked($event)"
+        (editClicked)="onEditButtonClicked($event)"></app-project-name-palet>
     </div>
   </div>
 </div>

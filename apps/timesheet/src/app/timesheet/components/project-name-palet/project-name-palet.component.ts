@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
 import { TimeEntry } from '../../../models/timesheetModels';
@@ -10,7 +11,7 @@ import { TimesheetService } from '../../services/timesheet.service';
   styleUrls: ['./project-name-palet.component.scss']
 })
 export class ProjectNamePaletComponent implements OnInit {
-  @Output() projectNamePaletClicked = new EventEmitter<ClickEventType>()
+  @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>()
   @Output() paletEllipsisClicked = new EventEmitter<ClickEventType>();
   @Output() editClicked = new EventEmitter<ClickEventType>()
   @Input() timeEntry: TimeEntry | null = null;
@@ -35,9 +36,19 @@ export class ProjectNamePaletComponent implements OnInit {
       this.paletEllipsisClicked.emit(this.clickEventType);
       this.popoverVisible = true;
     }
+  }  
 
-    this.clickEventType = ClickEventType.none;
+  onProjectNamePaletClicked() {
+    let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry};
+
+    if (this.clickEventType == ClickEventType.none){
+      this.clickEventType = ClickEventType.showFormDrawer;
+      this.projectNamePaletClicked.emit(timeEntryEvent);
+    }
+
+    this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
   }
+  
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.none) {

@@ -1,4 +1,4 @@
-<div class="project-name-palet">
+<div class="project-name-palet" (click)="onProjectNamePaletClicked()">
     <h2>
         {{ project?.name }}
     </h2>
@@ -13,7 +13,7 @@
             (click)="showPopover()"
             [nzPopoverContent]="palet_popover"
         ></i>
-        <h2>{{ timeEntry?.hour }} Hrs</h2>
+        <h2>{{ timeEntry?.hours }} Hrs</h2>
     </div>
 </div>
 

@@ -1,11 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {TimesheetService} from './services/timesheet.service';
-import {DayAndDateService} from "./services/day-and-date.service";
-import {ClickEventType} from '../models/clickEventType';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
-import { Timesheet } from '../models/timesheetModels';
+import { TimesheetService } from './services/timesheet.service';
+import { DayAndDateService } from "./services/day-and-date.service";
+import { ClickEventType } from '../models/clickEventType';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { TimeEntry, Timesheet } from '../models/timesheetModels';
+import { TimeEntryEvent } from '../models/clickEventEmitObjectType';
+import { Client } from '../models/client';
+import { Project } from '../models/project';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -18,24 +22,18 @@ export class TimesheetComponent implements OnInit {
   validateForm!: FormGroup;
 
   timesheet: Timesheet | null = null;
+  timeEntry: TimeEntry | null = null;
 
-  clients = [
-    {id: 1, client: 'client one'},
-    {id: 2, client: 'client two'},
-    {id: 3, client: 'client three'},
-  ];
-  projects = [
-    {id: 1, project: 'project one'},
-    {id: 2, project: 'project two'},
-    {id: 3, project: 'project three'},
-  ];
+  clients: Client[] | null = null;
+  projects: Project[] | null = null;
 
   formData = {
-    timesheetDate: new Date(),
+    fromDate: new Date(),
+    toDate: new Date(),
     client: '',
     project: '',
-    hours: null,
-    notes: '',
+    hours: '',
+    note: '',
   };
 
   date = new Date();
@@ -58,10 +56,15 @@ export class TimesheetComponent implements OnInit {
 
   ngOnInit(): void {
     let userId = localStorage.getItem("userId");
-    if(userId){
+
+    if (userId) {
       this.timesheetService.getTimeSheet(userId).subscribe(response => {
         this.timesheet = response ? response[0] : null;
       })
+
+      this.timesheetService.getClients().subscribe(response => this.clients = response);
+
+      this.timesheetService.getProjects(userId).subscribe(response => this.projects = response);
     }
 
     this.validateForm = this.fb.group({
@@ -69,9 +72,10 @@ export class TimesheetComponent implements OnInit {
       toDate: [null],
       client: [null, [Validators.required]],
       project: [null, [Validators.required]],
-      hour: [null, [Validators.required]],
-      notes: [null, [Validators.required]],
+      hours: [null, [Validators.required]],
+      note: [null, [Validators.required]],
     });
+
     this.weekDays = this.dayAndDateService.weekByDate(this.curr);
   }
 
@@ -92,7 +96,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-nextWeek(count: any) {
+  nextWeek(count: any) {
     this.nextWeeks = count;
     console.log(this.nextWeeks);
     let ss = this.dayAndDateService.getWeekend();
@@ -106,31 +110,41 @@ nextWeek(count: any) {
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
   }
 
-
   onDateColumnClicked(clickEventType: ClickEventType) {
-    console.log("On Data Column Clicked");
     this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
-  onProjectNamePaletClicked(clickEventType: ClickEventType) {
-    console.log("On Project Name Palet Clicked");
-    this.clickEventType = clickEventType;
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+    this.clickEventType = timeEntryEvent.clickEventType;
+    this.timeEntry = timeEntryEvent.timeEntry;
     this.showFormDrawer();
   }
 
   onEditButtonClicked(clickEventType: ClickEventType) {
-    console.log("On Edit Button Clicked")
     this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
-  resetForm(): void {
-    this.validateForm.reset();
+  showFormDrawer() {
+    if (this.clickEventType == ClickEventType.showFormDrawer) {
+      if (this.timeEntry) {
+        let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
+        this.formData.client = clientId ? clientId : "";
+        this.formData.project = this.timeEntry.projectId.toString();
+        this.formData.hours = this.timeEntry.hours.toString();
+        this.formData.note = this.timeEntry.note;
+
+        this.timeEntry = null;
+      }
+
+      this.drawerVisible = true;
+    }
+
+    this.clickEventType = ClickEventType.none;
   }
 
   submitForm(): void {
-
     for (const i in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(i)) {
         this.validateForm.controls[i].markAsDirty();
@@ -140,33 +154,35 @@ nextWeek(count: any) {
 
     try {
       let dataToSend = {
-        timesheetDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
+        fromDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
+        toDate: this.validateForm.value.toDate != null ? this.validateForm.value.toDate.toISOString().substring(0, 10) : null,
         client: this.validateForm.value.client,
         project: this.validateForm.value.project,
-        hour: this.validateForm.value.hour,
-        note: this.validateForm.value.notes,
+        hours: this.validateForm.value.hours,
+        note: this.validateForm.value.note,
       };
 
       console.log('sssssssssssssssssssss');
       console.log(dataToSend);
       // this.timesheetService.addTimesheet(dataToSend);
-      this.createNotification('success');
+      //this.createNotification('success');
+
+      this.validateForm.reset();
+      this.closeFormDrawer();
 
     } catch (err) {
       console.error(err);
     }
   }
 
-  showFormDrawer() {
-    if (this.clickEventType == ClickEventType.showFormDrawer) {
-      this.drawerVisible = true;
-    }
-
-    this.clickEventType = ClickEventType.none;
+  closeFormDrawer(): void {
+    this.validateForm.reset();
+    this.drawerVisible = false;
   }
 
-  closeFormDrawer() {
-    this.drawerVisible = false;
+  resetForm(e: MouseEvent): void {
+    e.preventDefault();
+    this.validateForm.reset();
   }
 
   createNotification(type: string): void {

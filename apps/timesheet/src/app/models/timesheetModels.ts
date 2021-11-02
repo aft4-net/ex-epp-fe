@@ -12,7 +12,7 @@ export interface TimeEntry {
     note: string;
     date: Date;
     index: number;
-    hour: number;
+    hours: number;
     projectId: number;
     timesheetId: number;
 }
