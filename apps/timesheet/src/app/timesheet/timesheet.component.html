@@ -13,8 +13,7 @@
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
                                [date]="myD"
                                [timesheet]="timesheet"
-                               (click)="checkFutureDate(myD)"
-                               (dateColumnClicked)="onDateColumnClicked($event)"
+                               (dateColumnClicked)="onDateColumnClicked($event, myD)"
                                (editButtonClicked)="onEditButtonClicked($event)"
                                (projectNamePaletClicked)="onProjectNamePaletClicked($event)">
       </app-day-and-date-column>
