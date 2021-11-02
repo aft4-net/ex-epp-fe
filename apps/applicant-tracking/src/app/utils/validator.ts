@@ -26,7 +26,7 @@ export class FormValidator implements IValidator {
   validateName(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       var name = control.value;
-      var isValid = name.match('^[a-zA-Z]*$');
+      var isValid = name.match('^[a-zA-Z]*$') && name.length >= 2;
       return !isValid ? { value: control.value } : null;
     };
   }
