@@ -1,40 +1,70 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {ClickEventLocation} from '../../../models/clickEventLocation';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
+import { ClickEventType } from '../../../models/clickEventType';
+import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
+import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
   selector: 'app-day-and-date-column',
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit {
+export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
-  @Output() dateColumnClicked = new EventEmitter<ClickEventLocation>()
-  @Output() editButtonClicked = new EventEmitter<ClickEventLocation>()
+  @Output() dateColumnClicked = new EventEmitter<ClickEventType>();
+  @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
+  @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
+  @Input() date: Date = new Date();
+  @Input() timesheet: Timesheet | null = null;
 
-  constructor() {
+  timeEntrys: TimeEntry[] | null = null;
+
+  constructor(private timesheetService: TimesheetService) {
   }
 
-  clickEventLocation = ClickEventLocation.dateColumn;
+  clickEventType = ClickEventType.none;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
   }
 
-  onPaletEllipsisClicked(clickEventLocation: ClickEventLocation) {
-    this.clickEventLocation = clickEventLocation;
+  ngOnChanges(): void {
+    if (this.timesheet) {
+      this.timesheetService.getTimeEntry(this.timesheet.guid, this.date).subscribe(response => {
+        this.timeEntrys = response;
+      });
+    }
   }
 
-  onEditButtonClicked(clickEventLocation: ClickEventLocation) {
-    this.editButtonClicked.emit(clickEventLocation);
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = timeEntryEvent.clickEventType
+      this.projectNamePaletClicked.emit(timeEntryEvent);
+    }
+  }
+
+  onPaletEllipsisClicked(clickEventType: ClickEventType) {
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+      this.dateColumnClicked.emit(this.clickEventType);
+    }
+  }  
+
+  onEditButtonClicked(clickEventType: ClickEventType) {
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+      this.dateColumnClicked.emit(this.clickEventType);
+    }
   }
 
   showFormDrawer() {
-    if (this.clickEventLocation === ClickEventLocation.dateColumn) {
-      this.dateColumnClicked.emit(this.clickEventLocation);
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = ClickEventType.showFormDrawer
+      this.dateColumnClicked.emit(this.clickEventType);
     }
 
-    this.clickEventLocation = ClickEventLocation.dateColumn;
+    this.clickEventType = ClickEventType.none;
   }
 }

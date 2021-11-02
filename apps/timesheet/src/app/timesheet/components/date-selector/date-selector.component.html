@@ -1,9 +1,8 @@
 <button nz-button id="button-today">Today</button>
 <button nz-button id="button-left"><i nz-icon nzType="left" nzTheme="outline"
-                                      (click)="valueChangedLastWeek()"
-></i></button>
+        (click)="valueChangedLastWeek()"></i></button>
 <button nz-button id="button-right"><i nz-icon nzType="right" nzTheme="outline"
-                                       (click)="valueChangedNextWeek()"></i></button>
+        (click)="valueChangedNextWeek()"></i></button>
 
 <nz-date-picker class="date-picker" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
 <h1 class="date"> {{dates10}} {{dates11}} </h1>

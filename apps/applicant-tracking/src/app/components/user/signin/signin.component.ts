@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SignInResponse } from '../../../models/user/signInResponse';
 import { AccountService } from '../../../services/user/account.service';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
 
 @Component({
@@ -17,6 +18,7 @@ import { FormValidator } from '../../../utils/validator';
 })
 export class SigninComponent {
   showPassword: boolean = false;
+  loading: boolean = false;
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
@@ -36,13 +38,21 @@ export class SigninComponent {
   }
 
   login() {
+    this.loading = true;
     this.accountService.signIn(this.loginForm.value).subscribe(
       (res) => {
         this.router.navigateByUrl('application/personal-information');
         window.location.reload();
+        this.loading = false;
       },
       (error) => {
         console.log(error);
+        this.loading = false;
+        this.notification.showNotification({
+          type: 'error',
+          content: 'User email and password is invalid, please try again!',
+          duration: 5000,
+        });
       }
     );
   }
@@ -54,7 +64,7 @@ export class SigninComponent {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private rout: ActivatedRoute,
+    private notification: NotificationBar,
     private validator: FormValidator
   ) {}
 

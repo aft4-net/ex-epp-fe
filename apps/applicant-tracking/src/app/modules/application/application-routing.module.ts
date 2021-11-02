@@ -4,6 +4,7 @@ import { SiderComponent } from '../../components/application/sider/sider.compone
 import { PersonalInformationComponent } from '../../components/application/personal-information/personal-information.component';
 import { AuthorizationCheck } from '../../services/autherization/authorizationCheck';
 import { AreaOfInterestComponent } from '../../components/application/areas-of-interest/area-of-interest.component';
+import { aoiGuard } from '../../services/navigationGuard/aoiGuard';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
       {
         path: 'area-of-interest',
         component:AreaOfInterestComponent,
-        canActivate: [AuthorizationCheck]
+        canActivate: [aoiGuard, AuthorizationCheck]
 
       }
     ],

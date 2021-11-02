@@ -1,8 +1,14 @@
 <nz-header class="nz-header">
   <div class="logo">
-    <img [src]="logoUrl"/>
+    <img [src]="logoUrl" />
   </div>
-  <ul nz-menu class="menu-conatainer" nzTheme="light" nzMode="horizontal">
-    <li nz-menu-item><a (click)="signout()">Sign out</a></li>
+  <ul nz-menu class="menu-conatainer mx-5" nzTheme="light" nzMode="horizontal">
+    <div
+      *ngIf="user?.Token!== null"
+      (click)="logout()"
+      class="flex flex-col cursor-pointer"
+    >
+      <app-avatar icon="user" [size]="'large'"> Logout </app-avatar>
+    </div>
   </ul>
 </nz-header>

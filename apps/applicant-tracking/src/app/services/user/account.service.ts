@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { PersonalInformation } from '../../models/personal-information';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { SignInRequest } from '../../models/user/signInRequest';
 import { SignInResponse } from '../../models/user/signInResponse';
@@ -31,11 +32,10 @@ export class AccountService {
   }
 
   signIn(signInRequest: SignInRequest) {
-    console.log('testing2');
-      return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + '/Signin', signInRequest).pipe(
+    
+      return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + '/Signin/Sign-In', signInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
-            
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
             this.loggedInUser = user.Data;
             console.log(this.loggedInUser);
@@ -49,17 +49,19 @@ export class AccountService {
   
 
   signUp(signUpRequest: SignUpRequest) {
-    return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + 'Signup/Sign-Up', signUpRequest);
+    return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + '/Signup/Sign-Up', signUpRequest);
   };
 
   generalInfo(email?:string){
-    return this.http.get<ResponseDTO<SignInResponse>>(environment.apiUrl + '?email=' + email);
+    return this.http.get<ResponseDTO<PersonalInformation>>(environment.apiUrl + '?email=' + email);
   }
 
   signOut() {
     localStorage.removeItem('loggedInUserInfo');
     this.userSubject.next(null);
-    this.router.navigate(['/user/signin']);
+    this.router.navigate(['user/signin']);
+    window.location.reload();
+
   }
 
 }
