@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 
 @Component({
   selector: 'app-timesheet-header',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./timesheet-header.component.scss']
 })
 export class TimesheetHeaderComponent implements OnInit {
+  @Input() weeklyTotalHours: number = 0;
 
   constructor() { }
 
