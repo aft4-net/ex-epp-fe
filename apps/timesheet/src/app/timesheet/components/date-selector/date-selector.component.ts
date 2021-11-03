@@ -19,9 +19,12 @@ export class DateSelectorComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  onTodaysButtonClick() {
+    this.valueChange.emit(new Date());
+  }
+  
   onChange(result: Date): void {
-    console.log('onChange: ', result);
-    // this.date =result;
     this.valueChange.emit(result);
   }
 
