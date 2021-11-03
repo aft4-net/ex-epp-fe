@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { AccountService } from '../user/account.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthorizationCheck implements CanActivate {
+    constructor(private router: Router, private accountService: AccountService) {}
 
- constructor(private router: Router) { }
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const user = this.accountService.userInfo;
+        console.log(user);
+        if (user.Token) {
+            return true;
+        }
 
- canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (localStorage.getItem('loggedInUserInfo')) {
-        return true;
+        this.router.navigate(['/user/signin']
+           // , { queryParams: { returnUrl: state.url }}
+            );
+        return false;
     }
-
-    this.router.navigate(['user/signin'], { queryParams: { returnUrl: state.url } });
-
-    return false;
-}
-
 }

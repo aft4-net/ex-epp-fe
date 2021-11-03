@@ -15,7 +15,7 @@
 
     h2 {
         width: 122px;
-        height: 52;
+        height: 52px;
         margin-left: 14.5px;
 
         color: #262626;
@@ -49,9 +49,20 @@
             font-family: sans-serif;
             font-weight: 400;
             font-style: normal;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 22px;
             text-align: right;
         }
+    }
+}
+
+.edit-delete {
+    width: 92px;
+    height: 92px;
+
+    button {
+        width: 92px;
+        height: 46px;
+        padding: 12px, 24px;
     }
 }

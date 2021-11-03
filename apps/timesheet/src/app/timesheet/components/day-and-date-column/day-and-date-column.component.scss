@@ -15,6 +15,7 @@
 }
 
 .date-column {
+    position: relative;
     width: 192px;
     height: 582px;
 
@@ -22,50 +23,68 @@
     margin-right: 8px;
     margin-bottom: 78px;
     
-    border-radius: 5px;
+    border-radius: 4px;
     border-width: 1px;
     border-style: solid;
     border-color: #DADADA;
 
     overflow: hidden;
 
-    &:hover {
-        border-width: 3px;
-        border-color: #81dd81;
+    .date-column-highlight {
+        position: absolute;
+        margin-top: 271px;
+        margin-left: 76px;
+
+        opacity: 0;
     }
 
-    .date-and-hour {
-        display: flex;
-        justify-content: space-between;
+    .date-column-timesheet {
+        width: 192px;
+        height: 582px;
 
-        .date {
-            width: 55px;
-            height: 28px;
-            margin-top: 6px;
-            margin-left: 8px;
-        
-            color: #595959;
-            font-family: sans-serif;
-            font-weight: 300;
-            font-style: normal;
-            font-size: 20px;
-            line-height: 28px;
+        .date-and-hour {
+            display: flex;
+            justify-content: space-between;
+    
+            .date {
+                width: 55px;
+                height: 28px;
+                margin-top: 6px;
+                margin-left: 8px;
+            
+                color: #595959;
+                font-family: sans-serif;
+                font-weight: 300;
+                font-style: normal;
+                font-size: 20px;
+                line-height: 28px;
+            }
+    
+            .hour {
+                width: 76px;
+                height: 28px;
+                margin-top: 8px;
+                margin-right: 8px;
+            
+                color: #595959;
+                font-family: sans-serif;
+                font-weight: 300;
+                font-style: normal;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: right;
+            }
         }
+    }
 
-        .hour {
-            width: 76px;
-            height: 28px;
-            margin-top: 8px;
-            margin-right: 8px;
-        
-            color: #595959;
-            font-family: sans-serif;
-            font-weight: 300;
-            font-style: normal;
-            font-size: 16px;
-            line-height: 24px;
-            text-align: right;
-        }
+    &:hover {
+        border-width: 2px;
+        border-color: #00A551;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    }
+
+    &:hover .date-column-highlight {
+        opacity: 1;
     }
 }
 

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { environment } from '../../../environments/environment';
+import { PersonalInformation } from '../../models/personal-information';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { SignInRequest } from '../../models/user/signInRequest';
 import { SignInResponse } from '../../models/user/signInResponse';
@@ -17,7 +18,7 @@ import { SignUpResponse } from '../../models/user/signUpResponse';
 export class AccountService {
   private userSubject :BehaviorSubject<SignInResponse|any>;
   public user: Observable<SignInResponse>;
-  baseUrl = 'http://localhost:14696/api/v1/';
+  loggedInUser:any;
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
@@ -29,13 +30,13 @@ export class AccountService {
   }
 
   signIn(signInRequest: SignInRequest) {
-    console.log('testing2');
-      return this.http.post<ResponseDTO<SignInResponse>>(this.baseUrl + 'Signin', signInRequest).pipe(
+    
+      return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + '/Signin/Sign-In', signInRequest).pipe(
         map((user) => {
-          console.log(user);
-          if(user.data && user.data.token){
-            localStorage.setItem('loggedInUserInfo', JSON.stringify(user.data ||'{}'));
-            this.userSubject.next(user.data);
+          if(user.Data && user.Data.Token){
+            localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
+            this.loggedInUser = user.Data;
+            this.userSubject.next(user.Data);
             return user;
           }
           return user;
@@ -45,13 +46,19 @@ export class AccountService {
   
 
   signUp(signUpRequest: SignUpRequest) {
-    return this.http.post<ResponseDTO<SignUpResponse>>(this.baseUrl + 'SignUp', signUpRequest);
+    return this.http.post<ResponseDTO<SignUpResponse>>(environment.apiUrl + '/Signup/Sign-Up', signUpRequest);
   };
+
+  generalInfo(email?:string){
+    return this.http.get<ResponseDTO<PersonalInformation>>(environment.apiUrl + '?email=' + email);
+  }
 
   signOut() {
     localStorage.removeItem('loggedInUserInfo');
     this.userSubject.next(null);
     this.router.navigate(['user/signin']);
+    window.location.reload();
+
   }
 
 }
