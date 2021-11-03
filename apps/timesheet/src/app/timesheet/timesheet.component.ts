@@ -14,7 +14,7 @@ import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
-import {NzNotificationPlacement} from "ng-zorro-antd/notification";
+import { NzNotificationPlacement } from "ng-zorro-antd/notification";
 
 
 @Component({
@@ -29,6 +29,7 @@ export class TimesheetComponent implements OnInit {
   validateForm!: FormGroup;
 
   timesheet: Timesheet | null = null;
+  timeEntrys: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
@@ -109,6 +110,12 @@ export class TimesheetComponent implements OnInit {
     if (date) {
       this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
         this.timesheet = response ? response[0] : null;
+
+        if (this.timesheet) {
+          this.timesheetService.getTimeEntry(this.timesheet.guid).subscribe(response => {
+            this.timeEntrys = response;
+          })
+        }
       })
     }
     else {
@@ -182,7 +189,7 @@ export class TimesheetComponent implements OnInit {
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
-    if(this.userId) {
+    if (this.userId) {
       this.getTimesheet(this.userId, this.weekDays[0])
     }
   }
@@ -261,10 +268,35 @@ export class TimesheetComponent implements OnInit {
         note: this.validateForm.value.note,
       };
 
-      console.log('sssssssssssssssssssss');
-      console.log(dataToSend);
-      // this.timesheetService.addTimesheet(dataToSend);
-      //this.createNotification('success');
+      if (this.timesheet) {
+        let timeEntry: TimeEntry = {
+          guid: 1,
+          note: this.validateForm.value.note,
+          date: this.date,
+          index: 1,
+          hours: this.validateForm.value.hours,
+          projectId: this.validateForm.value.project,
+          timesheetId: this.timesheet?.guid
+        }
+
+        this.timesheetService.addTimeEntry(timeEntry).subscribe({
+          next: data => {
+            if (data.ResponseStatus == "Success") {
+              this.createNotification('success');
+              if (this.userId) {
+                this.getTimesheet(this.userId, this.date);
+              }
+            }
+            else if (data.ResponseStatus == "error") {
+              this.createNotification('error');
+            }
+          },
+          error: error => {
+            this.createNotification('warning');
+          }
+        })
+        //this.createNotification('success');
+      }
 
       this.validateForm.reset();
       this.closeFormDrawer();
@@ -288,15 +320,22 @@ export class TimesheetComponent implements OnInit {
     this.notification.error(
       '',
       'You cannot fill your timesheet for the future!',
-      {nzPlacement: position}
+      { nzPlacement: position }
     );
   }
 
   createNotification(type: string): void {
-    this.notification.create(
-      type,
-      'Timesheet',
-      'Your Timesheet Added Successfully.'
-    );
+    let message = "";
+    if (type === "Success") {
+      message = "Your Timesheet Added Successfully.";
+    }
+    else if (type === "error") {
+      message = "Error on adding Timesheet."
+    }
+    else if (type === "warning") {
+      message = "Warning"
+    }
+
+    this.notification.create(type, 'Timesheet', message);
   }
 }
