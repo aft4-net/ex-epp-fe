@@ -1,5 +1,5 @@
 <div class="container">
-  <app-timesheet-header class="timesheet-header"></app-timesheet-header>
+  <app-timesheet-header [weeklyTotalHours]="weeklyTotalHours" class="timesheet-header"></app-timesheet-header>
 
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' "
                      [dates11]="lastday1 | date:'MMM d, y'" class="date-selector"
@@ -13,6 +13,7 @@
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
                                [date]="myD"
                                [timesheet]="timesheet"
+                               (totalHoursCalculated)="calculateWeeklyTotalHours($event)"
                                (dateColumnClicked)="onDateColumnClicked($event, myD)"
                                (editButtonClicked)="onEditButtonClicked($event)"
                                (projectNamePaletClicked)="onProjectNamePaletClicked($event)">
