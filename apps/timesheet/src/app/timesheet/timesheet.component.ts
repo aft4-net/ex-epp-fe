@@ -107,6 +107,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   getTimesheet(userId: string, date?: Date) {
+    this.weeklyTotalHours = 0;
     if (date) {
       this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
         this.timesheet = response ? response[0] : null;
