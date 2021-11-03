@@ -14,6 +14,8 @@ import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
+import {NzNotificationPlacement} from "ng-zorro-antd/notification";
+
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -207,7 +209,7 @@ export class TimesheetComponent implements OnInit {
     if (this.date <= new Date()) {
       this.showFormDrawer();
     } else {
-      this.createNotificationError('error');
+      this.createNotificationError('bottomRight');
     }
   }
 
@@ -282,11 +284,11 @@ export class TimesheetComponent implements OnInit {
     this.validateForm.reset();
   }
 
-  createNotificationError(type: string): void {
-    this.notification.create(
-      type,
-      'Timesheet',
-      'Future date timesheet entry not allowed!'
+  createNotificationError(position: NzNotificationPlacement): void {
+    this.notification.error(
+      '',
+      'You cannot fill your timesheet for the future!',
+      {nzPlacement: position}
     );
   }
 
