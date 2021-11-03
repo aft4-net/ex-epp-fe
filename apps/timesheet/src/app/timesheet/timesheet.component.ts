@@ -21,6 +21,7 @@ import { Employee } from '../models/employee';
   styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
+  userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
   validateForm!: FormGroup;
@@ -67,12 +68,12 @@ export class TimesheetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let userId = localStorage.getItem("userId");
+    this.userId = localStorage.getItem("userId");
 
-    if (userId) {
-      this.getTimesheet(userId);
+    if (this.userId) {
+      this.getTimesheet(this.userId);
 
-      this.getProjectsAndClients(userId);
+      this.getProjectsAndClients(this.userId);
 
     }
 
@@ -99,13 +100,19 @@ export class TimesheetComponent implements OnInit {
 
     // To calculate the no. of days between two dates
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-    console.log(Difference_In_Days);
   }
 
-  getTimesheet(userId: string) {
-    this.timesheetService.getTimeSheet(userId).subscribe(response => {
-      this.timesheet = response ? response[0] : null;
-    })
+  getTimesheet(userId: string, date?: Date) {
+    if (date) {
+      this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
+        this.timesheet = response ? response[0] : null;
+      })
+    }
+    else {
+      this.timesheetService.getTimeSheet(userId).subscribe(response => {
+        this.timesheet = response ? response[0] : null;
+      })
+    }
   }
 
   getProjectsAndClients(userId: string) {
@@ -146,6 +153,10 @@ export class TimesheetComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(count);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.weekDays[0]);
+      }
     } else {
       window.location.reload();
     }
@@ -163,16 +174,18 @@ export class TimesheetComponent implements OnInit {
 
   nextWeek(count: any) {
     this.nextWeeks = count;
-    console.log(this.nextWeeks);
     let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if(this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
   }
 
   lastastWeek(count: any) {
     this.lastWeeks = count;
-    console.log(this.lastWeeks);
     let ss = this.dayAndDateService.getWeekendFirstDay();
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
@@ -184,6 +197,10 @@ export class TimesheetComponent implements OnInit {
     // console.log( this.weekDays);
     // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     // this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if (this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
   }
 
   onDateColumnClicked(clickEventType: ClickEventType, date: Date) {

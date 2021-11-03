@@ -36,7 +36,7 @@ export class TimesheetService {
     let fromDate = new Date();
 
     if (date) {
-      date.setDate(date.getDate() - date.getDate() + 1);
+      date.setDate(date.getDate() - date.getDay() + 1);
       fromDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     }
     else {
