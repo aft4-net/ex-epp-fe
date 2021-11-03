@@ -3,11 +3,8 @@
     float: left;
   }
 
-  [nz-menu] {
-    line-height: 64px;
-  }
 
-  .nz-header {
+  .header-content {
     background: #fff;
     padding: 0;
   }

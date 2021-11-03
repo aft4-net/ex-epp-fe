@@ -33,9 +33,9 @@ export class PersonalInformationComponent implements OnInit {
   resumeFileList: any = [];
   loading = false;
   selectedValue = {
-    name: 'Ethiopia',
-    dial_code: '+251',
-    code: 'ET',
+    name: 'Select country',
+    dial_code: '+0',
+    code: '00',
   };
 
   personalInformation = new FormGroup({

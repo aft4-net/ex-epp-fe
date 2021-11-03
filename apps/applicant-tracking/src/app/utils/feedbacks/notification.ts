@@ -15,6 +15,7 @@ export class NotificationBar {
     position = 'topRight',
     duration = 5000,
   }: INotification): void {
+    this.stopNotification();
     this.notification.create(type, title, content, {
       nzPlacement: position,
       nzDuration: duration,
