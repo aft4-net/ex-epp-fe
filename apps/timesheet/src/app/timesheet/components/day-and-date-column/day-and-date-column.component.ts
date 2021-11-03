@@ -14,6 +14,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Output() dateColumnClicked = new EventEmitter<ClickEventType>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
+  @Output() totalHoursCalculated = new EventEmitter<number>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
@@ -39,6 +40,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
         if (this.timesheet) {
           let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hours).reduce((prev, next) => prev + next, 0);
           this.totalHours = totalHours ? totalHours : 0;
+          this.totalHoursCalculated.emit(totalHours);
         }
       });
     }

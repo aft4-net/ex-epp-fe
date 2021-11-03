@@ -27,6 +27,7 @@ export class TimesheetComponent implements OnInit {
 
   timesheet: Timesheet | null = null;
   timeEntry: TimeEntry | null = null;
+  weeklyTotalHours: number = 0;
 
   clients: Client[] | null = null;
   projects: Project[] | null = null;
@@ -177,13 +178,10 @@ export class TimesheetComponent implements OnInit {
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    // this.lastWeeks = count;
-    // let ss = this.dayAndDateService.getWeekendFirstDay();
-    // console.log(ss);
-    // this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
-    // console.log( this.weekDays);
-    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    // this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+  }
+
+  calculateWeeklyTotalHours(dailyTotalHours: number) {
+    this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
   }
 
   onDateColumnClicked(clickEventType: ClickEventType, date: Date) {
