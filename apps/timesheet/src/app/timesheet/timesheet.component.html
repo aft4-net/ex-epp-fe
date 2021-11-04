@@ -36,13 +36,13 @@
         <i nz-icon nzType="close" nzTheme="outline" (click)="closeFormDrawer()"></i>
       </div>
       <div class="timesheet-detail">
-        <label for="client">Client</label>
+        <label for="client" id="client">Client</label>
         <nz-select formControlName="client" [(ngModel)]="formData.client" *ngIf="clients?.length else elseBlock">
           <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
             nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
         </nz-select>
 
-        <label for="project">Project</label>
+        <label for="project" id="project">Project</label>
         <nz-select formControlName="project" [(ngModel)]="formData.project" *ngIf="projects?.length else elseBlock">
           <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
             nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
@@ -54,7 +54,7 @@
           </nz-select>
         </ng-template>
 
-        <label for="hours">Hours</label>
+        <label for="hours" id="hours">Hours</label>
         <nz-form-item>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
             <input [(ngModel)]="formData.hours" nz-input formControlName="hours" placeholder="" type="number" min="1" max="24" />
