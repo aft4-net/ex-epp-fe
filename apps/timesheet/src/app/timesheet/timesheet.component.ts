@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DayAndDateService } from "./services/day-and-date.service";
@@ -39,10 +40,11 @@ export class TimesheetComponent implements OnInit {
     toDate: new Date(),
     client: '', //this.clients,
     project: '', //this.projects
-    hours: '',
+    hours: 0,
     note: '',
   };
 
+  clickedDateTotalHour: number;
   date = new Date();
   futereDate: any;
   public weekDays: any[] = [];
@@ -201,11 +203,19 @@ export class TimesheetComponent implements OnInit {
     this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
   }
 
-  onDateColumnClicked(clickEventType: ClickEventType, date: Date) {
+  onDateColumnClicked(clickEventType: ClickEventType, date: any) {
+    //console.log(clickEventType);
+    //console.log(clickEventType.totalHours);
+    this.clickedDateTotalHour = clickEventType.totalHours
+    this.formData.fromDate = date;
     this.date = date;
-    this.clickEventType = clickEventType;
+    this.clickEventType = clickEventType.eventType;
     if (this.date <= new Date()) {
-      this.showFormDrawer();
+      if (this.clickedDateTotalHour<24) {
+        this.showFormDrawer();
+      }else{
+        this.createNotificationErrorOnDailyMaximumHour('error');
+      }
     } else {
       this.createNotificationError('error');
     }
@@ -287,6 +297,13 @@ export class TimesheetComponent implements OnInit {
       type,
       'Timesheet',
       'Future date timesheet entry not allowed!'
+    );
+  }
+  createNotificationErrorOnDailyMaximumHour(type: string): void {
+    this.notification.create(
+      type,
+      'Timesheet',
+      'Time already full 24'
     );
   }
 

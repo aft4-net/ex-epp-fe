@@ -57,11 +57,13 @@
         <label for="hours">Hours</label>
         <nz-form-item>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-            <input [(ngModel)]="formData.hours" nz-input formControlName="hours" placeholder="" type="number" min="1" max="24" />
-            <ng-template #userErrorTpl let-control>
-              <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
-            </ng-template>
-          </nz-form-control>
+            <input [(ngModel)]="formData.hours" nz-input formControlName="hours" placeholder="enter bellow {{24-clickedDateTotalHour}}" type="number" min="1" max="{{24-clickedDateTotalHour}}" />
+              <ng-template #userErrorTpl let-control>
+                <ng-container *ngIf="formData.hours <=0 ">Please Enter above 0 hour</ng-container>
+                <ng-container *ngIf="formData.hours > (24-clickedDateTotalHour) ">Please Enter bellow {{24-clickedDateTotalHour}}</ng-container>
+                <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
+              </ng-template>
+          </nz-form-control>  
         </nz-form-item>
 
         <label for="note">Note</label>
