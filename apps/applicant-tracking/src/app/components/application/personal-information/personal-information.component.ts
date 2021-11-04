@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
+import countryList from '../../../../assets/files/CountryCodes.json';
 import { FormValidator } from '../../../utils/validator';
 import { environment } from 'apps/applicant-tracking/src/environments/environment';
 import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
@@ -208,8 +208,15 @@ export class PersonalInformationComponent implements OnInit {
         this.personalInformation.controls.profileUrl.setValue(
           data.ProfileImage ?? ''
         );
-        data.Country ??
-          this.personalInformation.controls.country.setValue(data.Country);
+
+        this.personalInformation.controls.country.setValue(data.Country + '');
+
+        for (var key in countryList) {
+          if (countryList[key].name == data.Country) {
+            this.selectedValue = { ...countryList[key] };
+            this.personalInformation.controls.phoneNumber.updateValueAndValidity();
+          }
+        }
       });
 
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
@@ -217,6 +224,7 @@ export class PersonalInformationComponent implements OnInit {
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
         Validators.required,
       ]);
+      
     });
   }
   onInputClick(e: any) {}
