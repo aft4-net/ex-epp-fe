@@ -1,10 +1,10 @@
 
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DayAndDateService} from "./services/day-and-date.service";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TimesheetService} from './services/timesheet.service';
-import {differenceInCalendarDays} from 'date-fns';
-import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DayAndDateService } from "./services/day-and-date.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TimesheetService } from './services/timesheet.service';
+import { differenceInCalendarDays } from 'date-fns';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { ClickEventType } from '../models/clickEventType';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TimeEntry, Timesheet } from '../models/timesheetModels';
@@ -14,6 +14,8 @@ import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
+import { NzNotificationPlacement } from "ng-zorro-antd/notification";
+
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -21,12 +23,15 @@ import { Employee } from '../models/employee';
   styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
+  userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
   validateForm!: FormGroup;
 
   timesheet: Timesheet | null = null;
+  timeEntrys: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
+  weeklyTotalHours: number = 0;
 
   clients: Client[] | null = null;
   projects: Project[] | null = null;
@@ -67,25 +72,13 @@ export class TimesheetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let userId = localStorage.getItem("userId");
+    this.userId = localStorage.getItem("userId");
 
-    if (userId) {
-      this.timesheetService.getTimeSheet(userId).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
-      })
+    if (this.userId) {
+      this.getTimesheet(this.userId);
 
-      this.timesheetService.getProjects(userId).subscribe(response => {
-        this.projects = response;
-        (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
-        
-        let clientIds = this.projects?.map(project => project.clientId);
-        clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
+      this.getProjectsAndClients(this.userId);
 
-        this.timesheetService.getClients(clientIds).subscribe(response => {
-          this.clients = response;
-          (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
-        });
-      });
     }
 
     this.validateForm = this.fb.group({
@@ -103,15 +96,47 @@ export class TimesheetComponent implements OnInit {
     this.calcualteNoOfDaysBetweenDates();
   }
 
-// To calculate the time difference of two dates
+  // To calculate the time difference of two dates
   calcualteNoOfDaysBetweenDates() {
     let date1 = new Date("06/21/2019");
     let date2 = new Date("07/30/2019");
     let Difference_In_Time = date2.getTime() - date1.getTime();
 
-// To calculate the no. of days between two dates
+    // To calculate the no. of days between two dates
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-    console.log(Difference_In_Days);
+  }
+
+  getTimesheet(userId: string, date?: Date) {
+    this.weeklyTotalHours = 0;
+    if (date) {
+      this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
+        this.timesheet = response ? response[0] : null;
+
+        if (this.timesheet) {
+          this.timesheetService.getTimeEntry(this.timesheet.guid).subscribe(response => {
+            this.timeEntrys = response;
+          })
+        }
+      })
+    }
+    else {
+      this.timesheetService.getTimeSheet(userId).subscribe(response => {
+        this.timesheet = response ? response[0] : null;
+      })
+    }
+  }
+
+  getProjectsAndClients(userId: string) {
+    this.timesheetService.getProjects(userId).subscribe(response => {
+      this.projects = response;
+
+      let clientIds = this.projects?.map(project => project.clientId);
+      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
+
+      this.timesheetService.getClients(clientIds).subscribe(response => {
+        this.clients = response;
+      });
+    });
   }
 
   disabledDate1 = (current: Date): boolean =>
@@ -139,6 +164,10 @@ export class TimesheetComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(count);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.weekDays[0]);
+      }
     } else {
       window.location.reload();
     }
@@ -156,42 +185,40 @@ export class TimesheetComponent implements OnInit {
 
   nextWeek(count: any) {
     this.nextWeeks = count;
-    console.log(this.nextWeeks);
     let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if (this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
   }
 
   lastastWeek(count: any) {
     this.lastWeeks = count;
-    console.log(this.lastWeeks);
     let ss = this.dayAndDateService.getWeekendFirstDay();
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    // this.lastWeeks = count;
-    // let ss = this.dayAndDateService.getWeekendFirstDay();
-    // console.log(ss);
-    // this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
-    // console.log( this.weekDays);
-    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    // this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if (this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
   }
 
-  checkFutureDate(event: Date) {
-    this.futereDate = event;
+  calculateWeeklyTotalHours(dailyTotalHours: number) {
+    this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
   }
-  onDateColumnClicked(clickEventType: ClickEventType) {
+
+  onDateColumnClicked(clickEventType: ClickEventType, date: Date) {
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.clickEventType = clickEventType;
-      if (this.futereDate <= this.date) {
-        this.showFormDrawer();
-      } else {
-        this.drawerVisible = false;
-        this.createNotificationError('error');
-        console.log("can't show time entry for future date");
-      }
-      this.futereDate=null;
+    if (this.date <= new Date()) {
+      this.showFormDrawer();
+    } else {
+      this.createNotificationError('bottomRight');
+    }
   }
 
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
@@ -207,6 +234,9 @@ export class TimesheetComponent implements OnInit {
 
   showFormDrawer() {
     if (this.clickEventType == ClickEventType.showFormDrawer) {
+      (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
+      (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
+
       if (this.timeEntry) {
         let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
         this.formData.client = clientId ? clientId : "";
@@ -239,10 +269,35 @@ export class TimesheetComponent implements OnInit {
         note: this.validateForm.value.note,
       };
 
-      console.log('sssssssssssssssssssss');
-      console.log(dataToSend);
-      // this.timesheetService.addTimesheet(dataToSend);
-      //this.createNotification('success');
+      if (this.timesheet) {
+        let timeEntry = {
+          note: this.validateForm.value.note,
+          date: this.date,
+          index: 1,
+          hours: this.validateForm.value.hours,
+          projectId: this.validateForm.value.project,
+          timesheetId: this.timesheet?.guid
+        }
+
+        this.timesheetService.addTimeEntry(timeEntry).subscribe({
+          next: data => {
+            if (data.ResponseStatus === "Success") {
+              this.createNotification('success');
+            }
+            else if (data.ResponseStatus === "error") {
+              this.createNotification('error');
+            }
+            
+            if (this.userId) {
+              this.getTimesheet(this.userId, this.date);
+            }
+          },
+          error: error => {
+            this.createNotification('warning');
+          }
+        })
+        //this.createNotification('success');
+      }
 
       this.validateForm.reset();
       this.closeFormDrawer();
@@ -262,19 +317,26 @@ export class TimesheetComponent implements OnInit {
     this.validateForm.reset();
   }
 
-  createNotificationError(type: string): void {
-    this.notification.create(
-      type,
-      'Timesheet',
-      'Future date timesheet entry not allowed!'
+  createNotificationError(position: NzNotificationPlacement): void {
+    this.notification.error(
+      '',
+      'You cannot fill your timesheet for the future!',
+      { nzPlacement: position }
     );
   }
 
   createNotification(type: string): void {
-    this.notification.create(
-      type,
-      'Timesheet',
-      'Your Timesheet Added Successfully.'
-    );
+    let message = "";
+    if (type === "Success") {
+      message = "Your Timesheet Added Successfully.";
+    }
+    else if (type === "error") {
+      message = "Error on adding Timesheet."
+    }
+    else if (type === "warning") {
+      message = "Warning"
+    }
+
+    this.notification.create(type, 'Timesheet', message);
   }
 }

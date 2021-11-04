@@ -1,5 +1,5 @@
 <div class="container">
-  <app-timesheet-header class="timesheet-header"></app-timesheet-header>
+  <app-timesheet-header [weeklyTotalHours]="weeklyTotalHours" class="timesheet-header"></app-timesheet-header>
 
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' "
                      [dates11]="lastday1 | date:'MMM d, y'" class="date-selector"
@@ -13,8 +13,8 @@
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
                                [date]="myD"
                                [timesheet]="timesheet"
-                               (click)="checkFutureDate(myD)"
-                               (dateColumnClicked)="onDateColumnClicked($event)"
+                               (totalHoursCalculated)="calculateWeeklyTotalHours($event)"
+                               (dateColumnClicked)="onDateColumnClicked($event, myD)"
                                (editButtonClicked)="onEditButtonClicked($event)"
                                (projectNamePaletClicked)="onProjectNamePaletClicked($event)">
       </app-day-and-date-column>
@@ -49,7 +49,7 @@
         </nz-select>
 
         <ng-template #elseBlock>
-          <nz-select formControlName="inactive" nzDisabled>
+          <nz-select nzDisabled>
             <nz-option> </nz-option>
           </nz-select>
         </ng-template>

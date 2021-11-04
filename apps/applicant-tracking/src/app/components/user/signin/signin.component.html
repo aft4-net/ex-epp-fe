@@ -1,6 +1,6 @@
 <nz-card class="card-view">
   <div class="title">Sign in</div>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="loginForm">
     <app-input
       [form]="loginForm"
       fcn="email"
@@ -28,7 +28,7 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
-    <app-button class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="login()">
+    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="login()">
       Sign in
     </app-button>
   </form>

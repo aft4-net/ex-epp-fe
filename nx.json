@@ -51,6 +51,13 @@
       "tags": [],
       "implicitDependencies": ["passport"]
     },
+    "project-management": {
+      "tags": []
+    },
+    "project-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["project-management"]
+    },
     "timesheet": {
       "tags": []
     },

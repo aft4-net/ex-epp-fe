@@ -1,6 +1,6 @@
 <div class="m-5">
   <h2 class="font-bold">Step 1- Personal Information</h2>
-  <form [formGroup]="personalInformation" class="flex flex-col gap-5" (ngSubmit)="onFormSubmit()">
+  <form [formGroup]="personalInformation" class="flex flex-col gap-5">
     <div class="flex gap-5 justify-center">
       <div>Autofill this application faster by uploading your resume</div>
       <div>
@@ -31,7 +31,7 @@
       >
         <app-button [disabled]="uploadingProfile">
           <i nz-icon nzType="upload"></i>
-          <span>upload files</span>
+          <span>Upload</span>
         </app-button>
       </app-uploader>
       <app-button
@@ -128,7 +128,7 @@
       </div>
       <div nz-row nzJustify="end">
         <div nz-col nzSpan="5">
-          <app-button [disabled]="!personalInformation.valid" type="primary">
+          <app-button [loading]="loading" (click)="onFormSubmit()" [disabled]="!personalInformation.valid" type="primary">
             Save and Continue
           </app-button>
         </div>
