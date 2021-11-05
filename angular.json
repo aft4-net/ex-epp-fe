@@ -21,7 +21,12 @@
               "apps/applicant-tracking/src/favicon.ico",
               "apps/applicant-tracking/src/assets"
             ],
-            "styles": ["apps/applicant-tracking/src/styles.scss"],
+        
+            "styles": [
+              "node_modules/ng-zorro-antd/src/ng-zorro-antd.min.css",
+              "node_modules/ng-zorro-antd/resizable/style/index.min.css",
+              "src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {

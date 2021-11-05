@@ -1,12 +1,19 @@
 
+    <div class="mb-1" nz-row>          
+      <div   nz-col nzSpan="10" nzOffset="1"  class="page-title" > Resource  Requiremnets   </div>
+           <button   nz-col nz-col nzSpan="3" nzOffset="10" nz-button   >  Create Project</button> 
+         </div>
+
     <div class="mb-3" nz-row>
         <span class="p-3 "  nz-col nzSpan="10" nzOffset="1" (click)="showModal()"> <i nz-icon nzType="plus" nzTheme="outline"></i><span
-            class="text-green-800 text-lg font-semibold ">
-            Assing Resources Requirement  </span></span>
+          style="color: #00A551"   class=" text-lg font-semibold ">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.2969 3.5625H12.7031C12.8281 3.5625 12.8906 3.625 12.8906 3.75V20.25C12.8906 20.375 12.8281 20.4375 12.7031 20.4375H11.2969C11.1719 20.4375 11.1094 20.375 11.1094 20.25V3.75C11.1094 3.625 11.1719 3.5625 11.2969 3.5625Z" fill="#00A551"/>
+            <path d="M4.125 11.1094H19.875C20 11.1094 20.0625 11.1719 20.0625 11.2969V12.7031C20.0625 12.8281 20 12.8906 19.875 12.8906H4.125C4 12.8906 3.9375 12.8281 3.9375 12.7031V11.2969C3.9375 11.1719 4 11.1094 4.125 11.1094Z" fill="#00A551"/>
+            </svg>
+             Assing Resources Requirement  </span></span>
       
-        <button class="bg-green"  nz-col nz-col nzSpan="3" nzOffset="10" nz-button   >  Create Project</button>
-    
-      </div>
+     </div>
 <div *ngIf="projectResourceRequirements.length<1">
     <div class=" center"    >
         <svg    width="135" height="102" viewBox="0 0 135 102" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,16 +24,11 @@
     </div>
 
     <span class=" mt-20  center text-lg">
-        Click Add Resource link to add Resources for project   
+      Click the add resource requirements link to add resource requirements for Project
     </span>  
 </div>
 
-
-    
-
- 
-
-<nz-table  class="p-3 mt-5"  *ngIf="projectResourceRequirements.length>0"    [nzData]="projectResourceRequirements" nzTableLayout="fixed">
+<nz-table    *ngIf="projectResourceRequirements.length>0"    [nzData]="projectResourceRequirements" nzTableLayout="fixed">
     <thead class=" bg-green-600">
       <tr>
         <th *ngFor="let columnName of listOfColumn" >
@@ -64,7 +66,9 @@
             </nz-form-item>   
             <div nz-row >
               <button type="submit"   [disabled]="!addResorceRequirementForm.valid"    nz-button [nzType]="'primary'" style="margin-right: 16px;" >Add</button>         
-              <a  nz-button (click)="resetForm()">Clear</a>         
+           
+              
+              <button class="clear-button"  nzType="default" (click)="resetForm()">Clear</button>
             </div> 
       </form> 
 
