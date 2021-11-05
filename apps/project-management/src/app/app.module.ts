@@ -8,21 +8,40 @@ import { ProjectCreateComponent } from './features/project/pages/project-create/
 import { BreadCrumbComponent } from './features/project/components/bread-crumb/bread-crumb.component';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { AddProjectComponent } from './features/project/components/Add-Project/Add-Project.component';
-
+import { AddresourceComponent } from './features/project/components/addresource/addresource.component';
+import { ResourseRequirementComponent } from './features/project/components/resourse-requirement/resourse-requirement.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+registerLocaleData(en);
 @NgModule({
   declarations: [
+  
+    AddresourceComponent,
+    ResourseRequirementComponent,
     AppComponent,
     ProjectFormComponent,
     ProjectCreateComponent,
     AddProjectComponent,
-    BreadCrumbComponent
+    BreadCrumbComponent,
+
   ],
   imports: [
+    NzIconModule ,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     BrowserModule,
     NgZorroModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
