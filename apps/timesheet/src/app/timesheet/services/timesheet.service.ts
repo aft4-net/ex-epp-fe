@@ -32,7 +32,7 @@ export class TimesheetService {
     })
   }
 
-  addTimeEntry(timeEntry: TimeEntry){
+  addTimeEntry(timeEntry: any){
     const headers = {"content-type": "application/json"}
 
     return this.http.post<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});

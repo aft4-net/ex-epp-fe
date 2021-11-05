@@ -107,6 +107,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   getTimesheet(userId: string, date?: Date) {
+    this.weeklyTotalHours = 0;
     if (date) {
       this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
         this.timesheet = response ? response[0] : null;
@@ -211,7 +212,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   onDateColumnClicked(clickEventType: ClickEventType, date: Date) {
-    this.date = date;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.clickEventType = clickEventType;
     if (this.date <= new Date()) {
       this.showFormDrawer();
@@ -269,8 +270,7 @@ export class TimesheetComponent implements OnInit {
       };
 
       if (this.timesheet) {
-        let timeEntry: TimeEntry = {
-          guid: 1,
+        let timeEntry = {
           note: this.validateForm.value.note,
           date: this.date,
           index: 1,
@@ -281,14 +281,15 @@ export class TimesheetComponent implements OnInit {
 
         this.timesheetService.addTimeEntry(timeEntry).subscribe({
           next: data => {
-            if (data.ResponseStatus == "Success") {
+            if (data.ResponseStatus === "Success") {
               this.createNotification('success');
-              if (this.userId) {
-                this.getTimesheet(this.userId, this.date);
-              }
             }
-            else if (data.ResponseStatus == "error") {
+            else if (data.ResponseStatus === "error") {
               this.createNotification('error');
+            }
+            
+            if (this.userId) {
+              this.getTimesheet(this.userId, this.date);
             }
           },
           error: error => {

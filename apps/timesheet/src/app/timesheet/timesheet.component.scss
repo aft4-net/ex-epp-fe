@@ -101,7 +101,20 @@
         width: fit-content;
         height: 24px;
 
+        font-weight: 500;
+
         margin-top: 9px;
+
+        &#client::after, &#project::after, &#hours::after {
+            content: " *";
+
+            font-family: Roboto;
+            font-style: normal;
+            font-size: 16px;
+            line-height: 18.75px;
+
+            color: #F52121;
+        }
     }
 
     nz-select, input {
