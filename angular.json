@@ -120,6 +120,31 @@
         }
       }
     },
+    "core-model": {
+      "projectType": "library",
+      "root": "libs/core-model",
+      "sourceRoot": "libs/core-model/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-model"],
+          "options": {
+            "jestConfig": "libs/core-model/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-model/src/**/*.ts",
+              "libs/core-model/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "epp": {
       "projectType": "application",
       "root": "apps/epp",
