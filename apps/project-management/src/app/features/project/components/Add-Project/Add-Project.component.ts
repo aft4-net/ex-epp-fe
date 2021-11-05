@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzTabPosition } from 'ng-zorro-antd/tabs';
 
 @Component({
   selector: 'exec-epp-Add-Project',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./Add-Project.component.css']
 })
 export class AddProjectComponent implements OnInit {
+  position: NzTabPosition = 'left';
 
   constructor() { }
 
