@@ -18,10 +18,11 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ProjectDetailComponent } from './features/project/components/project-detail/project-detail.component';
 registerLocaleData(en);
 @NgModule({
   declarations: [
-  
+
     AddresourceComponent,
     ResourseRequirementComponent,
     AppComponent,
@@ -29,6 +30,7 @@ registerLocaleData(en);
     ProjectCreateComponent,
     AddProjectComponent,
     BreadCrumbComponent,
+    ProjectDetailComponent
 
   ],
   imports: [
