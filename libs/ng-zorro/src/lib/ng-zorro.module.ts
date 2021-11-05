@@ -29,6 +29,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 @NgModule({
   exports:[
@@ -40,7 +42,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
      // NzBackTopModule,
      NzBadgeModule,
      NzButtonModule,
-     // NzBreadCrumbModule,
+     NzBreadCrumbModule,
      // NzCalendarModule,
      NzCardModule,
      // NzCarouselModule,
@@ -68,7 +70,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
      NzModalModule,
      NzNoAnimationModule,
      NzNotificationModule,
-     // NzPageHeaderModule,
+     NzPageHeaderModule,
      NzPaginationModule,
      // NzPopconfirmModule,
      NzPopoverModule,
@@ -98,6 +100,6 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
      // NzWaveModule,
      // NzResizableModule
   ],
-  
+
 })
 export class NgZorroModule {}
