@@ -68,9 +68,9 @@
                   {{ formData.note }}
                 </textarea>
         <div class="save-and-clear">
-          <button nz-button [disabled]="!formData.client || !formData.project ||!formData.hours">Save
+          <button id="save" nz-button [disabled]="!formData.client || !formData.project ||!formData.hours">Save
           </button>
-          <button nz-button (click)="resetForm($event)"
+          <button id="clear" nz-button (click)="resetForm($event)"
             [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.note">Clear
           </button>
         </div>
