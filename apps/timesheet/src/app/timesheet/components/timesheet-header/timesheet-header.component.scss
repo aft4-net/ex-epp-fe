@@ -15,20 +15,27 @@
     margin-bottom: 22px;
 
     h5 {
-        width: 171px;
-        height: 33px;
-        text-align: right;
+        width: 195px;
+        height: 19px;
         margin-right: 12px;
         margin-bottom: 0;
-        padding-top: 8px;
-        padding-bottom: 8px;
+
+        font-family: sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+        color: #595959;
     }
 
     button {
         width: 159px;
         height: 33px;
         padding: 8px, 16px, 8px, 16px;
-        background-color: #BFBFBF;
+
+        color: #FFFFFF;
+        background-color: #00A551;
         border-radius: 2px;
         border-width: 1px;
         border-color: #F5F5F5;
