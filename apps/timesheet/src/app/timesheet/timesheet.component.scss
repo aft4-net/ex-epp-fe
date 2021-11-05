@@ -38,6 +38,7 @@
 
 .timesheet-date-range {
     display: flex;
+    align-items: center;
     width: 400px;
     height: 52px;
     background-color: #FDFDFD;
@@ -54,23 +55,30 @@
         margin-top: 12px;
         margin-bottom: 12px;
 
-        #from-date {
-            width: fit-content;
-            height: 24px;
-        }
-
-        #to-date {
-            width: fit-content;
-            height: 24px;
-
-            margin-left: 12px;
-        }
-
         nz-date-picker {
             width: 74px;
             height: 28px;
 
             margin-left: 4px;
+            padding: 0 0 4px 0;
+
+            border-radius: 0;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom-width: 0.5px;
+            border-bottom-style: solid;
+            border-bottom-color: #3E3D40;
+        }
+
+        #from-date {
+            width: fit-content;
+        }
+
+        #to-date {
+            width: fit-content;
+
+            margin-left: 12px;
         }
     }
 
