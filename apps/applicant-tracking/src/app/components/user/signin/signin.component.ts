@@ -50,7 +50,7 @@ export class SigninComponent {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'User email and password is invalid, please try again!',
+          content: 'User email or password is incorrect, please try again!',
           duration: 5000,
         });
       }

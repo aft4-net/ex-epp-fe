@@ -14,6 +14,7 @@ export class MessageBar {
     duration = 0,
     animate = true,
   }: IMessage): void {
+    this.stopMessage();
     this.message.create(type, content, {
       nzDuration: duration,
       nzAnimate: animate,

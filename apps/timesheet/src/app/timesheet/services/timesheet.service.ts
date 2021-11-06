@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { map } from "rxjs/operators";
 
@@ -32,6 +32,12 @@ export class TimesheetService {
     })
   }
 
+  addTimeEntry(timeEntry: any){
+    const headers = {"content-type": "application/json"}
+
+    return this.http.post<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});
+  }
+
   getTimeSheet(userId: string, date?: Date) {
     let fromDate = new Date();
 
@@ -54,18 +60,19 @@ export class TimesheetService {
     return response.pipe(map(r => r.body));
   }
 
-  getTimeEntry(timesheetId: number, date: Date) {
-    date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-
+  getTimeEntry(timesheetId: number, date?: Date) {
     let params = new HttpParams();
 
     params = params.append("timesheetId", timesheetId);
-    params = params.append("date", date.toISOString());
+
+    if (date){
+      date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+      params = params.append("date", date.toISOString());
+    }
 
     let response = this.http.get<TimeEntry[]>(this.baseUrl + "timeentrys", { observe: "response", params: params })
 
     return response.pipe(map(r => r.body));
-
   }
 
   getClients(clientIds?: number[]){
