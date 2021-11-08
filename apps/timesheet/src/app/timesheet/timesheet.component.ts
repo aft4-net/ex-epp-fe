@@ -216,8 +216,6 @@ export class TimesheetComponent implements OnInit {
   }
 
   onDateColumnClicked(clickEventType: ClickEventType, date: any) {
-    console.log(clickEventType);
-    console.log(clickEventType.totalHours);
     this.clickedDateTotalHour = clickEventType.totalHours
     this.formData.fromDate = date;
     //this.date = date;
@@ -227,10 +225,10 @@ export class TimesheetComponent implements OnInit {
         if (this.clickedDateTotalHour<24) {
           this.showFormDrawer();
         }else{
-          this.createNotificationErrorOnDailyMaximumHour('error');
+          this.createNotificationErrorOnDailyMaximumHour("bottomRight");
         }
     } else {
-      this.createNotificationError('topRight');
+      this.createNotificationError('bottomRight');
     }
   }
 
@@ -337,11 +335,11 @@ export class TimesheetComponent implements OnInit {
       { nzPlacement: position }
     );
   }
-  createNotificationErrorOnDailyMaximumHour(type: string): void {
-    this.notification.create(
-      type,
-      'Timesheet',
-      'Time already full 24'
+  createNotificationErrorOnDailyMaximumHour(position: NzNotificationPlacement): void {
+    this.notification.error(
+      '',
+      'Time already full 24',
+      { nzPlacement: position }
     );
   }
 
