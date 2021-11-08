@@ -38,6 +38,7 @@
 
 .timesheet-date-range {
     display: flex;
+    align-items: center;
     width: 400px;
     height: 52px;
     background-color: #FDFDFD;
@@ -54,23 +55,30 @@
         margin-top: 12px;
         margin-bottom: 12px;
 
-        #from-date {
-            width: fit-content;
-            height: 24px;
-        }
-
-        #to-date {
-            width: fit-content;
-            height: 24px;
-
-            margin-left: 12px;
-        }
-
         nz-date-picker {
             width: 74px;
             height: 28px;
 
             margin-left: 4px;
+            padding: 0 0 4px 0;
+
+            border-radius: 0;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom-width: 0.5px;
+            border-bottom-style: solid;
+            border-bottom-color: #3E3D40;
+        }
+
+        #from-date {
+            width: fit-content;
+        }
+
+        #to-date {
+            width: fit-content;
+
+            margin-left: 12px;
         }
     }
 
@@ -101,13 +109,14 @@
         width: fit-content;
         height: 24px;
 
+        font-weight: 500;
+
         margin-top: 9px;
 
         &#client::after, &#project::after, &#hours::after {
-            content: "*";
+            content: " *";
 
             font-family: Roboto;
-            font-weight: 500;
             font-style: normal;
             font-size: 16px;
             line-height: 18.75px;
@@ -136,8 +145,40 @@
 
         margin-top: 8px;
 
-        button {
-            margin-right: 16px;
+        font-family: sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+
+        #save {
+            width: 62px;
+            align-items: center;
+
+            background-color: #BFBFBF;
+            border-radius: 2px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #F5F5F5;
+            color: #FFFFFF;
+
+            &:enabled {
+                background-color: #00A551;
+            }
+        }
+
+        #clear {
+            width: 65px;
+            margin-left: 16px;
+
+            background-color: #FFFFFF;
+
+            color: #BFBFBF;
+
+            &:enabled {
+                border-color: #00A551;
+                color: #00A551
+            }
         }
     }
 }
