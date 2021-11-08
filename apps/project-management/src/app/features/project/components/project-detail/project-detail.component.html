@@ -1,0 +1,138 @@
+<form
+  class="w-full max-w-4xl"
+  nz-form
+  [nzLayout]="'vertical'"
+  [formGroup]="validateForm"
+  (ngSubmit)="submitForm()"
+>
+  <nz-form-item>
+    <nz-form-label  
+      class=""
+      [nzSm]="6"
+      [nzXs]="24"
+      nzRequired
+      nzFor="projectName"
+      >Project Name</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="Please input Project Name!"
+    >
+      <input
+        nz-input
+        
+        formControlName="projectName"
+        id="projectName"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+<nz-form-item>
+    <nz-form-label [nzSm]="6" nzFor="projectType" nzRequired
+      >Project Type</nz-form-label
+    >
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Type!">
+      <nz-select
+        id="projectType"
+        formControlName="projectType"
+        nzPlaceHolder="Select Project Type"
+      >
+        <nz-option nzValue="internal" nzLabel="internal"></nz-option>
+        <nz-option nzValue="external" nzLabel="external"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" nzFor="clientName" nzRequired
+      >Client Name</nz-form-label
+    >
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Client Name!">
+      <nz-select
+        id="clientName"
+        formControlName="clientName"
+        nzPlaceHolder="Select client Name"
+      >
+        <nz-option nzValue="id" nzLabel="meba Feysa"></nz-option>
+        <nz-option nzValue="id" nzLabel="Natnael getahun"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  
+
+  <nz-form-item>
+    <nz-form-label  nzFor="status" nzRequired>Status</nz-form-label>
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Status!">
+      <nz-select
+        id="status"
+        formControlName="status"
+        nzPlaceHolder="Select project status"
+      >
+        <nz-option nzValue="signed" nzLabel="signed"></nz-option>
+        <nz-option nzValue="closed" nzLabel="closed"></nz-option>
+        <nz-option nzValue="active" nzLabel="Active"></nz-option>
+        <nz-option nzValue="inactive" nzLabel="In active"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" nzFor="supervisor" nzRequired
+      >Supervisor</nz-form-label
+    >
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Supervisor Name!">
+      <nz-select
+        id="supervisor"
+        formControlName="supervisor"
+        nzPlaceHolder="Select Supervisor Name"
+      >
+        <nz-option nzValue="id" nzLabel="Tariku A"></nz-option>
+        <nz-option nzValue="id" nzLabel="Natnael getahun"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  
+   <div nz-row [nzGutter]="18">
+    <div nz-col [nzSpan]="9">
+    <nz-form-item >
+      <nz-form-label nzFor="startValue" nzRequired
+      >Start Date</nz-form-label
+    >
+      <nz-form-control [nzXs]="24">
+      
+      <nz-date-picker
+        [nzDisabledDate]="disabledStartDate"
+        nzFormat="yyyy-MM-dd"
+        formControlName="startValue"
+        nzPlaceHolder="Start Date"
+        (nzOnOpenChange)="handleStartOpenChange($event)"
+      ></nz-date-picker>
+      </nz-form-control>
+     
+    </nz-form-item>
+  </div>
+    <div nz-col [nzSpan]="9">    
+    <nz-form-item>
+      <nz-form-label [nzSm]="14">End Date</nz-form-label><br />
+      <nz-form-control [nzXs]="24">
+        <nz-date-picker
+        #endDatePicker
+        [nzDisabledDate]="disabledEndDate"
+        nzFormat="yyyy-MM-dd"
+        formControlName="endValue"
+        nzPlaceHolder="End"
+        (nzOnOpenChange)="handleEndOpenChange($event)"
+      ></nz-date-picker>
+      </nz-form-control>
+      
+    </nz-form-item>
+    </div></div>
+  <nz-form-item>
+    <nz-form-label>Description</nz-form-label>
+    <textarea  nz-input rows="4"
+      placeholder="Description"
+    ></textarea>
+  </nz-form-item>
+</form>

@@ -1,6 +1,8 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 import { AddProjectComponent } from './features/project/components/Add-Project/Add-Project.component';
+import { AddresourceComponent } from './features/project/components/addresource/addresource.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BreadCrumbComponent } from './features/project/components/bread-crumb/bread-crumb.component';
@@ -9,8 +11,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ProjectCreateComponent } from './features/project/pages/project-create/project-create.component';
+import { ProjectDetailComponent } from './features/project/components/project-detail/project-detail.component';
 import { ProjectFormComponent } from './features/project/components/project-form/project-form.component';
+import { ResourseRequirementComponent } from './features/project/components/resourse-requirement/resourse-requirement.component';
 import { RouterModule } from '@angular/router';
 import { ViewProjectLayoutComponent } from './features/project/components/view-project-layout/view-project-layout.component';
 import en from '@angular/common/locales/en';
@@ -19,14 +24,26 @@ import { registerLocaleData } from '@angular/common';
 registerLocaleData(en);
 @NgModule({
   declarations: [
+
+    AddresourceComponent,
+    ResourseRequirementComponent,
     AppComponent,
     ProjectFormComponent,
     ProjectCreateComponent,
     AddProjectComponent,
     BreadCrumbComponent,
-    ViewProjectLayoutComponent
+
+    ViewProjectLayoutComponent,
+
+    ProjectDetailComponent
+
   ],
   imports: [
+    NzIconModule ,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     BrowserModule,
         BrowserAnimationsModule,
 
@@ -37,6 +54,8 @@ registerLocaleData(en);
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [ { provide: NZ_I18N, useValue: en_US }],
+
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}
