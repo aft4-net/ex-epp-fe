@@ -1,3 +1,12 @@
+<div class="mb-1" nz-row>
+     <div   nz-col nzSpan="10"   class="page-title" class="font-semibold" > Project Details   </div>
+     <nz-button-group  nz-col nz-col nzSpan="3" nzOffset="10">
+       <button   nz-button  >  Add Project</button>
+       <button   nz-button  class="clear-button" >  Cancel</button>
+     </nz-button-group>
+</div>
+
+
 <form
   class="w-full max-w-4xl"
   nz-form
@@ -6,7 +15,7 @@
   (ngSubmit)="submitForm()"
 >
   <nz-form-item>
-    <nz-form-label  
+    <nz-form-label
       class=""
       [nzSm]="6"
       [nzXs]="24"
@@ -21,7 +30,7 @@
     >
       <input
         nz-input
-        
+
         formControlName="projectName"
         id="projectName"
       />
@@ -60,7 +69,7 @@
     </nz-form-control>
   </nz-form-item>
 
-  
+
 
   <nz-form-item>
     <nz-form-label  nzFor="status" nzRequired>Status</nz-form-label>
@@ -93,16 +102,17 @@
       </nz-select>
     </nz-form-control>
   </nz-form-item>
-  
-   <div nz-row [nzGutter]="18">
-    <div nz-col [nzSpan]="9">
+
+   <div nz-row  [nzGutter]="32">
+    <nz-col nzXs="24" nzSm="5" nzMd="7" nzLg="9">
+
     <nz-form-item >
       <nz-form-label nzFor="startValue" nzRequired
       >Start Date</nz-form-label
     >
       <nz-form-control [nzXs]="24">
-      
-      <nz-date-picker
+
+      <nz-date-picker #startDatePicker
         [nzDisabledDate]="disabledStartDate"
         nzFormat="yyyy-MM-dd"
         formControlName="startValue"
@@ -110,12 +120,12 @@
         (nzOnOpenChange)="handleStartOpenChange($event)"
       ></nz-date-picker>
       </nz-form-control>
-     
+
     </nz-form-item>
-  </div>
-    <div nz-col [nzSpan]="9">    
-    <nz-form-item>
-      <nz-form-label [nzSm]="14">End Date</nz-form-label><br />
+    </nz-col>
+    <nz-col nzXs="24" nzSm="13" nzMd="18" nzLg="12">
+    <nz-form-item  style="margin-left: 22px;" >
+      <nz-form-label [nzSm]="14" >End Date</nz-form-label>
       <nz-form-control [nzXs]="24">
         <nz-date-picker
         #endDatePicker
@@ -126,13 +136,19 @@
         (nzOnOpenChange)="handleEndOpenChange($event)"
       ></nz-date-picker>
       </nz-form-control>
-      
+
     </nz-form-item>
-    </div></div>
-  <nz-form-item>
-    <nz-form-label>Description</nz-form-label>
-    <textarea  nz-input rows="4"
-      placeholder="Description"
-    ></textarea>
-  </nz-form-item>
+    </nz-col>
+    </div>
+    <nz-form-item nz-col nzSpan="14">
+
+      <nz-form-label>Description</nz-form-label>
+
+      <textarea  nz-input rows="4"
+
+        placeholder="Description"
+
+      ></textarea>
+
+    </nz-form-item>
 </form>
