@@ -14,9 +14,6 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 })
 export class ProjectDetailComponent implements OnInit {
   validateForm!: FormGroup;
-  nzHasFeedback = true;
-  detailFormLayout = 'vertical';
-
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {
@@ -63,11 +60,11 @@ export class ProjectDetailComponent implements OnInit {
     if (!open) {
       this.endDatePicker.open();
     }
-    
+
   }
 
   handleEndOpenChange(open: boolean): void {
-
-    console.log('handleEndOpenChange', open);
-  }
+  if(this.validateForm.controls.startValue.value)
+     this.startDatepicker.close()
+   }
 }

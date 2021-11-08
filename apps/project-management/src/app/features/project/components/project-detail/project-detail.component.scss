@@ -1,7 +1,6 @@
 .nz-date-picker {
 	margin: 0 8px 12px 0;
 }
-
 .textarea {
 	.textarea {
 		margin-top: 24px;
@@ -10,3 +9,17 @@
 .detail-date-form-margin {
 	margin-bottom: 16px;
 }
+::ng-dep .form-line.jf-required {
+	>div {
+		&:after {
+			color: red;
+			content: "*";
+			float: right;
+			margin-bottom: -20px;
+			position: relative;
+			right: -8px;
+			top: 5px;
+		}
+	}
+}
+
