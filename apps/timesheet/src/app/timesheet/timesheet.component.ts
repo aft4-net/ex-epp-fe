@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DayAndDateService } from "./services/day-and-date.service";
@@ -42,10 +43,11 @@ export class TimesheetComponent implements OnInit {
     toDate: new Date(),
     client: '', //this.clients,
     project: '', //this.projects
-    hours: '',
+    hours: 0,
     note: '',
   };
 
+  clickedDateTotalHour: number;
   date = new Date();
   futereDate: any;
   public weekDays: any[] = [];
@@ -94,6 +96,8 @@ export class TimesheetComponent implements OnInit {
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     this.calcualteNoOfDaysBetweenDates();
+
+    this.formData.hours=null;
   }
 
   // To calculate the time difference of two dates
@@ -211,13 +215,22 @@ export class TimesheetComponent implements OnInit {
     this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
   }
 
-  onDateColumnClicked(clickEventType: ClickEventType, date: Date) {
+  onDateColumnClicked(clickEventType: ClickEventType, date: any) {
+    console.log(clickEventType);
+    console.log(clickEventType.totalHours);
+    this.clickedDateTotalHour = clickEventType.totalHours
+    this.formData.fromDate = date;
+    //this.date = date;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.clickEventType = clickEventType;
     if (this.date <= new Date()) {
-      this.showFormDrawer();
+        if (this.clickedDateTotalHour<24) {
+          this.showFormDrawer();
+        }else{
+          this.createNotificationErrorOnDailyMaximumHour('error');
+        }
     } else {
-      this.createNotificationError('bottomRight');
+      this.createNotificationError('topRight');
     }
   }
 
@@ -233,7 +246,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   showFormDrawer() {
-    if (this.clickEventType == ClickEventType.showFormDrawer) {
+    if (this.clickEventType.eventType == ClickEventType.showFormDrawer) {
       (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
       (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
 
@@ -322,6 +335,13 @@ export class TimesheetComponent implements OnInit {
       '',
       'You cannot fill your timesheet for the future!',
       { nzPlacement: position }
+    );
+  }
+  createNotificationErrorOnDailyMaximumHour(type: string): void {
+    this.notification.create(
+      type,
+      'Timesheet',
+      'Time already full 24'
     );
   }
 
