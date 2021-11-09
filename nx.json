@@ -34,9 +34,6 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
-    "core-model": {
-      "tags": []
-    },
     "epp": {
       "tags": []
     },

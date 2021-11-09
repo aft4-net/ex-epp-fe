@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@exec-epp/core-models": ["libs/core-model/src/index.ts"],
       "@exec-epp/ng-zorro": ["libs/ng-zorro/src/index.ts"]
     }
   },
