@@ -57,7 +57,8 @@ export class AddresourceComponent implements OnInit {
   
    
     if (this.addResorceForm.valid) {
- this.projectResources.push({employee:this.addResorceForm.controls.resource.value,assignedDate:this.addResorceForm.controls.assignDate.value
+ this.projectResources.push({employee:this.addResorceForm.controls.resource.value,
+  assignedDate:this.addResorceForm.controls.assignDate.value
         });
         this. isModalVisible= false;
         
