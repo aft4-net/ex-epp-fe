@@ -11,7 +11,7 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
-  @Output() dateColumnClicked = new EventEmitter<any>();
+  @Output() dateColumnClicked = new EventEmitter<ClickEventType>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
@@ -70,8 +70,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showFormDrawer
-      //this.dateColumnClicked.emit(this.clickEventType);
-      this.dateColumnClicked.emit({eventType:this.clickEventType,totalHours:this.totalHours});
+      this.dateColumnClicked.emit(this.clickEventType);
     }
 
     this.clickEventType = ClickEventType.none;
