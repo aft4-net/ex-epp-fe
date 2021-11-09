@@ -1,6 +1,7 @@
 import {  NgModule } from '@angular/core';
 
 import { Routes, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
 
 import { ClientProjectComponent } from './features/client-project/client-project.component';
 

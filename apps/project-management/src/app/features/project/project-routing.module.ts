@@ -5,10 +5,10 @@ import { AddProjectComponent } from './components/Add-Project/Add-Project.compon
 
 const routes: Routes = [
  
-  { path: 'add-projects', component: AddProjectComponent},  
+  { path: 'client-project/add-project', component: AddProjectComponent},  
 ]
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule,],
 })
 export class ProjectRoutingModule { }

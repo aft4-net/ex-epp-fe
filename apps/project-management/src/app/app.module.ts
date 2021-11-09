@@ -47,10 +47,10 @@ registerLocaleData(en);
     BrowserModule,
     NgZorroModule,
     AppRoutingModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+
   ],
   providers: [ { provide: NZ_I18N, useValue: en_US }],
-
+  exports:[AppComponent],
 
   bootstrap: [AppComponent],
 })

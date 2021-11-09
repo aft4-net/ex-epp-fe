@@ -24,6 +24,6 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
     ProjectRoutingModule
 
   ],
-  exports:[ViewProjectLayoutComponent ]
+  exports:[ViewProjectLayoutComponent,AddProjectComponent ]
 })
 export class ProjectModule { }

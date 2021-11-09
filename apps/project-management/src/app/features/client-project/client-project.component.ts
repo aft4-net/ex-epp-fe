@@ -12,7 +12,7 @@ export class ClientProjectComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log("project-created");
+
   }
 
 }
