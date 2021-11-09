@@ -20,41 +20,37 @@ import { RouterModule } from '@angular/router';
 import { ViewProjectLayoutComponent } from './features/project/components/view-project-layout/view-project-layout.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
+import { ClientProjectComponent } from './features/client-project/client-project.component';
+import { ProjectModule } from './features/project/project.module';
 
 registerLocaleData(en);
 @NgModule({
   declarations: [
-
-    AddresourceComponent,
-    ResourseRequirementComponent,
     AppComponent,
     ProjectFormComponent,
     ProjectCreateComponent,
-    AddProjectComponent,
-    BreadCrumbComponent,
-
-    ViewProjectLayoutComponent,
-
-    ProjectDetailComponent
+   ClientProjectComponent,
+  
 
   ],
   imports: [
+    AppRoutingModule,
+    ProjectModule,
     NzIconModule ,
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     BrowserModule,
-        BrowserAnimationsModule,
-
+    BrowserAnimationsModule,
     HttpClientModule,
     BrowserModule,
     NgZorroModule,
     AppRoutingModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+
   ],
   providers: [ { provide: NZ_I18N, useValue: en_US }],
-
+  exports:[AppComponent],
 
   bootstrap: [AppComponent],
 })
