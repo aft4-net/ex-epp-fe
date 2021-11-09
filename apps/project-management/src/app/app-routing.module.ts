@@ -1,20 +1,30 @@
-import { RouterModule, Routes } from '@angular/router';
+import {  NgModule } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ViewProjectLayoutComponent } from './features/project/components/view-project-layout/view-project-layout.component';
+import { Routes, RouterModule } from '@angular/router';
+
+import { ClientProjectComponent } from './features/client-project/client-project.component';
 
 const routes:Routes=[
+{
 
-  {path:'view',component:ViewProjectLayoutComponent},
+  path: '',
+  component:ClientProjectComponent,
+  
+  children: [
+    {
+      path:'client-project',
+      loadChildren:()=>
+      import('./features/project/project.module').then((m)=>m.ProjectModule),
+    }
+]
+}
 
 ]
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule { }
