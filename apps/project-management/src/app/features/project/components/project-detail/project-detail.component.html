@@ -1,0 +1,154 @@
+<div class="mb-1" nz-row>
+     <div   nz-col nzSpan="10"   class="page-title" class="font-semibold" > Project Details   </div>
+     <nz-button-group  nz-col nz-col nzSpan="3" nzOffset="10">
+       <button   nz-button  >  Add Project</button>
+       <button   nz-button  class="clear-button" >  Cancel</button>
+     </nz-button-group>
+</div>
+
+
+<form
+  class="w-full max-w-4xl"
+  nz-form
+  [nzLayout]="'vertical'"
+  [formGroup]="validateForm"
+  (ngSubmit)="submitForm()"
+>
+  <nz-form-item>
+    <nz-form-label
+      class=""
+      [nzSm]="6"
+      [nzXs]="24"
+      nzRequired
+      nzFor="projectName"
+      >Project Name</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="Please input Project Name!"
+    >
+      <input
+        nz-input
+
+        formControlName="projectName"
+        id="projectName"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+<nz-form-item>
+    <nz-form-label [nzSm]="6" nzFor="projectType" nzRequired
+      >Project Type</nz-form-label
+    >
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Type!">
+      <nz-select
+        id="projectType"
+        formControlName="projectType"
+        nzPlaceHolder="Select Project Type"
+      >
+        <nz-option nzValue="internal" nzLabel="internal"></nz-option>
+        <nz-option nzValue="external" nzLabel="external"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" nzFor="clientName" nzRequired
+      >Client Name</nz-form-label
+    >
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Client Name!">
+      <nz-select
+        id="clientName"
+        formControlName="clientName"
+        nzPlaceHolder="Select client Name"
+      >
+        <nz-option nzValue="id" nzLabel="meba Feysa"></nz-option>
+        <nz-option nzValue="id" nzLabel="Natnael getahun"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+
+  <nz-form-item>
+    <nz-form-label  nzFor="status" nzRequired>Status</nz-form-label>
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Status!">
+      <nz-select
+        id="status"
+        formControlName="status"
+        nzPlaceHolder="Select project status"
+      >
+        <nz-option nzValue="signed" nzLabel="signed"></nz-option>
+        <nz-option nzValue="closed" nzLabel="closed"></nz-option>
+        <nz-option nzValue="active" nzLabel="Active"></nz-option>
+        <nz-option nzValue="inactive" nzLabel="In active"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" nzFor="supervisor" nzRequired
+      >Supervisor</nz-form-label
+    >
+    <nz-form-control [nzSm]="14" nzErrorTip="Please select Supervisor Name!">
+      <nz-select
+        id="supervisor"
+        formControlName="supervisor"
+        nzPlaceHolder="Select Supervisor Name"
+      >
+        <nz-option nzValue="id" nzLabel="Tariku A"></nz-option>
+        <nz-option nzValue="id" nzLabel="Natnael getahun"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+   <div nz-row  [nzGutter]="32">
+    <nz-col nzXs="24" nzSm="5" nzMd="7" nzLg="9">
+
+    <nz-form-item >
+      <nz-form-label nzFor="startValue" nzRequired
+      >Start Date</nz-form-label
+    >
+      <nz-form-control [nzXs]="24">
+
+      <nz-date-picker #startDatePicker
+        [nzDisabledDate]="disabledStartDate"
+        nzFormat="yyyy-MM-dd"
+        formControlName="startValue"
+        nzPlaceHolder="Start Date"
+        (nzOnOpenChange)="handleStartOpenChange($event)"
+      ></nz-date-picker>
+      </nz-form-control>
+
+    </nz-form-item>
+    </nz-col>
+    <nz-col nzXs="24" nzSm="13" nzMd="18" nzLg="12">
+    <nz-form-item  style="margin-left: 22px;" >
+      <nz-form-label [nzSm]="14" >End Date</nz-form-label>
+      <nz-form-control [nzXs]="24">
+        <nz-date-picker
+        #endDatePicker
+        [nzDisabledDate]="disabledEndDate"
+        nzFormat="yyyy-MM-dd"
+        formControlName="endValue"
+        nzPlaceHolder="End"
+        (nzOnOpenChange)="handleEndOpenChange($event)"
+      ></nz-date-picker>
+      </nz-form-control>
+
+    </nz-form-item>
+    </nz-col>
+    </div>
+    <nz-form-item nz-col nzSpan="14">
+
+      <nz-form-label>Description</nz-form-label>
+
+      <textarea  nz-input rows="4"
+
+        placeholder="Description"
+
+      ></textarea>
+
+    </nz-form-item>
+</form>
