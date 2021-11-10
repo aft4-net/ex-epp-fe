@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Employee } from '../models';
-import { Observable } from 'rxjs';
+
+import { Project } from '../models';
 import { ApiService } from '../models/apiService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService extends ApiService<Employee> {
+export class ProjectService extends ApiService<Project> {
+
+
+
 
   constructor(protected httpClient: HttpClient ) { 
     super(httpClient);
@@ -15,12 +18,8 @@ export class EmployeeService extends ApiService<Employee> {
 
   getResourceUrl(): string {
 
-    return 'employees';
+    return 'projects';
   }
 
+
 }
-
-
-
-
-
