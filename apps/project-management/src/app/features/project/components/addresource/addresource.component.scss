@@ -22,8 +22,6 @@ line-height: 17px;
 color: #E8FFE8;
   }
 
-
-
   .clear-button{
     font-family: SF Pro Display;
   font-style: normal;
@@ -38,8 +36,6 @@ color: #E8FFE8;
 
 
   .page-title{
- 
-
 
     font-family: SF Pro Display;
     font-style: normal;
@@ -49,3 +45,44 @@ color: #E8FFE8;
     color: #262626;
 
   }
+  .assgin-link{
+    font-family: SF Pro Display;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #00A551;
+
+  
+  }
+
+  ::ng-deep .ant-radio-checked .ant-radio-inner{
+    border-color:#00A551 !important ;
+  }
+  
+  ::ng-deep .ant-radio-checked .ant-radio-inner:after{
+    background-color:#00A551;
+  }
+  
+  ::ng-deep .ant-radio:hover .ant-radio-inner {
+    border-color:#00A551;
+  }
+::ng-deep .ant-table-tbody>tr>td {
+    font-family: SF Pro Display;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.tab-content{
+ padding: 0 25px;   
+}
+
+form{
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #262626;
+} 
