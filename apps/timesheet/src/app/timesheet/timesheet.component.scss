@@ -145,8 +145,40 @@
 
         margin-top: 8px;
 
-        button {
-            margin-right: 16px;
+        font-family: sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+
+        #save {
+            width: 62px;
+            align-items: center;
+
+            background-color: #BFBFBF;
+            border-radius: 2px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #F5F5F5;
+            color: #FFFFFF;
+
+            &:enabled {
+                background-color: #00A551;
+            }
+        }
+
+        #clear {
+            width: 65px;
+            margin-left: 16px;
+
+            background-color: #FFFFFF;
+
+            color: #BFBFBF;
+
+            &:enabled {
+                border-color: #00A551;
+                color: #00A551
+            }
         }
     }
 }
