@@ -46,8 +46,17 @@ export class SigninComponent {
         this.loading = false;
       },
       (error) => {
-        console.log(error);
         this.loading = false;
+        console.log(error);
+        if(error === 'Not Found')
+        {
+          this.notification.showNotification({
+            type: 'error',
+            content: 'The account doesn not exist!',
+            duration: 5000,
+          });
+          return;
+        }
         this.notification.showNotification({
           type: 'error',
           content: 'User email or password is incorrect, please try again!',
