@@ -121,4 +121,29 @@
        
         
     </nz-modal>
+
+<div *ngIf="!isModalVisible">
+    <nz-table #table [nzData]="areaOfInterests" [nzFrontPagination]="false">
+        <thead>
+          <tr>
+            <th>Position Name</th>
+            <th>Proficiency Level</th>
+            <th>Experience</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of table.data">
+            <td>{{ data.PositionName }}</td>
+            <td>{{ data.ProficiencyLevel }}</td>
+            <td>{{ data.Experience }}</td>
+            <td>
+              <a (click)="onEditRecord(data.Id)">Edit</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="onDeleteRecord(data.Id)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table> 
+</div>
 </div>

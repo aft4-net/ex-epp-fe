@@ -24,6 +24,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTableModule } from 'ng-zorro-antd/table';
 const icons: any[] = [
   EyeInvisibleOutline,
   LockOutline,
@@ -35,7 +37,7 @@ const icons: any[] = [
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule.forRoot(icons),NzModalModule,NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule],
-  exports: [NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule,NzGridModule,NzModalModule, NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule],
+  imports: [CommonModule, NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule.forRoot(icons),NzModalModule,NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule, NzTableModule,NzDividerModule],
+  exports: [NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule,NzGridModule,NzModalModule, NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule, NzTableModule, NzDividerModule],
 })
 export class AntdFormModule {}
