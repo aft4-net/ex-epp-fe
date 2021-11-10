@@ -21,7 +21,12 @@
               "apps/applicant-tracking/src/favicon.ico",
               "apps/applicant-tracking/src/assets"
             ],
-            "styles": ["apps/applicant-tracking/src/styles.scss"],
+        
+            "styles": [
+              "node_modules/ng-zorro-antd/src/ng-zorro-antd.min.css",
+              "node_modules/ng-zorro-antd/resizable/style/index.min.css",
+              "src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -116,6 +121,31 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/applicant-tracking-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "core-model": {
+      "projectType": "library",
+      "root": "libs/core-model",
+      "sourceRoot": "libs/core-model/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-model"],
+          "options": {
+            "jestConfig": "libs/core-model/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-model/src/**/*.ts",
+              "libs/core-model/src/**/*.html"
+            ]
           }
         }
       }
