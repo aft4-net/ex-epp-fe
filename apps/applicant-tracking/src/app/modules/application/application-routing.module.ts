@@ -19,8 +19,8 @@ const routes: Routes = [
       },
       {
         path: 'area-of-interest',
-        component:AreaOfInterestComponent,
-        canActivate: [aoiGuard, AuthorizationCheck]
+        component:AreaOfInterestComponent
+        // canActivate: [aoiGuard, AuthorizationCheck]
 
       }
     ],

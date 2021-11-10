@@ -5,6 +5,6 @@ import { CustomFormModule } from './forms/custom-form.module';
 @NgModule({
   declarations: [],
   imports: [CommonModule, AntdFormModule, CustomFormModule],
-  exports: [AntdFormModule, CustomFormModule],
+  exports: [CommonModule, AntdFormModule, CustomFormModule],
 })
 export class SharedModule {}
