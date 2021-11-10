@@ -8,7 +8,6 @@ import { UploaderComponent } from '../../components/forms/uploader/uploader.comp
 import { AvatarComponent } from '../../components/forms/avatar/avatar.component';
 import { AntdFormModule } from './antd-form.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 @NgModule({
   declarations: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent],
   imports: [CommonModule, AntdFormModule, FormsModule, ReactiveFormsModule],

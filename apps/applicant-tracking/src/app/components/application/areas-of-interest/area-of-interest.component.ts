@@ -10,6 +10,11 @@ export class AreaOfInterestComponent implements OnInit {
   positions = ['Scrum Master', 'Developer', 'Product Owner', 'Quality Assurance'];
   proficiencyLevels = ["Programmer Intern","Associate Software Engineer", "Software Engineer", "Senior Software Engineer", "Associate Technical Lead" ]
   skillSets = ["Agile Methodology", "Html", "CSS", "User stories", "Forecasting", "UXDesign", "Figma" ]
+  areaOfInterests = [{
+    PositionName: 'Programmer',
+    ProficiencyLevel: 'Senior II',
+    Experience: '4 Years and 5 Months',
+  }];
 
   listOfSelectedValue: string[] = [];
   listOfSelectedPrimarySkillValue: string[] = [];

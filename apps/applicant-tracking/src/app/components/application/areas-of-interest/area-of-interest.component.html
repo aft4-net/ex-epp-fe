@@ -115,10 +115,32 @@
                       </app-button>
                     </div>
                   </div>
-                  
             </form>
         </ng-container>
-       
-        
     </nz-modal>
+</div>
+
+<div *ngIf="!isModalVisible">
+    <nz-table #table [nzData]="areaOfInterests">
+        <thead>
+          <tr>
+            <th>Position Name</th>
+            <th>Proficiency Level</th>
+            <th>Experience</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of table.data">
+            <td>{{ data.PositionName }}</td>
+            <td>{{ data.ProficiencyLevel }}</td>
+            <td>{{ data.Experience }}</td>
+            <td>
+              <a>Action 一 {{ data.PositionName }}</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a>Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
 </div>
