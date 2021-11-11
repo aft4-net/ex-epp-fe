@@ -1,6 +1,6 @@
 <div class="m-5">
     <h2>Step 2- Areas of Interest</h2>
-    <button nz-button [nzType]="'link'" (click)="onShowModal()" class="link-button">
+    <button nz-button [nzType]="'link'" (click)="onAddNewClick()" class="link-button">
         <span>
             <i nz-icon nzType="plus" nzTheme="outline"></i>
             Add Position</span>
@@ -8,7 +8,7 @@
     <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Add Position" nzWidth="62%" [nzFooter]="null"
         (nzOnCancel)="handleCancel()">
         <ng-container *nzModalContent>
-            <form class="flex flex-col gap-5">
+            <form class="flex flex-col gap-5" #form>
                 <div nz-row>
                     <div nz-col nzSpan="11">
                         <div class="label required">Position you would like to apply for</div>
@@ -97,14 +97,14 @@
                 </div>
 
                 <div nz-row nzJustify="end">
-                    <div nz-col nzSpan="3">
-                        <app-button [loading]="loading" (click)="handleCancel()" type="default">
-                            Cancel
-                        </app-button>
+                    <div nz-col nzSpan="5">
+                        <label name="applyMore" [disabled]="isUpdateMode" class="checkbox-small" nz-checkbox [(ngModel)]="isMultitpleEntry">
+                            Apply for more positions
+                          </label>
                     </div>
                     <div nz-col class="col-pad" nzSpan="3">
-                        <app-button [loading]="loading" (click)="onAddRecord()" type="primary">
-                            Add
+                        <app-button  [loading]="loading" (click)="onSaveRecord()" type="primary">
+                           {{ isUpdateMode?'Update':'Add' }} 
                         </app-button>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
         <br><br>
         <div nz-row nzJustify="end">
             <div nz-col nzSpan="5">
-                    <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="areaOfInterests.length < 1">
+                    <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="(areaOfInterests.length < 1 || !isRecordUpdated)">
                         Save and continue
                     </app-button>
             </div>

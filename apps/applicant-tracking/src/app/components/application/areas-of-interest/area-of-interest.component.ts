@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 
 @Component({
   selector: 'area-of-interest',
@@ -8,10 +10,13 @@ import { Router } from '@angular/router';
 })
 export class AreaOfInterestComponent implements OnInit {
   isModalVisible = false;
+  isMultitpleEntry = false;
+  isUpdateMode = false;
+  isRecordUpdated = false;
   positions = ['Scrum Master', 'Developer', 'Product Owner', 'Quality Assurance'];
   proficiencyLevels = ["Programmer Intern","Associate Software Engineer", "Software Engineer", "Senior Software Engineer", "Associate Technical Lead" ]
   skillSets = ["Agile Methodology", "Html", "CSS", "User stories", "Forecasting", "UXDesign", "Figma" ]
-
+  
   areaOfInterests = [{
     Id: 1,
     PositionName: 'Programmer',
@@ -29,15 +34,19 @@ export class AreaOfInterestComponent implements OnInit {
   loading = false;
 
   
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+     private notification: NotificationBar,
+     private applicantService: ApplicantGeneralInfoService
+     ) { }
 
   ngOnInit(): void {
   }
-  onShowModal(): void {
+  onAddNewClick(): void {
     this.isModalVisible = true;
+    this.isUpdateMode = false;
   }
 
-  onAddRecord(): void {
+  onSaveRecord(): void {
     console.log('Button ok clicked!');
     this.loading = true;
     const newItem = Object.assign({}, this.areaOfInterests[0]); 
@@ -47,16 +56,25 @@ export class AreaOfInterestComponent implements OnInit {
     newItem.PrimarySkillSet = this.listOfSelectedPrimarySkillValue;
     newItem.SecondarySkillSet = this.listOfSelectedSecondarySkillValue;
     newItem.OtherSkillSet = this.listOfSelectedOtherSkillValue;
-
+  
     this.areaOfInterests.push(newItem);
     this.loading = false;
-    this.isModalVisible = false;
+    this.isModalVisible = this.isMultitpleEntry; 
 
+    this.notification.showNotification({
+          type: 'success',
+          content: 'You have successfully added the application',
+          duration: 5000,
+        });
+   this.isRecordUpdated = true;
 
   }
   onFormSubmit()
   {
-    this.router.navigate(['../education']);
+    this.onSaveRecord();
+    this.isModalVisible = false;
+    this.applicantService.setRoutInfo('/application/education');
+    this.router.navigate(['/application/education']);
   }
 
   handleCancel(): void {
@@ -69,6 +87,7 @@ export class AreaOfInterestComponent implements OnInit {
   }
   onEditRecord(id: number) {
    this.isModalVisible = true;
+   this.isUpdateMode = true;
    const selectedItem = this.areaOfInterests.filter(a => a.Id == id);
    this.selectedPosition = selectedItem[0].PositionName;
    this.selectedProficiency = selectedItem[0].ProficiencyLevel;
@@ -79,5 +98,4 @@ export class AreaOfInterestComponent implements OnInit {
   onDeleteRecord(id: number) {
     this.areaOfInterests = this.areaOfInterests.filter(a => a.Id !== id);
   }
-
 }
