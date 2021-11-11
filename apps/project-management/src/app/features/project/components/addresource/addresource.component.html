@@ -1,15 +1,4 @@
-<div class="tab-content" >
-      <div class="justify-between" nz-row>          
-        <div    class="page-title " > Resource    </div>
-        <div  >  
-          <button (click)="addProject()"   class="text-white bg-green-500 hover:bg-green-00 font-bold py-1 px-3 border border-green-700 rounded mr-4 ">
-            Add Project
-          </button>
-           <button (click)="cancel()"  class="bg-transparent hover:bg-green-500 hover:bg-green-70  font-semibold hover:text-white py-1 px-3 border hover:bg-green-70 hover:border-transparent rounded">
-            Cancel
-          </button>
-        </div>
-      </div>
+
       <div class="mb-3" >
         <a    nz-col nzSpan="10"  (click)="showModal()"> 
    <svg width="136" height="24" viewBox="0 0 136 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,8 +52,8 @@
           </tr>
         </tbody>
       </nz-table>
-</div>
-    <nz-modal class="p-28"  [(nzVisible)]="isModalVisible" nzTitle="Resources" (nzOnCancel)="handleCancel()"   [nzFooter]="null"  >
+
+    <nz-modal class="p-28"  [(nzVisible)]="isModalVisible" nzTitle="Assign Resources" (nzOnCancel)="handleCancel()"   [nzFooter]="null"  >
       <ng-container *nzModalContent>    
         <form *ngIf="!isEditMode  else editForm" [formGroup]="addResorceForm"  nz-form [nzLayout]="'vertical'"  (ngSubmit)="addResource()">
             <nz-form-item>
@@ -77,9 +66,19 @@
               </nz-form-item>
               <nz-form-item>
                 <nz-form-label   nzFor="assignDate" nzRequired >Assigned Date</nz-form-label>
-                <nz-form-control nzErrorTip="Please input assign Date"  >
+                <nz-form-control  >
                     <nz-date-picker    [nzAllowClear]  nzFormat="dd/MM/yyyy"      formControlName="assignDate"   nz-col nzSpan="12"  ></nz-date-picker>       
-                </nz-form-control> 
+                
+                    <span *ngIf="(addResorceForm.valid && assignedDateError) || (assignDateControl.invalid && assignDateControl.touched)" class="error-block">
+                      <span *ngIf="assignDateControl.hasError('required')">
+                        Please provide Assigned Date
+                      </span>
+                      <span *ngIf=" assignedDateError">
+                        Project Assigned Shouldn't be less than Emmployee hired Date
+                      </span>
+                      </span>
+                
+                  </nz-form-control> 
               </nz-form-item>                      
  
               <div nz-row >
@@ -101,9 +100,8 @@
                   <nz-form-label   nzFor="assignDate" nzRequired >Assigned Date</nz-form-label>
                   <nz-form-control    nzErrorTip="Please input assign Date" >
                       <nz-date-picker    [nzAllowClear]  nzFormat="dd/MM/yyyy"      formControlName="assignDate"   nz-col nzSpan="12"  ></nz-date-picker>       
-                  </nz-form-control> 
+              </nz-form-control> 
                 </nz-form-item>                      
- 
                 <div nz-row >
                <button type="submit"     class=" bg-green-500 
                hover:bg-green-70 hover:border-transparent  hover:bg-green-00 text-white font-bold py-1 px-3 border border-green-700 rounded mr-3 ">

@@ -3,3 +3,35 @@
   min-height: 700px;
   font-size: 16px;
 }
+
+.page-title{
+
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+
+  color: #262626;
+
+}
+
+.clear-button{
+  font-family: SF Pro Display;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 17px;
+
+border-color:#00A551;
+
+color: #00A551;
+}
+
+.tab-content{
+  padding: 0 25px;   
+ }
+
+ *{
+font-family: SF Pro Display;   
+
+ }
