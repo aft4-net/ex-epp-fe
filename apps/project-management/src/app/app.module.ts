@@ -13,11 +13,7 @@ import { NgModule } from '@angular/core';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ProjectCreateComponent } from './features/project/pages/project-create/project-create.component';
-import { ProjectDetailComponent } from './features/project/components/project-detail/project-detail.component';
 import { ProjectFormComponent } from './features/project/components/project-form/project-form.component';
-
-import { RouterModule } from '@angular/router';
-import { ViewProjectLayoutComponent } from './features/project/components/view-project-layout/view-project-layout.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { ClientProjectComponent } from './features/client-project/client-project.component';
