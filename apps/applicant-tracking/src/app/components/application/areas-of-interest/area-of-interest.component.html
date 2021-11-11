@@ -1,56 +1,52 @@
 <div class="m-5">
     <h2>Step 2- Areas of Interest</h2>
-    <button nz-button [nzType]="'link'" (click)="onShowModal()" class="link-button">
+    <button nz-button [nzType]="'link'" (click)="onAddNewClick()" class="link-button">
         <span>
             <i nz-icon nzType="plus" nzTheme="outline"></i>
             Add Position</span>
     </button>
-    <nz-modal [(nzVisible)]="isModalVisible"
-     nzTitle="Add Position"
-     nzWidth="62%"
-     [nzFooter] = "null"
-     (nzOnCancel)="handleCancel()" 
-     >
+    <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Add Position" nzWidth="62%" [nzFooter]="null"
+        (nzOnCancel)="handleCancel()">
         <ng-container *nzModalContent>
-            <form class="flex flex-col gap-5">
+            <form class="flex flex-col gap-5" #form>
                 <div nz-row>
-                    <div nz-col  nzSpan="11">
+                    <div nz-col nzSpan="11">
                         <div class="label required">Position you would like to apply for</div>
-                        <nz-select>
-                            <nz-option *ngFor="let option of positions" [nzLabel]="option" [nzValue]="option"
-                                >
+                        <nz-select  [(ngModel)]="selectedPosition" name="position">
+                            <nz-option *ngFor="let option of positions" [nzLabel]="option" [nzValue]="option">
                             </nz-option>
                         </nz-select>
                     </div>
-                    <div nz-col  nzSpan="6">
+                    <div nz-col nzSpan="6">
                         <div class="line-container">
-                        <div class="label required">Proficiency Level</div>
-                        <nz-select>
-                            <nz-option *ngFor="let option1 of proficiencyLevels" [nzLabel]="option1"
-                                [nzValue]="option1">
-                            </nz-option>
-                        </nz-select>
-                    </div>
+                            <div class="label required">Proficiency Level</div>
+                            <nz-select [(ngModel)]="selectedProficiency" name="proficiencyLevel">
+                                <nz-option *ngFor="let option1 of proficiencyLevels" [nzLabel]="option1"
+                                    [nzValue]="option1">
+                                </nz-option>
+                            </nz-select>
+                        </div>
                     </div>
                     <div nz-col nzSpan="7">
                         <div class="line-container">
-                        <div class="label required">Years of experience</div>
-                        <div nz-row>
-                            <div nz-col nzSpan="12">
-                                <div class="line-container-sm">
-                                <nz-input-group nzAddOnAfter="Years" class="label label-sm" style="font-size: smaller" nzCompact="true">
-                                    <input type="number" nz-input/>
-                                </nz-input-group>
-                            </div>
-                            </div>
+                            <div class="label required">Years of experience</div>
+                            <div nz-row>
+                                <div nz-col nzSpan="12">
+                                    <div class="line-container-sm">
+                                        <nz-input-group nzAddOnAfter="Years" class="label label-sm"
+                                            style="font-size: smaller" nzCompact="true">
+                                            <input type="number" nz-input />
+                                        </nz-input-group>
+                                    </div>
+                                </div>
 
-                            <div nz-col  nzSpan="12">
-                                <nz-input-group nzAddOnAfter="Months" class="label label-sm" nzCompact="true">
-                                    <input type="number" nz-input/>
-                                </nz-input-group>
+                                <div nz-col nzSpan="12">
+                                    <nz-input-group nzAddOnAfter="Months" class="label label-sm" nzCompact="true">
+                                        <input type="number" nz-input />
+                                    </nz-input-group>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
 
@@ -62,34 +58,36 @@
                         </div>
                         <nz-select name="primarySkill" nzMode="multiple" [nzShowArrow]="true"
                             [(ngModel)]="listOfSelectedPrimarySkillValue">
-                            <nz-option *ngFor="let primarySkill of skillSets" [nzLabel]="primarySkill" [nzValue]="primarySkill"
+                            <nz-option *ngFor="let primarySkill of skillSets" [nzLabel]="primarySkill"
+                                [nzValue]="primarySkill"
                                 [nzHide]="!isNotSelected(listOfSelectedPrimarySkillValue, primarySkill)">
                             </nz-option>
                         </nz-select>
                     </div>
                 </div>
 
-                 <!-- secondary skill set -->
-                 <div nz-row>
+                <!-- secondary skill set -->
+                <div nz-row>
                     <div nz-col nzSpan="24">
                         <div class="label required">Secondary skill set
                             <span class="label muted">(Maximum 5 skills)</span>
                         </div>
-                        <nz-select name="secondarySkill" nzMode="multiple"  [nzShowArrow]="true"
+                        <nz-select name="secondarySkill" nzMode="multiple" [nzShowArrow]="true"
                             [(ngModel)]="listOfSelectedSecondarySkillValue">
-                            <nz-option *ngFor="let secondarySkill of skillSets" [nzLabel]="secondarySkill" [nzValue]="secondarySkill"
+                            <nz-option *ngFor="let secondarySkill of skillSets" [nzLabel]="secondarySkill"
+                                [nzValue]="secondarySkill"
                                 [nzHide]="!isNotSelected(listOfSelectedSecondarySkillValue, secondarySkill)">
                             </nz-option>
                         </nz-select>
                     </div>
                 </div>
-                 <!-- other skill set -->
-                 <div nz-row>
+                <!-- other skill set -->
+                <div nz-row>
                     <div nz-col nzSpan="24">
                         <div class="label required">Other skill set
                             <span class="label muted">(Maximum 10 skills)</span>
                         </div>
-                        <nz-select name="otherSkill" nzMode="multiple"  [nzShowArrow]="true"
+                        <nz-select name="otherSkill" nzMode="multiple" [nzShowArrow]="true"
                             [(ngModel)]="listOfSelectedOtherSkillValue">
                             <nz-option *ngFor="let skill of skillSets" [nzLabel]="skill" [nzValue]="skill"
                                 [nzHide]="!isNotSelected(listOfSelectedOtherSkillValue,skill)">
@@ -99,48 +97,56 @@
                 </div>
 
                 <div nz-row nzJustify="end">
-                    <div nz-col nzSpan="3">
-                      <app-button [loading]="loading" (click)="handleCancel()" type="default">
-                        Cancel
-                      </app-button>
-                      </div>
-                      <div nz-col class="col-pad" nzSpan="5">
-                      <app-button [loading]="loading" (click)="onFormSubmit()" type="primary">
-                        Save and Continue
-                      </app-button>
-                </div>
-                <div nz-col class="col-pad" nzSpan="3">
-                      <app-button [loading]="loading" (click)="onFormSubmit()" type="primary">
-                        Save
-                      </app-button>
+                    <div nz-col nzSpan="5">
+                        <label name="applyMore" [disabled]="isUpdateMode" class="checkbox-small" nz-checkbox [(ngModel)]="isMultitpleEntry">
+                            Apply for more positions
+                          </label>
                     </div>
-                  </div>
+                    <div nz-col class="col-pad" nzSpan="3">
+                        <app-button  [loading]="loading" (click)="onSaveRecord()" type="primary">
+                           {{ isUpdateMode?'Update':'Add' }} 
+                        </app-button>
+                    </div>
+                </div>
             </form>
         </ng-container>
     </nz-modal>
+    <div *ngIf="!isModalVisible" style="width: 85%;">
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-table #table [nzData]="areaOfInterests" [nzFrontPagination]="false">
+                    <thead>
+                        <tr>
+                            <th>Position Name</th>
+                            <th>Proficiency Level</th>
+                            <th>Experience</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of table.data">
+                            <td>{{ data.PositionName }}</td>
+                            <td>{{ data.ProficiencyLevel }}</td>
+                            <td>{{ data.Experience }}</td>
+                            <td>
+                                <a (click)="onEditRecord(data.Id)">
+                                    <i nz-icon nzType="edit" nzTheme="outline"></i>
+                                    Edit</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="onDeleteRecord(data.Id)">Delete</a>
+                            </td> 
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+        <br><br>
+        <div nz-row nzJustify="end">
+            <div nz-col nzSpan="5">
+                    <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="(areaOfInterests.length < 1 || !isRecordUpdated)">
+                        Save and continue
+                    </app-button>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- 
-<div *ngIf="!isModalVisible">
-    <nz-table #table [nzData]="areaOfInterests">
-        <thead>
-          <tr>
-            <th>Position Name</th>
-            <th>Proficiency Level</th>
-            <th>Experience</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of table.data">
-            <td>{{ data.PositionName }}</td>
-            <td>{{ data.ProficiencyLevel }}</td>
-            <td>{{ data.Experience }}</td>
-            <td>
-              <a>Action 一 {{ data.PositionName }}</a>
-              <nz-divider nzType="vertical"></nz-divider>
-              <a>Delete</a>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table> 
-</div>-->
