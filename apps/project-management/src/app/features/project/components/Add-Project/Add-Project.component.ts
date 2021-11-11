@@ -8,10 +8,12 @@ import { NzTabPosition } from 'ng-zorro-antd/tabs';
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
+  projectDetail!: boolean;
 
   constructor() { }
 
   ngOnInit() {
+    this.projectDetail = false;
   }
 
 }

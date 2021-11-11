@@ -3,7 +3,7 @@
    <exec-epp-project-detail></exec-epp-project-detail>
   </nz-tab>
 
-  <nz-tab nzTitle='Resources'>
+  <nz-tab nzTitle='Resources' [nzDisabled]="!projectDetail">
     <exec-epp-addresource>  </exec-epp-addresource>
   </nz-tab>
 </nz-tabset>

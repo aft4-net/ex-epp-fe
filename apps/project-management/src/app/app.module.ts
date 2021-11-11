@@ -15,6 +15,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ProjectCreateComponent } from './features/project/pages/project-create/project-create.component';
 import { ProjectDetailComponent } from './features/project/components/project-detail/project-detail.component';
 import { ProjectFormComponent } from './features/project/components/project-form/project-form.component';
+import { HeaderComponent } from './core/header/header.component';
 
 import { RouterModule } from '@angular/router';
 import { ViewProjectLayoutComponent } from './features/project/components/view-project-layout/view-project-layout.component';
@@ -30,7 +31,7 @@ registerLocaleData(en);
     ProjectFormComponent,
     ProjectCreateComponent,
    ClientProjectComponent,
-  
+   HeaderComponent
 
   ],
   imports: [
