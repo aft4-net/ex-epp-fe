@@ -5,6 +5,7 @@ import { PersonalInformationComponent } from '../../components/application/perso
 import { AuthorizationCheck } from '../../services/autherization/authorizationCheck';
 import { AreaOfInterestComponent } from '../../components/application/areas-of-interest/area-of-interest.component';
 import { aoiGuard } from '../../services/navigationGuard/aoiGuard';
+import { EducationComponent } from '../../components/application/education/education.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,12 @@ const routes: Routes = [
       {
         path: 'area-of-interest',
         component:AreaOfInterestComponent
+        // canActivate: [aoiGuard, AuthorizationCheck]
+
+      },
+      {
+        path: 'education',
+        component:EducationComponent
         // canActivate: [aoiGuard, AuthorizationCheck]
 
       }

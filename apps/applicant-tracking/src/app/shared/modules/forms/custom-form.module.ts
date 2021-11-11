@@ -6,12 +6,12 @@ import { PhoneInputComponent } from '../../components/forms/phone-input/phone-in
 import { CountrySelectorComponent } from '../../components/forms/country-selector/country-selector.component';
 import { UploaderComponent } from '../../components/forms/uploader/uploader.component';
 import { AvatarComponent } from '../../components/forms/avatar/avatar.component';
+import { SelectComponent } from '../../components/forms/select/select.component';
 import { AntdFormModule } from './antd-form.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 @NgModule({
-  declarations: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent],
+  declarations: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent, SelectComponent],
   imports: [CommonModule, AntdFormModule, FormsModule, ReactiveFormsModule],
-  exports: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent],
+  exports: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent, SelectComponent],
 })
 export class CustomFormModule {}
