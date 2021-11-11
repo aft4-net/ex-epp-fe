@@ -4,8 +4,17 @@
   font-size: 16px;
 }
 
+.createButton {
+  background: #00A551;
+  border-color: #00A551;
+}
+
+.cancelButton {
+  color: #00A551;
+  border-color: #00A551;
+}
 .redAstrics {
-  color: red;
+  color: #F52121;
   margin-bottom: 5px;
 }
 

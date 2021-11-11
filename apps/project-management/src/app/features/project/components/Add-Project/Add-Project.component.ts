@@ -7,13 +7,15 @@ import { Client, ClientService, Employee, EmployeeService, Project, ProjectCreat
 import { Router } from '@angular/router';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css']
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
-  projectDetail!: boolean;
+  projectStatus!: boolean;
+  selectedStatus!: string;
 
   validateForm!: FormGroup;
   userSubmitted!: boolean;
@@ -107,6 +109,7 @@ export class AddProjectComponent implements OnInit {
    this.projectCreate.resources=this.resources;
    this.projectService.createProject(this.projectCreate);
    this.router.navigateByUrl('/');
+   console.log(this.validateForm.value)
   }
 
   onReset(){
@@ -192,6 +195,30 @@ export class AddProjectComponent implements OnInit {
   updateProjectResourseList(resources: projectResourceType[])
   {
     this.resources=resources;
+  }
+
+  selectChangeHandler (event: any) {
+    this.selectedStatus = event.target.value;
+    console.log(this.selectedStatus)
+  }
+
+  checkProjectStatus() {
+    switch (this.status.value)
+    {
+      case 'Active':
+           this.projectStatus = true;
+          break;
+      case 'onHold':
+          this.projectStatus = false;
+          break;
+      case 'Closed':
+          this.projectStatus = false;
+          break;
+      case 'Terminated':
+          this.projectStatus = false;
+          break;
+    }
+    return
   }
 }
 

@@ -2,12 +2,12 @@
   <nz-tab nzSelected nzTitle='Project Details'>
     <div class="tab-content">
     <div class="justify-between" nz-row>
-      <div    class="page-title " > Project Details   </div>
+      <div    class="page-title " > Project Details </div>
       <div  >
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="text-white bg-green-500 hover:bg-green-400 font-bold py-1 px-3 border border-green-500 rounded mr-4 ">
+        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border  rounded mr-4 ">
           Create Project
         </button>
-         <button  (click)="onReset()"   class="bg-transparent hover:bg-green-500 hover:bg-green-70  font-semibold hover:text-white py-1 px-3 border hover:bg-green-70 hover:border-transparent rounded">
+         <button  (click)="onReset()"   class="cancelButton bg-transparent hover:bg-green-500 hover:bg-green-70  font-semibold hover:text-white py-1 px-3 border hover:bg-green-70 hover:border-transparent rounded">
           Cancel
         </button>
       </div>
@@ -53,7 +53,7 @@ nz-form
        Project name should not be lesser than 2 character
      </span>
      <span *ngIf="projectNameExits">
-       Project Name alredy exits , Please input another
+       Project Name already exits , Please input another
     </span>
    </span>
    </nz-form-control>
@@ -109,6 +109,7 @@ nz-form
 </svg></nz-form-label>
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Status!">
    <nz-select
+   [(ngModel)]="selectedStatus"
      id="status"
      formControlName="status"
      nzPlaceHolder="Select project status"
@@ -122,6 +123,8 @@ nz-form
  </nz-form-control>
 </nz-form-item>
 
+<p>{{selectedStatus}}</p>
+
 <nz-form-item>
  <nz-form-label [nzSm]="6" nzFor="supervisor"
    >Supervisor &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
@@ -129,7 +132,7 @@ nz-form
   </svg></nz-form-label
  >
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Supervisor Name!">
-   <nz-select   nzShowSearch nzAllowClearv
+   <nz-select   nzShowSearch nzAllowClear
      id="supervisor"
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
@@ -226,11 +229,11 @@ nz-form
     </div>
   </nz-tab>
 
-  <nz-tab nzTitle='Resources'>
+  <nz-tab [nzDisabled]="selectedStatus !== '1sfds3sfcefsf' || validateForm.invalid" nzTitle='Resources'>
   <div class="tab-content">
     <div class="justify-between" nz-row>
-      <div    class="page-title " > Resource  </div>
-      <div  >
+      <div class="page-title " > Resource  </div>
+      <div>
         <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="text-white bg-green-500 hover:bg-green-00 font-bold py-1 px-3 border border-green-700 rounded mr-4 ">
           Create Project
         </button>
