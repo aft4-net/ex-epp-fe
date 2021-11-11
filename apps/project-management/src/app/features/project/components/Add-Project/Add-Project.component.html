@@ -87,7 +87,7 @@ nz-form
      id="clientName"
      formControlName="client"
      nzPlaceHolder="Select client Name">
-     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.name}}  [nzValue]="client.id"></nz-option>        
+     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.clientName}}  [nzValue]="client.guid"></nz-option>        
    </nz-select>
    <div class="error-block"
    *ngIf="clientName.invalid && clientName.touched">
@@ -106,7 +106,7 @@ nz-form
      formControlName="status"
      nzPlaceHolder="Select project status"
    >
-   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.name}}  [nzValue]="status.id"></nz-option>   
+   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.statusName}}  [nzValue]="status.guid"></nz-option>   
    </nz-select>
    <div class="error-block"
    *ngIf="status.invalid && status.touched">
@@ -125,7 +125,7 @@ nz-form
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
    >
-   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.name}}-{{employee.postion}}  [nzValue]="employee.id"></nz-option>        
+   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.name}}-{{employee.role}}  [nzValue]="employee.guid"></nz-option>        
    </nz-select>
    <div class="error-block"
    *ngIf="supervisor.invalid && supervisor.touched">

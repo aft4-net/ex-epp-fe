@@ -70,13 +70,13 @@ export class AddProjectComponent implements OnInit {
       {  
       this.enableAddResourceTab=true; 
        this.projectStartdDate=  this.validateForm.controls.startValue.value;  
-      this.projectCreate.name=this.validateForm.controls.projectName.value
-      this.projectCreate.clientId=this.validateForm.controls.client.value;
+      this.projectCreate.projectName=this.validateForm.controls.projectName.value
+      this.projectCreate.ClientGuid=this.validateForm.controls.client.value;
       this.projectCreate.endDate=this.validateForm.controls.endValue.value;
-      this.projectCreate.supervisorId=this.validateForm.controls.supervisor.value;
+      this.projectCreate.supervisorGuid=this.validateForm.controls.supervisor.value;
       this.projectCreate.startDate=this.validateForm.controls.startValue.value;
-      this.projectCreate.type=this.validateForm.controls.projectType.value;
-      this.projectCreate.status=this.validateForm.controls.status.value; 
+      this.projectCreate.projectType=this.validateForm.controls.projectType.value;
+      this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value; 
       this.projectCreate.description=this.validateForm.controls.description.value;
       }else
       {
@@ -103,7 +103,7 @@ export class AddProjectComponent implements OnInit {
 
   onSubmit(){
   this.userSubmitted = true;
-   this.projectCreate.resources=this.resources;
+   this.projectCreate.assignResource=this.resources;
    this.projectService.createProject(this.projectCreate);
    this.router.navigateByUrl('/');
   }

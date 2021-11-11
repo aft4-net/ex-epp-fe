@@ -1,8 +1,19 @@
 export interface Employee {
-  id: string;
-  name: string;
-  postion: EmployeePostion;
-  hiredDate:Date;
+  guid: string,
+
+  isActive: boolean,
+
+  isDeleted: boolean,
+
+  createdDate: Date,
+
+  createdbyUserGuid: string,
+
+  name: string,
+
+  role: string,
+
+  hiredDate: Date
 }
 
 export enum EmployeePostion {

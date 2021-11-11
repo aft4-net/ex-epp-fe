@@ -1,4 +1,20 @@
 export interface Client {
-  id: string;
-  name: string;
+
+  clientName: string,
+
+  clientStatus: string,
+
+  managerAssigned: string,
+
+  description: string,
+
+  guid: string,
+
+  isActive: true,
+
+  isDeleted: false,
+
+  createdDate: string,
+
+  createdbyUserGuid: string
 }
