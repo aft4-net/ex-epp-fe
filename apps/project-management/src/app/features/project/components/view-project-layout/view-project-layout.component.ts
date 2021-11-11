@@ -21,9 +21,10 @@ export interface RandomUser {
 @Injectable({ providedIn: 'root' })
 export class RandomUserService {
   randomUserUrl = 'https://api.randomuser.me/';
+  url='http://localhost:14696/api/v1/Project'
 
-  getRealData(){
-     return this.http.get<ProjectData>('http://localhost:14696/api/v1/Project');
+  getRealData(id?:string,searchKey?:string, pageIndex?:number,pageSize?:number){
+     return this.http.get<ProjectData>(this.url+ '?searchKey='+searchKey+'&pageindex='+pageIndex+'&pageSize='+pageSize);
 
     }
   getUsers(
@@ -64,8 +65,8 @@ export class ViewProjectLayoutComponent implements OnInit {
   loading = true;
   pageSize = 10;
   pageIndex = 1;
-
-
+  idParam='';
+  searchKey='';
   loadDataFromServer(
     pageIndex: number,
     pageSize: number,
@@ -76,7 +77,7 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.loading = true;
     this.randomUserService.getUsers(pageIndex, pageSize, sortField, sortOrder).subscribe(data => {
       this.loading = false;
-      this.total = 200;
+      //this.total = 200;
       this.listOfRandomUser = data.results;
     });
   }
@@ -94,10 +95,11 @@ export class ViewProjectLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer(this.pageIndex, this.pageSize, null, null);
-    this.randomUserService.getRealData().subscribe((projectMetaData:ProjectData)=>{
-      this.projects=projectMetaData.Data;
 
-      console.log(this.projects);
+    this.randomUserService.getRealData(this.idParam,this.searchKey, this.pageIndex-1, this.pageSize).subscribe((projectMetaData:ProjectData)=>{
+      this.projects=projectMetaData.Data;
+      this.total=projectMetaData.TotalRecord;
+      console.log(projectMetaData);
     })
 
 

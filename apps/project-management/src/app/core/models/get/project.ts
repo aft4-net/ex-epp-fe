@@ -52,8 +52,7 @@ createdbyUserGuid:string
 }
 
 export interface ProjectData{
-  responseStatus: string,
-  message: string,
-  ex: any,
+  TotalPage:number;
+  TotalRecord:number;
   Data: Project[]
 }

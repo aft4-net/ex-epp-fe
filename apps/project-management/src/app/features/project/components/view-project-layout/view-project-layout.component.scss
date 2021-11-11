@@ -17,6 +17,22 @@ a {
 nz-table.table-container.ant-table-wrapper {
   padding-top: 1%;
 }
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background:none !important;
+}
+
+tr.ant-table-row.ng-star-inserted {
+  height: 56px !important;
+  padding:16px !important;
+}
+.main_container_homepage {
+  padding: 0px 2%;
+}
+.ant-table table {
+border: 1pxsolid #ddd;
+}
+
+
 
 
 
