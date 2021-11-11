@@ -5,8 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SignInResponse } from '../../../models/user/signInResponse';
+import { Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
@@ -17,8 +16,8 @@ import { FormValidator } from '../../../utils/validator';
   styleUrls: ['./signin.component.css'],
 })
 export class SigninComponent {
-  showPassword: boolean = false;
-  loading: boolean = false;
+  showPassword = false;
+  loading = false;
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
@@ -77,5 +76,4 @@ export class SigninComponent {
     private validator: FormValidator
   ) {}
 
-  ngOnInit(): void {}
 }
