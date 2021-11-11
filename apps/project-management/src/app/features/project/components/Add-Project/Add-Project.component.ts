@@ -93,7 +93,7 @@ export class AddProjectComponent implements OnInit {
     this.validateForm = this.fb.group({
       projectName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       client: ['Excellerent Solutions', [Validators.required]],
-      projectType: [null, [Validators.required]],
+      projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
@@ -137,8 +137,9 @@ export class AddProjectComponent implements OnInit {
 
   handleEndOpenChange(open: boolean): void {
 
-
+    console.log('handleEndOpenChange', open);
   }
+
 
   get projectName() {
     return this.validateForm.controls.projectName as FormControl;
