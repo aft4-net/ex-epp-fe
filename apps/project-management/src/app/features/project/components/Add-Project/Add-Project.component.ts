@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
+  projectDetail!: boolean;
 
   validateForm!: FormGroup;
   userSubmitted!: boolean;
@@ -40,7 +41,7 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-    constructor(private fb: FormBuilder,private projectService:ProjectService, 
+    constructor(private fb: FormBuilder,private projectService:ProjectService,
     private clientService:ClientService ,private employeeService:EmployeeService,
     private projectStatusService:ProjectStatusService,private router:Router) { }
 
@@ -53,12 +54,12 @@ export class AddProjectComponent implements OnInit {
     })
     this.employeeService.getAll().subscribe((response:Employee[])=>{
       this.employees=response;
-    
+
     });
-  
+
     this.projectStatusService.getAll().subscribe((response:ProjectStatus[])=>{
       this.projectStatuses=response;
-   
+
     })
     this.projectService.getAll().subscribe((response:Project[])=>{
       this.projects=response;
@@ -67,23 +68,23 @@ export class AddProjectComponent implements OnInit {
 
     this.validateForm.valueChanges.subscribe(()=>{
       if( this.validateForm.valid)
-      {  
-      this.enableAddResourceTab=true; 
-       this.projectStartdDate=  this.validateForm.controls.startValue.value;  
+      {
+      this.enableAddResourceTab=true;
+       this.projectStartdDate=  this.validateForm.controls.startValue.value;
       this.projectCreate.name=this.validateForm.controls.projectName.value
       this.projectCreate.clientId=this.validateForm.controls.client.value;
       this.projectCreate.endDate=this.validateForm.controls.endValue.value;
       this.projectCreate.supervisorId=this.validateForm.controls.supervisor.value;
       this.projectCreate.startDate=this.validateForm.controls.startValue.value;
       this.projectCreate.type=this.validateForm.controls.projectType.value;
-      this.projectCreate.status=this.validateForm.controls.status.value; 
+      this.projectCreate.status=this.validateForm.controls.status.value;
       this.projectCreate.description=this.validateForm.controls.description.value;
       }else
       {
         console.log("invalid")
        this.projectCreate={} as ProjectCreate
       }
-    
+
     });
 
   }
@@ -92,7 +93,7 @@ export class AddProjectComponent implements OnInit {
     this.validateForm = this.fb.group({
       projectName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       client: ['Excellerent Solutions', [Validators.required]],
-      projectType: [null, [Validators.required]],
+      projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
@@ -136,8 +137,9 @@ export class AddProjectComponent implements OnInit {
 
   handleEndOpenChange(open: boolean): void {
 
-  
+    console.log('handleEndOpenChange', open);
   }
+
 
   get projectName() {
     return this.validateForm.controls.projectName as FormControl;
@@ -170,11 +172,11 @@ export class AddProjectComponent implements OnInit {
   {
    let found=false;
     if(!this.validateForm.controls.projectName.invalid)
-      {     
+      {
        for(const project of this.projects)
-       {  
-            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.name.toLowerCase()) 
-            found=true;          
+       {
+            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.name.toLowerCase())
+            found=true;
        }
       }
       if(found==true)
