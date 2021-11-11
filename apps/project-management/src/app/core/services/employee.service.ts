@@ -1,24 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Employee } from '@exec-epp/core-models';
+import { Employee } from '../models';
 import { Observable } from 'rxjs';
+import { ApiService } from '../models/apiService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class EmployeeService extends ApiService<Employee> {
 
-
-  APIUrl="http://localhost:3333/api/Employees "; 
-  constructor(protected httpClient: HttpClient ) {
+  constructor(protected httpClient: HttpClient ) { 
+    super(httpClient);
   }
 
-  getAll(): Observable<Array<Employee>>
-  {
-    return this.httpClient.get<Employee[]>(this.APIUrl);
+  getResourceUrl(): string {
+
+    return 'employees';
   }
-
-
-  
 
 }
+
+
+
+
+
