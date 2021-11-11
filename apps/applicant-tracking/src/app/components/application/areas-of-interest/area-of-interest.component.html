@@ -129,7 +129,9 @@
                             <td>{{ data.ProficiencyLevel }}</td>
                             <td>{{ data.Experience }}</td>
                             <td>
-                                <a (click)="onEditRecord(data.Id)">Edit</a>
+                                <a (click)="onEditRecord(data.Id)">
+                                    <i nz-icon nzType="edit" nzTheme="outline"></i>
+                                    Edit</a>
                                 <nz-divider nzType="vertical"></nz-divider>
                                 <a (click)="onDeleteRecord(data.Id)">Delete</a>
                             </td>
