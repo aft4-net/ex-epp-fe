@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { Client, ClientService, Employee, EmployeeService, Project, ProjectCreate, projectResourceType, ProjectService, ProjectStatus, ProjectStatusService } from '../../../../core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-Add-Project',
@@ -10,10 +15,182 @@ export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
   projectDetail!: boolean;
 
-  constructor() { }
+  validateForm!: FormGroup;
+  userSubmitted!: boolean;
+  currentDate = Date.now.toString();
+  projectCreate:ProjectCreate={} as ProjectCreate;
+  clients= []as Client[];
+  employees= [] as Employee[];
+  projects= [] as Project[];
+  projectStatuses=[] as ProjectStatus[];
+  projectNameExits=false;
+  enableAddResourceTab=false;
+   projectStartdDate={}as Date;
+  resources: projectResourceType[]=[] as  projectResourceType[];
 
-  ngOnInit() {
-    this.projectDetail = false;
+  @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
+  @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
+
+
+  submitForm(): void {
+    for (const i in this.validateForm.controls) {
+      if (this.validateForm.controls.hasOwnProperty(i)) {
+        this.validateForm.controls[i].markAsDirty();
+        this.validateForm.controls[i].updateValueAndValidity();
+      }
+    }
   }
 
+    constructor(private fb: FormBuilder,private projectService:ProjectService,
+    private clientService:ClientService ,private employeeService:EmployeeService,
+    private projectStatusService:ProjectStatusService,private router:Router) { }
+
+  ngOnInit(): void {
+
+    this.createRegistrationForm();
+    this.clientService.getAll().subscribe(response=>{
+      this.clients=response;
+
+    })
+    this.employeeService.getAll().subscribe((response:Employee[])=>{
+      this.employees=response;
+
+    });
+
+    this.projectStatusService.getAll().subscribe((response:ProjectStatus[])=>{
+      this.projectStatuses=response;
+
+    })
+    this.projectService.getAll().subscribe((response:Project[])=>{
+      this.projects=response;
+    })
+
+
+    this.validateForm.valueChanges.subscribe(()=>{
+      if( this.validateForm.valid)
+      {
+      this.enableAddResourceTab=true;
+       this.projectStartdDate=  this.validateForm.controls.startValue.value;
+      this.projectCreate.name=this.validateForm.controls.projectName.value
+      this.projectCreate.clientId=this.validateForm.controls.client.value;
+      this.projectCreate.endDate=this.validateForm.controls.endValue.value;
+      this.projectCreate.supervisorId=this.validateForm.controls.supervisor.value;
+      this.projectCreate.startDate=this.validateForm.controls.startValue.value;
+      this.projectCreate.type=this.validateForm.controls.projectType.value;
+      this.projectCreate.status=this.validateForm.controls.status.value;
+      this.projectCreate.description=this.validateForm.controls.description.value;
+      }else
+      {
+        console.log("invalid")
+       this.projectCreate={} as ProjectCreate
+      }
+
+    });
+
+  }
+
+  createRegistrationForm(){
+    this.validateForm = this.fb.group({
+      projectName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      client: ['Excellerent Solutions', [Validators.required]],
+      projectType: [null, [Validators.required]],
+      status: [null, [Validators.required]],
+      supervisor: [null, [Validators.required]],
+      startValue: [null, [Validators.required]],
+      endValue: [null, [Validators.required]],
+      description:[""]
+    });
+  }
+
+  onSubmit(){
+  this.userSubmitted = true;
+   this.projectCreate.resources=this.resources;
+   this.projectService.createProject(this.projectCreate);
+   this.router.navigateByUrl('/');
+  }
+
+  onReset(){
+    this.userSubmitted = false;
+    this.validateForm.reset();
+  }
+
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.validateForm.controls.endValue.value) {
+      return false;
+    }
+    return startValue.getTime() > this.validateForm.controls.endValue.value.getTime();
+  };
+
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.validateForm.controls.startValue.value) {
+      return false;
+    }
+    return endValue.getTime() <= this.validateForm.controls.startValue.value.getTime();
+  };
+
+  handleStartOpenChange(open: boolean): void {
+    if (!open) {
+      this.endDatePicker.open();
+    }
+
+  }
+
+  handleEndOpenChange(open: boolean): void {
+
+
+  }
+
+  get projectName() {
+    return this.validateForm.controls.projectName as FormControl;
+  }
+
+  get clientName() {
+    return this.validateForm.controls.client as FormControl;
+  }
+
+  get projectType() {
+    return this.validateForm.controls.projectType as FormControl;
+  }
+
+  get status() {
+    return this.validateForm.controls.status as FormControl;
+  }
+
+  get supervisor() {
+    return this.validateForm.controls.supervisor as FormControl;
+  }
+
+  get startValue() {
+    return this.validateForm.controls.startValue as FormControl;
+  }
+
+  get endValue() {
+    return this.validateForm.controls.endValue as FormControl;
+  }
+  onInputProjectName(event:Event)
+  {
+   let found=false;
+    if(!this.validateForm.controls.projectName.invalid)
+      {
+       for(const project of this.projects)
+       {
+            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.name.toLowerCase())
+            found=true;
+       }
+      }
+      if(found==true)
+      {this.projectNameExits=true;
+        this.validateForm.controls.projectName.setErrors({'incorrect':true});
+      }
+      else
+      {this.projectNameExits=false;
+        this.validateForm.controls.projectName.setErrors(null);
+      }
+  }
+
+  updateProjectResourseList(resources: projectResourceType[])
+  {
+    this.resources=resources;
+  }
 }
+

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  FormGroup,  Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder,  FormControl,  FormGroup,  Validators } from '@angular/forms';
 import { Employee, ProjectResource,ProjectService,EmployeeService, projectResourceType  } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 
@@ -31,7 +31,10 @@ export class AddresourceComponent implements OnInit {
   projectResources:ProjectResource[]=[]; 
   isModalVisible = false;  
   isEditMode=false;
+  assignedDateError=false;
+  @Input() projectStartdDate={} as Date;
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
+
 
 
 
@@ -50,7 +53,36 @@ export class AddresourceComponent implements OnInit {
       assignDate:[null,Validators.required],
     });
 
-  }
+    this.addResorceForm.controls.assignDate.valueChanges.subscribe(()=>{
+      console.log(this.projectStartdDate.getDate());
+
+      
+ 
+        if(this.addResorceForm.controls.assignDate.value.toLocaleDateString().getTime()  < this.projectStartdDate.getTime()  )
+       { 
+        console.log("worked") 
+        this.assignedDateError=true;
+          this.addResorceForm.controls.assignDate.setErrors({'incorrect':true});
+      }
+      else
+         {
+           console.log("No");
+          this.assignedDateError=false;
+          this.addResorceForm.controls.assignDate.setErrors(null);
+         }
+
+        
+    });
+    
+}
+
+
+get assignDateControl() {
+  return   this.addResorceForm.controls.assignDate as FormControl;
+}
+  
+
+  
 
   addResource()
   {
@@ -187,6 +219,8 @@ if( this.editResorceForm.valid)
 {
   this.employees.sort((a, b) => a.name.localeCompare(b.name))
 }
+
+
 
 
 }

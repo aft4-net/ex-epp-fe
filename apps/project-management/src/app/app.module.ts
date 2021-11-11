@@ -13,7 +13,6 @@ import { NgModule } from '@angular/core';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ProjectCreateComponent } from './features/project/pages/project-create/project-create.component';
-import { ProjectDetailComponent } from './features/project/components/project-detail/project-detail.component';
 import { ProjectFormComponent } from './features/project/components/project-form/project-form.component';
 import { HeaderComponent } from './core/header/header.component';
 
