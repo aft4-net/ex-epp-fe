@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'area-of-interest',
@@ -20,14 +21,15 @@ export class AreaOfInterestComponent implements OnInit {
     SecondarySkillSet: ["User Stories","Forecasting"],
     OtherSkillSet: ["UXDesign","Forecasting", "Communication"],
   }];
-  listOfSelectedValue: string[] = [];
+  selectedPosition = '';
+  selectedProficiency = '';
   listOfSelectedPrimarySkillValue: string[] = [];
   listOfSelectedSecondarySkillValue: string[] = [];
   listOfSelectedOtherSkillValue: string[] = [];
   loading = false;
 
   
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -35,15 +37,26 @@ export class AreaOfInterestComponent implements OnInit {
     this.isModalVisible = true;
   }
 
-  onFormSubmit(): void {
+  onAddRecord(): void {
     console.log('Button ok clicked!');
     this.loading = true;
-    
-    this.areaOfInterests.push(...this.areaOfInterests);
+    const newItem = Object.assign({}, this.areaOfInterests[0]); 
+    newItem.Id = newItem.Id + 1;
+    newItem.PositionName = this.selectedPosition;
+    newItem.ProficiencyLevel = this.selectedProficiency;
+    newItem.PrimarySkillSet = this.listOfSelectedPrimarySkillValue;
+    newItem.SecondarySkillSet = this.listOfSelectedSecondarySkillValue;
+    newItem.OtherSkillSet = this.listOfSelectedOtherSkillValue;
+
+    this.areaOfInterests.push(newItem);
     this.loading = false;
     this.isModalVisible = false;
 
 
+  }
+  onFormSubmit()
+  {
+    this.router.navigate(['../education']);
   }
 
   handleCancel(): void {
@@ -57,7 +70,8 @@ export class AreaOfInterestComponent implements OnInit {
   onEditRecord(id: number) {
    this.isModalVisible = true;
    const selectedItem = this.areaOfInterests.filter(a => a.Id == id);
-   this.listOfSelectedValue = [selectedItem[0].PositionName];
+   this.selectedPosition = selectedItem[0].PositionName;
+   this.selectedProficiency = selectedItem[0].ProficiencyLevel;
    this.listOfSelectedPrimarySkillValue = selectedItem[0].PrimarySkillSet;
    this.listOfSelectedSecondarySkillValue = selectedItem[0].SecondarySkillSet;
    this.listOfSelectedOtherSkillValue = selectedItem[0].SecondarySkillSet;
