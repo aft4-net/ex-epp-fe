@@ -1,0 +1,17 @@
+nzTitle {
+  font-weight: bolder;
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: black;
+
+  text-shadow: 0 0 .25px currentColor;
+}
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background: #DCFFDC;
+}
+
+.site-page-header
+ {
+   height: 77px;
+ }

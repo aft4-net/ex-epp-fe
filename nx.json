@@ -34,6 +34,9 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
+    "core-model": {
+      "tags": []
+    },
     "epp": {
       "tags": []
     },
@@ -50,6 +53,13 @@
     "passport-e2e": {
       "tags": [],
       "implicitDependencies": ["passport"]
+    },
+    "project-management": {
+      "tags": []
+    },
+    "project-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["project-management"]
     },
     "timesheet": {
       "tags": []

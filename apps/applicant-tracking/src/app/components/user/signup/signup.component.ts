@@ -3,33 +3,47 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Validator } from '../../../interfaces/validator';
 import { AccountService } from '../../../services/user/account.service';
+import { FormValidator } from '../../../utils/validator';
+import { Router } from '@angular/router';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
-export class SignupComponent implements OnInit, Validator {
+export class SignupComponent implements OnInit {
   showPassword = false;
+  loading: boolean = false;
+
+  constructor(private validator: FormValidator,private accountService: AccountService, 
+    private router: Router, private notification: NotificationBar,) {}
+
   signUpForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    firstName: new FormControl('', [
+      this.validator.validateName(),
+      Validators.required,
+    ]),
+    lastName: new FormControl('', [
+      this.validator.validateName(),
+      Validators.required,
+    ]),
+    email: new FormControl('', [
+      this.validator.validateEmail(),
+      Validators.required,
+    ]),
     password: new FormControl('', [
+      this.validator.validatePassword(),
       Validators.required,
       Validators.minLength(8),
     ]),
     confirmPassword: new FormControl('', [
+      this.validator.validatePassword(),
       Validators.required,
       Validators.minLength(8),
-      this.validateConfirmPassword(),
     ]),
   });
   get signUpEmail(): AbstractControl | null {
@@ -43,30 +57,38 @@ export class SignupComponent implements OnInit, Validator {
   }
 
   signup() {
+    this.loading = true;
     this.accountService.signUp(this.signUpForm.value).subscribe(response => {
-      this.router.navigateByUrl('');
-      console.log(response.message);
+      this.loading = false;
+      this.router.navigateByUrl('/');
+      this.notification.showNotification({
+        type: 'success',
+        content: 'Successfully Registered. Please login to continue!',
+        duration: 5000,
+      });
     }, error => {
+      this.loading = false;
       console.log(error);
-    });
+      this.notification.showNotification({
+        type: 'error',
+        content: error,
+        duration: 5000,
+      });
+    })
   }
-
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
 
-  validateConfirmPassword(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const isValid = this.signUpForm?.get('password')?.value !== control.value;
-      return isValid ? { confirmPassword: { value: control.value } } : null;
-    };
-  }
-
-  constructor(private accountService: AccountService, private router: Router) {}
-
   ngOnInit(): void {
-    this.signUpForm.controls.password.valueChanges.subscribe(() => {
+    this.signUpForm.controls.password.valueChanges.subscribe((val) => {
+      this.signUpForm.controls.confirmPassword.setValidators([
+        this.validator.validateConfirmPassword(val),
+        this.validator.validatePassword(),
+        Validators.required,
+        Validators.minLength(8),
+      ]);
       this.signUpForm.controls.confirmPassword.updateValueAndValidity();
     });
   }
