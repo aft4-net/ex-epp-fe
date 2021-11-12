@@ -1,13 +1,13 @@
 <nz-tabset  class="side-nav p-2" [nzTabPosition]="position">
-  <nz-tab nzSelected nzTitle='Project Details'>
+  <nz-tab class="side-nav-tab" nzSelected nzTitle='Project Details'>
     <div class="tab-content">
     <div class="justify-between" nz-row>
-      <div    class="page-title " > Project Details </div>
+      <div class="page-title"> Project Details </div>
       <div  >
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border  rounded mr-4 ">
+        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
           Create Project
         </button>
-         <button  (click)="onReset()"   class="cancelButton bg-transparent hover:bg-green-500 hover:bg-green-70  font-semibold hover:text-white py-1 px-3 border hover:bg-green-70 hover:border-transparent rounded">
+         <button  (click)="onReset()"   class="cancelButton bg-transparent font-semibold py-1 px-3 border hover:border-transparent">
           Cancel
         </button>
       </div>
