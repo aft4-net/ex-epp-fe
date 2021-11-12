@@ -9,7 +9,6 @@ import { AvatarComponent } from '../../components/forms/avatar/avatar.component'
 import { SelectComponent } from '../../components/forms/select/select.component';
 import { AntdFormModule } from './antd-form.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 @NgModule({
   declarations: [InputComponent, ButtonComponent, PhoneInputComponent, CountrySelectorComponent, UploaderComponent, AvatarComponent, SelectComponent],
   imports: [CommonModule, AntdFormModule, FormsModule, ReactiveFormsModule],

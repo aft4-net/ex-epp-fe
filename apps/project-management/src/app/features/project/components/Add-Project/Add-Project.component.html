@@ -2,18 +2,18 @@
 
 <exec-epp-bread-crumb> </exec-epp-bread-crumb>
 <nz-tabset  class="side-nav p-2" [nzTabPosition]="position">
-  <nz-tab nzSelected nzTitle='Project Details'>
+  <nz-tab class="side-nav-tab" nzSelected nzTitle='Project Details'>
     <div class="tab-content">
     <div class="justify-between" nz-row>
-      <div    class="page-title " > Project Details   </div>
+      <div class="page-title"> Project Details </div>
       <div  >
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="text-white bg-green-500 hover:bg-green-400 font-bold py-2 px-3 border border-green-500  mr-4 ">
+        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
           Create Project
         </button>
-         <button  (click)="onReset()"   class="bg-transparent hover:bg-green-500  font-semibold hover:text-white py-2 px-3 border hover:border-transparent ">
+         <button  (click)="onReset()"   class="cancelButton bg-transparent font-semibold py-1 px-3 border hover:border-transparent">
           Cancel
         </button>
-      </div>
+  
     </div>
 
 
@@ -45,20 +45,20 @@ nz-form
      id="projectName"
    />
 
-   <span *ngIf="!projectName.valid && (projectName.touched || userSubmitted ) ||  projectNameExits" class="error-block">
-     <span *ngIf="projectName.hasError('required')">
-       Please provide Project name
-     </span>
-     <span *ngIf="projectName.errors?.maxlength">
-       Project name should not be more than 20 character
-     </span>
-     <span *ngIf="projectName.errors?.minlength">
-       Project name should not be lesser than 2 character
-     </span>
-     <span *ngIf="projectName.errors?.projectNameExits">
-         {{projectNameExitsErrorMessage}}
+   <span *ngIf="!projectName.valid && (projectName.touched || userSubmitted)" class="error-block">
+    <span *ngIf="projectName.hasError('required')">
+      Please provide Project name
+    </span>
+    <span *ngIf="projectName.errors?.maxlength">
+      Project name should not be more than 20 character
+    </span>
+    <span *ngIf="projectName.errors?.minlength">
+      Project name should not be lesser than 2 character
     </span>
    </span>
+   <span *ngIf="projectNameExits && projectName.valid" class="error-block">
+    Project Name already exists , Please try another
+ </span>
    </nz-form-control>
 </nz-form-item>
 
@@ -106,13 +106,13 @@ nz-form
 </nz-form-item>
 
 
-
 <nz-form-item>
  <nz-form-label  nzFor="status" >Status &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
   <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
 </svg></nz-form-label>
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Status!">
    <nz-select
+   [(ngModel)]="selectedStatus"
      id="status"
      formControlName="status"
      nzPlaceHolder="Select project status"
@@ -133,7 +133,7 @@ nz-form
   </svg></nz-form-label
  >
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Supervisor Name!">
-   <nz-select   nzShowSearch nzAllowClearv
+   <nz-select   nzShowSearch nzAllowClear
      id="supervisor"
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
@@ -228,9 +228,10 @@ nz-form
  </nz-form-item>
 </form>
     </div>
+    </div>
   </nz-tab>
 
-  <nz-tab nzTitle='Resources'>
+  <nz-tab  nzTitle='Resources'>
   <div class="tab-content">
     <div class="justify-between" nz-row>
       <div    class="page-title " > Project Details   </div>
