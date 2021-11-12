@@ -5,15 +5,10 @@ import { Observable, of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Project } from 'apps/project-management/src/app/core/models/get/project';
+import { ProjectData } from 'apps/project-management/src/app/core/models/get/project';
 import { catchError } from 'rxjs/operators';
 
-// interface DataItem {
-//   id: string;
-//   project: string;
-//   client: string;
-//   status: string;
-//   supervisor: string;
-// }
 export interface RandomUser {
   gender: string;
   email: string;
@@ -26,30 +21,33 @@ export interface RandomUser {
 @Injectable({ providedIn: 'root' })
 export class RandomUserService {
   randomUserUrl = 'https://api.randomuser.me/';
+  url='http://localhost:14696/api/v1/Project'
 
+  getRealData(id?:string,searchKey?:string, pageIndex?:number,pageSize?:number){
+     return this.http.get<ProjectData>(this.url+ '?searchKey='+searchKey+'&pageindex='+pageIndex+'&pageSize='+pageSize);
+
+    }
   getUsers(
     pageIndex: number,
     pageSize: number,
     sortField: string | null,
     sortOrder: string | null,
-    // filters: Array<{ key: string; value: string[] }>
+
   ): Observable<{ results: RandomUser[] }> {
     const params = new HttpParams()
       .append('page', `${pageIndex}`)
       .append('results', `${pageSize}`)
       .append('sortField', `${sortField}`)
       .append('sortOrder', `${sortOrder}`);
-    // filters.forEach(filter => {
-    //   filter.value.forEach(value => {
-    //     params = params.append(filter.key, value);
-    //   });
-    // });
+
     return this.http
       .get<{ results: RandomUser[] }>(`${this.randomUserUrl}`, { params })
       .pipe(catchError(() => of({ results: [] })));
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.getRealData();
+  }
 }
 
 
@@ -60,33 +58,32 @@ export class RandomUserService {
 })
 export class ViewProjectLayoutComponent implements OnInit {
 
+  projects:Project[]=[]
+
   total = 1;
   listOfRandomUser: RandomUser[] = [];
   loading = true;
   pageSize = 10;
   pageIndex = 1;
-  // filterGender = [
-  //   { text: 'male', value: 'male' },
-  //   { text: 'female', value: 'female' }
-  // ];
-
+  idParam='';
+  searchKey='';
   loadDataFromServer(
     pageIndex: number,
     pageSize: number,
     sortField: string | null,
     sortOrder: string | null,
-    // filter: Array<{ key: string; value: string[] }>
+
   ): void {
     this.loading = true;
     this.randomUserService.getUsers(pageIndex, pageSize, sortField, sortOrder).subscribe(data => {
       this.loading = false;
-      this.total = 200; // mock the total data here
+      //this.total = 200;
       this.listOfRandomUser = data.results;
     });
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
+
     const { pageSize, pageIndex, sort } = params;
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
@@ -98,7 +95,19 @@ export class ViewProjectLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer(this.pageIndex, this.pageSize, null, null);
+
+    this.randomUserService.getRealData(this.idParam,this.searchKey, this.pageIndex-1, this.pageSize).subscribe((projectMetaData:ProjectData)=>{
+      this.projects=projectMetaData.Data;
+      this.total=projectMetaData.TotalRecord;
+
+    })
+
+
+
   }
+
+
+
   startEdit()
   {
 
