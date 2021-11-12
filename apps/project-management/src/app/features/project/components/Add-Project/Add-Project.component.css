@@ -1,6 +1,6 @@
 ::ng-deep .ant-tabs-nav {
-  width: 266px !important;
-  min-height: 700px;
+  /* width: 266px !important; */
+  /* min-height: 700px; */
   font-size: 16px;
 }
 
@@ -36,8 +36,4 @@ color: #00A551;
   padding: 0 25px;
  }
 
- *{
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
-
- }
 

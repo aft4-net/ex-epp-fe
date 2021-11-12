@@ -58,9 +58,9 @@
       <ng-container *nzModalContent>    
         <form *ngIf="!isEditMode  else editForm" [formGroup]="addResorceForm"  nz-form [nzLayout]="'vertical'"  (ngSubmit)="addResource()">
             <nz-form-item>
-                <nz-form-label nz-row  nzFor="resource" >Resource
-            <span class="redAstrics">   *   </span>              
-                </nz-form-label>
+           <nz-form-label  nz-row  nzFor="resource" >Resource
+            <span class="redAstrics">   *   </span>    </nz-form-label>         
+                
                 <nz-form-control nz-row  nzErrorTip="Please select a Resource">
                     <nz-select *ngIf="employees"   formControlName="resource" nz-col nzSpan="24"  nzShowSearch nzAllowClear nzPlaceHolder="Select a Resource" >
                         <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee"></nz-option>        
@@ -89,12 +89,12 @@
               <div nz-row >
 
              <button type="submit"           class=" bg-green-500 
-              hover:border-transparent  hover:bg-green-400 text-white font-bold py-1 px-3 border border-green-500 rounded mr-3 ">
+              hover:border-transparent  hover:bg-green-400 text-white font-bold py-2 px-3 border border-green-500  mr-3 ">
                Add
              </button>   
        
              <a  class=" text-green-600  border-1 border-green-500  border-solid bg-transparent hover:bg-green-500  font-semibold hover:text-white
-              py-1 px-2 border hover:bg-green-70 hover:border-transparent rounded"  (click)="resetForm()"> Clear
+              py-2 px-3 border hover:bg-green-70 hover:border-transparent "  (click)="resetForm()"> Clear
            </a>
               </div> 
         </form> 
@@ -136,11 +136,11 @@
                 </nz-form-item>                      
                 <div nz-row >
                <button type="submit"     class=" bg-green-500 
-               hover:bg-green-70 hover:border-transparent  hover:bg-green-00 text-white font-bold py-1 px-3 border border-green-700 rounded mr-3 ">
+               hover:bg-green-70 hover:border-transparent  hover:bg-green-00 text-white font-bold py-2 px-3 border border-green-700 rounded mr-3 ">
                  Edit
                </button>       
                <a  class=" text-green-700  border-1 border-green-700  border-solid bg-transparent hover:bg-green-500  font-semibold hover:text-white
-                py-1 px-2 border hover:bg-green-70 hover:border-transparent rounded" (click)="resetEditForm()"> Clear
+                py-2 px-3 border hover:bg-green-70 hover:border-transparent " (click)="resetEditForm()"> Clear
              </a>
                 </div> 
              </form>               

@@ -4,6 +4,7 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ProjectService } from 'apps/project-management/src/app/core';
 
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 
@@ -30,7 +31,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,private projectService:ProjectService) { }
 
   ngOnInit(): void {
     console.log(this.currentDate)
@@ -48,6 +49,8 @@ export class ProjectDetailComponent implements OnInit {
       endValue: [null, [Validators.required]],
 
     });
+
+  
   }
 
   onSubmit(){
