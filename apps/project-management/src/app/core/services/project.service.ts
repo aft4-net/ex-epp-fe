@@ -15,16 +15,20 @@ export class ProjectService extends ApiService<Project> {
 
   getResourceUrl(): string {
 
-    return 'projects';
+    return 'Project';
   }
+
+
 
   createProject(data:ProjectCreate)
    {
-     this.post(data).pipe(
-           tap(()=>this.notification.success('Project Saved','')      
-            ,(error:any)=>{
+     this.post(data).subscribe
+         (()=>{this.notification.success('Project added successfully','');  
+          }               
+           ,(error:any)=>{
+    
               this.notification.error('Project Not Saved','Please Try again letter');
             }
-           ))
+           )
   }
 }

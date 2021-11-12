@@ -1,4 +1,4 @@
-import { Employee, } from './';
+import { Client, Employee, } from './';
 
 
 
@@ -7,7 +7,7 @@ export interface Project {
   name: string;
   status: string;
   type: projectType;
-
+  client:Client;
 }
 
 

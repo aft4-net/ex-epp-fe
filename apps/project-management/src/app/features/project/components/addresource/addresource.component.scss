@@ -23,7 +23,7 @@ color: #E8FFE8;
   }
 
   .clear-button{
-    font-family: SF Pro Display;
+
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -46,7 +46,7 @@ color: #E8FFE8;
 
   }
   .assgin-link{
-    font-family: SF Pro Display;
+
     font-style: normal;
     font-weight: 500;
     font-size: 1.1rem;
@@ -67,7 +67,7 @@ color: #E8FFE8;
     border-color:#00A551;
   }
 ::ng-deep .ant-table-tbody>tr>td {
-    font-family: SF Pro Display;
+  
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -76,11 +76,23 @@ color: #E8FFE8;
 
 
 
-form{
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-} 
+
+*{
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+
+ }
+
+
+ .redAstrics {
+  color: red;
+  margin-top: 8px;
+  font-size: 1.3rem;
+  margin-left: 10px;
+}
+
+
+::ng-deep .ant-modal-content  {
+  height: 22.5rem;
+}
+
+

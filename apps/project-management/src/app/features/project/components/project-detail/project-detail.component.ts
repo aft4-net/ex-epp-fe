@@ -41,7 +41,7 @@ export class ProjectDetailComponent implements OnInit {
     this.validateForm = this.fb.group({
       projectName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       clientName: ['Excellerent Solutions', [Validators.required]],
-      projectType: [null, [Validators.required]],
+      projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],

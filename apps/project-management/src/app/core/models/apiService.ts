@@ -46,7 +46,7 @@ export abstract class ApiService<T> {
 
 
   post(resource:any) {
-    return this.httpClient.post(this.APIUrl, resource);
+    return this.httpClient.post("http://localhost:14696/api/v1/Project", resource);
   }
 
   delete(id: string | number) {

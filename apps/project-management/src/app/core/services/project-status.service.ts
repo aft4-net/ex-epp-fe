@@ -13,7 +13,7 @@ export class ProjectStatusService  extends ApiService<ProjectStatus> {
   }
 
   getResourceUrl(): string {
-    return 'projectstatus';
+    return 'ProjectStatus';
   }
 
 }

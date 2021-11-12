@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
+  projectDetail!: boolean;
 
   validateForm!: FormGroup;
   userSubmitted!: boolean;
@@ -24,6 +25,7 @@ export class AddProjectComponent implements OnInit {
   projectStatuses=[] as ProjectStatus[];
   projectNameExits=false;
   enableAddResourceTab=false;
+  projectNameExitsErrorMessage=""
    projectStartdDate={}as Date;
   resources: projectResourceType[]=[] as  projectResourceType[];
 
@@ -40,7 +42,7 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-    constructor(private fb: FormBuilder,private projectService:ProjectService, 
+    constructor(private fb: FormBuilder,private projectService:ProjectService,
     private clientService:ClientService ,private employeeService:EmployeeService,
     private projectStatusService:ProjectStatusService,private router:Router) { }
 
@@ -53,12 +55,12 @@ export class AddProjectComponent implements OnInit {
     })
     this.employeeService.getAll().subscribe((response:Employee[])=>{
       this.employees=response;
-    
+
     });
-  
+
     this.projectStatusService.getAll().subscribe((response:ProjectStatus[])=>{
       this.projectStatuses=response;
-   
+
     })
     this.projectService.getAll().subscribe((response:Project[])=>{
       this.projects=response;
@@ -70,29 +72,29 @@ export class AddProjectComponent implements OnInit {
       {  
       this.enableAddResourceTab=true; 
        this.projectStartdDate=  this.validateForm.controls.startValue.value;  
-      this.projectCreate.projectName=this.validateForm.controls.projectName.value
+      this.projectCreate.ProjectName=this.validateForm.controls.projectName.value
       this.projectCreate.ClientGuid=this.validateForm.controls.client.value;
-      this.projectCreate.endDate=this.validateForm.controls.endValue.value;
-      this.projectCreate.supervisorGuid=this.validateForm.controls.supervisor.value;
-      this.projectCreate.startDate=this.validateForm.controls.startValue.value;
+      this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
+      this.projectCreate.SupervisorGuid=this.validateForm.controls.supervisor.value;
+      this.projectCreate.StartDate=this.validateForm.controls.startValue.value;
       this.projectCreate.projectType=this.validateForm.controls.projectType.value;
       this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value; 
-      this.projectCreate.description=this.validateForm.controls.description.value;
+      this.projectCreate.Description=this.validateForm.controls.description.value;
+
       }else
       {
-        console.log("invalid")
        this.projectCreate={} as ProjectCreate
       }
-    
+
     });
 
   }
 
   createRegistrationForm(){
     this.validateForm = this.fb.group({
-      projectName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
-      client: ['Excellerent Solutions', [Validators.required]],
-      projectType: [null, [Validators.required]],
+      projectName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      client: ['3fa85f64-5717-4562-b3fc-2c963f66afa6', [Validators.required]],
+      projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
@@ -139,6 +141,7 @@ export class AddProjectComponent implements OnInit {
   
   }
 
+
   get projectName() {
     return this.validateForm.controls.projectName as FormControl;
   }
@@ -170,16 +173,23 @@ export class AddProjectComponent implements OnInit {
   {
    let found=false;
     if(!this.validateForm.controls.projectName.invalid)
-      {     
-       for(const project of this.projects)
-       {  
-            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.name.toLowerCase()) 
-            found=true;          
+      {
+        if(this.projects!=[])
+       for(let  i=0 ;this.projects.length; i++)
+       {
+           
+        if(this.validateForm.controls.projectName.value.toString().toLowerCase()==this.projects[i].name.toLowerCase())
+          {           
+           found=true;
+            this.projectNameExitsErrorMessage="Project name already exists by this"+this.projects[i].client.ClientName+" client"
+          }
+           
+     
        }
       }
       if(found==true)
       {this.projectNameExits=true;
-        this.validateForm.controls.projectName.setErrors({'incorrect':true});
+        this.validateForm.controls.projectName.setErrors({'projectNameExits':true});
       }
       else
       {this.projectNameExits=false;

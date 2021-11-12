@@ -1,15 +1,15 @@
 import { projectResourceType } from ".";
 
 export interface ProjectCreate {
-  projectName: string;
+  ProjectName: string;
   ProjectStatusGuid: string;
   projectType:string;
-  supervisorGuid:string;
-  startDate: Date;
-  endDate?: Date;
+  SupervisorGuid:string;
+  StartDate: Date;
+  EndDate?: Date;
   ClientGuid :string;
   assignResource?: projectResourceType[];
-  description?:string
+  Description?:string
 }
 
 

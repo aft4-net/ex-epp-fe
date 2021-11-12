@@ -14,7 +14,7 @@ export class ClientService extends ApiService<Client> {
 
   getResourceUrl(): string {
 
-    return 'clients';
+    return 'Client';
   }
 
 }

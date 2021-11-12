@@ -1,13 +1,13 @@
 export interface ProjectStatus {
-    guid: string,
+    Guid: string,
 
-    isActive:boolean ,
+    IsActive:boolean ,
   
-    isDeleted: boolean,
+    IsDeleted: boolean,
   
-    createdDate: Date,
+    CreatedDate: Date,
   
-    createdbyUserGuid: string,
+    CreatedbyUserGuid: string,
   
-    statusName: string
+    StatusName: string
 }    

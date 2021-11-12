@@ -33,11 +33,8 @@ export class AddresourceComponent implements OnInit {
   isModalVisible = false;  
   isEditMode=false;
   assignedDateError=false;
-  @Input() projectStartdDate={} as Date;
+
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
-
-
-
 
   ngOnInit(): void {
     this.employeeService.getAll().subscribe((response:Employee[])=>{
@@ -50,32 +47,42 @@ export class AddresourceComponent implements OnInit {
       assignDate:[null,Validators.required],
     });
     this.editResorceForm= this.fb.group({
-  
+      resource:[null,Validators.required],
       assignDate:[null,Validators.required],
     });
 
-    this.addResorceForm.controls.assignDate.valueChanges.subscribe(()=>{
-    
-  
-     const projectStartedDate = formatDate(this.projectStartdDate,'yyyy-MM-dd','en_US');
-     const  hiredDate = formatDate(this.addResorceForm.controls.resource.value.hiredDate,'yyyy-MM-dd','en_US');
-   
-        if(hiredDate < projectStartedDate )
-       { 
-     
-        this.assignedDateError=true;
-          this.addResorceForm.controls.assignDate.setErrors({'incorrect':true});
-      }
+    this.addResorceForm.valueChanges.subscribe(()=>{
+      if(this.addResorceForm.valid)
+    { const projectAssignDate= formatDate(this.addResorceForm.controls.assignDate.value,'yyyy-MM-dd','en_US');
+     const  hiredDate = formatDate(this.addResorceForm.controls.resource.value.HiredDate,'yyyy-MM-dd','en_US');
+
+        if( projectAssignDate <hiredDate )
+          this.addResorceForm.controls.assignDate.setErrors({'invalidDate':true});
       else
-         {
-           console.log("No");
-          this.assignedDateError=false;
           this.addResorceForm.controls.assignDate.setErrors(null);
-         }
+         
         
-        
+        }   
     });
+
+
+    this.editResorceForm.valueChanges.subscribe(()=>{
+      if(this.editResorceForm.valid)
+     { const  projectAssignDate = formatDate( this.editResorceForm.controls.assignDate.value,'yyyy-MM-dd','en_US');
+      const  hiredDate = formatDate(this.editResorceForm.controls.resource.value.HiredDate,'yyyy-MM-dd','en_US');
     
+         if( projectAssignDate <hiredDate)
+        {
+         this.editResorceForm.controls.assignDate.setErrors({'invalidDate':true});
+
+        }
+       else
+          this.editResorceForm.controls.assignDate.setErrors(null);
+    }
+    else
+    this.addResorceForm.controls.assignDate.setErrors(null);       
+     });
+
 }
 
 
@@ -83,30 +90,29 @@ get assignDateControl() {
   return   this.addResorceForm.controls.assignDate as FormControl;
 }
   
-
-  
+get assignDateEditControl() {
+  return   this.editResorceForm.controls.assignDate as FormControl;
+}
 
   addResource()
-  {
-  
-   
+  {   
     if (this.addResorceForm.valid) {
  this.projectResources.push({employee:this.addResorceForm.controls.resource.value,assignedDate:this.addResorceForm.controls.assignDate.value
         });
         this. isModalVisible= false;
         
-this.resources.push({  employeeId:this.addResorceForm.controls.resource.value.id,
+this.resources.push({  employeeId:this.addResorceForm.controls.resource.value.Guid,
                     assignedDate:this.addResorceForm.controls.assignDate.value})
-
 
 this.addProjectResourceEvent.emit(this.resources)
 this.sortEmployees();
-this.employees=this.employees.filter(s=>s.guid!==this.addResorceForm.controls.resource.value.id);
+this.employees=this.employees.filter(s=>s.Guid!==this.addResorceForm.controls.resource.value.Guid);
 this.addResorceForm.reset();
     } else {
       Object.values(this.addResorceForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
+          control.markAsTouched();
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
@@ -136,27 +142,19 @@ this.addResorceForm.reset();
   resetEditForm()
   {
     this.editResorceForm.controls.assignDate.setValue("");
-
+    this.editResorceForm.controls.resource.setValue("");
   }
 
-  cancel()
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-{}
- 
- 
-addProject()
-{
 
-  
-}
 
   editResource(id:string)
   {
     this.addResorceForm.reset();
-    const projectResource=this.projectResources.find(s=>s.employee.guid==id);
+    const projectResource=this.projectResources.find(s=>s.employee.Guid==id);
     if(projectResource)
    {
-
+   
+    this.editResorceForm.controls.resource.setValue(projectResource.employee);
     this.editResorceForm.controls.assignDate.setValue(projectResource.assignedDate);
     this.asignedResourseToEdit=projectResource;
     this.isEditMode=true; 
@@ -166,23 +164,30 @@ addProject()
 
   submitEditdValue()
   {
+
 if( this.editResorceForm.valid)
 {
+  if(this. asignedResourseToEdit.employee.Guid!=this.editResorceForm.controls.resource.value.Guid)
+    { this.employees.push(this.asignedResourseToEdit.employee);
+      this.employees=this.employees.filter(s=>s.Guid!==this.editResorceForm.controls.resource.value.Guid);
+      this.sortEmployees();
+    }
   this. asignedResourseToEdit.assignedDate= this.editResorceForm.controls.assignDate.value;
+  this. asignedResourseToEdit.employee=this.editResorceForm.controls.resource.value;
 
-  this.projectResources.map(s=>s.employee.guid=== this. asignedResourseToEdit.employee.guid?s:this. asignedResourseToEdit)  
-  
-  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.guid?s:
-    {  employeeId: this. asignedResourseToEdit.employee.guid,
+  this.projectResources.map(s=>s.employee.Guid=== this. asignedResourseToEdit.employee.Guid?s:this. asignedResourseToEdit)  
+ 
+  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.Guid?s:
+    {  employeeId: this.editResorceForm.controls.resource.value.Guid,
       assignedDate:this.editResorceForm.controls.assignDate.value,
-        assignedTo:this.editResorceForm.controls.assignTo.value}
+      }
       )
 
       for(let i=0;i< this.resources.length;i++)
       {
-         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.guid)
+         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.Guid)
                 {  
-                 this.resources[i]={  employeeId: this. asignedResourseToEdit.employee.guid,
+                 this.resources[i]={  employeeId: this.editResorceForm.controls.resource.value.Guid,
                   assignedDate:this.editResorceForm.controls.assignDate.value};                
                 
                  this.addProjectResourceEvent.emit(this.resources);
@@ -207,11 +212,11 @@ if( this.editResorceForm.valid)
 
   removeResource(id:string)
   {
-  const projectResourece=this.projectResources.find(s=>s.employee.guid==id);
+  const projectResourece=this.projectResources.find(s=>s.employee.Guid==id);
        if(projectResourece)
        this.employees.push(projectResourece.employee);
        this.sortEmployees();
-  this.projectResources=this.projectResources.filter(s=>s.employee.guid!==id);
+  this.projectResources=this.projectResources.filter(s=>s.employee.Guid!==id);
   this.resources=this.resources.filter(s=>s.employeeId!=id);
   this.addProjectResourceEvent.emit(this.resources);
 
@@ -219,7 +224,7 @@ if( this.editResorceForm.valid)
 
   sortEmployees()
 {
-  this.employees.sort((a, b) => a.name.localeCompare(b.name))
+  this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
 }
 
 
