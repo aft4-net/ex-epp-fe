@@ -2,7 +2,7 @@
   <div   nz-col nzSpan="10"   class="page-title" class="font-semibold" > Project Details   </div>
   <nz-button-group  nz-col nz-col nzSpan="3" nzOffset="10">
     <button [disabled]="!validateForm.valid" (click)="onSubmit()" nz-button  >  Add Project</button>
-    <button (click)="onReset()"  nz-button  class="clear-button" >  Cancel</button>
+    <button (click)="onReset()"  nz-button  class="clear-button">  Cancel</button>
   </nz-button-group>
 </div>
 
@@ -19,9 +19,10 @@ nz-form
    class=""
    [nzSm]="6"
    [nzXs]="24"
-   nzRequired
    nzFor="projectName"
-   >Project Name</nz-form-label
+   >Project Name &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
+    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+  </svg> </nz-form-label
  >
  <nz-form-control
    [nzSm]="14"
@@ -49,8 +50,10 @@ nz-form
 </nz-form-item>
 
 <nz-form-item>
- <nz-form-label [nzSm]="6" nzFor="projectType" nzRequired
-   >Project Type</nz-form-label
+ <nz-form-label [nzSm]="6" nzFor="projectType"
+   >Project Type &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
+    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+  </svg></nz-form-label
  >
  <nz-form-control [nzSm]="14">
    <nz-select
@@ -58,8 +61,8 @@ nz-form
      formControlName="projectType"
      nzPlaceHolder="Select Project Type"
    >
-     <nz-option nzValue="internal" nzLabel="Internal"></nz-option>
-     <nz-option nzValue="external" nzLabel="External"></nz-option>
+     <nz-option nzValue="internal" nzLabel="External"></nz-option>
+     <nz-option nzValue="external" nzLabel="Internal"></nz-option>
    </nz-select>
    <div class="error-block"
    *ngIf="projectType.invalid && projectType.touched">
@@ -68,9 +71,11 @@ nz-form
  </nz-form-control>
 </nz-form-item>
 
-<nz-form-item *ngIf="projectType.value === 'external'">
- <nz-form-label [nzSm]="6" nzFor="clientName" nzRequired
-   >Client Name</nz-form-label
+<nz-form-item *ngIf="projectType.value === 'External'">
+ <nz-form-label [nzSm]="6" nzFor="clientName"
+   >Client Name &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
+    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+  </svg></nz-form-label
  >
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Client Name!">
    <nz-select
@@ -92,7 +97,9 @@ nz-form
 
 
 <nz-form-item>
- <nz-form-label  nzFor="status" nzRequired>Status</nz-form-label>
+ <nz-form-label  nzFor="status">Status &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
+  <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+</svg></nz-form-label>
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Status!">
    <nz-select
      id="status"
@@ -112,8 +119,10 @@ nz-form
 </nz-form-item>
 
 <nz-form-item>
- <nz-form-label [nzSm]="6" nzFor="supervisor" nzRequired
-   >Supervisor</nz-form-label
+ <nz-form-label [nzSm]="6" nzFor="supervisor"
+   >Supervisor &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
+    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+  </svg></nz-form-label
  >
  <nz-form-control [nzSm]="14" nzErrorTip="Please select Supervisor Name!">
    <nz-select
@@ -139,9 +148,11 @@ nz-form
 
  <nz-form-item >
 
-   <nz-form-label nzFor="startValue" nzRequired
+   <nz-form-label nzFor="startValue"
 
-   >Start Date</nz-form-label
+   >Start Date &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
+    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+  </svg></nz-form-label
 
  >
 
@@ -172,7 +183,7 @@ nz-form
 
 <nz-form-item  >
 
- <nz-form-label [nzSm]="14" >End Date</nz-form-label>
+ <nz-form-label [nzSm]="14">End Date </nz-form-label>
 
  <nz-form-control [nzXs]="24">
 

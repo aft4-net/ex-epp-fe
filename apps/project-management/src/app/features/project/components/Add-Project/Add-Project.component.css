@@ -1,5 +1,57 @@
 ::ng-deep .ant-tabs-nav {
   width: 266px !important;
-  min-height: 700px;
+  min-height: 500px;
+  font-size: 26px !important;
+}
+
+::ng-deep .ant-tabs-tab-btn {
+  color: #8c8c8c;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+::ng-deep .ant-form-item-label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.createButton {
+  background: #00a551;
+  border-color: #00a551;
+  border-radius: 5%;
+}
+
+.cancelButton {
+  color: #00a551;
+  border-color: #00a551;
+  border-radius: 5%;
+}
+.redAstrics {
+  color: #f52121;
+  margin-bottom: 5px;
+}
+
+.page-title {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+
+  color: #262626;
+}
+
+.tab-content {
+  padding: 0 25px;
+}
+
+* {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+}
+nz-tab {
+  font-weight: 500;
   font-size: 16px;
 }

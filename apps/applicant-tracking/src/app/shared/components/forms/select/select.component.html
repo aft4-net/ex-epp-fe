@@ -1,0 +1,26 @@
+<div>
+  <nz-form-item class="form-item-container">
+    <div class="label">{{ label }}</div>
+    <nz-form-control [nzErrorTip]="errorMsg">
+      <nz-input-group class="flex gap-5">
+        <nz-select
+        
+          style="width: 100%"
+          nzPlaceHolder="-- Select value --"
+          nzShowSearch
+          [nzMaxMultipleCount]="maxNumber"
+          [nzMode]="custom ? 'tags' : multiple ? 'multiple' : 'default'"
+        >
+          <nz-option
+            *ngFor="let option of list"
+            [nzValue]="option"
+            [nzLabel]="option"
+            nzCustomContent
+          >
+            {{ option }}
+          </nz-option>
+        </nz-select>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</div>

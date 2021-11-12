@@ -3,9 +3,25 @@
   font-family: sans-serif;
   min-width: 80%;
   max-width: 100%;
-
   margin: 0;
 }
 .Inner {
   margin-left: 2vw;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin-left: 0px;
+
+  position: absolute;
+  width: 1519px;
+  height: 36px;
+  left: 0px;
+  top: 864px;
+
+  background: #6E716E;
 }
