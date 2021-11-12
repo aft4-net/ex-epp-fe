@@ -9,7 +9,7 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { ClickEventType } from '../models/clickEventType';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TimeEntry, Timesheet } from '../models/timesheetModels';
-import { TimeEntryEvent } from '../models/clickEventEmitObjectType';
+import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
@@ -215,14 +215,13 @@ export class TimesheetComponent implements OnInit {
     this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
   }
 
-  onDateColumnClicked(clickEventType: ClickEventType, date: any) {
-    this.clickedDateTotalHour = clickEventType.totalHours
-    this.formData.fromDate = date;
-    //this.date = date;
+  onDateColumnClicked(dateColumnEvent: DateColumnEvent, date: Date) {
+    this.clickEventType = dateColumnEvent.clickEventType;
+    this.clickedDateTotalHour = dateColumnEvent.totalHours;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-    this.clickEventType = clickEventType;
+    
     if (this.date <= new Date()) {
-        if (this.clickedDateTotalHour<24) {
+        if (this.clickedDateTotalHour < 24) {
           this.showFormDrawer();
         }else{
           this.createNotificationErrorOnDailyMaximumHour("bottomRight");
@@ -238,13 +237,17 @@ export class TimesheetComponent implements OnInit {
     this.showFormDrawer();
   }
 
+  onPaletEllipsisClicked(clickEventType: ClickEventType){
+    this.clickEventType = clickEventType;
+  }
+
   onEditButtonClicked(clickEventType: ClickEventType) {
     this.clickEventType = clickEventType;
     this.showFormDrawer();
   }
 
   showFormDrawer() {
-    if (this.clickEventType.eventType == ClickEventType.showFormDrawer) {
+    if (this.clickEventType === ClickEventType.showFormDrawer) {
       (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
       (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
 

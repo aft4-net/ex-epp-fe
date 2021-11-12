@@ -13,10 +13,11 @@
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
                                [date]="myD"
                                [timesheet]="timesheet"
-                               (totalHoursCalculated)="calculateWeeklyTotalHours($event)"
                                (dateColumnClicked)="onDateColumnClicked($event, myD)"
+                               (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
+                               (paletEllipsisClicked)="onPaletEllipsisClicked($event)"
                                (editButtonClicked)="onEditButtonClicked($event)"
-                               (projectNamePaletClicked)="onProjectNamePaletClicked($event)">
+                               (totalHoursCalculated)="calculateWeeklyTotalHours($event)">
       </app-day-and-date-column>
     </div>
   </div>
