@@ -1,1 +1,51 @@
-<p>education works!</p>
+<div class="m-5">
+    <h2 class="font-bold">Step 3- Education Information</h2>
+    <app-button type="default" (onClick)="openModal()">
+      Add Educatioin
+    </app-button>
+    <nz-modal
+      [(nzVisible)]="isModalVisible"
+      nzTitle="Add Education"
+      nzWidth="62%"
+      (nzOnCancel)="closeModal()"
+    >
+      <ng-container *nzModalContent>
+        <form [formGroup]="education" class="flex flex-col gap-5">
+          <div nz-row>
+            <div nz-col nzSpan="11">
+              <app-input value= "" label="Institution"></app-input>
+            </div>
+          
+          </div>
+          <div nz-row>
+            <div nz-col nzSpan="11">
+              <app-select [list]="['BSC', 'MSC' , 'PHD']" label="Please select a program"></app-select>
+            </div>
+          
+          </div>
+
+          <div nz-row>
+            <div nz-col nzSpan="11">
+              <app-select [list]="['Computer Science', 'Project Managment', 'Software Enginering', ]" label="Please select a Field of Study"></app-select>
+            </div>
+            
+          </div>
+
+          <div nz-row [nzGutter]="16">
+            <div nz-col class="gutter-row" [nzSpan]="12">
+              <div class="inner-box">
+                <app-country-selector
+                  label="Country"
+                  placeholder="Enter your password"
+                  errorMsg="Country should be selected"
+                  
+                ></app-country-selector>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </ng-container>
+    </nz-modal>
+  </div>
+  
