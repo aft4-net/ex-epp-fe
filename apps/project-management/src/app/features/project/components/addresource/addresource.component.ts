@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder,  FormControl,  FormGroup,  Validators } from '@angular/forms';
-import { Employee, ProjectResource,ProjectService,EmployeeService, projectResourceType  } from '../../../../core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Employee, ProjectResource, ProjectService, EmployeeService, projectResourceType } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 
 
@@ -13,94 +13,92 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class AddresourceComponent implements OnInit {
 
- 
-
   addResorceForm!: FormGroup;
   editResorceForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
-    private employeeService:EmployeeService,
-    private projectService:ProjectService
-    ) { }
+    private employeeService: EmployeeService,
+    private projectService: ProjectService
+  ) { }
 
 
-  resources: projectResourceType[]=[] as  projectResourceType[];
-  employees!:Employee[];;
-  asignedResourseToEdit!:ProjectResource;
+  resources: projectResourceType[] = [] as projectResourceType[];
+  employees!: Employee[];;
+  asignedResourseToEdit!: ProjectResource;
 
-  projectResources:ProjectResource[]=[]; 
-  isModalVisible = false;  
-  isEditMode=false;
-  assignedDateError=false;
-  @Input() projectStartdDate={} as Date;
+  projectResources: ProjectResource[] = [];
+  isModalVisible = false;
+  isEditMode = false;
+  assignedDateError = false;
+  @Input() projectStartdDate = {} as Date;
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
 
 
 
 
   ngOnInit(): void {
-    this.employeeService.getAll().subscribe((response:Employee[])=>{
-      this.employees=response;
+    this.employeeService.getAll().subscribe((response: Employee[]) => {
+      this.employees = response;
       this.sortEmployees();
     });
-    this.addResorceForm= this.fb.group({
-      resource:[null,Validators.required],
+    this.addResorceForm = this.fb.group({
+      resource: [null, Validators.required],
 
-      assignDate:[null,Validators.required],
+      assignDate: [null, Validators.required],
     });
-    this.editResorceForm= this.fb.group({
-  
-      assignDate:[null,Validators.required],
+    this.editResorceForm = this.fb.group({
+
+      assignDate: [null, Validators.required],
     });
 
-    this.addResorceForm.controls.assignDate.valueChanges.subscribe(()=>{
+    this.addResorceForm.controls.assignDate.valueChanges.subscribe(() => {
       console.log(this.projectStartdDate.getDate());
 
-      
- 
-        if(this.addResorceForm.controls.assignDate.value.toLocaleDateString().getTime()  < this.projectStartdDate.getTime()  )
-       { 
-        console.log("worked") 
-        this.assignedDateError=true;
-          this.addResorceForm.controls.assignDate.setErrors({'incorrect':true});
+
+
+      if (this.addResorceForm.controls.assignDate.value.toLocaleDateString().getTime() < this.projectStartdDate.getTime()) {
+        console.log("worked")
+        this.assignedDateError = true;
+        this.addResorceForm.controls.assignDate.setErrors({ 'incorrect': true });
       }
-      else
-         {
-           console.log("No");
-          this.assignedDateError=false;
-          this.addResorceForm.controls.assignDate.setErrors(null);
-         }
+      else {
+        console.log("No");
+        this.assignedDateError = false;
+        this.addResorceForm.controls.assignDate.setErrors(null);
+      }
 
-        
+
     });
-    
-}
+
+  }
 
 
-get assignDateControl() {
-  return   this.addResorceForm.controls.assignDate as FormControl;
-}
-  
+  get assignDateControl() {
+    return this.addResorceForm.controls.assignDate as FormControl;
+  }
 
-  
 
-  addResource()
-  {
-  
-   
+
+
+  addResource() {
+
+
     if (this.addResorceForm.valid) {
- this.projectResources.push({employee:this.addResorceForm.controls.resource.value,assignedDate:this.addResorceForm.controls.assignDate.value
-        });
-        this. isModalVisible= false;
-        
-this.resources.push({  employeeId:this.addResorceForm.controls.resource.value.id,
-                    assignedDate:this.addResorceForm.controls.assignDate.value})
+      this.projectResources.push({
+        employee: this.addResorceForm.controls.resource.value, assignedDate: this.addResorceForm.controls.assignDate.value
+      });
+      this.isModalVisible = false;
+
+      this.resources.push({
+        employeeId: this.addResorceForm.controls.resource.value.id,
+        assignedDate: this.addResorceForm.controls.assignDate.value
+      })
 
 
-this.addProjectResourceEvent.emit(this.resources)
-this.sortEmployees();
-this.employees=this.employees.filter(s=>s.id!==this.addResorceForm.controls.resource.value.id);
-this.addResorceForm.reset();
+      this.addProjectResourceEvent.emit(this.resources)
+      this.sortEmployees();
+      this.employees = this.employees.filter(s => s.id !== this.addResorceForm.controls.resource.value.id);
+      this.addResorceForm.reset();
     } else {
       Object.values(this.addResorceForm.controls).forEach(control => {
         if (control.invalid) {
@@ -109,116 +107,110 @@ this.addResorceForm.reset();
         }
       });
     }
-    
+
   }
 
   showModal(): void {
 
-    this. isModalVisible = true;
+    this.isModalVisible = true;
   }
 
   handleCancel(): void {
-    this. isModalVisible = false;
+    this.isModalVisible = false;
     this.editResorceForm.reset();
     this.addResorceForm.reset();
-    this.isEditMode=false;
+    this.isEditMode = false;
 
   }
 
-  resetForm()
-  {
-     this.addResorceForm.controls.resource.setValue("");
-     this.addResorceForm.controls.assignDate.setValue("");
-   
+  resetForm() {
+    this.addResorceForm.controls.resource.setValue("");
+    this.addResorceForm.controls.assignDate.setValue("");
+
   }
-  resetEditForm()
-  {
+  resetEditForm() {
     this.editResorceForm.controls.assignDate.setValue("");
 
   }
 
   cancel()
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-{}
- 
- 
-addProject()
-{
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  { }
 
-  
-}
 
-  editResource(id:string)
-  {
-    this.addResorceForm.reset();
-    const projectResource=this.projectResources.find(s=>s.employee.id==id);
-    if(projectResource)
-   {
+  addProject() {
 
-    this.editResorceForm.controls.assignDate.setValue(projectResource.assignedDate);
-    this.asignedResourseToEdit=projectResource;
-    this.isEditMode=true; 
-    this.isModalVisible=true; 
-   }
+
   }
 
-  submitEditdValue()
-  {
-if( this.editResorceForm.valid)
-{
-  this. asignedResourseToEdit.assignedDate= this.editResorceForm.controls.assignDate.value;
+  editResource(id: string) {
+    this.addResorceForm.reset();
+    const projectResource = this.projectResources.find(s => s.employee.id == id);
+    if (projectResource) {
 
-  this.projectResources.map(s=>s.employee.id=== this. asignedResourseToEdit.employee.id?s:this. asignedResourseToEdit)  
-  
-  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.id?s:
-    {  employeeId: this. asignedResourseToEdit.employee.id,
-      assignedDate:this.editResorceForm.controls.assignDate.value,
-        assignedTo:this.editResorceForm.controls.assignTo.value}
+      this.editResorceForm.controls.assignDate.setValue(projectResource.assignedDate);
+      this.asignedResourseToEdit = projectResource;
+      this.isEditMode = true;
+      this.isModalVisible = true;
+    }
+  }
+
+  submitEditdValue() {
+    if (this.editResorceForm.valid) {
+      this.asignedResourseToEdit.assignedDate = this.editResorceForm.controls.assignDate.value;
+
+      this.projectResources.map(s => s.employee.id === this.asignedResourseToEdit.employee.id ? s : this.asignedResourseToEdit)
+
+      this.resources.map(s => s.employeeId == this.asignedResourseToEdit.employee.id ? s :
+        {
+          employeeId: this.asignedResourseToEdit.employee.id,
+          assignedDate: this.editResorceForm.controls.assignDate.value,
+          assignedTo: this.editResorceForm.controls.assignTo.value
+        }
       )
 
-      for(let i=0;i< this.resources.length;i++)
-      {
-         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.id)
-                {  
-                 this.resources[i]={  employeeId: this. asignedResourseToEdit.employee.id,
-                  assignedDate:this.editResorceForm.controls.assignDate.value};                
-                
-                 this.addProjectResourceEvent.emit(this.resources);
-                 break;}
+      for (let i = 0; i < this.resources.length; i++) {
+        if (this.resources[i].employeeId == this.asignedResourseToEdit.employee.id) {
+          this.resources[i] = {
+            employeeId: this.asignedResourseToEdit.employee.id,
+            assignedDate: this.editResorceForm.controls.assignDate.value
+          };
+
+          this.addProjectResourceEvent.emit(this.resources);
+          break;
+        }
       }
-       
- 
-  this. isEditMode=false;
-  this.isModalVisible=false;
-  this.editResorceForm.reset();
-  this. asignedResourseToEdit={} as ProjectResource;
-  } else {
-    Object.values(this.editResorceForm.controls).forEach(control => {
-      if (control.invalid) {
-        control.markAsDirty();
-        control.updateValueAndValidity({ onlySelf: true });
-      }
-    });
-  }
+
+
+      this.isEditMode = false;
+      this.isModalVisible = false;
+      this.editResorceForm.reset();
+      this.asignedResourseToEdit = {} as ProjectResource;
+    } else {
+      Object.values(this.editResorceForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
 
   }
 
-  removeResource(id:string)
-  {
-  const projectResourece=this.projectResources.find(s=>s.employee.id==id);
-       if(projectResourece)
-       this.employees.push(projectResourece.employee);
-       this.sortEmployees();
-  this.projectResources=this.projectResources.filter(s=>s.employee.id!==id);
-  this.resources=this.resources.filter(s=>s.employeeId!=id);
-  this.addProjectResourceEvent.emit(this.resources);
+  removeResource(id: string) {
+    const projectResourece = this.projectResources.find(s => s.employee.id == id);
+    if (projectResourece)
+      this.employees.push(projectResourece.employee);
+    this.sortEmployees();
+    this.projectResources = this.projectResources.filter(s => s.employee.id !== id);
+    this.resources = this.resources.filter(s => s.employeeId != id);
+    this.addProjectResourceEvent.emit(this.resources);
 
   }
 
-  sortEmployees()
-{
-  this.employees.sort((a, b) => a.name.localeCompare(b.name))
-}
+  sortEmployees() {
+    this.employees.sort((a, b) => a.name.localeCompare(b.name))
+  }
 
 
 
