@@ -3,7 +3,7 @@
     <button nz-button [nzType]="'link'" (click)="onAddNewClick()" class="link-button">
         <span>
             <i nz-icon nzType="plus" nzTheme="outline"></i>
-            Add Position</span>
+            Add Area of Interest</span>
     </button>
     <nz-modal [(nzVisible)]="isModalVisible" nzTitle="Add Position" nzWidth="62%" [nzFooter]="null"
         (nzOnCancel)="handleCancel()">
@@ -69,7 +69,7 @@
                 <!-- secondary skill set -->
                 <div nz-row>
                     <div nz-col nzSpan="24">
-                        <div class="label required">Secondary skill set
+                        <div class="label">Secondary skill set
                             <span class="label muted">(Maximum 5 skills)</span>
                         </div>
                         <nz-select name="secondarySkill" nzMode="multiple" [nzShowArrow]="true"
@@ -84,7 +84,7 @@
                 <!-- other skill set -->
                 <div nz-row>
                     <div nz-col nzSpan="24">
-                        <div class="label required">Other skill set
+                        <div class="label">Other skill set
                             <span class="label muted">(Maximum 10 skills)</span>
                         </div>
                         <nz-select name="otherSkill" nzMode="multiple" [nzShowArrow]="true"
