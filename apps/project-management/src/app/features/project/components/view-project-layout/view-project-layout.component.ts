@@ -83,7 +83,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
+
     const { pageSize, pageIndex, sort } = params;
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
@@ -99,7 +99,7 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.randomUserService.getRealData(this.idParam,this.searchKey, this.pageIndex-1, this.pageSize).subscribe((projectMetaData:ProjectData)=>{
       this.projects=projectMetaData.Data;
       this.total=projectMetaData.TotalRecord;
-      console.log(projectMetaData);
+
     })
 
 
