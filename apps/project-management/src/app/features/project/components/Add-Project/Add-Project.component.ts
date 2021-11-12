@@ -7,13 +7,15 @@ import { Client, ClientService, Employee, EmployeeService, Project, ProjectCreat
 import { Router } from '@angular/router';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css']
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
-  projectDetail!: boolean;
+  projectStatus!: boolean;
+  selectedStatus!: string;
 
   validateForm!: FormGroup;
   userSubmitted!: boolean;
@@ -91,7 +93,7 @@ export class AddProjectComponent implements OnInit {
 
   createRegistrationForm(){
     this.validateForm = this.fb.group({
-      projectName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      projectName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       client: ['Excellerent Solutions', [Validators.required]],
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
@@ -106,7 +108,9 @@ export class AddProjectComponent implements OnInit {
   this.userSubmitted = true;
    this.projectCreate.resources=this.resources;
    this.projectService.createProject(this.projectCreate);
-   this.router.navigateByUrl('/');
+   this.router.navigateByUrl('client-project/add-project');
+   this.onReset();
+   console.log(this.validateForm.value)
   }
 
   onReset(){
@@ -181,11 +185,11 @@ export class AddProjectComponent implements OnInit {
       }
       if(found==true)
       {this.projectNameExits=true;
-        this.validateForm.controls.projectName.setErrors({'incorrect':true});
+        //this.validateForm.controls.projectName.setErrors({'incorrect':true});
       }
       else
       {this.projectNameExits=false;
-        this.validateForm.controls.projectName.setErrors(null);
+       // this.validateForm.controls.projectName.setErrors(null);
       }
   }
 
@@ -193,5 +197,11 @@ export class AddProjectComponent implements OnInit {
   {
     this.resources=resources;
   }
+
+  selectChangeHandler (event: any) {
+    this.selectedStatus = event.target.value;
+    console.log(this.selectedStatus)
+  }
+
 }
 
