@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { Client, ClientService, Employee, EmployeeService, Project, ProjectCreate, projectResourceType, ProjectService, ProjectStatus, ProjectStatusService } from '../../../../core';
 import { Router } from '@angular/router';
-
+import { NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -45,8 +45,11 @@ export class AddProjectComponent implements OnInit {
   }
 
     constructor(private fb: FormBuilder,private projectService:ProjectService,
+      private modalService:NzModalService,
     private clientService:ClientService ,private employeeService:EmployeeService,
-    private projectStatusService:ProjectStatusService,private router:Router) { }
+    private projectStatusService:ProjectStatusService,private router:Router
+
+    ) { }
 
   ngOnInit(): void {
 
@@ -111,12 +114,20 @@ export class AddProjectComponent implements OnInit {
    this.projectService.createProject(this.projectCreate);
    this.router.navigateByUrl('client-project/add-project');
    this.onReset();
-   console.log(this.validateForm.value)
+
   }
 
   onReset(){
     this.userSubmitted = false;
-    this.validateForm.reset();
+ 
+
+    if(this.validateForm.valid)
+    {
+      this.showDeleteConfirm();
+    }
+    else
+    this.router.navigateByUrl('');
+
   }
 
   disabledStartDate = (startValue: Date): boolean => {
@@ -208,7 +219,20 @@ export class AddProjectComponent implements OnInit {
 
   selectChangeHandler (event: any) {
     this.selectedStatus = event.target.value;
-    console.log(this.selectedStatus)
+
+  }
+
+  showDeleteConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: 'Are you sure you want to leave Project Details unsaved?',
+      nzContent: '<b style="color: red;">Some descriptions</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>this.router.navigateByUrl(''),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
 }

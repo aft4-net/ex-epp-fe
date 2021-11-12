@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import {  tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Project, ProjectCreate } from '../models';
 import { ApiService } from '../models/apiService';
 
@@ -12,6 +13,12 @@ export class ProjectService extends ApiService<Project> {
   constructor(protected httpClient: HttpClient,private  notification: NzNotificationService ) { 
     super(httpClient);
   }
+
+   private projectsource= new   BehaviorSubject<Project[]>({} as Project[]);
+  projects$=this.projectsource.asObservable();
+
+
+
 
   getResourceUrl(): string {
 

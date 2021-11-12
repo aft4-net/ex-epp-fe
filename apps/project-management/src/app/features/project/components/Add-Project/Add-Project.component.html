@@ -236,13 +236,12 @@ nz-form
     <div class="justify-between" nz-row>
       <div    class="page-title " > Project Details   </div>
       <div  >
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
+        <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
           Create Project
         </button>
          <button  (click)="onReset()"   class="cancelButton bg-transparent font-semibold py-1 px-3 border hover:border-transparent">
           Cancel
-        </button>
-  
+        </button> 
     </div>
     </div>
     <exec-epp-addresource  (addProjectResourceEvent)="updateProjectResourseList($event)" >  </exec-epp-addresource>   </div>
