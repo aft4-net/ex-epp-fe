@@ -7,10 +7,15 @@
     <div class="justify-between" nz-row>
       <div class="page-title"> Project Details </div>
       <div  >
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
-          Create Project
-        </button>
-         <button  (click)="onReset()"   class="cancelButton bg-transparent font-semibold py-1 px-3 border hover:border-transparent">
+        <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()" 
+        [ngClass]="validateForm.valid ? ' bg-green-500  hover:bg-green-400 text-white ':'
+         text-green-500 bg-white  border border-gray-400  '  "        
+          class="  font-semibold py-2 px-3 border mr-4 ">
+            Create Project  </button>
+
+            
+         <button  (click)="onReset()"   class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+         py-2 px-3 border hover:border-green-800 hover:text-green-800  ">
           Cancel
         </button>
   
@@ -22,7 +27,7 @@ class="w-full max-w-4xl"
 nz-form
 [nzLayout]="'vertical'"
 [formGroup]="validateForm"
-(ngSubmit)="submitForm()"
+
 >
 <nz-form-item>
  <nz-form-label
@@ -55,10 +60,12 @@ nz-form
     <span *ngIf="projectName.errors?.minlength">
       Project name should not be lesser than 2 character
     </span>
+
+    <span *ngIf="projectName.errors?.invalidName" >
+      {{projectNameExitsErrorMessage}}
+</span>
    </span>
-   <span *ngIf="projectNameExits && projectName.valid" class="error-block">
-       {{projectNameExitsErrorMessage}}
- </span>
+  
    </nz-form-control>
 </nz-form-item>
 
@@ -117,7 +124,7 @@ nz-form
      formControlName="status"
      nzPlaceHolder="Select project status"
    >
-   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.StatusName}}  [nzValue]="status.Guid"></nz-option>   
+   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.StatusName}}  [nzValue]="status"></nz-option>   
    </nz-select>
    <div class="error-block"
    *ngIf="status.invalid && status.touched">
@@ -142,7 +149,7 @@ nz-form
    </nz-select>
    <div class="error-block"
    *ngIf="supervisor.invalid && supervisor.touched">
-     Please select Project supervisor
+     Please Select Project Supervisor
    </div>
  </nz-form-control>
 </nz-form-item>
@@ -231,15 +238,20 @@ nz-form
     </div>
   </nz-tab>
 
-  <nz-tab  nzTitle='Resources'>
+  <nz-tab  nzTitle='Resources'[nzDisabled]="validateForm.invalid || disallowResource  " >
   <div class="tab-content">
     <div class="justify-between" nz-row>
       <div    class="page-title " > Project Details   </div>
       <div  >
-        <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
-          Create Project
-        </button>
-         <button  (click)="onReset()"   class="cancelButton bg-transparent font-semibold py-1 px-3 border hover:border-transparent">
+        <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()" 
+        [ngClass]="validateForm.valid ? ' bg-green-500  hover:bg-green-400 text-white ':'
+         text-green-500 bg-white  border border-gray-400  '  "        
+          class="  font-semibold py-2 px-3 border mr-4 ">
+            Create Project  </button>
+
+            
+         <button  (click)="onReset()"  class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+         py-2 px-3 border hover:border-green-800 hover:text-green-800  ">
           Cancel
         </button>
   

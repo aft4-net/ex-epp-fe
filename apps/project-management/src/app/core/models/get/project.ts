@@ -1,14 +1,26 @@
-import { Client, Employee, } from './';
+import { Client, Employee, ProjectStatus, } from './';
 
 
 
-export interface Project {
-  id: string;
-  name: string;
-  status: string;
-  type: projectType;
-  client:Client;
-}
+export interface Project{
+
+  ProjectName:string,
+  projectType: string,
+  startDate:Date,
+  endDate:Date,
+  Supervisor: Employee,
+  Client:Client;
+  projectStatus: ProjectStatus,
+  supervisorGuid:string,
+  clientGuid:string,
+  projectStatusGuid:string,
+  guid:string,
+  isActive:boolean,
+  isDeleted:boolean,
+  createdDate:Date,
+  createdbyUserGuid:string
+  
+  }
 
 
 export enum projectType {

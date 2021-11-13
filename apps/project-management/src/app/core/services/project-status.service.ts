@@ -10,22 +10,22 @@ import { ProjectStatus } from '../models/get/projectStatus';
 export class ProjectStatusService  extends ApiService<ProjectStatus> {
 
   projectStatus:ProjectStatus[]=[
-    {  Guid: "gqe85f64-9017-4562-b3fc-2c963f66afa6",
+    {  Guid: "3fa85f64-5717-6762-b3fc-fe963f66afa9",
     IsActive: true,
     IsDeleted: true,
     CreatedDate: new Date(),
     CreatedbyUserGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     StatusName: "On hold",
-    AllowResource: true
+    AllowResource: false
     }
    ,
-    {  Guid: "3fa85f64-5717-as62-b3fc-2c963f66af25",
+    {  Guid: "3fa85f64-5717-6762-b3fc-fe963f66afa7",
     IsActive: true,
     IsDeleted: true,
     CreatedDate: new Date(),
     CreatedbyUserGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     StatusName: "Terminated",
-    AllowResource: true
+    AllowResource: false
     }
     ,
     {  Guid: "3fa85f64-5717-6762-b3fc-fe963f66afa6",
