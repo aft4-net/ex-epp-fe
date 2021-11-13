@@ -72,7 +72,7 @@
                   <span class="redAstrics">   *   </span>    
                 </nz-form-label>
 
-                <nz-form-control  class="mb-4" >
+                <nz-form-control  class="mb-5" >
                     <nz-date-picker    [nzAllowClear]  nzFormat="dd/MM/yyyy"      formControlName="assignDate"   nz-col nzSpan="12"  ></nz-date-picker>       
                 
                     <span *ngIf="( assignDateControl.touched)" class="error-block">
@@ -120,7 +120,7 @@
                   <nz-form-label   nzFor="assignDate"  >Assigned Date
                     <span class="redAstrics">  * </span>    
                   </nz-form-label>
-                  <nz-form-control    >
+                  <nz-form-control  class="mb-5"  >
                       <nz-date-picker    [nzAllowClear]  nzFormat="dd/MM/yyyy"      formControlName="assignDate"   nz-col nzSpan="12"  ></nz-date-picker>       
                      
                       <span *ngIf="(  assignDateEditControl.touched)" class="error-block">
