@@ -54,19 +54,18 @@ export class AddProjectComponent implements OnInit {
   ngOnInit(): void {
 
     this.createRegistrationForm();
+
+    this.employeeService.getAll().subscribe((response:Employee[])=>{
+      this.employees=response;
+    });
+
     this.clientService.getAll().subscribe(response=>{
       this.clients=response;
 
     })
-    this.employeeService.getAll().subscribe((response:Employee[])=>{
-      this.employees=response;
 
-    });
-
-    this.projectStatusService.getAll().subscribe((response:ProjectStatus[])=>{
-      this.projectStatuses=response;
-
-    })
+   this.projectStatuses= this.projectStatusService.getProjecUS();
+   
     this.projectService.getAll().subscribe((response:Project[])=>{
       this.projects=response;
     })
@@ -112,8 +111,7 @@ export class AddProjectComponent implements OnInit {
   this.userSubmitted = true;
    this.projectCreate.assignResource=this.resources;
    this.projectService.createProject(this.projectCreate);
-   this.router.navigateByUrl('client-project/add-project');
-   this.onReset();
+
 
   }
 
@@ -231,7 +229,7 @@ export class AddProjectComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () =>this.router.navigateByUrl(''),
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
+      
     });
   }
 

@@ -10,5 +10,5 @@ export interface ProjectStatus {
     CreatedbyUserGuid: string,
   
     StatusName: string
-    allowResource:boolean;
+    AllowResource:boolean;
 }    

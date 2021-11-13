@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -10,7 +11,7 @@ import { ApiService } from '../models/apiService';
   providedIn: 'root'
 })
 export class ProjectService extends ApiService<Project> {
-  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService ) { 
+  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) { 
     super(httpClient);
   }
 
@@ -31,11 +32,23 @@ export class ProjectService extends ApiService<Project> {
    {
      this.post(data).subscribe
          (()=>{this.notification.success('Project added successfully','');  
-          }               
+         this.router.navigateByUrl('');
+        }               
            ,(error:any)=>{
     
               this.notification.error('Project Not Saved','Please Try again letter');
             }
            )
   }
+
+  getProjects()
+  {
+
+    
+
+  }
+  
+
+
+
 }
