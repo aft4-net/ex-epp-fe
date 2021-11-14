@@ -10,12 +10,12 @@
         <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()" 
         [ngClass]="validateForm.valid ? ' bg-green-500  hover:bg-green-400 text-white ':'
          text-green-500 bg-white  border border-gray-400  '  "        
-          class="  font-semibold py-2 px-3 border mr-4 ">
+          class="  font-semibold py-1 px-3 border mr-4 ">
             Create Project  </button>
 
             
          <button  (click)="onReset()"   class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
-         py-2 px-3 border hover:border-green-800 hover:text-green-800  ">
+         py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
           Cancel
         </button>
   
@@ -241,17 +241,17 @@ nz-form
   <nz-tab  nzTitle='Resources'[nzDisabled]="validateForm.invalid || disallowResource  " >
   <div class="tab-content">
     <div class="justify-between" nz-row>
-      <div    class="page-title " > Project Details   </div>
+      <div    class="page-title " > Resources   </div>
       <div  >
         <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()" 
         [ngClass]="validateForm.valid ? ' bg-green-500  hover:bg-green-400 text-white ':'
          text-green-500 bg-white  border border-gray-400  '  "        
-          class="  font-semibold py-2 px-3 border mr-4 ">
+          class="  font-semibold py-1 px-3 border mr-4 ">
             Create Project  </button>
 
             
          <button  (click)="onReset()"  class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
-         py-2 px-3 border hover:border-green-800 hover:text-green-800  ">
+         py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
           Cancel
         </button>
   

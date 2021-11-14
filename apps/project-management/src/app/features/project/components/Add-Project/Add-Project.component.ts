@@ -107,7 +107,7 @@ export class AddProjectComponent implements OnInit {
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
-      endValue: [null, [Validators.required]],
+      endValue: [null ],
       description:[""]
     });
   }
@@ -126,12 +126,6 @@ export class AddProjectComponent implements OnInit {
   onReset(){
     this.userSubmitted = false;
  
-
-    if(this.validateForm.valid)
-    {
-      this.showDeleteConfirm();
-    }
-    else
     this.router.navigateByUrl('');
 
   }

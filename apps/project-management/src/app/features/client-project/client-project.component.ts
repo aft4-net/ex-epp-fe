@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-client-project',
@@ -7,12 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientProjectComponent implements OnInit {
 
-  constructor() {
+  constructor(private router:Router) {
 
    }
-
+   clientSelected=true;
   ngOnInit(): void {
 
   }
+
+  clientTab()
+  {
+    this.clientSelected=true;
+  }
+
+  projectTab()
+{
+  this.clientSelected=false;
+}
+
+addProjectPage()
+{
+  this.router.navigateByUrl('client-project/add-project');
+ 
+}
 
 }

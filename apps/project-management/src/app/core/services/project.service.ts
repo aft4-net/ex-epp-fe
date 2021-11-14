@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Project, ProjectCreate } from '../models';
+import { PaginatedResult, Pagination, Project, ProjectCreate } from '../models';
 import { ApiService } from '../models/apiService';
 
 @Injectable({
@@ -85,7 +85,6 @@ export class ProjectService extends ApiService<Project> {
      this.post(data).subscribe
          (()=>{this.notification.success('Project created successfully','');  
          this.router.navigateByUrl('');
-
         }               
            ,(error:any)=>{
      
@@ -100,7 +99,5 @@ export class ProjectService extends ApiService<Project> {
 
   }
   
-
-
 
 }
