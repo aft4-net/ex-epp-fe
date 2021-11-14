@@ -69,13 +69,14 @@ export abstract class ApiService<T> {
     data: [] as  T[],
     pagination: {} as Pagination
  };
-
-  return this.get("?" +params.toString())
+//  return this.get("?" +params.toString())
+// ':pageIndex/:pageSize/:search')
+  return this.get('1'+'/'+'10'+'/'+'n')
       .pipe(
         map((response:any) => {
           paginatedResult= {
-            data:    response.data,
-            pagination: {PageIndex:response.PageIndex,
+            data:response.data,
+            pagination:{PageIndex:response.PageIndex,
               TotalPage:response.TotalPage,
               PageSize:response.PageSize,
               TotalRecord:response.TotalRecord}

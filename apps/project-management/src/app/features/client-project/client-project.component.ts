@@ -6,15 +6,13 @@ import { Router } from '@angular/router';
   templateUrl: './client-project.component.html',
   styleUrls: ['./client-project.component.scss']
 })
-export class ClientProjectComponent implements OnInit {
+export class ClientProjectComponent  {
 
   constructor(private router:Router) {
 
    }
    clientSelected=true;
-  ngOnInit(): void {
 
-  }
 
   clientTab()
   {

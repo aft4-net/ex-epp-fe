@@ -74,7 +74,7 @@ export class ProjectService extends ApiService<Project> {
 
   getResourceUrl(): string {
 
-    return 'Project';
+    return 'Projects';
   }
 
 
@@ -83,8 +83,8 @@ export class ProjectService extends ApiService<Project> {
    {
 
      this.post(data).subscribe
-         (()=>{this.notification.success('Project created successfully','');  
-         this.router.navigateByUrl('');
+         (()=>{this.notification.success('Project Added successfully','');  
+     
         }               
            ,(error:any)=>{
      

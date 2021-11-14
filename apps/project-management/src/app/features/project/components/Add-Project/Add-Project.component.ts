@@ -43,7 +43,7 @@ export class AddProjectComponent implements OnInit {
     constructor(private fb: FormBuilder,private projectService:ProjectService,
       private modalService:NzModalService,
     private clientService:ClientService ,private employeeService:EmployeeService,
-    private projectStatusService:ProjectStatusService,private router:Router
+    private projectStatusService:ProjectStatusService,private router:Router,
 
     ) { }
 
@@ -120,6 +120,7 @@ export class AddProjectComponent implements OnInit {
    else
      this.projectCreate.assignResource=[] as  projectResourceType[];
      this.projectService.createProject(this.projectCreate);
+     this.router.navigateByUrl('');
 
   }
 
@@ -195,8 +196,8 @@ export class AddProjectComponent implements OnInit {
        {            
         if(this.validateForm.controls.projectName.value.toLowerCase()===this.projects[i].ProjectName.toString().toLowerCase())
           {           
-           found=true;
-            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].Client.ClientName+" Client"
+            found=true;
+            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].Client.ClientName+" client"
             break;
           }        
        }
@@ -206,9 +207,8 @@ export class AddProjectComponent implements OnInit {
        this.validateForm.controls.projectName.setErrors({'invalidName':true});
       }
       else
-     {this.projectNameExits=false;
-  
-     }
+     this.projectNameExits=false;
+    
   }
 
   updateProjectResourseList(resources: projectResourceType[])
