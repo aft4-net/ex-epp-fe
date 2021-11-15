@@ -1,23 +1,28 @@
-<div>
+<div [formGroup]="form" class="form-container">
   <nz-form-item class="form-item-container">
-    <div class="label">{{ label }}</div>
-    <nz-form-control [nzErrorTip]="errorMsg">
+    <div [class]="!isRequired? 'label':'label required'">{{ label }} <span class="muted">{{ labelMuted }}</span></div>
+    
+    <nz-form-control [nzErrorTip]="displayError ? errorMsg : ''">
       <nz-input-group class="flex gap-5">
-        <nz-select
-        
+        <nz-select 
           style="width: 100%"
-          nzPlaceHolder="-- Select value --"
+          [nzPlaceHolder]="placeholder"
           nzShowSearch
           [nzMaxMultipleCount]="maxNumber"
           [nzMode]="custom ? 'tags' : multiple ? 'multiple' : 'default'"
+          [formControlName]="fcn"
+          (focusout)="onfocustout()"
+          (focus)="onfocus()"
+          [nzShowArrow]="showArrow"
         >
           <nz-option
             *ngFor="let option of list"
-            [nzValue]="option"
-            [nzLabel]="option"
+            [nzValue]=" option.id ? option.id : option"
+            [nzLabel]=" option.id ? option.name : option"
             nzCustomContent
+            [nzHide]="enableHidding && !isNotSelected(option.id)"
           >
-            {{ option }}
+            {{ option.id ? option.name : option }}
           </nz-option>
         </nz-select>
       </nz-input-group>
