@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { NzButtonType } from 'ng-zorro-antd/button';
+
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 
 @Component({
@@ -10,7 +10,6 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 export class DatePickerComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
-  @Input() type:NzButtonType = 'default';
   @Input() show:NzCalendarModule = 'default';
   @Input() focusout: boolean = false;
   @Input() displayError: boolean = false;

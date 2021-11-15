@@ -3,23 +3,7 @@
     <div class="label">{{ label }}</div>
     <nz-form-control [nzErrorTip]="errorMsg">
       <nz-input-group class="flex gap-5">
-        <nz-select
-          style="width: 100%"
-          [(ngModel)]="selectedValue"
-          [compareWith]="compareFn"
-          (ngModelChange)="log($event)"
-          nzPlaceHolder="-- Select a country --"
-          nzShowSearch
-        >
-          <nz-option
-            *ngFor="let option of optionList"
-            [nzValue]="option"
-            [nzLabel]="option.name"
-            nzCustomContent
-          >
-            {{ option.name }}
-          </nz-option>
-        </nz-select>
+       
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
