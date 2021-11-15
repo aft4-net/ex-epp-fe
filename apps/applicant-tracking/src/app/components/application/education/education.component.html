@@ -154,6 +154,14 @@
           </tr>
         </tbody>
       </nz-table>
+
+      <div nz-row nzJustify="end">
+        <div nz-col nzSpan="5">
+                <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="(educations.length < 1 || !isRecordUpdated)">
+                    Save and continue
+                </app-button>
+        </div>
+    </div>
     </div>
   </div>
 </div>

@@ -29,17 +29,7 @@ export class EducationComponent implements OnInit {
     isMultitpleEntry: new FormControl(false, [Validators.required]),
   });
 
-  educationValue = [
-    {
-      Id: 1,
-      institution: 'Programmer',
-      yearFrom: 'Senior II',
-      yearTo: '4 Years and 5 Months',
-      country: ['Agile Methodology', 'CSS'],
-      program: ['User Stories', 'Forecasting'],
-      fieldOfStudy: ['UXDesign', 'Forecasting', 'Communication'],
-    },
-  ];
+
 
   closeModal() {
     this.isModalVisible = false;
@@ -87,6 +77,7 @@ export class EducationComponent implements OnInit {
     if (!this.validation.controls.isMultitpleEntry.value) {
       this.isModalVisible = false;
       this.info = 'Item added successfully!';
+      this.isRecordUpdated = true;
     }
     this.education.reset();
     this.validation.controls.isMultitpleEntry.setValue(false);
