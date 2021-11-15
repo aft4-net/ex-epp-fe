@@ -551,9 +551,14 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/resource-management/src/favicon.ico",
-              "apps/resource-management/src/assets"
+              "apps/resource-management/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
-            "styles": ["apps/resource-management/src/styles.scss"],
+            "styles": ["./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "apps/resource-management/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
