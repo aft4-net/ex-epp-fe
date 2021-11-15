@@ -4,12 +4,12 @@ import { Client, Employee, ProjectStatus, } from './';
 
 export interface Project{
 
-  ProjectName:string,
+  projectName:string,
   projectType: string,
   startDate:Date,
   endDate:Date,
-  Supervisor: Employee,
-  Client:Client;
+  supervisor: Employee,
+  client:Client;
   projectStatus: ProjectStatus,
   supervisorGuid:string,
   clientGuid:string,

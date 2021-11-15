@@ -7,7 +7,7 @@
     <div class="justify-between" nz-row>
       <div class="page-title"> Project Details </div>
       <div  >
-        <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()" 
+        <button [disabled]="!validateForm.valid " (click)="onSubmit()" 
         [ngClass]="validateForm.valid ? ' bg-green-500  hover:bg-green-400 text-white ':'
          text-green-500 bg-white  border border-gray-400  '  "        
           class="  font-semibold py-1 px-3 border mr-4 ">
@@ -103,7 +103,7 @@ nz-form
      id="clientName"
      formControlName="client"
      nzPlaceHolder="Select client Name">
-     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>        
+     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.clientName}}  [nzValue]="client.guid"></nz-option>        
    </nz-select>
    <div class="error-block"
    *ngIf="clientName.invalid && clientName.touched">
@@ -124,7 +124,7 @@ nz-form
      formControlName="status"
      nzPlaceHolder="Select project status"
    >
-   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.StatusName}}  [nzValue]="status"></nz-option>   
+   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.statusName}}  [nzValue]="status"></nz-option>   
    </nz-select>
    <div class="error-block"
    *ngIf="status.invalid && status.touched">
@@ -145,7 +145,7 @@ nz-form
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
    >
-   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Guid"></nz-option>        
+   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.name}}-{{employee.role}}  [nzValue]="employee.guid"></nz-option>        
    </nz-select>
    <div class="error-block"
    *ngIf="supervisor.invalid && supervisor.touched">
@@ -243,7 +243,7 @@ nz-form
     <div class="justify-between" nz-row>
       <div    class="page-title " > Resources   </div>
       <div  >
-        <button [disabled]="!validateForm.valid ||  status.value.allowResource " (click)="onSubmit()" 
+        <button [disabled]="!validateForm.valid  " (click)="onSubmit()" 
         [ngClass]="validateForm.valid ? ' bg-green-500  hover:bg-green-400 text-white ':'
          text-green-500 bg-white  border border-gray-400  '  "        
           class="  font-semibold py-1 px-3 border mr-4 ">

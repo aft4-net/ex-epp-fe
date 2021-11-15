@@ -36,10 +36,6 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
-
- 
-  
-
     constructor(private fb: FormBuilder,private projectService:ProjectService,
       private modalService:NzModalService,
     private clientService:ClientService ,private employeeService:EmployeeService,
@@ -53,18 +49,22 @@ export class AddProjectComponent implements OnInit {
 
     this.employeeService.getAll().subscribe((response:Employee[])=>{
       this.employees=response;
+      console.log(this.employees)
     });
 
     this.clientService.getAll().subscribe(response=>{
       this.clients=response;
+  
 
     })
 
-   this.projectStatuses= this.projectStatusService.getProjecUS();
+    this.projectStatusService.getAll().subscribe(res=>{
+      this.projectStatuses=res;
+   });
    
-    // this.projectService.getAll().subscribe((response:Project[])=>{
-    //   this.projects=response;
-    // })
+    this.projectService.getAll().subscribe((response:Project[])=>{
+      this.projects=response;
+    })
     this.projects=this.projectService.getProjects();
 
 
@@ -78,11 +78,11 @@ export class AddProjectComponent implements OnInit {
       this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
       this.projectCreate.SupervisorGuid=this.validateForm.controls.supervisor.value;
       this.projectCreate.StartDate=this.validateForm.controls.startValue.value;
-      this.projectCreate.projectType=this.validateForm.controls.projectType.value;
-      this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value.Guid; 
+      this.projectCreate.ProjectType=this.validateForm.controls.projectType.value;
+      this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value.guid; 
       this.projectCreate.Description=this.validateForm.controls.description.value;
   
-      if(this.validateForm.controls.status.value.AllowResource)
+      if(this.validateForm.controls.status.value.allowResource)
      {
       this.disallowResource=false;
 
@@ -113,13 +113,18 @@ export class AddProjectComponent implements OnInit {
   }
 
   onSubmit(){
-  this.userSubmitted = true;
+
+    
 
   if(this.validateForm.controls.status.value.AllowResource==true)
-   this.projectCreate.assignResource=this.resources;
+   this.projectCreate.AssignResource=this.resources;
    else
-     this.projectCreate.assignResource=[] as  projectResourceType[];
+     this.projectCreate.AssignResource=[] as  projectResourceType[];
+
+
      this.projectService.createProject(this.projectCreate);
+     
+     
      this.router.navigateByUrl('');
 
   }
@@ -194,10 +199,10 @@ export class AddProjectComponent implements OnInit {
         if(this.projects!=[])
        for(let  i=0 ;i<this.projects.length; i++)
        {            
-        if(this.validateForm.controls.projectName.value.toLowerCase()===this.projects[i].ProjectName.toString().toLowerCase())
+        if(this.validateForm.controls.projectName.value.toLowerCase()===this.projects[i].projectName.toString().toLowerCase())
           {           
             found=true;
-            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].Client.ClientName+" client"
+            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].client.clientName+" client"
             break;
           }        
        }

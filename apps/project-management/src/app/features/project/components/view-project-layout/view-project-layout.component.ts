@@ -1,7 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import {PaginatedResult, Project, ProjectService } from '../../../../core';
@@ -18,7 +17,7 @@ export class ViewProjectLayoutComponent implements OnInit {
 paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
   projects:Project[]=[] 
   searchProject=new FormControl();
-  total = 70;
+  total = 10;
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -28,21 +27,18 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
   Projects!:Project[];
 
 
-  onQueryParamsChange(params: NzTableQueryParams): void {
+  PageIndexChange(index: any): void {
 
-    const { pageSize, pageIndex, sort } = params;
-   // const currentSort = sort.find(item => item.value !== null);
-    //const sortField = (currentSort && currentSort.key) || null;
-    //const sortOrder = (currentSort && currentSort.value) || null;
-   // this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder);
-
-   this.projectService.getWithPagnationResut(pageIndex, pageSize,).subscribe((response:PaginatedResult<Project[]>)=>{
-  console.log("hello");
+    this.loading =true;
+  console.log(index);
+     
+this.projectService.getWithPagnationResut(index, 10)
+   .subscribe((response:PaginatedResult<Project[]>)=>{
+ 
     this.projects=response.data;
-    this.pageIndex=response.pagination.PageIndex;
-    this.pageSize=response.pagination.PageSize;
-   // this.total=response.pagination.TotalRecord;
-    //this.totalPage=response.pagination.TotalPage;
+    this.pageIndex=response.pagination.pageIndex;
+    this.pageSize=response.pagination.pageSize;
+
     this.loading =false;
    });
 
@@ -53,33 +49,45 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
 
   ngOnInit(): void {
 
-   this.projectService.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{   
-   
-    this.projects=response.data;
-    this.pageIndex=response.pagination.PageIndex;
-    this.pageSize=response.pagination.PageSize;
-    this.total=response.pagination.TotalRecord
-    this.totalPage=response.pagination.TotalPage;
-    this.loading =false;
-   }));
+    this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{   
+      this.projects=response.data;
+      this.pageIndex=response.pagination.pageIndex;
+      this.pageSize=response.pagination.pageSize;
+      this.total=response.pagination.totalRecord
+      this.totalPage=response.pagination.totalPage;
+      this.loading =false;
+      this.projectService.setFristPageOfProjects(response);
+       console.log(response)
+     });
+
+ 
 
    this.searchProject.valueChanges.pipe(
      debounceTime(3000)
    ).subscribe(()=>{
-      if(this.searchProject.value?.length>2)
+      if(this.searchProject.value?.length>1)
           {
           
-      this.projectService.getWithPagnationResut(1,10,this.searchProject.value).pipe(map((response:PaginatedResult<Project[]>)=>{  
+      this.projectService.getWithPagnationResut(1,10,this.searchProject.value).subscribe((response:PaginatedResult<Project[]>)=>{  
         
         if(response?.data.length>0)
         {
           this.projects=response.data;
-          this.pageIndex=response.pagination.PageIndex;
-          this.pageSize=response.pagination.PageSize;
-          this.total=response.pagination.TotalRecord
-          this.totalPage=response.pagination.TotalPage;
+          this.pageIndex=response.pagination.pageIndex;
+          this.pageSize=response.pagination.pageSize;
+          this.total=response.pagination.totalRecord
+          this.totalPage=response.pagination.totalPage;
          }
          else{
+       
+
+          this.projects= this.projectService.getFirsttPageValue().data;
+          this.pageIndex= this.projectService.getFirsttPageValue().pagination.pageIndex;
+          this.pageSize= this.projectService.getFirsttPageValue().pagination.pageSize;
+          this.total= this.projectService.getFirsttPageValue().pagination.totalRecord
+          this.totalPage= this.projectService.getFirsttPageValue().pagination.totalPage;
+
+
           this.notification
           .blank(
             'Project not found',
@@ -90,7 +98,7 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
 
   
        })
-       )
+       
            
              
 

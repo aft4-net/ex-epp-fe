@@ -1,14 +1,14 @@
 export interface ProjectStatus {
-    Guid: string,
+    guid: string,
 
-    IsActive:boolean ,
+    isActive:boolean ,
   
-    IsDeleted: boolean,
+    isDeleted: boolean,
   
-    CreatedDate: Date,
+    createdDate: Date,
   
-    CreatedbyUserGuid: string,
+    createdbyUserGuid: string,
   
-    StatusName: string
-    AllowResource:boolean;
+    statusName: string
+    allowResource:boolean;
 }    

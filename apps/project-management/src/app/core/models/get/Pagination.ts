@@ -1,8 +1,8 @@
 export interface  Pagination {
-  TotalRecord:number;
-  PageIndex:number ;
-  PageSize:number;
-  TotalPage:number;
+  totalRecord:number;
+  pageIndex:number ;
+  pageSize:number;
+  totalPage:number;
 }
 
 
