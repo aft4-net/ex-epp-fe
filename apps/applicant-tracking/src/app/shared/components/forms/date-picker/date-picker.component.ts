@@ -3,37 +3,37 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 
 @Component({
-  selector: 'exec-epp-date-picker',
+  selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css']
 })
-export class DatePickerComponent implements OnInit {
-  @Input() disabled: boolean = false;
-  @Input() loading: boolean = false;
+export class DatePickerComponent {
+  @Input() disabled = false;
+  @Input() loading = false;
   @Input() show:NzCalendarModule = 'default';
-  @Input() focusout: boolean = false;
-  @Input() displayError: boolean = false;
+  @Input() focusout = false;
+  @Input() displayError = false;
   @Input() type = 'text';
-  @Input() name: string = '';
-  @Input() isRequired: boolean = false;
+  @Input() name = '';
+  @Input() isRequired = false;
   @Input() label: string | any = null;
-  @Input() placeholder: string = '';
-  @Input() errorMsg: string = '';
+  @Input() placeholder =  '';
+  @Input() errorMsg = '';
   @Input() suffixIcon: any;
   @Input() prefixIcon: any;
-  @Input() fcn: string = '';
+  @Input() fcn = '';
   @Input() form: any;
-  @Input() maxLength: number = 1000;
-  @Input() showErrorIcon = true;
-  @Input() disablePaste = false;
+  @Input()  disabledDate: any;
 
-  @Output() onClick: EventEmitter<any> = new EventEmitter<any>();
+  
+  selectedStatus!: string;
 
-  constructor() { }
+  currentDate = Date.now.toString();
 
-  ngOnInit(): void {
-  }
-  onClicked(e:any){
-    this.onClick.emit(e);
+   projectStartdDate={}as Date;
+  @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
+
+  onValueChage(e:any){
+    this.valueChange.emit(e);
   }
 }
