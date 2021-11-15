@@ -91,7 +91,7 @@ export class TimesheetService {
       return this.http.get<Client[]>(this.baseUrl + "clients");
     }
   }
-  
+
   getClient(clientId: number){
     let params = new HttpParams();
 
@@ -102,19 +102,23 @@ export class TimesheetService {
     return response.pipe(map(r => r.body));
   }
 
-  getProjects(userId: string) {
+  getProjects(userId: string, clientId?:number) {
     let params = new HttpParams();
 
     params = params.append("employeeId", userId);
 
+    if (clientId){
+      params=params.append("clientId",clientId);
+    }
+
     let response = this.http.get<Project[]>(this.baseUrl + "projects", { observe: "response", params: params});
-    
+
     return response.pipe(map(r => r.body));
   }
 
   getProject(projectId: number) {
     let params = new HttpParams();
-    
+
     params = params.append("id", projectId);
 
     let response = this.http.get<Project[]>(this.baseUrl + "projects", { observe: "response", params: params});

@@ -28,41 +28,59 @@
       <div class="timesheet-date-range">
         <div class="from-date-to-date">
           <label for="from-date" id="from-date">From Date:</label>
-          <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" nzFormat="MM-dd-YY" nzSuffixIcon=""></nz-date-picker>
+          <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" nzFormat="MM-dd-YY"
+                          nzSuffixIcon=""></nz-date-picker>
           <label for="to-date" id="to-date">To Date:</label>
-          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" nzFormat="MM-dd-YY" nzSuffixIcon=""></nz-date-picker>
+          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" nzFormat="MM-dd-YY"
+                          nzSuffixIcon=""></nz-date-picker>
         </div>
         <i nz-icon nzType="close" nzTheme="outline" (click)="closeFormDrawer()"></i>
       </div>
       <div class="timesheet-detail">
         <label for="client" id="client">Client</label>
-        <nz-select formControlName="client" [(ngModel)]="formData.client" *ngIf="clients?.length else elseBlock">
+        <nz-select formControlName="client"
+        [(ngModel)]="selected" (ngModelChange)="ngValueChange($event)" (change)="change($event)"
+
+
+                   *ngIf="clients?.length else elseBlock"
+
+        >
           <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
-            nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
+                     nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
         </nz-select>
-
+        <label>selected client id: {{formData.client}}</label>
         <label for="project" id="project">Project</label>
-        <nz-select formControlName="project" [(ngModel)]="formData.project" *ngIf="projects?.length else elseBlock">
-          <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
-            nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
-        </nz-select>
+        <nz-select formControlName="project"
 
+                   [(ngModel)]="selectedP" (ngModelChange)="ngValueChange1($event)" (change)="change1($event)"
+                   *ngIf="projects?.length else elseBlock"
+        >
+          <nz-option ng-selected="project.label == formData.project"
+                     *ngFor="let project of projects"
+
+                     nzValue="{{ project.id }}" nzLabel="{{ project.name }}">
+          </nz-option>
+        </nz-select>
+        <label>selected project id: {{selectedP}}</label>
         <ng-template #elseBlock>
           <nz-select nzDisabled>
-            <nz-option> </nz-option>
+            <nz-option></nz-option>
           </nz-select>
         </ng-template>
 
         <label for="hours" id="hours">Hours</label>
         <nz-form-item>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
-            <input [(ngModel)]="formData.hours" nz-input formControlName="hours" placeholder="enter bellow {{24-clickedDateTotalHour}}" type="number" min="1" max="{{24-clickedDateTotalHour}}" />
-              <ng-template #userErrorTpl let-control>
-                <ng-container *ngIf="formData.hours <=0 ">Please Enter above 0 hour</ng-container>
-                <ng-container *ngIf="formData.hours > (24-clickedDateTotalHour) ">Please Enter bellow {{24-clickedDateTotalHour}}</ng-container>
-                <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
-              </ng-template>
-          </nz-form-control>  
+            <input [(ngModel)]="formData.hours" nz-input formControlName="hours"
+                   placeholder="enter bellow {{24-clickedDateTotalHour}}" type="number" min="1"
+                   max="{{24-clickedDateTotalHour}}"/>
+            <ng-template #userErrorTpl let-control>
+              <ng-container *ngIf="formData.hours <=0 ">Please Enter above 0 hour</ng-container>
+              <ng-container *ngIf="formData.hours > (24-clickedDateTotalHour) ">Please Enter
+                bellow {{24 - clickedDateTotalHour}}</ng-container>
+              <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
+            </ng-template>
+          </nz-form-control>
         </nz-form-item>
 
         <label for="note">Note</label>
@@ -70,10 +88,12 @@
                   {{ formData.note }}
                 </textarea>
         <div class="save-and-clear">
-          <button id="save" nz-button [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-clickedDateTotalHour)">Save
+          <button id="save" nz-button
+                  [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-clickedDateTotalHour)">
+            Save
           </button>
           <button id="clear" nz-button (click)="resetForm($event)"
-            [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.note">Clear
+                  [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.note">Clear
           </button>
         </div>
       </div>
