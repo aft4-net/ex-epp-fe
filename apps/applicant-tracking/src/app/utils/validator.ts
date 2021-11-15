@@ -9,9 +9,9 @@ import phone from 'phone';
 export class FormValidator implements IValidator {
   validatePassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      var password = control.value;
-      const re = /^(?=.*[A-Za-z])(?=.*[\d$@.!%*#?&])[A-Za-z\d$@.!%*#?&]{8,}$/;
-      var isValid = re.test(String(password).toLowerCase());
+      const password = control.value;
+      const re =  /^(?=.*[A-Za-z])(?=.*[\d$@.!%*#?&])[A-Za-z\d$@.!%*#?&]{8,}$/;
+      const isValid = re.test(String(password).toLowerCase());
       return !isValid ? { value: control.value } : null;
     };
   }
@@ -24,26 +24,39 @@ export class FormValidator implements IValidator {
 
   validateName(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      var name = control.value;
-      var isValid = name.match('^[a-zA-Z]*$') && name.length >= 2;
+      const name = control.value;
+      const isValid = name.match('^[a-zA-Z]*$') && name.length >= 2;
       return !isValid ? { value: control.value } : null;
     };
   }
 
   validateEmail(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      var email = control.value;
+      const email = control.value;
       const re =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      var isValid = re.test(String(email).toLowerCase());
+      const isValid = re.test(String(email).toLowerCase());
       return !isValid ? { value: control.value } : null;
     };
   }
 
   validatePhoneNumber(dial_code: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      var phonenumber = dial_code + control.value;
-      var { isValid } = phone(phonenumber);
+      const phonenumber = dial_code + control.value;
+      const { isValid } = phone(phonenumber);
+      return !isValid ? { value: control.value } : null;
+    };
+  }
+
+  validateMonthsOfExperience(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = control.value >= 0 && control.value <= 11;
+      return !isValid ? { value: control.value } : null;
+    };
+  }
+  validateYearOfExperience(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = control.value >= 0;
       return !isValid ? { value: control.value } : null;
     };
   }
