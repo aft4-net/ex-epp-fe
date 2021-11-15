@@ -8,6 +8,7 @@ import { TimeEntry, Timesheet } from '../../models/timesheetModels';
 import { data } from 'autoprefixer';
 import { Project } from '../../models/project';
 import { Client } from '../../models/client';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +17,6 @@ export class TimesheetService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient,) {
-  }
-
-  addTimesheet(timesheet: any) {
-    return this.http.post<any>(this.baseUrl + 'timesheets', timesheet).subscribe({
-      next: data => {
-        //this.postId = data.id;
-        console.log('response---------------');
-        console.log(data);
-      },
-      error: error => {
-        //this.errorMessage = error.message;
-        console.error('There was an error!', error);
-      }
-    })
-  }
-
-  addTimeEntry(timeEntry: any){
-    const headers = {"content-type": "application/json"}
-
-    return this.http.post<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});
   }
 
   getTimeSheet(userId: string, date?: Date) {
@@ -60,6 +41,20 @@ export class TimesheetService {
     return response.pipe(map(r => r.body));
   }
 
+  addTimesheet(timesheet: any) {
+    return this.http.post<any>(this.baseUrl + 'timesheets', timesheet).subscribe({
+      next: data => {
+        //this.postId = data.id;
+        console.log('response---------------');
+        console.log(data);
+      },
+      error: error => {
+        //this.errorMessage = error.message;
+        console.error('There was an error!', error);
+      }
+    })
+  }
+
   getTimeEntry(timesheetId: number, date?: Date) {
     let params = new HttpParams();
 
@@ -74,6 +69,20 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
+
+  addTimeEntry(timeEntry: TimeEntry){
+    const headers = {"content-type": "application/json"};
+
+    return this.http.post<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});
+  }
+
+  updateTimeEntry(timeEntry: TimeEntry) {
+    const headers = {"content-type": "application/json"};
+
+    return this.http.put<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});
+  }
+
+  //#region client and poject from mock server
 
   getClients(clientIds?: number[]){
     if(clientIds){
@@ -121,4 +130,7 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
+
+  //#endregion
+
 }

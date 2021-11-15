@@ -29,6 +29,10 @@ export class TimesheetComponent implements OnInit {
   drawerVisible = false;
   validateForm!: FormGroup;
 
+  // Used for disabling client and project list when selected for edit.
+  disableClient: bool = false;
+  disableProject: bool = false;
+
   timesheet: Timesheet | null = null;
   timeEntrys: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
@@ -97,7 +101,7 @@ export class TimesheetComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     this.calcualteNoOfDaysBetweenDates();
 
-    this.formData.hours=null;
+    this.formData.hours = null;
   }
 
   // To calculate the time difference of two dates
@@ -219,30 +223,33 @@ export class TimesheetComponent implements OnInit {
     this.clickEventType = dateColumnEvent.clickEventType;
     this.clickedDateTotalHour = dateColumnEvent.totalHours;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-    
+
     if (this.date <= new Date()) {
-        if (this.clickedDateTotalHour < 24) {
-          this.showFormDrawer();
-        }else{
-          this.createNotificationErrorOnDailyMaximumHour("bottomRight");
-        }
+      if (this.clickedDateTotalHour < 24) {
+        this.showFormDrawer();
+      } else {
+        this.createNotificationErrorOnDailyMaximumHour("bottomRight");
+      }
     } else {
       this.createNotificationError('bottomRight');
     }
   }
 
-  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.showFormDrawer();
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType){
+  onPaletEllipsisClicked(clickEventType: ClickEventType, date: Date) {
     this.clickEventType = clickEventType;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
   }
 
-  onEditButtonClicked(clickEventType: ClickEventType) {
+  onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
     this.clickEventType = clickEventType;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.showFormDrawer();
   }
 
@@ -257,7 +264,13 @@ export class TimesheetComponent implements OnInit {
         this.formData.project = this.timeEntry.projectId.toString();
         this.formData.hours = this.timeEntry.hours.toString();
         this.formData.note = this.timeEntry.note;
+
+        this.disableClient = true;
+        this.disableProject = true;
       }
+
+      this.formData.fromDate = this.date;
+      this.formData.toDate = this.date;
 
       this.drawerVisible = true;
     }
@@ -274,46 +287,40 @@ export class TimesheetComponent implements OnInit {
     }
 
     try {
-      let dataToSend = {
-        fromDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
-        toDate: this.validateForm.value.toDate != null ? this.validateForm.value.toDate.toISOString().substring(0, 10) : null,
-        client: this.validateForm.value.client,
-        project: this.validateForm.value.project,
-        hours: this.validateForm.value.hours,
+      let timeEntry: TimeEntry = {
         note: this.validateForm.value.note,
-      };
-
-      if (this.timesheet) {
-        let timeEntry = {
-          note: this.validateForm.value.note,
-          date: this.date,
-          index: 1,
-          hours: this.validateForm.value.hours,
-          projectId: this.validateForm.value.project,
-          timesheetId: this.timesheet?.guid
-        }
-
-        this.timesheetService.addTimeEntry(timeEntry).subscribe({
-          next: data => {
-            if (data.ResponseStatus === "Success") {
-              this.createNotification('success');
-            }
-            else if (data.ResponseStatus === "error") {
-              this.createNotification('error');
-            }
-            
-            if (this.userId) {
-              this.getTimesheet(this.userId, this.date);
-            }
-          },
-          error: error => {
-            this.createNotification('warning');
-          }
-        })
-        //this.createNotification('success');
+        date: this.date,
+        index: 1,
+        hours: this.validateForm.value.hours,
+        projectId: this.validateForm.value.project,
+        timesheetId: 0
       }
 
-      this.validateForm.reset();
+      if (this.timeEntry) {
+        timeEntry.guid = this.timeEntry.guid;
+        timeEntry.timesheetId = this.timeEntry.timesheetId;
+        console.log(timeEntry);
+        this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
+          if (this.userId) {
+            this.getTimesheet(this.userId, this.date);
+          }
+          this.createNotification('success');
+        }, error => {
+          this.createNotification('error')
+          console.log(error);
+        });
+      }
+      else {
+        this.timesheetService.addTimeEntry(timeEntry).subscribe(response => {
+          if(this.userId) {
+            this.getTimesheet(this.userId, this.date);
+          }
+          this.createNotification("success");
+        }, error => {
+          this.createNotification("warning");
+        });
+      }
+
       this.closeFormDrawer();
     } catch (err) {
       console.error(err);
@@ -321,13 +328,19 @@ export class TimesheetComponent implements OnInit {
   }
 
   closeFormDrawer(): void {
-    this.timeEntry = null;
-    this.validateForm.reset();
+    this.clearFormData();
     this.drawerVisible = false;
   }
 
   resetForm(e: MouseEvent): void {
     e.preventDefault();
+    this.clearFormData();
+  }
+
+  clearFormData() {
+    this.timeEntry = null;
+    this.disableClient = false;
+    this.disableProject = false;
     this.validateForm.reset();
   }
 
@@ -338,6 +351,7 @@ export class TimesheetComponent implements OnInit {
       { nzPlacement: position }
     );
   }
+
   createNotificationErrorOnDailyMaximumHour(position: NzNotificationPlacement): void {
     this.notification.error(
       '',
