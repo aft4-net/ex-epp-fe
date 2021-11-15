@@ -4,11 +4,12 @@ import { ApplicationRoutingModule } from './application-routing.module';
 import { SiderComponent } from '../../components/application/sider/sider.component';
 import { PersonalInformationComponent } from '../../components/application/personal-information/personal-information.component';
 import { AreaOfInterestComponent } from '../../components/application/areas-of-interest/area-of-interest.component';
+import { EducationComponent } from '../../components/application/education/education.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [SiderComponent, PersonalInformationComponent, AreaOfInterestComponent],
+  declarations: [SiderComponent, PersonalInformationComponent, AreaOfInterestComponent,EducationComponent],
   imports: [
     ApplicationRoutingModule,
     FormsModule,

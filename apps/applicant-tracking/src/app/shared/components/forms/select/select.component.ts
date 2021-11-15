@@ -7,13 +7,24 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SelectComponent {
   @Input() label: string | any = null;
+  @Input() labelMuted: string | any = null;
   @Input() placeholder = '';
-  @Input() errorMsg = '';
   @Input() selectedValue: any;
   @Input() list: any[] = [];
   @Input() multiple = false;
+  @Input() showArrow = true;
   @Input() custom = false;
   @Input() maxNumber = 20;
+  @Input() enableHidding = false;
+  @Input() selectedSoFar : any;
+  @Input() isRequired = true;
+  @Input() errorMsg = '';
+  @Input() showErrorIcon = true;
+  @Input() displayError = false;
+  @Input() focusout = false;
+  @Input() fcn = '';
+  @Input() form: any;
+  @Input() valid = false;
 
   @Output() actionChange: EventEmitter<any> = new EventEmitter<any>();
 
@@ -24,5 +35,15 @@ export class SelectComponent {
 
   log(value: { name: string; dial_code: string; code: number }): void {
     this.actionChange.emit(value);
+  }
+
+  isNotSelected(value : any){
+    return this.selectedSoFar.indexOf(value) === -1; 
+  }
+  onfocustout() {
+    this.focusout = true;
+  }
+  onfocus() {
+    this.focusout = false;
   }
 }

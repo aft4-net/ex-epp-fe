@@ -7,11 +7,10 @@ import phone from 'phone';
   providedIn: 'root',
 })
 export class FormValidator implements IValidator {
-
   validatePassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       var password = control.value;
-      const re =  /^(?=.*[A-Za-z])(?=.*[\d$@.!%*#?&])[A-Za-z\d$@.!%*#?&]{8,}$/;
+      const re = /^(?=.*[A-Za-z])(?=.*[\d$@.!%*#?&])[A-Za-z\d$@.!%*#?&]{8,}$/;
       var isValid = re.test(String(password).toLowerCase());
       return !isValid ? { value: control.value } : null;
     };
@@ -41,7 +40,7 @@ export class FormValidator implements IValidator {
     };
   }
 
-  validatePhoneNumber(dial_code : string): ValidatorFn {
+  validatePhoneNumber(dial_code: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       var phonenumber = dial_code + control.value;
       var { isValid } = phone(phonenumber);
@@ -49,4 +48,10 @@ export class FormValidator implements IValidator {
     };
   }
 
+  validateIsStudying(isStudying: boolean): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (isStudying) return null;
+      return control.value ? null : { value: control.value };
+    };
+  }
 }
