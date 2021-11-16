@@ -142,10 +142,8 @@
           </div>
   
           <div nz-row nzJustify="end">
-            <div nz-col nzSpan="5">
-                <label name="applyMore" [disabled]="isUpdateMode" class="checkbox-small" nz-checkbox [(ngModel)]="isMultitpleEntry">
-                    Apply for more positions
-                  </label>
+            <div nz-col nzSpan="5" *ngIf="!isUpdateMode">
+              <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Apply for more positions"></app-checkbox-input>
             </div>
             <div nz-col class="col-pad" nzSpan="3">
                 <app-button [disabled]="!areaOfInterest.valid" [loading]="loading" (click)="isUpdateMode?onUpdateRecord(selectedRecord?selectedRecord:1):onSaveRecord()" type="primary">

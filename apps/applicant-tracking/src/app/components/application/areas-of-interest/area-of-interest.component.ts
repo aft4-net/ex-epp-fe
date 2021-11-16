@@ -21,7 +21,6 @@ import { FormValidator } from '../../../utils/validator';
 export class AreaOfInterestComponent implements OnInit {
   isModalVisible = false;
   selectedPositionId = 0;
-  isMultitpleEntry = false;
   isUpdateMode = false;
   isRecordUpdated = false;
   selectedRecord:number | undefined;
@@ -35,7 +34,11 @@ export class AreaOfInterestComponent implements OnInit {
     yearOfExperience: new FormControl(0,[this.validator.validateYearOfExperience(),Validators.required]),
     monthsOfExperience: new FormControl(0,[this.validator.validateMonthsOfExperience(),Validators.required,]),
   });
-  //monthsOfExperienceError = false;
+
+  public validation = new FormGroup({
+    isMultitpleEntry: new FormControl(false, [Validators.required]),
+  });
+
   public listOfPositions: Array<any> = [
     { id: 1, name: "Software Engineer" },
     { id: 2, name: "Data Scientist" },
@@ -135,13 +138,21 @@ export class AreaOfInterestComponent implements OnInit {
     newItem.MonthsOfExperience = this.areaOfInterest.get('monthsOfExperience')?.value;
     this.areaOfInterests.push(newItem);
     this.loading = false;
-    this.isModalVisible = this.isMultitpleEntry; 
+    
 
-    this.notification.showNotification({
-          type: 'success',
-          content: 'You have successfully added the application',
-          duration: 5000,
-        });
+    if (!this.validation.controls.isMultitpleEntry.value) {
+      this.isModalVisible = false;
+      this.notification.showNotification({
+        type: 'success',
+        content: 'You have successfully added the application',
+        duration: 5000,
+      });
+      this.isRecordUpdated = true;
+    }
+    this.areaOfInterest.reset();
+    this.validation.controls.isMultitpleEntry.setValue(false);
+
+    
    this.isRecordUpdated = true;
 
   }
