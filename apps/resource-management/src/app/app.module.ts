@@ -10,17 +10,25 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { AppRoutingModule } from './app-routing.module';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent, 
+    MainLayoutComponent
+  ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+    // RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    DemoNgZorroAntdModule,
+    AppRoutingModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
