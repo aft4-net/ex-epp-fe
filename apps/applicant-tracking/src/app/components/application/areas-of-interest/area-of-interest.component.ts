@@ -21,6 +21,7 @@ import { FormValidator } from '../../../utils/validator';
 export class AreaOfInterestComponent implements OnInit {
   isModalVisible = false;
   selectedPositionId = 0;
+  //isMultitpleEntry = false;
   isUpdateMode = false;
   isRecordUpdated = false;
   selectedRecord:number | undefined;
@@ -32,7 +33,7 @@ export class AreaOfInterestComponent implements OnInit {
     secondarySkills: new FormControl([]),
     otherSkills: new FormControl([]),
     yearOfExperience: new FormControl(0,[this.validator.validateYearOfExperience(),Validators.required]),
-    monthsOfExperience: new FormControl(0,[this.validator.validateMonthsOfExperience(),Validators.required,]),
+    monthsOfExperience: new FormControl(0,[this.validator.validateMonthsOfExperience(),Validators.required]),
   });
 
   public validation = new FormGroup({
