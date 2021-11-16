@@ -48,11 +48,11 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
   createProject(data:ProjectCreate)
    {
-    console.log(data);
+
 
      this.post(data).subscribe
          ((error)=>{
-               console.log(error);
+           
            this.notification.success('Project Added successfully','');  
            
   this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
@@ -72,7 +72,7 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
   {
   return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
      
-        return response.data;
+        return response.Data;
         
     }))
   }

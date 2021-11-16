@@ -6,7 +6,7 @@ export interface ProjectCreate {
   ProjectType:string;
   SupervisorGuid:string;
   StartDate: Date;
-  EndDate?: Date|null;
+  EndDate: string;
   ClientGuid :string;
   AssignResource?: projectResourceType[];
   Description?:string

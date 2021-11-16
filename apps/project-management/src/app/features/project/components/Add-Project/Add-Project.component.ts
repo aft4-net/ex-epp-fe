@@ -45,6 +45,8 @@ export class AddProjectComponent implements OnInit {
 
   ngOnInit(): void {
 
+    console.log(Date.now());
+
     this.createRegistrationForm();
 
     this.employeeService.getAll().subscribe((response:Employee[])=>{
@@ -78,17 +80,17 @@ export class AddProjectComponent implements OnInit {
       this.projectCreate.SupervisorGuid=this.validateForm.controls.supervisor.value;
       this.projectCreate.StartDate=this.validateForm.controls.startValue.value;
       this.projectCreate.ProjectType=this.validateForm.controls.projectType.value;
-      this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value.guid; 
+      this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value.Guid; 
       this.projectCreate.Description=this.validateForm.controls.description.value;
-      
+
 
       if(this.validateForm.controls.projectType.value=="Internal")
       {
         for(let i=0;i<this.clients.length;i++)
         {
-             if(this.clients[i].clientName=="Excellerent")
+             if(this.clients[i].ClientName=="Excellerent")
               {
-                this.projectCreate.ClientGuid=this.clients[i].guid;
+                this.projectCreate.ClientGuid=this.clients[i].Guid;
                    break;
               }
         }
@@ -96,7 +98,7 @@ export class AddProjectComponent implements OnInit {
         this.projectCreate.ClientGuid=this.validateForm.controls.client.value;
       }
 
-      if(this.validateForm.controls.status.value.allowResource)
+      if(this.validateForm.controls.status.value.AllowResource)
      {
       this.disallowResource=false;
 
@@ -121,17 +123,19 @@ export class AddProjectComponent implements OnInit {
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
-      endValue: [null ],
+      endValue: [null],
       description:[""]
     });
   }
 
   onSubmit(){
 
-            if(this.validateForm.controls.endValue.value!=null)
-      this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
-     else
-       this.projectCreate.EndDate=null;
+      if(this.validateForm.controls.endValue.value!=null)
+   this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
+   else
+   this.projectCreate.EndDate="Wed Nov 10 2999 13:04:51 GMT+0400 (Gulf Standard Time)";
+
+
 
   
   if(this.validateForm.controls.status.value.AllowResource==true)
@@ -217,10 +221,10 @@ export class AddProjectComponent implements OnInit {
         if(this.projects!=[])
        for(let  i=0 ;i<this.projects.length; i++)
        {            
-        if(this.validateForm.controls.projectName.value.toLowerCase()===this.projects[i].projectName.toString().toLowerCase())
+        if(this.validateForm.controls.projectName.value.toLowerCase()===this.projects[i].ProjectName.toString().toLowerCase())
           {           
             found=true;
-            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].client.clientName+" client"
+            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].Client.ClientName+" client"
             break;
           }        
        }

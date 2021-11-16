@@ -4,21 +4,21 @@ import { Client, Employee, ProjectStatus, } from './';
 
 export interface Project{
 
-  projectName:string,
-  projectType: string,
-  startDate:Date,
-  endDate:Date,
-  supervisor: Employee,
-  client:Client;
-  projectStatus: ProjectStatus,
-  supervisorGuid:string,
-  clientGuid:string,
-  projectStatusGuid:string,
-  guid:string,
-  isActive:boolean,
-  isDeleted:boolean,
-  createdDate:Date,
-  createdbyUserGuid:string
+  ProjectName:string,
+  ProjectType: string,
+  StartDate:Date,
+  EndDate:Date,
+  Supervisor: Employee,
+  Client:Client;
+  ProjectStatus: ProjectStatus,
+  SupervisorGuid:string,
+  ClientGuid:string,
+  ProjectStatusGuid:string,
+  Guid:string,
+  IsActive:boolean,
+  IsDeleted:boolean,
+  CreatedDate:Date,
+  CreatedbyUserGuid:string
   
   }
 
