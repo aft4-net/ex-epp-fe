@@ -39,20 +39,16 @@
       <div class="timesheet-detail">
         <label for="client" id="client">Client</label>
         <nz-select formControlName="client"
-        [(ngModel)]="selected" (ngModelChange)="ngValueChange($event)" (change)="change($event)"
-
-
+        [(ngModel)]="selected" (ngModelChange)="clientValueChange($event)"
                    *ngIf="clients?.length else elseBlock"
-
         >
           <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
                      nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
         </nz-select>
-        <label>selected client id: {{formData.client}}</label>
+
         <label for="project" id="project">Project</label>
         <nz-select formControlName="project"
-
-                   [(ngModel)]="selectedP" (ngModelChange)="ngValueChange1($event)" (change)="change1($event)"
+                   [(ngModel)]="selectedP" (ngModelChange)="projectValueChange($event)"
                    *ngIf="projects?.length else elseBlock"
         >
           <nz-option ng-selected="project.label == formData.project"
@@ -61,7 +57,7 @@
                      nzValue="{{ project.id }}" nzLabel="{{ project.name }}">
           </nz-option>
         </nz-select>
-        <label>selected project id: {{selectedP}}</label>
+
         <ng-template #elseBlock>
           <nz-select nzDisabled>
             <nz-option></nz-option>

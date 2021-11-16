@@ -160,19 +160,10 @@ export class TimesheetComponent implements OnInit {
     // this.clientsFiltered=this.clients.filter(p => p.id==clientId);
   }
 
-  setSelectedClient(value) {
-    // alert(event.target.value);
-    console.log('selected client id  : ' + value);
-    this.timesheetService.getClient(this.formData.client).subscribe(pp => {
-      this.clients = pp;
-      console.log('selected user id: ' + this.userId);
-    });
-  }
 
-  ngValueChange(value) {
+  clientValueChange(value) {
     this.selected = value;
     console.log('selected client id is: ' + this.selected);
-    console.log('selected client id value is: ' + value);
     this.timesheetService.getProjects(this.userId, this.selected).subscribe(pp => {
       this.projects = pp;
 
@@ -180,39 +171,20 @@ export class TimesheetComponent implements OnInit {
     console.log('selected projects : ' + this.projects);
   }
 
-  change(value) {
-    // this.selected = value;
-    // this.timesheetService.getProjects(this.userId, this.selected).subscribe(pp => {
-    //   this.projects = pp;
-    //   console.log('selected projects id: ' + this.selected);
-    // });
-  }
 
-  ngValueChange1(value) {
-    this.selectedP = value;
-    console.log('selected client id is: ' + this.selectedP);
-    console.log('selected client id value is: ' + value);
-    // if (!this.clients) {
-    let o, k = '';
+  projectValueChange(value) {
+    console.log('selected project id value is: ' + this.selectedP);
+    let o;
     this.timesheetService.getProject(this.selectedP).subscribe(pp => {
-      o = pp.get;
+      o = pp[0];
+      console.log('project full data: : ' + o);
+      if (o) {
+        this.timesheetService.getClient(o.clientId).subscribe(response => {
+          this.clients = response
+        });
+      }
     });
-    k = o.pipe(map(txs => txs.find(txn => txn.clientId === id)));
-    this.timesheetService.getClient(k).subscribe(pp => {
-      this.clients = pp;
-    });
-    // }
-    console.log('selected clients : ' + this.clients);
-  }
-
-  change1(value) {
-    // this.selectedP = value;
-    // if (!this.clients) {
-    //   this.timesheetService.getClient(this.selectedP).subscribe(pp => {
-    //     this.clients = pp;
-    //
-    //   });
-    // }
+    console.log('client full data : ' + this.clients);
   }
 
   setSelectedProject() {
