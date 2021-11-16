@@ -61,6 +61,13 @@
       "tags": [],
       "implicitDependencies": ["project-management"]
     },
+    "resource-management": {
+      "tags": []
+    },
+    "resource-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["resource-management"]
+    },
     "timesheet": {
       "tags": []
     },

@@ -1,19 +1,22 @@
-
-import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { Client, ClientService, Employee, EmployeeService, ProjectCreate, ProjectService, ProjectStatus, ProjectStatusService, projectResourceType } from '../../../../core';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { Client, ClientService, Employee, EmployeeService, Project, ProjectCreate, projectResourceType, ProjectService, ProjectStatus, ProjectStatusService } from '../../../../core';
+import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { Project } from 'apps/project-management/src/app/core/models/get/project';
 import { Router } from '@angular/router';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css']
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
-  projectDetail!: boolean;
+  projectStatus!: boolean;
+  selectedStatus!: string;
 
   validateForm!: FormGroup;
   userSubmitted!: boolean;
@@ -91,7 +94,7 @@ export class AddProjectComponent implements OnInit {
 
   createRegistrationForm(){
     this.validateForm = this.fb.group({
-      projectName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      projectName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       client: ['Excellerent Solutions', [Validators.required]],
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
@@ -106,7 +109,9 @@ export class AddProjectComponent implements OnInit {
   this.userSubmitted = true;
    this.projectCreate.resources=this.resources;
    this.projectService.createProject(this.projectCreate);
-   this.router.navigateByUrl('/');
+   this.router.navigateByUrl('client-project/add-project');
+   this.onReset();
+   console.log(this.validateForm.value)
   }
 
   onReset(){
@@ -171,21 +176,21 @@ export class AddProjectComponent implements OnInit {
   onInputProjectName(event:Event)
   {
    let found=false;
-    if(!this.validateForm.controls.projectName.invalid)
+    if(!this.validateForm.controls.ProjectName.invalid)
       {
        for(const project of this.projects)
        {
-            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.name.toLowerCase())
+            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.ProjectName.toLowerCase())
             found=true;
        }
       }
       if(found==true)
       {this.projectNameExits=true;
-        this.validateForm.controls.projectName.setErrors({'incorrect':true});
+        //this.validateForm.controls.projectName.setErrors({'incorrect':true});
       }
       else
       {this.projectNameExits=false;
-        this.validateForm.controls.projectName.setErrors(null);
+       // this.validateForm.controls.projectName.setErrors(null);
       }
   }
 
@@ -193,5 +198,11 @@ export class AddProjectComponent implements OnInit {
   {
     this.resources=resources;
   }
+
+  selectChangeHandler (event: any) {
+    this.selectedStatus = event.target.value;
+    console.log(this.selectedStatus)
+  }
+
 }
 

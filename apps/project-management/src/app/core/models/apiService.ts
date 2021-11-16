@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +18,15 @@ export abstract class ApiService<T> {
 
   getAll(): Observable<Array<T>>
   {
-   
+
     return this.httpClient.get<T[]>(this.APIUrl);
-  
+
   }
   getSearch(optional:any)
   {
-  
+
     return this.httpClient.get<T[]>(this.APIUrl+'/search/'+optional);
-  
+
   }
 
   getList(params:any): Observable<any[]> {
@@ -39,7 +38,7 @@ export abstract class ApiService<T> {
   get(id: string | number): Observable<[T]> {
     return this.httpClient.get<[T]>(this.APIUrl+"/" +id);
   }
-  
+
   getById(id: string ): Observable<T> {
     return this.httpClient.get<T>(this.APIUrl+"/" +id);
   }
@@ -57,6 +56,6 @@ export abstract class ApiService<T> {
     return this.httpClient.put(`/${this.APIUrl}`, resource)
 
   }
-  
+
 
 }
