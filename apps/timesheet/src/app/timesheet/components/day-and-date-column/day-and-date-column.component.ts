@@ -19,7 +19,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
-
+  @Output() moreTimeEntries: EventEmitter<number> =   new EventEmitter();
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
 
