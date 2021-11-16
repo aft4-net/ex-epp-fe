@@ -171,7 +171,8 @@
                           <td>{{ getPositionName(data.PositionName) }}</td>
                           <td>{{ data.ProficiencyLevel }}</td>
                           <td> {{ data.YearsOfExperience > 0 ? (data.YearsOfExperience < 2 ? data.YearsOfExperience +' year ' : data.YearsOfExperience +' years '):'' }} 
-                              {{ data.MonthsOfExperience > 0 ? (data.YearsOfExperience > 0 ? 'and ' + data.MonthsOfExperience + ' months' : data.MonthsOfExperience + ' months'): '' }}
+                              {{ data.MonthsOfExperience > 0 ? (data.YearsOfExperience > 0 ? 'and ' + (data.MonthsOfExperience > 1 ? data.MonthsOfExperience + ' months': data.MonthsOfExperience + ' month')
+                               : (data.MonthsOfExperience > 1 ? data.MonthsOfExperience + ' months': data.MonthsOfExperience + ' month')): '' }}
                                 {{ data.YearsOfExperience < 1 ? (data.MonthsOfExperience < 1 ? 'No Experience Provided':''):''}}
                             </td>
                           
