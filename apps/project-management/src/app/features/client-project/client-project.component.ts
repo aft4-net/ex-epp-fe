@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaginatedResult, Project, ProjectService } from '../../core';
+import { ActiveTabService } from './servicee/active-tab.service';
 
 @Component({
   selector: 'exec-epp-client-project',
@@ -9,7 +10,8 @@ import { PaginatedResult, Project, ProjectService } from '../../core';
 })
 export class ClientProjectComponent implements OnInit  {
 
-  constructor(private router:Router,private projectService:ProjectService) {
+  activeTabIndex=0;
+  constructor(private router:Router,private projectService:ProjectService,private activeTabService:ActiveTabService) {
 
    }
    clientSelected=true;
@@ -23,6 +25,10 @@ export class ClientProjectComponent implements OnInit  {
    
         this.projectService.setFristPageOfProjects(response);
        });
+
+      this.activeTabService.isClientTabActiv$.subscribe(res=>{
+         this.activeTabIndex=res;
+      })
      }
    
 
@@ -30,11 +36,13 @@ export class ClientProjectComponent implements OnInit  {
   clientTab()
   {
     this.clientSelected=true;
+    this.activeTabService.setFristPage(0);
   }
 
   projectTab()
 {
   this.clientSelected=false;
+  this.activeTabService.setFristPage(1);
 }
 
 addProjectPage()

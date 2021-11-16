@@ -48,7 +48,7 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
   createProject(data:ProjectCreate)
    {
-    
+    console.log(data);
 
      this.post(data).subscribe
          ((error)=>{

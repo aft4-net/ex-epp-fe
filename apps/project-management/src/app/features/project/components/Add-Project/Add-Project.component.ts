@@ -74,8 +74,7 @@ export class AddProjectComponent implements OnInit {
       this.enableAddResourceTab=true; 
        this.projectStartdDate=  this.validateForm.controls.startValue.value;  
       this.projectCreate.ProjectName=this.validateForm.controls.projectName.value
-         if(this.validateForm.controls.endValue.value!="null")
-      this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
+
       this.projectCreate.SupervisorGuid=this.validateForm.controls.supervisor.value;
       this.projectCreate.StartDate=this.validateForm.controls.startValue.value;
       this.projectCreate.ProjectType=this.validateForm.controls.projectType.value;
@@ -129,8 +128,12 @@ export class AddProjectComponent implements OnInit {
 
   onSubmit(){
 
-    
+            if(this.validateForm.controls.endValue.value!=null)
+      this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
+     else
+       this.projectCreate.EndDate=null;
 
+  
   if(this.validateForm.controls.status.value.AllowResource==true)
    this.projectCreate.AssignResource=this.resources;
    else

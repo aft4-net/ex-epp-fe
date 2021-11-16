@@ -1,7 +1,7 @@
 
 <div nz-row>
 
-      <div nz-col nzSpan="7" class="ml-1" >    
+      <div nz-col nzSpan="6" class="ml-1" >    
         <nz-input-group [nzSuffix]="suffixIconSearch" [nzSize]="'large'" >
           <input [formControl]="searchProject"  type="text" nz-input placeholder="Search " />
         </nz-input-group>
@@ -64,6 +64,11 @@
         </tr>
       </tbody>
     </nz-table>
+    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="pageSize"></nz-pagination> 
+
+
+
+ 
 
 
     

@@ -1,5 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -25,27 +26,38 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
   totalPage!:number;
   searchKey='';
   Projects!:Project[];
-
+  searchStateFound=false;
 
   PageIndexChange(index: any): void {
-
     this.loading =true;
-  console.log(index);
+    if(this.searchProject.value?.length>1 && this.searchStateFound==true)
+    {
      
-this.projectService.getWithPagnationResut(index, 10)
+this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
    .subscribe((response:PaginatedResult<Project[]>)=>{
- 
     this.projects=response.data;
     this.pageIndex=response.pagination.pageIndex;
     this.pageSize=response.pagination.pageSize;
 
     this.loading =false;
    });
+  }else{
 
+    this.projectService.getWithPagnationResut(index, 10)
+    .subscribe((response:PaginatedResult<Project[]>)=>{
+  
+     this.projects=response.data;
+     this.pageIndex=response.pagination.pageIndex;
+     this.pageSize=response.pagination.pageSize;
+     this.loading =false;
+    });
+    this.searchStateFound=false;
+  }
 
   }
  
-  constructor(private  projectService:ProjectService,private notification: NzNotificationService) {}
+  constructor(private  projectService:ProjectService,private notification: NzNotificationService
+    ) {}
 
   ngOnInit(): void {
 
@@ -57,7 +69,7 @@ this.projectService.getWithPagnationResut(index, 10)
       this.totalPage=response.pagination.totalPage;
       this.loading =false;
       this.projectService.setFristPageOfProjects(response);
-       console.log(response)
+
      });
 
  
@@ -78,7 +90,7 @@ this.projectService.getWithPagnationResut(index, 10)
           this.pageSize=response.pagination.pageSize;
           this.total=response.pagination.totalRecord
           this.totalPage=response.pagination.totalPage;
-       
+          this.searchStateFound=true;
          }
          else{
        
@@ -88,12 +100,11 @@ this.projectService.getWithPagnationResut(index, 10)
           this.pageSize= this.projectService.getFirsttPageValue().pagination.pageSize;
           this.total= this.projectService.getFirsttPageValue().pagination.totalRecord
           this.totalPage= this.projectService.getFirsttPageValue().pagination.totalPage;
-
-
+          this.searchStateFound=false;
           this.notification
           .blank(
-            'Project not found',
-            ''
+            '  Project not found',
+            '', { nzPlacement:"bottomLeft" }
           )
        
          }
