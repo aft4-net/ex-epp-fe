@@ -49,7 +49,7 @@ export class AddProjectComponent implements OnInit {
 
     this.employeeService.getAll().subscribe((response:Employee[])=>{
       this.employees=response;
-      console.log(this.employees)
+   
     });
 
     this.clientService.getAll().subscribe(response=>{
@@ -62,10 +62,10 @@ export class AddProjectComponent implements OnInit {
       this.projectStatuses=res;
    });
    
-    this.projectService.getAll().subscribe((response:Project[])=>{
+    this.projectService. getProjects().subscribe((response:Project[])=>{
       this.projects=response;
     })
-    this.projects=this.projectService.getProjects();
+   
 
 
     this.validateForm.valueChanges.subscribe(()=>{
@@ -74,14 +74,29 @@ export class AddProjectComponent implements OnInit {
       this.enableAddResourceTab=true; 
        this.projectStartdDate=  this.validateForm.controls.startValue.value;  
       this.projectCreate.ProjectName=this.validateForm.controls.projectName.value
-      this.projectCreate.ClientGuid=this.validateForm.controls.client.value;
+         if(this.validateForm.controls.endValue.value!="null")
       this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
       this.projectCreate.SupervisorGuid=this.validateForm.controls.supervisor.value;
       this.projectCreate.StartDate=this.validateForm.controls.startValue.value;
       this.projectCreate.ProjectType=this.validateForm.controls.projectType.value;
       this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value.guid; 
       this.projectCreate.Description=this.validateForm.controls.description.value;
-  
+      
+
+      if(this.validateForm.controls.projectType.value=="Internal")
+      {
+        for(let i=0;i<this.clients.length;i++)
+        {
+             if(this.clients[i].clientName=="Excellerent")
+              {
+                this.projectCreate.ClientGuid=this.clients[i].guid;
+                   break;
+              }
+        }
+      }else{
+        this.projectCreate.ClientGuid=this.validateForm.controls.client.value;
+      }
+
       if(this.validateForm.controls.status.value.allowResource)
      {
       this.disallowResource=false;

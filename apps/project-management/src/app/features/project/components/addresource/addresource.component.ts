@@ -39,7 +39,7 @@ export class AddresourceComponent implements OnInit {
   ngOnInit(): void {
     this.employeeService.getAll().subscribe((response:Employee[])=>{
       this.employees=response;
-      console.log(this.employees)
+     
       this.sortEmployees();
     });
     this.addResorceForm= this.fb.group({

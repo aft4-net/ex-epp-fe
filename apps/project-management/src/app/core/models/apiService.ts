@@ -72,18 +72,20 @@ export abstract class ApiService<T> {
  return this.get("?" +params.toString())
       .pipe(
         map((response:any) => {
-          console.log(response);
+     console.log(response)
           paginatedResult= {
             data:response.data,
             pagination:{pageIndex:response.pageIndex,
-              totalPage:response.totalPage,
+              totalPage:response. totalPage,
               pageSize:response.pageSize,
-              totalRecord:response.TotalRecord}
+              totalRecord:response.totalRecord}
          };
          return paginatedResult;      
         })
       );
-}
-  
+ }
+
+
+
 
 }
