@@ -1,6 +1,6 @@
 <div [formGroup]="form" class="form-container">
   <nz-form-item class="form-item-container">
-    <div class="label">{{ label }}</div>
+    <div class="label" *ngIf="label">{{ label }}</div>
     <nz-form-control
       [nzHasFeedback]="showErrorIcon"
       [nzErrorTip]="displayError ? errorMsg : ''"

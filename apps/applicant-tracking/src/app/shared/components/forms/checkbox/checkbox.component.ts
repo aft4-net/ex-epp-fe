@@ -2,18 +2,17 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css'],
+  selector: 'app-checkbox-input',
+  templateUrl: './checkbox.component.html',
+  styleUrls: ['./checkbox.component.css'],
 })
-export class InputComponent {
+export class CheckBoxComponent {
   disabled = false;
   @Input() focusout = false;
   @Input() displayError = false;
 
   @Input() type = 'text';
   @Input() name = '';
-
   @Input() isRequired = false;
   @Input() label: string | any = null;
   @Input() placeholder = '';
@@ -22,12 +21,9 @@ export class InputComponent {
   @Input() prefixIcon: any;
   @Input() fcn = '';
   @Input() form: any;
-  @Input() isCompact = false;
   @Input() maxLength = 1000;
   @Input() showErrorIcon = true;
   @Input() disablePaste = false;
-  
-  constructor() {}
   onfocustout() {
     this.focusout = true;
   }

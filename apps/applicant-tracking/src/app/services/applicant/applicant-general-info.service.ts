@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'apps/applicant-tracking/src/environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { environment } from "../../../environments/environment";
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PersonalInfoModel } from '../../models/applicant/personal-info.model';
 
@@ -23,6 +23,38 @@ export class ApplicantGeneralInfoService {
         headers: this.header,
       })
       .pipe(catchError(this.formatErrors));
+  }
+  appliedToPositions() {
+    return of([
+      {
+        id: 1,
+        positionId: 1
+      },
+      {
+        id: 2,
+        positionId: 6
+      }
+    ]);
+  }
+  getSkills() {
+    return of([
+      {
+        id: 1,
+        name: 'test'
+      },
+      {
+        id: 2,
+        name: 'abcd'
+      },
+      {
+        id: 4,
+        name: 'added new'
+      },
+      {
+        id: 3,
+        name: 'skillSetTesting'
+      }
+    ]);
   }
 
   getPersonalInfo(
