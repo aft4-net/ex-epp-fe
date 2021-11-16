@@ -72,6 +72,16 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
 
      });
 
+     this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{   
+      this.projects=response.data;
+      this.pageIndex=response.pagination.pageIndex;
+      this.pageSize=response.pagination.pageSize;
+      this.total=response.pagination.totalRecord
+      this.totalPage=response.pagination.totalPage;
+      this.loading =false;
+     });
+
+
  
 
    this.searchProject.valueChanges.pipe(
@@ -95,11 +105,11 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
          else{
        
              this.loading=false;
-          this.projects= this.projectService.getFirsttPageValue().data;
-          this.pageIndex= this.projectService.getFirsttPageValue().pagination.pageIndex;
-          this.pageSize= this.projectService.getFirsttPageValue().pagination.pageSize;
-          this.total= this.projectService.getFirsttPageValue().pagination.totalRecord
-          this.totalPage= this.projectService.getFirsttPageValue().pagination.totalPage;
+          this.projects= [] as Project[];
+          this.pageIndex= 0
+          this.pageSize= 0;
+          this.total= 0
+          this.totalPage= 0;
           this.searchStateFound=false;
           this.notification
           .blank(
