@@ -29,8 +29,6 @@ export class EducationComponent implements OnInit {
     isMultitpleEntry: new FormControl(false, [Validators.required]),
   });
 
-
-
   closeModal() {
     this.isModalVisible = false;
   }
@@ -53,19 +51,21 @@ export class EducationComponent implements OnInit {
 
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
-      return false;
+      return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() > this.education.controls.yearTo.value.getTime()
+      startValue.getTime() > this.education.controls.yearTo.value.getTime() ||
+      startValue.getTime() >= Date.now() - 3600 * 1000 * 24
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.education.controls.yearFrom.value) {
-      return false;
+      return endValue.getTime() >= Date.now();
     }
     return (
-      endValue.getTime() <= this.education.controls.yearFrom.value.getTime()
+      endValue.getTime() <= this.education.controls.yearFrom.value.getTime() ||
+      endValue.getTime() >= Date.now()
     );
   };
 
@@ -86,6 +86,8 @@ export class EducationComponent implements OnInit {
   onFormSubmit() {
     this.onSaveRecord();
     this.isModalVisible = false;
+    // this.applicantService.setRoutInfo('/application/education');
+    // this.router.navigate(['/application/education']);
   }
 
   ngOnInit(): void {
