@@ -13,13 +13,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { AppRoutingModule } from './app-routing.module';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { PageFooterComponent } from './components/page-footer/page-footer.component';
+import { PageTitleComponent } from './components/page-title/page-title.component';
+import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent, 
-    MainLayoutComponent
+    MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent
   ],
   imports: [
     BrowserModule,
