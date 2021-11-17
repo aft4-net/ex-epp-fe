@@ -46,9 +46,8 @@ export class EducationComponent implements OnInit {
     this.education.setValue({ ...this.educations[index] });
   }
   onDeleteRecord(index: number) {
-    this.isUpdateMode = false;
+    //this.educations = this.educations.filter(a =>index a. !== index);
   }
-
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
       return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;

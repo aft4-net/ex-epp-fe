@@ -37,7 +37,7 @@
                   fcn="yearFrom"
                   #institution
                   label="From"
-                  placeholder="Enter your Institution name"
+                  placeholder="Enter your Started Year"
                   [disabledDate]="disabledStartDate"
                   errorMsg="Please provide a valid year name"
                   [displayError]="institution.focusout"
@@ -52,7 +52,7 @@
                   #institution
                   label="To"
                   [disabled]="education.controls.isStudying.value"
-                  placeholder="Enter your Institution name"
+                  placeholder="Enter your Finished Calender"
                   [disabledDate]="disabledEndDate"
                   errorMsg="Please provide a valid year name"
                   [displayError]="institution.focusout"
@@ -99,7 +99,7 @@
             <div class="inner-box">
               <app-country-selector
                 label="Country"
-                placeholder="Enter your password"
+                placeholder="Enter your Country"
                 errorMsg="Country should be selected"
                 (onChange)="onCountryChange($event)"
                 [selectedValue]="education.controls.country.value"
@@ -111,7 +111,7 @@
       </form>
       <div nz-row nzJustify="end">
         <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
-          <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Apply for more education"></app-checkbox-input>
+          <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Add more education"></app-checkbox-input>
         </div>
         <div nz-col class="col-pad" nzSpan="3">
           <app-button
@@ -135,6 +135,8 @@
             <th>Institution</th>
             <th>Field of study</th>
             <th>Country</th>
+            <th>Started Date</th>
+            <th>End Date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -143,11 +145,14 @@
             <td>{{ data?.institution }}</td>
             <td>{{ data?.fieldOfStudy }}</td>
             <td>{{ data?.country }}</td>
+            <td>{{ data.startDate }}</td>
+            <td>{{ data.endDate }}</td>
             <td>
               <a (click)="onEditRecord(i)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                 Edit</a
               >
+             
               <nz-divider nzType="vertical"></nz-divider>
               <a (click)="onDeleteRecord(i)">Delete</a>
             </td>
