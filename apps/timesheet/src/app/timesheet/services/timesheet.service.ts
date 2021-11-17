@@ -4,11 +4,9 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { map } from "rxjs/operators";
 
 import { environment } from 'apps/timesheet/src/environments/environment';
-import { TimeEntry, Timesheet } from '../../models/timesheetModels';
-import { data } from 'autoprefixer';
+import { TimeEntriesResponse, TimeEntry, TimeEntryResponse, Timesheet, TimesheetResponse } from '../../models/timesheetModels';
 import { Project } from '../../models/project';
 import { Client } from '../../models/client';
-import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -34,28 +32,24 @@ export class TimesheetService {
     let params = new HttpParams();
 
     params = params.append("employeeId", userId);
-    params = params.append("fromDate", fromDate.toISOString());
+    params = params.append("date", fromDate.toISOString());
 
-    let response = this.http.get<Timesheet[]>(this.baseUrl + "timesheets", { observe: "response", params: params });
+    let response = this.http.get<TimesheetResponse>(this.baseUrl + "Timesheets", { observe: "response", params: params });
 
-    return response.pipe(map(r => r.body));
+    return response.pipe(map(r => r.body?.data));
   }
 
-  addTimesheet(timesheet: any) {
-    return this.http.post<any>(this.baseUrl + 'timesheets', timesheet).subscribe({
-      next: data => {
-        //this.postId = data.id;
-        console.log('response---------------');
-        console.log(data);
-      },
-      error: error => {
-        //this.errorMessage = error.message;
-        console.error('There was an error!', error);
-      }
-    })
+  getTimeEntry(timeEntryId: string) {
+    let params = new HttpParams();
+
+    params = params.append("id", timeEntryId);
+
+    let response = this.http.get<TimeEntryResponse>(this.baseUrl + "timeentries", { observe: "response", params: params });
+
+    return response.pipe(map(r => r.body?.data));
   }
 
-  getTimeEntry(timesheetId: number, date?: Date) {
+  getTimeEntries(timesheetId: string, date?: Date, projectId?: string) {
     let params = new HttpParams();
 
     params = params.append("timesheetId", timesheetId);
@@ -65,26 +59,34 @@ export class TimesheetService {
       params = params.append("date", date.toISOString());
     }
 
-    let response = this.http.get<TimeEntry[]>(this.baseUrl + "timeentrys", { observe: "response", params: params })
+    if(projectId) {
+      params = params.append("projectId", projectId);
+    }
 
-    return response.pipe(map(r => r.body));
+    let response = this.http.get<TimeEntriesResponse>(this.baseUrl + "timeentries", { observe: "response", params: params })
+
+    return response.pipe(map(r => r.body?.data));
   }
 
-  addTimeEntry(timeEntry: TimeEntry){
+  addTimeEntry(employeeId: string, timeEntry: TimeEntry){
     const headers = {"content-type": "application/json"};
 
-    return this.http.post<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});
+    let params = new HttpParams();
+
+    params = params.append("employeeId", employeeId);
+
+    return this.http.post<any>(this.baseUrl + "timeentries", timeEntry, {"headers": headers, params: params});
   }
 
   updateTimeEntry(timeEntry: TimeEntry) {
     const headers = {"content-type": "application/json"};
-
-    return this.http.put<any>(this.baseUrl + "timeentrys", timeEntry, {"headers": headers});
+    
+    return this.http.put<TimeEntryResponse>(this.baseUrl + "timeentries", timeEntry, {"headers": headers});
   }
 
   //#region client and poject from mock server
 
-  getClients(clientIds?: number[]){
+  getClients(clientIds?: string[]){
     if(clientIds){
       let params = new HttpParams();
 
@@ -92,21 +94,21 @@ export class TimesheetService {
         params = params.append("id", clientIds[index]);
       }
 
-      let response = this.http.get<Client[]>(this.baseUrl + "clients", { observe: "response", params: params});
+      let response = this.http.get<Client[]>("http://localhost:3000/clients", { observe: "response", params: params});
 
       return response.pipe(map(r => r.body));
     }
     else {
-      return this.http.get<Client[]>(this.baseUrl + "clients");
+      return this.http.get<Client[]>("http://localhost:3000/clients");
     }
   }
   
-  getClient(clientId: number){
+  getClient(clientId: string){
     let params = new HttpParams();
 
     params = params.append("id", clientId);
 
-    let response = this.http.get<Client[]>(this.baseUrl + "clients", { observe: "response", params: params});
+    let response = this.http.get<Client[]>("http://localhost:3000/clients", { observe: "response", params: params});
 
     return response.pipe(map(r => r.body));
   }
@@ -116,17 +118,17 @@ export class TimesheetService {
 
     params = params.append("employeeId", userId);
 
-    let response = this.http.get<Project[]>(this.baseUrl + "projects", { observe: "response", params: params});
+    let response = this.http.get<Project[]>("http://localhost:3000/projects", { observe: "response", params: params});
     
     return response.pipe(map(r => r.body));
   }
 
-  getProject(projectId: number) {
+  getProject(projectId: string) {
     let params = new HttpParams();
     
     params = params.append("id", projectId);
 
-    let response = this.http.get<Project[]>(this.baseUrl + "projects", { observe: "response", params: params});
+    let response = this.http.get<Project[]>("http://localhost:3000/projects", { observe: "response", params: params});
 
     return response.pipe(map(r => r.body));
   }

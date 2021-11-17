@@ -35,11 +35,11 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if (this.timesheet) {
-      this.timesheetService.getTimeEntry(this.timesheet.guid, this.date).subscribe(response => {
-        this.timeEntrys = response;
+      this.timesheetService.getTimeEntries(this.timesheet.guid, this.date).subscribe(response => {
+        this.timeEntrys = response ? response : null;
 
         if (this.timesheet) {
-          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hours).reduce((prev, next) => prev + next, 0);
+          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hour).reduce((prev, next) => prev + next, 0);
           this.totalHours = totalHours ? totalHours : 0;
           this.totalHoursCalculated.emit(totalHours);
         }

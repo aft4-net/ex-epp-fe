@@ -16,6 +16,8 @@ import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
+import { TimeSheet } from '../models/timesheet';
+import { Console, debug } from 'console';
 
 
 @Component({
@@ -116,22 +118,20 @@ export class TimesheetComponent implements OnInit {
 
   getTimesheet(userId: string, date?: Date) {
     this.weeklyTotalHours = 0;
-    if (date) {
-      this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
 
-        if (this.timesheet) {
-          this.timesheetService.getTimeEntry(this.timesheet.guid).subscribe(response => {
-            this.timeEntrys = response;
-          })
-        }
-      })
-    }
-    else {
-      this.timesheetService.getTimeSheet(userId).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
-      })
-    }
+    this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
+      this.timesheet = response ? response : null;
+
+      if (this.timesheet) {
+        this.timesheetService.getTimeEntries(this.timesheet.guid).subscribe(response => {
+          this.timeEntrys = response;
+        }, error => {
+          console.log(error);
+        });
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
   getProjectsAndClients(userId: string) {
@@ -262,7 +262,7 @@ export class TimesheetComponent implements OnInit {
         let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
         this.formData.client = clientId ? clientId : "";
         this.formData.project = this.timeEntry.projectId.toString();
-        this.formData.hours = this.timeEntry.hours.toString();
+        this.formData.hours = this.timeEntry.hour.toString();
         this.formData.note = this.timeEntry.note;
 
         this.disableClient = true;
@@ -291,15 +291,14 @@ export class TimesheetComponent implements OnInit {
         note: this.validateForm.value.note,
         date: this.date,
         index: 1,
-        hours: this.validateForm.value.hours,
-        projectId: this.validateForm.value.project,
-        timesheetId: 0
+        hour: this.validateForm.value.hours,
+        projectId: this.validateForm.value.project
       }
 
       if (this.timeEntry) {
         timeEntry.guid = this.timeEntry.guid;
-        timeEntry.timesheetId = this.timeEntry.timesheetId;
-        console.log(timeEntry);
+        timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+        
         this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
           if (this.userId) {
             this.getTimesheet(this.userId, this.date);
@@ -311,8 +310,8 @@ export class TimesheetComponent implements OnInit {
         });
       }
       else {
-        this.timesheetService.addTimeEntry(timeEntry).subscribe(response => {
-          if(this.userId) {
+        this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
+          if (this.userId) {
             this.getTimesheet(this.userId, this.date);
           }
           this.createNotification("success");
