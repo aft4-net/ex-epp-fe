@@ -15,6 +15,16 @@ export class EducationComponent implements OnInit {
   loading = false;
   is_studying = false;
 
+  educationLists = [{
+    Id: 1,
+    Institution: 'Programmer',
+    yearFrom: 'Senior II',
+    yearTo: '4 Years and 5 Months',
+    country: ["Agile Methodology","CSS"],
+    program: ["User Stories","Forecasting"],
+    fieldOfStudy: ["UXDesign","Forecasting", "Communication"],
+  }];
+
   public education = new FormGroup({
     institution: new FormControl('', [Validators.required]),
     yearFrom: new FormControl(null, [Validators.required]),
@@ -28,8 +38,6 @@ export class EducationComponent implements OnInit {
   public validation = new FormGroup({
     isMultitpleEntry: new FormControl(false, [Validators.required]),
   });
-
-
 
   closeModal() {
     this.isModalVisible = false;
@@ -48,24 +56,27 @@ export class EducationComponent implements OnInit {
     this.education.setValue({ ...this.educations[index] });
   }
   onDeleteRecord(index: number) {
-    this.isUpdateMode = false;
+    console.log("Delete");
+    this.educationLists = this.educationLists.filter(a => a.Id !== index);
+    console.log("educationLists");
   }
-
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
-      return false;
+      return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() > this.education.controls.yearTo.value.getTime()
+      startValue.getTime() > this.education.controls.yearTo.value.getTime() ||
+      startValue.getTime() >= Date.now() - 3600 * 1000 * 24
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.education.controls.yearFrom.value) {
-      return false;
+      return endValue.getTime() >= Date.now();
     }
     return (
-      endValue.getTime() <= this.education.controls.yearFrom.value.getTime()
+      endValue.getTime() <= this.education.controls.yearFrom.value.getTime() ||
+      endValue.getTime() >= Date.now()
     );
   };
 
@@ -86,6 +97,8 @@ export class EducationComponent implements OnInit {
   onFormSubmit() {
     this.onSaveRecord();
     this.isModalVisible = false;
+    // this.applicantService.setRoutInfo('/application/education');
+    // this.router.navigate(['/application/education']);
   }
 
   ngOnInit(): void {
