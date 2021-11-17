@@ -4,7 +4,7 @@
 <!--<div class="more-boxes">gggggg</div>-->
 <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show More</span></button>
 <nz-modal nzWidth='204px' [nzBodyStyle]="{height:'224px',  width: '204px',padding: '8px',
-left: '2393px',
+  left: '2393px',
   top: '31770px',
   'border-radius': '2px',
     'background-color':' rgba(0,0,0,0.5)',
@@ -14,45 +14,7 @@ left: '2393px',
   'box-shadow': '0px 4px 4px rgba(0, 0, 0, 0.25)'
   }" [nzFooter]=null [(nzVisible)]="isVisible" [nzClosable]=false (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <div class="project-name-palet" >
-      <h2>
-        {{ project?.name }}
-      </h2>
-      <div class="elipses-and-hours">
-        <i
-          nz-icon nzType="ellipsis"
-          nzTheme="outline"
-          nz-popover
-          nzPopoverPlacement="right"
-          [(nzPopoverVisible)]="popoverVisible"
-          nzPopoverTrigger="click"
-          (click)="showPopover()"
-          [nzPopoverContent]="palet_popover"
-        ></i>
-        <h2>{{ moreTimeEntry?.hours }} Hrs</h2>
-      </div>
-    </div>
-    <ng-template #palet_popover>
-      <div class="edit-delete">
-        <button nz-button (click)="showFormDrawer()" id="edit">
-          Edit
-        </button>
-        <button nz-button id="delete">
-          Delete
-        </button>
-      </div>
-    </ng-template>
-    <!--    <app-project-name-palet></app-project-name-palet>-->
-    <!--    <app-project-name-palet></app-project-name-palet>-->
-    <!--    <app-project-name-palet></app-project-name-palet>-->
-
-    <!--    <div class="more-boxes">
-          <app-project-name-palet></app-project-name-palet>
-          <app-project-name-palet></app-project-name-palet>
-          <app-project-name-palet></app-project-name-palet>
-        </div>-->
     <app-project-name-palet></app-project-name-palet>
   </ng-container>
 
 </nz-modal>
-
