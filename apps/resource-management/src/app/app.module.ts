@@ -17,13 +17,14 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { PageFooterComponent } from './components/page-footer/page-footer.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
+import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent, 
-    MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent
+    MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent
   ],
   imports: [
     BrowserModule,
