@@ -54,7 +54,7 @@
                   [disabled]="education.controls.isStudying.value"
                   placeholder="Enter your Finished Calender"
                   [disabledDate]="disabledEndDate"
-                  errorMsg="Please provide a valid year name"
+                  errorMsg="Please provide a valid year"
                   [displayError]="institution.focusout"
                 >
                 </app-date-picker>
@@ -145,8 +145,8 @@
             <td>{{ data?.institution }}</td>
             <td>{{ data?.fieldOfStudy }}</td>
             <td>{{ data?.country }}</td>
-            <td>{{ data.startDate }}</td>
-            <td>{{ data.endDate }}</td>
+            <td>{{ data?.yearFrom }}</td>
+            <td>{{ data?.yearTo }}</td>
             <td>
               <a (click)="onEditRecord(i)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>

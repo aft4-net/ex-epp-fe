@@ -15,6 +15,16 @@ export class EducationComponent implements OnInit {
   loading = false;
   is_studying = false;
 
+  educationLists = [{
+    Id: 1,
+    Institution: 'Programmer',
+    yearFrom: 'Senior II',
+    yearTo: '4 Years and 5 Months',
+    country: ["Agile Methodology","CSS"],
+    program: ["User Stories","Forecasting"],
+    fieldOfStudy: ["UXDesign","Forecasting", "Communication"],
+  }];
+
   public education = new FormGroup({
     institution: new FormControl('', [Validators.required]),
     yearFrom: new FormControl(null, [Validators.required]),
@@ -46,7 +56,9 @@ export class EducationComponent implements OnInit {
     this.education.setValue({ ...this.educations[index] });
   }
   onDeleteRecord(index: number) {
-    //this.educations = this.educations.filter(a =>index a. !== index);
+    console.log("Delete");
+    this.educationLists = this.educationLists.filter(a => a.Id !== index);
+    console.log("educationLists");
   }
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
