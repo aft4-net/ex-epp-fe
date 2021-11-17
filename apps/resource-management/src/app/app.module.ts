@@ -7,7 +7,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
@@ -18,18 +18,21 @@ import { PageFooterComponent } from './components/page-footer/page-footer.compon
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
+import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent, 
-    MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent
+    MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent,
+    AddressNewComponent
   ],
   imports: [
     BrowserModule,
     // RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
