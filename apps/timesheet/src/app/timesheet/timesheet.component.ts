@@ -163,42 +163,23 @@ export class TimesheetComponent implements OnInit {
 
 
   clientValueChange(value) {
-    this.selected = value;
-    console.log('selected client id is: ' + this.selected);
-    this.timesheetService.getProjects(this.userId, this.selected).subscribe(pp => {
+    let clientId = value;
+    this.timesheetService.getProjects(this.userId, clientId).subscribe(pp => {
       this.projects = pp;
-
     });
-    console.log('selected projects : ' + this.projects);
   }
 
 
   projectValueChange(value) {
-    console.log('selected project id value is: ' + this.selectedP);
-    let o;
-    this.timesheetService.getProject(this.selectedP).subscribe(pp => {
-      o = pp[0];
-      console.log('project full data: : ' + o);
-      if (o) {
-        this.timesheetService.getClient(o.clientId).subscribe(response => {
+    let projectId = value;
+    let project: Project | null = null;
+    this.timesheetService.getProject(projectId).subscribe(response => {
+      project = response[0];
+      if (project) {
+        this.timesheetService.getClient(project.clientId).subscribe(response => {
           this.clients = response
         });
       }
-    });
-    console.log('client full data : ' + this.clients);
-  }
-
-  setSelectedProject() {
-    console.log('selected client id is: ' + this.formData.client);
-    let o = '';
-    this.timesheetService.getProject(this.formData.project).subscribe(pp => {
-      o = pp.get;
-    });
-
-
-    this.timesheetService.getClients(o.length).subscribe(pp => {
-      this.clients = pp;
-      console.log('selected user id: ' + this.userId);
     });
   }
 
