@@ -1,13 +1,14 @@
-.project-name-palet {    
+.project-name-palet {
     display: flex;
-    
+
     width: 192px;
     height: 64px;
     padding: 8px, 4px, 8px, 4px;
     margin-bottom: 8px;
-    
+
     background-color: #DCFFDC;
     border-radius: 2px;
+  overflow: hidden;
 
     &:hover {
         background-color: #B7FFB7;

@@ -8,9 +8,10 @@ import data from '../../../../../assets/files/CountryCodes.json';
 })
 export class CountrySelectorComponent implements OnInit {
   @Input() label: string | any = null;
-  @Input() placeholder: string = '';
-  @Input() errorMsg: string = '';
+  @Input() placeholder = '';
+  @Input() errorMsg = '';
   @Input() selectedValue: any;
+  @Input() single = false;
 
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
@@ -23,7 +24,12 @@ export class CountrySelectorComponent implements OnInit {
   compareFn = (o1: any, o2: any) =>
     o1 && o2 ? o1.dial_code === o2.dial_code && o1.name === o2.name : o1 === o2;
 
+    compareItem = (o1: any, o2: any) => o1 === o2;
+
   log(value: { name: string; dial_code: string; code: number }): void {
+    this.onChange.emit(value);
+  }
+  logVal(value: string): void {
     this.onChange.emit(value);
   }
 }

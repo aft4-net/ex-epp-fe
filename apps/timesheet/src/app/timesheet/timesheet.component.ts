@@ -16,8 +16,6 @@ import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
-import { TimeSheet } from '../models/timesheet';
-import { Console, debug } from 'console';
 
 
 @Component({
@@ -34,14 +32,15 @@ export class TimesheetComponent implements OnInit {
   // Used for disabling client and project list when selected for edit.
   disableClient: bool = false;
   disableProject: bool = false;
-
   timesheet: Timesheet | null = null;
   timeEntrys: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
   clients: Client[] | null = null;
+  clientsFiltered: Client[] | null = null;
   projects: Project[] | null = null;
+  projectsFiltered: Project[] | null = null;
   employee: Employee[] = [];
 
   formData = {
@@ -77,7 +76,8 @@ export class TimesheetComponent implements OnInit {
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
     private apiService: TimesheetApiService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.userId = localStorage.getItem("userId");
@@ -86,7 +86,7 @@ export class TimesheetComponent implements OnInit {
       this.getTimesheet(this.userId);
 
       this.getProjectsAndClients(this.userId);
-
+      // this.getClientsAlongWithProjects(this.userId, this.formData.client)
     }
 
     this.validateForm = this.fb.group({
@@ -144,6 +144,61 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.getClients(clientIds).subscribe(response => {
         this.clients = response;
       });
+    });
+  }
+
+  getClientsAlongWithProjects(userId: string, cId: string) {
+    this.timesheetService.getProjects(userId).subscribe(response => {
+      this.projects = response;
+      this.projectsFiltered = this.projects?.map(p => p.clientId == cId);
+      let clientIds = this.projects?.map(project => project.clientId);
+      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
+
+      this.timesheetService.getClients(clientIds).subscribe(response => {
+        this.clients = response;
+      });
+    });
+    // this.clientsFiltered=this.clients.filter(p => p.id==clientId);
+  }
+
+
+  clientValueChange(value) {
+    this.selected = value;
+    console.log('selected client id is: ' + this.selected);
+    this.timesheetService.getProjects(this.userId, this.selected).subscribe(pp => {
+      this.projects = pp;
+
+    });
+    console.log('selected projects : ' + this.projects);
+  }
+
+
+  projectValueChange(value) {
+    console.log('selected project id value is: ' + this.selectedP);
+    let o;
+    this.timesheetService.getProject(this.selectedP).subscribe(pp => {
+      o = pp[0];
+      console.log('project full data: : ' + o);
+      if (o) {
+        this.timesheetService.getClient(o.clientId).subscribe(response => {
+          this.clients = response
+        });
+      }
+    });
+    console.log('client full data : ' + this.clients);
+  }
+
+  setSelectedProject() {
+    console.log('selected client id is: ' + this.formData.client);
+    let o = '';
+    this.timesheetService.getProject(this.formData.project).subscribe(pp => {
+      o = pp.get;
+    });
+
+
+    this.timesheetService.getClients(o.length).subscribe(pp => {
+      this.clients = pp;
+      console.log('selected user id: ' + this.userId);
     });
   }
 
@@ -347,7 +402,7 @@ export class TimesheetComponent implements OnInit {
     this.notification.error(
       '',
       'You cannot fill your timesheet for the future!',
-      { nzPlacement: position }
+      {nzPlacement: position}
     );
   }
 
@@ -355,7 +410,7 @@ export class TimesheetComponent implements OnInit {
     this.notification.error(
       '',
       'Time already full 24',
-      { nzPlacement: position }
+      {nzPlacement: position}
     );
   }
 
@@ -363,11 +418,9 @@ export class TimesheetComponent implements OnInit {
     let message = "";
     if (type === "Success") {
       message = "Your Timesheet Added Successfully.";
-    }
-    else if (type === "error") {
+    } else if (type === "error") {
       message = "Error on adding Timesheet."
-    }
-    else if (type === "warning") {
+    } else if (type === "warning") {
       message = "Warning"
     }
 

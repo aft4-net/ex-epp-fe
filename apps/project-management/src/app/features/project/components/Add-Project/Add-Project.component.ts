@@ -1,9 +1,10 @@
-
-import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { Client, ClientService, Employee, EmployeeService, ProjectCreate, ProjectService, ProjectStatus, ProjectStatusService, projectResourceType } from '../../../../core';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { Client, ClientService, Employee, EmployeeService, Project, ProjectCreate, projectResourceType, ProjectService, ProjectStatus, ProjectStatusService } from '../../../../core';
+import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { Project } from 'apps/project-management/src/app/core/models/get/project';
 import { Router } from '@angular/router';
 
 @Component({
@@ -175,11 +176,11 @@ export class AddProjectComponent implements OnInit {
   onInputProjectName(event:Event)
   {
    let found=false;
-    if(!this.validateForm.controls.projectName.invalid)
+    if(!this.validateForm.controls.ProjectName.invalid)
       {
        for(const project of this.projects)
        {
-            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.name.toLowerCase())
+            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.ProjectName.toLowerCase())
             found=true;
        }
       }
