@@ -84,9 +84,7 @@ export class TimesheetComponent implements OnInit {
 
     if (this.userId) {
       this.getTimesheet(this.userId);
-
       this.getProjectsAndClients(this.userId);
-      // this.getClientsAlongWithProjects(this.userId, this.formData.client)
     }
 
     this.validateForm = this.fb.group({
@@ -146,21 +144,6 @@ export class TimesheetComponent implements OnInit {
       });
     });
   }
-
-  getClientsAlongWithProjects(userId: string, cId: string) {
-    this.timesheetService.getProjects(userId).subscribe(response => {
-      this.projects = response;
-      this.projectsFiltered = this.projects?.map(p => p.clientId == cId);
-      let clientIds = this.projects?.map(project => project.clientId);
-      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
-
-      this.timesheetService.getClients(clientIds).subscribe(response => {
-        this.clients = response;
-      });
-    });
-    // this.clientsFiltered=this.clients.filter(p => p.id==clientId);
-  }
-
 
   clientValueChange(value) {
     let clientId = value;
@@ -377,6 +360,8 @@ export class TimesheetComponent implements OnInit {
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
+    
+    this.getProjectsAndClients(this.userId);
   }
 
   createNotificationError(position: NzNotificationPlacement): void {
