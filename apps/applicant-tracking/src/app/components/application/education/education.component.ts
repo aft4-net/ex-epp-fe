@@ -19,7 +19,7 @@ import {
 })
 export class EducationComponent implements OnInit {
   info = '';
-  loggedInUser = { Guid: '3fa85f64-5717-4562-b3fc-2c963f66afa6' };
+  loggedInUser: any;
   isModalVisible = false;
   isUpdateMode = false;
   isRecordUpdated = false;
@@ -188,6 +188,9 @@ export class EducationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loggedInUser = JSON.parse(
+      localStorage.getItem('loggedInUserInfo') ?? ''
+    );
     this.bindRecord();
     this.education.controls.isStudying.valueChanges.subscribe((value) => {
       if (value) {
