@@ -20,9 +20,6 @@
                               (editClicked)="onEditButtonClicked($event)">
       </app-project-name-palet>
     </div>
-    <div *ngFor="let timeEntry of timeEntrys">
-      <exec-epp-more-projects [moreTimeEntry]="timeEntry">
-      </exec-epp-more-projects>
-    </div>
+    <exec-epp-more-projects></exec-epp-more-projects>
   </div>
 </div>
