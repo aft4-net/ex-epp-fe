@@ -261,8 +261,9 @@ export class TimesheetComponent implements OnInit {
     this.showFormDrawer();
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType, date: Date) {
-    this.clickEventType = clickEventType;
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
+    this.clickEventType = timeEntryEvent.clickEventType;
+    this.timeEntry = timeEntryEvent.timeEntry;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
   }
 

@@ -13,7 +13,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
-  @Output() paletEllipsisClicked = new EventEmitter<ClickEventType>();
+  @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
   @Input() item: any; // decorate the property with @Input()
@@ -54,10 +54,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType) {
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = clickEventType;
-      this.paletEllipsisClicked.emit(this.clickEventType);
+      this.clickEventType = timeEntryEvent.clickEventType;
+      this.paletEllipsisClicked.emit(timeEntryEvent);
     }
   }
 
