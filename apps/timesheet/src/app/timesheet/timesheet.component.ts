@@ -9,7 +9,7 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { ClickEventType } from '../models/clickEventType';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TimeEntry, Timesheet } from '../models/timesheetModels';
-import { TimeEntryEvent } from '../models/clickEventEmitObjectType';
+import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';
 import { TimesheetApiService } from './services/api/timesheet-api.service';
@@ -29,13 +29,18 @@ export class TimesheetComponent implements OnInit {
   drawerVisible = false;
   validateForm!: FormGroup;
 
+  // Used for disabling client and project list when selected for edit.
+  disableClient: bool = false;
+  disableProject: bool = false;
   timesheet: Timesheet | null = null;
   timeEntrys: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
   clients: Client[] | null = null;
+  clientsFiltered: Client[] | null = null;
   projects: Project[] | null = null;
+  projectsFiltered: Project[] | null = null;
   employee: Employee[] = [];
 
   formData = {
@@ -71,16 +76,15 @@ export class TimesheetComponent implements OnInit {
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
     private apiService: TimesheetApiService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.userId = localStorage.getItem("userId");
 
     if (this.userId) {
       this.getTimesheet(this.userId);
-
       this.getProjectsAndClients(this.userId);
-
     }
 
     this.validateForm = this.fb.group({
@@ -97,7 +101,7 @@ export class TimesheetComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     this.calcualteNoOfDaysBetweenDates();
 
-    this.formData.hours=null;
+    this.formData.hours = null;
   }
 
   // To calculate the time difference of two dates
@@ -112,22 +116,20 @@ export class TimesheetComponent implements OnInit {
 
   getTimesheet(userId: string, date?: Date) {
     this.weeklyTotalHours = 0;
-    if (date) {
-      this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
 
-        if (this.timesheet) {
-          this.timesheetService.getTimeEntry(this.timesheet.guid).subscribe(response => {
-            this.timeEntrys = response;
-          })
-        }
-      })
-    }
-    else {
-      this.timesheetService.getTimeSheet(userId).subscribe(response => {
-        this.timesheet = response ? response[0] : null;
-      })
-    }
+    this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
+      this.timesheet = response ? response : null;
+
+      if (this.timesheet) {
+        this.timesheetService.getTimeEntries(this.timesheet.guid).subscribe(response => {
+          this.timeEntrys = response;
+        }, error => {
+          console.log(error);
+        });
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
   getProjectsAndClients(userId: string) {
@@ -140,6 +142,27 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.getClients(clientIds).subscribe(response => {
         this.clients = response;
       });
+    });
+  }
+
+  clientValueChange(value) {
+    let clientId = value;
+    this.timesheetService.getProjects(this.userId, clientId).subscribe(pp => {
+      this.projects = pp;
+    });
+  }
+
+
+  projectValueChange(value) {
+    let projectId = value;
+    let project: Project | null = null;
+    this.timesheetService.getProject(projectId).subscribe(response => {
+      project = response[0];
+      if (project) {
+        this.timesheetService.getClient(project.clientId).subscribe(response => {
+          this.clients = response
+        });
+      }
     });
   }
 
@@ -215,36 +238,42 @@ export class TimesheetComponent implements OnInit {
     this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
   }
 
-  onDateColumnClicked(clickEventType: ClickEventType, date: any) {
-    this.clickedDateTotalHour = clickEventType.totalHours
-    this.formData.fromDate = date;
-    //this.date = date;
+  onDateColumnClicked(dateColumnEvent: DateColumnEvent, date: Date) {
+    this.clickEventType = dateColumnEvent.clickEventType;
+    this.clickedDateTotalHour = dateColumnEvent.totalHours;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-    this.clickEventType = clickEventType;
+
     if (this.date <= new Date()) {
-        if (this.clickedDateTotalHour<24) {
-          this.showFormDrawer();
-        }else{
-          this.createNotificationErrorOnDailyMaximumHour("bottomRight");
-        }
+      if (this.clickedDateTotalHour < 24) {
+        this.showFormDrawer();
+      } else {
+        this.createNotificationErrorOnDailyMaximumHour("bottomRight");
+      }
     } else {
       this.createNotificationError('bottomRight');
     }
   }
 
-  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.showFormDrawer();
   }
 
-  onEditButtonClicked(clickEventType: ClickEventType) {
+  onPaletEllipsisClicked(clickEventType: ClickEventType, date: Date) {
     this.clickEventType = clickEventType;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+  }
+
+  onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
+    this.clickEventType = clickEventType;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.showFormDrawer();
   }
 
   showFormDrawer() {
-    if (this.clickEventType.eventType == ClickEventType.showFormDrawer) {
+    if (this.clickEventType === ClickEventType.showFormDrawer) {
       (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
       (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
 
@@ -252,9 +281,15 @@ export class TimesheetComponent implements OnInit {
         let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
         this.formData.client = clientId ? clientId : "";
         this.formData.project = this.timeEntry.projectId.toString();
-        this.formData.hours = this.timeEntry.hours.toString();
+        this.formData.hours = this.timeEntry.hour.toString();
         this.formData.note = this.timeEntry.note;
+
+        this.disableClient = true;
+        this.disableProject = true;
       }
+
+      this.formData.fromDate = this.date;
+      this.formData.toDate = this.date;
 
       this.drawerVisible = true;
     }
@@ -271,75 +306,105 @@ export class TimesheetComponent implements OnInit {
     }
 
     try {
-      let dataToSend = {
-        fromDate: this.validateForm.value.fromDate != null ? this.validateForm.value.fromDate.toISOString().substring(0, 10) : null,
-        toDate: this.validateForm.value.toDate != null ? this.validateForm.value.toDate.toISOString().substring(0, 10) : null,
-        client: this.validateForm.value.client,
-        project: this.validateForm.value.project,
-        hours: this.validateForm.value.hours,
+      let timeEntry: TimeEntry = {
         note: this.validateForm.value.note,
-      };
-
-      if (this.timesheet) {
-        let timeEntry = {
-          note: this.validateForm.value.note,
-          date: this.date,
-          index: 1,
-          hours: this.validateForm.value.hours,
-          projectId: this.validateForm.value.project,
-          timesheetId: this.timesheet?.guid
-        }
-
-        this.timesheetService.addTimeEntry(timeEntry).subscribe({
-          next: data => {
-            if (data.ResponseStatus === "Success") {
-              this.createNotification('success');
-            }
-            else if (data.ResponseStatus === "error") {
-              this.createNotification('error');
-            }
-            
-            if (this.userId) {
-              this.getTimesheet(this.userId, this.date);
-            }
-          },
-          error: error => {
-            this.createNotification('warning');
-          }
-        })
-        //this.createNotification('success');
+        date: this.date,
+        index: 1,
+        hour: this.validateForm.value.hours,
+        projectId: this.validateForm.value.project
       }
 
-      this.validateForm.reset();
+      if (this.timeEntry) {
+        timeEntry.guid = this.timeEntry.guid;
+        timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+        
+        this.updateTimeEntry(timeEntry);
+      }
+      else if (this.timesheet) {
+        this.timesheetService.getTimeEntries(this.timesheet.guid, this.date, timeEntry.projectId).subscribe(response => {
+          this.timeEntry = response ? response[0] : null;
+
+          if(this.timeEntry) {
+            timeEntry.guid = this.timeEntry.guid;
+            timeEntry.hour = this.timeEntry.hour + timeEntry.hour;
+            timeEntry.note = this.timeEntry.note + "/n" + timeEntry.note;
+            timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+
+            this.updateTimeEntry(timeEntry);
+
+            this.timeEntry = null;
+          }
+          else {
+            this.addTimeEntry(timeEntry);
+          }
+        })
+      }
+      else {
+        this.addTimeEntry(timeEntry);
+      }
+
       this.closeFormDrawer();
     } catch (err) {
       console.error(err);
     }
   }
 
+  addTimeEntry(timeEntry: TimeEntry) {
+    this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.date);
+      }
+      this.createNotification("success");
+    }, error => {
+      this.createNotification("warning");
+    });
+  }
+
+  updateTimeEntry(timeEntry){
+    this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.date);
+      }
+      this.createNotification('success');
+    }, error => {
+      this.createNotification('error')
+      console.log(error);
+    });
+  }
+
+
   closeFormDrawer(): void {
-    this.timeEntry = null;
-    this.validateForm.reset();
+    this.clearFormData();
     this.drawerVisible = false;
   }
 
   resetForm(e: MouseEvent): void {
     e.preventDefault();
+    this.clearFormData();
+  }
+
+  clearFormData() {
+    this.timeEntry = null;
+    this.disableClient = false;
+    this.disableProject = false;
     this.validateForm.reset();
+    
+    this.getProjectsAndClients(this.userId);
   }
 
   createNotificationError(position: NzNotificationPlacement): void {
     this.notification.error(
       '',
       'You cannot fill your timesheet for the future!',
-      { nzPlacement: position }
+      {nzPlacement: position}
     );
   }
+
   createNotificationErrorOnDailyMaximumHour(position: NzNotificationPlacement): void {
     this.notification.error(
       '',
       'Time already full 24',
-      { nzPlacement: position }
+      {nzPlacement: position}
     );
   }
 
@@ -347,11 +412,9 @@ export class TimesheetComponent implements OnInit {
     let message = "";
     if (type === "Success") {
       message = "Your Timesheet Added Successfully.";
-    }
-    else if (type === "error") {
+    } else if (type === "error") {
       message = "Error on adding Timesheet."
-    }
-    else if (type === "warning") {
+    } else if (type === "warning") {
       message = "Warning"
     }
 

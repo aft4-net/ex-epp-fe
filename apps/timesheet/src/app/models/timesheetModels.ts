@@ -1,18 +1,40 @@
 export interface Timesheet {
-    guid: number;
+    guid: string;
     fromDate: Date;
     toDate: Date;
-    totalHours?: number;
-    status: boolean;
-    employeeId: number;
+    totalHours: number;
+    status: number;
+    employeeId: string;
 }
 
 export interface TimeEntry {
-    guid: number;
+    guid: string;
     note: string;
     date: Date;
     index: number;
-    hours: number;
-    projectId: number;
-    timesheetId: number;
+    hour: number;
+    projectId: string;
+    timeSheetId: string;
+}
+
+interface Response {
+    ResponseStatus: string;
+    Message: string;
+    Ex?: any;
+}
+
+export interface TimesheetResponse extends Response {
+    data: Timesheet | null;
+}
+
+export interface TimesheetsResponse extends Response {
+    data: Timesheet[] | null;
+}
+
+export interface TimeEntryResponse extends Response {
+    data: TimeEntry | null;
+}
+
+export interface TimeEntriesResponse extends Response {
+    data: TimeEntry[] | null;
 }

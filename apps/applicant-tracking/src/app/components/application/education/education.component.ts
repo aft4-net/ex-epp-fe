@@ -28,6 +28,7 @@ export class EducationComponent implements OnInit {
   loading = false;
   is_studying = false;
 
+<<<<<<< HEAD
   // databinding
   showConfirm = false;
   guid: any;
@@ -42,6 +43,19 @@ export class EducationComponent implements OnInit {
   ) {}
 
   education = new FormGroup({
+=======
+  educationLists = [{
+    Id: 1,
+    Institution: 'Programmer',
+    yearFrom: 'Senior II',
+    yearTo: '4 Years and 5 Months',
+    country: ["Agile Methodology","CSS"],
+    program: ["User Stories","Forecasting"],
+    fieldOfStudy: ["UXDesign","Forecasting", "Communication"],
+  }];
+
+  public education = new FormGroup({
+>>>>>>> origin/develop
     institution: new FormControl('', [Validators.required]),
     yearFrom: new FormControl(null, [Validators.required]),
     yearTo: new FormControl(null, [Validators.required]),
@@ -55,6 +69,10 @@ export class EducationComponent implements OnInit {
   public validation = new FormGroup({
     isMultitpleEntry: new FormControl(false, [Validators.required]),
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/develop
   closeModal() {
     this.isModalVisible = false;
   }
@@ -86,6 +104,7 @@ export class EducationComponent implements OnInit {
       (err) => console.log(err)
     );
   }
+<<<<<<< HEAD
   onDeleteRecord(guid: string | null) {
     this.showConfirmation(guid);
    
@@ -99,25 +118,38 @@ export class EducationComponent implements OnInit {
       this.bindRecord();
   });
 
+=======
+  onDeleteRecord(index: number) {
+    console.log("Delete");
+    this.educationLists = this.educationLists.filter(a => a.Id !== index);
+    console.log("educationLists");
+>>>>>>> origin/develop
   }
-
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
-      return false;
+      return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() > this.education.controls.yearTo.value.getTime()
+      startValue.getTime() > this.education.controls.yearTo.value.getTime() ||
+      startValue.getTime() >= Date.now() - 3600 * 1000 * 24
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.education.controls.yearFrom.value) {
-      return false;
+      return endValue.getTime() >= Date.now();
     }
+<<<<<<< HEAD
     // return (
     //   endValue.getTime() <= this.education.controls.yearFrom.value.getTime()
     // );
     return false;
+=======
+    return (
+      endValue.getTime() <= this.education.controls.yearFrom.value.getTime() ||
+      endValue.getTime() >= Date.now()
+    );
+>>>>>>> origin/develop
   };
 
   onCountryChange(value: any) {
@@ -181,10 +213,21 @@ export class EducationComponent implements OnInit {
       'Record is successfully added.'
     );
     this.education.reset();
+<<<<<<< HEAD
     this.guid = null;
     this.loading = false;
     this.closeModal();
     this.isUpdateMode = false;
+=======
+    this.validation.controls.isMultitpleEntry.setValue(false);
+  }
+
+  onFormSubmit() {
+    this.onSaveRecord();
+    this.isModalVisible = false;
+    // this.applicantService.setRoutInfo('/application/education');
+    // this.router.navigate(['/application/education']);
+>>>>>>> origin/develop
   }
 
   ngOnInit(): void {
