@@ -66,24 +66,21 @@
           <div nz-col nzSpan="12">
             <app-select
               errorMsg="Please select a program"
-              [list]="['BSC', 'MSC', 'PHD']"
+              [list]="fetchedEducationProgramme"
               fcn="program"
               #programselection
               [displayError]="programselection.focusout"
               [form]="education"
               [multiple]="false"
               label="Please select a program"
+              [selectedValue]=""
             ></app-select>
           </div>
 
           <div nz-col nzSpan="12">
             <app-select
               errorMsg="Please select a Field of Study"
-              [list]="[
-                'Computer Science',
-                'Project Managment',
-                'Software Enginering'
-              ]"
+              [list]="fetchedFieldOfStudies"
               fcn="fieldOfStudy"
               #fieldofstudy
               [displayError]="fieldofstudy.focusout"
@@ -116,7 +113,7 @@
         <div nz-col class="col-pad" nzSpan="3">
           <app-button
             [loading]="loading"
-            (click)="addItem()"
+            (click)="onFormSubmit()"
             type="primary"
             [disabled]="!education.valid"
           >
@@ -129,32 +126,36 @@
 
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #table [nzData]="educations">
+      <nz-table #table [nzData]="educations" [nzFrontPagination]="false">
         <thead>
           <tr>
             <th>Institution</th>
             <th>Field of study</th>
+<<<<<<< HEAD
+            <th>Educatioin Programme</th>
+            <!-- <th>Country</th> -->
+=======
             <th>Country</th>
             <th>Started Date</th>
             <th>End Date</th>
+>>>>>>> origin/develop
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of table?.data; let i = index">
-            <td>{{ data?.institution }}</td>
-            <td>{{ data?.fieldOfStudy }}</td>
-            <td>{{ data?.country }}</td>
-            <td>{{ data?.yearFrom }}</td>
-            <td>{{ data?.yearTo }}</td>
+            <td>{{ data?.Institution }}</td>
+            <td>{{ data?.FieldOfStudy?.Name }}</td>
+            <td>{{ data?.EducationProgramme?.Name }}</td>
+            <!-- <td>{{ data?.Country }}</td> -->
             <td>
-              <a (click)="onEditRecord(i)">
+              <a (click)="onEditRecord(data.Guid)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                 Edit</a
               >
              
               <nz-divider nzType="vertical"></nz-divider>
-              <a (click)="onDeleteRecord(i)">Delete</a>
+              <a (click)="onDeleteRecord(data.Guid)">Delete</a>
             </td>
           </tr>
         </tbody>
@@ -162,8 +163,8 @@
 
       <div nz-row nzJustify="end">
         <div nz-col nzSpan="5">
-                <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="(educations.length < 1 || !isRecordUpdated)">
-                    Save and continue
+                <app-button [loading]="loading" type="primary" [disabled]="(educations.length < 1 || !isRecordUpdated)">
+                    Continue
                 </app-button>
         </div>
     </div>
