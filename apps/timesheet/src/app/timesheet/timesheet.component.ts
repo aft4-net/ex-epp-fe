@@ -318,25 +318,29 @@ export class TimesheetComponent implements OnInit {
         timeEntry.guid = this.timeEntry.guid;
         timeEntry.timeSheetId = this.timeEntry.timeSheetId;
         
-        this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
-          if (this.userId) {
-            this.getTimesheet(this.userId, this.date);
+        this.updateTimeEntry(timeEntry);
+      }
+      else if (this.timesheet) {
+        this.timesheetService.getTimeEntries(this.timesheet.guid, this.date, timeEntry.projectId).subscribe(response => {
+          this.timeEntry = response ? response[0] : null;
+
+          if(this.timeEntry) {
+            timeEntry.guid = this.timeEntry.guid;
+            timeEntry.hour = this.timeEntry.hour + timeEntry.hour;
+            timeEntry.note = this.timeEntry.note + "/n" + timeEntry.note;
+            timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+
+            this.updateTimeEntry(timeEntry);
+
+            this.timeEntry = null;
           }
-          this.createNotification('success');
-        }, error => {
-          this.createNotification('error')
-          console.log(error);
-        });
+          else {
+            this.addTimeEntry(timeEntry);
+          }
+        })
       }
       else {
-        this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
-          if (this.userId) {
-            this.getTimesheet(this.userId, this.date);
-          }
-          this.createNotification("success");
-        }, error => {
-          this.createNotification("warning");
-        });
+        this.addTimeEntry(timeEntry);
       }
 
       this.closeFormDrawer();
@@ -344,6 +348,30 @@ export class TimesheetComponent implements OnInit {
       console.error(err);
     }
   }
+
+  addTimeEntry(timeEntry: TimeEntry) {
+    this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.date);
+      }
+      this.createNotification("success");
+    }, error => {
+      this.createNotification("warning");
+    });
+  }
+
+  updateTimeEntry(timeEntry){
+    this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.date);
+      }
+      this.createNotification('success');
+    }, error => {
+      this.createNotification('error')
+      console.log(error);
+    });
+  }
+
 
   closeFormDrawer(): void {
     this.clearFormData();
