@@ -20,12 +20,11 @@ export class EducationProgrammeService {
 
   get(): Observable<[EducationProgramModel]> {
     return this.http.get<[EducationProgramModel]>(this.path).pipe(
-      tap((_) => this.log(_)),
       catchError(this.errHandler.formatErrors)
     );
   }
  
  private log(data: any) {
-    console.log(data);
+    //console.log(data);
   }
 }

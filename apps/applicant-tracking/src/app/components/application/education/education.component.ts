@@ -77,28 +77,27 @@ export class EducationComponent implements OnInit {
           yearFrom: new Date(row.DateFrom),
           yearTo: new Date(row.DateTo),
           country: row.Country,
-          program: row.EducationProgramme?.Guid, 
-          fieldOfStudy: row.FieldOfStudy?.Guid, 
+          program: row.EducationProgramme?.Guid,
+          fieldOfStudy: row.FieldOfStudy?.Guid,
           isStudying: row.IsCompleted,
           otherFieldOfStudy: row.OtherFieldOfStudy,
         });
       },
-      (err) => console.log(err)
+      (err) => this.onShowError(err)
     );
   }
   onDeleteRecord(guid: string | null) {
     this.showConfirmation(guid);
-   
   }
-  deleteItem(guid: string | null)
-  {
-    const id = guid?guid:'';
-    this.educationService.delete(id)
-    .subscribe(_ => {
-      this.notifier.notify(NotificationType.success, 'Record deleted successfully');
+  deleteItem(guid: string | null) {
+    const id = guid ? guid : '';
+    this.educationService.delete(id).subscribe((_) => {
+      this.notifier.notify(
+        NotificationType.success,
+        'Record deleted successfully'
+      );
       this.bindRecord();
-  });
-
+    });
   }
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
@@ -128,8 +127,6 @@ export class EducationComponent implements OnInit {
     const educationModel = this.getFormValue();
     if (!this.isUpdateMode) await this.addItem(educationModel);
     else await this.updateItem(educationModel);
-    
-   
   }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
@@ -137,7 +134,7 @@ export class EducationComponent implements OnInit {
         this.onSaveCompleted();
         this.bindRecord();
       },
-      (err) => console.log(err)
+      (err) => this.onShowError(err)
     );
   }
   updateItem(educationModel: EducationModel) {
@@ -146,10 +143,7 @@ export class EducationComponent implements OnInit {
         this.onSaveCompleted();
         this.bindRecord();
       },
-      (err: any) => 
-      {
-        this.onShowError(err);
-      }
+      (err) => this.onShowError(err)
     );
   }
   getFormValue(): EducationModel {
@@ -157,8 +151,8 @@ export class EducationComponent implements OnInit {
       Guid: this.guid ? this.guid : null,
       ApplicantId: this.loggedInUser.Guid,
       Institution: this.education.get('institution')?.value,
-      DateFrom: new Date( this.education.get('yearFrom')?.value),
-      DateTo: new Date (this.education.get('yearTo')?.value),
+      DateFrom: new Date(this.education.get('yearFrom')?.value),
+      DateTo: new Date(this.education.get('yearTo')?.value),
       Country: this.education.get('country')?.value,
       EducationProgrammeId: this.education.get('program')?.value,
       EducationProgramme: null,
@@ -176,9 +170,10 @@ export class EducationComponent implements OnInit {
       this.isRecordUpdated = true;
     }
     this.loading = false;
+    const msg = this.isUpdateMode? 'Record is successfully updated.':'Record is successfully added.'
     this.notifier.notify(
       NotificationType.success,
-      'Record is successfully added.'
+      msg
     );
     this.education.reset();
     this.guid = null;
@@ -206,15 +201,13 @@ export class EducationComponent implements OnInit {
       (res) => {
         this.fetchedEducationProgramme = res;
       },
-      (err) => {console.log(err)}
+      (err) => this.onShowError(err)
     );
     this.fieldOfStudyService.get().subscribe(
       (res: ResponseDTO<[FieldOfStudyModel]>) => {
         this.fetchedFieldOfStudies = res.Data;
       },
-      (err) => {
-        console.log(err);
-      }
+      (err) => this.onShowError(err)
     );
   }
   bindRecord() {
@@ -222,21 +215,26 @@ export class EducationComponent implements OnInit {
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
       },
-      (err: any) => console.log(err)
+      (err) => this.onShowError(err)
     );
   }
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
       nzContent: 'Do you want to delete this record?',
-      nzOnOk: () => { this.deleteItem(guid) }
-       
+      nzOnOk: () => {
+        this.deleteItem(guid);
+      },
     });
+  }
+  onShowError(err: any) {
+    let errMsg = 'Some error occured. Please review your input and try again. ';
+    errMsg = err? (errMsg + `<br/><br/><hr/>${err}`):errMsg;
+    
+    this.notifier.notify(
+      NotificationType.error,
+     errMsg
+    );
+    this.loading = false;
+  }
 }
-onShowError(err: any) {
-  this.notifier.notify(NotificationType.error, 'Some error occured. Please review your input and try again.');
-  this.loading = false;
-}
-}
-
-
