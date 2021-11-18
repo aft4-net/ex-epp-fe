@@ -65,9 +65,13 @@ export class AddProjectComponent implements OnInit {
 
   ngOnInit(): void {
 
+<<<<<<< HEAD
 
 
 
+=======
+    console.log(Date.now());
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
 
     this.createRegistrationForm();
 
@@ -83,6 +87,7 @@ export class AddProjectComponent implements OnInit {
       this.projectStatuses = res;
     });
 
+<<<<<<< HEAD
     this.projectService.getProjects().subscribe((response: Project[]) => {
       this.projects = response;
     });
@@ -123,6 +128,47 @@ export class AddProjectComponent implements OnInit {
           this.disallowResource = false;
         } else {
           this.disallowResource = true;
+=======
+    this.clientService.getAll().subscribe(response=>{
+      this.clients=response;
+  
+
+    })
+
+    this.projectStatusService.getAll().subscribe(res=>{
+      this.projectStatuses=res;
+   });
+   
+    this.projectService. getProjects().subscribe((response:Project[])=>{
+      this.projects=response;
+    })
+   
+
+
+    this.validateForm.valueChanges.subscribe(()=>{
+      if( this.validateForm.valid)
+      {  
+      this.enableAddResourceTab=true; 
+       this.projectStartdDate=  this.validateForm.controls.startValue.value;  
+      this.projectCreate.ProjectName=this.validateForm.controls.projectName.value
+
+      this.projectCreate.SupervisorGuid=this.validateForm.controls.supervisor.value;
+      this.projectCreate.StartDate=this.validateForm.controls.startValue.value;
+      this.projectCreate.ProjectType=this.validateForm.controls.projectType.value;
+      this.projectCreate.ProjectStatusGuid=this.validateForm.controls.status.value.Guid; 
+      this.projectCreate.Description=this.validateForm.controls.description.value;
+
+
+      if(this.validateForm.controls.projectType.value=="Internal")
+      {
+        for(let i=0;i<this.clients.length;i++)
+        {
+             if(this.clients[i].ClientName=="Excellerent")
+              {
+                this.projectCreate.ClientGuid=this.clients[i].Guid;
+                   break;
+              }
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
         }
       } else {
         this.projectCreate = {} as ProjectCreate;
@@ -144,6 +190,7 @@ export class AddProjectComponent implements OnInit {
   {
 
 
+<<<<<<< HEAD
 this.validateForm.controls.client.valueChanges.subscribe(() => {
       let found = false;
 
@@ -169,6 +216,19 @@ this.validateForm.controls.client.valueChanges.subscribe(() => {
               break;
             }
           }
+=======
+      if(this.validateForm.controls.status.value.AllowResource)
+     {
+      this.disallowResource=false;
+
+     }else{
+       this.disallowResource=true;
+     }
+            
+      }else
+      {
+       this.projectCreate={} as ProjectCreate
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
       }
 
       if (found == true) {
@@ -194,6 +254,7 @@ this.validateForm.controls.client.valueChanges.subscribe(() => {
 
   createRegistrationForm() {
     this.validateForm = this.fb.group({
+<<<<<<< HEAD
       projectName: [
         null,
         [
@@ -203,11 +264,16 @@ this.validateForm.controls.client.valueChanges.subscribe(() => {
         ],
       ],
       client: ['e4174511-4ee6-427d-8489-f917e3239601', [Validators.required]],
+=======
+      projectName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(70)  ]],
+      client: ['3fa85f64-5717-4562-b3fc-2c963f66afa6', [Validators.required]],
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
       endValue: [null],
+<<<<<<< HEAD
       description: [''],
     });
   }
@@ -217,6 +283,26 @@ this.validateForm.controls.client.valueChanges.subscribe(() => {
       this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
     else
       this.projectCreate.EndDate ="";
+=======
+      description:[""]
+    });
+  }
+
+  onSubmit(){
+
+      if(this.validateForm.controls.endValue.value!=null)
+   this.projectCreate.EndDate=this.validateForm.controls.endValue.value;
+   else
+   this.projectCreate.EndDate="Wed Nov 10 2999 13:04:51 GMT+0400 (Gulf Standard Time)";
+
+
+
+  
+  if(this.validateForm.controls.status.value.AllowResource==true)
+   this.projectCreate.AssignResource=this.resources;
+   else
+     this.projectCreate.AssignResource=[] as  projectResourceType[];
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
 
     if (this.validateForm.controls.status.value.AllowResource == true)
       this.projectCreate.AssignResource = this.resources;
@@ -287,6 +373,34 @@ this.validateForm.controls.client.valueChanges.subscribe(() => {
   get endValue() {
     return this.validateForm.controls.endValue as FormControl;
   }
+<<<<<<< HEAD
+=======
+  onInputProjectName(event:Event)
+  {
+  
+   let found=false;
+    if(this.validateForm.controls.projectName.valid)
+      {
+        if(this.projects!=[])
+       for(let  i=0 ;i<this.projects.length; i++)
+       {            
+        if(this.validateForm.controls.projectName.value.toLowerCase()===this.projects[i].ProjectName.toString().toLowerCase())
+          {           
+            found=true;
+            this.projectNameExitsErrorMessage="Project name already exists by "+this.projects[i].Client.ClientName+" client"
+            break;
+          }        
+       }
+      }
+      if(found==true)
+     {this.projectNameExits=true;
+       this.validateForm.controls.projectName.setErrors({'invalidName':true});
+      }
+      else
+     this.projectNameExits=false;
+    
+  }
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
 
 
   updateProjectResourseList(resources: projectResourceType[]) {
