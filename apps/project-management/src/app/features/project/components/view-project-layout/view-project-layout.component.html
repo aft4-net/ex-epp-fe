@@ -44,10 +44,10 @@
       <tbody>
       
         <tr *ngFor="let data of  projects">
-          <td>{{ data.projectName }}</td>
-          <td>{{ data.client.clientName }}</td>
-             <td>{{ data.projectStatus.statusName }}</td>
-          <td>{{ data.supervisor?.name }}  </td>
+          <td>{{ data.ProjectName }}</td>
+          <td>{{ data.Client.ClientName }}</td>
+             <td>{{ data.ProjectStatus.StatusName }}</td>
+          <td>{{ data.Supervisor?.Name }}  </td>
        
         
           <td>
@@ -64,7 +64,29 @@
         </tr>
       </tbody>
     </nz-table>
-    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="pageSize"></nz-pagination> 
+
+    <nz-pagination
+
+    [(nzPageIndex)]="pageIndex"
+
+    [nzPageSize]="pageSize"
+
+    [nzPageIndex]="pageIndex"
+
+    [nzTotal]="total"
+
+    [nzSize]="'small'"
+
+
+    (nzPageSizeChange)="PageSizeChange($event)"
+    (nzPageIndexChange)="PageIndexChange($event)"
+
+    nzShowSizeChanger
+
+    nzShowQuickJumper>
+
+    </nz-pagination>
+
 
 
 

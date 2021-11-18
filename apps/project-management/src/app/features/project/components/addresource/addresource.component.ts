@@ -55,7 +55,7 @@ export class AddresourceComponent implements OnInit {
     this.addResorceForm.valueChanges.subscribe(()=>{
       if(this.addResorceForm.valid)
     { const projectAssignDate= formatDate(this.addResorceForm.controls.assignDate.value,'yyyy-MM-dd','en_US');
-     const  hiredDate = formatDate(this.addResorceForm.controls.resource.value.hiredDate,'yyyy-MM-dd','en_US');
+     const  hiredDate = formatDate(this.addResorceForm.controls.resource.value.HiredDate,'yyyy-MM-dd','en_US');
 
         if( projectAssignDate <hiredDate )
           this.addResorceForm.controls.assignDate.setErrors({'invalidDate':true});
@@ -107,7 +107,7 @@ this.resources.push({  employeeId:this.addResorceForm.controls.resource.value.Gu
 
 this.addProjectResourceEvent.emit(this.resources)
 this.sortEmployees();
-this.employees=this.employees.filter(s=>s.guid!==this.addResorceForm.controls.resource.value.guid);
+this.employees=this.employees.filter(s=>s.Guid!==this.addResorceForm.controls.resource.value.Guid);
 this.addResorceForm.reset();
     } else {
       Object.values(this.addResorceForm.controls).forEach(control => {
@@ -151,7 +151,7 @@ this.addResorceForm.reset();
   editResource(id:string)
   {
     this.addResorceForm.reset();
-    const projectResource=this.projectResources.find(s=>s.employee.guid==id);
+    const projectResource=this.projectResources.find(s=>s.employee.Guid==id);
     if(projectResource)
    {
    
@@ -168,17 +168,17 @@ this.addResorceForm.reset();
 
 if( this.editResorceForm.valid)
 {
-  if(this. asignedResourseToEdit.employee.guid!=this.editResorceForm.controls.resource.value.guid)
+  if(this. asignedResourseToEdit.employee.Guid!=this.editResorceForm.controls.resource.value.Guid)
     { this.employees.push(this.asignedResourseToEdit.employee);
-      this.employees=this.employees.filter(s=>s.guid!==this.editResorceForm.controls.resource.value.guid);
+      this.employees=this.employees.filter(s=>s.Guid!==this.editResorceForm.controls.resource.value.Guid);
       this.sortEmployees();
     }
   this. asignedResourseToEdit.assignedDate= this.editResorceForm.controls.assignDate.value;
   this. asignedResourseToEdit.employee=this.editResorceForm.controls.resource.value;
 
-  this.projectResources.map(s=>s.employee.guid=== this. asignedResourseToEdit.employee.guid?s:this. asignedResourseToEdit)  
+  this.projectResources.map(s=>s.employee.Guid=== this. asignedResourseToEdit.employee.Guid?s:this. asignedResourseToEdit)  
  
-  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.guid?s:
+  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.Guid?s:
     {  employeeId: this.editResorceForm.controls.resource.value.Guid,
       assignedDate:this.editResorceForm.controls.assignDate.value,
       }
@@ -186,7 +186,7 @@ if( this.editResorceForm.valid)
 
       for(let i=0;i< this.resources.length;i++)
       {
-         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.guid)
+         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.Guid)
                 {  
                  this.resources[i]={  employeeId: this.editResorceForm.controls.resource.value.Guid,
                   assignedDate:this.editResorceForm.controls.assignDate.value};                
@@ -213,11 +213,11 @@ if( this.editResorceForm.valid)
 
   removeResource(id:string)
   {
-  const projectResourece=this.projectResources.find(s=>s.employee.guid==id);
+  const projectResourece=this.projectResources.find(s=>s.employee.Guid==id);
        if(projectResourece)
        this.employees.push(projectResourece.employee);
        this.sortEmployees();
-  this.projectResources=this.projectResources.filter(s=>s.employee.guid!==id);
+  this.projectResources=this.projectResources.filter(s=>s.employee.Guid!==id);
   this.resources=this.resources.filter(s=>s.employeeId!=id);
   this.addProjectResourceEvent.emit(this.resources);
 
@@ -225,7 +225,7 @@ if( this.editResorceForm.valid)
 
   sortEmployees()
 {
-  this.employees.sort((a, b) => a.name.localeCompare(b.name))
+  this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
 }
 
 

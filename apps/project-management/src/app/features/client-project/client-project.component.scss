@@ -20,7 +20,7 @@
   .page-title {
 
 
-    font-family: SF Pro Display;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -51,16 +51,25 @@ hr { display: block; height: 1px;
   
   }
 
+::ng-deep .ant-btn:active, .ant-btn:focus, .ant-btn:hover {
 
+  background:none !important;
+
+}
+.ant-btn:not([disabled]):hover {
+
+  background: #00a551 !important;
+  color: white;
+}
 
   
-  ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
+  // ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
 
     
   
-    box-shadow: inset 0px -1px 0px #DADADA !important ;
+  //   box-shadow: inset 0px -1px 0px #DADADA !important ;
 
-    }
+  //   }
 
 
   ::ng-deep .ant-tabs-ink-bar {
