@@ -83,20 +83,4 @@
     </nz-form-control>
   </nz-form-item>
 </form>
-<nz-form-item nz-row class="register-area">
-  <span class="buttons">
-    <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button form="myForm" nzType="primary" (click)="onBack()">Back</button>
-    </nz-form-control>
-  </span>
-  <span class="buttons">
-    <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button form="myForm" nzType="primary" (click)="onSubmit()">Save/New</button>
-    </nz-form-control>
-  </span>
-  <span class="buttons">
-    <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button form="myForm" nzType="primary" (click)="onNext()">Save/Next</button>
-    </nz-form-control>
-  </span>
-</nz-form-item>
+<app-progress-buttons [isMultiple]="false" (actionType)="onAction($event)"></app-progress-buttons>

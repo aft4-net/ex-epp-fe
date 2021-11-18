@@ -18,6 +18,7 @@ import { PageFooterComponent } from './components/page-footer/page-footer.compon
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
+import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 
 registerLocaleData(en);
@@ -26,7 +27,8 @@ registerLocaleData(en);
   declarations: [
     AppComponent, 
     MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent,
-    AddressNewComponent
+    AddressNewComponent,
+    ProgressButtonsComponent
   ],
   imports: [
     BrowserModule,
