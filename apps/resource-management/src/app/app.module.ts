@@ -1,36 +1,40 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
-import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+
+import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
+import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { HttpClientModule } from '@angular/common/http';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { NgModule } from '@angular/core';
 import { PageFooterComponent } from './components/page-footer/page-footer.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
+
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
-import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
+import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+
+import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
+import en from '@angular/common/locales/en';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent, 
+    AppComponent,
     MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent,
-    AddressNewComponent
+    AddressNewComponent,
+    ProgressButtonsComponent,
+    PersonalInfoComponent
   ],
   imports: [
     BrowserModule,
-    // RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

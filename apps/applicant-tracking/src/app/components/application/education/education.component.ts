@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -16,6 +17,7 @@ import {
   selector: 'exec-epp-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss'],
+  providers: [DatePipe]
 })
 export class EducationComponent implements OnInit {
   info = '';
@@ -38,7 +40,8 @@ export class EducationComponent implements OnInit {
     private fieldOfStudyService: FieldOfStudyService,
     private educationService: EducationService,
     private notifier: NotifierService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    public datepipe: DatePipe
   ) {}
 
   education = new FormGroup({
@@ -48,7 +51,7 @@ export class EducationComponent implements OnInit {
     country: new FormControl('', [Validators.required]),
     program: new FormControl('', [Validators.required]),
     fieldOfStudy: new FormControl('', [Validators.required]),
-    isStudying: new FormControl(false, [Validators.required]),
+    isStudying: new FormControl(false, []),
     otherFieldOfStudy: new FormControl(null),
   });
 
@@ -97,26 +100,25 @@ export class EducationComponent implements OnInit {
         'Record deleted successfully'
       );
       this.bindRecord();
-  });
-
+    });
   }
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
       return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() > this.education.controls.yearTo.value.getTime() ||
+      startValue.getTime() >= this.education.controls.yearTo.value.getTime() ||
       startValue.getTime() >= Date.now() - 3600 * 1000 * 24
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.education.controls.yearFrom.value) {
-      return endValue.getTime() >= Date.now();
+      return false;
     }
     return (
-      endValue.getTime() <= this.education.controls.yearFrom.value.getTime() ||
-      endValue.getTime() >= Date.now()
+      endValue.getTime() <
+      this.education.controls.yearFrom.value.getTime() - 3600 * 1000 * 24
     );
   };
 
@@ -160,7 +162,9 @@ export class EducationComponent implements OnInit {
       FieldOfStudyId: this.education.get('fieldOfStudy')?.value,
       FieldOfStudy: null,
       OtherFieldOfStudy: this.education.get('otherFieldOfStudy')?.value,
-      IsCompleted: this.education.get('isStudying')?.value,
+      IsCompleted:
+        this.education.get('isStudying')?.value ??
+        new Date(this.education.get('yearTo')?.value) > new Date(),
     };
     return educationModel;
   }
@@ -171,16 +175,18 @@ export class EducationComponent implements OnInit {
       this.isRecordUpdated = true;
     }
     this.loading = false;
-    const msg = this.isUpdateMode? 'Record is successfully updated.':'Record is successfully added.'
-    this.notifier.notify(
-      NotificationType.success,
-      msg
-    );
+    const msg = this.isUpdateMode
+      ? 'Record is successfully updated.'
+      : 'Record is successfully added.';
+    this.notifier.notify(NotificationType.success, msg);
     this.education.reset();
     this.guid = null;
-    this.loading = false;
-    this.closeModal();
+    if (!this.validation.controls.isMultitpleEntry.value) this.closeModal();
     this.isUpdateMode = false;
+  }
+
+  getFieldOfStudyWithId(Id:string){
+    return this.fetchedFieldOfStudies.find(x => x.Guid == Id)?.Name ?? 'Unknown'; 
   }
 
   ngOnInit(): void {
@@ -212,11 +218,15 @@ export class EducationComponent implements OnInit {
     );
   }
   bindRecord() {
+    this.loading = true;
     this.educationService.getByApplicantId(this.loggedInUser.Guid).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
+        console.log(this.educations);
       },
-      (err) => this.onShowError(err)
+      (err) => {
+        this.loading = false;
+        this.onShowError(err);}
     );
   }
   showConfirmation(guid: string | null): void {
@@ -230,12 +240,9 @@ export class EducationComponent implements OnInit {
   }
   onShowError(err: any) {
     let errMsg = 'Some error occured. Please review your input and try again. ';
-    errMsg = err? (errMsg + `<br/><br/><hr/>${err}`):errMsg;
-    
-    this.notifier.notify(
-      NotificationType.error,
-     errMsg
-    );
+    errMsg = err ? errMsg + `<br/><br/><hr/>${err}` : errMsg;
+
+    this.notifier.notify(NotificationType.error, errMsg);
     this.loading = false;
   }
 }
