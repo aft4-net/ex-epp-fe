@@ -20,7 +20,7 @@
             [nzValue]=" option.Guid ? option.Guid : option"
             [nzLabel]=" option.Name? option.Name : option"
             nzCustomContent
-            [nzHide]="enableHidding && !isNotSelected(option.id)"
+            [nzHide]="enableHidding && !isNotSelected(option.Guid)"
           >
             {{ option.Guid ? option.Name : option }}
           </nz-option>

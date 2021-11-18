@@ -36,7 +36,7 @@ export class TimesheetService {
 
     let response = this.http.get<TimesheetResponse>(this.baseUrl + "Timesheets", { observe: "response", params: params });
 
-    return response.pipe(map(r => r.body?.data));
+    return response.pipe(map(r => r.body?.Data));
   }
 
   getTimeEntry(timeEntryId: string) {
@@ -46,7 +46,7 @@ export class TimesheetService {
 
     let response = this.http.get<TimeEntryResponse>(this.baseUrl + "timeentries", { observe: "response", params: params });
 
-    return response.pipe(map(r => r.body?.data));
+    return response.pipe(map(r => r.body?.Data));
   }
 
   getTimeEntries(timesheetId: string, date?: Date, projectId?: string) {
@@ -65,7 +65,7 @@ export class TimesheetService {
 
     let response = this.http.get<TimeEntriesResponse>(this.baseUrl + "timeentries", { observe: "response", params: params })
 
-    return response.pipe(map(r => r.body?.data));
+    return response.pipe(map(r => r.body?.Data));
   }
 
   addTimeEntry(employeeId: string, timeEntry: TimeEntry) {
@@ -113,7 +113,7 @@ export class TimesheetService {
     return response.pipe(map(r => r.body));
   }
 
-  getProjects(userId: string, clientId?: number) {
+  getProjects(userId: string, clientId?: string) {
     let params = new HttpParams();
 
     params = params.append("employeeId", userId);

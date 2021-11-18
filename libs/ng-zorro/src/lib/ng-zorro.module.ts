@@ -39,6 +39,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 
 @NgModule({
   exports: [
+
     NzPageHeaderModule ,
     NzIconModule,
     NzInputNumberModule,
