@@ -6,18 +6,11 @@
     <div class="tab-content">
     <div class="justify-between" nz-row>
       <div class="page-title"> Project Details </div>
-<<<<<<< HEAD
       <div>
 
 
             <button  (click)="onSubmit()"  class=" mr-4"  [disabled]="!validateForm.valid "  nz-button nzType="dashed">  Create Project </button>
 
-=======
-      <div  >
-
-
-            <button  (click)="onSubmit()"  class=" mr-4"  [disabled]="!validateForm.valid "  nz-button nzType="dashed">  Create Project </button>
->>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
 
          <button  (click)="onReset()"   class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
          py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
@@ -135,11 +128,7 @@ nz-form
      formControlName="status"
      nzPlaceHolder="Select project status"
    >
-<<<<<<< HEAD
    <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.StatusName}}  [nzValue]="status"></nz-option>
-=======
-   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.StatusName}}  [nzValue]="status"></nz-option>   
->>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
    </nz-select>
    <div class="error-block"
    *ngIf="status.invalid && status.touched">
