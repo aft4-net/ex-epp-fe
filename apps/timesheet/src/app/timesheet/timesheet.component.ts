@@ -1,21 +1,21 @@
 // @ts-nocheck
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DayAndDateService } from "./services/day-and-date.service";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TimesheetService } from './services/timesheet.service';
-import { differenceInCalendarDays } from 'date-fns';
-import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { ClickEventType } from '../models/clickEventType';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { TimeEntry, Timesheet } from '../models/timesheetModels';
-import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
-import { Client } from '../models/client';
-import { Project } from '../models/project';
-import { TimesheetApiService } from './services/api/timesheet-api.service';
-import { Employee } from '../models/employee';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {DayAndDateService} from "./services/day-and-date.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TimesheetService} from './services/timesheet.service';
+import {differenceInCalendarDays} from 'date-fns';
+import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import {ClickEventType} from '../models/clickEventType';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {TimeEntry, Timesheet, TimesheetApprovalResponse} from '../models/timesheetModels';
+import {DateColumnEvent, TimeEntryEvent} from '../models/clickEventEmitObjectType';
+import {Client} from '../models/client';
+import {Project} from '../models/project';
+import {TimesheetApiService} from './services/api/timesheet-api.service';
+import {Employee} from '../models/employee';
 
-import { NzNotificationPlacement } from "ng-zorro-antd/notification";
+import {NzNotificationPlacement} from "ng-zorro-antd/notification";
 
 
 @Component({
@@ -64,6 +64,7 @@ export class TimesheetComponent implements OnInit {
   lastWeeks = null;
   startValue: Date | null = null;
   endValue: Date | null = null;
+  timesheetApproval: TimesheetApproval [] = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   disabledDate = (current: Date): boolean =>
@@ -75,8 +76,8 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
-    private apiService: TimesheetApiService
-  ) {
+    private apiService: TimesheetApiService,
+    private timeSheetService: TimesheetService) {
   }
 
   ngOnInit(): void {
@@ -286,7 +287,21 @@ export class TimesheetComponent implements OnInit {
   onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
     this.clickEventType = clickEventType;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-    this.showFormDrawer();
+    this.timeSheetService.getTimeSheetApproval("92fd3a28-1496-4aaf-a649-ca931566def2").subscribe(objApprove => {
+      // this.timesheetApproval = objApprove ? objApprove.filter(tsa => tsa.projectId === this.timeEntry?.projectId) : null;
+      this.timesheetApproval = objApprove;
+      console.log('approval data:' + JSON.stringify(this.timesheetApproval));
+      if (this.timesheetApproval) {
+        if (this.timesheetApproval[0].status === 0) {
+          this.showFormDrawer();
+        } else {
+          let message = "";
+          (this.timesheetApproval.status === 1) ? message = "You can't edit the entry submitted for approval!" : message = "You can't edit Approved Timesheet!";
+          this.notification.error(message);
+        }
+      }
+    })
+
   }
 
   showFormDrawer() {
@@ -334,7 +349,7 @@ export class TimesheetComponent implements OnInit {
       if (this.timeEntry) {
         timeEntry.guid = this.timeEntry.guid;
         timeEntry.timeSheetId = this.timeEntry.timeSheetId;
-        
+
         this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
           if (this.userId) {
             this.getTimesheet(this.userId, this.date);
@@ -344,8 +359,7 @@ export class TimesheetComponent implements OnInit {
           this.createNotification('error')
           console.log(error);
         });
-      }
-      else {
+      } else {
         this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
           if (this.userId) {
             this.getTimesheet(this.userId, this.date);

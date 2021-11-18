@@ -7,7 +7,7 @@
                      (valueChangeNextWeek)="nextWeek($event)"
                      (valueChangeLastWeek)="lastastWeek($event)"
   ></app-date-selector>
-
+  Timesheet Approval:{{timesheetApproval|json}}
   <div class="day-and-date-column">
     <div *ngFor="let myD of weekDays">
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
@@ -29,23 +29,27 @@
       <div class="timesheet-date-range">
         <div class="from-date-to-date">
           <label for="from-date" id="from-date">From Date:</label>
-          <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" [nzDisabled]="true" nzFormat="MM-dd-YY" nzSuffixIcon=""></nz-date-picker>
+          <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" [nzDisabled]="true"
+                          nzFormat="MM-dd-YY" nzSuffixIcon=""></nz-date-picker>
           <label for="to-date" id="to-date">To Date:</label>
-          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="true" nzFormat="MM-dd-YY" nzSuffixIcon=""></nz-date-picker>
+          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="true" nzFormat="MM-dd-YY"
+                          nzSuffixIcon=""></nz-date-picker>
         </div>
         <i nz-icon nzType="close" nzTheme="outline" (click)="closeFormDrawer()"></i>
       </div>
       <div class="timesheet-detail">
         <label for="client" id="client">Client</label>
-        <nz-select formControlName="client" [(ngModel)]="formData.client" [nzDisabled]="disableClient" (ngModelChange)="clientValueChange($event)" *ngIf="clients?.length else elseBlock">
+        <nz-select formControlName="client" [(ngModel)]="formData.client" [nzDisabled]="disableClient"
+                   (ngModelChange)="clientValueChange($event)" *ngIf="clients?.length else elseBlock">
           <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
                      nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
         </nz-select>
 
         <label for="project" id="project">Project</label>
-        <nz-select formControlName="project" [(ngModel)]="formData.project" [nzDisabled]="disableProject" (ngModelChange)="projectValueChange($event)" *ngIf="projects?.length else elseBlock">
+        <nz-select formControlName="project" [(ngModel)]="formData.project" [nzDisabled]="disableProject"
+                   (ngModelChange)="projectValueChange($event)" *ngIf="projects?.length else elseBlock">
           <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
-            nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
+                     nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
         </nz-select>
 
         <ng-template #elseBlock>

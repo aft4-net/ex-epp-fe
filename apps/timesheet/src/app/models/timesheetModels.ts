@@ -17,6 +17,12 @@ export interface TimeEntry {
     timeSheetId: string;
 }
 
+export interface TimesheetApproval {
+  timesheetId: string;
+  projectId: string;
+  status: number;
+}
+
 interface Response {
     ResponseStatus: string;
     Message: string;
@@ -37,4 +43,8 @@ export interface TimeEntryResponse extends Response {
 
 export interface TimeEntriesResponse extends Response {
     data: TimeEntry[] | null;
+}
+
+export interface TimesheetApprovalResponse extends Response{
+  data: TimesheetApproval[] | null;
 }
