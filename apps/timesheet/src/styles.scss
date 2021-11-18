@@ -1,29 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 
 /* Container */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    min-width: 1440px;
-    height: 100%;
+    ///display: flex;
+    ///flex-direction: column;
+   /// align-items: center;
+   /// width: 100%;
+    ///min-width: 1440px;
+    ///height: 100%;
     //background-color: #E5E5E5;
-    background-color: #FFFFFF;
-    align-self: center;
+   /// background-color: #f11e1e;
+    ///align-self: center;
 }
 
 
 .ant-drawer-content-wrapper {
-    margin-top: 127px;
-    min-height: 900px;
+    //margin-top: 127px;
+    margin-top: 8rem;
+    ///min-height: 900px;
+    border-top-left-radius: 15px; 
+    background-color: #FFFFFF;
 
     .ant-drawer-body {
         margin: 0;
         padding: 0;
     }
+}
+
+.ant-drawer-content{
+  border-top-left-radius: 15px;
 }
 
 .ant-popover-inner-content {

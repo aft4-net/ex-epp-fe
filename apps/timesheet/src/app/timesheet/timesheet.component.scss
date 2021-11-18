@@ -1,68 +1,10 @@
 
-/* Time sheet header */
-
-.timesheet-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 1440px;
-    height: 77px;
-
-    background-color: #FFFFFF;
-    padding: 12px, 24px, 12px, 24px;
-    border-bottom-width: 0.5px;
-    border-bottom-style: solid;
-    border-top-width: 0.5px;
-    border-top-style: solid;
-    border-color: #DADADA;
-}
-
-/* Date selector and Button */
-
-.date-selector {
-    display: flex;
-    width: 1440px;
-    background-color: #FFFFFF;
-}
-
-/* Day of week and Date Column */
-
-.day-and-date-column {
-    display: flex;
-    width: 1440px;
-    background-color: #FFFFFF;
-    padding-left: 24px;
-}
-
 /* Form drawer */
 
 .timesheet-date-range {
-    display: flex;
-    align-items: center;
-    width: 400px;
-    height: 52px;
-    background-color: #FDFDFD;
-
-    border-width: 0.7px;
-    border-style: solid;
-    border-color: #DADADA;
 
     .from-date-to-date {
-        width: 300px;
-        height: 28px;
-
-        margin-left: 20px;
-        margin-top: 12px;
-        margin-bottom: 12px;
-
         nz-date-picker {
-            width: 74px;
-            height: 28px;
-
-            margin-left: 4px;
-            padding: 0 0 4px 0;
-
-            border-radius: 0;
             border-top: none;
             border-left: none;
             border-right: none;
@@ -70,86 +12,21 @@
             border-bottom-style: solid;
             border-bottom-color: #3E3D40;
         }
-
-        #from-date {
-            width: fit-content;
-        }
-
-        #to-date {
-            width: fit-content;
-
-            margin-left: 12px;
-        }
-    }
-
-    i {
-        width: 20px;
-        height: 20px;
-
-        margin-top: 16px;
-        margin-left: 28px;
-        padding: 3.5px;
-
-        cursor: pointer;
     }
 }
 
-.timesheet-detail {
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    height: 721px;
 
-    padding-top: 16px;
+
+.timesheet-detail {
+
+    //padding-top: 16px;
     padding-right: 23.5px;
     padding-bottom: 25px;
     padding-left: 23.5px;
 
-    label {
-        width: fit-content;
-        height: 24px;
 
-        font-weight: 500;
-
-        margin-top: 9px;
-
-        &#client::after, &#project::after, &#hours::after {
-            content: " *";
-
-            font-family: Roboto;
-            font-style: normal;
-            font-size: 16px;
-            line-height: 18.75px;
-
-            color: #F52121;
-        }
-    }
-
-    nz-select, input {
-        width: 352px;
-        height: 35px;
-
-        margin-top: 5px;
-    }
-
-    textarea {
-        width: 352px;
-        height: 80px;
-
-        margin-top: 5px;
-    }
 
     .save-and-clear {
-        width: 350px;
-        height: 33px;
-
-        margin-top: 8px;
-
-        font-family: sans-serif;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
 
         #save {
             width: 62px;
@@ -161,10 +38,11 @@
             border-style: solid;
             border-color: #F5F5F5;
             color: #FFFFFF;
-
+            
             &:enabled {
                 background-color: #00A551;
             }
+           
         }
 
         #clear {

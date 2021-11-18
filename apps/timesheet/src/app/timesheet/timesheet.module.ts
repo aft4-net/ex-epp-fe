@@ -22,6 +22,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
 
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
 
@@ -50,7 +51,8 @@ import {NzModalModule} from "ng-zorro-antd/modal";
     ReactiveFormsModule,
     NzFormModule,
     NzNotificationModule,
-    NzModalModule,
+    NzDividerModule,
+    NzModalModule
   ]
 })
 export class TimesheetModule {
