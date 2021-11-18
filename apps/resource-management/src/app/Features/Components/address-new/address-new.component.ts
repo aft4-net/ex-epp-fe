@@ -44,7 +44,7 @@ export class AddressNewComponent implements OnInit {
       console.log('Not a number!')
       return { confirm: true, error: true };
     }
-    else if (phone.length < 6 || phone.length < 12) {
+    else if (phone.length < 6 || phone.length > 12) {
       console.log('Exceeds length!')
       return { confirm: true, error: true };
     }
@@ -126,8 +126,8 @@ export class AddressNewComponent implements OnInit {
         ]
         if(this.isStandalone){
           this._attendanceService.add(address)
-          .subscribe((response: unknown) => {
-            window.alert(response)
+          .subscribe((response: ResponseDto<Address>) => {
+            window.alert(response.responseStatus)
           })
         }
         if (event === 'submit') {
