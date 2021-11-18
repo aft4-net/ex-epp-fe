@@ -127,7 +127,7 @@ export class AddressNewComponent implements OnInit {
         if(this.isStandalone){
           this._attendanceService.add(address)
           .subscribe((response: ResponseDto<Address>) => {
-            window.alert(response.message)
+            window.alert(response.responseStatus)
           })
         }
         if (event === 'submit') {
