@@ -68,12 +68,12 @@
         <nz-form-item>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
             <input [(ngModel)]="formData.hours" nz-input formControlName="hours"
-                   placeholder="enter bellow {{24-clickedDateTotalHour}}" type="number" min="1"
-                   max="{{24-clickedDateTotalHour}}"/>
+                   placeholder="enter bellow {{24-dateColumnTotalHour}}" type="number" min="1"
+                   max="{{24-dateColumnTotalHour}}"/>
             <ng-template #userErrorTpl let-control>
               <ng-container *ngIf="formData.hours <=0 ">Please Enter above 0 hour</ng-container>
-              <ng-container *ngIf="formData.hours > (24-clickedDateTotalHour) ">Please Enter
-                bellow {{24 - clickedDateTotalHour}}</ng-container>
+              <ng-container *ngIf="formData.hours > (24-dateColumnTotalHour) ">Please Enter
+                bellow {{24 - dateColumnTotalHour}}</ng-container>
               <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
             </ng-template>
           </nz-form-control>
@@ -85,6 +85,7 @@
                 </textarea>
         <div class="save-and-clear">
           <button id="save" class="mt-6 font-bold" nz-button [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-clickedDateTotalHour)">Save
+
           </button>
           <button id="clear" class="mr-6 font-bold" nz-button (click)="resetForm($event)"
             [disabled]="!formData.client && !formData.project &&!formData.hours && !formData.note">Clear

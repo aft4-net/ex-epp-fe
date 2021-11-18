@@ -1,58 +1,28 @@
-export interface Client {
-  ClientName: string,
-  clientStatus: string,
-  managerAssigned: string,
-  description: string,
-  Guid: string,
-  isActive: true,
-  isDeleted: false,
-  createdDate: string,
-  createdbyUserGuid: string
-}
-export interface Employee{
-  guid: string,
-  isActive: boolean,
-  isDeleted: boolean,
-  createdDate: Date,
-  createdbyUserGuid: string,
-  name: string,
-  role: string,
-  hiredDate: Date
-}
-export interface ProjectStatus
-{
-   guid: string,
-  isActive:boolean ,
-  isDeleted: boolean,
-  createdDate: Date,
-  createdbyUserGuid: string,
-  statusName: string
+import { Client, Employee, ProjectStatus, } from './';
 
-}
 
 
 export interface Project{
 
-ProjectName:string,
-projectType: string,
-startDate:Date,
-endDate:Date,
-Supervisor: Employee[],
-Client:Client;
-projectStatus: ProjectStatus[],
-supervisorGuid:string,
-clientGuid:string,
-projectStatusGuid:string,
-guid:string,
-isActive:boolean,
-isDeleted:boolean,
-createdDate:Date,
-createdbyUserGuid:string
+  ProjectName:string,
+  ProjectType: string,
+  StartDate:Date,
+  EndDate:Date,
+  Supervisor: Employee,
+  Client:Client;
+  ProjectStatus: ProjectStatus,
+  SupervisorGuid:string,
+  ClientGuid:string,
+  ProjectStatusGuid:string,
+  Guid:string,
+  IsActive:boolean,
+  IsDeleted:boolean,
+  CreatedDate:Date,
+  CreatedbyUserGuid:string
+  
+  }
 
-}
 
-export interface ProjectData{
-  TotalPage:number;
-  TotalRecord:number;
-  Data: Project[]
-}
+
+
+
