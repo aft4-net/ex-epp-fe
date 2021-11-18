@@ -24,7 +24,7 @@ export class ProjectNamePaletComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.timeEntry) {
-      this.timesheetService.getProject(this.timeEntry.projectId).subscribe(response => {
+      this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
       });
     }

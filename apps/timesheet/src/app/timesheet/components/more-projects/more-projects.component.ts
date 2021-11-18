@@ -21,7 +21,7 @@ export class MoreProjectsComponent implements OnInit {
   popoverVisible = false;
   ngOnInit(): void {
     if (this.moreTimeEntry) {
-      this.timesheetService.getProject(this.moreTimeEntry.projectId).subscribe(response => {
+      this.timesheetService.getProject(this.moreTimeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
       });
     }
