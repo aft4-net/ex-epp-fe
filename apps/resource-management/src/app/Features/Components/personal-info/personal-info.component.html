@@ -89,7 +89,9 @@
     >
       <div nz-row [nzGutter]="8">
         <div nz-col [nzSpan]="12">
-          <input nz-input type="text" formControlName="gender" id="gender" />
+          <nz-select formControlName="gender" >
+            <nz-option    *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option">{{option}}</nz-option>
+          </nz-select>
         </div>
       </div>
     </nz-form-control>
@@ -111,7 +113,9 @@
     >
       <div nz-row [nzGutter]="8">
         <div nz-col [nzSpan]="12">
-          <input nz-input type="text" formControlName="nationality" id="nationality" />
+          <nz-select formControlName="nationality" >
+            <nz-option    *ngFor="let option of listOfOptionNationality" [nzLabel]="option" [nzValue]="option">{{option}}</nz-option>
+          </nz-select>
         </div>
       </div>
     </nz-form-control>
@@ -119,7 +123,7 @@
 
   <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="primary">Next</button>
+      <button nz-button nzType="primary" style="margin-right: 70px;" >Next</button>
     </nz-form-control>
   </nz-form-item>
 

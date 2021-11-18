@@ -13,6 +13,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 export class PersonalInfoComponent implements OnInit {
 
   validateForm!: FormGroup;
+  listOfOption: string[] = ["male","female"];
+  listOfOptionNationality: string[] = ["Ethiopia","US","Kenya","UK","China"]
 
   constructor(private fb: FormBuilder) { }
 
