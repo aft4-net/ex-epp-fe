@@ -1,42 +1,11 @@
-.breadcrumb {
-    width: 242px;
-    height: 48px;
-    margin-top: 14.5px;
-    margin-left: 24px;
-}
+
 
 .total-hours-completed {
-    display: flex;
-    align-items: center;
-    width: 360px;
-    height: 33px;
-    margin-top: 22px;
-    margin-right: 24px;
-    margin-bottom: 22px;
-
-    h5 {
-        width: 195px;
-        height: 19px;
-        margin-right: 12px;
-        margin-bottom: 0;
-
-        font-family: sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 19px;
-        text-align: right;
-        color: #595959;
-    }
 
     button {
-        width: 159px;
-        height: 33px;
-        padding: 8px, 16px, 8px, 16px;
-
         color: #FFFFFF;
         background-color: #00A551;
-        border-radius: 2px;
+       /// border-radius: 2px;
         border-width: 1px;
         border-color: #F5F5F5;
     }
