@@ -10,9 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class ErrHandleService {
 
     formatErrors(error:any) {
-    // this.log('education programme error:');
-    // this.log(error);
-    return throwError(error.error);
+    return throwError(error);
   }
 
   log(data: any) {
