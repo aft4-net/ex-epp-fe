@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DayAndDateService } from "./services/day-and-date.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -30,8 +28,8 @@ export class TimesheetComponent implements OnInit {
   validateForm!: FormGroup;
 
   // Used for disabling client and project list when selected for edit.
-  disableClient: bool = false;
-  disableProject: bool = false;
+  disableClient = false;
+  disableProject = false;
   timesheet: Timesheet | null = null;
   timeEntries: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
@@ -52,7 +50,7 @@ export class TimesheetComponent implements OnInit {
     note: '',
   };
 
-  dateColumnTotalHour: number;
+  dateColumnTotalHour: number = 0;
   date = new Date();
   futereDate: any;
   public weekDays: any[] = [];
@@ -101,7 +99,7 @@ export class TimesheetComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     this.calcualteNoOfDaysBetweenDates();
 
-    this.formData.hours = null;
+    this.formData.hours = 0;
   }
 
   // To calculate the time difference of two dates
@@ -121,8 +119,8 @@ export class TimesheetComponent implements OnInit {
       this.timesheet = response ? response : null;
 
       if (this.timesheet) {
-        this.timesheetService.getTimeEntries(this.timesheet.guid).subscribe(response => {
-          this.timeEntries = response;
+        this.timesheetService.getTimeEntries(this.timesheet.Guid).subscribe(response => {
+          this.timeEntries = response ? response : null;
         }, error => {
           console.log(error);
         });
@@ -137,15 +135,18 @@ export class TimesheetComponent implements OnInit {
       this.projects = response;
 
       let clientIds = this.projects?.map(project => project.clientId);
-      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
-
+      clientIds = clientIds?.filter((client: string, index: number) => clientIds?.indexOf(client) === index);
+      
       this.timesheetService.getClients(clientIds).subscribe(response => {
         this.clients = response;
       });
     });
   }
 
-  clientValueChange(value) {
+  clientValueChange(value: string) {
+    if(!this.userId) {
+      return;
+    }
     let clientId = value;
     this.timesheetService.getProjects(this.userId, clientId).subscribe(pp => {
       this.projects = pp;
@@ -153,11 +154,11 @@ export class TimesheetComponent implements OnInit {
   }
 
 
-  projectValueChange(value) {
+  projectValueChange(value: string) {
     let projectId = value;
     let project: Project | null = null;
     this.timesheetService.getProject(projectId).subscribe(response => {
-      project = response[0];
+      project = response ? response[0] : null;
       if (project) {
         this.timesheetService.getClient(project.clientId).subscribe(response => {
           this.clients = response
@@ -241,11 +242,12 @@ export class TimesheetComponent implements OnInit {
   onDateColumnClicked(dateColumnEvent: DateColumnEvent, date: Date) {
     this.clickEventType = dateColumnEvent.clickEventType;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    this.dateColumnTotalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.hour).reduce((prev, curr) => prev + curr, 0);
+    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
+    this.dateColumnTotalHour = totalHour ? totalHour : 0;
 
     console.log(this.date);
     this.timeEntries?.forEach(timeEntry => {
-      console.log(new Date(timeEntry.date));
+      console.log(new Date(timeEntry.Date));
     })
 
     if (this.date <= new Date()) {
@@ -263,8 +265,9 @@ export class TimesheetComponent implements OnInit {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    this.dateColumnTotalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.hour).reduce((prev, curr) => prev + curr, 0);
-    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.hour : 0;
+    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
+    this.dateColumnTotalHour = totalHour ? totalHour : 0;
+    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
 
     this.showFormDrawer();
   }
@@ -273,8 +276,9 @@ export class TimesheetComponent implements OnInit {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    this.dateColumnTotalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.hour).reduce((prev, curr) => prev + curr, 0);
-    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.hour : 0;
+    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
+    this.dateColumnTotalHour = totalHour ? totalHour : 0;
+    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
   }
 
   onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
@@ -289,11 +293,11 @@ export class TimesheetComponent implements OnInit {
       (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
 
       if (this.timeEntry) {
-        let clientId = this.projects?.filter(project => project.id == this.timeEntry?.projectId)[0].clientId.toString();
+        let clientId = this.projects?.filter(project => project.id == this.timeEntry?.ProjectId)[0].clientId.toString();
         this.formData.client = clientId ? clientId : "";
-        this.formData.project = this.timeEntry.projectId.toString();
-        this.formData.hours = this.timeEntry.hour.toString();
-        this.formData.note = this.timeEntry.note;
+        this.formData.project = this.timeEntry.ProjectId.toString();
+        this.formData.hours = this.timeEntry.Hour;
+        this.formData.note = this.timeEntry.Note;
 
         this.disableClient = true;
         this.disableProject = true;
@@ -318,28 +322,30 @@ export class TimesheetComponent implements OnInit {
 
     try {
       let timeEntry: TimeEntry = {
-        note: this.validateForm.value.note,
-        date: new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), 3, 0, 0, 0),
-        index: 1,
-        hour: this.validateForm.value.hours,
-        projectId: this.validateForm.value.project
+        Guid: "00000000-0000-0000-0000-000000000000",
+        Note: this.validateForm.value.note,
+        Date: new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), 3, 0, 0, 0),
+        Index: 1,
+        Hour: this.validateForm.value.hours,
+        ProjectId: this.validateForm.value.project,
+        TimeSheetId: "00000000-0000-0000-0000-000000000000"
       }
 
       if (this.timeEntry) {
-        timeEntry.guid = this.timeEntry.guid;
-        timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+        timeEntry.Guid = this.timeEntry.Guid;
+        timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
         this.updateTimeEntry(timeEntry);
       }
       else if (this.timesheet) {
-        this.timesheetService.getTimeEntries(this.timesheet.guid, this.date, timeEntry.projectId).subscribe(response => {
+        this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date, timeEntry.ProjectId).subscribe(response => {
           this.timeEntry = response ? response[0] : null;
 
           if (this.timeEntry) {
-            timeEntry.guid = this.timeEntry.guid;
-            timeEntry.hour = this.timeEntry.hour + timeEntry.hour;
-            timeEntry.note = this.timeEntry.note + "/n" + timeEntry.note;
-            timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+            timeEntry.Guid = this.timeEntry.Guid;
+            timeEntry.Hour = this.timeEntry.Hour + timeEntry.Hour;
+            timeEntry.Note = this.timeEntry.Note + "/n" + timeEntry.Note;
+            timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
             this.updateTimeEntry(timeEntry);
 
@@ -361,6 +367,10 @@ export class TimesheetComponent implements OnInit {
   }
 
   addTimeEntry(timeEntry: TimeEntry) {
+    if(!this.userId) {
+      return;
+    }
+
     this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);
@@ -371,7 +381,7 @@ export class TimesheetComponent implements OnInit {
     });
   }
 
-  updateTimeEntry(timeEntry) {
+  updateTimeEntry(timeEntry: TimeEntry) {
     this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);
@@ -400,7 +410,9 @@ export class TimesheetComponent implements OnInit {
     this.disableProject = false;
     this.validateForm.reset();
 
-    this.getProjectsAndClients(this.userId);
+    if (this.userId) {
+      this.getProjectsAndClients(this.userId);
+    }
   }
 
   createNotificationError(position: NzNotificationPlacement): void {
