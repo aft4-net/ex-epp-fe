@@ -13,7 +13,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
-  @Output() paletEllipsisClicked = new EventEmitter<ClickEventType>();
+  @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
   @Input() item: any; // decorate the property with @Input()
@@ -35,11 +35,11 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if (this.timesheet) {
-      this.timesheetService.getTimeEntries(this.timesheet.guid, this.date).subscribe(response => {
+      this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date).subscribe(response => {
         this.timeEntrys = response ? response : null;
 
         if (this.timesheet) {
-          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hour).reduce((prev, next) => prev + next, 0);
+          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
           this.totalHours = totalHours ? totalHours : 0;
           this.totalHoursCalculated.emit(totalHours);
         }
@@ -54,10 +54,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType) {
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = clickEventType;
-      this.paletEllipsisClicked.emit(this.clickEventType);
+      this.clickEventType = timeEntryEvent.clickEventType;
+      this.paletEllipsisClicked.emit(timeEntryEvent);
     }
   }
 

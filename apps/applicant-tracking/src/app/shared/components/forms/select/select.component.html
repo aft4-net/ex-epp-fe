@@ -17,12 +17,12 @@
         >
           <nz-option
             *ngFor="let option of list"
-            [nzValue]=" option.id ? option.id : option"
-            [nzLabel]=" option.id ? option.name : option"
+            [nzValue]=" option.Guid ? option.Guid : option"
+            [nzLabel]=" option.Name? option.Name : option"
             nzCustomContent
-            [nzHide]="enableHidding && !isNotSelected(option.id)"
+            [nzHide]="enableHidding && !isNotSelected(option.Guid)"
           >
-            {{ option.id ? option.name : option }}
+            {{ option.Guid ? option.Name : option }}
           </nz-option>
         </nz-select>
       </nz-input-group>

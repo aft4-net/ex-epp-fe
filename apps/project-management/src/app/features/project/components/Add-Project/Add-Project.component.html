@@ -1,16 +1,22 @@
+
+
+<exec-epp-bread-crumb> </exec-epp-bread-crumb>
 <nz-tabset  class="side-nav p-2" [nzTabPosition]="position">
   <nz-tab class="side-nav-tab" nzSelected nzTitle='Project Details'>
     <div class="tab-content">
     <div class="justify-between" nz-row>
       <div class="page-title"> Project Details </div>
-      <div  >
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()"    class="createButton text-white hover:bg-green-400 font-bold py-1 px-3 border mr-4 ">
-          Create Project
-        </button>
-         <button  (click)="onReset()"   class="cancelButton bg-transparent font-semibold py-1 px-3 border hover:border-transparent">
+      <div>
+
+
+            <button  (click)="onSubmit()"  class=" mr-4"  [disabled]="!validateForm.valid "  nz-button nzType="dashed">  Create Project </button>
+
+
+         <button  (click)="onReset()"   class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+         py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
           Cancel
         </button>
-      </div>
+
     </div>
 
 
@@ -19,7 +25,7 @@ class="w-full max-w-4xl"
 nz-form
 [nzLayout]="'vertical'"
 [formGroup]="validateForm"
-(ngSubmit)="submitForm()"
+
 >
 <nz-form-item>
  <nz-form-label
@@ -37,7 +43,7 @@ nz-form
  >
    <input
      nz-input
-     (input)="onInputProjectName($event)"
+
      formControlName="projectName"
      id="projectName"
    />
@@ -47,15 +53,17 @@ nz-form
       Please provide Project name
     </span>
     <span *ngIf="projectName.errors?.maxlength">
-      Project name should not be more than 20 character
+      Project name should not be more than 70 character
     </span>
     <span *ngIf="projectName.errors?.minlength">
       Project name should not be lesser than 2 character
     </span>
+
+    <span *ngIf="projectName.errors?.invalidName" >
+      {{projectNameExitsErrorMessage}}
+</span>
    </span>
-   <span *ngIf="projectNameExits && projectName.valid" class="error-block">
-    Project Name already exists , Please try another
- </span>
+
    </nz-form-control>
 </nz-form-item>
 
@@ -70,9 +78,11 @@ nz-form
      id="projectType"
      formControlName="projectType"
      nzPlaceHolder="Select Project Type"
+
    >
-     <nz-option nzValue="External" nzLabel="External"></nz-option>
+      <nz-option nzValue="External" nzLabel="External"></nz-option>
      <nz-option nzValue="Internal" nzLabel="Internal"></nz-option>
+
    </nz-select>
    <div class="error-block"
    *ngIf="projectType.invalid && projectType.touched">
@@ -80,23 +90,28 @@ nz-form
    </div>
  </nz-form-control>
 </nz-form-item>
-
 <nz-form-item *ngIf="projectType.value === 'External'">
  <nz-form-label [nzSm]="6" nzFor="clientName"
    >Client Name &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
     <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
   </svg></nz-form-label
  >
- <nz-form-control [nzSm]="14" nzErrorTip="Please select Client Name!">
-   <nz-select
+ <nz-form-control [nzSm]="14" >
+   <nz-select   nzShowSearch nzAllowClear
      id="clientName"
      formControlName="client"
      nzPlaceHolder="Select client Name">
-     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.name}}  [nzValue]="client.id"></nz-option>
+<<<<<<< HEAD
+     <ng-container *ngFor="let  client of  clients" >
+      <nz-option *ngIf='client.ClientName!=="Excellerent"'  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>
+     </ng-container>
+=======
+     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>        
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
    </nz-select>
    <div class="error-block"
    *ngIf="clientName.invalid && clientName.touched">
-     Please select Project status
+     Please select project client
    </div>
  </nz-form-control>
 </nz-form-item>
@@ -106,14 +121,14 @@ nz-form
  <nz-form-label  nzFor="status" >Status &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
   <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
 </svg></nz-form-label>
- <nz-form-control [nzSm]="14" nzErrorTip="Please select Project Status!">
+ <nz-form-control [nzSm]="14" >
    <nz-select
    [(ngModel)]="selectedStatus"
      id="status"
      formControlName="status"
      nzPlaceHolder="Select project status"
    >
-   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.name}}  [nzValue]="status.id"></nz-option>
+   <nz-option *ngFor="let status of projectStatuses"  nzLabel={{status.StatusName}}  [nzValue]="status"></nz-option>
    </nz-select>
    <div class="error-block"
    *ngIf="status.invalid && status.touched">
@@ -128,17 +143,21 @@ nz-form
     <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
   </svg></nz-form-label
  >
- <nz-form-control [nzSm]="14" nzErrorTip="Please select Supervisor Name!">
+ <nz-form-control [nzSm]="14" >
    <nz-select   nzShowSearch nzAllowClear
      id="supervisor"
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
    >
-   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.name}}-{{employee.postion}}  [nzValue]="employee.id"></nz-option>
+<<<<<<< HEAD
+   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Guid"></nz-option>
+=======
+   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Guid"></nz-option>        
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
    </nz-select>
    <div class="error-block"
    *ngIf="supervisor.invalid && supervisor.touched">
-     Please select Project supervisor
+     Please Select Project Supervisor
    </div>
  </nz-form-control>
 </nz-form-item>
@@ -171,9 +190,14 @@ nz-form
 
      (nzOnOpenChange)="handleStartOpenChange($event)"
 
+
    ></nz-date-picker>
 
    </nz-form-control>
+   <div class="error-block"
+   *ngIf="startValue.invalid && startValue.touched">
+     Please enter project start date
+   </div>
  </nz-form-item>
 
 </nz-col>
@@ -224,21 +248,27 @@ nz-form
  </nz-form-item>
 </form>
     </div>
+    </div>
   </nz-tab>
 
-  <nz-tab [nzDisabled]="selectedStatus !== '1sfds3sfcefsf' || validateForm.invalid" nzTitle='Resources'>
+  <nz-tab  nzTitle='Resources'[nzDisabled]="validateForm.invalid || disallowResource  " >
   <div class="tab-content">
     <div class="justify-between" nz-row>
-      <div class="page-title " > Resource  </div>
-      <div>
-        <button [disabled]="!validateForm.valid" (click)="onSubmit()" class="createButton text-white font-bold py-1 px-3 border border-green-700 rounded mr-4 ">
-          Create Project
-        </button>
-         <button  (click)="onReset()" class="cancelButton bg-transparent font-semibold hover:text-white py-1 px-3 border hover:bg-green-70 hover:border-transparent rounded">
+      <div    class="page-title " > Resources   </div>
+      <div  >
+        <button  (click)="onSubmit()"  class=" mr-4"  [disabled]="!validateForm.valid "  nz-button nzType="dashed">  Create Project </button>
+<<<<<<< HEAD
+
+=======
+>>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
+
+         <button  (click)="onReset()"  class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+         py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
           Cancel
         </button>
-      </div>
+
     </div>
-    <exec-epp-addresource [projectStartdDate]="projectStartdDate"  (addProjectResourceEvent)="updateProjectResourseList($event)" >  </exec-epp-addresource>   </div>
+    </div>
+    <exec-epp-addresource  (addProjectResourceEvent)="updateProjectResourseList($event)" >  </exec-epp-addresource>   </div>
   </nz-tab>
 </nz-tabset>

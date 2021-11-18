@@ -12,7 +12,7 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class ProjectNamePaletComponent implements OnInit {
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>()
-  @Output() paletEllipsisClicked = new EventEmitter<ClickEventType>();
+  @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editClicked = new EventEmitter<ClickEventType>()
   @Input() timeEntry: TimeEntry | null = null;
   project: Project | null = null;
@@ -24,16 +24,18 @@ export class ProjectNamePaletComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.timeEntry) {
-      this.timesheetService.getProject(this.timeEntry.projectId).subscribe(response => {
+      this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
       });
     }
   }
 
   showPopover() {
+    let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry};
+
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showPaletPopover;
-      this.paletEllipsisClicked.emit(this.clickEventType);
+      this.paletEllipsisClicked.emit(timeEntryEvent);
       this.popoverVisible = true;
     }
   }  
