@@ -85,9 +85,7 @@ export class TimesheetComponent implements OnInit {
 
     if (this.userId) {
       this.getTimesheet(this.userId);
-
       this.getProjectsAndClients(this.userId);
-      // this.getClientsAlongWithProjects(this.userId, this.formData.client)
     }
 
     this.validateForm = this.fb.group({
@@ -147,21 +145,6 @@ export class TimesheetComponent implements OnInit {
       });
     });
   }
-
-  getClientsAlongWithProjects(userId: string, cId: string) {
-    this.timesheetService.getProjects(userId).subscribe(response => {
-      this.projects = response;
-      this.projectsFiltered = this.projects?.map(p => p.clientId == cId);
-      let clientIds = this.projects?.map(project => project.clientId);
-      clientIds = clientIds?.filter((client: number, index: number) => clientIds?.indexOf(client) === index)
-
-      this.timesheetService.getClients(clientIds).subscribe(response => {
-        this.clients = response;
-      });
-    });
-    // this.clientsFiltered=this.clients.filter(p => p.id==clientId);
-  }
-
 
   clientValueChange(value) {
     let clientId = value;
@@ -279,8 +262,9 @@ export class TimesheetComponent implements OnInit {
     this.showFormDrawer();
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType, date: Date) {
-    this.clickEventType = clickEventType;
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
+    this.clickEventType = timeEntryEvent.clickEventType;
+    this.timeEntry = timeEntryEvent.timeEntry;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
   }
 
@@ -350,24 +334,29 @@ export class TimesheetComponent implements OnInit {
         timeEntry.guid = this.timeEntry.guid;
         timeEntry.timeSheetId = this.timeEntry.timeSheetId;
 
-        this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
-          if (this.userId) {
-            this.getTimesheet(this.userId, this.date);
+        this.updateTimeEntry(timeEntry);
+      }
+      else if (this.timesheet) {
+        this.timesheetService.getTimeEntries(this.timesheet.guid, this.date, timeEntry.projectId).subscribe(response => {
+          this.timeEntry = response ? response[0] : null;
+
+          if(this.timeEntry) {
+            timeEntry.guid = this.timeEntry.guid;
+            timeEntry.hour = this.timeEntry.hour + timeEntry.hour;
+            timeEntry.note = this.timeEntry.note + "/n" + timeEntry.note;
+            timeEntry.timeSheetId = this.timeEntry.timeSheetId;
+
+            this.updateTimeEntry(timeEntry);
+
+            this.timeEntry = null;
           }
-          this.createNotification('success');
-        }, error => {
-          this.createNotification('error')
-          console.log(error);
-        });
-      } else {
-        this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
-          if (this.userId) {
-            this.getTimesheet(this.userId, this.date);
+          else {
+            this.addTimeEntry(timeEntry);
           }
-          this.createNotification("success");
-        }, error => {
-          this.createNotification("warning");
-        });
+        })
+      }
+      else {
+        this.addTimeEntry(timeEntry);
       }
 
       this.closeFormDrawer();
@@ -375,6 +364,30 @@ export class TimesheetComponent implements OnInit {
       console.error(err);
     }
   }
+
+  addTimeEntry(timeEntry: TimeEntry) {
+    this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.date);
+      }
+      this.createNotification("success");
+    }, error => {
+      this.createNotification("warning");
+    });
+  }
+
+  updateTimeEntry(timeEntry){
+    this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
+      if (this.userId) {
+        this.getTimesheet(this.userId, this.date);
+      }
+      this.createNotification('success');
+    }, error => {
+      this.createNotification('error')
+      console.log(error);
+    });
+  }
+
 
   closeFormDrawer(): void {
     this.clearFormData();
@@ -391,6 +404,8 @@ export class TimesheetComponent implements OnInit {
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
+
+    this.getProjectsAndClients(this.userId);
   }
 
   createNotificationError(position: NzNotificationPlacement): void {
