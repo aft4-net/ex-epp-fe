@@ -33,7 +33,7 @@ export class TimesheetComponent implements OnInit {
   disableClient: bool = false;
   disableProject: bool = false;
   timesheet: Timesheet | null = null;
-  timeEntrys: TimeEntry[] | null = null;
+  timeEntries: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
@@ -52,7 +52,7 @@ export class TimesheetComponent implements OnInit {
     note: '',
   };
 
-  clickedDateTotalHour: number;
+  dateColumnTotalHour: number;
   date = new Date();
   futereDate: any;
   public weekDays: any[] = [];
@@ -122,7 +122,7 @@ export class TimesheetComponent implements OnInit {
 
       if (this.timesheet) {
         this.timesheetService.getTimeEntries(this.timesheet.guid).subscribe(response => {
-          this.timeEntrys = response;
+          this.timeEntries = response;
         }, error => {
           console.log(error);
         });
@@ -240,11 +240,16 @@ export class TimesheetComponent implements OnInit {
 
   onDateColumnClicked(dateColumnEvent: DateColumnEvent, date: Date) {
     this.clickEventType = dateColumnEvent.clickEventType;
-    this.clickedDateTotalHour = dateColumnEvent.totalHours;
-    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+    this.dateColumnTotalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.hour).reduce((prev, curr) => prev + curr, 0);
+
+    console.log(this.date);
+    this.timeEntries?.forEach(timeEntry => {
+      console.log(new Date(timeEntry.date));
+    })
 
     if (this.date <= new Date()) {
-      if (this.clickedDateTotalHour < 24) {
+      if (this.dateColumnTotalHour < 24) {
         this.showFormDrawer();
       } else {
         this.createNotificationErrorOnDailyMaximumHour("bottomRight");
@@ -257,19 +262,24 @@ export class TimesheetComponent implements OnInit {
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
-    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    this.dateColumnTotalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.hour).reduce((prev, curr) => prev + curr, 0);
+    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.hour : 0;
+
     this.showFormDrawer();
   }
 
   onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
-    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    this.dateColumnTotalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.hour).reduce((prev, curr) => prev + curr, 0);
+    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.hour : 0;
   }
 
   onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
     this.clickEventType = clickEventType;
-    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     this.showFormDrawer();
   }
 
@@ -309,7 +319,7 @@ export class TimesheetComponent implements OnInit {
     try {
       let timeEntry: TimeEntry = {
         note: this.validateForm.value.note,
-        date: this.date,
+        date: new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), 3, 0, 0, 0),
         index: 1,
         hour: this.validateForm.value.hours,
         projectId: this.validateForm.value.project
@@ -318,14 +328,14 @@ export class TimesheetComponent implements OnInit {
       if (this.timeEntry) {
         timeEntry.guid = this.timeEntry.guid;
         timeEntry.timeSheetId = this.timeEntry.timeSheetId;
-        
+
         this.updateTimeEntry(timeEntry);
       }
       else if (this.timesheet) {
         this.timesheetService.getTimeEntries(this.timesheet.guid, this.date, timeEntry.projectId).subscribe(response => {
           this.timeEntry = response ? response[0] : null;
 
-          if(this.timeEntry) {
+          if (this.timeEntry) {
             timeEntry.guid = this.timeEntry.guid;
             timeEntry.hour = this.timeEntry.hour + timeEntry.hour;
             timeEntry.note = this.timeEntry.note + "/n" + timeEntry.note;
@@ -361,7 +371,7 @@ export class TimesheetComponent implements OnInit {
     });
   }
 
-  updateTimeEntry(timeEntry){
+  updateTimeEntry(timeEntry) {
     this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);
@@ -389,7 +399,7 @@ export class TimesheetComponent implements OnInit {
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
-    
+
     this.getProjectsAndClients(this.userId);
   }
 
@@ -397,7 +407,7 @@ export class TimesheetComponent implements OnInit {
     this.notification.error(
       '',
       'You cannot fill your timesheet for the future!',
-      {nzPlacement: position}
+      { nzPlacement: position }
     );
   }
 
@@ -405,7 +415,7 @@ export class TimesheetComponent implements OnInit {
     this.notification.error(
       '',
       'Time already full 24',
-      {nzPlacement: position}
+      { nzPlacement: position }
     );
   }
 
