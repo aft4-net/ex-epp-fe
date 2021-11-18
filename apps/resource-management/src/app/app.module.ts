@@ -10,13 +10,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NgModule } from '@angular/core';
-import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
-import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 import { PageFooterComponent } from './components/page-footer/page-footer.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
+
+import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
+import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
+import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
-import { RouterModule } from '@angular/router';
 import en from '@angular/common/locales/en';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -28,11 +30,11 @@ registerLocaleData(en);
     AppComponent,
     MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent,
     AddressNewComponent,
+    ProgressButtonsComponent,
     PersonalInfoComponent
   ],
   imports: [
     BrowserModule,
-    // RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
