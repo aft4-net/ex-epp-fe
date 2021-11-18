@@ -22,6 +22,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
 
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
     NzLayoutModule,
     ReactiveFormsModule,
     NzFormModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NzDividerModule
   ]
 })
 export class TimesheetModule {
