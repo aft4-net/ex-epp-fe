@@ -36,21 +36,20 @@
                   [form]="education"
                   fcn="yearFrom"
                   #institution
-                  label="From"
+                  label="Started From"
                   placeholder="Enter your Started Year"
                   [disabledDate]="disabledStartDate"
                   errorMsg="Please provide a valid year name"
                   [displayError]="institution.focusout"
                 >
                 </app-date-picker>
-                <app-checkbox-input [form]="education" fcn="isStudying" label="Currently studying"></app-checkbox-input>
               </div>
               <div nz-col nzSpan="12">
                 <app-date-picker
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="To"
+                  label="UpTo (Expected Date)"
                   [disabled]="education.controls.isStudying.value"
                   placeholder="Enter your Finished Calender"
                   [disabledDate]="disabledEndDate"
@@ -72,6 +71,7 @@
               [displayError]="programselection.focusout"
               [form]="education"
               [multiple]="false"
+              placeholder="Enter your Program"
               label="Please select a program"
               [selectedValue]=""
             ></app-select>
@@ -86,7 +86,8 @@
               [displayError]="fieldofstudy.focusout"
               [form]="education"
               [multiple]="false"
-              label="Please select a Field of Study"
+              label="Please Select Field of Study"
+              placeholder="Enter your field Of Study"
             ></app-select>
           </div>
         </div>
@@ -108,7 +109,11 @@
       </form>
       <div nz-row nzJustify="end">
         <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
-          <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Add more education"></app-checkbox-input>
+          <app-checkbox-input
+            [form]="validation"
+            fcn="isMultitpleEntry"
+            label="Add more education"
+          ></app-checkbox-input>
         </div>
         <div nz-col class="col-pad" nzSpan="3">
           <app-button
@@ -117,7 +122,7 @@
             type="primary"
             [disabled]="!education.valid"
           >
-          {{ isUpdateMode?'Update':'Add' }} 
+            {{ isUpdateMode ? 'Update' : 'Add' }}
           </app-button>
         </div>
       </div>
@@ -126,31 +131,34 @@
 
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #table [nzData]="educations" [nzFrontPagination]="false">
+      <nz-table
+        [nzLoading]="loading"
+        #table
+        [nzData]="educations"
+        [nzFrontPagination]="false"
+      >
         <thead>
           <tr>
             <th>Institution</th>
             <th>Field of study</th>
             <th>Educatioin Programme</th>
             <th>Country</th>
-            <th>Started Date</th>
-            <th>End Date</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of table?.data; let i = index">
             <td>{{ data?.Institution }}</td>
-            <td>{{ data?.FieldOfStudy?.Name }}</td>
+            <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
             <td>{{ data?.EducationProgramme?.Name }}</td>
-            <!-- <td>{{ data?.Country }}</td> -->
+            <td>{{ data?.Country }}</td>
+
             <td>
               <a (click)="onEditRecord(data.Guid)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                 Edit</a
-                
               >
-             
+
               <nz-divider nzType="vertical"></nz-divider>
               <a (click)="onDeleteRecord(data.Guid)">Delete</a>
             </td>
@@ -160,11 +168,15 @@
 
       <div nz-row nzJustify="end">
         <div nz-col nzSpan="5">
-                <app-button [loading]="loading" type="primary" [disabled]="(educations.length < 1 || !isRecordUpdated)">
-                    Continue
-                </app-button>
+          <app-button
+            [loading]="loading"
+            type="primary"
+            [disabled]="educations.length < 1"
+          >
+            Continue
+          </app-button>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>
