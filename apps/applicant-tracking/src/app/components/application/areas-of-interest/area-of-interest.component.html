@@ -1,124 +1,201 @@
 <div class="m-5">
     <h2>Step 2- Areas of Interest</h2>
-    <button nz-button [nzType]="'link'" (click)="onShowModal()" class="link-button">
-        <span>
-            <i nz-icon nzType="plus" nzTheme="outline"></i>
-            Add Position</span>
+    <button
+      nz-button
+      [nzType]="'link'"
+      (click)="onAddNewClick()"
+      class="link-button"
+    >
+      <span>
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+        Add Position</span
+      >
     </button>
-    <nz-modal [(nzVisible)]="isModalVisible"
-     nzTitle="Add Position"
-     nzWidth="62%"
-     [nzFooter] = "null"
-     (nzOnCancel)="handleCancel()" 
-     >
-        <ng-container *nzModalContent>
-            <form class="flex flex-col gap-5">
-                <div nz-row>
-                    <div nz-col  nzSpan="11">
-                        <div class="label required">Position you would like to apply for</div>
-                        <nz-select>
-                            <nz-option *ngFor="let option of positions" [nzLabel]="option" [nzValue]="option"
-                                >
-                            </nz-option>
-                        </nz-select>
-                    </div>
-                    <div nz-col  nzSpan="6">
-                        <div class="line-container">
-                        <div class="label required">Proficiency Level</div>
-                        <nz-select>
-                            <nz-option *ngFor="let option1 of proficiencyLevels" [nzLabel]="option1"
-                                [nzValue]="option1">
-                            </nz-option>
-                        </nz-select>
-                    </div>
-                    </div>
-                    <div nz-col nzSpan="7">
-                        <div class="line-container">
-                        <div class="label required">Years of experience</div>
-                        <div nz-row>
-                            <div nz-col nzSpan="12">
-                                <div class="line-container-sm">
-                                <nz-input-group nzAddOnAfter="Years" class="label label-sm" style="font-size: smaller" nzCompact="true">
-                                    <input type="number" nz-input/>
-                                </nz-input-group>
-                            </div>
-                            </div>
-
-                            <div nz-col  nzSpan="12">
-                                <nz-input-group nzAddOnAfter="Months" class="label label-sm" nzCompact="true">
-                                    <input type="number" nz-input/>
-                                </nz-input-group>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-                <!-- primary skill set -->
-                <div nz-row>
-                    <div nz-col nzSpan="24">
-                        <div class="label required">Primary skill set
-                            <span class="label muted">(Maximum 3 skills)</span>
-                        </div>
-                        <nz-select name="primarySkill" nzMode="multiple" [nzShowArrow]="true"
-                            [(ngModel)]="listOfSelectedPrimarySkillValue">
-                            <nz-option *ngFor="let primarySkill of skillSets" [nzLabel]="primarySkill" [nzValue]="primarySkill"
-                                [nzHide]="!isNotSelected(listOfSelectedPrimarySkillValue, primarySkill)">
-                            </nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-
-                 <!-- secondary skill set -->
-                 <div nz-row>
-                    <div nz-col nzSpan="24">
-                        <div class="label required">Secondary skill set
-                            <span class="label muted">(Maximum 5 skills)</span>
-                        </div>
-                        <nz-select name="secondarySkill" nzMode="multiple"  [nzShowArrow]="true"
-                            [(ngModel)]="listOfSelectedSecondarySkillValue">
-                            <nz-option *ngFor="let secondarySkill of skillSets" [nzLabel]="secondarySkill" [nzValue]="secondarySkill"
-                                [nzHide]="!isNotSelected(listOfSelectedSecondarySkillValue, secondarySkill)">
-                            </nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-                 <!-- other skill set -->
-                 <div nz-row>
-                    <div nz-col nzSpan="24">
-                        <div class="label required">Other skill set
-                            <span class="label muted">(Maximum 10 skills)</span>
-                        </div>
-                        <nz-select name="otherSkill" nzMode="multiple"  [nzShowArrow]="true"
-                            [(ngModel)]="listOfSelectedOtherSkillValue">
-                            <nz-option *ngFor="let skill of skillSets" [nzLabel]="skill" [nzValue]="skill"
-                                [nzHide]="!isNotSelected(listOfSelectedOtherSkillValue,skill)">
-                            </nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-
-                <div nz-row nzJustify="end">
-                    <div nz-col nzSpan="3">
-                      <app-button [loading]="loading" (click)="handleCancel()" type="default">
-                        Cancel
-                      </app-button>
-                      </div>
-                      <div nz-col class="col-pad" nzSpan="5">
-                      <app-button [loading]="loading" (click)="onFormSubmit()" type="primary">
-                        Save and Continue
-                      </app-button>
-                </div>
-                <div nz-col class="col-pad" nzSpan="3">
-                      <app-button [loading]="loading" (click)="onFormSubmit()" type="primary">
-                        Save
-                      </app-button>
-                    </div>
+    <nz-modal
+      [(nzVisible)]="isModalVisible"
+      nzTitle="Add Position"
+      nzWidth="73%"
+      class="max-modal-width"
+      [nzFooter]="null"
+      (nzOnCancel)="handleCancel()"
+    >
+      <ng-container *nzModalContent>
+        <form [formGroup]="areaOfInterest" class="flex flex-col gap-5">
+          <div nz-row [nzGutter]="16">
+            <div nz-col nzSpan="10">
+              <app-select
+                [enableHidding]="true"
+                [selectedSoFar]="appliedSoFar"
+                #positionapplied
+                [displayError]="positionapplied.focusout"
+                errorMsg="Please select a position"
+                [list]="listOfPositions"
+                fcn="positionApplied"
+                [form]="areaOfInterest"
+                [multiple]="false"
+                label="Position you would like to apply for"
+              ></app-select>
+            </div>
+            <div nz-col nzSpan="7">
+              <app-select
+                errorMsg="Please select a proficiency level"
+                #proficiencylevel
+                [displayError]="proficiencylevel.focusout"
+                [list]="proficiencyLevels"
+                fcn="proficiencyLevel"
+                [form]="areaOfInterest"
+                [multiple]="false"
+                label="Proficiency Level"
+              ></app-select>
+            </div>
+            <div nz-col nzSpan="7">
+              <div>
+                <div class="label required">Years of experience</div>
+                <div nz-row [nzGutter]="16">
+                  <div nz-col nzSpan="12">
+                    <app-input
+                      [form]="areaOfInterest"
+                      fcn="yearOfExperience"
+                      #yoe
+                      type="number"
+                      nzCompact="true"
+                      suffixIcon="Years"
+                      errorMsg="Please provide valid input"
+                      [displayError]="yoe.focusout"
+                    >
+                    </app-input>
                   </div>
-                  
-            </form>
-        </ng-container>
-       
-        
+  
+                  <div nz-col nzSpan="12">
+                    <app-input
+                      [form]="areaOfInterest"
+                      fcn="monthsOfExperience"
+                      #yome
+                      type="number"
+                      nzCompact="true"
+                      suffixIcon="Months"
+                      errorMsg="Please provide valid input"
+                      [displayError]="yome.focusout"
+                    >
+                    </app-input>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- primary skill set -->
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <app-select
+                [enableHidding]="true"
+                [selectedSoFar]="selectedSoFar"
+                [maxNumber]="3"
+                errorMsg="Please select at least one skill."
+                [list]="listOfSkills"
+                fcn="primarySkills"
+                #primaryskills
+                [displayError]="primaryskills.focusout"
+                [form]="areaOfInterest"
+                [multiple]="true"
+                label="Primary skill set"
+                labelMuted="(Maximum 3 skills)"
+              ></app-select>
+            </div>
+          </div>
+  
+          <!-- secondary skill set -->
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <app-select
+                [enableHidding]="true"
+                [selectedSoFar]="selectedSoFar"
+                [maxNumber]="5"
+                errorMsg="Please insert a value"
+                [list]="listOfSkills"
+                fcn="secondarySkills"
+                [form]="areaOfInterest"
+                [multiple]="true"
+                [isRequired]="false"
+                label="Secondary skill set "
+                labelMuted="(Maximum 5 skills)"
+              ></app-select>
+            </div>
+          </div>
+          <!-- other skill set -->
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <app-select
+                [enableHidding]="true"
+                [selectedSoFar]="selectedSoFar"
+                [maxNumber]="10"
+                errorMsg="Please insert a value"
+                [list]="listOfSkills"
+                fcn="otherSkills"
+                [form]="areaOfInterest"
+                [multiple]="true"
+                [isRequired]="false"
+                label="Other skill set "
+                labelMuted="(Maximum 10 skills)"
+              ></app-select>
+            </div>
+          </div>
+  
+          <div nz-row nzJustify="end">
+            <div nz-col nzSpan="5" *ngIf="!isUpdateMode">
+              <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Apply for more positions"></app-checkbox-input>
+            </div>
+            <div nz-col class="col-pad" nzSpan="3">
+                <app-button [disabled]="!areaOfInterest.valid" [loading]="loading" (click)="isUpdateMode?onUpdateRecord(selectedRecord?selectedRecord:1):onSaveRecord()" type="primary">
+                   {{ isUpdateMode?'Update':'Add' }} 
+                </app-button>
+            </div>
+            </div>
+        </form>
+      </ng-container>
     </nz-modal>
-</div>
+    <div *ngIf="!isModalVisible" style="width: 85%;">
+      <div nz-row>
+          <div nz-col nzSpan="24">
+              <nz-table #table [nzData]="areaOfInterests" [nzFrontPagination]="false">
+                  <thead>
+                      <tr>
+                          <th>Position Name</th>
+                          <th>Proficiency Level</th>
+                          <th>Experience</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data of table.data">
+                          <td>{{ getPositionName(data.PositionName) }}</td>
+                          <td>{{ data.ProficiencyLevel }}</td>
+                          <td> {{ data.YearsOfExperience > 0 ? (data.YearsOfExperience < 2 ? data.YearsOfExperience +' year ' : data.YearsOfExperience +' years '):'' }} 
+                              {{ data.MonthsOfExperience > 0 ? (data.YearsOfExperience > 0 ? 'and ' + (data.MonthsOfExperience > 1 ? data.MonthsOfExperience + ' months': data.MonthsOfExperience + ' month')
+                               : (data.MonthsOfExperience > 1 ? data.MonthsOfExperience + ' months': data.MonthsOfExperience + ' month')): '' }}
+                                {{ data.YearsOfExperience < 1 ? (data.MonthsOfExperience < 1 ? 'No Experience Provided':''):''}}
+                            </td>
+                          
+                          <td>
+                              <a (click)="onEditRecord(data.Id)">
+                                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                                  Edit</a>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <a (click)="onDeleteRecord(data.Id)">Delete</a>
+                          </td> 
+                      </tr>
+                  </tbody>
+              </nz-table>
+          </div>
+      </div>
+      <br><br>
+      <div nz-row nzJustify="end">
+          <div nz-col nzSpan="5">
+                  <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="(areaOfInterests.length < 1 || !isRecordUpdated)">
+                      Save and continue
+                  </app-button>
+          </div>
+      </div>
+  </div>
+  </div>
+  

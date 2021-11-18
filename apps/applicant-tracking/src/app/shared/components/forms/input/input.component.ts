@@ -7,23 +7,26 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./input.component.css'],
 })
 export class InputComponent {
-  disabled: boolean = false;
-  @Input() focusout: boolean = false;
-  @Input() displayError: boolean = false;
+  disabled = false;
+  @Input() focusout = false;
+  @Input() displayError = false;
 
   @Input() type = 'text';
-  @Input() name: string = '';
-  @Input() isRequired: boolean = false;
+  @Input() name = '';
+
+  @Input() isRequired = false;
   @Input() label: string | any = null;
-  @Input() placeholder: string = '';
-  @Input() errorMsg: string = '';
+  @Input() placeholder = '';
+  @Input() errorMsg = '';
   @Input() suffixIcon: any;
   @Input() prefixIcon: any;
-  @Input() fcn: string = '';
+  @Input() fcn = '';
   @Input() form: any;
-  @Input() maxLength: number = 1000;
+  @Input() isCompact = false;
+  @Input() maxLength = 1000;
   @Input() showErrorIcon = true;
   @Input() disablePaste = false;
+  
   constructor() {}
   onfocustout() {
     this.focusout = true;

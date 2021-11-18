@@ -23,6 +23,8 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     TimesheetHeaderComponent,
     DateSelectorComponent,
     DayAndDateColumnComponent,
-    ProjectNamePaletComponent
+    ProjectNamePaletComponent,
+    MoreProjectsComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     ReactiveFormsModule,
     NzFormModule,
     NzNotificationModule,
-    NzDividerModule
+    NzDividerModule,
+    NzModalModule
   ]
 })
 export class TimesheetModule {
