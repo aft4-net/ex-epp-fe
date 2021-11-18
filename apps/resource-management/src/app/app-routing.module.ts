@@ -4,7 +4,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
 
 const routes: Routes = [
-  {path: '', component: MainLayoutComponent},
+  {path: '', component: OrganizationDetailComponent},
   {path: 'Organization-Detail', component:OrganizationDetailComponent }
 ];
 
