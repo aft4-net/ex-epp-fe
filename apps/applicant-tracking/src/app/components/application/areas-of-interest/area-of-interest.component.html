@@ -14,7 +14,7 @@
     <nz-modal
       [(nzVisible)]="isModalVisible"
       nzTitle="Add Position"
-      nzWidth="73%"
+      nzWidth="62%"
       class="max-modal-width"
       [nzFooter]="null"
       (nzOnCancel)="handleCancel()"
@@ -51,8 +51,8 @@
             <div nz-col nzSpan="7">
               <div>
                 <div class="label required">Years of experience</div>
-                <div nz-row [nzGutter]="16">
-                  <div nz-col nzSpan="12">
+                <div nz-row [nzGutter]="4">
+                  <div nz-col nzSpan="11">
                     <app-input
                       [form]="areaOfInterest"
                       fcn="yearOfExperience"
@@ -66,7 +66,7 @@
                     </app-input>
                   </div>
   
-                  <div nz-col nzSpan="12">
+                  <div nz-col nzSpan="13">
                     <app-input
                       [form]="areaOfInterest"
                       fcn="monthsOfExperience"

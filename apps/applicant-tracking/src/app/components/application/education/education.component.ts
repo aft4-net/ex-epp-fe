@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -16,6 +17,7 @@ import {
   selector: 'exec-epp-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss'],
+  providers: [DatePipe]
 })
 export class EducationComponent implements OnInit {
   info = '';
@@ -38,7 +40,8 @@ export class EducationComponent implements OnInit {
     private fieldOfStudyService: FieldOfStudyService,
     private educationService: EducationService,
     private notifier: NotifierService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    public datepipe: DatePipe
   ) {}
 
   education = new FormGroup({
@@ -215,6 +218,7 @@ export class EducationComponent implements OnInit {
     this.educationService.getByApplicantId(this.loggedInUser.Guid).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
+        console.log(this.educations);
       },
       (err) => this.onShowError(err)
     );
