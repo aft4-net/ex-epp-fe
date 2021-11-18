@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'apps/applicant-tracking/src/environments/environment';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { EducationModel } from '../../models/education/education.model';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { ErrHandleService } from '../../shared/services/error-handle.service';
@@ -21,7 +21,6 @@ export class EducationService {
   
   add(education: EducationModel): Observable<ResponseDTO<any>> {
     return this.http.post<ResponseDTO<any>>(this.path, education, this.httpOptions).pipe(
-      tap(_ => this.log(_)),
       catchError(this.errHandler.formatErrors)
     );
   }
@@ -34,7 +33,6 @@ export class EducationService {
   getByApplicantId(applicantId: string): Observable<ResponseDTO<[EducationModel]>> {
     const url = `${this.path}?applicantId=${applicantId}`;
     return this.http.get<ResponseDTO<[EducationModel]>>(url).pipe(
-      tap((_) => this.log(_)),
       catchError(this.errHandler.formatErrors)
     );
   }
@@ -42,14 +40,12 @@ export class EducationService {
   getById(id: string): Observable<ResponseDTO<[EducationModel]>> {
     const url = `${this.path}?id=${id}`;
     return this.http.get<ResponseDTO<[EducationModel]>>(url).pipe(
-      tap((_) => this.log(_)),
       catchError(this.errHandler.formatErrors)
     );
   }
 
   delete(id: string): Observable<ResponseDTO<any>> {
     return this.http.delete<ResponseDTO<any>>(`${this.path}/${id}`, ).pipe(
-      tap(_ => this.log(`deleted hero id=${id}`)),
       catchError(this.errHandler.formatErrors)
     );
   }
