@@ -6,8 +6,16 @@ nz-content {
   padding: 0 120px;
 }
 
+.inner-content-menu {
+  background: #fff;
+  height: auto;
+  padding: 0 24px;
+}
+
+
 .inner-content {
   background: #fff;
-  padding: 24px;
-  min-height: 280px;
+  height: auto;
+  float: left;
+  padding: 0;
 }

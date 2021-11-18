@@ -21,12 +21,11 @@ export class FieldOfStudyService {
 
   get(): Observable<ResponseDTO<[FieldOfStudyModel]>> {
     return this.http.get<ResponseDTO<[FieldOfStudyModel]>>(this.path).pipe(
-      tap((_) => this.log(_)),
       catchError(this.errHandler.formatErrors)
     );
   }
  
  private log(data: any) {
-    console.log(data);
+   // console.log(data);
   }
 }

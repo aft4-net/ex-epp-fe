@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -16,6 +17,7 @@ import {
   selector: 'exec-epp-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss'],
+  providers: [DatePipe]
 })
 export class EducationComponent implements OnInit {
   info = '';
@@ -28,7 +30,6 @@ export class EducationComponent implements OnInit {
   loading = false;
   is_studying = false;
 
-<<<<<<< HEAD
   // databinding
   showConfirm = false;
   guid: any;
@@ -39,40 +40,24 @@ export class EducationComponent implements OnInit {
     private fieldOfStudyService: FieldOfStudyService,
     private educationService: EducationService,
     private notifier: NotifierService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    public datepipe: DatePipe
   ) {}
 
   education = new FormGroup({
-=======
-  educationLists = [{
-    Id: 1,
-    Institution: 'Programmer',
-    yearFrom: 'Senior II',
-    yearTo: '4 Years and 5 Months',
-    country: ["Agile Methodology","CSS"],
-    program: ["User Stories","Forecasting"],
-    fieldOfStudy: ["UXDesign","Forecasting", "Communication"],
-  }];
-
-  public education = new FormGroup({
->>>>>>> origin/develop
     institution: new FormControl('', [Validators.required]),
     yearFrom: new FormControl(null, [Validators.required]),
     yearTo: new FormControl(null, [Validators.required]),
     country: new FormControl('', [Validators.required]),
     program: new FormControl('', [Validators.required]),
     fieldOfStudy: new FormControl('', [Validators.required]),
-    isStudying: new FormControl(false, [Validators.required]),
+    isStudying: new FormControl(false, []),
     otherFieldOfStudy: new FormControl(null),
   });
 
   public validation = new FormGroup({
     isMultitpleEntry: new FormControl(false, [Validators.required]),
   });
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/develop
   closeModal() {
     this.isModalVisible = false;
   }
@@ -95,61 +80,46 @@ export class EducationComponent implements OnInit {
           yearFrom: new Date(row.DateFrom),
           yearTo: new Date(row.DateTo),
           country: row.Country,
-          program: row.EducationProgramme?.Guid, 
-          fieldOfStudy: row.FieldOfStudy?.Guid, 
+          program: row.EducationProgramme?.Guid,
+          fieldOfStudy: row.FieldOfStudy?.Guid,
           isStudying: row.IsCompleted,
           otherFieldOfStudy: row.OtherFieldOfStudy,
         });
       },
-      (err) => console.log(err)
+      (err) => this.onShowError(err)
     );
   }
-<<<<<<< HEAD
   onDeleteRecord(guid: string | null) {
     this.showConfirmation(guid);
-   
   }
-  deleteItem(guid: string | null)
-  {
-    const id = guid?guid:'';
-    this.educationService.delete(id)
-    .subscribe(_ => {
-      this.notifier.notify(NotificationType.success, 'Record deleted successfully');
+  deleteItem(guid: string | null) {
+    const id = guid ? guid : '';
+    this.educationService.delete(id).subscribe((_) => {
+      this.notifier.notify(
+        NotificationType.success,
+        'Record deleted successfully'
+      );
       this.bindRecord();
-  });
-
-=======
-  onDeleteRecord(index: number) {
-    console.log("Delete");
-    this.educationLists = this.educationLists.filter(a => a.Id !== index);
-    console.log("educationLists");
->>>>>>> origin/develop
+    });
   }
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
       return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() > this.education.controls.yearTo.value.getTime() ||
+      startValue.getTime() >= this.education.controls.yearTo.value.getTime() ||
       startValue.getTime() >= Date.now() - 3600 * 1000 * 24
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.education.controls.yearFrom.value) {
-      return endValue.getTime() >= Date.now();
+      return false;
     }
-<<<<<<< HEAD
-    // return (
-    //   endValue.getTime() <= this.education.controls.yearFrom.value.getTime()
-    // );
-    return false;
-=======
     return (
-      endValue.getTime() <= this.education.controls.yearFrom.value.getTime() ||
-      endValue.getTime() >= Date.now()
+      endValue.getTime() <
+      this.education.controls.yearFrom.value.getTime() - 3600 * 1000 * 24
     );
->>>>>>> origin/develop
   };
 
   onCountryChange(value: any) {
@@ -160,8 +130,6 @@ export class EducationComponent implements OnInit {
     const educationModel = this.getFormValue();
     if (!this.isUpdateMode) await this.addItem(educationModel);
     else await this.updateItem(educationModel);
-    
-   
   }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
@@ -169,7 +137,7 @@ export class EducationComponent implements OnInit {
         this.onSaveCompleted();
         this.bindRecord();
       },
-      (err) => console.log(err)
+      (err) => this.onShowError(err)
     );
   }
   updateItem(educationModel: EducationModel) {
@@ -178,10 +146,7 @@ export class EducationComponent implements OnInit {
         this.onSaveCompleted();
         this.bindRecord();
       },
-      (err: any) => 
-      {
-        this.onShowError(err);
-      }
+      (err) => this.onShowError(err)
     );
   }
   getFormValue(): EducationModel {
@@ -189,15 +154,17 @@ export class EducationComponent implements OnInit {
       Guid: this.guid ? this.guid : null,
       ApplicantId: this.loggedInUser.Guid,
       Institution: this.education.get('institution')?.value,
-      DateFrom: new Date( this.education.get('yearFrom')?.value),
-      DateTo: new Date (this.education.get('yearTo')?.value),
+      DateFrom: new Date(this.education.get('yearFrom')?.value),
+      DateTo: new Date(this.education.get('yearTo')?.value),
       Country: this.education.get('country')?.value,
       EducationProgrammeId: this.education.get('program')?.value,
       EducationProgramme: null,
       FieldOfStudyId: this.education.get('fieldOfStudy')?.value,
       FieldOfStudy: null,
       OtherFieldOfStudy: this.education.get('otherFieldOfStudy')?.value,
-      IsCompleted: this.education.get('isStudying')?.value,
+      IsCompleted:
+        this.education.get('isStudying')?.value ??
+        new Date(this.education.get('yearTo')?.value) > new Date(),
     };
     return educationModel;
   }
@@ -208,26 +175,18 @@ export class EducationComponent implements OnInit {
       this.isRecordUpdated = true;
     }
     this.loading = false;
-    this.notifier.notify(
-      NotificationType.success,
-      'Record is successfully added.'
-    );
+    const msg = this.isUpdateMode
+      ? 'Record is successfully updated.'
+      : 'Record is successfully added.';
+    this.notifier.notify(NotificationType.success, msg);
     this.education.reset();
-<<<<<<< HEAD
     this.guid = null;
-    this.loading = false;
-    this.closeModal();
+    if (!this.validation.controls.isMultitpleEntry.value) this.closeModal();
     this.isUpdateMode = false;
-=======
-    this.validation.controls.isMultitpleEntry.setValue(false);
   }
 
-  onFormSubmit() {
-    this.onSaveRecord();
-    this.isModalVisible = false;
-    // this.applicantService.setRoutInfo('/application/education');
-    // this.router.navigate(['/application/education']);
->>>>>>> origin/develop
+  getFieldOfStudyWithId(Id:string){
+    return this.fetchedFieldOfStudies.find(x => x.Guid == Id)?.Name ?? 'Unknown'; 
   }
 
   ngOnInit(): void {
@@ -249,37 +208,41 @@ export class EducationComponent implements OnInit {
       (res) => {
         this.fetchedEducationProgramme = res;
       },
-      (err) => {console.log(err)}
+      (err) => this.onShowError(err)
     );
     this.fieldOfStudyService.get().subscribe(
       (res: ResponseDTO<[FieldOfStudyModel]>) => {
         this.fetchedFieldOfStudies = res.Data;
       },
-      (err) => {
-        console.log(err);
-      }
+      (err) => this.onShowError(err)
     );
   }
   bindRecord() {
+    this.loading = true;
     this.educationService.getByApplicantId(this.loggedInUser.Guid).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
+        console.log(this.educations);
       },
-      (err: any) => console.log(err)
+      (err) => {
+        this.loading = false;
+        this.onShowError(err);}
     );
   }
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
       nzContent: 'Do you want to delete this record?',
-      nzOnOk: () => { this.deleteItem(guid) }
-       
+      nzOnOk: () => {
+        this.deleteItem(guid);
+      },
     });
-}
-onShowError(err: any) {
-  this.notifier.notify(NotificationType.error, 'Some error occured. Please review your input and try again.');
-  this.loading = false;
-}
-}
+  }
+  onShowError(err: any) {
+    let errMsg = 'Some error occured. Please review your input and try again. ';
+    errMsg = err ? errMsg + `<br/><br/><hr/>${err}` : errMsg;
 
-
+    this.notifier.notify(NotificationType.error, errMsg);
+    this.loading = false;
+  }
+}

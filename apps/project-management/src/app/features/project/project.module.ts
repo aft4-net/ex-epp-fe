@@ -9,12 +9,12 @@ import { BreadCrumbComponent } from './components/bread-crumb/bread-crumb.compon
 
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
-import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
 
 @NgModule({
   declarations: [
-   ProjectDetailComponent, ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent
+   ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent
   ],
   imports: [
     ReactiveFormsModule,FormsModule,
