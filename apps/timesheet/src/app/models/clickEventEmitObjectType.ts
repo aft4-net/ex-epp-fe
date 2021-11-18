@@ -6,7 +6,7 @@ export interface TimeEntryEvent {
     timeEntry: TimeEntry | null;
 }
 
-export interface DateEvent {
+export interface DateColumnEvent {
     clickEventType: ClickEventType;
-    timesheetDate: Date;
+    totalHours: number;
 }

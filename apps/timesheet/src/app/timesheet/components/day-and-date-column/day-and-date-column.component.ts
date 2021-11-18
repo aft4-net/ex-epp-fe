@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
-import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
+import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
@@ -11,15 +11,16 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
-  @Output() dateColumnClicked = new EventEmitter<any>();
+  @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
+  @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
-
+  @Output() moreTimeEntries: EventEmitter<number> =   new EventEmitter();
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
 
@@ -34,11 +35,11 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if (this.timesheet) {
-      this.timesheetService.getTimeEntry(this.timesheet.guid, this.date).subscribe(response => {
-        this.timeEntrys = response;
+      this.timesheetService.getTimeEntries(this.timesheet.guid, this.date).subscribe(response => {
+        this.timeEntrys = response ? response : null;
 
         if (this.timesheet) {
-          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hours).reduce((prev, next) => prev + next, 0);
+          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hour).reduce((prev, next) => prev + next, 0);
           this.totalHours = totalHours ? totalHours : 0;
           this.totalHoursCalculated.emit(totalHours);
         }
@@ -53,25 +54,28 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType) {
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = clickEventType;
-      this.dateColumnClicked.emit(this.clickEventType);
+      this.clickEventType = timeEntryEvent.clickEventType;
+      this.paletEllipsisClicked.emit(timeEntryEvent);
     }
   }
 
   onEditButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
-      this.dateColumnClicked.emit(this.clickEventType);
+      this.editButtonClicked.emit(this.clickEventType);
     }
   }
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showFormDrawer
-      //this.dateColumnClicked.emit(this.clickEventType);
-      this.dateColumnClicked.emit({eventType:this.clickEventType,totalHours:this.totalHours});
+      let dateColumnEvent: DateColumnEvent = {
+        clickEventType: this.clickEventType,
+        totalHours: this.totalHours
+      }
+      this.dateColumnClicked.emit(dateColumnEvent);
     }
 
     this.clickEventType = ClickEventType.none;

@@ -1,1 +1,170 @@
-<p>education works!</p>
+<div class="m-5">
+  <h2 class="font-bold">Step 3- Education Information</h2>
+  <button nz-button [nzType]="'link'" (click)="openModal()" class="link-button">
+    <span>
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+      Add Education</span
+    >
+  </button>
+  <nz-modal
+    [(nzVisible)]="isModalVisible"
+    nzTitle="Add Education"
+    nzWidth="80%"
+    [nzFooter]="null"
+    (nzOnCancel)="closeModal()"
+  >
+    <ng-container *nzModalContent>
+      <form [formGroup]="education" class="flex flex-col gap-5">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="12">
+            <app-input
+              [form]="education"
+              fcn="institution"
+              #institution
+              type="text"
+              label="Institution"
+              placeholder="Enter your Institution name"
+              errorMsg="Please provide a valid inistitution name"
+              [displayError]="institution.focusout"
+            >
+            </app-input>
+          </div>
+          <div nz-col nzSpan="12">
+            <div nz-row [nzGutter]="16">
+              <div nz-col nzSpan="12">
+                <app-date-picker
+                  [form]="education"
+                  fcn="yearFrom"
+                  #institution
+                  label="From"
+                  placeholder="Enter your Started Year"
+                  [disabledDate]="disabledStartDate"
+                  errorMsg="Please provide a valid year name"
+                  [displayError]="institution.focusout"
+                >
+                </app-date-picker>
+                <app-checkbox-input [form]="education" fcn="isStudying" label="Currently studying"></app-checkbox-input>
+              </div>
+              <div nz-col nzSpan="12">
+                <app-date-picker
+                  [form]="education"
+                  fcn="yearTo"
+                  #institution
+                  label="To"
+                  [disabled]="education.controls.isStudying.value"
+                  placeholder="Enter your Finished Calender"
+                  [disabledDate]="disabledEndDate"
+                  errorMsg="Please provide a valid year"
+                  [displayError]="institution.focusout"
+                >
+                </app-date-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="12">
+            <app-select
+              errorMsg="Please select a program"
+              [list]="fetchedEducationProgramme"
+              fcn="program"
+              #programselection
+              [displayError]="programselection.focusout"
+              [form]="education"
+              [multiple]="false"
+              label="Please select a program"
+              [selectedValue]=""
+            ></app-select>
+          </div>
+
+          <div nz-col nzSpan="12">
+            <app-select
+              errorMsg="Please select a Field of Study"
+              [list]="fetchedFieldOfStudies"
+              fcn="fieldOfStudy"
+              #fieldofstudy
+              [displayError]="fieldofstudy.focusout"
+              [form]="education"
+              [multiple]="false"
+              label="Please select a Field of Study"
+            ></app-select>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzSpan]="12">
+            <div class="inner-box">
+              <app-country-selector
+                label="Country"
+                placeholder="Enter your Country"
+                errorMsg="Country should be selected"
+                (onChange)="onCountryChange($event)"
+                [selectedValue]="education.controls.country.value"
+                [single]="true"
+              ></app-country-selector>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div nz-row nzJustify="end">
+        <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
+          <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Add more education"></app-checkbox-input>
+        </div>
+        <div nz-col class="col-pad" nzSpan="3">
+          <app-button
+            [loading]="loading"
+            (click)="onFormSubmit()"
+            type="primary"
+            [disabled]="!education.valid"
+          >
+          {{ isUpdateMode?'Update':'Add' }} 
+          </app-button>
+        </div>
+      </div>
+    </ng-container>
+  </nz-modal>
+
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-table #table [nzData]="educations" [nzFrontPagination]="false">
+        <thead>
+          <tr>
+            <th>Institution</th>
+            <th>Field of study</th>
+            <th>Educatioin Programme</th>
+            <th>Country</th>
+            <th>Started Date</th>
+            <th>End Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of table?.data; let i = index">
+            <td>{{ data?.Institution }}</td>
+            <td>{{ data?.FieldOfStudy?.Name }}</td>
+            <td>{{ data?.EducationProgramme?.Name }}</td>
+            <!-- <td>{{ data?.Country }}</td> -->
+            <td>
+              <a (click)="onEditRecord(data.Guid)">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                Edit</a
+                
+              >
+             
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="onDeleteRecord(data.Guid)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <div nz-row nzJustify="end">
+        <div nz-col nzSpan="5">
+                <app-button [loading]="loading" type="primary" [disabled]="(educations.length < 1 || !isRecordUpdated)">
+                    Continue
+                </app-button>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>

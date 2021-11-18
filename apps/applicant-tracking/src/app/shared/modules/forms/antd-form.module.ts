@@ -10,7 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import {
   EyeInvisibleOutline,
@@ -39,7 +39,7 @@ const icons: any[] = [
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule.forRoot(icons),NzModalModule,NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule, NzTableModule,NzDividerModule,NzCheckboxModule],
-  exports: [NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule,NzGridModule,NzModalModule, NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule, NzTableModule, NzDividerModule,NzCheckboxModule],
+  imports: [CommonModule, NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule.forRoot(icons),NzModalModule,NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule, NzTableModule,NzDividerModule,NzCheckboxModule, NzDatePickerModule],
+  exports: [NzLayoutModule, NzButtonModule, NzMenuModule, NzFormModule, NzInputModule, NzCardModule, NzIconModule,NzGridModule,NzModalModule, NzMessageModule, NzUploadModule, NzDropDownModule, NzSelectModule, NzAvatarModule, NzNotificationModule, NzTableModule, NzDividerModule,NzCheckboxModule, NzDatePickerModule],
 })
 export class AntdFormModule {}

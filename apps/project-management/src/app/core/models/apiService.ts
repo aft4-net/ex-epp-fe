@@ -19,15 +19,15 @@ export abstract class ApiService<T> {
 
   getAll(): Observable<Array<T>>
   {
-   
+
     return this.httpClient.get<T[]>(this.APIUrl);
-  
+
   }
   getSearch(optional:any)
   {
-  
+
     return this.httpClient.get<T[]>(this.APIUrl+'/search/'+optional);
-  
+
   }
 
   getList(params:any): Observable<any[]> {
@@ -38,7 +38,7 @@ export abstract class ApiService<T> {
   get(id: string | number): Observable<[T]> {
     return this.httpClient.get<[T]>(this.APIUrl+"/" +id);
   }
-  
+
   getById(id: string ): Observable<T> {
     return this.httpClient.get<T>(this.APIUrl+"/" +id);
   }
@@ -56,7 +56,6 @@ export abstract class ApiService<T> {
     return this.httpClient.put(`/${this.APIUrl}`, resource)
 
   }
-  
 
   getWithPagnationResut( pageindex:number,pageSize:number,searchKey?:string) :Observable<PaginatedResult<T[]>> 
  {  

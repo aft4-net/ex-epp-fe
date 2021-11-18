@@ -23,14 +23,6 @@ export interface Project{
   }
 
 
-export enum projectType {
-  internal="Internal",
-  external="External",
-}
 
-export enum AssignTo{
- Client="Client",
- Project="Project"
-}
 
 

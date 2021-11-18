@@ -6,14 +6,14 @@
         <nz-select
           style="width: 100%"
           [(ngModel)]="selectedValue"
-          [compareWith]="compareFn"
-          (ngModelChange)="log($event)"
+          [compareWith]="!single ? compareFn : compareItem"
+          (ngModelChange)="!single ? log($event) : logVal($event)"
           nzPlaceHolder="-- Select a country --"
           nzShowSearch
         >
           <nz-option
             *ngFor="let option of optionList"
-            [nzValue]="option"
+            [nzValue]="single ? option.name : option"
             [nzLabel]="option.name"
             nzCustomContent
           >

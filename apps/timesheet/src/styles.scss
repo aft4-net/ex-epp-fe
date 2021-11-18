@@ -39,3 +39,24 @@
     background-color: #DCFFDC;
     border-radius: 0 0 2px 2px;
 }
+
+/*.ant-modal-body {
+
+  width: 0px;
+  height:0px
+
+}*/
+
+/*.ant-modal-content {
+  position: relative;
+ !*
+ background-color: #ccc;
+ *!
+  background-clip: padding-box;
+  border: 0;
+  border-radius: 2px;
+  pointer-events: auto;
+}
+.ant-mention-dropdown, .ant-message-notice-content, .ant-modal-content, .ant-notification-notice, .ant-popover-inner, .ant-select-dropdown {
+  !* box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%); *!
+}*/

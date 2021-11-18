@@ -1,14 +1,14 @@
+import { ApiService } from '../models/apiService';
+import { Client } from '..';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Client } from '..';
-import { ApiService } from '../models/apiService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService extends ApiService<Client> {
 
-  constructor(protected httpClient: HttpClient ) { 
+  constructor(protected httpClient: HttpClient ) {
     super(httpClient);
   }
 
