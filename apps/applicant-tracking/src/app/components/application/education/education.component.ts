@@ -67,8 +67,14 @@ export class EducationComponent implements OnInit {
   onSaveRecord(): void {
     this.loading = true;
   }
+  onAddNewRecord()
+  {
+    this.education.reset();
+    this.openModal();
+  }
   onEditRecord(guid: string | null) {
     this.isUpdateMode = true;
+    this.education.reset();
     this.openModal();
     const id: string = guid == null ? '' : guid;
     this.guid = id;
@@ -222,7 +228,7 @@ export class EducationComponent implements OnInit {
     this.educationService.getByApplicantId(this.loggedInUser.Guid).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
-        console.log(this.educations);
+        this.loading = false;
       },
       (err) => {
         this.loading = false;

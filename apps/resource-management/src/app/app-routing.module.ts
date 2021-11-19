@@ -8,9 +8,12 @@ import { OrganizationDetailComponent } from './Features/Components/organization-
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 
 const routes: Routes = [
+<<<<<<< HEAD
+=======
+  { path: '', component: PersonalInfoComponent },
+>>>>>>> develop
   { path: 'Organization-Detail', component: OrganizationDetailComponent },
   { path: 'address-new', component: AddressNewComponent },
-  { path: '', component: PersonalInfoComponent },
   { path: 'Organization-Detail', component: OrganizationDetailComponent },
   { path: 'personal-info', component: PersonalInfoComponent },
   { path: 'emergencycontact', component: AddEmergencycontactComponent },

@@ -12,9 +12,10 @@ export class NotifierService
 {
     constructor(private notification: NotificationBar){}
     
-    notify(type: NotificationType | 'undefined', msg: string) {
+    notify(type: NotificationType = NotificationType.success, msg: string) {
+
     this.notification.showNotification({
-        type: type?type.toString():'success',
+        type: NotificationType[type],
         content: msg,
         duration: 5000,
       });

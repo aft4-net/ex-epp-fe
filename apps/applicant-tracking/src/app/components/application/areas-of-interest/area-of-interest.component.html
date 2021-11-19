@@ -13,7 +13,7 @@
   </button>
   <nz-modal
     [(nzVisible)]="isModalVisible"
-    nzTitle="Add Position"
+    [nzTitle]="isUpdateMode?'Edit Area of Interest':'Add Area of Interest'"
     nzWidth="73%"
     class="max-modal-width"
     [nzFooter]="null"
@@ -143,7 +143,7 @@
 
         <div nz-row nzJustify="end">
           <div nz-col nzSpan="5" *ngIf="!isUpdateMode">
-            <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Apply for more positions"></app-checkbox-input>
+            <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Add more"></app-checkbox-input>
           </div>
           <div nz-col class="col-pad" nzSpan="3">
               <app-button [disabled]="!areaOfInterest.valid" [loading]="loading" (click)="isUpdateMode?onUpdateRecord(selectedRecord?selectedRecord:''):onSaveRecord()" type="primary">
@@ -154,7 +154,7 @@
       </form>
     </ng-container>
   </nz-modal>
-  <div *ngIf="!isModalVisible" style="width: 85%;">
+  <div *ngIf="!isModalVisible" style="width: auto;">
     <div nz-row>
         <div nz-col nzSpan="24">
             <nz-table #table [nzData]='areaOfInterests' [nzFrontPagination]="false">
@@ -177,11 +177,13 @@
                           </td>
                         
                         <td>
-                            <a (click)="onEditRecord(data.Guid)">
+                            <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
                                 <i nz-icon nzType="edit" nzTheme="outline"></i>
-                                Edit</a>
+                                </a>
                             <nz-divider nzType="vertical"></nz-divider>
-                            <a (click)="onDeleteRecord(data.Guid)">Delete</a>
+                            <a (click)="onDeleteRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Delete" nzTooltipColor="red"> 
+                              <i nz-icon style="font-size: 16px; color: red;" nzType="delete" nzTheme="outline"></i>
+                            </a>
                         </td> 
                     </tr>
                 </tbody>
@@ -192,8 +194,8 @@
     <div nz-row nzJustify="end">
         <div nz-col nzSpan="5">
                 <app-button [loading]="loading" (click)="onFormSubmit()"
-                 type="primary" [hidden]="(areaOfInterests.length < 1)">
-                    Save and Continue
+                 type="primary" [disabled]="(areaOfInterests.length < 1)">
+                    Continue
                 </app-button>
         </div>
     </div>

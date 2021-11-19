@@ -1,6 +1,6 @@
 <div class="m-5">
   <h2 class="font-bold">Step 3- Education Information</h2>
-  <button nz-button [nzType]="'link'" (click)="openModal()" class="link-button">
+  <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
       Add Education</span
@@ -142,13 +142,9 @@
             <th>Institution</th>
             <th>Field of study</th>
             <th>Educatioin Programme</th>
-<<<<<<< HEAD
             <!-- <th>Country</th> -->
             <th>Started Date</th>
             <th>End Date</th>
-=======
-            <th>Country</th>
->>>>>>> 8cf1b62010904af4fdd03ed5415709c28e9d683e
             <th>Action</th>
           </tr>
         </thead>
@@ -157,15 +153,10 @@
             <td>{{ data?.Institution }}</td>
             <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
             <td>{{ data?.EducationProgramme?.Name }}</td>
-<<<<<<< HEAD
             <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
             <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
             <!-- <td>{{ data?.Country }}</td> -->
-=======
-            <td>{{ data?.Country }}</td>
-
->>>>>>> 8cf1b62010904af4fdd03ed5415709c28e9d683e
-            <td>
+            <!-- <td>
               <a (click)="onEditRecord(data.Guid)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                 Edit</a
@@ -173,7 +164,16 @@
 
               <nz-divider nzType="vertical"></nz-divider>
               <a (click)="onDeleteRecord(data.Guid)">Delete</a>
-            </td>
+            </td> -->
+            <td>
+              <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  </a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="onDeleteRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Delete" nzTooltipColor="red"> 
+                <i nz-icon style="font-size: 16px; color: red;" nzType="delete" nzTheme="outline"></i>
+              </a>
+          </td> 
           </tr>
         </tbody>
       </nz-table>

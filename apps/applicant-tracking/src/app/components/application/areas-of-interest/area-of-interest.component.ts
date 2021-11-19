@@ -80,6 +80,7 @@ export class AreaOfInterestComponent implements OnInit {
   getAreaOfInterestByApplicantId(){
     this.aoiService.getApplicantAreaOfInterestByID(this.loggedInUser.Guid).subscribe(res =>{
       this.areaOfInterests = res.Data;
+      this.sendNewData((this.areaOfInterests.length > 0) ? true : false);
       this.appliedSoFar = this.areaOfInterests.map(o => o.PositionToApplyID);
     });
   }
@@ -89,11 +90,13 @@ export class AreaOfInterestComponent implements OnInit {
     private router: Router, private modal: NzModalService,
     private notification: NotificationBar, private validator: FormValidator) {}
 
-    
+  sendNewData(data: boolean) {
+    this.aoiService.sendData(data);
+  }
   ngOnInit(): void {
     this.getAllPositionsToApply();
     this.getAllProficiencyLevels();
-    this.getAreaOfInterestByApplicantId();
+    this.getAreaOfInterestByApplicantId();    
 
     this.areaOfInterestLookUpService.appliedToPositions().subscribe(res => {
       this.appliedSoFar = res.map(o => o.positionId);
@@ -133,6 +136,8 @@ export class AreaOfInterestComponent implements OnInit {
   onAddNewClick(): void {
     this.resetForm();
     this.isModalVisible = true;
+    this.areaOfInterest.controls.MonthOfExpierence.setValue(0);
+    this.areaOfInterest.controls.YearsOfExpierence.setValue(0);
     this.isUpdateMode = false;
   }
 
@@ -145,10 +150,11 @@ export class AreaOfInterestComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Successfully Added Area of Interest.',
+          content: 'Successfully added an area of interest.',
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
+        this.sendNewData(this.areaOfInterests.length > 0 ? true:false);
         this.aoiService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
       },
@@ -167,13 +173,13 @@ export class AreaOfInterestComponent implements OnInit {
       this.isModalVisible = false;
       this.notification.showNotification({
         type: 'success',
-        content: 'You have successfully added the application',
+        content: 'You have successfully added an area of interest.',
         duration: 5000,
       });
       this.isRecordUpdated = true;
     }
     this.areaOfInterest.reset();
-    this.validation.controls.isMultitpleEntry.setValue(false);
+    this.validation.controls.isMultitpleEntry.setValue(true);
     this.isRecordUpdated = true;
 
   }
@@ -189,10 +195,11 @@ export class AreaOfInterestComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'info',
-          content: 'Successfully Updated Your Area of Interest.',
+          content: 'Successfully updated your area of interest.',
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
+        this.sendNewData(this.areaOfInterests.length > 0 ? true:false);
         this.aoiService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
       },
@@ -200,7 +207,7 @@ export class AreaOfInterestComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'Area of Interest Not Updated. Please try again',
+          content: 'Area of interest not updated. Please try again.',
           duration: 5000,
         });
         console.log('error:' + err);
@@ -214,10 +221,10 @@ export class AreaOfInterestComponent implements OnInit {
 
   onFormSubmit()
   {
-    this.onSaveRecord();
     this.isModalVisible = false;
-    //this.areaOfInterestLookUpService.setRoutInfo('/application/education');
+    this.loading = true;
     this.router.navigate(['/application/education']);
+    this.loading = false;
   }
 
   onEditRecord(id: string) {
@@ -266,7 +273,7 @@ export class AreaOfInterestComponent implements OnInit {
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you want to delete this Area of Interest?',
+      nzContent: 'Are you sure you want to delete this entry?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },
@@ -279,11 +286,12 @@ export class AreaOfInterestComponent implements OnInit {
       () => {
         this.loading = false;
         this.notification.showNotification({
-          type: 'error',
-          content: 'Successfully Deleted Area of Interest.',
+          type: 'success',
+          content: 'Successfully deleted area of interest.',
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
+        this.sendNewData(this.areaOfInterests.length > 0 ? true:false);
         this.aoiService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
       },
@@ -291,7 +299,7 @@ export class AreaOfInterestComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'Area of Interest Not Deleted. Please try again',
+          content: 'Area of interest not deleted. Please try again.',
           duration: 5000,
         });
         console.log('error:' + err);
