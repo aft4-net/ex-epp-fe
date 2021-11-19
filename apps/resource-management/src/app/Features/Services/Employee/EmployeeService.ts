@@ -30,9 +30,19 @@ export class EmployeeService {
      });
     }
     
-    setEmployeeData(employee:Employee){
-      this.employeeSource.next(employee);  
+   
+    setEmployeeData(employee:Partial<Employee>){
+
+      this.employeeSource.next({
+
+        ...this.employeeSource.getValue(),
+
+        ...employee
+
+      });  
+
       console.log(this.employee$);
+
     }
 
 }

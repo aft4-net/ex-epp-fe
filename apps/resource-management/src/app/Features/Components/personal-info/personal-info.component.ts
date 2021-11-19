@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { LocationPhoneService } from '../../Services/address/location-phone.service';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -17,7 +18,6 @@ export class PersonalInfoComponent implements OnInit {
 
   validateForm!: FormGroup;
   listOfOption: string[] = ["male","female"];
-  listOfOptionNationality: string[] = ["Ethiopia","US","Kenya","UK","China"];
   employee !: Employee;
 
   personalEmail ="";
@@ -27,9 +27,10 @@ export class PersonalInfoComponent implements OnInit {
   phoneNumber="";
   dateofBirth = new Date("2021-11-17 14:29:03.107");
   gender = "";
-  nationality = "";
+  nationality: string [] =[];
+  
 
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService) { }
+  constructor(private fb: FormBuilder,private employeeService:EmployeeService, private _locationPhoneService: LocationPhoneService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -40,13 +41,18 @@ export class PersonalInfoComponent implements OnInit {
       phoneNumber: [null,[Validators.required]],
       dateofBirth: [null, [Validators.required]],
       gender: [null, [Validators.required]],
-      nationality: [null, [Validators.required]],
-      phoneNumberPrefix:[null,[Validators.required]]
+      nationality: [null, [Validators.required]]
 
     });
+
+   this._locationPhoneService.getListofCountries()
+    .subscribe((response: string[]) => {
+      this.nationality = response;
+    })
     
   }
   addEmployee(){
+
      this.ValidateInput();
     console.log("Add Employee Executed");
     this.employeeService.setEmployeeData(this.employee);
@@ -65,18 +71,13 @@ export class PersonalInfoComponent implements OnInit {
       FatherName: this.fatherName,
       GrandFatherName: this.grandFatherName,
       MobilePhone: this.phoneNumber,
-      Phone1: "25112345673",
-      Phone2: "25112345673",
+     
       PersonalEmail: this.personalEmail,
-      PersonalEmail2: "test@gmail.com",
-      PersonalEmail3: "test@gmail.com",
+     
       DateofBirth : this.dateofBirth,
       Gender : this.gender
-     /* Nationality: Nationality[],
-      Organization: EmployeeOrganization,
-      PersonalAddress: Address[],
-      FamilyDetail: FamilyDetails[],
-      EmergencyContact: EmergencyContact[]*/
+     // Nationality: this.validateForm.value.nationality,
+     
     }
 
   }
