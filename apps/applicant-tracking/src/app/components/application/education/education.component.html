@@ -156,7 +156,7 @@
             <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
             <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
             <!-- <td>{{ data?.Country }}</td> -->
-            <td>
+            <!-- <td>
               <a (click)="onEditRecord(data.Guid)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                 Edit</a
@@ -164,7 +164,16 @@
 
               <nz-divider nzType="vertical"></nz-divider>
               <a (click)="onDeleteRecord(data.Guid)">Delete</a>
-            </td>
+            </td> -->
+            <td>
+              <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  </a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="onDeleteRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Delete" nzTooltipColor="red"> 
+                <i nz-icon style="font-size: 16px; color: red;" nzType="delete" nzTheme="outline"></i>
+              </a>
+          </td> 
           </tr>
         </tbody>
       </nz-table>
