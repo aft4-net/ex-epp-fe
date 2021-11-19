@@ -16,7 +16,7 @@ export class AddressNewComponent implements OnInit {
 
   // It is put for the purpose of testing to make the component visible in routing
   // For other please, set the value to false
-  @Input() isStandalone = true
+  @Input() isStandalone = false
 
   countries: string[] = []
 
