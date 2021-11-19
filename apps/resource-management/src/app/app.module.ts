@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -19,7 +18,6 @@ import { PageTitleComponent } from './components/page-title/page-title.component
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
-
 registerLocaleData(en);
 
 @NgModule({
