@@ -1,150 +1,264 @@
-import { Client, ClientService, Employee, EmployeeService, ProjectCreate, ProjectService, ProjectStatus, ProjectStatusService, projectResourceType } from '../../../../core';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
-import { Project } from 'apps/project-management/src/app/core/models/get/project';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import {
+  Client,
+  ClientService,
+  Employee,
+  EmployeeService,
+  Project,
+  ProjectCreate,
+  ProjectResource,
+  projectResourceType,
+  ProjectService,
+  ProjectStatus,
+  ProjectStatusService,
+} from '../../../../core';
 import { Router } from '@angular/router';
-
+import { NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
-  styleUrls: ['./Add-Project.component.css']
+  styleUrls: ['./Add-Project.component.css'],
 })
 export class AddProjectComponent implements OnInit {
   position: NzTabPosition = 'left';
   projectStatus!: boolean;
   selectedStatus!: string;
+  typeSelected?: string;
 
   validateForm!: FormGroup;
   userSubmitted!: boolean;
   currentDate = Date.now.toString();
-  projectCreate:ProjectCreate={} as ProjectCreate;
-  clients= []as Client[];
-  employees= [] as Employee[];
-  projects= [] as Project[];
-  projectStatuses=[] as ProjectStatus[];
-  projectNameExits=false;
-  enableAddResourceTab=false;
-   projectStartdDate={}as Date;
-  resources: projectResourceType[]=[] as  projectResourceType[];
+  projectCreate: ProjectCreate = {} as ProjectCreate;
+  clients = [] as Client[];
+  employees = [] as Employee[];
+  projects = [] as Project[];
+  projectStatuses = [] as ProjectStatus[];
+  projectNameExits = false;
+  enableAddResourceTab = false;
+  projectNameExitsErrorMessage = '';
+  projectStartdDate = {} as Date;
+  disallowResource = true;
+
+  resources: projectResourceType[] = [] as projectResourceType[];
 
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
-
-  submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      if (this.validateForm.controls.hasOwnProperty(i)) {
-        this.validateForm.controls[i].markAsDirty();
-        this.validateForm.controls[i].updateValueAndValidity();
-      }
-    }
-  }
-
-    constructor(private fb: FormBuilder,private projectService:ProjectService,
-    private clientService:ClientService ,private employeeService:EmployeeService,
-    private projectStatusService:ProjectStatusService,private router:Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private projectService: ProjectService,
+    private modalService: NzModalService,
+    private clientService: ClientService,
+    private employeeService: EmployeeService,
+    private projectStatusService: ProjectStatusService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
 
+
+
+
+
     this.createRegistrationForm();
-    this.clientService.getAll().subscribe(response=>{
-      this.clients=response;
 
-    })
-    this.employeeService.getAll().subscribe((response:Employee[])=>{
-      this.employees=response;
-
+    this.employeeService.getAll().subscribe((response: Employee[]) => {
+      this.employees = response;
     });
 
-    this.projectStatusService.getAll().subscribe((response:ProjectStatus[])=>{
-      this.projectStatuses=response;
+    this.clientService.getAll().subscribe((response) => {
+      this.clients = response;
+    });
 
-    })
-    this.projectService.getAll().subscribe((response:Project[])=>{
-      this.projects=response;
-    })
+    this.projectStatusService.getAll().subscribe((res) => {
+      this.projectStatuses = res;
+    });
+
+    this.projectService.getProjects().subscribe((response: Project[]) => {
+      this.projects = response;
+    });
+
+    this.validateForm.valueChanges.subscribe(() => {
+      if (this.validateForm.valid) {
+        this.enableAddResourceTab = true;
+        this.projectStartdDate = this.validateForm.controls.startValue.value;
+        this.projectCreate.ProjectName =
+          this.validateForm.controls.projectName.value;
+
+        this.projectCreate.SupervisorGuid =
+          this.validateForm.controls.supervisor.value;
+        this.projectCreate.StartDate =
+          this.validateForm.controls.startValue.value;
+        this.projectCreate.ProjectType =
+          this.validateForm.controls.projectType.value;
+        this.projectCreate.ProjectStatusGuid =
+          this.validateForm.controls.status.value.Guid;
+        this.projectCreate.Description =
+          this.validateForm.controls.description.value;
 
 
-    this.validateForm.valueChanges.subscribe(()=>{
-      if( this.validateForm.valid)
-      {
-      this.enableAddResourceTab=true;
-       this.projectStartdDate=  this.validateForm.controls.startValue.value;
-      this.projectCreate.name=this.validateForm.controls.projectName.value
-      this.projectCreate.clientId=this.validateForm.controls.client.value;
-      this.projectCreate.endDate=this.validateForm.controls.endValue.value;
-      this.projectCreate.supervisorId=this.validateForm.controls.supervisor.value;
-      this.projectCreate.startDate=this.validateForm.controls.startValue.value;
-      this.projectCreate.type=this.validateForm.controls.projectType.value;
-      this.projectCreate.status=this.validateForm.controls.status.value;
-      this.projectCreate.description=this.validateForm.controls.description.value;
-      }else
-      {
-        console.log("invalid")
-       this.projectCreate={} as ProjectCreate
+
+        if (this.validateForm.controls.projectType.value == 'Internal') {
+          for (let i = 0; i < this.clients.length; i++) {
+            if (this.clients[i].ClientName == 'Excellerent') {
+              this.projectCreate.ClientGuid = this.clients[i].Guid;
+              break;
+            }
+          }
+        } else {
+          this.projectCreate.ClientGuid =
+            this.validateForm.controls.client.value;
+        }
+
+        if (this.validateForm.controls.status.value.AllowResource) {
+          this.disallowResource = false;
+        } else {
+          this.disallowResource = true;
+        }
+      } else {
+        this.projectCreate = {} as ProjectCreate;
+      }
+    });
+
+
+
+
+    this.validateParojectNameWithClient();
+  }
+
+
+
+
+
+  validateParojectNameWithClient()
+
+  {
+
+
+this.validateForm.controls.client.valueChanges.subscribe(() => {
+      let found = false;
+
+      if (
+        this.validateForm.controls.client.valid &&
+        this.validateForm.controls.projectName.valid
+      ) {
+        if (this.projects != [])
+          for (let i = 0; i < this.projects.length; i++) {
+            if (
+              this.validateForm.controls.client.value ==
+                this.projects[i].Client.Guid &&
+              this.validateForm.controls.projectName.value.toLowerCase() ===
+                this.projects[i].ProjectName.toString().toLowerCase()
+            ) {
+              found = true;
+
+              this.projectNameExitsErrorMessage =
+                'Project name already exists by  this ' +
+                this.projects[i].Client.ClientName +
+                ' client';
+
+              break;
+            }
+          }
       }
 
+      if (found == true) {
+        this.projectNameExits = true;
+
+        this.validateForm.controls.projectName.setErrors({ invalidName: true });
+      } else
+       {
+        this.projectNameExits = false;
+        this.validateForm.controls.projectName.setErrors({ invalidName: false });
+        this.validateForm.controls.projectName.updateValueAndValidity();
+       }
+
     });
+
 
   }
 
-  createRegistrationForm(){
+
+
+
+
+
+  createRegistrationForm() {
     this.validateForm = this.fb.group({
-      projectName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
-      client: ['Excellerent Solutions', [Validators.required]],
+      projectName: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(70),
+        ],
+      ],
+      client: ['e4174511-4ee6-427d-8489-f917e3239601', [Validators.required]],
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],
       startValue: [null, [Validators.required]],
-      endValue: [null, [Validators.required]],
-      description:[""]
+      endValue: [null],
+      description: [''],
     });
   }
 
-  onSubmit(){
-  this.userSubmitted = true;
-   this.projectCreate.resources=this.resources;
-   this.projectService.createProject(this.projectCreate);
-   this.router.navigateByUrl('client-project/add-project');
-   this.onReset();
-   console.log(this.validateForm.value)
+  onSubmit() {
+    if (this.validateForm.controls.endValue.value != null)
+      this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
+    else
+      this.projectCreate.EndDate ="";
+
+    if (this.validateForm.controls.status.value.AllowResource == true)
+      this.projectCreate.AssignResource = this.resources;
+    else this.projectCreate.AssignResource = [] as projectResourceType[];
+
+    this.projectService.createProject(this.projectCreate);
+
+    this.router.navigateByUrl('');
   }
 
-  onReset(){
+  onReset() {
     this.userSubmitted = false;
-    this.validateForm.reset();
+
+    this.router.navigateByUrl('');
   }
 
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.validateForm.controls.endValue.value) {
       return false;
     }
-    return startValue.getTime() > this.validateForm.controls.endValue.value.getTime();
+    return (
+      startValue.getTime() > this.validateForm.controls.endValue.value.getTime()
+    );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.validateForm.controls.startValue.value) {
       return false;
     }
-    return endValue.getTime() <= this.validateForm.controls.startValue.value.getTime();
+    return (
+      endValue.getTime() <=
+      this.validateForm.controls.startValue.value.getTime()
+    );
   };
 
   handleStartOpenChange(open: boolean): void {
     if (!open) {
       this.endDatePicker.open();
     }
-
   }
 
-  handleEndOpenChange(open: boolean): void {
-
-    console.log('handleEndOpenChange', open);
-  }
-
+  handleEndOpenChange(open: boolean): void {}
 
   get projectName() {
     return this.validateForm.controls.projectName as FormControl;
@@ -173,36 +287,24 @@ export class AddProjectComponent implements OnInit {
   get endValue() {
     return this.validateForm.controls.endValue as FormControl;
   }
-  onInputProjectName(event:Event)
-  {
-   let found=false;
-    if(!this.validateForm.controls.ProjectName.invalid)
-      {
-       for(const project of this.projects)
-       {
-            if(this.validateForm.controls.projectName.value.toString().toLowerCase()==project.ProjectName.toLowerCase())
-            found=true;
-       }
-      }
-      if(found==true)
-      {this.projectNameExits=true;
-        //this.validateForm.controls.projectName.setErrors({'incorrect':true});
-      }
-      else
-      {this.projectNameExits=false;
-       // this.validateForm.controls.projectName.setErrors(null);
-      }
+
+
+  updateProjectResourseList(resources: projectResourceType[]) {
+    this.resources = resources;
   }
 
-  updateProjectResourseList(resources: projectResourceType[])
-  {
-    this.resources=resources;
-  }
-
-  selectChangeHandler (event: any) {
+  selectChangeHandler(event: any) {
     this.selectedStatus = event.target.value;
-    console.log(this.selectedStatus)
   }
 
+  showDeleteConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: 'Are you sure you want to leave Project Details unsaved?',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.router.navigateByUrl(''),
+      nzCancelText: 'No',
+    });
+  }
 }
-
