@@ -136,6 +136,7 @@ export class AreaOfInterestComponent implements OnInit {
   onAddNewClick(): void {
     this.resetForm();
     this.isModalVisible = true;
+    this.validation.controls.isMultitpleEntry.setValue(false);
     this.areaOfInterest.controls.MonthOfExpierence.setValue(0);
     this.areaOfInterest.controls.YearsOfExpierence.setValue(0);
     this.isUpdateMode = false;
