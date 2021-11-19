@@ -14,10 +14,6 @@ import { LocationPhoneService } from '../../Services/address/location-phone.serv
 })
 export class AddressNewComponent implements OnInit {
 
-  // It is put for the purpose of testing to make the component visible in routing
-  // For other please, set the value to false
-  @Input() isStandalone = false
-
   countries: string[] = []
 
   listofCodes: string[] = []
@@ -128,12 +124,7 @@ export class AddressNewComponent implements OnInit {
           ...this.addresses,
           address
         ]
-        if(this.isStandalone){
-          this._attendanceService.add(address)
-          .subscribe((response: ResponseDto<Address>) => {
-            window.alert(response.responseStatus)
-          })
-        }
+
         if (event === 'submit') {
           this.validateForm = this.fb.group({
             country: [null, [Validators.required]],
