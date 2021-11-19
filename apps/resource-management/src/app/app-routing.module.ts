@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { AddEmergencycontactComponent } from './Features/Components/emergencycontact/add-emergencycontact/add-emergencycontact.component';
+import { AddEmergencycontactComponent } from './Features/Components/add-emergencycontact/add-emergencycontact.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { NgModule } from '@angular/core';
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: '', component: PersonalInfoComponent },
   { path: 'Organization-Detail', component: OrganizationDetailComponent },
   { path: 'personal-info', component: PersonalInfoComponent },
-  { path: 'emergencycontact', component: AddEmergencycontactComponent },
+  { path: 'emergency-contact', component: AddEmergencycontactComponent },
 ];
 
 @NgModule({
