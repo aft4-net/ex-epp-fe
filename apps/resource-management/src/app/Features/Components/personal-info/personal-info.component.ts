@@ -20,6 +20,15 @@ export class PersonalInfoComponent implements OnInit {
   listOfOptionNationality: string[] = ["Ethiopia","US","Kenya","UK","China"];
   employee !: Employee;
 
+  personalEmail ="";
+  firstName="";
+  fatherName="";
+  grandFatherName="";
+  phoneNumber="";
+  dateofBirth = new Date("2021-11-17 14:29:03.107");
+  gender = "";
+  nationality = "";
+
   constructor(private fb: FormBuilder,private employeeService:EmployeeService) { }
 
   ngOnInit(): void {
@@ -36,34 +45,41 @@ export class PersonalInfoComponent implements OnInit {
 
     });
     
+  }
+  addEmployee(){
+     this.ValidateInput();
+    console.log("Add Employee Executed");
+    this.employeeService.setEmployeeData(this.employee);
+    
+  }
+  saveEmployee(){
+    this.ValidateInput();
+    console.log("Save Employee Executed");
+    this.employeeService.addEmployee(this.employee);
+  }
+
+  ValidateInput(){
+
     this.employee = {
-      FirstName: "Nathan",
-      FatherName: "Daniel",
-      GrandFatherName: "Zewdneh",
-      MobilePhone: "+25112345677",
+      FirstName: this.firstName,
+      FatherName: this.fatherName,
+      GrandFatherName: this.grandFatherName,
+      MobilePhone: this.phoneNumber,
       Phone1: "25112345673",
       Phone2: "25112345673",
-      PersonalEmail: "Abel@gmail.com",
-      PersonalEmail2: "selam@gmail.com",
-      PersonalEmail3: "nathan@gmail.com",
-      DateofBirth : new Date("2021-11-17 14:29:03.107"),
-      Gender : "Male",
+      PersonalEmail: this.personalEmail,
+      PersonalEmail2: "test@gmail.com",
+      PersonalEmail3: "test@gmail.com",
+      DateofBirth : this.dateofBirth,
+      Gender : this.gender
      /* Nationality: Nationality[],
       Organization: EmployeeOrganization,
       PersonalAddress: Address[],
       FamilyDetail: FamilyDetails[],
       EmergencyContact: EmergencyContact[]*/
     }
-    
-   
-    
 
   }
-  addEmployee(){
-    console.log("Adde Employee Executed");
-    this.employeeService.addEmployee(this.employee);
-  }
-
 
 
 

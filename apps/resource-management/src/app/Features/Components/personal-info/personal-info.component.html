@@ -4,7 +4,7 @@
   <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
-      <input nz-input formControlName="firstName" id="firstName" />
+      <input nz-input formControlName="firstName" id="firstName" [(ngModel)]="firstName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">First Name</ng-container>
       </ng-template>
@@ -18,6 +18,7 @@
         type="text"
         id="fatherName"
         formControlName="fatherName"
+        [(ngModel)]="fatherName"
       />
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Father's Name!</ng-container>
@@ -27,7 +28,7 @@
   <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>Grand Father's Name</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" [nzErrorTip]="errorTpl">
-      <input nz-input type="text" formControlName="grandFatherName" id="grandFName" />
+      <input nz-input type="text" formControlName="grandFatherName" id="grandFName" [(ngModel)]="grandFatherName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Grand Father's Name</ng-container>
 
@@ -46,7 +47,7 @@
       <span>Personal Email</span>
     </nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
-      <input nz-input id="personalEmail" formControlName="personalEmail" />
+      <input nz-input id="personalEmail" formControlName="personalEmail" [(ngModel)]="personalEmail" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
@@ -60,7 +61,7 @@
     >
       <nz-input-group >
 
-        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [(ngModel)]="phoneNumber" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
@@ -68,7 +69,7 @@
   <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input dateofBirth!">
-      <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" />
+      <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth"/>
     </nz-form-control>
   </nz-form-item>
 
@@ -89,8 +90,8 @@
     >
       <div nz-row [nzGutter]="8">
         <div nz-col [nzSpan]="12">
-          <nz-select formControlName="gender" >
-            <nz-option    *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option">{{option}}</nz-option>
+          <nz-select formControlName="gender" [(ngModel)]="gender">
+            <nz-option   *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option" >{{option}}</nz-option>
           </nz-select>
         </div>
       </div>
@@ -124,6 +125,12 @@
   <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
       <button nz-button nzType="primary" style="margin-right: 70px;" (click)="addEmployee()">Next</button>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row >
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button nz-button nzType="primary" style="margin-right: 500px;bottom: 57px;" (click)="addEmployee()">Save</button>
     </nz-form-control>
   </nz-form-item>
 

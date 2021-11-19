@@ -12,7 +12,7 @@ export class EmployeeService {
   
   baseUrl = "http://localhost:14696/api/v1/Employee"
   
-  private employeeSource=new BehaviorSubject<Employee|null>(null);
+  private employeeSource=new BehaviorSubject<Employee>({} as Employee);
   employee$ = this.employeeSource.asObservable();
 
   constructor(private http: HttpClient) { }   
@@ -29,8 +29,10 @@ export class EmployeeService {
        console.log(error);
      });
     }
+    
     setEmployeeData(employee:Employee){
       this.employeeSource.next(employee);  
+      console.log(this.employee$);
     }
 
 }
