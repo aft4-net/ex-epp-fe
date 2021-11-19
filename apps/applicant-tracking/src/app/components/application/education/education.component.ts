@@ -71,6 +71,7 @@ export class EducationComponent implements OnInit {
   {
     this.isUpdateMode = false;
     this.education.reset();
+    this.validation.controls.isMultitpleEntry.setValue(false);
     this.openModal();
   }
   onEditRecord(guid: string | null) {
@@ -107,6 +108,7 @@ export class EducationComponent implements OnInit {
         'Record deleted successfully'
       );
       this.bindRecord();
+      this.hasDataEntry(this.educations.length > 0 ? true:false);
     });
   }
   disabledStartDate = (startValue: Date): boolean => {
@@ -143,6 +145,7 @@ export class EducationComponent implements OnInit {
       (_) => {
         this.onSaveCompleted();
         this.bindRecord();
+        this.hasDataEntry(this.educations.length > 0 ? true:false);
       },
       (err) => this.onShowError(err)
     );
@@ -247,6 +250,7 @@ export class EducationComponent implements OnInit {
     this.educationService.getByApplicantId(this.loggedInUser.Guid).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
+        this.hasDataEntry((this.educations.length > 0) ? true : false);
         this.loading = false;
       },
       (err) => {
@@ -270,5 +274,9 @@ export class EducationComponent implements OnInit {
 
     this.notifier.notify(NotificationType.error, errMsg);
     this.loading = false;
+  }
+
+  hasDataEntry(value: boolean) {
+    this.educationService.hasData(value);
   }
 }

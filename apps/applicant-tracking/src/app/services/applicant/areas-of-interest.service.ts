@@ -57,8 +57,8 @@ export class AreasOfInterestService {
     return this.routerInfo;
   }
 
-  sendData(data: boolean) {
-    this.dataSource.next(data);
+  hasData(value: boolean) {
+    this.dataSource.next(value);
   }
   
 }
