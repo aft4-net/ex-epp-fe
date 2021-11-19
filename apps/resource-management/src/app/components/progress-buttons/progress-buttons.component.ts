@@ -7,8 +7,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ProgressButtonsComponent implements OnInit {
 
+  // It is the parameter that will decide the buttons that are visisble
+  // true: all three buttons will appears
+  // false: only back and next appears
   @Input() isMultiple = true
 
+  // It will emit a string notifying the type of button clicked
   @Output() actionType: EventEmitter<string> = new EventEmitter<string>()
 
   constructor() { }
