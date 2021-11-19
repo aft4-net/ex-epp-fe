@@ -7,7 +7,7 @@
                      (valueChangeNextWeek)="nextWeek($event)"
                      (valueChangeLastWeek)="lastastWeek($event)"
   ></app-date-selector>
-  Timesheet Approval:{{timesheetApproval|json}}
+  Timesheet Approval:{{timesheetApproval|json}} 
   <div class="day-and-date-column">
     <div *ngFor="let myD of weekDays">
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "

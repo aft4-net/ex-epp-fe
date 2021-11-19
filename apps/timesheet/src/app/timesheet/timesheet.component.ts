@@ -272,17 +272,25 @@ export class TimesheetComponent implements OnInit {
     this.clickEventType = clickEventType;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
     this.timeSheetService.getTimeSheetApproval("92fd3a28-1496-4aaf-a649-ca931566def2").subscribe(objApprove => {
-      // this.timesheetApproval = objApprove ? objApprove.filter(tsa => tsa.projectId === this.timeEntry?.projectId) : null;
-      this.timesheetApproval = objApprove;
+      this.timesheetApproval = objApprove ? objApprove.filter(tsa => tsa.projectId === this.timeEntry?.projectId) : null;
+      // this.timesheetApproval = objApprove;
       console.log('approval data:' + JSON.stringify(this.timesheetApproval));
       if (this.timesheetApproval) {
         if (this.timesheetApproval[0].status === 0) {
           this.showFormDrawer();
-        } else {
-          let message = "";
-          (this.timesheetApproval.status === 1) ? message = "You can't edit the entry submitted for approval!" : message = "You can't edit Approved Timesheet!";
-          this.notification.error(message);
+          // this.notification.error("You can\'t edit the entry submitted for approval!");
         }
+        if (this.timesheetApproval[0].status === 1) {
+          this.showFormDrawer();
+        }
+        if (this.timesheetApproval[0].status === 2) {
+          this.notification.error("You can\'t edit the entry submitted for approval!");
+        }
+        // else {
+        //   let message = "";
+        //   (this.timesheetApproval.status === 1) ? message = "You can't edit the entry submitted for approval!" : message = "You can't edit Approved Timesheet!";
+        //   this.notification.error(message);
+        // }
       }
     })
 
