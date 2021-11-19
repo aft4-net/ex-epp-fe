@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import {
   FormArray,
   FormBuilder,
@@ -9,6 +10,7 @@ import {
 } from '@angular/forms';
 
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
+import { LocationPhoneService } from '../../../Services/address/location-phone.service';
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
@@ -19,9 +21,10 @@ export class AddEmergencycontactComponent implements OnInit {
   listOfStates: string[] = [];
   isEthiopia = false;
   EForm!: FormGroup;
+  private _locationPhoneService!: LocationPhoneService;
   constructor(private fb: FormBuilder) {}
-
-  coutries: string[] = [
+  listofCodes: string[] = [];
+  countries: string[] = [
     'Afghanistan',
     'Albania',
     'Algeria',
@@ -233,17 +236,32 @@ export class AddEmergencycontactComponent implements OnInit {
   addAddress() {
     this.Addresses.push(this.createAddress());
   }
+  removeAddress(i: number) {
+    this.Addresses.removeAt(i);
+  }
 
   onSelectCountry() {
-    if (this.EForm.value.country === '(The) United States') {
-      this.listOfStates = this.usStates;
-      this.isEthiopia = false;
-    } else if (this.EForm.value.country === 'Ethiopia') {
-      this.listOfStates = this.etStates;
-      this.isEthiopia = true;
+    if (this.EForm.value.country !== '') {
+      this._locationPhoneService
+        .getListofStates(this.EForm.value.country)
+        .subscribe((response: string[]) => {
+          this.listOfStates = response;
+        });
     } else {
       this.listOfStates = [];
+    }
+    if (this.EForm.value.country === 'Ethiopia') {
+      this.isEthiopia = true;
+    } else {
       this.isEthiopia = false;
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  panels = [
+    {
+      active: true,
+      name: 'Add Address',
+    },
+  ];
 }
