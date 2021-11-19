@@ -236,8 +236,8 @@ export class AddEmergencycontactComponent implements OnInit {
   addAddress() {
     this.Addresses.push(this.createAddress());
   }
-  removeAddress(id: number) {
-    (<FormGroup>this.EForm).removeControl(id.toString());
+  removeAddress(i: number) {
+    this.Addresses.removeAt(i);
   }
 
   onSelectCountry() {
