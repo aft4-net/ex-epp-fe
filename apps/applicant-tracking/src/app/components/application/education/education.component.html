@@ -142,7 +142,13 @@
             <th>Institution</th>
             <th>Field of study</th>
             <th>Educatioin Programme</th>
+<<<<<<< HEAD
+            <!-- <th>Country</th> -->
+            <th>Started Date</th>
+            <th>End Date</th>
+=======
             <th>Country</th>
+>>>>>>> 8cf1b62010904af4fdd03ed5415709c28e9d683e
             <th>Action</th>
           </tr>
         </thead>
@@ -151,8 +157,14 @@
             <td>{{ data?.Institution }}</td>
             <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
             <td>{{ data?.EducationProgramme?.Name }}</td>
+<<<<<<< HEAD
+            <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
+            <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
+            <!-- <td>{{ data?.Country }}</td> -->
+=======
             <td>{{ data?.Country }}</td>
 
+>>>>>>> 8cf1b62010904af4fdd03ed5415709c28e9d683e
             <td>
               <a (click)="onEditRecord(data.Guid)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>

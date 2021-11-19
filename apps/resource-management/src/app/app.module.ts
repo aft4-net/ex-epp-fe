@@ -1,5 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { AddEmergencycontactComponent } from './Features/Components/emergencycontact/add-emergencycontact/add-emergencycontact.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +17,7 @@ import { PageFooterComponent } from './components/page-footer/page-footer.compon
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
-import { RouterModule } from '@angular/router';
+import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
 import en from '@angular/common/locales/en';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -26,19 +27,25 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    MainLayoutComponent, PageHeaderComponent, PageFooterComponent, PageTitleComponent, PageBreadcrumbComponent, OrganizationDetailComponent,
+    MainLayoutComponent,
+    PageHeaderComponent,
+    PageFooterComponent,
+    PageTitleComponent,
+    PageBreadcrumbComponent,
+    OrganizationDetailComponent,
     AddressNewComponent,
-    PersonalInfoComponent
+    ProgressButtonsComponent,
+    PersonalInfoComponent,
+    AddEmergencycontactComponent,
   ],
   imports: [
     BrowserModule,
-    // RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
