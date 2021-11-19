@@ -16,6 +16,7 @@ export class PersonalInfoComponent implements OnInit {
   listOfOption: string[] = ["male","female"];
   listOfOptionNationality: string[] = ["Ethiopia","US","Kenya","UK","China"]
 
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -32,6 +33,8 @@ export class PersonalInfoComponent implements OnInit {
 
     });
   }
+
+
 
 
 
