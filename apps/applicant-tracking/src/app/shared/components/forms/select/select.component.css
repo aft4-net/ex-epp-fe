@@ -7,12 +7,11 @@
   color: #777;
 
 }
-.label.required::after {
-  content: '*';
+.required:after {
+  content:" *";
   color: red;
-  font-weight: bold;
-  padding-left: 3px;
- }
+}
+
  
 .form-item-container {
   flex-direction: column;

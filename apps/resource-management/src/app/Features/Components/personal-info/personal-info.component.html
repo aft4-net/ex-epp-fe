@@ -1,0 +1,129 @@
+
+ <form nz-form  class="Entry-Employee-area">
+  <div  style=" max-width: 600px;" [formGroup]="validateForm">
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
+      <input nz-input formControlName="firstName" id="firstName" />
+      <ng-template #errorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">First Name</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="fatherName" nzRequired>Father's Name</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
+      <input
+        nz-input
+        type="text"
+        id="fatherName"
+        formControlName="fatherName"
+      />
+      <ng-template #errorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Father's Name!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>Grand Father's Name</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" [nzErrorTip]="errorTpl">
+      <input nz-input type="text" formControlName="grandFatherName" id="grandFName" />
+      <ng-template #errorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Grand Father's Name</ng-container>
+
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="personalEmail"
+      nzRequired
+      nzTooltipTitle="Do you want to add another email ?"
+
+    >
+      <span>Personal Email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
+      <input nz-input id="personalEmail" formControlName="personalEmail" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"  nzRequired
+    nzTooltipTitle="Do you want to add another Phone Number ?">Phone Number</nz-form-label>
+    <nz-form-control
+      [nzSm]="10"
+      [nzXs]="24"
+      nzErrorTip="Please input your phone number!"
+
+    >
+      <nz-input-group >
+
+        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input dateofBirth!">
+      <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" />
+    </nz-form-control>
+  </nz-form-item>
+
+<div  >
+ <div >
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="Gender"
+      nzRequired
+    >
+      Gender
+    </nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+    >
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="12">
+          <input nz-input type="text" formControlName="gender" id="gender" />
+        </div>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="Nationality"
+      nzRequired
+      nzTooltipTitle="Do you want to add another Nationality ?"
+
+    >
+      Nationality
+    </nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+    >
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="12">
+          <input nz-input type="text" formControlName="nationality" id="nationality" />
+        </div>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button nz-button nzType="primary">Next</button>
+    </nz-form-control>
+  </nz-form-item>
+
+</div>
+</div>
+</div>
+</form>

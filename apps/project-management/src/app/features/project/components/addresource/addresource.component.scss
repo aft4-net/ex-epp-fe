@@ -67,6 +67,32 @@
   line-height: 24px;
 }
 
+
+*{
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+
+ }
+
+
+ .redAstrics {
+  color: red;
+  margin-top: 8px;
+  font-size: 1.3rem;
+  margin-left: 10px;
+}
+
+
+::ng-deep .ant-modal-content  {
+  height: 24.5rem;
+}
+
+::ng-deep .ant-form-item-label>label {
+  margin: 0;
+  font-size: medium;
+  font-weight: 500;
+}
+
+
 form {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
   font-style: normal;
@@ -85,3 +111,11 @@ form {
   color: #00a551;
   border-color: #00a551;
 }
+
+::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
+
+  background: #FFFFFF !important;
+
+box-shadow: inset -2px 0px 0px #DADADA !important;
+
+  }

@@ -1,5 +1,5 @@
 export interface SignInResponse {
-    Guid: string | undefined;
+    Guid: string;
     FirstName: string | undefined;
     LastName: string| undefined;
     Email: string| undefined;

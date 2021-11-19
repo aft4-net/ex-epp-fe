@@ -1,35 +1,6 @@
-.day {
-    width: 192px;
-    height: 24px;
-
-    margin-top: 24px;
-    margin-right: 8px;
-
-    font-family: sans-serif;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #595959;
-
-}
 
 .date-column {
-    position: relative;
-    width: 192px;
-    height: 582px;
-
-    margin-top: 8px;
-    margin-right: 8px;
-    margin-bottom: 78px;
     
-    border-radius: 4px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #DADADA;
-
-    overflow: hidden;
-
     .date-column-highlight {
         position: absolute;
         margin-top: 271px;
@@ -38,9 +9,17 @@
         opacity: 0;
     }
 
+    /*
+    .app-project-name-palet{
+        width: 100%;
+    }
+    */
+@media screen and (min-width: 1024px) {
     .date-column-timesheet {
-        width: 192px;
-        height: 582px;
+                height: 36rem;
+            }
+          }
+        
 
         .date-and-hour {
             display: flex;
@@ -75,7 +54,7 @@
                 text-align: right;
             }
         }
-    }
+    
 
     &:hover {
         border-width: 2px;
