@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AddEmergencycontactComponent } from './Features/Components/emergencycontact/add-emergencycontact/add-emergencycontact.component';
+import { AddEmergencycontactComponent } from './Features/Components/add-emergencycontact/add-emergencycontact.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
