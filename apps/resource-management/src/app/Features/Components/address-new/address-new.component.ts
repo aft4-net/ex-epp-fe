@@ -14,7 +14,9 @@ import { LocationPhoneService } from '../../Services/address/location-phone.serv
 })
 export class AddressNewComponent implements OnInit {
 
-  @Input() isStandalone = true
+  // It is put for the purpose of testing to make the component visible in routing
+  // For other please, set the value to false
+  @Input() isStandalone = false
 
   countries: string[] = []
 
@@ -30,7 +32,7 @@ export class AddressNewComponent implements OnInit {
 
   addresses: Address[] = []
 
-  @Output() result: EventEmitter<unknown> = new EventEmitter<unknown>()
+  @Output() result: EventEmitter<{type: string, addresses: Address[]}> = new EventEmitter<{type: string, addresses: Address[]}>()
 
   checkPhone = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
@@ -103,8 +105,10 @@ export class AddressNewComponent implements OnInit {
   onAction(event: string){
 
     if (event === 'back') {
-      console.log('Going back...')
-      // route back
+      this.result.emit({
+        type: 'back',
+        addresses: []
+      })
     }
     else {
       
@@ -144,7 +148,10 @@ export class AddressNewComponent implements OnInit {
           });
         }
         else {
-          this.result.emit(this.addresses)
+          this.result.emit({
+            type: 'next',
+            addresses: this.addresses
+          })
         }
       } else {
         Object.values(this.validateForm.controls).forEach(control => {
