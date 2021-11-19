@@ -3,12 +3,12 @@
   <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
-      Add Education</span
+       Add Education</span
     >
   </button>
   <nz-modal
     [(nzVisible)]="isModalVisible"
-    nzTitle="Add Education"
+    [nzTitle]="this.isUpdateMode?'Edit Education' : 'Add Education'"
     nzWidth="80%"
     [nzFooter]="null"
     (nzOnCancel)="closeModal()"
@@ -129,14 +129,14 @@
     </ng-container>
   </nz-modal>
 
-  <div nz-row>
+  <div nz-row > 
     <div nz-col nzSpan="24">
       <nz-table
         [nzLoading]="loading"
         #table
         [nzData]="educations"
         [nzFrontPagination]="false"
-        [nzScroll]="{ x: '100%', y: '300px' }"
+        style="overflow-y: auto;max-height: 20rem;"
       >
         <thead>
           <tr>
@@ -179,7 +179,7 @@
         </tbody>
       </nz-table>
 
-      <div nz-row nzJustify="end">
+      <div nz-row nzJustify="end" style="margin-top: 20px;">
         <div nz-col nzSpan="5">
           <app-button
             [loading]="loading"

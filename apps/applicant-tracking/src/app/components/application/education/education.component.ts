@@ -69,6 +69,7 @@ export class EducationComponent implements OnInit {
   }
   onAddNewRecord()
   {
+    this.isUpdateMode = false;
     this.education.reset();
     this.openModal();
   }
