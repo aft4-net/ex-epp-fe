@@ -8,10 +8,10 @@ import { EmergencyContactAddressesComponent } from './Features/Components/emerge
 import { PersonalAddressesComponent } from './Features/Components/personal-addresses/personal-addresses.component';
 
 const routes: Routes = [
+  { path: '', component: PersonalInfoComponent },
   { path: 'Organization-Detail', component: OrganizationDetailComponent },
   { path: 'personal-address', component: PersonalAddressesComponent },
   { path: 'emergency-address', component: EmergencyContactAddressesComponent},
-  { path: '', component: PersonalInfoComponent },
   { path: 'Organization-Detail', component: OrganizationDetailComponent },
   { path: 'personal-info', component: PersonalInfoComponent },
   { path: 'emergencycontact', component: AddEmergencycontactComponent },

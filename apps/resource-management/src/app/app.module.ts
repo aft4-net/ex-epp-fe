@@ -9,20 +9,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
 import { PageFooterComponent } from './components/page-footer/page-footer.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
-import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
-import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
 import en from '@angular/common/locales/en';
-import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import { PersonalAddressesComponent } from './Features/Components/personal-addresses/personal-addresses.component';
 import { EmergencyContactAddressesComponent } from './Features/Components/emergency-contact-addresses/emergency-contact-addresses.component';
+import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
+import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
 
 registerLocaleData(en);
 

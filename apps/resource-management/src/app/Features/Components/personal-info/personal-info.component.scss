@@ -51,3 +51,172 @@
   height:280px;
 }
 
+.User-avatar{
+  position:relative;
+  z-index:184;
+  pointer-events:none;
+  margin-left:162px;
+  width:26px;
+  min-width:26px;
+  height:26px;
+  margin-top:-28px;
+  margin-bottom:2px;
+  min-height:26px;
+}
+.User-avatar-outer{
+  pointer-events:none;
+  z-index:184;
+  position:relative;
+  display:flex;
+}
+.Avatar{
+  position:relative;
+  z-index:120;
+  pointer-events:none;
+  margin-left:593px;
+  width:159px;
+  min-width:159px;
+  height:166px;
+  margin-top:-594px;
+  margin-bottom:428px;
+  min-height:166px;
+}
+.Avatar-outer{
+  pointer-events:none;
+  z-index:120;
+  position:relative;
+  display:flex;
+}
+.Avatar-1{
+  position:relative;
+  z-index:139;
+  pointer-events:none;
+  margin-left:0px;
+  width:38px;
+  min-width:38px;
+  margin-top:0px;
+  margin-bottom:144px;
+  min-height:22px;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  color:rgba(38, 38, 38, 1);
+  font-style:normal;
+  font-family:SF Pro Display;
+  font-weight:400;
+  font-size:14px;
+  line-height:22px;
+}
+.Avatar-1-outer{
+  pointer-events:none;
+  z-index:139;
+  position:relative;
+  display:flex;
+}
+.avatar-ellipse-custo{
+  position:relative;
+  z-index:132;
+  pointer-events:none;
+  margin-left:0px;
+  width:80px;
+  min-width:80px;
+  height:80px;
+  margin-top:-136px;
+  margin-bottom:56px;
+  min-height:80px;
+}
+.avatar-ellipse-custo-outer{
+  pointer-events:none;
+  z-index:132;
+  position:relative;
+  display:flex;
+}
+.master-avatar-ellips{
+  position:relative;
+  z-index:133;
+  pointer-events:none;
+  margin-left:0px;
+  width:80px;
+  min-width:80px;
+  height:80px;
+  margin-top:0px;
+  margin-bottom:0px;
+  min-height:80px;
+}
+.master-avatar-ellips-outer{
+  pointer-events:none;
+  z-index:133;
+  position:relative;
+  display:flex;
+}
+.master-plate-avatar-{
+  position:relative;
+  z-index:134;
+  pointer-events:none;
+  margin-left:0px;
+  width:80px;
+  min-width:80px;
+  height:80px;
+  margin-top:0px;
+  margin-bottom:0px;
+  min-height:80px;
+}
+.master-plate-avatar--outer{
+  pointer-events:none;
+  z-index:134;
+  position:relative;
+  display:flex;
+}
+.Ellipse{
+  position:relative;
+  z-index:135;
+  pointer-events:none;
+  margin-left:30%;
+  width:100%;
+  height:100%;
+  margin-top:200%;
+  content:url(/assets/Ellipse.png?tid=1634732399180);
+}
+.Ellipse-outer{
+  pointer-events:none;
+  z-index:135;
+  position:absolute;
+  display:flex;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+}
+
+.Upload-new-avatar{
+  position:relative;
+  z-index:128;
+  pointer-events:none;
+  margin-left:0px;
+  margin-right:50px;
+  height:22px;
+  margin-top:450px;
+  text-align:center;
+  display:flex;
+  justify-content:center;
+  color:rgba(89, 89, 89, 1);
+  font-style:normal;
+  font-family:SF Pro Display;
+  font-weight:400;
+  font-size:14px;
+  line-height:22px;
+}
+.Upload-new-avatar-outer{
+  pointer-events:none;
+  z-index:128;
+  position:absolute;
+  display:flex;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  align-items:center;
+}
+
+
