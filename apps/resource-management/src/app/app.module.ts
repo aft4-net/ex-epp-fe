@@ -22,6 +22,7 @@ import en from '@angular/common/locales/en';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import { PersonalAddressesComponent } from './Features/Components/personal-addresses/personal-addresses.component';
+import { EmergencyContactAddressesComponent } from './Features/Components/emergency-contact-addresses/emergency-contact-addresses.component';
 
 registerLocaleData(en);
 
@@ -38,7 +39,8 @@ registerLocaleData(en);
     ProgressButtonsComponent,
     PersonalInfoComponent,
     AddEmergencycontactComponent,
-    PersonalAddressesComponent
+    PersonalAddressesComponent,
+    EmergencyContactAddressesComponent
   ],
   imports: [
     BrowserModule,

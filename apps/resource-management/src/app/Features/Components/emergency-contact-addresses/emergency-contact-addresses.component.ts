@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Address } from '../../Models/address.model';
-import { AddressNewComponent } from '../address-new/address-new.component';
 
 @Component({
   selector: 'exec-epp-emergency-contact-addresses',
