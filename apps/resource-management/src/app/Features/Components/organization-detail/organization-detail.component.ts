@@ -6,9 +6,8 @@ import { EmploymentType, Status } from '../../Models/EmployeeOrganization/enums'
 import { CountryService } from '../../Services/EmployeeOrganization/country.service';
 import { CountryModel } from '../../Models/EmployeeOrganization/ContryModel';
 import { DutyBranchModel } from '../../Models/EmployeeOrganization/DutyBranchModel';
-import { Router, Routes } from '@angular/router';
-import { PersonalInfoComponent } from '../personal-info/personal-info.component';
-import { AddressNewComponent } from '../address-new/address-new.component';
+import { Router  } from '@angular/router';
+
 @Component({
   selector: 'exec-epp-organization-detail',
   templateUrl: './organization-detail.component.html',
