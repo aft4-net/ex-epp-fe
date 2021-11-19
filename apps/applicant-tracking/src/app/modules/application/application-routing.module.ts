@@ -28,7 +28,7 @@ const routes: Routes = [
       {
         path: 'education',
         component:EducationComponent,
-        canActivate: [educationGuard, AuthorizationCheck]
+      //  canActivate: [educationGuard, AuthorizationCheck]
 
       }
     ],
