@@ -23,8 +23,8 @@
               #institution
               type="text"
               label="Institution"
-              placeholder="Enter your Institution name"
-              errorMsg="Please provide a valid inistitution name"
+              placeholder="Enter Your Institution Name"
+              errorMsg="Please Provide a Valid Inistitution Name"
               [displayError]="institution.focusout"
             >
             </app-input>
@@ -39,7 +39,7 @@
                   label="Started From"
                   placeholder="Enter your Started Year"
                   [disabledDate]="disabledStartDate"
-                  errorMsg="Please provide a valid year name"
+                  errorMsg="Please provide a valid Year"
                   [displayError]="institution.focusout"
                 >
                 </app-date-picker>
@@ -49,11 +49,11 @@
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="UpTo (Expected Date)"
+                  label="To (Expected End Date)"
                   [disabled]="education.controls.isStudying.value"
-                  placeholder="Enter your Finished Calender"
+                  placeholder="Enter Your Completion Year"
                   [disabledDate]="disabledEndDate"
-                  errorMsg="Please provide a valid year"
+                  errorMsg="Please Provide a Valid Year"
                   [displayError]="institution.focusout"
                 >
                 </app-date-picker>
@@ -64,22 +64,23 @@
         <div nz-row [nzGutter]="16">
           <div nz-col nzSpan="12">
             <app-select
-              errorMsg="Please select a program"
+              errorMsg="Please Select a Program"
               [list]="fetchedEducationProgramme"
               fcn="program"
               #programselection
               [displayError]="programselection.focusout"
               [form]="education"
               [multiple]="false"
-              placeholder="Enter your Program"
-              label="Please select a program"
+              placeholder="Please Select Your Program"
+              label="Please Select Your Program"
               [selectedValue]=""
             ></app-select>
           </div>
 
           <div nz-col nzSpan="12">
             <app-select
-              errorMsg="Please select a Field of Study"
+              [disabled]="disableFieldOfStudy"
+              errorMsg="Please Select Field of Study"
               [list]="fetchedFieldOfStudies"
               fcn="fieldOfStudy"
               #fieldofstudy
@@ -87,7 +88,7 @@
               [form]="education"
               [multiple]="false"
               label="Please Select Field of Study"
-              placeholder="Enter your field Of Study"
+              placeholder="Select Your Field Of Study"
             ></app-select>
           </div>
         </div>
@@ -142,7 +143,6 @@
             <th>Institution</th>
             <th>Field of study</th>
             <th>Educatioin Programme</th>
-            <!-- <th>Country</th> -->
             <th>Started Date</th>
             <th>End Date</th>
             <th>Action</th>
@@ -159,11 +159,14 @@
             <td>
               <a (click)="onEditRecord(data.Guid)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
-                Edit</a
+                </a
               >
 
               <nz-divider nzType="vertical"></nz-divider>
-              <a (click)="onDeleteRecord(data.Guid)">Delete</a>
+              <a (click)="onDeleteRecord(data.Guid)">
+                <i nz-icon style="font-size: 16px; color: red;"
+                 nzType="delete" nzTheme="outline"></i>
+              </a>
             </td>
           </tr>
         </tbody>

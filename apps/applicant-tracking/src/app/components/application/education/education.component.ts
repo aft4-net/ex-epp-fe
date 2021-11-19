@@ -17,7 +17,7 @@ import {
   selector: 'exec-epp-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class EducationComponent implements OnInit {
   info = '';
@@ -29,7 +29,7 @@ export class EducationComponent implements OnInit {
   educationModel: EducationModel | null = null;
   loading = false;
   is_studying = false;
-
+  disableFieldOfStudy = false;
   // databinding
   showConfirm = false;
   guid: any;
@@ -67,8 +67,7 @@ export class EducationComponent implements OnInit {
   onSaveRecord(): void {
     this.loading = true;
   }
-  onAddNewRecord()
-  {
+  onAddNewRecord() {
     this.education.reset();
     this.openModal();
   }
@@ -113,8 +112,8 @@ export class EducationComponent implements OnInit {
       return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() >= this.education.controls.yearTo.value.getTime() ||
-      startValue.getTime() >= Date.now() - 3600 * 1000 * 24
+      startValue.getTime() >=
+      this.education.controls.yearTo.value.getTime() - 3600 * 1000 * 24 
     );
   };
 
@@ -124,7 +123,7 @@ export class EducationComponent implements OnInit {
     }
     return (
       endValue.getTime() <
-      this.education.controls.yearFrom.value.getTime() - 3600 * 1000 * 24
+      this.education.controls.yearFrom.value.getTime()
     );
   };
 
@@ -182,8 +181,8 @@ export class EducationComponent implements OnInit {
     }
     this.loading = false;
     const msg = this.isUpdateMode
-      ? 'Record is successfully updated.'
-      : 'Record is successfully added.';
+      ? 'Education is updated successfully .'
+      : 'Education added successfully .';
     this.notifier.notify(NotificationType.success, msg);
     this.education.reset();
     this.guid = null;
@@ -191,8 +190,10 @@ export class EducationComponent implements OnInit {
     this.isUpdateMode = false;
   }
 
-  getFieldOfStudyWithId(Id:string){
-    return this.fetchedFieldOfStudies.find(x => x.Guid == Id)?.Name ?? 'Unknown'; 
+  getFieldOfStudyWithId(Id: string) {
+    return (
+      this.fetchedFieldOfStudies.find((x) => x.Guid == Id)?.Name ?? 'Unknown'
+    );
   }
 
   ngOnInit(): void {
@@ -207,6 +208,22 @@ export class EducationComponent implements OnInit {
       } else
         this.education.controls.yearTo.setValidators([Validators.required]);
       this.education.controls.yearTo.updateValueAndValidity();
+    });
+
+    this.education.controls.program.valueChanges.subscribe((value) => {
+      if (
+        this.fetchedEducationProgramme.find((obj) => obj.Guid === value)
+          ?.Name === 'High Schools'
+      ) {
+        this.education.controls.fieldOfStudy.setValidators([]);
+        this.education.controls.fieldOfStudy.setValue('');
+        this.education.controls.fieldOfStudy.updateValueAndValidity();
+        this.disableFieldOfStudy = true;
+      } else {
+        this.education.controls.fieldOfStudy.setValidators([Validators.required]);
+        this.education.controls.fieldOfStudy.updateValueAndValidity();
+        this.disableFieldOfStudy = false;
+      }
     });
 
     //api-integration
@@ -232,7 +249,8 @@ export class EducationComponent implements OnInit {
       },
       (err) => {
         this.loading = false;
-        this.onShowError(err);}
+        this.onShowError(err);
+      }
     );
   }
   showConfirmation(guid: string | null): void {
