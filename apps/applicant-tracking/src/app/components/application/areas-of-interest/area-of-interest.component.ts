@@ -179,6 +179,8 @@ export class AreaOfInterestComponent implements OnInit {
       this.isRecordUpdated = true;
     }
     this.areaOfInterest.reset();
+    this.areaOfInterest.controls.MonthOfExpierence.setValue(0);
+    this.areaOfInterest.controls.YearsOfExpierence.setValue(0);
     this.validation.controls.isMultitpleEntry.setValue(true);
     this.isRecordUpdated = true;
 
