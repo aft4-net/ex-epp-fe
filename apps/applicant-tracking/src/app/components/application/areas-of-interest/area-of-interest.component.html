@@ -157,8 +157,10 @@
   <div *ngIf="!isModalVisible" style="width: auto;">
     <div nz-row>
         <div nz-col nzSpan="24">
-            <nz-table #table [nzData]='areaOfInterests' 
+            <nz-table #table 
+            [nzData]='areaOfInterests' 
             [nzFrontPagination]="false"
+            style="overflow-y:auto;max-height: 20rem;"
             >
                 <thead>
                     <tr>
