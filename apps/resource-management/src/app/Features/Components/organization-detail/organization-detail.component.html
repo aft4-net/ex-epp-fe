@@ -4,28 +4,34 @@
 <form nz-form [formGroup]="emoloyeeOrganizationForm">
     <div class="control-padding" nz-row [nzGutter]="[8, 8]" >
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="country">Duty station</label>
+            <nz-form-label for="country" nzRequired>Duty station</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="dutybranch">Duty branch</label>
+            <nz-form-label for="dutybranch" nzRequired >Duty branch</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="compaynemail">Compayn email</label>
+            <nz-form-label for="compaynemail" nzRequired>Compayn email</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="compaynemail">Phone number</label>
+            <nz-form-label for="compaynemail" nzRequired>Phone number</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6" nzPlaceHolder="Select">
             <nz-select formControlName="country"  nzPlaceHolder="Select" (ngModelChange)="loadDutyBranch($event)">
                 <nz-option *ngFor="let country of countries" [nzLabel]="country.name" [nzValue]="country.id">
                 </nz-option>
             </nz-select>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Country</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-select formControlName="dutyBranch" >
                 <nz-option *ngFor="let dutyBranch of dutyBranches" [nzLabel]="dutyBranch.name" [nzValue]="dutyBranch.id">
                 </nz-option>
             </nz-select>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Duty branch</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <input formControlName="companyEmail" nz-input placeholder="Company email"/>
@@ -36,42 +42,54 @@
     </div>
     <div class="control-padding" nz-row [nzGutter]="[8, 8]" >
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="jobtitle">Job title</label>
+            <nz-form-label for="jobtitle" nzRequired>Job title</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="businesstitle">Business title</label>
+            <nz-form-label for="businesstitle" nzRequired>Business title</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="department">Department</label>
+            <nz-form-label for="department" nzRequired>Department</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="reportingmanager">Reporting manager</label>
+            <nz-form-label for="reportingmanager" nzRequired>Reporting manager</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <input formControlName="jobtitle" nz-input placeholder="Job Title"/>
+            <input formControlName="jobtitle" nz-input placeholder="Job Title" id="jobtitle"/>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Job Title</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <input formControlName="businesstitle" nz-input placeholder="Business title"/>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Business title</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <input formControlName="department" nz-input placeholder="Department"/>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Department</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <input formControlName="reportingmanager" nz-input placeholder="Reporting manager" />
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Reporting manager</ng-container>
+            </ng-template>
         </div>
     </div>
     <div class="control-padding" nz-row [nzGutter]="[8, 8]" >
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="employmenttype">Employment type</label>
+            <nz-form-label for="employmenttype" nzRequired>Employment type</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="joiningdate">Joining date</label>
+            <nz-form-label for="joiningdate" nzRequired>Joining date</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="terminationdate">Termination date</label>
+            <nz-form-label for="terminationdate">Termination date</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <label for="status">Status</label>
+            <nz-form-label for="status" nzRequired>Status</nz-form-label>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-select formControlName="employmenttype" >
@@ -79,9 +97,15 @@
                 [nzLabel]="employmenttype" [nzValue]="i+1">
                 </nz-option>
             </nz-select>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Employement Type</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-date-picker formControlName="joiningdate" [nzFormat]="dateFormat"></nz-date-picker>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Joining date</ng-container>
+            </ng-template>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-date-picker formControlName="terminationdate" [nzFormat]="dateFormat"></nz-date-picker>
@@ -91,6 +115,10 @@
                 <nz-option *ngFor="let status of statusKey(statuses); index as i" [nzLabel]="status" [nzValue]="i+1">
                 </nz-option>
             </nz-select>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Joining date</ng-container>
+            </ng-template>
         </div>
     </div>
 </form>
+<app-progress-buttons [isMultiple]="false" (actionType)="action($event)"></app-progress-buttons>

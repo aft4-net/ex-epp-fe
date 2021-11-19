@@ -1,6 +1,5 @@
 export interface DutyBranchModel {
         CountryId: string;
-        Country?: any;
         Name: string;
         Guid: string;
         IsActive: boolean;

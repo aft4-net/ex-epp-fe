@@ -6,6 +6,9 @@ import { EmploymentType, Status } from '../../Models/EmployeeOrganization/enums'
 import { CountryService } from '../../Services/EmployeeOrganization/country.service';
 import { CountryModel } from '../../Models/EmployeeOrganization/ContryModel';
 import { DutyBranchModel } from '../../Models/EmployeeOrganization/DutyBranchModel';
+import { Router, Routes } from '@angular/router';
+import { PersonalInfoComponent } from '../personal-info/personal-info.component';
+import { AddressNewComponent } from '../address-new/address-new.component';
 @Component({
   selector: 'exec-epp-organization-detail',
   templateUrl: './organization-detail.component.html',
@@ -21,7 +24,8 @@ export class OrganizationDetailComponent implements OnInit {
   employmnetTypeKey =  Object.values;
   statusKey = Object.values;
   dateFormat = 'dd/MM/yyyy';
-  constructor(private countryService: CountryService,private fb: FormBuilder) {
+
+  constructor(private countryService: CountryService,private fb: FormBuilder, private router: Router) {
   }
 
   ngOnInit() {
@@ -33,8 +37,8 @@ export class OrganizationDetailComponent implements OnInit {
     this.emoloyeeOrganizationForm = this.fb.group({
       country: ['',Validators.required],
       dutyBranch: ['',Validators.required],
-      companyEmail: ['',Validators.email],
-      phoneNumber: ['',Validators.required],
+      companyEmail: ['',Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')],
+      phoneNumber: ['',Validators.pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$')],
       jobtitle : ['', Validators.required],
       businesstitle: [''],
       department : ['', Validators.required],
@@ -64,5 +68,16 @@ export class OrganizationDetailComponent implements OnInit {
       }))
       console.log(this.countries);
     })
+  }
+
+  action(event: string) {
+    if(event === "next")
+    {
+      this.router.navigate(['address-new']);
+    }
+    if(event === "back")
+    {
+      this.router.navigate(['']);
+    }
   }
 }
