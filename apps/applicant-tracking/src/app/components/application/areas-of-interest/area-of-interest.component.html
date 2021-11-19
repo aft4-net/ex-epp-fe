@@ -142,7 +142,7 @@
         </div>
 
         <div nz-row nzJustify="end">
-          <div nz-col nzSpan="5" *ngIf="!isUpdateMode">
+          <div nz-col nzSpan="3" *ngIf="!isUpdateMode">
             <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Add more"></app-checkbox-input>
           </div>
           <div nz-col class="col-pad" nzSpan="3">
@@ -157,7 +157,11 @@
   <div *ngIf="!isModalVisible" style="width: auto;">
     <div nz-row>
         <div nz-col nzSpan="24">
-            <nz-table #table [nzData]='areaOfInterests' [nzFrontPagination]="false">
+            <nz-table #table 
+            [nzData]='areaOfInterests' 
+            [nzFrontPagination]="false"
+            style="overflow-y:auto;max-height: 20rem;"
+            >
                 <thead>
                     <tr>
                         <th>Position Name</th>
@@ -192,7 +196,7 @@
     </div>
     <br><br>
     <div nz-row nzJustify="end">
-        <div nz-col nzSpan="5">
+        <div nz-col nzSpan="3">
                 <app-button [loading]="loading" (click)="onFormSubmit()"
                  type="primary" [disabled]="(areaOfInterests.length < 1)">
                     Continue
