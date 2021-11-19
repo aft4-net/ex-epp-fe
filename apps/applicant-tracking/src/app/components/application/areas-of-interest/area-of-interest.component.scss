@@ -22,16 +22,20 @@ nz-modal {
 //styleName: Body Text 1/Regular/16;
 .label, .label-sm {
 font-style: normal;
+font-family: SF Pro Display;
 font-weight: 500;
+font-family: SF Pro Display;
 line-height: 24px;
 letter-spacing: 0em;
 margin-bottom: 10px;
 }
 .label, .label-sm {
   font-size: 16px;
+  font-family: SF Pro Display;
 }
 .label-sm {
   font-size: smaller;
+  font-family: SF Pro Display;
 }
 .required:after {
   content:" *";
