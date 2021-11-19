@@ -66,6 +66,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
     }
+
+    this.clickEventType = ClickEventType.none;
   }
 
   showFormDrawer() {

@@ -242,8 +242,7 @@ export class TimesheetComponent implements OnInit {
   onDateColumnClicked(dateColumnEvent: DateColumnEvent, date: Date) {
     this.clickEventType = dateColumnEvent.clickEventType;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
-    this.dateColumnTotalHour = totalHour ? totalHour : 0;
+    this.setDateColumnTotalHour();
 
     console.log(this.date);
     this.timeEntries?.forEach(timeEntry => {
@@ -265,9 +264,7 @@ export class TimesheetComponent implements OnInit {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
-    this.dateColumnTotalHour = totalHour ? totalHour : 0;
-    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
+    this.setDateColumnTotalHour();
 
     this.showFormDrawer();
   }
@@ -276,9 +273,7 @@ export class TimesheetComponent implements OnInit {
     this.clickEventType = timeEntryEvent.clickEventType;
     this.timeEntry = timeEntryEvent.timeEntry;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
-    this.dateColumnTotalHour = totalHour ? totalHour : 0;
-    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
+    this.setDateColumnTotalHour();
   }
 
   onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
@@ -409,10 +404,17 @@ export class TimesheetComponent implements OnInit {
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
+    this.setDateColumnTotalHour();
 
     if (this.userId) {
       this.getProjectsAndClients(this.userId);
     }
+  }
+
+  setDateColumnTotalHour() {    
+    let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
+    this.dateColumnTotalHour = totalHour ? totalHour : 0;
+    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
   }
 
   createNotificationError(position: NzNotificationPlacement): void {
