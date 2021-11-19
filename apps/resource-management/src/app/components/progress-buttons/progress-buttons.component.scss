@@ -3,7 +3,10 @@
   }
 
   .buttons {
-    width: 160px;
+    width: 33%;
+    min-width: 120px;
+    max-width: 175px;
+    float: right;
   }
 
   button{

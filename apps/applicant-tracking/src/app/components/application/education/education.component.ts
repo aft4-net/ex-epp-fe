@@ -67,7 +67,9 @@ export class EducationComponent implements OnInit {
   onSaveRecord(): void {
     this.loading = true;
   }
-  onAddNewRecord() {
+  onAddNewRecord()
+  {
+    this.isUpdateMode = false;
     this.education.reset();
     this.openModal();
   }

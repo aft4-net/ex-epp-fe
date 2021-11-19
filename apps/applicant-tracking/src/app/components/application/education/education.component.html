@@ -3,12 +3,12 @@
   <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
-      Add Education</span
+       Add Education</span
     >
   </button>
   <nz-modal
     [(nzVisible)]="isModalVisible"
-    nzTitle="Add Education"
+    [nzTitle]="this.isUpdateMode?'Edit Education' : 'Add Education'"
     nzWidth="80%"
     [nzFooter]="null"
     (nzOnCancel)="closeModal()"
@@ -130,13 +130,14 @@
     </ng-container>
   </nz-modal>
 
-  <div nz-row>
+  <div nz-row > 
     <div nz-col nzSpan="24">
       <nz-table
         [nzLoading]="loading"
         #table
         [nzData]="educations"
         [nzFrontPagination]="false"
+        style="overflow-y: auto;max-height: 20rem;"
       >
         <thead>
           <tr>
@@ -155,25 +156,22 @@
             <td>{{ data?.EducationProgramme?.Name }}</td>
             <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
             <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
-            <!-- <td>{{ data?.Country }}</td> -->
+            
             <td>
-              <a (click)="onEditRecord(data.Guid)">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-                </a
-              >
-
+              <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  </a>
               <nz-divider nzType="vertical"></nz-divider>
-              <a (click)="onDeleteRecord(data.Guid)">
-                <i nz-icon style="font-size: 16px; color: red;"
-                 nzType="delete" nzTheme="outline"></i>
+              <a (click)="onDeleteRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Delete" nzTooltipColor="red"> 
+                <i nz-icon style="font-size: 16px; color: red;" nzType="delete" nzTheme="outline"></i>
               </a>
-            </td>
+          </td> 
           </tr>
         </tbody>
       </nz-table>
 
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="5">
+        <div nz-col nzSpan="3">
           <app-button
             [loading]="loading"
             type="primary"
