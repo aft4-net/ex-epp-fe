@@ -27,7 +27,6 @@ import { FormValidator } from '../../../utils/validator';
 export class AreaOfInterestComponent implements OnInit {
   isModalVisible = false;
   selectedPositionId = 0;
-  //isMultitpleEntry = false;
   isUpdateMode = false;
   isRecordUpdated = false;
   selectedRecord:string | undefined;
@@ -80,19 +79,24 @@ export class AreaOfInterestComponent implements OnInit {
   getAreaOfInterestByApplicantId(){
     this.aoiService.getApplicantAreaOfInterestByID(this.loggedInUser.Guid).subscribe(res =>{
       this.areaOfInterests = res.Data;
-      this.sendNewData((this.areaOfInterests.length > 0) ? true : false);
+      this.hasDataEntry((this.areaOfInterests.length > 0) ? true : false);
       this.appliedSoFar = this.areaOfInterests.map(o => o.PositionToApplyID);
     });
   }
 
-  constructor(private aoiService: AreasOfInterestService, 
+  constructor(
+    private aoiService: AreasOfInterestService, 
     private areaOfInterestLookUpService: AreaOfInterestLookUpService,
-    private router: Router, private modal: NzModalService,
-    private notification: NotificationBar, private validator: FormValidator) {}
+    private router: Router, 
+    private modal: NzModalService,
+    private notification: NotificationBar, 
+    private validator: FormValidator
+    ) {}
 
-  sendNewData(data: boolean) {
-    this.aoiService.sendData(data);
+  hasDataEntry(value: boolean) {
+    this.aoiService.hasData(value);
   }
+
   ngOnInit(): void {
     this.getAllPositionsToApply();
     this.getAllProficiencyLevels();
@@ -132,8 +136,7 @@ export class AreaOfInterestComponent implements OnInit {
  });
   }
 
-
-  onAddNewClick(): void {
+  onAddNewRecord(): void {
     this.resetForm();
     this.isModalVisible = true;
     this.validation.controls.isMultitpleEntry.setValue(false);
@@ -155,9 +158,7 @@ export class AreaOfInterestComponent implements OnInit {
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
-        this.sendNewData(this.areaOfInterests.length > 0 ? true:false);
-        this.aoiService.setRoutInfo('/application/area-of-interest');
-        this.router.navigate(['/application/area-of-interest']);
+        this.hasDataEntry(this.areaOfInterests.length > 0 ? true:false);
       },
       (err: any) => {
         this.loading = false;
@@ -187,6 +188,23 @@ export class AreaOfInterestComponent implements OnInit {
 
   }
 
+  onEditRecord(id: string) {
+    this.isModalVisible = true;
+    this.isUpdateMode = true;
+    this.selectedRecord = id;
+    const toUpdateRow = this.areaOfInterests.filter(x=>x.Guid === id)[0];
+    this.areaOfInterest.patchValue({
+      Guid: toUpdateRow.Guid,
+      PositionToApplyID: toUpdateRow.PositionToApplyID,
+      ProficiencyLevelID: toUpdateRow.ProficiencyLevelID,
+      SelectedIDArray: toUpdateRow.SelectedIDArray,
+      SelectedIDSecondArray: toUpdateRow.SelectedIDSecondArray, 
+      SelectedIDOtherArray: toUpdateRow.SelectedIDOtherArray, 
+      YearsOfExpierence: toUpdateRow.YearsOfExpierence,
+      MonthOfExpierence: toUpdateRow.MonthOfExpierence,
+    });
+   }
+
   onUpdateRecord(id:string){
     this.loading = true;
     const dataToPost = this.areaOfInterest.value;
@@ -202,9 +220,7 @@ export class AreaOfInterestComponent implements OnInit {
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
-        this.sendNewData(this.areaOfInterests.length > 0 ? true:false);
-        this.aoiService.setRoutInfo('/application/area-of-interest');
-        this.router.navigate(['/application/area-of-interest']);
+        this.hasDataEntry(this.areaOfInterests.length > 0 ? true:false);
       },
       (err: any) => {
         this.loading = false;
@@ -229,23 +245,6 @@ export class AreaOfInterestComponent implements OnInit {
     this.router.navigate(['/application/education']);
     this.loading = false;
   }
-
-  onEditRecord(id: string) {
-    this.isModalVisible = true;
-    this.isUpdateMode = true;
-    this.selectedRecord = id;
-    const toUpdateRow = this.areaOfInterests.filter(x=>x.Guid === id)[0];
-    this.areaOfInterest.patchValue({
-      Guid: toUpdateRow.Guid,
-      PositionToApplyID: toUpdateRow.PositionToApplyID,
-      ProficiencyLevelID: toUpdateRow.ProficiencyLevelID,
-      SelectedIDArray: toUpdateRow.SelectedIDArray,
-      SelectedIDSecondArray: toUpdateRow.SelectedIDSecondArray, 
-      SelectedIDOtherArray: toUpdateRow.SelectedIDOtherArray, 
-      YearsOfExpierence: toUpdateRow.YearsOfExpierence,
-      MonthOfExpierence: toUpdateRow.MonthOfExpierence,
-    });
-   }
 
    resetForm(){
     this.areaOfInterest.reset();
@@ -273,6 +272,7 @@ export class AreaOfInterestComponent implements OnInit {
   onDeleteRecord(id: string) {
     this.showConfirmation(id);
   }
+
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
@@ -283,6 +283,7 @@ export class AreaOfInterestComponent implements OnInit {
 
     });
   }
+
   deleteItem(guid: string | null) {
     const id = guid ? guid : '';
     this.aoiService.deleteApplicantAreaOfInterest(id).subscribe(
@@ -294,9 +295,7 @@ export class AreaOfInterestComponent implements OnInit {
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
-        this.sendNewData(this.areaOfInterests.length > 0 ? true:false);
-        this.aoiService.setRoutInfo('/application/area-of-interest');
-        this.router.navigate(['/application/area-of-interest']);
+        this.hasDataEntry(this.areaOfInterests.length > 0 ? true:false);
       },
       (err: any) => {
         this.loading = false;
@@ -309,4 +308,5 @@ export class AreaOfInterestComponent implements OnInit {
       }
     );
   }
+
 }
