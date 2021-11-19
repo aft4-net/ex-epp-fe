@@ -47,12 +47,7 @@ export class PersonalInfoComponent implements OnInit {
       PersonalEmail2: "selam@gmail.com",
       PersonalEmail3: "nathan@gmail.com",
       DateofBirth : new Date("2021-11-17 14:29:03.107"),
-      Gender : "Male",
-     /* Nationality: Nationality[],
-      Organization: EmployeeOrganization,
-      PersonalAddress: Address[],
-      FamilyDetail: FamilyDetails[],
-      EmergencyContact: EmergencyContact[]*/
+      Gender : "Male"
     }
     
    
@@ -61,7 +56,7 @@ export class PersonalInfoComponent implements OnInit {
   }
   addEmployee(){
     console.log("Adde Employee Executed");
-    this.employeeService.addEmployee(this.employee);
+    this.employeeService.setEmployeeData(this.employee);
   }
 
 

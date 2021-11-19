@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Address } from '../../Models/address.model';
+import { Employee } from '../../Models/Employee';
+import { EmployeeService } from '../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-emergency-contact-addresses',
@@ -10,13 +13,20 @@ import { Address } from '../../Models/address.model';
 export class EmergencyContactAddressesComponent implements OnInit {
 
   constructor(
-    private readonly _route: Router
+    private readonly _route: Router,
+    // private readonly _employeService: EmployeeService
   ) { }
 
   ngOnInit(): void {
   }
 
   onAction(event: {type: string, addresses: Address[]}){
+
+    // this._employeService.employee$
+    // .subscribe((employee: Employee) => {
+    //   // employee.EmergencyContact. = event.addresses
+    //   // this._employeService.setEmployeeData(employee)
+    // })
 
     if(event.type === "back"){
       this._route.navigateByUrl('/personal-info')
