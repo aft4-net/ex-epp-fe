@@ -1,93 +1,47 @@
-
-<br/><br/>
-
-<form nz-form [formGroup]="AddForm" >
-  
+<br /><br />
+<form nz-form [formGroup]="AddForm">
   <form nz-form [formGroup]="someFrom" (ngSubmit)="submitForm()">
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName"
-      >FirstName</nz-form-label
-    >
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is required!"
-    >
-      <input nzPrefixIcon="user" nz-input formControlName="firstName" id="firstName" />
-    </nz-form-control>
-  </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">FirstName</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
+        <input nzPrefixIcon="user" nz-input formControlName="firstName" id="firstName" />
+      </nz-form-control>
+    </nz-form-item>
 
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fatherName">FatherName</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
+        <input nzPrefixIcon="user" nz-input formControlName="fatherName" id="fatherName" />
+      </nz-form-control>
+    </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fatherName"
-      >FatherName</nz-form-label
-    >
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is required!"
-    >
-      <input nzPrefixIcon="user" nz-input formControlName="fatherName" id="fatherName" />
-    </nz-form-control>
-  </nz-form-item>
-
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relationship"
-      >Relationship</nz-form-label
-    >
-    <nz-form-control
-      [nzSm]="14"
-      [nzXs]="24"
-      nzErrorTip="The input is required!"
-    >
-      <input nzPrefixIcon="user" nz-input formControlName="relationship" id="relationship" />
-    </nz-form-control>
-  </nz-form-item>
-  <button  nz-button nzType="primary" >
-    Next
-    <i nz-icon nzType="right"></i>
-  </button>
-
-</form>
-
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relationship">Relationship</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
+        <input nzPrefixIcon="user" nz-input formControlName="relationship" id="relationship" />
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzType="primary">
+      Next
+      <i nz-icon nzType="right"></i>
+    </button>
+  </form>
 
   <nz-collapse nzAccordion>
-    <nz-collapse-panel
-      *ngFor="let panel of panels"
-      [nzHeader]="panel.name"
-      [nzActive]="panel.active"
-    >
+    <nz-collapse-panel *ngFor="let panel of panels" [nzHeader]="panel.name" [nzActive]="panel.active">
       <div nz-col nzSpan="6" nzOffset="6">
         <button nz-button nzType="primary" (click)="addAddress()">
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
       </div>
-      <ng-container
-        formArrayName="address"
-        *ngFor="let t of Addresses.controls; let i = index"
-      >
-  <app-address-new ></app-address-new>
-  <div nz-col nzSpan="3">
-    <button
-      nz-button
-      nzType="primary"
-      nzDanger
-      (click)="removeAddress(i)"
-    >
-      <i nz-icon nzType="delete" nzTheme="outline"></i>
-    </button>
-  </div>
-  
-  </ng-container>
-  </nz-collapse-panel>
+      <ng-container formArrayName="address" *ngFor="let t of Addresses.controls; let i = index">
+        <app-address-new></app-address-new>
+        <div nz-col nzSpan="3">
+          <button nz-button nzType="primary" nzDanger (click)="removeAddress(i)">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </button>
+        </div>
+      </ng-container>
+    </nz-collapse-panel>
   </nz-collapse>
-  
-  
- 
- 
- 
 </form>
-
-
-  
-
