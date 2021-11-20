@@ -40,10 +40,7 @@ export class EmergencycontactService {
     PostalCode: 0,
   };
 
-  postEmergenycContacts() {
-    return this.http.post(this.baseURL, this.formData);
-  }
-
+ 
   postEmergenycContact() {
     return this.http.post<ResponseDto<EmergencyContact>>(
       this.baseURL,
@@ -63,7 +60,7 @@ export class EmergencycontactService {
     );
   }
 
-  deleteRequest(id: number) {
+  deleteEmergencycontact(id: number) {
     return this.http.delete(`${this.baseURL}/${id}`);
   }
 
@@ -78,13 +75,9 @@ export class EmergencycontactService {
       .then(() => this.list);
   }
 
- 
    
-  
-  addEmergencycontact(emc: EmergencyContact){
-    this.setEmployee(emc);
-  } 
-  setEmployee(emc:EmergencyContact){
+
+  postEmergencycontact(emc:EmergencyContact){
     return this.http.post(this.baseURL,emc)
      .subscribe((response:ResponseDto<EmergencyContact> | any) => {
        this.emSource.next(response.data),
@@ -93,14 +86,13 @@ export class EmergencycontactService {
        console.log(error);
      });
     }
-    setEmployeeData(employee:EmergencyContact){
-      this.emSource.next(employee);  
+    setEmergencycontactData(emc:EmergencyContact){
+      this.emSource.next(emc);  
     }
 
 
 
-    postRequest(){
-  return this.http.post(this.baseURL, this.formData);
+   
 }
 
-}
+

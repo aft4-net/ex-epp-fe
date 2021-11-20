@@ -19,9 +19,6 @@ import { EmergencycontactService } from '../../Services/emergencycontact/emergen
 import { NzButtonSize } from 'ng-zorro-antd/button';
 
 
-
-
-
 @Component({
   selector: 'exec-epp-add-emergencycontact',
   templateUrl: './add-emergencycontact.component.html',
@@ -36,18 +33,9 @@ export class AddEmergencycontactComponent implements OnInit {
 @Input() formGroupControlName!: string ;
 // FormControl store validators
 control!: FormControl 
-
-
-  listOfStates: string[] = [];
-  isEthiopia = false;
   EForm!: FormGroup;
-  
-
-
-  emcaddresses: Address[] = []
+    emcaddresses: Address[] = []
  
- 
-
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<unknown> = new EventEmitter<unknown>();
  
@@ -79,22 +67,6 @@ control!: FormControl
   
   
 
-
-  
-    
-
-
-
-
- 
-    
-
-
-
-
-
-    
-
   createAddress(): FormGroup {
     return this.fb.group({
       country: ['null', [Validators.required]],
@@ -107,12 +79,9 @@ control!: FormControl
       residencialPhoneNumber: [null, [Validators.required]],
     });
   }
- 
-
- 
+  
   ngOnInit(): void {
-
-
+    
     
     this.EForm = this.fb.group({
       firstName: [null, [Validators.required]],
@@ -120,10 +89,7 @@ control!: FormControl
       relationship: [null, [Validators.required]],
      Address: this.fb.array([this.createAddress()], Validators.required),
     });
-
-   
-      
-    
+ 
 
 
   }
@@ -153,7 +119,7 @@ control!: FormControl
      if (this.someFrom.valid) {
       console.log('submit', this.AddForm.value);
       console.log("Added successfully");
-    this.service.addEmergencycontact(this.someFrom.value);
+    this.service.postEmergencycontact(this.someFrom.value);
     this.toastr.success('Added successfully', 'Emergency Contact Register')
     }
     
