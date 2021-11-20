@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
+import { Nationality } from '../../Models/Nationality';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Component({
@@ -20,6 +23,7 @@ export class PersonalInfoComponent implements OnInit {
   listOfOption: string[] = ["male","female"];
   employee !: Employee;
 
+  employeeNumber="";
   personalEmail ="";
   firstName="";
   fatherName="";
@@ -28,12 +32,14 @@ export class PersonalInfoComponent implements OnInit {
   dateofBirth = new Date("2021-11-17 14:29:03.107");
   gender = "";
   nationality: string [] =[];
-  
+  selectednationality: Nationality [] = [] ;
 
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService, private _locationPhoneService: LocationPhoneService) { }
+  constructor(private fb: FormBuilder,private employeeService:EmployeeService,
+    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
+      employeeNumber:[null,[Validators.required]],
       personalEmail: [null, [Validators.email, Validators.required]],
       firstName: [null, [Validators.required]],
       fatherName: [null, [Validators.required]],
@@ -49,14 +55,13 @@ export class PersonalInfoComponent implements OnInit {
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
-    
+
   }
   addEmployee(){
-
      this.ValidateInput();
     console.log("Add Employee Executed");
     this.employeeService.setEmployeeData(this.employee);
-    
+
   }
   saveEmployee(){
     this.ValidateInput();
@@ -66,23 +71,39 @@ export class PersonalInfoComponent implements OnInit {
 
   ValidateInput(){
 
+    this.selectednationality = [{
+      Name :  this.validateForm.value.nationality
+    }]
+
     this.employee = {
+      employeeNumber : this.employeeNumber,
       FirstName: this.firstName,
       FatherName: this.fatherName,
       GrandFatherName: this.grandFatherName,
       MobilePhone: this.phoneNumber,
-     
+
       PersonalEmail: this.personalEmail,
-     
+
       DateofBirth : this.dateofBirth,
-      Gender : this.gender
-     // Nationality: this.validateForm.value.nationality,
-     
+      Gender : this.gender,
+      Nationality: this.selectednationality
+
+
     }
 
   }
 
+  handleChange(info: NzUploadChangeParam): void {
 
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
+  }
 
 
 

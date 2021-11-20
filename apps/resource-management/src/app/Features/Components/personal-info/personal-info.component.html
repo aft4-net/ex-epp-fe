@@ -1,7 +1,16 @@
 
  <form nz-form  class="Entry-Employee-area">
   <div  style=" max-width: 600px;" [formGroup]="validateForm">
-  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-item style="margin-bottom: 10px;">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="employeeNumber">Employee Number</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Employee Number!">
+        <input nz-input formControlName="employeeNumber" id="employeeNumber" [(ngModel)]="employeeNumber"/>
+        <ng-template #errorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">employeeNumber</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
       <input nz-input formControlName="firstName" id="firstName" [(ngModel)]="firstName"/>
@@ -27,7 +36,7 @@
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>Grand Father's Name</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" [nzErrorTip]="errorTpl">
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
       <input nz-input type="text" formControlName="grandFatherName" id="grandFName" [(ngModel)]="grandFatherName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Grand Father's Name</ng-container>
@@ -42,17 +51,22 @@
       nzFor="personalEmail"
       nzRequired
       nzTooltipTitle="Do you want to add another email ?"
-
+      nz-icon nzType="plus" nzTheme="outline"
     >
       <span>Personal Email</span>
     </nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
       <input nz-input id="personalEmail" formControlName="personalEmail" [(ngModel)]="personalEmail" />
+
     </nz-form-control>
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"  nzRequired
-    nzTooltipTitle="Do you want to add another Phone Number ?">Phone Number</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
+    nzTooltipTitle="Do you want to add another Phone Number ?"
+    nz-icon nzType="plus" nzTheme="outline"
+    >
+    Phone Number
+    </nz-form-label>
     <nz-form-control
       [nzSm]="10"
       [nzXs]="24"
@@ -68,7 +82,7 @@
 
   <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input dateofBirth!">
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input date of birth!">
       <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth"/>
     </nz-form-control>
   </nz-form-item>
@@ -104,9 +118,9 @@
       nzFor="Nationality"
       nzRequired
       nzTooltipTitle="Do you want to add another Nationality ?"
-
+      nz-icon nzType="plus" nzTheme="outline"
     >
-      Nationality
+     Nationality
     </nz-form-label>
     <nz-form-control
       [nzSm]="14"
@@ -153,7 +167,7 @@
         <div class="master-plate-avatar--outer">
         <div id="master-plate-avatar-" data-name="master/plate/avatar/ellipse" class="master-plate-avatar-">
           <div class="Ellipse-outer">
-          <img id="Ellipse" data-name="Ellipse" alt="Ellipse" class="Ellipse">
+          <nz-avatar nzIcon="user" class="Ellipse"></nz-avatar>
           </div>
         </div>
         </div>
@@ -178,7 +192,18 @@
             </div>
             <div class="Upload-new-avatar-outer">
             <div id="Upload-new-avatar" data-name="Upload new avatar" class="Upload-new-avatar">
-              <button nz-button nzType="primary">Upload New Photo</button>
+
+    <nz-upload
+      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      [nzHeaders]="{ authorization: 'authorization-text' }"
+      (nzChange)="handleChange($event)"
+    >
+      <button nz-button>
+        <i nz-icon nzType="upload"></i>
+        Click to Upload
+      </button>
+    </nz-upload>
+
             </div>
 
 

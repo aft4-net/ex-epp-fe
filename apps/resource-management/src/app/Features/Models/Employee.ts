@@ -6,6 +6,7 @@ import { Nationality } from "./Nationality";
 
 export interface Employee{
 
+  employeeNumber:string,
   FirstName: string,
   FatherName: string,
   GrandFatherName: string,
@@ -22,5 +23,5 @@ export interface Employee{
   PersonalAddress?: Address[],
   FamilyDetail?: FamilyDetails[],
   EmergencyContact?: EmergencyContact[]
-  
+
 }
