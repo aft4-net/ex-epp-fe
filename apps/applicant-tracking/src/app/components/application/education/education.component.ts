@@ -271,7 +271,7 @@ export class EducationComponent implements OnInit {
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you want to delete this record?',
+      nzContent: 'Are you sure you want to delete this entry?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },
