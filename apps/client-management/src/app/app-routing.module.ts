@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddClientComponent } from './features/add-client/add-client.component';
-import { ClientsComponent } from './features/clients/clients.component';
 
-const routes: Routes = [{path:'',component:ClientsComponent},
-                       {path:'add-client',component:AddClientComponent}];
+const routes: Routes = [{path:'',pathMatch: 'full', redirectTo: '/clients'},
+{
+  path: 'clients',
+  loadChildren: () =>
+    import('./clients/clients.module').then((m) => m.ClientsModule)
+}
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
