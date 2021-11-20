@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   EmergencyContact,
+  IAddress,
   IEmergencyContact,
 } from '../../Models/emergencycontact';
 
@@ -16,6 +17,7 @@ export class EmergencycontactService {
   formData: EmergencyContact = new EmergencyContact();
   list: IEmergencyContact[] = [];
   private emSource = new BehaviorSubject<IEmergencyContact | null>(null);
+
   em$ = this.emSource.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -36,18 +38,6 @@ export class EmergencycontactService {
     Woreda: 'string',
     HouseNumber: 'string',
     PostalCode: 0,
-  };
-
-  emCont = {
-    Guid: 'string',
-    IsActive: true,
-    IsDeleted: true,
-    CreatedDate: Date,
-    CreatedbyUserGuid: 'string',
-    FirstName: 'string',
-    FatherName: 'string',
-    Relationship: 'string',
-    Address: [this.addressIn],
   };
 
   postEmergenycContacts() {
@@ -89,11 +79,12 @@ export class EmergencycontactService {
   }
 
   addEmergencycontact(emc: IEmergencyContact) {
-    this.setEmergencycontact(emc);
+    this.postEmergencycontact(emc);
   }
-  setEmergencycontact(employee: IEmergencyContact) {
-    return this.http.post(this.baseURL, employee).subscribe(
-      (response: ResponseDto<EmergencyContact> | any) => {
+
+  postEmergencycontact(emc: IEmergencyContact) {
+    return this.http.post(this.baseURL, emc).subscribe(
+      (response: ResponseDto<IEmergencyContact> | any) => {
         this.emSource.next(response.data), console.log(response.data);
       },
       (error) => {

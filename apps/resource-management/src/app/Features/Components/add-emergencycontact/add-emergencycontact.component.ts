@@ -53,23 +53,16 @@ export class AddEmergencycontactComponent implements OnInit {
     });
 
     this.emc = {
-     Guid: '',
-  IsActive : true,
-  IsDeleted : true,
-  CreatedDate : new Date(),
-  CreatedbyUserGuid : '',
-  FirstName : 'Simbo',
-  FatherName :'Temesgen',
-  Relationship : 'brother',
-      Address: []
-
-    
-
-
-
+      Guid: '',
+      IsActive: true,
+      IsDeleted: true,
+      CreatedDate: new Date(),
+      CreatedbyUserGuid: '',
+      FirstName: 'Simbo',
+      FatherName: 'Temesgen',
+      Relationship: 'brother',
+      Address: [],
     };
-
-
   }
 
   onSubmit() {
@@ -149,8 +142,8 @@ export class AddEmergencycontactComponent implements OnInit {
       }
     );
   }
-  addEmergencycontact() {
-    console.log('Added Successfully');
+  submitForm() {
     this.service.addEmergencycontact(this.emc);
+    console.log('Added Successfully');
   }
 }
