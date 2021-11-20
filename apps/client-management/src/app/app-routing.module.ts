@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AppRoutingRoutingModule } from './app-routing-routing.module';
+import { RouterModule, Routes } from '@angular/router';
+import { AddClientComponent } from './features/add-client/add-client.component';
+import { ClientsComponent } from './features/clients/clients.component';
 
-
-
+const routes: Routes = [{path:'',component:ClientsComponent},
+                       {path:'add-client',component:AddClientComponent}];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    AppRoutingRoutingModule
-  ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
