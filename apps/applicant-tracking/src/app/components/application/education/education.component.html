@@ -155,8 +155,8 @@
             <td>{{ data?.Institution }}</td>
             <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
             <td>{{ data?.EducationProgramme?.Name }}</td>
-            <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
-            <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
+            <td>{{ this.datepipe.transform(data?.DateFrom, 'dd-MM--yyyy')  }}</td>
+            <td>{{ this.datepipe.transform(data?.DateTo, 'dd-MM--yyyy')  }}</td>
       
             <td>
               <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">

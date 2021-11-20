@@ -141,13 +141,15 @@ export class EducationComponent implements OnInit {
   async onFormSubmit() {
     this.loading = true;
     const educationModel = this.getFormValue();
-    if (!this.isUpdateMode) await this.addItem(educationModel);
+    this.education.controls.yearTo.disable();
+    if (!this.isUpdateMode) await this.addItem(educationModel)
     else await this.updateItem(educationModel);
   }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
       (_) => {
         this.onSaveCompleted();
+        this.education.controls.yearTo.disable();
         this.bindRecord();
         this.hasDataEntry(this.educations.length > 0 ? true:false);
       },
