@@ -53,23 +53,22 @@
         formArrayName="Address"
         *ngFor="let t of Addresses.controls; let i = index"
       >
-        <app-address-new> </app-address-new>
+        <app-address-new></app-address-new>
         <div nz-col nzSpan="3">
-            <button
-              nz-button
-              nzType="primary"
-              nzDanger
-              (click)="removeAddress(i)"
-            >
-              <i nz-icon nzType="delete" nzTheme="outline"></i>
-            </button>
-          </div>
+          <button
+            nz-button
+            nzType="primary"
+            nzDanger
+            (click)="removeAddress(i)"
+          >
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </button>
+        </div>
       </ng-container>
     </nz-collapse-panel>
   </nz-collapse>
-  <nz-form-item nz-row class="register-area">
-    <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="primary">Save</button>
-    </nz-form-control>
-  </nz-form-item>
+  <app-progress-buttons
+    [isMultiple]="false"
+    (actionType)="addEmergencycontact()"
+  ></app-progress-buttons>
 </form>

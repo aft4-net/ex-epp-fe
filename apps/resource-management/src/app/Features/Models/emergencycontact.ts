@@ -1,5 +1,3 @@
-import { uuid } from 'uuidv4';
-
 export interface IAddress {
   Guid: string;
   IsActive: boolean;
@@ -29,11 +27,11 @@ export interface IEmergencyContact {
 }
 
 export class EmergencyContact implements IEmergencyContact {
-  Guid = uuid();
+  Guid = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
   IsActive = true;
   IsDeleted = true;
   CreatedDate = new Date();
-  CreatedbyUserGuid = uuid();
+  CreatedbyUserGuid = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
   FirstName = '';
   FatherName = '';
   Relationship = '';

@@ -1,17 +1,26 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  EmergencyContact,
+  IEmergencyContact,
+} from '../../Models/emergencycontact';
+
 import { Address } from '../../Models/address.model';
 import { HttpClient } from '@angular/common/http';
-import { IEmergencyContact } from '../../Models/emergencycontact';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ResponseDto } from '../../Models/response-dto.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmergencycontactService {
+  formData: EmergencyContact = new EmergencyContact();
+  list: IEmergencyContact[] = [];
+  private emSource = new BehaviorSubject<IEmergencyContact | null>(null);
+  em$ = this.emSource.asObservable();
+
   constructor(private http: HttpClient) {}
 
-  readonly baseURL = 'http://localhost:5000/api/v1/EmergencyContact';
+  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContact';
 
   addressIn = {
     Guid: '6fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -41,10 +50,58 @@ export class EmergencycontactService {
     Address: [this.addressIn],
   };
 
+  postEmergenycContacts() {
+    return this.http.post(this.baseURL, this.formData);
+  }
+
   postEmergenycContact() {
-    return this.http.post<ResponseDto<IEmergencyContact>>(
+    return this.http.post<ResponseDto<EmergencyContact>>(
       this.baseURL,
-      this.emCont
+      this.formData
     );
+  }
+
+  createEmergencycontact(em: EmergencyContact): Observable<EmergencyContact> {
+    console.log(em);
+    return this.http.post<EmergencyContact>(this.baseURL, em);
+  }
+
+  putEmergencycontact() {
+    return this.http.put(
+      `${this.baseURL}/${this.formData.Guid}`,
+      this.formData
+    );
+  }
+
+  deleteRequest(id: number) {
+    return this.http.delete(`${this.baseURL}/${id}`);
+  }
+
+  getEmergencyContact(): Observable<EmergencyContact[]> {
+    return this.http.get<EmergencyContact[]>(this.baseURL);
+  }
+
+  refreshList() {
+    this.http
+      .get(this.baseURL)
+      .toPromise()
+      .then(() => this.list);
+  }
+
+  addEmergencycontact(emc: IEmergencyContact) {
+    this.setEmergencycontact(emc);
+  }
+  setEmergencycontact(employee: IEmergencyContact) {
+    return this.http.post(this.baseURL, employee).subscribe(
+      (response: ResponseDto<EmergencyContact> | any) => {
+        this.emSource.next(response.data), console.log(response.data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  setEmergencyData(emc: IEmergencyContact) {
+    this.emSource.next(emc);
   }
 }

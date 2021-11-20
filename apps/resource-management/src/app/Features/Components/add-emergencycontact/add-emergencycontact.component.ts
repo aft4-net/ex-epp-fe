@@ -4,8 +4,12 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { EmergencyContact } from '../../Models/emergencycontact';
+import { ResponseDto } from '../../Models/response-dto.model';
+import { EmergencycontactService } from '../../Services/emergencycontact/emergencycontact.service';
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
@@ -15,14 +19,17 @@ import {
 export class AddEmergencycontactComponent implements OnInit {
   @Input() isStandalone = true;
 
-  listOfStates: string[] = [];
-  isEthiopia = false;
   EForm!: FormGroup;
-
+  AddresForm!: FormGroup;
+  listOfControl: Array<{ id: number; controlInstance: string }> = [];
+  emc!: EmergencyContact;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<unknown> = new EventEmitter<unknown>();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    public service: EmergencycontactService,
+    private fb: FormBuilder
+  ) {}
 
   createAddress(): FormGroup {
     return this.fb.group({
@@ -44,6 +51,71 @@ export class AddEmergencycontactComponent implements OnInit {
       Relationship: [null, [Validators.required]],
       Address: this.fb.array([this.createAddress()], Validators.required),
     });
+
+    this.emc = {
+     Guid: '',
+  IsActive : true,
+  IsDeleted : true,
+  CreatedDate : new Date(),
+  CreatedbyUserGuid : '',
+  FirstName : 'Simbo',
+  FatherName :'Temesgen',
+  Relationship : 'brother',
+      Address: []
+
+    
+
+
+
+    };
+
+
+  }
+
+  onSubmit() {
+    if (this.EForm.valid) {
+      if (this.service.formData.Guid == null) this.insertRecord();
+      else this.updateRecord();
+      console.log('submit', this.EForm.value);
+    } else {
+      Object.values(this.EForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+  insertRecord() {
+    this.service.postEmergenycContact().subscribe(
+      () => {
+        this.resetForm();
+        this.service.refreshList();
+        // this.toastr.success('Submitted successfully', 'Payment Detail Register')
+      },
+      (err: unknown) => {
+        console.log(err);
+      }
+    );
+  }
+
+  updateRecord() {
+    this.service.putEmergencycontact().subscribe(
+      () => {
+        this.resetForm();
+        this.service.refreshList();
+        // this.toastr.info('Updated successfully', 'Payment Detail Register')
+      },
+      (err: unknown) => {
+        console.log(err);
+      }
+    );
+  }
+
+  resetForm() {
+    this.EForm.reset();
+    this.service.formData = new EmergencyContact();
   }
 
   get Addresses(): FormArray {
@@ -64,4 +136,21 @@ export class AddEmergencycontactComponent implements OnInit {
       name: 'Add Address',
     },
   ];
+
+  onAction() {
+    this.service.postEmergenycContacts().subscribe(
+      () => {
+        this.resetForm();
+        this.service.refreshList();
+        // this.toastr.success('Submitted successfully', 'Payment Detail Register')
+      },
+      (err: unknown) => {
+        console.log(err);
+      }
+    );
+  }
+  addEmergencycontact() {
+    console.log('Added Successfully');
+    this.service.addEmergencycontact(this.emc);
+  }
 }
