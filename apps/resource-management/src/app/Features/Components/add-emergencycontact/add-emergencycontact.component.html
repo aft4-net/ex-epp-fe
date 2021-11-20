@@ -1,6 +1,11 @@
-<form nz-form id="myForm" [formGroup]="EForm" >
+
+<br/><br/>
+
+<form nz-form [formGroup]="AddForm" >
+  
+  <form nz-form [formGroup]="someFrom" (ngSubmit)="submitForm()">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="FirstName"
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName"
       >FirstName</nz-form-label
     >
     <nz-form-control
@@ -8,25 +13,26 @@
       [nzXs]="24"
       nzErrorTip="The input is required!"
     >
-      <input nz-input formControlName="FirstName" id="FirstName" />
+      <input nzPrefixIcon="user" nz-input formControlName="firstName" id="firstName" />
     </nz-form-control>
   </nz-form-item>
 
+
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="FatherName"
-      >Father</nz-form-label
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fatherName"
+      >FatherName</nz-form-label
     >
     <nz-form-control
       [nzSm]="14"
       [nzXs]="24"
       nzErrorTip="The input is required!"
     >
-      <input nz-input formControlName="FatherName" id="FatherName" />
+      <input nzPrefixIcon="user" nz-input formControlName="fatherName" id="fatherName" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="Relationship"
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relationship"
       >Relationship</nz-form-label
     >
     <nz-form-control
@@ -34,9 +40,16 @@
       [nzXs]="24"
       nzErrorTip="The input is required!"
     >
-      <input nz-input formControlName="Relationship" id="Relationship" />
+      <input nzPrefixIcon="user" nz-input formControlName="relationship" id="relationship" />
     </nz-form-control>
   </nz-form-item>
+  <button  nz-button nzType="primary" >
+    Next
+    <i nz-icon nzType="right"></i>
+  </button>
+
+</form>
+
 
   <nz-collapse nzAccordion>
     <nz-collapse-panel
@@ -50,26 +63,31 @@
         </button>
       </div>
       <ng-container
-        formArrayName="Address"
+        formArrayName="address"
         *ngFor="let t of Addresses.controls; let i = index"
       >
-        <div nz-col nzSpan="3">
-          <button
-            nz-button
-            nzType="primary"
-            nzDanger
-            (click)="removeAddress(i)"
-          >
-            <i nz-icon nzType="delete" nzTheme="outline"></i>
-          </button>
-        </div>
-      </ng-container>
-    </nz-collapse-panel>
+  <app-address-new ></app-address-new>
+  <div nz-col nzSpan="3">
+    <button
+      nz-button
+      nzType="primary"
+      nzDanger
+      (click)="removeAddress(i)"
+    >
+      <i nz-icon nzType="delete" nzTheme="outline"></i>
+    </button>
+  </div>
+  
+  </ng-container>
+  </nz-collapse-panel>
   </nz-collapse>
-  <button nz-button nzType="primary">Save</button>
-
-  <app-progress-buttons
-    [isMultiple]="true"
-    (actionType)="submitForm()"
-  ></app-progress-buttons>
+  
+  
+ 
+ 
+ 
 </form>
+
+
+  
+

@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   EmergencyContact,
-  IAddress,
+ 
   IEmergencyContact,
 } from '../../Models/emergencycontact';
 
@@ -58,7 +58,7 @@ export class EmergencycontactService {
 
   putEmergencycontact() {
     return this.http.put(
-      `${this.baseURL}/${this.formData.Guid}`,
+      `${this.baseURL}/${this.formData.guid}`,
       this.formData
     );
   }
@@ -78,21 +78,29 @@ export class EmergencycontactService {
       .then(() => this.list);
   }
 
-  addEmergencycontact(emc: IEmergencyContact) {
-    this.postEmergencycontact(emc);
-  }
+ 
+   
+  
+  addEmergencycontact(emc: EmergencyContact){
+    this.setEmployee(emc);
+  } 
+  setEmployee(emc:EmergencyContact){
+    return this.http.post(this.baseURL,emc)
+     .subscribe((response:ResponseDto<EmergencyContact> | any) => {
+       this.emSource.next(response.data),
+       console.log(response.data)
+     },error => {
+       console.log(error);
+     });
+    }
+    setEmployeeData(employee:EmergencyContact){
+      this.emSource.next(employee);  
+    }
 
-  postEmergencycontact(emc: IEmergencyContact) {
-    return this.http.post(this.baseURL, emc).subscribe(
-      (response: ResponseDto<IEmergencyContact> | any) => {
-        this.emSource.next(response.data), console.log(response.data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  setEmergencyData(emc: IEmergencyContact) {
-    this.emSource.next(emc);
-  }
+
+
+    postRequest(){
+  return this.http.post(this.baseURL, this.formData);
+}
+
 }

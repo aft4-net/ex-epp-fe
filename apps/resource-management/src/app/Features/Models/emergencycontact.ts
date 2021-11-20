@@ -1,39 +1,34 @@
-export interface IAddress {
-  Guid: string;
-  IsActive: boolean;
-  IsDeleted: boolean;
-  CreatedDate: Date;
-  CreatedbyUserGuid: string;
-  PhoneNumber: string;
-  Country: string;
-  StateRegionProvice: string;
-  City: string;
-  SubCityZone: string;
-  Woreda: string;
-  HouseNumber: string;
-  PostalCode: number;
-}
+
+import { Address } from "./address.model";
 
 export interface IEmergencyContact {
-  Guid: string;
-  IsActive: boolean;
-  IsDeleted: boolean;
-  CreatedDate: Date;
-  CreatedbyUserGuid: string;
-  FirstName: string;
-  FatherName: string;
-  Relationship: string;
-  Address: IAddress[];
+  guid?: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  createdDate?: Date;
+  createdbyUserGuid?: string;
+  firstName?: string;
+  fatherName?: string;
+  relationship?: string;
+  address?: Address[];
 }
 
 export class EmergencyContact implements IEmergencyContact {
-  Guid = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-  IsActive = true;
-  IsDeleted = true;
-  CreatedDate = new Date();
-  CreatedbyUserGuid = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-  FirstName = '';
-  FatherName = '';
-  Relationship = '';
-  Address: [] = [];
+  constructor(
+ public guid? :string,
+ public isActive? : boolean,
+ public isDeleted? : boolean,
+ public createdDate?: Date,
+ public createdbyUserGuid? :string,
+ public firstName? :string,
+ public fatherName? : string,
+ public  relationship? : string,
+ public  address: [] = []
+
+  ){}
 }
+
+
+
+  
+ 

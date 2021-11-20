@@ -1,35 +1,99 @@
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { EmergencyContact } from '../../Models/emergencycontact';
-import { ResponseDto } from '../../Models/response-dto.model';
+import { BrowserModule } from '@angular/platform-browser';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import { Address, Addresss } from '../../Models/address.model';
+
+import { EmergencyContact, IEmergencyContact } from '../../Models/emergencycontact';
+import { LocationPhoneService } from '../../Services/address/location-phone.service';
+
 import { EmergencycontactService } from '../../Services/emergencycontact/emergencycontact.service';
+
+import { NzButtonSize } from 'ng-zorro-antd/button';
+
+
+
+
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
   templateUrl: './add-emergencycontact.component.html',
   styleUrls: ['./add-emergencycontact.component.scss'],
 })
-export class AddEmergencycontactComponent implements OnInit {
-  @Input() isStandalone = true;
 
+
+export class AddEmergencycontactComponent implements OnInit {
+
+  // Needed to bind formControlName
+@Input() formGroupParent!: FormGroup ;
+@Input() formGroupControlName!: string ;
+// FormControl store validators
+control!: FormControl 
+
+
+  listOfStates: string[] = [];
+  isEthiopia = false;
   EForm!: FormGroup;
-  AddresForm!: FormGroup;
-  listOfControl: Array<{ id: number; controlInstance: string }> = [];
-  emc!: EmergencyContact;
+  
+
+
+  emcaddresses: Address[] = []
+ 
+ 
+
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<unknown> = new EventEmitter<unknown>();
+ 
 
-  constructor(
-    public service: EmergencycontactService,
-    private fb: FormBuilder
-  ) {}
+  constructor(private fb: FormBuilder,
+    public service : EmergencycontactService,
+    private toastr: ToastrService,
+    // public ddresscomp :AddressNewComponent,
+    private _locationPhoneService: LocationPhoneService,
+    
+    ) {}
+
+    AddForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      fatherName: new FormControl('', [Validators.required,]),
+      relationship: new FormControl('', [Validators.required]),
+      address: this.fb.array([this.createAddress()], Validators.required),
+  
+      
+    });
+
+
+    someFrom = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      fatherName: new FormControl('', [Validators.required,]),
+      relationship: new FormControl('', [Validators.required]),
+            
+    });
+  
+  
+
+
+  
+    
+
+
+
+
+ 
+    
+
+
+
+
+
+    
 
   createAddress(): FormGroup {
     return this.fb.group({
@@ -43,72 +107,25 @@ export class AddEmergencycontactComponent implements OnInit {
       residencialPhoneNumber: [null, [Validators.required]],
     });
   }
+ 
 
+ 
   ngOnInit(): void {
+
+
+    
     this.EForm = this.fb.group({
-      FirstName: [null, [Validators.required]],
-      FatherName: [null, [Validators.required]],
-      Relationship: [null, [Validators.required]],
-      Address: this.fb.array([this.createAddress()], Validators.required),
+      firstName: [null, [Validators.required]],
+      fatherName: [null, [Validators.required]],
+      relationship: [null, [Validators.required]],
+     Address: this.fb.array([this.createAddress()], Validators.required),
     });
 
-    this.emc = {
-      Guid: '',
-      IsActive: true,
-      IsDeleted: true,
-      CreatedDate: new Date(),
-      CreatedbyUserGuid: '',
-      FirstName: 'Simbo',
-      FatherName: 'Temesgen',
-      Relationship: 'brother',
-      Address: [],
-    };
-  }
+   
+      
+    
 
-  onSubmit() {
-    if (this.EForm.valid) {
-      if (this.service.formData.Guid == null) this.insertRecord();
-      else this.updateRecord();
-      console.log('submit', this.EForm.value);
-    } else {
-      Object.values(this.EForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
-  }
 
-  insertRecord() {
-    this.service.postEmergenycContact().subscribe(
-      () => {
-        this.resetForm();
-        this.service.refreshList();
-        // this.toastr.success('Submitted successfully', 'Payment Detail Register')
-      },
-      (err: unknown) => {
-        console.log(err);
-      }
-    );
-  }
-
-  updateRecord() {
-    this.service.putEmergencycontact().subscribe(
-      () => {
-        this.resetForm();
-        this.service.refreshList();
-        // this.toastr.info('Updated successfully', 'Payment Detail Register')
-      },
-      (err: unknown) => {
-        console.log(err);
-      }
-    );
-  }
-
-  resetForm() {
-    this.EForm.reset();
-    this.service.formData = new EmergencyContact();
   }
 
   get Addresses(): FormArray {
@@ -129,21 +146,50 @@ export class AddEmergencycontactComponent implements OnInit {
       name: 'Add Address',
     },
   ];
+ 
 
-  onAction() {
-    this.service.postEmergenycContacts().subscribe(
-      () => {
-        this.resetForm();
-        this.service.refreshList();
-        // this.toastr.success('Submitted successfully', 'Payment Detail Register')
-      },
-      (err: unknown) => {
-        console.log(err);
-      }
-    );
+  
+  submitForm(): void {
+     if (this.someFrom.valid) {
+      console.log('submit', this.AddForm.value);
+      console.log("Added successfully");
+    this.service.addEmergencycontact(this.someFrom.value);
+    this.toastr.success('Added successfully', 'Emergency Contact Register')
+    }
+    
+    else {
+      Object.values(this.someFrom.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      this.toastr.error('Not Added!',)
+    }
   }
-  submitForm() {
-    this.service.addEmergencycontact(this.emc);
-    console.log('Added Successfully');
-  }
+
+
+
+
+  
+
+
+
+
+///
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
