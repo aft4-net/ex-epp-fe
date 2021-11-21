@@ -1,6 +1,5 @@
-<div class="main_container_homepage">
-
-  <nz-breadcrumb nz-page-header-breadcrumb>
+<header>
+  <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
     <nz-breadcrumb-item>
       <a [routerLink]="['/clients']">Clients </a>
@@ -8,11 +7,25 @@
     <nz-breadcrumb-item>Add Clients</nz-breadcrumb-item>
   </nz-breadcrumb>
   <div nz-row>
-    <div class="page-title"> Client Details </div>
+    <div class="page-title"> Add Client </div>
   </div>
-
-  <exec-epp-header-line> </exec-epp-header-line>
-
+</header>
+<exec-epp-header-line> </exec-epp-header-line>
+<header>
+  <div class="justify-between" nz-row>
+    <div class="page-title"> Enter Client Details </div>
+    <div>
+    
+      <button class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+           py-1 px-3 border hover:border-green-800 hover:text-green-800  mr-4 ">
+        Cancel
+      </button>
+      <button  nz-button> Save </button>
+    </div>
+  </div>
+</header>
+<hr>
+<div class="main_container_homepage">
   <nz-tabset class="side-nav p-2" [nzTabPosition]="position">
     <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Details'>
       <div class="tab-content">

@@ -41,7 +41,7 @@
 
 .tab-content {
   padding: 0px 20px 25px;
-  height: 88vh;
+  height: 100vh;
 
 }
 
@@ -107,9 +107,7 @@ nz-tab {
 
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-
-
-  box-shadow: inset 0px -1px 0px #DADADA !important;
+  box-shadow: inset -2px 0px 0px #989898 !important;
 
 }
 
@@ -137,4 +135,18 @@ nz-tab {
 
 }
 
+header {
+  padding: 0px 2%;
+}
 
+::ng-deep .ant-btn {
+    background: #00a551;
+    border-radius: 2px;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #e8ffe8;
+  }
+  
