@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzTabPosition } from 'ng-zorro-antd/tabs';
 
 @Component({
   selector: 'exec-epp-add-client',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddClientComponent implements OnInit {
 
+  position: NzTabPosition = 'left';
   constructor() { }
 
   ngOnInit(): void {

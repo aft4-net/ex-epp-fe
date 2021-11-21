@@ -1,1 +1,35 @@
-<p>add-client works!</p>
+<div class="main_container_homepage">
+
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a [routerLink]="['/clients']">Clients </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Add Clients</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div nz-row>
+    <div class="page-title"> Client Details </div>
+  </div>
+
+  <exec-epp-header-line> </exec-epp-header-line>
+
+  <nz-tabset class="side-nav p-2" [nzTabPosition]="position">
+    <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Details'>
+      <div class="tab-content">
+        <exec-epp-details-form> </exec-epp-details-form>
+      </div>
+    </nz-tab>
+    <nz-tab class="side-nav-tab" nzSelected nzTitle='Contact Details'>
+      <div class="tab-content">
+        <exec-epp-contacts-form> </exec-epp-contacts-form>
+      </div>
+    </nz-tab>
+    <nz-tab class="side-nav-tab" nzSelected nzTitle='Location'>
+      <div class="tab-content">
+        <exec-epp-loacations-form> </exec-epp-loacations-form>
+      </div>
+    </nz-tab>
+
+  </nz-tabset>
+
+</div>

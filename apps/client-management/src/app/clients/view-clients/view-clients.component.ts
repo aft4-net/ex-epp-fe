@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-view-clients',
   templateUrl: './view-clients.component.html',
   styleUrls: ['./view-clients.component.scss']
 })
-export class ViewClientsComponent implements OnInit {
+export class ViewClientsComponent  {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
-  ngOnInit(): void {
+  addClientPage()
+  {
+     this.router.navigateByUrl('clients/add-client');
   }
 
 }
