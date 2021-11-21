@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { AngularFileUploaderComponent } from 'angular-file-uploader';
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { HttpClient } from '@angular/common/http';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
 import { Nationality } from '../../Models/Nationality';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -23,6 +25,8 @@ export class PersonalInfoComponent implements OnInit {
   listOfOption: string[] = ["male","female"];
   employee !: Employee;
 
+  fileName = "";
+
   employeeNumber="";
   personalEmail ="";
   firstName="";
@@ -35,7 +39,8 @@ export class PersonalInfoComponent implements OnInit {
   selectednationality: Nationality [] = [] ;
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
-    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
+    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -56,8 +61,10 @@ export class PersonalInfoComponent implements OnInit {
       this.nationality = response;
     })
 
+
   }
   addEmployee(){
+
      this.ValidateInput();
     console.log("Add Employee Executed");
     this.employeeService.setEmployeeData(this.employee);
@@ -105,6 +112,7 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
+  
 
 
 }

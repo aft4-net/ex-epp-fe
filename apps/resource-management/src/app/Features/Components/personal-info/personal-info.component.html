@@ -1,7 +1,9 @@
 
- <form nz-form  class="Entry-Employee-area">
-  <div  style=" max-width: 600px;" [formGroup]="validateForm">
-    <nz-form-item style="margin-bottom: 10px;">
+<form nz-form  class="Entry-Employee-area">
+
+  <div  style=" max-width: 600px; top: 0px;" [formGroup]="validateForm">
+
+    <nz-form-item style="margin-bottom: 10px; margin-top: 0px;">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="employeeNumber">Employee Number</nz-form-label>
       <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Employee Number!">
         <input nz-input formControlName="employeeNumber" id="employeeNumber" [(ngModel)]="employeeNumber"/>
@@ -147,75 +149,17 @@
       <button nz-button nzType="primary" style="margin-right: 500px;bottom: 57px;" (click)="saveEmployee()">Save</button>
     </nz-form-control>
   </nz-form-item>
+  <nz-form-item nz-row >
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+     <!-- <angular-file-uploader [config]="afuConfig">
+      </angular-file-uploader>-->
+      <exec-epp-uploadphoto></exec-epp-uploadphoto>
+    </nz-form-control>
+  </nz-form-item>
+
 
  </div>
 </div>
 
 </div>
 </form>
-
-<div class="Avatar-outer">
-  <div id="Avatar" data-name="Avatar" class="Avatar">
-    <div class="Avatar-1-outer">
-    <div id="Avatar-1" data-name="Avatar" class="Avatar-1"><div key="0"></div>
-    </div>
-    </div>
-    <div class="avatar-ellipse-custo-outer">
-    <div id="avatar-ellipse-custo" data-name="avatar/ellipse/custom/photo" class="avatar-ellipse-custo">
-      <div class="master-avatar-ellips-outer">
-      <div id="master-avatar-ellips" data-name="master/avatar/ellipse/custom" class="master-avatar-ellips">
-        <div class="master-plate-avatar--outer">
-        <div id="master-plate-avatar-" data-name="master/plate/avatar/ellipse" class="master-plate-avatar-">
-          <div class="Ellipse-outer">
-          <nz-avatar nzIcon="user" class="Ellipse"></nz-avatar>
-          </div>
-        </div>
-        </div>
-
-
-      </div>
-      </div>
-    </div>
-    </div>
-    <div class="upload-button-medium-outer">
-    <div id="upload-button-medium" data-name="upload/button/medium/default" class="upload-button-medium">
-      <div class="button-solid-medium--1-outer">
-      <div id="button-solid-medium--1" data-name="button/solid/medium/icon-left/outline/default" class="button-solid-medium--1">
-        <div class="master-button-medium-1-outer">
-        <div id="master-button-medium-1" data-name="master/button/medium/text" class="master-button-medium-1">
-          <div class="content-1-outer">
-          <div id="content-1" data-name="content" class="content-1">
-            <div class="icon-container-2-outer">
-
-            <div class="icon-container-3-outer">
-
-            </div>
-            <div class="Upload-new-avatar-outer">
-            <div id="Upload-new-avatar" data-name="Upload new avatar" class="Upload-new-avatar">
-
-    <nz-upload
-      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      [nzHeaders]="{ authorization: 'authorization-text' }"
-      (nzChange)="handleChange($event)"
-    >
-      <button nz-button>
-        <i nz-icon nzType="upload"></i>
-        Click to Upload
-      </button>
-    </nz-upload>
-
-            </div>
-
-
-            </div>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    </div>
-  </div>
-
-
