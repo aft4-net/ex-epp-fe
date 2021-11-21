@@ -14,7 +14,7 @@ export class AreaOfInterestLookUpService {
   }
 
   getAllPositions(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/LUPositionToApply/GetAll`)
+    return this.http.get<any>(`${environment.apiUrl}/LUPositionToApply/LUPositionToApplyGetAll`)
       .pipe(catchError(this.formatErrors));
   }
   getAllProficencyLevel(): Observable<any> {

@@ -1,0 +1,75 @@
+<form nz-form id="myForm" [formGroup]="EForm">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="FirstName"
+      >FirstName</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is required!"
+    >
+      <input nz-input formControlName="FirstName" id="FirstName" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="FatherName"
+      >Father</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is required!"
+    >
+      <input nz-input formControlName="FatherName" id="FatherName" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="Relationship"
+      >Relationship</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is required!"
+    >
+      <input nz-input formControlName="Relationship" id="Relationship" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-collapse nzAccordion>
+    <nz-collapse-panel
+      *ngFor="let panel of panels"
+      [nzHeader]="panel.name"
+      [nzActive]="panel.active"
+    >
+      <div nz-col nzSpan="6" nzOffset="6">
+        <button nz-button nzType="primary" (click)="addAddress()">
+          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+        </button>
+      </div>
+      <ng-container
+        formArrayName="Address"
+        *ngFor="let t of Addresses.controls; let i = index"
+      >
+        <app-address-new> </app-address-new>
+        <div nz-col nzSpan="3">
+            <button
+              nz-button
+              nzType="primary"
+              nzDanger
+              (click)="removeAddress(i)"
+            >
+              <i nz-icon nzType="delete" nzTheme="outline"></i>
+            </button>
+          </div>
+      </ng-container>
+    </nz-collapse-panel>
+  </nz-collapse>
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button nz-button nzType="primary">Save</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

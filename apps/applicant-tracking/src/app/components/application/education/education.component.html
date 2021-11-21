@@ -3,12 +3,12 @@
   <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
-      Add Education</span
+       Add Education</span
     >
   </button>
   <nz-modal
     [(nzVisible)]="isModalVisible"
-    nzTitle="Add Education"
+    [nzTitle]="this.isUpdateMode?'Edit Education' : 'Add Education'"
     nzWidth="80%"
     [nzFooter]="null"
     (nzOnCancel)="closeModal()"
@@ -23,8 +23,8 @@
               #institution
               type="text"
               label="Institution"
-              placeholder="Enter your Institution name"
-              errorMsg="Please provide a valid inistitution name"
+              placeholder="Enter Your Institution Name"
+              errorMsg="Please Provide a Valid Inistitution Name"
               [displayError]="institution.focusout"
             >
             </app-input>
@@ -39,8 +39,9 @@
                   label="Started From"
                   placeholder="Enter your Started Year"
                   [disabledDate]="disabledStartDate"
-                  errorMsg="Please provide a valid year name"
+                  errorMsg="Please provide a valid Year"
                   [displayError]="institution.focusout"
+                 
                 >
                 </app-date-picker>
               </div>
@@ -49,11 +50,11 @@
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="UpTo (Expected Date)"
+                  label="To (or Expected Graduation)"
                   [disabled]="education.controls.isStudying.value"
-                  placeholder="Enter your Finished Calender"
+                  placeholder="Enter Your Completion Year"
                   [disabledDate]="disabledEndDate"
-                  errorMsg="Please provide a valid year"
+                  errorMsg="Please Provide a Valid Year"
                   [displayError]="institution.focusout"
                 >
                 </app-date-picker>
@@ -64,22 +65,23 @@
         <div nz-row [nzGutter]="16">
           <div nz-col nzSpan="12">
             <app-select
-              errorMsg="Please select a program"
+              errorMsg="Please Select a Program"
               [list]="fetchedEducationProgramme"
               fcn="program"
               #programselection
               [displayError]="programselection.focusout"
               [form]="education"
               [multiple]="false"
-              placeholder="Enter your Program"
-              label="Please select a program"
+              placeholder="Please Select Your Program"
+              label="Please Select Your Program"
               [selectedValue]=""
             ></app-select>
           </div>
 
           <div nz-col nzSpan="12">
             <app-select
-              errorMsg="Please select a Field of Study"
+              [disabled]="disableFieldOfStudy"
+              errorMsg="Please Select Field of Study"
               [list]="fetchedFieldOfStudies"
               fcn="fieldOfStudy"
               #fieldofstudy
@@ -87,7 +89,7 @@
               [form]="education"
               [multiple]="false"
               label="Please Select Field of Study"
-              placeholder="Enter your field Of Study"
+              placeholder="Select Your Field Of Study"
             ></app-select>
           </div>
         </div>
@@ -108,11 +110,11 @@
         </div>
       </form>
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
+        <div nz-col nzSpan="3" *ngIf="!isUpdateMode">
           <app-checkbox-input
             [form]="validation"
             fcn="isMultitpleEntry"
-            label="Add more education"
+            label="Add More"
           ></app-checkbox-input>
         </div>
         <div nz-col class="col-pad" nzSpan="3">
@@ -129,20 +131,20 @@
     </ng-container>
   </nz-modal>
 
-  <div nz-row>
+  <div nz-row > 
     <div nz-col nzSpan="24">
       <nz-table
         [nzLoading]="loading"
         #table
         [nzData]="educations"
         [nzFrontPagination]="false"
+        style="overflow-y: auto;max-height: 20rem;"
       >
         <thead>
           <tr>
             <th>Institution</th>
             <th>Field of study</th>
             <th>Educatioin Programme</th>
-            <!-- <th>Country</th> -->
             <th>Started Date</th>
             <th>End Date</th>
             <th>Action</th>
@@ -153,18 +155,9 @@
             <td>{{ data?.Institution }}</td>
             <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
             <td>{{ data?.EducationProgramme?.Name }}</td>
-            <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
-            <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
-            <!-- <td>{{ data?.Country }}</td> -->
-            <!-- <td>
-              <a (click)="onEditRecord(data.Guid)">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-                Edit</a
-              >
-
-              <nz-divider nzType="vertical"></nz-divider>
-              <a (click)="onDeleteRecord(data.Guid)">Delete</a>
-            </td> -->
+            <td>{{ this.datepipe.transform(data?.DateFrom, 'dd-MM--yyyy')  }}</td>
+            <td>{{ this.datepipe.transform(data?.DateTo, 'dd-MM--yyyy')  }}</td>
+      
             <td>
               <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
                   <i nz-icon nzType="edit" nzTheme="outline"></i>
@@ -179,7 +172,7 @@
       </nz-table>
 
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="5">
+        <div nz-col nzSpan="3">
           <app-button
             [loading]="loading"
             type="primary"

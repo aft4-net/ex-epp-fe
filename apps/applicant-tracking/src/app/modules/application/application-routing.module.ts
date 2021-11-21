@@ -22,13 +22,13 @@ const routes: Routes = [
       {
         path: 'area-of-interest',
         component:AreaOfInterestComponent,
-        canActivate: [aoiGuard, AuthorizationCheck]
+       // canActivate: [aoiGuard, AuthorizationCheck]
 
       },
       {
         path: 'education',
         component:EducationComponent,
-        canActivate: [educationGuard, AuthorizationCheck]
+       // canActivate: [educationGuard, AuthorizationCheck]
 
       }
     ],
