@@ -24,6 +24,8 @@ export class TimesheetService {
   constructor(private http: HttpClient,) {
   }
 
+  //#region timesheet and timeEntry
+
   getTimeSheet(userId: string, date?: Date) {
     let fromDate = new Date();
 
@@ -44,16 +46,6 @@ export class TimesheetService {
     let response = this.http.get<TimesheetResponse>(this.baseUrl + "Timesheets", { observe: "response", params: params });
 
     return response.pipe(map(r => r.body?.Data));
-  }
-
-  getTimeSheetApproval(timeSheetId: string) {
-    let params = new HttpParams();
-
-    params = params.append("timesheetGuid", timeSheetId);
-
-    let response = this.http.get<TimesheetApprovalResponse>(this.baseUrl + "GetTimesheetAprovalStatus", {observe: "response", params: params});
-
-    return response.pipe(map(r => r.body?.data));
   }
 
   getTimeEntry(timeEntryId: string) {
@@ -100,6 +92,36 @@ export class TimesheetService {
 
     return this.http.put<TimeEntryResponse>(this.baseUrl + "timeentries", timeEntry, { "headers": headers });
   }
+
+  //#endregion
+
+  //#region Time sheet approval
+
+  getTimeSheetApproval(timeSheetId: string) {
+    let params = new HttpParams();
+
+    params = params.append("timesheetGuid", timeSheetId);
+
+    let response = this.http.get<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", { observe: "response", params: params });
+
+    return response.pipe(map(r => r.body?.Data));
+  }
+
+  addTimeSheetApproval(timeSheetId: string) {
+    const headers = { "content-type": "application/json" }
+
+    let params = new HttpParams();
+
+    params = params.append("timesheetGuid", timeSheetId)
+
+    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, {"headers": headers, params: params});
+
+    return response.pipe(map(r => r.Data));
+
+  }
+
+  //#endregion
+
 
   //#region client and poject from mock server
 

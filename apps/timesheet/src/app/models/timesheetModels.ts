@@ -18,9 +18,9 @@ export interface TimeEntry {
 }
 
 export interface TimesheetApproval {
-  timesheetId: string;
-  projectId: string;
-  status: number;
+    TimesheetId: string;
+    ProjectId: string;
+    Status: number;
 }
 
 interface Response {
@@ -45,7 +45,7 @@ export interface TimeEntriesResponse extends Response {
     Data: TimeEntry[] | null;
 }
 
-export interface TimesheetApprovalResponse extends Response{
-  data: TimesheetApproval[] | null;
+export interface TimesheetApprovalResponse extends Response {
+    Data: TimesheetApproval[] | null;
 }
 

@@ -1,28 +1,20 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DayAndDateService } from "./services/day-and-date.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TimesheetService } from './services/timesheet.service';
+import { differenceInCalendarDays } from 'date-fns';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { ClickEventType } from '../models/clickEventType';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse } from '../models/timesheetModels';
+import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
+import { Client } from '../models/client';
+import { Project } from '../models/project';
+import { TimesheetApiService } from './services/api/timesheet-api.service';
+import { Employee } from '../models/employee';
 
-
-
-// @ts-nocheck
-
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {DayAndDateService} from "./services/day-and-date.service";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TimesheetService} from './services/timesheet.service';
-import {differenceInCalendarDays} from 'date-fns';
-import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
-import {ClickEventType} from '../models/clickEventType';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse} from '../models/timesheetModels';
-import {DateColumnEvent, TimeEntryEvent} from '../models/clickEventEmitObjectType';
-import {Client} from '../models/client';
-import {Project} from '../models/project';
-import {TimesheetApiService} from './services/api/timesheet-api.service';
-import {Employee} from '../models/employee';
-
-import {NzNotificationPlacement} from "ng-zorro-antd/notification";
-
-
-
-
+import { NzNotificationPlacement } from "ng-zorro-antd/notification";
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -70,7 +62,7 @@ export class TimesheetComponent implements OnInit {
   lastWeeks = null;
   startValue: Date | null = null;
   endValue: Date | null = null;
-  timesheetApproval: TimesheetApproval [] | null = [];
+  timesheetApproval: TimesheetApproval[] | null = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   disabledDate = (current: Date): boolean =>
@@ -153,7 +145,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   clientValueChange(value: string) {
-    if(!this.userId) {
+    if (!this.userId) {
       return;
     }
     let clientId = value;
@@ -161,7 +153,6 @@ export class TimesheetComponent implements OnInit {
       this.projects = pp;
     });
   }
-
 
   projectValueChange(value: string) {
     let projectId = value;
@@ -193,7 +184,6 @@ export class TimesheetComponent implements OnInit {
     }
     return endValue.getTime() <= this.startValue.getTime();
   };
-
 
   selectedDate(count: any) {
     this.parentCount = count;
@@ -260,7 +250,7 @@ export class TimesheetComponent implements OnInit {
 
     if (this.date <= new Date()) {
       if (this.dateColumnTotalHour < 24) {
-        this.showFormDrawer();
+        this.checkForApproalAndShowFormDrawer();
       } else {
         this.createNotificationErrorOnDailyMaximumHour("bottomRight");
       }
@@ -275,7 +265,7 @@ export class TimesheetComponent implements OnInit {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     this.setDateColumnTotalHour();
 
-    this.showFormDrawer();
+    this.checkForApproalAndShowFormDrawer();
   }
 
   onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
@@ -288,32 +278,37 @@ export class TimesheetComponent implements OnInit {
   onEditButtonClicked(clickEventType: ClickEventType, date: Date) {
     this.clickEventType = clickEventType;
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    if (this.timesheet) {
-      this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
-        this.timesheetApproval = objApprove ? objApprove.filter(tsa => tsa.projectId === this.timeEntry?.ProjectId) : null;
-        // this.timesheetApproval = objApprove;
-        console.log('approval data:' + JSON.stringify(this.timesheetApproval));
-        if (this.timesheetApproval) {
-          if (this.timesheetApproval[0].status === 0) {
-            this.showFormDrawer();
-            // this.notification.error("You can\'t edit the entry submitted for approval!");
-          }
-          if (this.timesheetApproval[0].status === 1) {
-            this.showFormDrawer();
-          }
-          if (this.timesheetApproval[0].status === 2) {
-            this.notification.error('error', "You cant edit the entry submitted for approval!");
-          }
-          // else {
-          //   let message = "";
-          //   (this.timesheetApproval.status === 1) ? message = "You can't edit the entry submitted for approval!" : message = "You can't edit Approved Timesheet!";
-          //   this.notification.error(message);
-          // }
-        }
-      })
-    }else{
-        this.showFormDrawer();
+    this.checkForApproalAndShowFormDrawer();
+  }
+
+  checkForApproalAndShowFormDrawer() {
+    if (!this.timesheet) {
+      this.showFormDrawer();
+      return;
     }
+
+    this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
+      this.timesheetApproval = objApprove ? objApprove : null;
+
+      if (!this.timesheetApproval) {
+        this.showFormDrawer();
+        return;
+      }
+
+      if (!this.timeEntry) {
+        this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
+        return;
+      }
+
+      this.timesheetApproval = this.timesheetApproval.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId);
+
+      if (this.timesheetApproval.length === 0 || this.timesheetApproval[0].Status != 2) {
+        this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
+      }
+      else {
+        this.showFormDrawer();
+      }
+    });
   }
 
   showFormDrawer() {
@@ -396,7 +391,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   addTimeEntry(timeEntry: TimeEntry) {
-    if(!this.userId) {
+    if (!this.userId) {
       return;
     }
 
@@ -421,7 +416,6 @@ export class TimesheetComponent implements OnInit {
       console.log(error);
     });
   }
-
 
   closeFormDrawer(): void {
     this.clearFormData();
