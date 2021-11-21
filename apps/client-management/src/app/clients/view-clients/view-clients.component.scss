@@ -1,5 +1,5 @@
 .page-title {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: SF Pro Display;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -9,25 +9,39 @@
   color: #262626;
 }
 
-header{
-    padding: 0px 2%;
-  }
+header {
+  padding: 0px 2%;
+}
 
 .main_container_homepage {
   padding: 0px 2%;
   padding-bottom: 2rem;
-  margin-bottom: 2rem;
-  margin-top: 1rem;
-  height: 95vh;
+  margin-bottom: 2.3rem;
+  margin-top: 1.2rem;
+  height: 85vh;
 }
 
 ::ng-deep .ant-btn {
-    background: #00a551;
-    border-radius: 2px;
-    font-family: -apple-system, system-ui, BlinkMacSystemFont;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    color: #e8ffe8;
-  }
+  background: #00a551;
+  border-radius: 2px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #e8ffe8;
+}
+
+::ng-deep .ant-btn:active,
+.ant-btn:focus,
+.ant-btn:hover {
+
+  background: none !important;
+
+}
+
+.ant-btn:not([disabled]):hover {
+
+  background: #00a551 !important;
+  color: white;
+}

@@ -15,34 +15,39 @@
   <div class="justify-between" nz-row>
     <div class="page-title"> Enter Client Details </div>
     <div>
-    
-      <button class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+      <button (click)="clientsPage()" class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
            py-1 px-3 border hover:border-green-800 hover:text-green-800  mr-4 ">
         Cancel
       </button>
-      <button  nz-button> Save </button>
+      <button nz-button> Save </button>
     </div>
   </div>
 </header>
 <hr>
-<div class="main_container_homepage">
-  <nz-tabset class="side-nav p-2" [nzTabPosition]="position">
-    <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Details'>
-      <div class="tab-content">
-        <exec-epp-details-form> </exec-epp-details-form>
-      </div>
-    </nz-tab>
-    <nz-tab class="side-nav-tab" nzSelected nzTitle='Contact Details'>
-      <div class="tab-content">
-        <exec-epp-contacts-form> </exec-epp-contacts-form>
-      </div>
-    </nz-tab>
-    <nz-tab class="side-nav-tab" nzSelected nzTitle='Location'>
-      <div class="tab-content">
-        <exec-epp-loacations-form> </exec-epp-loacations-form>
-      </div>
-    </nz-tab>
+<nz-tabset class="side-nav p-2" [nzTabPosition]="position">
+  <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Details' nz-icon nzType="android">
+    <div class="tab-content">
+      <exec-epp-details-form> </exec-epp-details-form>
+    </div>
+  </nz-tab>
 
-  </nz-tabset>
 
-</div>
+  <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Contacts'>
+    <div class="tab-content">
+      <exec-epp-contacts-form> </exec-epp-contacts-form>
+    </div>
+  </nz-tab>
+
+  <nz-tab class="side-nav-tab" nzSelected nzTitle='Comapny Conatacts'>
+    <div class="tab-content">
+      <exec-epp-contacts-form> </exec-epp-contacts-form>
+    </div>
+  </nz-tab>
+
+  <nz-tab class="side-nav-tab" nzSelected nzTitle='Location'>
+    <div class="tab-content">
+      <exec-epp-loacations-form> </exec-epp-loacations-form>
+    </div>
+  </nz-tab>
+
+</nz-tabset>

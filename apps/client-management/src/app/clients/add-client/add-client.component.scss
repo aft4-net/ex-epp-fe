@@ -31,17 +31,19 @@
 
 
 .page-title {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-family: SF Pro Display;
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
-
+  font-size: 20px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
   color: #262626;
 }
 
 .tab-content {
   padding: 0px 20px 25px;
-  height: 100vh;
+  height: 85vh;
 
 }
 
@@ -113,7 +115,7 @@ nz-tab {
 
 
 ::ng-deep .ant-tabs-ink-bar {
-  color: #595959 !important;
+  color: black !important;
   background-color: #000000 !important;
 }
 
@@ -140,13 +142,31 @@ header {
 }
 
 ::ng-deep .ant-btn {
-    background: #00a551;
-    border-radius: 2px;
-    font-family: -apple-system, system-ui, BlinkMacSystemFont;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    color: #e8ffe8;
-  }
-  
+  background: #00a551;
+  border-radius: 2px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #e8ffe8;
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background: #DCFFDC;
+}
+
+
+::ng-deep .ant-btn:active,
+.ant-btn:focus,
+.ant-btn:hover {
+
+  background: none !important;
+
+}
+
+.ant-btn:not([disabled]):hover {
+
+  background: #00a551 !important;
+  color: white;
+}

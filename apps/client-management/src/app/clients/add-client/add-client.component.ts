@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 
 @Component({
@@ -9,9 +10,13 @@ import { NzTabPosition } from 'ng-zorro-antd/tabs';
 export class AddClientComponent implements OnInit {
 
   position: NzTabPosition = 'left';
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
 
+  clientsPage()
+  {
+     this.router.navigateByUrl('clients');
+  }
 }
