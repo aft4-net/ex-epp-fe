@@ -24,27 +24,23 @@
   </div>
 </header>
 <hr>
-<nz-tabset class="side-nav p-2" [nzTabPosition]="position">
+<nz-tabset class=" p-2" [nzTabPosition]="position">
   <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Details'>
     <div class="tab-content">
       <exec-epp-details-form> </exec-epp-details-form>
     </div>
   </nz-tab>
-
-
-  <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Contacts'>
+  <nz-tab nzSelected nzTitle='Client Contacts'>
     <div class="tab-content">
       <exec-epp-contacts-form> </exec-epp-contacts-form>
     </div>
   </nz-tab>
-
-  <nz-tab class="side-nav-tab" nzSelected nzTitle='Comapny Conatacts'>
+  <nz-tab nzSelected nzTitle='Comapny Conatacts'>
     <div class="tab-content">
-      <exec-epp-contacts-form> </exec-epp-contacts-form>
+      <exec-epp-company-contacts-form> </exec-epp-company-contacts-form>
     </div>
   </nz-tab>
-
-  <nz-tab class="side-nav-tab" nzSelected nzTitle='Location'>
+  <nz-tab nzSelected nzTitle='Location'>
     <div class="tab-content">
       <exec-epp-loacations-form> </exec-epp-loacations-form>
     </div>
