@@ -27,7 +27,6 @@ import { FormValidator } from '../../../utils/validator';
 export class AreaOfInterestComponent implements OnInit {
   isModalVisible = false;
   selectedPositionId = 0;
-  //isMultitpleEntry = false;
   isUpdateMode = false;
   isRecordUpdated = false;
   selectedRecord:string | undefined;
@@ -80,20 +79,28 @@ export class AreaOfInterestComponent implements OnInit {
   getAreaOfInterestByApplicantId(){
     this.aoiService.getApplicantAreaOfInterestByID(this.loggedInUser.Guid).subscribe(res =>{
       this.areaOfInterests = res.Data;
+      this.hasDataEntry((this.areaOfInterests.length > 0) ? true : false);
       this.appliedSoFar = this.areaOfInterests.map(o => o.PositionToApplyID);
     });
   }
 
-  constructor(private aoiService: AreasOfInterestService, 
+  constructor(
+    private aoiService: AreasOfInterestService, 
     private areaOfInterestLookUpService: AreaOfInterestLookUpService,
-    private router: Router, private modal: NzModalService,
-    private notification: NotificationBar, private validator: FormValidator) {}
+    private router: Router, 
+    private modal: NzModalService,
+    private notification: NotificationBar, 
+    private validator: FormValidator
+    ) {}
 
-    
+  hasDataEntry(value: boolean) {
+    this.aoiService.hasData(value);
+  }
+
   ngOnInit(): void {
     this.getAllPositionsToApply();
     this.getAllProficiencyLevels();
-    this.getAreaOfInterestByApplicantId();
+    this.getAreaOfInterestByApplicantId();    
 
     this.areaOfInterestLookUpService.appliedToPositions().subscribe(res => {
       this.appliedSoFar = res.map(o => o.positionId);
@@ -129,10 +136,12 @@ export class AreaOfInterestComponent implements OnInit {
  });
   }
 
-
-  onAddNewClick(): void {
+  onAddNewRecord(): void {
     this.resetForm();
     this.isModalVisible = true;
+    this.validation.controls.isMultitpleEntry.setValue(false);
+    this.areaOfInterest.controls.MonthOfExpierence.setValue(0);
+    this.areaOfInterest.controls.YearsOfExpierence.setValue(0);
     this.isUpdateMode = false;
   }
 
@@ -145,12 +154,11 @@ export class AreaOfInterestComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Successfully Added Area of Interest.',
+          content: 'Successfully added an area of interest.',
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
-        this.aoiService.setRoutInfo('/application/area-of-interest');
-        this.router.navigate(['/application/area-of-interest']);
+        this.hasDataEntry(this.areaOfInterests.length > 0 ? true:false);
       },
       (err: any) => {
         this.loading = false;
@@ -167,57 +175,17 @@ export class AreaOfInterestComponent implements OnInit {
       this.isModalVisible = false;
       this.notification.showNotification({
         type: 'success',
-        content: 'You have successfully added the application',
+        content: 'You have successfully added an area of interest.',
         duration: 5000,
       });
       this.isRecordUpdated = true;
     }
     this.areaOfInterest.reset();
-    this.validation.controls.isMultitpleEntry.setValue(false);
+    this.areaOfInterest.controls.MonthOfExpierence.setValue(0);
+    this.areaOfInterest.controls.YearsOfExpierence.setValue(0);
+    this.validation.controls.isMultitpleEntry.setValue(true);
     this.isRecordUpdated = true;
 
-  }
-
-  onUpdateRecord(id:string){
-    this.loading = true;
-    const dataToPost = this.areaOfInterest.value;
-    dataToPost.ApplicantId = this.loggedInUser.Guid;
-    dataToPost.Guid =this.selectedRecord;
-
-    this.aoiService.updateApplicantAreaOfInterest(dataToPost).subscribe(
-      () => {
-        this.loading = false;
-        this.notification.showNotification({
-          type: 'info',
-          content: 'Successfully Updated Your Area of Interest.',
-          duration: 5000,
-        });
-        this.getAreaOfInterestByApplicantId();
-        this.aoiService.setRoutInfo('/application/area-of-interest');
-        this.router.navigate(['/application/area-of-interest']);
-      },
-      (err: any) => {
-        this.loading = false;
-        this.notification.showNotification({
-          type: 'error',
-          content: 'Area of Interest Not Updated. Please try again',
-          duration: 5000,
-        });
-        console.log('error:' + err);
-      }
-    );
-    this.loading = false;
-    this.isModalVisible = false;
-    this.isRecordUpdated = true;
-    
-  }
-
-  onFormSubmit()
-  {
-    this.onSaveRecord();
-    this.isModalVisible = false;
-    //this.areaOfInterestLookUpService.setRoutInfo('/application/education');
-    this.router.navigate(['/application/education']);
   }
 
   onEditRecord(id: string) {
@@ -236,6 +204,47 @@ export class AreaOfInterestComponent implements OnInit {
       MonthOfExpierence: toUpdateRow.MonthOfExpierence,
     });
    }
+
+  onUpdateRecord(id:string){
+    this.loading = true;
+    const dataToPost = this.areaOfInterest.value;
+    dataToPost.ApplicantId = this.loggedInUser.Guid;
+    dataToPost.Guid =this.selectedRecord;
+
+    this.aoiService.updateApplicantAreaOfInterest(dataToPost).subscribe(
+      () => {
+        this.loading = false;
+        this.notification.showNotification({
+          type: 'info',
+          content: 'Successfully updated your area of interest.',
+          duration: 5000,
+        });
+        this.getAreaOfInterestByApplicantId();
+        this.hasDataEntry(this.areaOfInterests.length > 0 ? true:false);
+      },
+      (err: any) => {
+        this.loading = false;
+        this.notification.showNotification({
+          type: 'error',
+          content: 'Area of interest not updated. Please try again.',
+          duration: 5000,
+        });
+        console.log('error:' + err);
+      }
+    );
+    this.loading = false;
+    this.isModalVisible = false;
+    this.isRecordUpdated = true;
+    
+  }
+
+  onFormSubmit()
+  {
+    this.isModalVisible = false;
+    this.loading = true;
+    this.router.navigate(['/application/education']);
+    this.loading = false;
+  }
 
    resetForm(){
     this.areaOfInterest.reset();
@@ -263,39 +272,41 @@ export class AreaOfInterestComponent implements OnInit {
   onDeleteRecord(id: string) {
     this.showConfirmation(id);
   }
+
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you want to delete this Area of Interest?',
+      nzContent: 'Are you sure you want to delete this entry?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },
 
     });
   }
+
   deleteItem(guid: string | null) {
     const id = guid ? guid : '';
     this.aoiService.deleteApplicantAreaOfInterest(id).subscribe(
       () => {
         this.loading = false;
         this.notification.showNotification({
-          type: 'error',
-          content: 'Successfully Deleted Area of Interest.',
+          type: 'success',
+          content: 'Successfully deleted area of interest.',
           duration: 5000,
         });
         this.getAreaOfInterestByApplicantId();
-        this.aoiService.setRoutInfo('/application/area-of-interest');
-        this.router.navigate(['/application/area-of-interest']);
+        this.hasDataEntry(this.areaOfInterests.length > 0 ? true:false);
       },
       (err: any) => {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'Area of Interest Not Deleted. Please try again',
+          content: 'Area of interest not deleted. Please try again.',
           duration: 5000,
         });
         console.log('error:' + err);
       }
     );
   }
+
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { areaOfInterestModel } from '../../models/applicant/areaOfInterest/area-of-interest.model';
 
@@ -9,6 +9,10 @@ import { areaOfInterestModel } from '../../models/applicant/areaOfInterest/area-
 export class AreasOfInterestService {
   header = new HttpHeaders({ 'Content-Type': 'application/json' });
   routerInfo = '/application/area-Of-Interests';
+
+  private dataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  data: Observable<boolean> = this.dataSource.asObservable();
+
   constructor(private http: HttpClient) {}
 
   private formatErrors(error: any) {
@@ -51,6 +55,10 @@ export class AreasOfInterestService {
 
   getRoutInfo() {
     return this.routerInfo;
+  }
+
+  hasData(value: boolean) {
+    this.dataSource.next(value);
   }
   
 }

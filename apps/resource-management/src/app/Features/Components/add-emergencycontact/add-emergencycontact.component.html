@@ -1,9 +1,8 @@
-<div>
-  <h3>Emergency Contact</h3>
-</div>
-<form nz-form id="myForm" [formGroup]="EForm">
+<br /><br />
+
+<form nz-form [formGroup]="AddForm" (ngSubmit)="submitFormall()">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="FirstName"
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName"
       >FirstName</nz-form-label
     >
     <nz-form-control
@@ -11,25 +10,35 @@
       [nzXs]="24"
       nzErrorTip="The input is required!"
     >
-      <input nz-input formControlName="FirstName" id="FirstName" />
+      <input
+        nzPrefixIcon="user"
+        nz-input
+        formControlName="firstName"
+        id="firstName"
+      />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="FatherName"
-      >Father</nz-form-label
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fatherName"
+      >FatherName</nz-form-label
     >
     <nz-form-control
       [nzSm]="14"
       [nzXs]="24"
       nzErrorTip="The input is required!"
     >
-      <input nz-input formControlName="FatherName" id="FatherName" />
+      <input
+        nzPrefixIcon="user"
+        nz-input
+        formControlName="fatherName"
+        id="fatherName"
+      />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="Relationship"
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relationship"
       >Relationship</nz-form-label
     >
     <nz-form-control
@@ -37,14 +46,15 @@
       [nzXs]="24"
       nzErrorTip="The input is required!"
     >
-      <input nz-input formControlName="Relationship" id="Relationship" />
+      <input
+        nzPrefixIcon="user"
+        nz-input
+        formControlName="relationship"
+        id="relationship"
+      />
     </nz-form-control>
   </nz-form-item>
-
-  <ng-container
-    formArrayName="Address"
-    *ngFor="let t of Addresses.controls; let i = index"
-  >
+  <ng-container formGroupName="address">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="country"
         >Country</nz-form-label
@@ -56,12 +66,11 @@
       >
         <nz-select
           formControlName="country"
-          id="{{ 'country' + i }}"
           nzShowSearch
           nzAllowClear
           (ngModelChange)="onSelectCountry()"
         >
-          <ng-container *ngFor="let country of coutries">
+          <ng-container *ngFor="let country of countries">
             <nz-option
               nzValue="{{ country }}"
               nzLabel="{{ country }}"
@@ -70,9 +79,8 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
-
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="state">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="state">
         <ng-container *ngIf="isEthiopia; else state">Region</ng-container>
         <ng-template #state>State</ng-template>
       </nz-form-label>
@@ -83,11 +91,10 @@
       >
         <nz-select
           formControlName="state"
-          id="{{ 'state' + i }}"
-          nzMode="tags"
+          nzShowSearch
+          nzAllowClear
           nzPlaceHolder="Input the state/region/province"
           [nzMaxMultipleCount]="1"
-          nzPlaceHolder="Tag Mode"
         >
           <ng-container *ngFor="let state of listOfStates">
             <nz-option nzValue="{{ state }}" nzLabel="{{ state }}"></nz-option>
@@ -104,7 +111,7 @@
         [nzXs]="24"
         nzErrorTip="The input is required!"
       >
-        <input nz-input formControlName="city" id="{{ 'city' + i }}" />
+        <input nz-input formControlName="city" id="city" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -119,11 +126,7 @@
         [nzXs]="24"
         nzErrorTip="The input is required!"
       >
-        <input
-          nz-input
-          formControlName="subCityZone"
-          id="{{ 'subCityZone' + i }}"
-        />
+        <input nz-input formControlName="subCityZone" id="subCityZone" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -134,7 +137,7 @@
         <ng-template #addressLine2>Address Line 2</ng-template>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="woreda" id="{{ 'woreda' + i }}" />
+        <input nz-input formControlName="woreda" id="woreda" />
       </nz-form-control>
     </nz-form-item>
     <ng-container *ngIf="isEthiopia">
@@ -143,11 +146,7 @@
           >House Number</nz-form-label
         >
         <nz-form-control [nzSm]="14" [nzXs]="24">
-          <input
-            nz-input
-            formControlName="houseNumber"
-            id="{{ 'houseNumber' + i }}"
-          />
+          <input nz-input formControlName="houseNumber" id="houseNumber" />
         </nz-form-control>
       </nz-form-item>
     </ng-container>
@@ -159,35 +158,105 @@
         <ng-template #zipcode>Postal/Zip Code</ng-template>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input
-          nz-input
-          formControlName="postalCode"
-          id="{{ 'postalCode' + i }}"
-        />
+        <input nz-input formControlName="postalCode" id="postalCode" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label
-        [nzSm]="6"
-        [nzXs]="24"
-        nzRequired
-        nzFor="residencialPhoneNumber"
-        >phoneNumber</nz-form-label
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="residencialPhoneNumber"
+        >Phone Number</nz-form-label
       >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is required!"
+        [nzValidateStatus]="AddForm.controls['residencialPhoneNumber']"
+        nzErrorTip="Please input your phone number!"
       >
-        <input
-          nz-input
-          formControlName="residencialPhoneNumber"
-          id="residencialPhoneNumber"
-        />
+        <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+          <ng-template #addOnBeforeTemplate>
+            <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+              <ng-container *ngFor="let code of listofCodes">
+                <nz-option
+                  nzValue="{{ code }}"
+                  nzLabel="{{ code }}"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+          </ng-template>
+          <input
+            formControlName="residencialPhoneNumber"
+            id="'residencialPhoneNumber'"
+            nzPlaceHolder="911223344"
+            nz-input
+          />
+        </nz-input-group>
       </nz-form-control>
     </nz-form-item>
-    <button nz-button nzType="primary" (click)="addAddress()">
-      Add Address
-    </button>
   </ng-container>
+  <button nz-button nzType="primary" (click)="submitFormall()">
+    Next
+    <i nz-icon nzType="right"></i>
+  </button>
 </form>
+
+
+
+<form nz-form [formGroup]="someFrom" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName"
+      >FirstName</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is required!"
+    >
+      <input
+        nzPrefixIcon="user"
+        nz-input
+        formControlName="firstName"
+        id="firstName"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fatherName"
+      >FatherName</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is required!"
+    >
+      <input
+        nzPrefixIcon="user"
+        nz-input
+        formControlName="fatherName"
+        id="fatherName"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relationship"
+      >Relationship</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      nzErrorTip="The input is required!"
+    >
+      <input
+        nzPrefixIcon="user"
+        nz-input
+        formControlName="relationship"
+        id="relationship"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nz-button nzType="primary">
+    Next
+    <i nz-icon nzType="right"></i>
+  </button>
+</form>
+

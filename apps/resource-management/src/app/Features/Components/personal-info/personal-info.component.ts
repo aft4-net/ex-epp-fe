@@ -66,10 +66,33 @@ export class PersonalInfoComponent implements OnInit {
 
     });
 
+<<<<<<< HEAD
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
+=======
+    this.employee = {
+      FirstName: "Nathan",
+      FatherName: "Daniel",
+      GrandFatherName: "Zewdneh",
+      MobilePhone: "+25112345677",
+      Phone1: "25112345673",
+      Phone2: "25112345673",
+      PersonalEmail: "Abel@gmail.com",
+      PersonalEmail2: "selam@gmail.com",
+      PersonalEmail3: "nathan@gmail.com",
+      DateofBirth : new Date("2021-11-17 14:29:03.107"),
+      Gender : "Male",
+     /* Nationality: Nationality[],
+      Organization: EmployeeOrganization,
+      PersonalAddress: Address[],
+      FamilyDetail: FamilyDetails[],
+      EmergencyContact: EmergencyContact[]*/
+    }
+
+
+>>>>>>> develop
 
 
   }
