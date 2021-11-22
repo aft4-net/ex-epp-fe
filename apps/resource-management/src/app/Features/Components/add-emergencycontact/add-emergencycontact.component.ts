@@ -39,6 +39,7 @@ export class AddEmergencycontactComponent implements OnInit {
   // Needed to bind formControlName
   @Input() formGroupParent!: FormGroup;
   @Input() formGroupControlName!: string;
+  @Input() isStandalone = false
   @ViewChild(AddressNewComponent) child: any;
   // FormControl store validators
   control!: FormControl;
@@ -97,7 +98,7 @@ export class AddEmergencycontactComponent implements OnInit {
       woreda: [null],
       houseNumber: [null],
       postalCode: [null],
-      //phoneNumberPrefix: ['+251'],
+      phoneNumberPrefix: ['+251'],
       residencialPhoneNumber: [null],
     }),
     // Address: this.fb.array([this.createAddress()], Validators.required),
@@ -117,6 +118,28 @@ export class AddEmergencycontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.AddForm = this.fb.group({
+      firstName: new FormControl(null, [Validators.required]),
+      fatherName: new FormControl(null, [Validators.required]),
+      relationship: new FormControl(null, [Validators.required]),
+      address: this.fb.group({
+        country: ['', [Validators.required]],
+        state: [null, [Validators.required]],
+        city: [null],
+        subCityZone: [null],
+        woreda: [null],
+        houseNumber: [null],
+        postalCode: [null],
+        phoneNumberPrefix: ['+251'],
+        residencialPhoneNumber: [null],
+      }),
+    });
+
+
+
+
+
+
     this.EForm = this.fb.group({
       firstName: new FormControl(null, [Validators.required]),
       fatherName: new FormControl(null, [Validators.required]),
@@ -198,34 +221,38 @@ export class AddEmergencycontactComponent implements OnInit {
     }
   }
 
-  submitFormall(): void {
-    const emcr = this.EForm.value;
-    const add = {
-      country: emcr.address.country,
-      stateRegionProvice: emcr.address.state,
-      city: emcr.address.city,
-      subCityZone: emcr.address.subCityZone,
-      woreda: emcr.address.woreda,
-      houseNumber: emcr.address.houseNumber,
-      postalCode: emcr.address.postalCode,
-      phoneNumber: emcr.address.residencialPhoneNumber,
-    } as Address;
-    const emergencyContact = {
-      firstName: emcr.firstName,
-      fatherName: emcr.fatherName,
-      relationship: emcr.relationship,
-      address: [add],
-    } as IEmergencyContact;
-    console.log(emcr);
+ 
+    // const add = {
+    //   country: emcr.address.country,
+    //   stateRegionProvice: emcr.address.state,
+    //   city: emcr.address.city,
+    //   subCityZone: emcr.address.subCityZone,
+    //   woreda: emcr.address.woreda,
+    //   houseNumber: emcr.address.houseNumber,
+    //   postalCode: emcr.address.postalCode,
+    //   phoneNumber: emcr.address.residencialPhoneNumber,
+    // } as Address;
+    // const emergencyContact = {
+    //   firstName: emcr.firstName,
+    //   fatherName: emcr.fatherName,
+    //   relationship: emcr.relationship,
+    //   address: [add],
+    // } as IEmergencyContact;
+    
     // const employee = {
     //   EmergencyContact: emergencyContact,
     // };
     // this._employeeService.setEmployeeData(employee);
+    submitFormall(): void {
+       
 
-    if (this.EForm.valid) {
-      console.log('submit', emcr);
 
-      this.service.postEmergenycContacts(this.EForm.value).subscribe(
+      
+     
+    if (this.AddForm.valid) {
+      console.log('submit', this.AddForm.value);
+
+      this.service.postEmergenycContacts(this.AddForm.value).subscribe(
         (res) => {
           this.service.refreshList();
           this.toastr.success(
@@ -238,26 +265,29 @@ export class AddEmergencycontactComponent implements OnInit {
         }
       );
     } else {
-      Object.values(this.EForm.controls).forEach((control) => {
+      Object.values(this.AddForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      this.toastr.error('Not Added!');
+      this.toastr.error('The Form is Not Valid!');
     }
   }
   onSelectCountry() {
-    if (this.EForm.value.country !== null && this.EForm.value.country !== '') {
+
+    console.log("The country is :",this.AddForm.value.address.country);
+    console.log('kkkkkkkkk');
+    if (this.AddForm.value.address.country !== '') {
       this._locationPhoneService
-        .getListofStates(this.EForm.value.country)
+        .getListofStates(this.AddForm.value.address.country)
         .subscribe((response: string[]) => {
           this.listOfStates = response;
         });
     } else {
       this.listOfStates = [];
     }
-    if (this.EForm.value.country === 'Ethiopia') {
+    if (this.AddForm.value.address.country === 'Ethiopia') {
       this.isEthiopia = true;
     } else {
       this.isEthiopia = false;
@@ -282,4 +312,10 @@ export class AddEmergencycontactComponent implements OnInit {
     }
     return {};
   };
+
+
+
+
+
+  
 }

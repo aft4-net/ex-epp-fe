@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   EmergencyContact,
+  EmergencyContacts,
   IEmergencyContact,
 } from '../../Models/emergencycontact';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
@@ -21,7 +22,7 @@ export class EmergencycontactService {
 
   constructor(private http: HttpClient) {}
 
-  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContact';
+  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContacts';
 
   putEmergencycontact() {
     return this.http.put(
@@ -72,7 +73,7 @@ export class EmergencycontactService {
     return this.http.post<IEmergencyContact>(this.baseURL, em);
   }
 
-  postEmergenycContacts(emc: IEmergencyContact) {
+  postEmergenycContacts(emc: EmergencyContacts) {
     return this.http.post(this.baseURL, emc);
   }
 

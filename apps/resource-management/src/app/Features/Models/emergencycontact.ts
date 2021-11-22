@@ -1,3 +1,24 @@
+
+export interface EmergencyContacts {
+  guid: string
+  isActive: boolean
+  isDeleted: boolean
+  createdDate: string
+  createdbyUserGuid: string
+  firstName: string
+  fatherName: string
+  relationship: string
+  phoneNumber: string
+  country: string
+  stateRegionProvice: string
+  city: string
+  subCityZone: string
+  woreda: string
+  houseNumber: string
+  postalCode: number
+}
+
+
 export interface Address {
   guid: string;
   isActive: boolean;
@@ -26,6 +47,9 @@ export interface IEmergencyContact {
   address?: Address[];
 }
 
+
+
+
 export class EmergencyContact implements IEmergencyContact {
   constructor(
     public guid?: string,
@@ -38,4 +62,13 @@ export class EmergencyContact implements IEmergencyContact {
     public relationship?: string,
     public address: [] = []
   ) {}
+
+
+
+
+
+
 }
+
+
+
