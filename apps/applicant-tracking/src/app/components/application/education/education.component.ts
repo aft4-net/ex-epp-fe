@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -42,7 +43,8 @@ export class EducationComponent implements OnInit {
     private educationService: EducationService,
     private notifier: NotifierService,
     private modal: NzModalService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private router: Router
   ) {}
 
   education = new FormGroup({
@@ -79,8 +81,10 @@ export class EducationComponent implements OnInit {
   }
   onEditRecord(guid: string | null) {
     this.isUpdateMode = true;
+    
     this.education.reset();
     this.openModal();
+    this.education.controls.yearTo.enable();
     const id: string = guid == null ? '' : guid;
     this.guid = id;
     this.educationService.getById(id).subscribe(
@@ -141,13 +145,22 @@ export class EducationComponent implements OnInit {
   async onFormSubmit() {
     this.loading = true;
     const educationModel = this.getFormValue();
+    console.log(educationModel.FieldOfStudyId);
     this.education.controls.yearTo.disable();
     if (!this.isUpdateMode) await this.addItem(educationModel)
     else await this.updateItem(educationModel);
   }
+  onSubmit()
+  {
+    this.isModalVisible = false;
+    this.loading = true;
+    this.router.navigate(['/application/workexpirence']);
+    this.loading = false;
+  }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
       (_) => {
+        
         this.onSaveCompleted();
         this.education.controls.yearTo.disable();
         this.bindRecord();
@@ -233,7 +246,7 @@ export class EducationComponent implements OnInit {
           ?.Name === 'High School'
       ) {
         this.education.controls.fieldOfStudy.setValidators([]);
-        this.education.controls.fieldOfStudy.setValue('');
+        this.education.controls.fieldOfStudy.setValue(null);
         this.education.controls.fieldOfStudy.updateValueAndValidity();
         this.disableFieldOfStudy = true;
       } else {

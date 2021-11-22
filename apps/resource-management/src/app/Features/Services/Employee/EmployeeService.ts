@@ -11,24 +11,34 @@ import { map } from 'rxjs/operators';
 export class EmployeeService {
   baseUrl = 'http://localhost:14696/api/v1/Employee';
 
+  baseUrl = "http://localhost:5000/api/v1/Employee"
+  
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
-  employee$ = this.employeeSource.asObservable();
+   employee$ = this.employeeSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
   addEmployee(employee: Employee) {
     this.setEmployee(employee);
   }
-  setEmployee(employee: Employee) {
-    return this.http.post(this.baseUrl, employee).subscribe(
-      (response: ResponseDto<Employee> | any) => {
-        this.employeeSource.next(response.data), alert(response.message);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+  setEmployee(employee:Employee){
+    return this.http.post(this.baseUrl,employee)
+     .subscribe((response:ResponseDto<Employee> | any) => {
+       this.employeeSource.next(response.data),
+       alert(response.message)
+     },error => {
+       console.log(error);
+     });
+    }
+    setEmployeeData(employee:Partial<Employee>){
+
+      this.employeeSource.next({
+
+        ...this.employeeSource.getValue(),
+
+        ...employee
+
+      });
 
   setEmployeeData(employee: Partial<Employee>) {
     this.employeeSource.next({
@@ -36,7 +46,15 @@ export class EmployeeService {
 
       ...employee,
     });
+    
 
-    console.log(this.employee$);
-  }
+    getPersonalAddresses(){
+      const addresses = this.employeeSource.getValue().PersonalAddress
+      if(addresses !== null && addresses !== undefined){
+        return addresses
+      } else {
+        return []
+      }
+    }
+
 }

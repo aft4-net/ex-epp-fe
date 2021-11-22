@@ -17,10 +17,14 @@ import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-bread
 import { PageFooterComponent } from './components/page-footer/page-footer.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
+import { PersonalAddressesComponent } from './Features/Components/personal-addresses/personal-addresses.component';
+import { EmergencyContactAddressesComponent } from './Features/Components/emergency-contact-addresses/emergency-contact-addresses.component';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { FamilyDetailComponent } from './Features/Components/family-detail/family-detail.component';
 import { ToastrModule } from 'ngx-toastr';
 import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
+import { uuid } from 'uuidv4';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 
@@ -39,9 +43,13 @@ registerLocaleData(en);
     ProgressButtonsComponent,
     PersonalInfoComponent,
     AddEmergencycontactComponent,
+    PersonalAddressesComponent,
+    EmergencyContactAddressesComponent,
+    UploadphotoComponent,
+    AddMultiComponent,
+    FamilyDetailComponent,
     UploadphotoComponent,
     AddMultiComponent
-
   ],
   imports: [
     BrowserModule,
