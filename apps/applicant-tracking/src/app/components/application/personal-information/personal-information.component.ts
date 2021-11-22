@@ -228,8 +228,6 @@ export class PersonalInformationComponent implements OnInit {
         Validators.required,
       ]);
     });
-    console.log('*******')
-    console.log(this.personalInformation.controls.country.value);
   }
   onClick(e: any) {}
   deleteProfile() {
