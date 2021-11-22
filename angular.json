@@ -438,16 +438,12 @@
                 "output": "/assets/"
               }
             ],
-<<<<<<< HEAD
-            "styles": ["apps/passport/src/theme.less", "apps/passport/src/styles.scss"],
-=======
+
             "styles": [
+              "apps/passport/src/theme.less",
               "apps/passport/src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"],
 
-
-
->>>>>>> develop
             "scripts": []
           },
           "configurations": {
