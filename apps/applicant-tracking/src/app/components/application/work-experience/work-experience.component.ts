@@ -15,7 +15,7 @@ import {
 } from '../../../shared/services/notifier.service';
 @Component({
   selector: 'exec-epp-education',
-  templateUrl: './education.component.html',
+  templateUrl: './work-experience.component.html',
   styleUrls: ['./education.component.scss'],
   providers: [DatePipe],
 })
