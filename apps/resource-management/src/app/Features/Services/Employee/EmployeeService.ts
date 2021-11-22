@@ -9,32 +9,38 @@ import {map} from "rxjs/operators"
   providedIn: 'root'
 })
 export class EmployeeService {
-  
+
   baseUrl = "http://localhost:14696/api/v1/Employee"
   
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
-  employee$ = this.employeeSource.asObservable();
+   employee$ = this.employeeSource.asObservable();
 
-  constructor(private http: HttpClient) { }   
-  
+  constructor(private http: HttpClient) { }
+
   addEmployee(employee: Employee){
     this.setEmployee(employee);
-  } 
+  }
   setEmployee(employee:Employee){
     return this.http.post(this.baseUrl,employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
-       this.employeeSource.next(response.data)
-      //  console.log(response.data)
+       this.employeeSource.next(response.data),
+       alert(response.message)
      },error => {
        console.log(error);
      });
     }
     setEmployeeData(employee:Partial<Employee>){
+
       this.employeeSource.next({
+
         ...this.employeeSource.getValue(),
+
         ...employee
-      });  
+
+      });
+
       console.log(this.employee$);
+
     }
 
 }

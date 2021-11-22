@@ -2,6 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-native */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Address } from '../../Models/address.model';
 import { ResponseDto } from '../../Models/response-dto.model';
 import { AttendanceService } from '../../Services/address/attendance.service';
@@ -51,6 +52,7 @@ export class AddressNewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private _router: Router,
     private _locationPhoneService: LocationPhoneService,
     private _attendanceService: AttendanceService
   ) {

@@ -1,41 +1,42 @@
-import { uuid } from 'uuidv4';
 
-export interface IAddress {
-  Guid: string;
-  IsActive: boolean;
-  IsDeleted: boolean;
-  CreatedDate: Date;
-  CreatedbyUserGuid: string;
-  PhoneNumber: string;
-  Country: string;
-  StateRegionProvice: string;
-  City: string;
-  SubCityZone: string;
-  Woreda: string;
-  HouseNumber: string;
-  PostalCode: number;
+export interface Address {
+  guid: string;
+  isActive: boolean;
+  isDeleted: boolean;
+  createdDate: string;
+  createdbyUserGuid: string;
+  phoneNumber: string;
+  country: string;
+  stateRegionProvice: string;
+  city: string;
+  subCityZone: string;
+  woreda: string;
+  houseNumber: string;
+  postalCode: number;
 }
 
 export interface IEmergencyContact {
-  Guid: string;
-  IsActive: boolean;
-  IsDeleted: boolean;
-  CreatedDate: Date;
-  CreatedbyUserGuid: string;
-  FirstName: string;
-  FatherName: string;
-  Relationship: string;
-  Address: IAddress[];
+  guid?: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+  createdDate?: string;
+  createdbyUserGuid?: string;
+  firstName?: string;
+  fatherName?: string;
+  relationship?: string;
+  address?: Address[];
 }
 
 export class EmergencyContact implements IEmergencyContact {
-  Guid = uuid();
-  IsActive = true;
-  IsDeleted = true;
-  CreatedDate = new Date();
-  CreatedbyUserGuid = uuid();
-  FirstName = '';
-  FatherName = '';
-  Relationship = '';
-  Address: [] = [];
+  constructor(
+    public guid?: string,
+    public isActive?: boolean,
+    public isDeleted?: boolean,
+    public createdDate?: string,
+    public createdbyUserGuid?: string,
+    public firstName?: string,
+    public fatherName?: string,
+    public relationship?: string,
+    public address: [] = []
+  ) {}
 }

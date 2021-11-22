@@ -4,7 +4,8 @@
     
     <nz-form-control [nzErrorTip]="displayError ? errorMsg : ''">
       <nz-input-group class="flex gap-5">
-        <nz-select 
+        <nz-select
+          [nzDisabled]="disabled"
           style="width: 100%"
           [nzPlaceHolder]="placeholder"
           nzShowSearch

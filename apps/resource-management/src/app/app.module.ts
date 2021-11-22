@@ -1,6 +1,8 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
-import { AddEmergencycontactComponent } from './Features/Components/emergencycontact/add-emergencycontact/add-emergencycontact.component';
+import { AddEmergencycontactComponent } from './Features/Components/add-emergencycontact/add-emergencycontact.component';
+import { AddMultiComponent } from './Features/Components/personal-info/add-multi/add-multi.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,7 +11,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
@@ -22,6 +23,9 @@ import { PersonalAddressesComponent } from './Features/Components/personal-addre
 import { EmergencyContactAddressesComponent } from './Features/Components/emergency-contact-addresses/emergency-contact-addresses.component';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { ToastrModule } from 'ngx-toastr';
+import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
+import { uuid } from 'uuidv4';
 
 registerLocaleData(en);
 
@@ -39,7 +43,9 @@ registerLocaleData(en);
     PersonalInfoComponent,
     AddEmergencycontactComponent,
     PersonalAddressesComponent,
-    EmergencyContactAddressesComponent
+    EmergencyContactAddressesComponent,
+    UploadphotoComponent,
+    AddMultiComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,11 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
+
     AppRoutingModule,
+    ToastrModule.forRoot(),
+
+
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

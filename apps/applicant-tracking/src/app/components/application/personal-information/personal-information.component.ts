@@ -194,7 +194,7 @@ export class PersonalInformationComponent implements OnInit {
     this.personalInfoService
       .getPersonalInfo({ email: this.loggedInUser.Email })
       .subscribe((response) => {
-        var data = response.Data;
+        const data = response.Data;
         console.log(data);
         this.personalInformation.controls.firstName.setValue(data.FirstName);
         this.personalInformation.controls.lastName.setValue(data.LastName);
@@ -209,9 +209,9 @@ export class PersonalInformationComponent implements OnInit {
           data.ProfileImage ?? ''
         );
 
-        this.personalInformation.controls.country.setValue(data.Country + '');
+        this.personalInformation.controls.country.setValue(data.Country ?? '');
 
-        for (var key in countryList) {
+        for (let key in countryList) {
           if (countryList[key].name == data.Country) {
             this.selectedValue = { ...countryList[key] };
             this.personalInformation.controls.phoneNumber.updateValueAndValidity();
@@ -251,7 +251,7 @@ export class PersonalInformationComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Personal Information has been updated.',
+          content: 'Personal information has been updated.',
           duration: 5000,
         });
         this.applicantService.setRoutInfo('/application/area-of-interest');
@@ -261,7 +261,7 @@ export class PersonalInformationComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'Personal Information is not updated. Please try again',
+          content: 'Personal information is not updated. Please try again',
           duration: 5000,
         });
         console.log('error:' + err);
