@@ -14,7 +14,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^12.2.0",
+    "@angular/animations": "^12.2.13",
     "@angular/common": "^12.2.0",
     "@angular/compiler": "^12.2.0",
     "@angular/core": "^12.2.0",
@@ -25,6 +25,7 @@
     "@nrwl/angular": "12.9.0",
     "autoprefixer": "^10.3.7",
     "ng-zorro-antd": "^12.0.1",
+    "ngx-toastr": "^14.2.1",
     "phone": "^3.1.8",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

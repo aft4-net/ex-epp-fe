@@ -35,7 +35,7 @@ export class PersonalInfoComponent implements OnInit {
       phoneNumberPrefix:[null,[Validators.required]]
 
     });
-    
+
     this.employee = {
       FirstName: "Nathan",
       FatherName: "Daniel",
@@ -54,9 +54,9 @@ export class PersonalInfoComponent implements OnInit {
       FamilyDetail: FamilyDetails[],
       EmergencyContact: EmergencyContact[]*/
     }
-    
-   
-    
+
+
+
 
   }
   addEmployee(){
