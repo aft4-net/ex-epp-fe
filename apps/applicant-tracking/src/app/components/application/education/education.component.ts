@@ -81,8 +81,10 @@ export class EducationComponent implements OnInit {
   }
   onEditRecord(guid: string | null) {
     this.isUpdateMode = true;
+    
     this.education.reset();
     this.openModal();
+    this.education.controls.yearTo.enable();
     const id: string = guid == null ? '' : guid;
     this.guid = id;
     this.educationService.getById(id).subscribe(
