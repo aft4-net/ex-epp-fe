@@ -19,10 +19,14 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+<<<<<<< HEAD
+import { FamilyDetailComponent } from './Features/Components/family-detail/family-detail.component';
+=======
 import { ToastrModule } from 'ngx-toastr';
 import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
+>>>>>>> develop
 
 registerLocaleData(en);
 
@@ -39,9 +43,13 @@ registerLocaleData(en);
     ProgressButtonsComponent,
     PersonalInfoComponent,
     AddEmergencycontactComponent,
+<<<<<<< HEAD
+    FamilyDetailComponent
+=======
     UploadphotoComponent,
     AddMultiComponent
 
+>>>>>>> develop
   ],
   imports: [
     BrowserModule,
