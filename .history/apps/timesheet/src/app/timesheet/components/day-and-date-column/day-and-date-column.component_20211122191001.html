@@ -42,9 +42,9 @@
       
       </div>
     </div>
-   <ng-template  #contentTemplate  >
-     <div *ngFor="let timeEntry of split(6) ;let i = index;">
-       <ng-container *ngIf="i<timeEntrys!.length-7">
+   <ng-template  #contentTemplate style="width:100px; " >
+     <div *ngFor="let timeEntry of split(7) ;let i = index;">
+       <ng-container *ngIf="i<timeEntrys!.length-8">
        <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
      (paletEllipsisClicked)="onPaletEllipsisClicked($event)"
      (editClicked)="onEditButtonClicked($event)"  >
