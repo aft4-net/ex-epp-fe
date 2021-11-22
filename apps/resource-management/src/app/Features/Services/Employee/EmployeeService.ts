@@ -1,9 +1,9 @@
-import { BehaviorSubject } from "rxjs";
-import { Employee } from "../../Models/Employee";
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { ResponseDto } from "../../Models/response-dto.model";
-import {map} from "rxjs/operators"
+import { BehaviorSubject } from 'rxjs';
+import { Employee } from '../../Models/Employee';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ResponseDto } from '../../Models/response-dto.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import {map} from "rxjs/operators"
 export class EmployeeService {
   baseUrl = 'http://localhost:14696/api/v1/Employee';
 
-  private employeeSource = new BehaviorSubject<Employee>({} as Employee);
+  private employeeSource = new BehaviorSubject<Employee | null>(null);
   employee$ = this.employeeSource.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -29,15 +29,7 @@ export class EmployeeService {
       }
     );
   }
-
-
-  setEmployeeData(employee: Partial<Employee>) {
-    this.employeeSource.next({
-      ...this.employeeSource.getValue(),
-
-      ...employee,
-    });
-
-    console.log(this.employee$);
+  setEmployeeData(employee: Employee) {
+    this.employeeSource.next(employee);
   }
 }
