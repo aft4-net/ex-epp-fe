@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -42,7 +43,8 @@ export class EducationComponent implements OnInit {
     private educationService: EducationService,
     private notifier: NotifierService,
     private modal: NzModalService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private router: Router
   ) {}
 
   education = new FormGroup({
@@ -144,6 +146,13 @@ export class EducationComponent implements OnInit {
     this.education.controls.yearTo.disable();
     if (!this.isUpdateMode) await this.addItem(educationModel)
     else await this.updateItem(educationModel);
+  }
+  onSubmit()
+  {
+    this.isModalVisible = false;
+    this.loading = true;
+    this.router.navigate(['/application/workexpirence']);
+    this.loading = false;
   }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(

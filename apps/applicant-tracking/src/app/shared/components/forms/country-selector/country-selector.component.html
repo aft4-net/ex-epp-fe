@@ -8,7 +8,7 @@
           [(ngModel)]="selectedValue"
           [compareWith]="!single ? compareFn : compareItem"
           (ngModelChange)="!single ? log($event) : logVal($event)"
-          nzPlaceHolder="-- Select a country --"
+          nzPlaceHolder="-- Select a Country --"
           nzShowSearch
         >
           <nz-option

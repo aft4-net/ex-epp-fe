@@ -11,7 +11,7 @@ interface RouteLinks {
 }
 
 @Component({
-  selector: 'app-sider',
+  selector: 'exec-epp-sider',
   templateUrl: './sider.component.html',
   styleUrls: ['./sider.component.css'],
 })
