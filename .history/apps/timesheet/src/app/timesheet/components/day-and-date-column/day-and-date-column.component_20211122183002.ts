@@ -100,7 +100,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     split(index: number){
       if(this.timeEntrys!==null){
       for (let i=index; i<this.timeEntrys.length; i++){
-   for(let j=0;j<=this.timeEntrys.length-index;j++){
+   for(let j=0;j<=this.timeEntrys.length-;j++){
      this.moreEntries[j]=this.timeEntrys[i];
    }
       }
