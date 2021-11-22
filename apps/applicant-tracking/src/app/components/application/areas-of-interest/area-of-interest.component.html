@@ -3,7 +3,7 @@
   <button
     nz-button
     [nzType]="'link'"
-    (click)="onAddNewClick()"
+    (click)="onAddNewRecord()"
     class="link-button"
   >
     <span>
@@ -194,7 +194,7 @@
             </nz-table>
         </div>
     </div>
-    <br><br>
+
     <div nz-row nzJustify="end">
         <div nz-col nzSpan="3">
                 <app-button [loading]="loading" (click)="onFormSubmit()"

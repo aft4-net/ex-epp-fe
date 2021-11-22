@@ -1,6 +1,11 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+<<<<<<< HEAD
 import { AddEmergencycontactComponent } from './Features/Components/emergencycontact/add-emergencycontact/add-emergencycontact.component';
+import { AddMultiComponent } from './Features/Components/personal-info/add-multi/add-multi.component';
+=======
+import { AddEmergencycontactComponent } from './Features/Components/add-emergencycontact/add-emergencycontact.component';
+>>>>>>> develop
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,10 +21,17 @@ import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-bread
 import { PageFooterComponent } from './components/page-footer/page-footer.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PageTitleComponent } from './components/page-title/page-title.component';
+
+import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
+import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
+
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { ToastrModule } from 'ngx-toastr';
+
 
 registerLocaleData(en);
 
@@ -36,6 +48,12 @@ registerLocaleData(en);
     ProgressButtonsComponent,
     PersonalInfoComponent,
     AddEmergencycontactComponent,
+<<<<<<< HEAD
+    UploadphotoComponent,
+    AddMultiComponent
+=======
+
+>>>>>>> develop
   ],
   imports: [
     BrowserModule,
@@ -44,7 +62,13 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
+<<<<<<< HEAD
+    AppRoutingModule
+=======
     AppRoutingModule,
+    ToastrModule.forRoot(),
+
+>>>>>>> develop
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
