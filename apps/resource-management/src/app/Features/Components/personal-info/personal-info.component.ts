@@ -64,19 +64,10 @@ export class PersonalInfoComponent implements OnInit {
       nationality: [null, [Validators.required]]
 
     });
-<<<<<<< HEAD
-
-
-=======
->>>>>>> develop
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 
   }
   addEmployee(){

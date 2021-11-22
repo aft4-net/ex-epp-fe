@@ -1,5 +1,5 @@
 
-<<<<<<< HEAD
+
 export interface EmergencyContacts {
   guid: string
   isActive: boolean
@@ -20,8 +20,8 @@ export interface EmergencyContacts {
 }
 
 
-=======
->>>>>>> develop
+
+
 export interface Address {
   guid: string;
   isActive: boolean;
