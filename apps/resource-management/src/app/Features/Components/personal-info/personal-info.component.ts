@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Observable, Observer } from 'rxjs';
 
 import { AddMultiComponent } from './add-multi/add-multi.component';
 import { AngularFileUploaderComponent } from 'angular-file-uploader';
@@ -164,7 +165,33 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
+  ValidateFutureDate = (control: FormControl) =>
 
+  new Observable((observer: Observer<ValidationErrors | null>) => {
+
+      const currentDateTime = new Date();
+
+      const controlDate = new Date(control.value);
+
+      if (!control?.pristine) {
+
+          if(!(controlDate <= currentDateTime)) {
+
+              observer.next({ error: true, isFutureDate: true });
+
+          }
+
+      } else {
+
+        observer.next(null);
+
+      }
+
+      observer.complete();
+
+    }
+
+  );
 
 
 }
