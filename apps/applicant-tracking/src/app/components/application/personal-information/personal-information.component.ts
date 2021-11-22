@@ -14,6 +14,7 @@ import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
 import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'personal-information',
@@ -30,7 +31,7 @@ export class PersonalInformationComponent implements OnInit {
   uploadingResume = false;
   uploadingProfile = false;
   photoFileList: any = [];
-  resumeFileList: any = [];
+  resumeFileList: NzUploadFile[] = [];
   loading = false;
   selectedValue = {
     name: 'Select country',
@@ -194,8 +195,7 @@ export class PersonalInformationComponent implements OnInit {
     this.personalInfoService
       .getPersonalInfo({ email: this.loggedInUser.Email })
       .subscribe((response) => {
-        var data = response.Data;
-        console.log(data);
+        const data = response.Data;
         this.personalInformation.controls.firstName.setValue(data.FirstName);
         this.personalInformation.controls.lastName.setValue(data.LastName);
         this.personalInformation.controls.email.setValue(data.Email);
@@ -208,10 +208,18 @@ export class PersonalInformationComponent implements OnInit {
         this.personalInformation.controls.profileUrl.setValue(
           data.ProfileImage ?? ''
         );
+        const fileNames = data.ResumeFile.split('_');
+        this.resumeFileList = [
+          {
+            uid: data.Id,
+            url: data.ResumeFile,
+            name: fileNames[fileNames?.length - 1],
+          },
+        ];
 
-        this.personalInformation.controls.country.setValue(data.Country + '');
+        this.personalInformation.controls.country.setValue(data.Country ?? '');
 
-        for (var key in countryList) {
+        for (let key in countryList) {
           if (countryList[key].name == data.Country) {
             this.selectedValue = { ...countryList[key] };
             this.personalInformation.controls.phoneNumber.updateValueAndValidity();
@@ -224,16 +232,13 @@ export class PersonalInformationComponent implements OnInit {
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
         Validators.required,
       ]);
-      
     });
   }
-  onInputClick(e: any) {}
   onClick(e: any) {}
   deleteProfile() {
     this.personalInformation.controls.profileUrl.setValue('');
     this.photoFileList = [];
   }
-  onUploadChange(e: any) {}
   onFormSubmit() {
     this.loading = true;
     const personInfo: any = {
@@ -251,7 +256,7 @@ export class PersonalInformationComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Personal Information has been updated.',
+          content: 'Personal information has been updated.',
           duration: 5000,
         });
         this.applicantService.setRoutInfo('/application/area-of-interest');
@@ -261,7 +266,7 @@ export class PersonalInformationComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'Personal Information is not updated. Please try again',
+          content: 'Personal information is not updated. Please try again',
           duration: 5000,
         });
         console.log('error:' + err);

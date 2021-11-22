@@ -4,7 +4,14 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { map } from "rxjs/operators";
 
 import { environment } from 'apps/timesheet/src/environments/environment';
-import { TimeEntriesResponse, TimeEntry, TimeEntryResponse, Timesheet, TimesheetResponse } from '../../models/timesheetModels';
+import {
+  TimeEntriesResponse,
+  TimeEntry,
+  TimeEntryResponse,
+  Timesheet,
+  TimesheetApprovalResponse,
+  TimesheetResponse
+} from '../../models/timesheetModels';
 import { Project } from '../../models/project';
 import { Client } from '../../models/client';
 
@@ -16,6 +23,8 @@ export class TimesheetService {
 
   constructor(private http: HttpClient,) {
   }
+
+  //#region timesheet and timeEntry
 
   getTimeSheet(userId: string, date?: Date) {
     let fromDate = new Date();
@@ -74,7 +83,7 @@ export class TimesheetService {
     let params = new HttpParams();
 
     params = params.append("employeeId", employeeId);
-    
+
     return this.http.post<any>(this.baseUrl + "timeentries", timeEntry, { "headers": headers, params: params });
   }
 
@@ -83,6 +92,36 @@ export class TimesheetService {
 
     return this.http.put<TimeEntryResponse>(this.baseUrl + "timeentries", timeEntry, { "headers": headers });
   }
+
+  //#endregion
+
+  //#region Time sheet approval
+
+  getTimeSheetApproval(timeSheetId: string) {
+    let params = new HttpParams();
+
+    params = params.append("timesheetGuid", timeSheetId);
+
+    let response = this.http.get<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", { observe: "response", params: params });
+
+    return response.pipe(map(r => r.body?.Data));
+  }
+
+  addTimeSheetApproval(timeSheetId: string) {
+    const headers = { "content-type": "application/json" }
+
+    let params = new HttpParams();
+
+    params = params.append("timesheetGuid", timeSheetId)
+
+    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, {"headers": headers, params: params});
+
+    return response.pipe(map(r => r.Data));
+
+  }
+
+  //#endregion
+
 
   //#region client and poject from mock server
 

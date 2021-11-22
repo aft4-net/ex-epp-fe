@@ -212,7 +212,7 @@ export class EducationComponent implements OnInit {
       localStorage.getItem('loggedInUserInfo') ?? ''
     );
     
-    this.bindRecord();
+    this.bindRecord();this.education.controls.yearTo.enable();
     this.education.controls.isStudying.valueChanges.subscribe((value) => {
       if (value) {
         this.education.controls.yearTo.setValidators([]);
@@ -220,6 +220,11 @@ export class EducationComponent implements OnInit {
       } else
         this.education.controls.yearTo.setValidators([Validators.required]);
       this.education.controls.yearTo.updateValueAndValidity();
+    });
+    this.education.controls.yearFrom.valueChanges.subscribe((value) => {
+      if (value === null) {
+        this.education.controls.yearTo.disable();
+      }
     });
 
     this.education.controls.program.valueChanges.subscribe((value) => {
@@ -271,7 +276,7 @@ export class EducationComponent implements OnInit {
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you want to delete this record?',
+      nzContent: 'Are you sure you want to delete this entry?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },
