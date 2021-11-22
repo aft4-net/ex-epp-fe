@@ -134,19 +134,18 @@ header {
 }
 
 
+
 ::ng-deep .ant-btn {
-  background: #00a551;
-  border-radius: 2px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  background-color: #00A551;
+  font-family: SF Pro Display;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  color: #e8ffe8;
+  font-size: 1rem;
+  color: #FFFFFF;
+
 }
 
 ::ng-deep .ant-btn:not([disabled]):hover {
-
-  background: #00a551 !important;
+  background: #03da6b !important;
   color: white;
 }
