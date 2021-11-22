@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, provideRoutes } from '@angular/router';
 import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
 import { AreasOfInterestService } from '../../../services/applicant/areas-of-interest.service';
+import { EducationService } from '../../../services/applicant/education.service';
 import { AccountService } from '../../../services/user/account.service';
 
 interface RouteLinks {
@@ -35,6 +36,9 @@ export class SiderComponent implements OnInit {
   }
 
   personalCheck() {
+    this.generalInfoService.data.subscribe((response) => {
+      this.generalSubmitCheck = response;
+    });
     this.generalInfoService.getPersonalInfo({ email: this.user.Email })
     .subscribe((response) => {
       if(response.Data.ContactNumber){
@@ -47,20 +51,24 @@ export class SiderComponent implements OnInit {
     this.aoiService.data.subscribe((response) => {
       this.aofSubmitCheck = response;
     });
+    this.aoiService.getApplicantAreaOfInterestByID(this.user.Guid).subscribe((response) => {
+      this.aofSubmitCheck = response.Data.length > 0 ? true : false;
+    });
   }
 
   educationCheck() {
-    this.generalInfoService.getPersonalInfo({ email: this.user.Email })
-    .subscribe((response) => {
-      if(response.Data.ContactNumber){
-        this.generalSubmitCheck = true;
-      }
+    this.educationService.data.subscribe((response) => {
+      this.educationSubmitCheck = response;
+    });
+    this.educationService.getByApplicantId(this.user.Guid).subscribe((response) => {
+      this.educationSubmitCheck = response.Data.length > 0 ? true : false;
     });
   }
 
   constructor(private router: Router, 
     private accountService: AccountService, 
     private aoiService: AreasOfInterestService, 
+    private educationService: EducationService,
     private generalInfoService: ApplicantGeneralInfoService) {
     router.events.subscribe((evt: any) => {
       if (evt instanceof NavigationEnd) this.route = evt.url;
@@ -70,5 +78,6 @@ export class SiderComponent implements OnInit {
   ngOnInit(): void {
     this.personalCheck();
     this.aoiCheck();
+    this.educationCheck();
   }
 }
