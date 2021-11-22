@@ -65,16 +65,10 @@ export class PersonalInfoComponent implements OnInit {
       nationality: [null, [Validators.required]]
 
     });
-<<<<<<< HEAD
-=======
-
-
->>>>>>> ae6205e0f7a121db2671d2f9dc1b8c139c1a7cac
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
-<<<<<<< HEAD
     this.employee = {
       employeeNumber: '',
       FirstName: "Nathan",
@@ -89,9 +83,6 @@ export class PersonalInfoComponent implements OnInit {
       DateofBirth : new Date("2021-11-17 14:29:03.107"),
       Gender : "Male"
     }
-
-=======
->>>>>>> ae6205e0f7a121db2671d2f9dc1b8c139c1a7cac
 
   }
   addEmployee(){
