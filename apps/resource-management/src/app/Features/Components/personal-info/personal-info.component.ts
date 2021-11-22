@@ -65,14 +65,12 @@ export class PersonalInfoComponent implements OnInit {
       nationality: [null, [Validators.required]]
 
     });
-
-<<<<<<< HEAD
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
-=======
     this.employee = {
+      employeeNumber: '',
       FirstName: "Nathan",
       FatherName: "Daniel",
       GrandFatherName: "Zewdneh",
@@ -90,9 +88,6 @@ export class PersonalInfoComponent implements OnInit {
       FamilyDetail: FamilyDetails[],
       EmergencyContact: EmergencyContact[]*/
     }
-
-
->>>>>>> develop
 
 
   }
