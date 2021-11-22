@@ -6,31 +6,38 @@ import { ResponseDto } from "../../Models/response-dto.model";
 import {map} from "rxjs/operators"
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployeeService {
-  
-  baseUrl = "http://localhost:14696/api/v1/Employee"
-  
-  private employeeSource=new BehaviorSubject<Employee|null>(null);
+  baseUrl = 'http://localhost:14696/api/v1/Employee';
+
+  private employeeSource = new BehaviorSubject<Employee>({} as Employee);
   employee$ = this.employeeSource.asObservable();
 
-  constructor(private http: HttpClient) { }   
-  
-  addEmployee(employee: Employee){
-    this.setEmployee(employee);
-  } 
-  setEmployee(employee:Employee){
-    return this.http.post(this.baseUrl,employee)
-     .subscribe((response:ResponseDto<Employee> | any) => {
-       this.employeeSource.next(response.data),
-       console.log(response.data)
-     },error => {
-       console.log(error);
-     });
-    }
-    setEmployeeData(employee:Employee){
-      this.employeeSource.next(employee);  
-    }
+  constructor(private http: HttpClient) {}
 
+  addEmployee(employee: Employee) {
+    this.setEmployee(employee);
+  }
+  setEmployee(employee: Employee) {
+    return this.http.post(this.baseUrl, employee).subscribe(
+      (response: ResponseDto<Employee> | any) => {
+        this.employeeSource.next(response.data), console.log(response.data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  setEmployeeData(employee: Partial<Employee>) {
+    this.employeeSource.next({
+      ...this.employeeSource.getValue(),
+
+      ...employee,
+    });
+
+    console.log(this.employee$);
+  }
 }
