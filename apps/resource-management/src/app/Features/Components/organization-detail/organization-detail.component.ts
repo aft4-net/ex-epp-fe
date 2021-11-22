@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  FormControl,  FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder,  FormControl,  FormGroup, Validators } from '@angular/forms';
 import { ICountry } from '../../Models/EmployeeOrganization/Country';
 import { IDutyBranch } from '../../Models/EmployeeOrganization/DutyBranch';
 import { EmploymentType, Status } from '../../Models/EmployeeOrganization/enums';
@@ -8,8 +8,9 @@ import { CountryModel } from '../../Models/EmployeeOrganization/ContryModel';
 import { DutyBranchModel } from '../../Models/EmployeeOrganization/DutyBranchModel';
 import { Router  } from '@angular/router';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { BehaviorSubject, Observable, Observer } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs';
+import { EmployeeOrganization } from '../../Models/EmployeeOrganization/EmployeeOrganization';
+import { ValidateFutureDate} from '../../../Features/Validators/ValidateFutureDate';
 @Component({
   selector: 'exec-epp-organization-detail',
   templateUrl: './organization-detail.component.html',
@@ -20,7 +21,7 @@ export class OrganizationDetailComponent implements OnInit {
   countries !: ICountry[];
   dutyBranches !: IDutyBranch[];
   reportingManagerList !: string[];
-  emoloyeeOrganizationForm !: FormGroup;
+  emloyeeOrganizationForm !: FormGroup;
   employmentTypes = EmploymentType;
   statuses = Status;
   employmnetTypeKey =  Object.values;
@@ -45,19 +46,19 @@ export class OrganizationDetailComponent implements OnInit {
   }
 
   createEmployeeOrganizationForm() {
-    this.emoloyeeOrganizationForm = this.fb.group({
-      country: [null,[Validators.required]],
+    this.emloyeeOrganizationForm = this.fb.group({
+      dutyStation: [null,[Validators.required]],
       dutyBranch: [null,[Validators.required]],
       companyEmail: [null,[Validators.email, Validators.required]],
       phonecodePrefix:['+251'],
-      phoneNumber: [null,[Validators.pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$')]],
+      phoneNumber: [null,[Validators.required,Validators.max(15),Validators.pattern('^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$')]],
       jobtitle : [null, [Validators.required]],
       businesstitle: [null, [Validators.required]],
       department : [null, [Validators.required]],
       reportingmanager : [null,[Validators.required]],
       employmenttype: [null, [Validators.required]],
-      joiningdate: [null,[Validators.required],[this.ValidateFutureDate]],
-      terminationdate:[null],
+      joiningdate: [null,[Validators.required,ValidateFutureDate()]],
+      terminationdate:[null,[ValidateFutureDate]],
       status:[null, [Validators.required]]
     });
   }
@@ -81,16 +82,14 @@ export class OrganizationDetailComponent implements OnInit {
   }
 
   action(event: string) {
-    console.log(this.emoloyeeOrganizationForm.valid);
     if(event === "next")
     {
-      if (this.emoloyeeOrganizationForm.valid) {   
-        console.log('valid form');
+      if (this.emloyeeOrganizationForm.valid) {   
         this.router.navigate(['address-new']);
       }
       else
       {
-        Object.values(this.emoloyeeOrganizationForm.controls).forEach(control => {
+        Object.values(this.emloyeeOrganizationForm.controls).forEach(control => {
           if (control.invalid) {
             control.markAsDirty();
             control.updateValueAndValidity({ onlySelf: true });
@@ -103,20 +102,4 @@ export class OrganizationDetailComponent implements OnInit {
       this.router.navigate(['']);
     }
   }
-
-  ValidateFutureDate = (control: FormControl) =>
-    new Observable((observer: Observer<ValidationErrors | null>) => {
-        const currentDateTime = new Date();
-        const controlDate = new Date(control.value);
-        if (!control?.pristine) {
-            console.log(!(controlDate <= currentDateTime));
-            if(!(controlDate <= currentDateTime)) {
-                observer.next({ error: true, isFutureDate: true });
-            } 
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }
-    );
 }
