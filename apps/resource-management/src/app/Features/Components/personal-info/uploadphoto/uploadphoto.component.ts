@@ -11,6 +11,7 @@ export class UploadphotoComponent {
 
   fileName = "";
    formData: FormData = new FormData();
+   imageUrl="";
 
   constructor(private uploadphoto: EmpphotoService) { }
 
@@ -18,13 +19,21 @@ export class UploadphotoComponent {
 
   onFileSelected(event : any) {
 
+    if(event.targer.files){
+      const reader = new FileReader();
+      reader.readAsDataURL(event.targer.files[0]);
+      reader.onload = (event:any) => {
+        this.imageUrl = event.target.result;
+      }
+    }
+
     const file:File = event.target.files[0];
 
     if (file) {
 
         this.fileName = file.name;
 
-        this.formData.append("thumbnail", file,"photo");
+        this.formData.append("thumbnail", file,file.name);
 
         console.log(this.formData);
         console.log(file);
@@ -32,7 +41,9 @@ export class UploadphotoComponent {
 
 
     }
+
 }
+
 submit(){
   this.uploadphoto.uploadEmployeePhoto(this.formData);
   alert("photo uploaded");
