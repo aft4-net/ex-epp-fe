@@ -14,7 +14,7 @@
 }
 
 ::ng-deep .ant-tabs-tab-btn {
-  color: #8c8c8c;
+  color: #262626;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -59,17 +59,13 @@ nz-tab {
 
 
 ::ng-deep .ant-tabs-tab {
-  color: #363636 !important;
+  color: #262626 !important;
 
 }
 
-
-
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-
   box-shadow: inset -2px 0px 0px #DADADA !important;
-
 }
 
 ::ng-deep .ant-tabs-nav-scroll {
@@ -79,7 +75,7 @@ nz-tab {
 
 
 ::ng-deep .ant-tabs-tab:hover {
-  color: #595959 !important;
+  color: #262626 !important;
 }
 
 ::ng-deep ant-tabs-tab.ant-tabs-tab-active {
@@ -97,7 +93,7 @@ nz-tab {
   align-items: center !important;
   ;
 
-  color: #595959 !important;
+  color: #262626 !important;
 }
 
 ::ng-deep .ant-tabs-ink-bar {
@@ -120,7 +116,7 @@ nz-tab {
 }
 
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #595959 !important;
+  color: #262626 !important;
   font-size: 16px !important;
 
 }
@@ -128,14 +124,15 @@ nz-tab {
 ::ng-deep .ant-tabs-tab:hover {
   color: #262626;
 }
+
 header {
   padding: 0px 2%;
 }
 
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-    background: #DCFFDC;
-  }
-  
+  background: #DCFFDC;
+}
+
 
 ::ng-deep .ant-btn {
   background: #00a551;
@@ -150,9 +147,6 @@ header {
 
 ::ng-deep .ant-btn:not([disabled]):hover {
 
-    background: #00a551 !important;
-    color: white;
-  }
-
-
-
+  background: #00a551 !important;
+  color: white;
+}
