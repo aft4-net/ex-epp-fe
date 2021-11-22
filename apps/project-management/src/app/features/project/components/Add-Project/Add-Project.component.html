@@ -101,13 +101,7 @@ nz-form
      id="clientName"
      formControlName="client"
      nzPlaceHolder="Select client Name">
-<<<<<<< HEAD
-     <ng-container *ngFor="let  client of  clients" >
-      <nz-option *ngIf='client.ClientName!=="Excellerent"'  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>
-     </ng-container>
-=======
      <nz-option *ngFor="let  client of  clients"  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>        
->>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
    </nz-select>
    <div class="error-block"
    *ngIf="clientName.invalid && clientName.touched">
@@ -149,11 +143,7 @@ nz-form
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
    >
-<<<<<<< HEAD
-   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Guid"></nz-option>
-=======
    <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Guid"></nz-option>        
->>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
    </nz-select>
    <div class="error-block"
    *ngIf="supervisor.invalid && supervisor.touched">
@@ -257,10 +247,6 @@ nz-form
       <div    class="page-title " > Resources   </div>
       <div  >
         <button  (click)="onSubmit()"  class=" mr-4"  [disabled]="!validateForm.valid "  nz-button nzType="dashed">  Create Project </button>
-<<<<<<< HEAD
-
-=======
->>>>>>> a2d17a4fcaa8949f56f570e2ffacdadb9c5bc38b
 
          <button  (click)="onReset()"  class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
          py-1 px-3 border hover:border-green-800 hover:text-green-800  ">

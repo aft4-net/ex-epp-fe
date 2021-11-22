@@ -120,6 +120,125 @@
         }
       }
     },
+    "client-management": {
+      "projectType": "application",
+      "root": "apps/client-management",
+      "sourceRoot": "apps/client-management/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/client-management",
+            "index": "apps/client-management/src/index.html",
+            "main": "apps/client-management/src/main.ts",
+            "polyfills": "apps/client-management/src/polyfills.ts",
+            "tsConfig": "apps/client-management/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/client-management/src/favicon.ico",
+              "apps/client-management/src/assets"
+            ],
+            "styles": ["apps/client-management/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/client-management/src/environments/environment.ts",
+                  "with": "apps/client-management/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "client-management:build:production"
+            },
+            "development": {
+              "browserTarget": "client-management:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "client-management:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/client-management/src/**/*.ts",
+              "apps/client-management/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/client-management"],
+          "options": {
+            "jestConfig": "apps/client-management/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "client-management-e2e": {
+      "root": "apps/client-management-e2e",
+      "sourceRoot": "apps/client-management-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/client-management-e2e/cypress.json",
+            "devServerTarget": "client-management:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "client-management:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/client-management-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
     "core-model": {
       "projectType": "library",
       "root": "libs/core-model",
@@ -314,7 +433,12 @@
               "apps/passport/src/favicon.ico",
               "apps/passport/src/assets"
             ],
-            "styles": ["apps/passport/src/styles.scss"],
+            "styles": [
+              "apps/passport/src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"],
+
+
+
             "scripts": []
           },
           "configurations": {
@@ -558,7 +682,10 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "apps/resource-management/src/styles.scss"],
+            "styles": [
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "apps/resource-management/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {

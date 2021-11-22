@@ -1,10 +1,21 @@
 
- <form nz-form  class="Entry-Employee-area">
-  <div  style=" max-width: 600px;" [formGroup]="validateForm">
-  <nz-form-item style="margin-bottom: 10px;">
+<form nz-form  class="Entry-Employee-area" >
+<div [formGroup]="validateForm">
+  <div style=" max-width: 500px; top: 0px; position: relative; " >
+
+    <nz-form-item style="margin-bottom: 10px; margin-top: 0px;">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="employeeNumber">Employee Number</nz-form-label>
+      <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Employee Number!">
+        <input nz-input maxlength="10" formControlName="employeeNumber" id="employeeNumber" [(ngModel)]="employeeNumber"/>
+        <ng-template #errorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">employeeNumber</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
-      <input nz-input formControlName="firstName" id="firstName" />
+      <input nz-input pattern="[A-Za-z]+" maxlength="25" formControlName="firstName" id="firstName" [(ngModel)]="firstName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">First Name</ng-container>
       </ng-template>
@@ -15,9 +26,12 @@
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
       <input
         nz-input
+        pattern="[A-Za-z]+"
         type="text"
         id="fatherName"
         formControlName="fatherName"
+        [(ngModel)]="fatherName"
+        maxlength="25"
       />
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Father's Name!</ng-container>
@@ -25,9 +39,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>Grand Father's Name</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" [nzErrorTip]="errorTpl">
-      <input nz-input type="text" formControlName="grandFatherName" id="grandFName" />
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>G.Father's Name</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
+      <input nz-input pattern="[A-Za-z]+" maxlength="25" type="text" formControlName="grandFatherName" id="grandFName" [(ngModel)]="grandFatherName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Grand Father's Name</ng-container>
 
@@ -40,41 +54,99 @@
       [nzXs]="24"
       nzFor="personalEmail"
       nzRequired
-      nzTooltipTitle="Do you want to add another email ?"
 
     >
       <span>Personal Email</span>
     </nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
-      <input nz-input id="personalEmail" formControlName="personalEmail" />
+      <input nz-input maxlength="320" type="email" id="personalEmail" formControlName="personalEmail" (ngModel)="personalEmail" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"  nzRequired
-    nzTooltipTitle="Do you want to add another Phone Number ?">Phone Number</nz-form-label>
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="personalEmail2"
+    >
+      <span>2nd Personal Email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
+      <input nz-input maxlength="320" type="email" id="personalEmail2" formControlName="personalEmail2" (ngModel)="personalEmail2" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="personalEmail3"
+    >
+      <span>3rd Personal Email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
+      <input nz-input maxlength="320" type="email" id="personalEmail3" formControlName="personalEmail3" (ngModel)="personalEmail3" />
+    </nz-form-control>
+  </nz-form-item>
+  </div>
+  <div nz-col style=" min-width: 300px; top: 10px; right: 10px; position:absolute;  ">
+
+   <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
+    nzRequired
+    >
+    Phone Number
+    </nz-form-label>
     <nz-form-control
       [nzSm]="10"
       [nzXs]="24"
       nzErrorTip="Please input your phone number!"
+    >
+      <nz-input-group >
+
+        <input type="number" maxlength="15" formControlName="phoneNumber" id="'phoneNumber'" nz-input [(ngModel)]="phoneNumber" />
+      </nz-input-group>
+    </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber2"
+    >
+    2nd Phone Number
+    </nz-form-label>
+    <nz-form-control
+      [nzSm]="10"
+      [nzXs]="24"
 
     >
       <nz-input-group >
 
-        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+        <input type="number" maxlength="15" formControlName="phoneNumber2" id="'phoneNumber2'" nz-input [(ngModel)]="phoneNumber2" />
       </nz-input-group>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
+    <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber3"
+    >
+    3rd Phone Number
+    </nz-form-label>
+    <nz-form-control
+      [nzSm]="10"
+      [nzXs]="24"
+    >
+      <nz-input-group >
 
-  <nz-form-item style="margin-bottom: 10px;">
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
-    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input dateofBirth!">
-      <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" />
+        <input type="number" maxlength="15" formControlName="phoneNumber3" id="'phoneNumber3'" nz-input [(ngModel)]="phoneNumber3" />
+      </nz-input-group>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
 
- <div >
- <div >
-  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input date of birth!">
+      <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth"/>
+    </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label
       [nzSm]="6"
       [nzXs]="24"
@@ -89,23 +161,23 @@
     >
       <div nz-row [nzGutter]="8">
         <div nz-col [nzSpan]="12">
-          <nz-select formControlName="gender" >
-            <nz-option    *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option">{{option}}</nz-option>
+          <nz-select formControlName="gender" [(ngModel)]="gender">
+            <nz-option   *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option" >{{option}}</nz-option>
           </nz-select>
         </div>
       </div>
     </nz-form-control>
-  </nz-form-item>
-  <nz-form-item style="margin-bottom: 10px;">
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 10px; ">
     <nz-form-label
       [nzSm]="6"
       [nzXs]="24"
       nzFor="Nationality"
       nzRequired
-      nzTooltipTitle="Do you want to add another Nationality ?"
 
     >
-      Nationality
+     Nationality
     </nz-form-label>
     <nz-form-control
       [nzSm]="14"
@@ -114,76 +186,34 @@
       <div nz-row [nzGutter]="8">
         <div nz-col [nzSpan]="12">
           <nz-select formControlName="nationality" >
-            <nz-option    *ngFor="let option of listOfOptionNationality" [nzLabel]="option" [nzValue]="option">{{option}}</nz-option>
+            <nz-option    *ngFor="let option of nationality" [nzLabel]="option" [nzValue]="option">{{option}}</nz-option>
           </nz-select>
         </div>
       </div>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
 
-  <nz-form-item nz-row class="register-area">
+    <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="primary" style="margin-right: 70px;" (click)="addEmployee()">Next</button>
+      <button nz-button *ngIf="this.validateForm.valid" routerLink="/Organization-Detail" nzType="primary" style="margin-right: 70px;" (click)="addEmployee()">Next</button>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
 
- </div>
-</div>
+    <nz-form-item nz-row >
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button nz-button nzType="primary" style="margin-right: 500px;bottom: 57px;" (click)="saveEmployee()">Save</button>
+    </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row >
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+     <!-- <angular-file-uploader [config]="afuConfig">
+      </angular-file-uploader>-->
+      <exec-epp-uploadphoto></exec-epp-uploadphoto>
+     </nz-form-control>
+    </nz-form-item>
 
-</div>
-</form>
-
-<div class="Avatar-outer">
-  <div id="Avatar" data-name="Avatar" class="Avatar">
-    <div class="Avatar-1-outer">
-    <div id="Avatar-1" data-name="Avatar" class="Avatar-1"><div key="0"></div>
-    </div>
-    </div>
-    <div class="avatar-ellipse-custo-outer">
-    <div id="avatar-ellipse-custo" data-name="avatar/ellipse/custom/photo" class="avatar-ellipse-custo">
-      <div class="master-avatar-ellips-outer">
-      <div id="master-avatar-ellips" data-name="master/avatar/ellipse/custom" class="master-avatar-ellips">
-        <div class="master-plate-avatar--outer">
-        <div id="master-plate-avatar-" data-name="master/plate/avatar/ellipse" class="master-plate-avatar-">
-          <div class="Ellipse-outer">
-          <img id="Ellipse" data-name="Ellipse" alt="Ellipse" class="Ellipse">
-          </div>
-        </div>
-        </div>
-
-
-      </div>
-      </div>
-    </div>
-    </div>
-    <div class="upload-button-medium-outer">
-    <div id="upload-button-medium" data-name="upload/button/medium/default" class="upload-button-medium">
-      <div class="button-solid-medium--1-outer">
-      <div id="button-solid-medium--1" data-name="button/solid/medium/icon-left/outline/default" class="button-solid-medium--1">
-        <div class="master-button-medium-1-outer">
-        <div id="master-button-medium-1" data-name="master/button/medium/text" class="master-button-medium-1">
-          <div class="content-1-outer">
-          <div id="content-1" data-name="content" class="content-1">
-            <div class="icon-container-2-outer">
-
-            <div class="icon-container-3-outer">
-
-            </div>
-            <div class="Upload-new-avatar-outer">
-            <div id="Upload-new-avatar" data-name="Upload new avatar" class="Upload-new-avatar">
-              <button nz-button nzType="primary">Upload New Photo</button>
-            </div>
-
-
-            </div>
-          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    </div>
   </div>
 
 
+</div>
+</form>
