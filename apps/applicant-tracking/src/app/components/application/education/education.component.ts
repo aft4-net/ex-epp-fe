@@ -212,7 +212,7 @@ export class EducationComponent implements OnInit {
       localStorage.getItem('loggedInUserInfo') ?? ''
     );
     
-    this.bindRecord();
+    this.bindRecord();this.education.controls.yearTo.enable();
     this.education.controls.isStudying.valueChanges.subscribe((value) => {
       if (value) {
         this.education.controls.yearTo.setValidators([]);
@@ -220,6 +220,11 @@ export class EducationComponent implements OnInit {
       } else
         this.education.controls.yearTo.setValidators([Validators.required]);
       this.education.controls.yearTo.updateValueAndValidity();
+    });
+    this.education.controls.yearFrom.valueChanges.subscribe((value) => {
+      if (value === null) {
+        this.education.controls.yearTo.disable();
+      }
     });
 
     this.education.controls.program.valueChanges.subscribe((value) => {
