@@ -141,6 +141,7 @@ export class EducationComponent implements OnInit {
   async onFormSubmit() {
     this.loading = true;
     const educationModel = this.getFormValue();
+    console.log(educationModel.FieldOfStudyId);
     this.education.controls.yearTo.disable();
     if (!this.isUpdateMode) await this.addItem(educationModel)
     else await this.updateItem(educationModel);
@@ -148,6 +149,7 @@ export class EducationComponent implements OnInit {
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
       (_) => {
+        
         this.onSaveCompleted();
         this.education.controls.yearTo.disable();
         this.bindRecord();
@@ -233,7 +235,7 @@ export class EducationComponent implements OnInit {
           ?.Name === 'High School'
       ) {
         this.education.controls.fieldOfStudy.setValidators([]);
-        this.education.controls.fieldOfStudy.setValue('');
+        this.education.controls.fieldOfStudy.setValue(null);
         this.education.controls.fieldOfStudy.updateValueAndValidity();
         this.disableFieldOfStudy = true;
       } else {
