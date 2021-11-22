@@ -20,6 +20,7 @@ import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { FamilyDetailComponent } from './Features/Components/family-detail/family-detail.component';
 
 registerLocaleData(en);
 
@@ -36,6 +37,7 @@ registerLocaleData(en);
     ProgressButtonsComponent,
     PersonalInfoComponent,
     AddEmergencycontactComponent,
+    FamilyDetailComponent
   ],
   imports: [
     BrowserModule,

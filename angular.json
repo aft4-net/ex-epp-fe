@@ -312,9 +312,14 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/passport/src/favicon.ico",
-              "apps/passport/src/assets"
+              "apps/passport/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
-            "styles": ["apps/passport/src/styles.scss"],
+            "styles": ["apps/passport/src/theme.less", "apps/passport/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
