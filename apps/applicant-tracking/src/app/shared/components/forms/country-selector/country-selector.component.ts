@@ -12,6 +12,7 @@ export class CountrySelectorComponent implements OnInit {
   @Input() errorMsg = '';
   @Input() selectedValue: any;
   @Input() single = false;
+  
   @Input() isRequired = true;
 
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();

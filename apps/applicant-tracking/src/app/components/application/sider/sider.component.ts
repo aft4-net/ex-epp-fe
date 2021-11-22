@@ -39,6 +39,7 @@ export class SiderComponent implements OnInit {
     this.generalInfoService.data.subscribe((response) => {
       this.generalSubmitCheck = response;
     });
+    
     this.generalInfoService.getPersonalInfo({ email: this.user.Email })
     .subscribe((response) => {
       if(response.Data.ContactNumber){
