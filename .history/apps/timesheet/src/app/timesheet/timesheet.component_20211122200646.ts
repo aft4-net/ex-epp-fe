@@ -289,7 +289,8 @@ export class TimesheetComponent implements OnInit {
 
     this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApproval = objApprove ? objApprove : null;
-      if (!this.timesheetApproval || this.timesheetApproval.length===0) {
+      debugger;
+      if (!this.timesheetApproval || this.timesheetApproval.l) {
         this.showFormDrawer();
         return;
       }
