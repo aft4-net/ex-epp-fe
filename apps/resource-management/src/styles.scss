@@ -1,22 +1,6 @@
 $primary-color: #00A551;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* position */
 .toast-center-center {
@@ -60,7 +44,7 @@ $primary-color: #00A551;
     bottom: 12px;
     left: 12px;
   }
-  
+
   /* toast styles */
   .toast-title {
     font-weight: bold;
@@ -208,4 +192,4 @@ $primary-color: #00A551;
       width: 25em;
     }
   }
-  
+

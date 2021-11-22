@@ -317,9 +317,9 @@
             "styles": [
               "apps/passport/src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"],
-              
 
-            
+
+
             "scripts": []
           },
           "configurations": {
@@ -564,6 +564,7 @@
               }
             ],
             "styles": ["./node_modules/ngx-toastr/toastr.css","./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "apps/resource-management/src/styles.scss" ],
+
             "scripts": []
           },
           "configurations": {
