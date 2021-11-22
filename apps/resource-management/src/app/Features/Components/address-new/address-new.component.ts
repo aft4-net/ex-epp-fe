@@ -41,25 +41,7 @@ export class AddressNewComponent implements OnInit {
 
   @Output() result: EventEmitter<{ type: string, addresses: Address[] }> = new EventEmitter<{ type: string, addresses: Address[] }>()
 
-  checkPhone = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      console.log('Empty!')
-      return { required: true };
-    }
-
-    const phone: string = control.value
-    const digits_only = (value: string) => [...value].every(c => '0123456789'.includes(c));
-    if (!digits_only(phone)) {
-      console.log('Not a number!')
-      return { confirm: true, error: true };
-    }
-    else if (phone.length < 6 || phone.length > 12) {
-      console.log('Exceeds length!')
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
-
+  
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -80,7 +62,11 @@ export class AddressNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addressForm = this.fb.group({
+    this.addressForm = this.createForm()
+  }
+
+  createForm() {
+    return this.fb.group({
       country: [null, [this.checkCountry]],
       state: [null, [this.checkStateReginProvince]],
       city: [null, [this.checkCity]],
@@ -224,10 +210,7 @@ export class AddressNewComponent implements OnInit {
         console.log(this.addresses)
 
         if (event === 'submit') {
-          Object.values(this.addressForm.controls).forEach(control => {
-            control.setValue(null)
-          });
-          this.addressForm.controls['phoneNumberPrefix'].setValue('+251')
+          this.addressForm = this.createForm()
         }
         else {
           this._employeeService.setEmployeeData(
