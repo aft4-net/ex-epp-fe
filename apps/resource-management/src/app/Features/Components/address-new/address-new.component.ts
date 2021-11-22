@@ -186,9 +186,6 @@ export class AddressNewComponent implements OnInit {
       this._router.navigateByUrl('/Organization-Detail')
     }
     else {
-      Object.values(this.addressForm.controls).forEach(control => {
-        control.setValue(null)
-      });
       if (this.addressForm.valid) {
         const address = {
           Country: this.addressForm.value.country,
