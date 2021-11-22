@@ -1,6 +1,6 @@
 <div>
   <nz-form-item class="form-item-container">
-    <div class="label">{{ label }}</div>
+    <div [class]="!isRequired? 'label':'label required'">{{ label }}</div>
     <nz-form-control [nzErrorTip]="errorMsg">
       <nz-input-group class="flex gap-5">
         <nz-select

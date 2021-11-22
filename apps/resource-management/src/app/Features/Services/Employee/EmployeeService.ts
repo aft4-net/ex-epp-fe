@@ -10,10 +10,10 @@ import {map} from "rxjs/operators"
 })
 export class EmployeeService {
 
-  baseUrl = "http://localhost:14696/api/v1/Employee"
-
-  private employeeSource=new BehaviorSubject<Employee>({} as Employee);
-  employee$ = this.employeeSource.asObservable();
+  baseUrl = "http://localhost:5000/api/v1/Employee"
+  
+  private employeeSource = new BehaviorSubject<Employee>({} as Employee);
+   employee$ = this.employeeSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -29,8 +29,6 @@ export class EmployeeService {
        console.log(error);
      });
     }
-
-
     setEmployeeData(employee:Partial<Employee>){
 
       this.employeeSource.next({
@@ -43,6 +41,15 @@ export class EmployeeService {
 
       console.log(this.employee$);
 
+    }
+
+    getPersonalAddresses(){
+      const addresses = this.employeeSource.getValue().PersonalAddress
+      if(addresses !== null && addresses !== undefined){
+        return addresses
+      } else {
+        return []
+      }
     }
 
 }
