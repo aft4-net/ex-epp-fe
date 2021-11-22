@@ -65,8 +65,6 @@ export class PersonalInfoComponent implements OnInit {
       nationality: [null, [Validators.required]]
 
     });
-
-
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
