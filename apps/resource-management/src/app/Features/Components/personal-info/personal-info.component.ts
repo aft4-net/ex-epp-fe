@@ -98,7 +98,7 @@ export class PersonalInfoComponent implements OnInit {
 
   ValidateInput(){
 
-    if(this.phoneNumber === this.phoneNumber2){
+   /* if(this.phoneNumber === this.phoneNumber2){
        this.phoneNumber2="";
        alert("Duplicate phone number detected, will be ignored !");
     }
@@ -122,7 +122,7 @@ export class PersonalInfoComponent implements OnInit {
       this.personalEmail2 = "";
       alert("Duplicate  email address detected, will be ignored !");
     }
-
+*/
     const today = new Date().toLocaleDateString();
 
     if(new Date() > this.dateofBirth){

@@ -1,11 +1,13 @@
 /* eslint-disable @angular-eslint/component-selector */
 /* eslint-disable @angular-eslint/no-output-native */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { Address } from '../../Models/address.model';
-import { ResponseDto } from '../../Models/response-dto.model';
 import { AttendanceService } from '../../Services/address/attendance.service';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
+import { ResponseDto } from '../../Models/response-dto.model';
 
 @Component({
   selector: 'app-address-new',
@@ -39,7 +41,7 @@ export class AddressNewComponent implements OnInit {
       console.log('Empty!')
       return { required: true };
     }
-    
+
     const phone: string = control.value
     const digits_only = (value: string) => [...value].every(c => '0123456789'.includes(c));
     if (!digits_only(phone)) {
@@ -111,7 +113,7 @@ export class AddressNewComponent implements OnInit {
       })
     }
     else {
-      
+
       if (this.validateForm.valid) {
         const address = {
           Country: this.validateForm.value.country,
@@ -123,7 +125,7 @@ export class AddressNewComponent implements OnInit {
           PostalCode: this.validateForm.value.postalCode,
           PhoneNumber: this.validateForm.value.phoneNumberPrefix + this.validateForm.value.residencialPhoneNumber
         }  as Address
-        
+
         this.addresses = [
           ...this.addresses,
           address
@@ -161,7 +163,11 @@ export class AddressNewComponent implements OnInit {
           }
         });
       }
+
     }
+
+
+
 
   }
 
