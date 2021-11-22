@@ -34,6 +34,13 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
+    "client-management": {
+      "tags": []
+    },
+    "client-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["client-management"]
+    },
     "core-model": {
       "tags": []
     },
