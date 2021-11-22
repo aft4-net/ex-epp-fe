@@ -1,11 +1,12 @@
 <div class="m-5">
-  <h2 class="font-bold">Step 3- Education Information</h2>
+  <h2 class="font-bold">Step 4- Experience Information</h2>
   <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
-       Add Education</span
+       Add WorkExperience</span
     >
   </button>
+  
   <nz-modal
     [(nzVisible)]="isModalVisible"
     [nzTitle]="this.isUpdateMode?'Edit Education' : 'Add Education'"
