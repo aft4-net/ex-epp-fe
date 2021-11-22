@@ -11,7 +11,7 @@ export class UploadphotoComponent {
 
   fileName = "";
    formData: FormData = new FormData();
-   imageUrl="";
+   imageUrl="assets/Ellipse.png";
 
   constructor(private uploadphoto: EmpphotoService) { }
 

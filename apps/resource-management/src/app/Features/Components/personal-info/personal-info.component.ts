@@ -26,12 +26,15 @@ export class PersonalInfoComponent implements OnInit {
   validateForm!: FormGroup;
   listOfOption: string[] = ["male","female"];
   employee !: Employee;
+  multiEmail = false;
+  multiPhone = false;
+  multiNational = false;
 
   fileName = "";
 
   employeeNumber="";
   personalEmail ="";
-  personalEmail2="sample1@gmail.com";
+  personalEmail2="sample1@gmail.com" ;
   personalEmail3="sample1@gmail.com";
   firstName="";
   fatherName="";
@@ -43,6 +46,8 @@ export class PersonalInfoComponent implements OnInit {
   gender = "";
   nationality: string [] =[];
   selectednationality: Nationality [] = [] ;
+
+  currentemployee !: Employee ;
 
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
@@ -62,15 +67,36 @@ export class PersonalInfoComponent implements OnInit {
       phoneNumber3:[null,null],
       dateofBirth: [null, [Validators.required]],
       gender: [null, [Validators.required]],
-      nationality: [null, [Validators.required]]
+      nationality: [null, [Validators.required]],
+      nationality2:[null,null],
+      nationality3:[null,null]
 
     });
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
+    this.currentemployee = this.employeeService.getPersonalInfo();
+    this.fillCurrentEmployee(this.currentemployee);
+  }
+
+  fillCurrentEmployee(employee: Employee){
+    this.employeeNumber=employee.employeeNumber,
+    this.personalEmail=employee.PersonalEmail,
+    this.personalEmail2=employee.PersonalEmail2,
+    this.personalEmail3=employee.PersonalEmail3,
+    this.firstName=employee.FirstName,
+    this.fatherName=employee.FatherName,
+    this.grandFatherName=employee.GrandFatherName,
+    this.phoneNumber=employee.MobilePhone,
+    this.phoneNumber2=employee.Phone1,
+    this.phoneNumber3=employee.Phone2,
+    this.dateofBirth=employee.DateofBirth,
+    this.gender=employee.Gender,
+    this.selectednationality=employee.Nationality;
 
   }
+
   addEmployee(){
   if(this.validateForm.invalid){
       alert("Invalid inputs on the form");
@@ -89,6 +115,7 @@ export class PersonalInfoComponent implements OnInit {
     else{
     this.ValidateInput();
     console.log("Save Employee Executed");
+    this.employeeService.setEmployeeData(this.employee);
     this.employeeService.addEmployee(this.employee);
 
   }
@@ -129,7 +156,10 @@ export class PersonalInfoComponent implements OnInit {
 
     this.selectednationality = [{
       Name :  this.validateForm.value.nationality
-    }]
+    },
+  {Name: this.validateForm.value.nationality2},
+  {Name: this.validateForm.value.nationality3}
+]
 
     this.employee = {
       employeeNumber : this.employeeNumber,
@@ -150,6 +180,25 @@ export class PersonalInfoComponent implements OnInit {
     }
 
   }
+
+  EnablemultiEmail(){
+    this.multiEmail = true;
+  }
+  DisableMultiEmail(){
+    this.multiEmail = false;
+  }
+  EnablemultiPhone(){
+     this.multiPhone = true;
+  }
+  DisableMultiPhone(){
+    this.multiPhone = false;
+ }
+ EnablemultiNational(){
+   this.multiNational = true;
+ }
+ DisableMultiNational(){
+   this.multiNational = false;
+ }
 
   handleChange(info: NzUploadChangeParam): void {
 
