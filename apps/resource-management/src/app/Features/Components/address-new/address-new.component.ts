@@ -1,15 +1,13 @@
 /* eslint-disable @angular-eslint/component-selector */
 /* eslint-disable @angular-eslint/no-output-native */
-
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { Address } from '../../Models/address.model';
-import { AttendanceService } from '../../Services/address/attendance.service';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
-import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { ResponseDto } from '../../Models/response-dto.model';
 import { Router } from '@angular/router';
+import { Address } from '../../Models/address.model';
+import { ResponseDto } from '../../Models/response-dto.model';
+import { AttendanceService } from '../../Services/address/attendance.service';
+import { LocationPhoneService } from '../../Services/address/location-phone.service';
+import { EmployeeService } from '../../Services/Employee/EmployeeService';
 
 export function extractSpaces(value: string): string {
   let result = ''
@@ -202,7 +200,9 @@ export class AddressNewComponent implements OnInit {
       this._router.navigateByUrl('/Organization-Detail')
     }
     else {
-
+      Object.values(this.addressForm.controls).forEach(control => {
+        control.setValue(null)
+      });
       if (this.addressForm.valid) {
         const address = {
           Country: this.addressForm.value.country,
@@ -224,18 +224,10 @@ export class AddressNewComponent implements OnInit {
         console.log(this.addresses)
 
         if (event === 'submit') {
-          this.addressForm = this.fb.group({
-            country: [null, [Validators.required]],
-            state: [null, [Validators.required]],
-            city: [null, [Validators.required]],
-            subCityZone: [null, [Validators.required]],
-            woreda: [null],
-            houseNumber: [null],
-            postalCode: [null],
-            phoneNumberPrefix: ['+251'],
-            residencialPhoneNumber: [null, [Validators.required, this.checkPhone]]
+          Object.values(this.addressForm.controls).forEach(control => {
+            control.setValue(null)
           });
-          console.log(this.addresses)
+          this.addressForm.controls['phoneNumberPrefix'].setValue('+251')
         }
         else {
           this._employeeService.setEmployeeData(
@@ -253,11 +245,7 @@ export class AddressNewComponent implements OnInit {
           }
         });
       }
-
     }
-
-
-
 
   }
 
