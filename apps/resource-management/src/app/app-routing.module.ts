@@ -6,6 +6,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
+import { FamilyDetailComponent } from './Features/Components/family-detail/family-detail.component';
 
 const routes: Routes = [
   { path: '', component: PersonalInfoComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'Organization-Detail', component: OrganizationDetailComponent },
   { path: 'personal-info', component: PersonalInfoComponent },
   { path: 'emergency-contact', component: AddEmergencycontactComponent },
+  { path: 'family-detail', component: FamilyDetailComponent },
 ];
 
 @NgModule({
