@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
+import { Result } from 'postcss';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,7 @@ export class EmpphotoService {
 
    }
 
-   public uploadEmployeePhoto(formData : FormData){
-
+   public uploadEmployeePhoto(formData : FormData) {
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -21,9 +21,9 @@ export class EmpphotoService {
       };
 
     this.http.post("http://localhost:14696/api/v1/EmployeePhoto", formData,httpOptions).subscribe(data => {
-      console.log("success: ", data);
-    });
-
+      console.log(data);
+    }
+    );
    }
 
 }

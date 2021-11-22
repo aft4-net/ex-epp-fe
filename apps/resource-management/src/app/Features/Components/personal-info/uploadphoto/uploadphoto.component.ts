@@ -24,8 +24,6 @@ export class UploadphotoComponent {
 
         this.fileName = file.name;
 
-
-
         this.formData.append("thumbnail", file,"photo");
 
         console.log(this.formData);
@@ -37,6 +35,7 @@ export class UploadphotoComponent {
 }
 submit(){
   this.uploadphoto.uploadEmployeePhoto(this.formData);
+  alert("photo uploaded");
 }
 
 

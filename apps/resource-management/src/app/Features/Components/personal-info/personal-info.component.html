@@ -1,12 +1,12 @@
 
-<form nz-form  class="Entry-Employee-area">
+<form nz-form  class="Entry-Employee-area" [formGroup]="validateForm">
 
-  <div  style=" max-width: 600px; top: 0px;" [formGroup]="validateForm">
+  <div style=" max-width: 500px; top: 0px; position: relative; " >
 
     <nz-form-item style="margin-bottom: 10px; margin-top: 0px;">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="employeeNumber">Employee Number</nz-form-label>
       <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Employee Number!">
-        <input nz-input formControlName="employeeNumber" id="employeeNumber" [(ngModel)]="employeeNumber"/>
+        <input nz-input maxlength="10" formControlName="employeeNumber" id="employeeNumber" [(ngModel)]="employeeNumber"/>
         <ng-template #errorTpl let-control>
           <ng-container *ngIf="control.hasError('required')">employeeNumber</ng-container>
         </ng-template>
@@ -15,7 +15,7 @@
     <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
-      <input nz-input formControlName="firstName" id="firstName" [(ngModel)]="firstName"/>
+      <input nz-input pattern="[A-Za-z]+" maxlength="25" formControlName="firstName" id="firstName" [(ngModel)]="firstName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">First Name</ng-container>
       </ng-template>
@@ -26,10 +26,12 @@
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
       <input
         nz-input
+        pattern="[A-Za-z]+"
         type="text"
         id="fatherName"
         formControlName="fatherName"
         [(ngModel)]="fatherName"
+        maxlength="25"
       />
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Father's Name!</ng-container>
@@ -37,9 +39,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>Grand Father's Name</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="grandFatherName" nzRequired>G.Father's Name</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not a valid Name!">
-      <input nz-input type="text" formControlName="grandFatherName" id="grandFName" [(ngModel)]="grandFatherName"/>
+      <input nz-input pattern="[A-Za-z]+" maxlength="25" type="text" formControlName="grandFatherName" id="grandFName" [(ngModel)]="grandFatherName"/>
       <ng-template #errorTpl let-control>
         <ng-container *ngIf="control.hasError('required')">Grand Father's Name</ng-container>
 
@@ -52,20 +54,44 @@
       [nzXs]="24"
       nzFor="personalEmail"
       nzRequired
-      nzTooltipTitle="Do you want to add another email ?"
-      nz-icon nzType="plus" nzTheme="outline"
+
     >
       <span>Personal Email</span>
     </nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
-      <input nz-input id="personalEmail" formControlName="personalEmail" [(ngModel)]="personalEmail" />
-
+      <input nz-input maxlength="320" type="email" id="personalEmail" formControlName="personalEmail" (ngModel)="personalEmail" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="personalEmail2"
+    >
+      <span>2nd Personal Email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
+      <input nz-input maxlength="320" type="email" id="personalEmail2" formControlName="personalEmail2" (ngModel)="personalEmail2" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="personalEmail3"
+    >
+      <span>3rd Personal Email</span>
+    </nz-form-label>
+    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input your personal email!">
+      <input nz-input maxlength="320" type="email" id="personalEmail3" formControlName="personalEmail3" (ngModel)="personalEmail3" />
+    </nz-form-control>
+  </nz-form-item>
+  </div>
+  <div nz-col style=" min-width: 300px; top: 10px; right: 10px; position:absolute;  ">
+
+   <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber"
-    nzTooltipTitle="Do you want to add another Phone Number ?"
-    nz-icon nzType="plus" nzTheme="outline"
+    nzRequired
     >
     Phone Number
     </nz-form-label>
@@ -73,25 +99,54 @@
       [nzSm]="10"
       [nzXs]="24"
       nzErrorTip="Please input your phone number!"
+    >
+      <nz-input-group >
+
+        <input type="number" maxlength="15" formControlName="phoneNumber" id="'phoneNumber'" nz-input [(ngModel)]="phoneNumber" />
+      </nz-input-group>
+    </nz-form-control>
+    </nz-form-item>
+    <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber2"
+    >
+    2nd Phone Number
+    </nz-form-label>
+    <nz-form-control
+      [nzSm]="10"
+      [nzXs]="24"
 
     >
       <nz-input-group >
 
-        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [(ngModel)]="phoneNumber" />
+        <input type="number" maxlength="15" formControlName="phoneNumber2" id="'phoneNumber2'" nz-input [(ngModel)]="phoneNumber2" />
       </nz-input-group>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
+    <nz-form-item style="margin-bottom: 10px;">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber3"
+    >
+    3rd Phone Number
+    </nz-form-label>
+    <nz-form-control
+      [nzSm]="10"
+      [nzXs]="24"
+    >
+      <nz-input-group >
 
-  <nz-form-item style="margin-bottom: 10px;">
+        <input type="number" maxlength="15" formControlName="phoneNumber3" id="'phoneNumber3'" nz-input [(ngModel)]="phoneNumber3" />
+      </nz-input-group>
+    </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
     <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Please input date of birth!">
       <input nz-input type="date" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth"/>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
 
- <div >
- <div >
-  <nz-form-item style="margin-bottom: 10px;">
+
+    <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label
       [nzSm]="6"
       [nzXs]="24"
@@ -112,15 +167,15 @@
         </div>
       </div>
     </nz-form-control>
-  </nz-form-item>
-  <nz-form-item style="margin-bottom: 10px;">
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 10px; ">
     <nz-form-label
       [nzSm]="6"
       [nzXs]="24"
       nzFor="Nationality"
       nzRequired
-      nzTooltipTitle="Do you want to add another Nationality ?"
-      nz-icon nzType="plus" nzTheme="outline"
+
     >
      Nationality
     </nz-form-label>
@@ -136,30 +191,29 @@
         </div>
       </div>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
 
-  <nz-form-item nz-row class="register-area">
+    <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="primary" style="margin-right: 70px;" (click)="addEmployee()">Next</button>
+      <button nz-button *ngIf="this.validateForm.valid" routerLink="/Organization-Detail" nzType="primary" style="margin-right: 70px;" (click)="addEmployee()">Next</button>
     </nz-form-control>
-  </nz-form-item>
+    </nz-form-item>
 
-  <nz-form-item nz-row >
+    <nz-form-item nz-row >
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
       <button nz-button nzType="primary" style="margin-right: 500px;bottom: 57px;" (click)="saveEmployee()">Save</button>
     </nz-form-control>
-  </nz-form-item>
-  <nz-form-item nz-row >
+    </nz-form-item>
+    <nz-form-item nz-row >
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
      <!-- <angular-file-uploader [config]="afuConfig">
       </angular-file-uploader>-->
       <exec-epp-uploadphoto></exec-epp-uploadphoto>
-    </nz-form-control>
-  </nz-form-item>
+     </nz-form-control>
+    </nz-form-item>
+
+  </div>
 
 
- </div>
-</div>
 
-</div>
 </form>

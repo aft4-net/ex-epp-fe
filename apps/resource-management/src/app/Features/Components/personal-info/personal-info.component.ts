@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { AddMultiComponent } from './add-multi/add-multi.component';
 import { AngularFileUploaderComponent } from 'angular-file-uploader';
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
@@ -29,27 +30,35 @@ export class PersonalInfoComponent implements OnInit {
 
   employeeNumber="";
   personalEmail ="";
+  personalEmail2="sample1@gmail.com";
+  personalEmail3="sample1@gmail.com";
   firstName="";
   fatherName="";
   grandFatherName="";
   phoneNumber="";
+  phoneNumber2="+111111111";
+  phoneNumber3="+222222222";
   dateofBirth = new Date("2021-11-17 14:29:03.107");
   gender = "";
   nationality: string [] =[];
   selectednationality: Nationality [] = [] ;
 
+
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
-    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService,
-    private http: HttpClient) { }
+    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       employeeNumber:[null,[Validators.required]],
       personalEmail: [null, [Validators.email, Validators.required]],
+      personalEmail2:[null,null],
+      personalEmail3:[null,null],
       firstName: [null, [Validators.required]],
       fatherName: [null, [Validators.required]],
       grandFatherName: [null, [Validators.required]],
       phoneNumber: [null,[Validators.required]],
+      phoneNumber2:[null,null],
+      phoneNumber3:[null,null],
       dateofBirth: [null, [Validators.required]],
       gender: [null, [Validators.required]],
       nationality: [null, [Validators.required]]
@@ -64,19 +73,60 @@ export class PersonalInfoComponent implements OnInit {
 
   }
   addEmployee(){
-
+  if(this.validateForm.invalid){
+      alert("Invalid inputs on the form");
+    }
+    else{
      this.ValidateInput();
     console.log("Add Employee Executed");
     this.employeeService.setEmployeeData(this.employee);
 
+    }
   }
   saveEmployee(){
+    if(this.validateForm.invalid){
+      alert("Invalid inputs on the form!");
+    }
+    else{
     this.ValidateInput();
     console.log("Save Employee Executed");
     this.employeeService.addEmployee(this.employee);
+
   }
+}
 
   ValidateInput(){
+
+    if(this.phoneNumber === this.phoneNumber2){
+       this.phoneNumber2="";
+       alert("Duplicate phone number detected, will be ignored !");
+    }
+    else if(this.phoneNumber === this.phoneNumber3){
+      this.phoneNumber3 = "";
+      alert("Duplicate phone number detected, will be ignored !");
+    }
+    else if(this.phoneNumber3 === this.phoneNumber2){
+      this.phoneNumber2 = "";
+      alert("Duplicate phone number detected, will be ignored !");
+    }
+    if(this.personalEmail === this.personalEmail2){
+       this.personalEmail2="";
+       alert("Duplicate email address detected, will be ignored !");
+    }
+    else if(this.personalEmail === this.personalEmail3){
+      this.personalEmail3 = "";
+      alert("Duplicate  email address detected, will be ignored !");
+    }
+    else if(this.personalEmail3 === this.personalEmail2){
+      this.personalEmail2 = "";
+      alert("Duplicate  email address detected, will be ignored !");
+    }
+
+    const today = new Date().toLocaleDateString();
+
+    if(new Date() > this.dateofBirth){
+      alert(today+" --> "+this.dateofBirth);
+    }
 
     this.selectednationality = [{
       Name :  this.validateForm.value.nationality
@@ -88,9 +138,11 @@ export class PersonalInfoComponent implements OnInit {
       FatherName: this.fatherName,
       GrandFatherName: this.grandFatherName,
       MobilePhone: this.phoneNumber,
-
+      Phone1:this.phoneNumber2,
+      Phone2:this.phoneNumber3,
       PersonalEmail: this.personalEmail,
-
+      PersonalEmail2: this.personalEmail2,
+      PersonalEmail3: this.personalEmail3,
       DateofBirth : this.dateofBirth,
       Gender : this.gender,
       Nationality: this.selectednationality
@@ -112,7 +164,7 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
-  
+
 
 
 }

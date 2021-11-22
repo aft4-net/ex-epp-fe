@@ -558,7 +558,7 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "apps/resource-management/src/styles.scss"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css", "apps/resource-management/src/styles.scss"],
             "scripts": []
           },
           "configurations": {

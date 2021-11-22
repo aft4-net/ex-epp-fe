@@ -1,8 +1,8 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AddEmergencycontactComponent } from './Features/Components/emergencycontact/add-emergencycontact/add-emergencycontact.component';
+import { AddMultiComponent } from './Features/Components/personal-info/add-multi/add-multi.component';
 import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
-import {AngularFileUploaderModule} from 'angular-file-uploader';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,10 +19,10 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
 import en from '@angular/common/locales/en';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
-import { UploadphotoComponent } from './Features/Components/personal-Info/uploadphoto/uploadphoto.component';
 
 registerLocaleData(en);
 
@@ -40,6 +40,7 @@ registerLocaleData(en);
     PersonalInfoComponent,
     AddEmergencycontactComponent,
     UploadphotoComponent,
+    AddMultiComponent
   ],
   imports: [
     BrowserModule,
@@ -48,8 +49,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
-    AppRoutingModule,
-    AngularFileUploaderModule
+    AppRoutingModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
