@@ -1,5 +1,5 @@
 <br>
-<form nz-form id="myForm" [formGroup]="validateForm">
+<form nz-form id="myForm" [formGroup]="addressForm">
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="country">Country</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
@@ -11,9 +11,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="state">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="state">
       <ng-container *ngIf="isEthiopia;else state">Region</ng-container>
-      <ng-template #state>State</ng-template>
+      <ng-template #state>State/Provice</ng-template>
     </nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
       <nz-select formControlName="state" nzShowSearch nzAllowClear nzPlaceHolder="Input the state/region/province"
@@ -67,7 +67,7 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="residencialPhoneNumber" nzRequired>Phone Number</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['residencialPhoneNumber']"
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="addressForm.controls['residencialPhoneNumber']"
       nzErrorTip="Please input your phone number!">
       <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>

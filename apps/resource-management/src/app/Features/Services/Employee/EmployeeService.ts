@@ -43,4 +43,13 @@ export class EmployeeService {
 
     }
 
+    getPersonalAddresses(){
+      const addresses = this.employeeSource.getValue().PersonalAddress
+      if(addresses !== null && addresses !== undefined){
+        return addresses
+      } else {
+        return []
+      }
+    }
+
 }
