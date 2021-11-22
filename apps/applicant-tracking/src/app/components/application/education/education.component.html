@@ -50,7 +50,7 @@
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="To (Expected End Date)"
+                  label="To (or Expected Graduation)"
                   [disabled]="education.controls.isStudying.value"
                   placeholder="Enter Your Completion Year"
                   [disabledDate]="disabledEndDate"
@@ -104,13 +104,14 @@
                 (onChange)="onCountryChange($event)"
                 [selectedValue]="education.controls.country.value"
                 [single]="true"
+                [isRequired]="false"
               ></app-country-selector>
             </div>
           </div>
         </div>
       </form>
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
+        <div nz-col nzSpan="3" *ngIf="!isUpdateMode">
           <app-checkbox-input
             [form]="validation"
             fcn="isMultitpleEntry"
