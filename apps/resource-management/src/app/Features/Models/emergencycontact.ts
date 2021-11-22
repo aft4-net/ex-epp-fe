@@ -1,11 +1,24 @@
-
-import { Address } from "./address.model";
+export interface Address {
+  guid: string;
+  isActive: boolean;
+  isDeleted: boolean;
+  createdDate: string;
+  createdbyUserGuid: string;
+  phoneNumber: string;
+  country: string;
+  stateRegionProvice: string;
+  city: string;
+  subCityZone: string;
+  woreda: string;
+  houseNumber: string;
+  postalCode: number;
+}
 
 export interface IEmergencyContact {
   guid?: string;
   isActive?: boolean;
   isDeleted?: boolean;
-  createdDate?: Date;
+  createdDate?: string;
   createdbyUserGuid?: string;
   firstName?: string;
   fatherName?: string;
@@ -15,20 +28,14 @@ export interface IEmergencyContact {
 
 export class EmergencyContact implements IEmergencyContact {
   constructor(
- public guid? :string,
- public isActive? : boolean,
- public isDeleted? : boolean,
- public createdDate?: Date,
- public createdbyUserGuid? :string,
- public firstName? :string,
- public fatherName? : string,
- public  relationship? : string,
- public  address: [] = []
-
-  ){}
+    public guid?: string,
+    public isActive?: boolean,
+    public isDeleted?: boolean,
+    public createdDate?: string,
+    public createdbyUserGuid?: string,
+    public firstName?: string,
+    public fatherName?: string,
+    public relationship?: string,
+    public address: [] = []
+  ) {}
 }
-
-
-
-  
- 
