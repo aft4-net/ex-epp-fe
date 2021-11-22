@@ -25,18 +25,16 @@
        <div *ngIf="overflow">
         <div class="more-btn w-full flex flex-col items-end justify-between pt-2 mt-2 mb-2 pb-2 w-full flex justify-between h-10 pt-2"
     style="width:inherit;  background-color: #DCFFDC;"
+         nz-popover
          nzVisible="overflow"
-         (click)="onClick()">
-         <h2 class="font-sans font-normal text-base mr-48">More</h2>
-         <a  nz-popover
-         [(nzPopoverVisible)]="clicked"
+          [(nzPopoverVisible)]="clicked"
          nzPopoverTrigger="click"
          [nzPopoverContent]="contentTemplate"
          nzPopoverPlacement="right"
-         (click)="onClick()"
-         class="mr-0" style="margin-right: -50px;"></a>
+         (click)="onClick()">
+         <h2 class="font-sans font-normal text-base mr-48">More</h2>
         </div>
-      
+        <a
       </div>
     </div>
    <ng-template  #contentTemplate style="width:100px; " >
