@@ -17,7 +17,15 @@ export class FamilyDetailComponent implements OnInit {
   relationships: Relationship[] = []
   employees:FamilyDetail[]=[]
   buttonClicked = 0
-  empIdSelected=0
+  isnotMarried=0
+  isRelationShipRequired = true;
+  isFullNameRequired=true;
+  isGenderRequired=true;
+  isDoBRequired=true;
+  isRemark =true;
+  empIdSelected = 0;
+
+
   validateForm!: FormGroup;
   @Output() result: EventEmitter<{type: string, familydetails: FamilyDetail[]}> = new EventEmitter<{type: string, familydetails: FamilyDetail[]}>()
   checkRemark = (control: FormControl): { [s: string]: boolean } => {
@@ -27,6 +35,7 @@ export class FamilyDetailComponent implements OnInit {
     }
     return {};
   };
+
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +48,12 @@ export class FamilyDetailComponent implements OnInit {
         });
     this.relationships = []
   }
-
+  getRelationShipName(value:any){
+    const result = this.relationships.find(obj => {
+      return obj.Guid === value;
+    })
+    return result?.Name;
+  }
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       maritalStatus: [null, [Validators.required]],
@@ -50,6 +64,56 @@ export class FamilyDetailComponent implements OnInit {
       dateofBirth: [null],
       employeeId:[null]
     });
+
+    this.validateForm.controls.maritalStatus.valueChanges.subscribe((value)=>{
+      if(value==="Not Married"){
+        this.isRelationShipRequired = false;
+        this.isFullNameRequired=false;
+        this.isGenderRequired=false;
+        this.isDoBRequired=false;
+      }
+      else
+      {
+        this.isRelationShipRequired = true;
+        this.isFullNameRequired=true;
+        this.isGenderRequired=true;
+        this.isDoBRequired=true;
+      }
+    });
+    this.validateForm.controls.relationship.valueChanges.subscribe((value)=>{
+      const value2 = this.getRelationShipName(value);
+      if(value2==="Child"){
+
+        this.isFullNameRequired=true;
+        this.isGenderRequired=true;
+        this.isDoBRequired=true;
+      }
+        else if(value2==="Spouse"){
+          this.isRelationShipRequired = true;
+          this.isFullNameRequired=true;
+          this.isGenderRequired=false;
+          this.isDoBRequired=false;
+        }
+        else if(value2==="Mother"){
+          this.isRelationShipRequired = true;
+          this.isFullNameRequired=true;
+          this.isGenderRequired=false;
+          this.isDoBRequired=false;
+        }
+        else if(value2==="Other"){
+          this.isRelationShipRequired = true;
+          this.isFullNameRequired=true;
+          this.isGenderRequired=false;
+          this.isDoBRequired=false;
+        }
+        else if(value2==="Father"){
+          this.isRelationShipRequired = true;
+          this.isFullNameRequired=true;
+          this.isGenderRequired=false;
+          this.isDoBRequired=false;
+        }
+
+    });
   }
   onSelectEmpId(){
     this.empIdSelected=1;
@@ -59,6 +123,10 @@ export class FamilyDetailComponent implements OnInit {
         .subscribe((response: Relationship[]) => {
           this.relationships = response
         });
+        if (this.validateForm.value.maritalStatus==="Not Married")
+        {
+          this.isnotMarried=1;
+        }
     }
     onDateFill()
     {
@@ -70,6 +138,50 @@ export class FamilyDetailComponent implements OnInit {
         });
       }
     }
+    onAction(event: string){
+
+      if (event === 'back') {
+        this.result.emit({
+          type: 'back',
+          familydetails: []
+        })
+      }
+      else {
+
+        if (this.validateForm.valid) {
+          if (event === 'submit') {
+            this.validateForm = this.fb.group({
+              maritalStatus: [null, [Validators.required]],
+              relationship: [null, [Validators.required]],
+              remark: ["Other", [Validators.required, this.checkRemark]],
+              fullName: [null, [Validators.required]],
+              gender: [null, [Validators.required]],
+              dateofBirth: [null],
+              employeeId:[null]
+            });
+          }
+          else {
+            this.result.emit({
+              type: 'next',
+              familydetails: [] //to be modified
+            })
+          }
+
+      }
+      else {
+        Object.values(this.validateForm.controls).forEach(control => {
+          if (control.invalid) {
+            control.markAsDirty();
+            control.updateValueAndValidity({ onlySelf: true });
+          }
+        });
+      }
+    }
+    }
+
+    disabledDate = (startValue: Date): boolean => {
+        return startValue.getTime() > Date.now();
+    };
 
 
 }
