@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import data from '../../../../../assets/files/CountryCodes.json';
 
 @Component({
-  selector: 'app-country-selector',
+  selector: 'exec-epp-country-selector',
   templateUrl: './country-selector.component.html',
   styleUrls: ['./country-selector.component.css'],
 })

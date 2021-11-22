@@ -4,12 +4,12 @@
 
 }
 
-.required:after {
-  content:" *";
+.label::after {
+  content: ' *';
   color: red;
   font-weight: bold;
-  padding-left: 7px;
-}
+ 
+ }
  
 .form-item-container {
   flex-direction: column;
