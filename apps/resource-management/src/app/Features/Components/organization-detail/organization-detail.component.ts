@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
+import { FormBuilder,  FormControl,  FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ICountry } from '../../Models/EmployeeOrganization/Country';
 import { IDutyBranch } from '../../Models/EmployeeOrganization/DutyBranch';
 import { EmploymentType, Status } from '../../Models/EmployeeOrganization/enums';
@@ -7,6 +7,8 @@ import { CountryService } from '../../Services/EmployeeOrganization/country.serv
 import { CountryModel } from '../../Models/EmployeeOrganization/ContryModel';
 import { DutyBranchModel } from '../../Models/EmployeeOrganization/DutyBranchModel';
 import { Router  } from '@angular/router';
+import { LocationPhoneService } from '../../Services/address/location-phone.service';
+import { BehaviorSubject, Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'exec-epp-organization-detail',
@@ -17,35 +19,46 @@ export class OrganizationDetailComponent implements OnInit {
   
   countries !: ICountry[];
   dutyBranches !: IDutyBranch[];
-  emoloyeeOrganizationForm : FormGroup | any;
+  reportingManagerList !: string[];
+  emoloyeeOrganizationForm !: FormGroup;
   employmentTypes = EmploymentType;
   statuses = Status;
   employmnetTypeKey =  Object.values;
   statusKey = Object.values;
   dateFormat = 'dd/MM/yyyy';
-
-  constructor(private countryService: CountryService,private fb: FormBuilder, private router: Router) {
+  isEthiopia = false;
+  listofCodes: string[] = [];
+  isLoading = false;
+  searchChange$ = new BehaviorSubject('');
+  
+  constructor(private countryService: CountryService,private fb: FormBuilder,
+              private router: Router, private _locationPhoneService:LocationPhoneService) {
   }
 
   ngOnInit() {
     this.createEmployeeOrganizationForm();
     this.getCountries();
+    this._locationPhoneService.getCountriesPhoneCode()
+    .subscribe((response: string[]) => {
+      this.listofCodes = response;
+    })
   }
 
   createEmployeeOrganizationForm() {
     this.emoloyeeOrganizationForm = this.fb.group({
-      country: ['',Validators.required],
-      dutyBranch: ['',Validators.required],
-      companyEmail: ['',Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')],
-      phoneNumber: ['',Validators.pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$')],
-      jobtitle : ['', Validators.required],
-      businesstitle: [''],
-      department : ['', Validators.required],
-      reportingmanager : ['',Validators.required],
-      employmenttype: ['', Validators.required],
-      joiningdate: ['',Validators.required],
-      terminationdate:[''],
-      status:['', Validators.required]
+      country: [null,[Validators.required]],
+      dutyBranch: [null,[Validators.required]],
+      companyEmail: [null,[Validators.email, Validators.required]],
+      phonecodePrefix:['+251'],
+      phoneNumber: [null,[Validators.pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$')]],
+      jobtitle : [null, [Validators.required]],
+      businesstitle: [null, [Validators.required]],
+      department : [null, [Validators.required]],
+      reportingmanager : [null,[Validators.required]],
+      employmenttype: [null, [Validators.required]],
+      joiningdate: [null,[Validators.required],[this.ValidateFutureDate]],
+      terminationdate:[null],
+      status:[null, [Validators.required]]
     });
   }
 
@@ -55,7 +68,6 @@ export class OrganizationDetailComponent implements OnInit {
         id: country.Guid,
         name: country.Name
       }))
-      console.log(this.countries);
     })
   }
 
@@ -65,18 +77,46 @@ export class OrganizationDetailComponent implements OnInit {
         id: dutyBranch.Guid,
         name: dutyBranch.Name
       }))
-      console.log(this.countries);
     })
   }
 
   action(event: string) {
+    console.log(this.emoloyeeOrganizationForm.valid);
     if(event === "next")
     {
-      this.router.navigate(['address-new']);
+      if (this.emoloyeeOrganizationForm.valid) {   
+        console.log('valid form');
+        this.router.navigate(['address-new']);
+      }
+      else
+      {
+        Object.values(this.emoloyeeOrganizationForm.controls).forEach(control => {
+          if (control.invalid) {
+            control.markAsDirty();
+            control.updateValueAndValidity({ onlySelf: true });
+          }
+        });
+      }
     }
     if(event === "back")
     {
       this.router.navigate(['']);
     }
   }
+
+  ValidateFutureDate = (control: FormControl) =>
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+        const currentDateTime = new Date();
+        const controlDate = new Date(control.value);
+        if (!control?.pristine) {
+            console.log(!(controlDate <= currentDateTime));
+            if(!(controlDate <= currentDateTime)) {
+                observer.next({ error: true, isFutureDate: true });
+            } 
+        } else {
+          observer.next(null);
+        }
+        observer.complete();
+      }
+    );
 }
