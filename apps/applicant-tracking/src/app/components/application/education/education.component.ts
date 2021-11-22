@@ -30,6 +30,7 @@ export class EducationComponent implements OnInit {
   loading = false;
   is_studying = false;
   disableFieldOfStudy = false;
+  disableEnd = true;
   // databinding
   showConfirm = false;
   guid: any;
@@ -48,7 +49,7 @@ export class EducationComponent implements OnInit {
     institution: new FormControl('', [Validators.required]),
     yearFrom: new FormControl(null, [Validators.required]),
     yearTo: new FormControl(null, [Validators.required]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl(''),
     program: new FormControl('', [Validators.required]),
     fieldOfStudy: new FormControl('', [Validators.required]),
     isStudying: new FormControl(false, []),
@@ -62,6 +63,8 @@ export class EducationComponent implements OnInit {
     this.isModalVisible = false;
   }
   openModal() {
+    this.disableEnd = true;
+    this.education.controls.yearTo.disable();
     this.isModalVisible = true;
   }
   onSaveRecord(): void {
@@ -105,7 +108,7 @@ export class EducationComponent implements OnInit {
     this.educationService.delete(id).subscribe((_) => {
       this.notifier.notify(
         NotificationType.success,
-        'Record deleted successfully'
+        'Education Record deleted successfully'
       );
       this.bindRecord();
       this.hasDataEntry(this.educations.length > 0 ? true:false);
@@ -113,6 +116,7 @@ export class EducationComponent implements OnInit {
   }
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
+      this.education.controls.yearTo.enable();
       return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
@@ -122,7 +126,7 @@ export class EducationComponent implements OnInit {
   };
 
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.education.controls.yearFrom.value) {
+    if (!endValue || !this.education.controls.yearFrom.value) { 
       return false;
     }
     return (
@@ -137,13 +141,15 @@ export class EducationComponent implements OnInit {
   async onFormSubmit() {
     this.loading = true;
     const educationModel = this.getFormValue();
-    if (!this.isUpdateMode) await this.addItem(educationModel);
+    this.education.controls.yearTo.disable();
+    if (!this.isUpdateMode) await this.addItem(educationModel)
     else await this.updateItem(educationModel);
   }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
       (_) => {
         this.onSaveCompleted();
+        this.education.controls.yearTo.disable();
         this.bindRecord();
         this.hasDataEntry(this.educations.length > 0 ? true:false);
       },
@@ -205,6 +211,7 @@ export class EducationComponent implements OnInit {
     this.loggedInUser = JSON.parse(
       localStorage.getItem('loggedInUserInfo') ?? ''
     );
+    
     this.bindRecord();
     this.education.controls.isStudying.valueChanges.subscribe((value) => {
       if (value) {
@@ -218,7 +225,7 @@ export class EducationComponent implements OnInit {
     this.education.controls.program.valueChanges.subscribe((value) => {
       if (
         this.fetchedEducationProgramme.find((obj) => obj.Guid === value)
-          ?.Name === 'High Schools'
+          ?.Name === 'High School'
       ) {
         this.education.controls.fieldOfStudy.setValidators([]);
         this.education.controls.fieldOfStudy.setValue('');
@@ -230,6 +237,8 @@ export class EducationComponent implements OnInit {
         this.disableFieldOfStudy = false;
       }
     });
+
+    
 
     //api-integration
     this.eduProgService.get().subscribe(
@@ -262,7 +271,7 @@ export class EducationComponent implements OnInit {
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you want to delete this record?',
+      nzContent: 'Are you sure you want to delete this entry?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },

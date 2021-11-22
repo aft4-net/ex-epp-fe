@@ -41,6 +41,7 @@
                   [disabledDate]="disabledStartDate"
                   errorMsg="Please provide a valid Year"
                   [displayError]="institution.focusout"
+                 
                 >
                 </app-date-picker>
               </div>
@@ -49,7 +50,7 @@
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="To (Expected End Date)"
+                  label="To (or Expected Graduation)"
                   [disabled]="education.controls.isStudying.value"
                   placeholder="Enter Your Completion Year"
                   [disabledDate]="disabledEndDate"
@@ -109,11 +110,11 @@
         </div>
       </form>
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
+        <div nz-col nzSpan="3" *ngIf="!isUpdateMode">
           <app-checkbox-input
             [form]="validation"
             fcn="isMultitpleEntry"
-            label="Add more education"
+            label="Add More"
           ></app-checkbox-input>
         </div>
         <div nz-col class="col-pad" nzSpan="3">
@@ -154,9 +155,9 @@
             <td>{{ data?.Institution }}</td>
             <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
             <td>{{ data?.EducationProgramme?.Name }}</td>
-            <td>{{ this.datepipe.transform(data?.DateFrom, 'yyyy-MM-dd')  }}</td>
-            <td>{{ this.datepipe.transform(data?.DateTo, 'yyyy-MM-dd')  }}</td>
-            
+            <td>{{ this.datepipe.transform(data?.DateFrom, 'dd-MM--yyyy')  }}</td>
+            <td>{{ this.datepipe.transform(data?.DateTo, 'dd-MM--yyyy')  }}</td>
+      
             <td>
               <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
                   <i nz-icon nzType="edit" nzTheme="outline"></i>
