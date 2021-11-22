@@ -199,15 +199,9 @@ export class PersonalInformationComponent implements OnInit {
         this.personalInformation.controls.firstName.setValue(data.FirstName);
         this.personalInformation.controls.lastName.setValue(data.LastName);
         this.personalInformation.controls.email.setValue(data.Email);
-        this.personalInformation.controls.phoneNumber.setValue(
-          data.ContactNumber
-        );
-        this.personalInformation.controls.resumeUrl.setValue(
-          data.ResumeFile ?? ''
-        );
-        this.personalInformation.controls.profileUrl.setValue(
-          data.ProfileImage ?? ''
-        );
+        this.personalInformation.controls.phoneNumber.setValue(data.ContactNumber);
+        this.personalInformation.controls.resumeUrl.setValue(data.ResumeFile ?? '');
+        this.personalInformation.controls.profileUrl.setValue(data.ProfileImage ?? '');
         const fileNames = data.ResumeFile.split('_');
         this.resumeFileList = [
           {
@@ -218,13 +212,14 @@ export class PersonalInformationComponent implements OnInit {
         ];
 
         this.personalInformation.controls.country.setValue(data.Country ?? '');
-
+        console.log(this.personalInformation.controls.country.value);
         for (let key in countryList) {
           if (countryList[key].name == data.Country) {
             this.selectedValue = { ...countryList[key] };
             this.personalInformation.controls.phoneNumber.updateValueAndValidity();
           }
         }
+        
       });
 
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
@@ -233,6 +228,8 @@ export class PersonalInformationComponent implements OnInit {
         Validators.required,
       ]);
     });
+    console.log('*******')
+    console.log(this.personalInformation.controls.country.value);
   }
   onClick(e: any) {}
   deleteProfile() {
@@ -259,7 +256,6 @@ export class PersonalInformationComponent implements OnInit {
           content: 'Personal information has been updated.',
           duration: 5000,
         });
-        this.hasDataEntry(true);
         this.applicantService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
       },
@@ -273,8 +269,5 @@ export class PersonalInformationComponent implements OnInit {
         console.log('error:' + err);
       }
     );
-  }
-  hasDataEntry(value: boolean) {
-    this.personalInfoService.hasData(value);
   }
 }
