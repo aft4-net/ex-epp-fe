@@ -14,12 +14,12 @@ import {
   NotifierService,
 } from '../../../shared/services/notifier.service';
 @Component({
-  selector: 'exec-epp-education',
+  selector: 'exec-epp-workexpirence',
   templateUrl: './work-experience.component.html',
-  styleUrls: ['./education.component.scss'],
+  styleUrls: ['./work-experience.component.scss'],
   providers: [DatePipe],
 })
-export class EducationComponent implements OnInit {
+export class WorkExperienceComponent implements OnInit {
   info = '';
   loggedInUser: any;
   isModalVisible = false;
