@@ -21,21 +21,7 @@ header {
   height: 85vh;
 }
 
-::ng-deep .ant-btn {
-  background: #00a551;
-  border-radius: 2px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  color: #e8ffe8;
-}
 
-::ng-deep .ant-btn:active,
-.ant-btn:focus,
-.ant-btn:hover {
-  background: none !important;
 
   .page-title {
     font-family: SF Pro Display;
@@ -71,24 +57,13 @@ header {
     color: #e8ffe8;
   }
 
-  ::ng-deep .ant-btn:active,
-  .ant-btn:focus,
-  .ant-btn:hover {
 
-    background: none !important;
 
-  }
-
-  .ant-btn:not([disabled]):hover {
+  ::ng-deep .ant-btn:not([disabled]):hover {
 
     background: #00a551 !important;
     color: white;
   }
 
-}
 
-.ant-btn:not([disabled]):hover {
 
-  background: #00a551 !important;
-  color: white;
-}

@@ -6,9 +6,12 @@ import { Router } from '@angular/router';
   templateUrl: './view-clients.component.html',
   styleUrls: ['./view-clients.component.scss']
 })
-export class ViewClientsComponent  {
+export class ViewClientsComponent implements OnInit  {
 
   constructor(private router:Router) { }
+  ngOnInit(): void {
+    // throw new Error('Method not implemented.');
+  }
 
   addClientPage()
   {

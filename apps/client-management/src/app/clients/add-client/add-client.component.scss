@@ -128,18 +128,14 @@ nz-tab {
 ::ng-deep .ant-tabs-tab:hover {
   color: #262626;
 }
-
-::ng-deep .ant-btn:active,
-.ant-btn:focus,
-.ant-btn:hover {
-
-  background: none !important;
-
-}
-
 header {
   padding: 0px 2%;
 }
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+    background: #DCFFDC;
+  }
+  
 
 ::ng-deep .ant-btn {
   background: #00a551;
@@ -152,21 +148,11 @@ header {
   color: #e8ffe8;
 }
 
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC;
-}
+::ng-deep .ant-btn:not([disabled]):hover {
+
+    background: #00a551 !important;
+    color: white;
+  }
 
 
-::ng-deep .ant-btn:active,
-.ant-btn:focus,
-.ant-btn:hover {
 
-  background: none !important;
-
-}
-
-.ant-btn:not([disabled]):hover {
-
-  background: #00a551 !important;
-  color: white;
-}
