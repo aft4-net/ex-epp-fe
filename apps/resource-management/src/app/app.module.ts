@@ -20,6 +20,8 @@ import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
+import { ToastrModule } from 'ngx-toastr';
+
 
 registerLocaleData(en);
 
@@ -36,6 +38,7 @@ registerLocaleData(en);
     ProgressButtonsComponent,
     PersonalInfoComponent,
     AddEmergencycontactComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,8 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
+   
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
