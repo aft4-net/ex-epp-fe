@@ -48,7 +48,26 @@ export class PersonalInfoComponent implements OnInit {
   selectednationality: Nationality [] = [] ;
 
   currentemployee !: Employee ;
+  currentdate = new Date();
+  dateFormat = 'dd/mm/yyyy';
 
+  afuConfig = {
+    formatsAllowed: ".jpg,.png",
+    maxSize: 2,
+    uploadAPI: {
+      url:"http://localhost:14696/api/v1/EmployeePhoto"
+    },
+    replaceTexts: {
+      selectFileBtn: 'Select Photo',
+      resetBtn: 'Reset',
+      uploadBtn: 'Upload',
+      dragNDropBox: 'Drag N Drop',
+      attachPinBtn: 'Attach Files...',
+      afterUploadMsg_success: 'Successfully Uploaded !',
+      afterUploadMsg_error: 'Upload Failed !',
+      sizeLimit: 'Size Limit'
+    }
+};
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
@@ -121,6 +140,26 @@ export class PersonalInfoComponent implements OnInit {
   }
 }
 
+validateDateofBirth(){
+  const inputDate = this.dateofBirth;
+
+// Get today's date
+const todaysDate = new Date();
+
+// call setHours to take the time out of the comparison
+if(inputDate.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)) {
+    // Date equals today's date
+    alert("Date is Equal");
+    console.log("input date " + inputDate);
+    console.log("todays date " + todaysDate);
+}
+else{
+ // alert("Not");
+  console.log("input date " + inputDate);
+    console.log("todays date " + todaysDate);
+}
+}
+
   ValidateInput(){
 
    /* if(this.phoneNumber === this.phoneNumber2){
@@ -148,11 +187,6 @@ export class PersonalInfoComponent implements OnInit {
       alert("Duplicate  email address detected, will be ignored !");
     }
 */
-    const today = new Date().toLocaleDateString();
-
-    if(new Date() > this.dateofBirth){
-      alert(today+" --> "+this.dateofBirth);
-    }
 
     this.selectednationality = [{
       Name :  this.validateForm.value.nationality
@@ -212,33 +246,7 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
-  ValidateFutureDate = (control: FormControl) =>
 
-  new Observable((observer: Observer<ValidationErrors | null>) => {
-
-      const currentDateTime = new Date();
-
-      const controlDate = new Date(control.value);
-
-      if (!control?.pristine) {
-
-          if(!(controlDate <= currentDateTime)) {
-
-              observer.next({ error: true, isFutureDate: true });
-
-          }
-
-      } else {
-
-        observer.next(null);
-
-      }
-
-      observer.complete();
-
-    }
-
-  );
 
 
 }
