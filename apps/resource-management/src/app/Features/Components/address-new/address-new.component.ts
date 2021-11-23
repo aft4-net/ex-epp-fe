@@ -180,7 +180,7 @@ export class AddressNewComponent implements OnInit {
     if (event === 'back') {
       this._employeeService.setEmployeeData(
         {
-          PersonalAddress: this.addresses
+          EmployeeAddress: this.addresses
         }
       )
       this._router.navigateByUrl('/Organization-Detail')
@@ -212,7 +212,7 @@ export class AddressNewComponent implements OnInit {
         else {
           this._employeeService.setEmployeeData(
             {
-              PersonalAddress: this.addresses
+              EmployeeAddress: this.addresses
             }
           )
           this._router.navigateByUrl('/emergency-contact')

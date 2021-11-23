@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { Address } from '../../Models/address.model';
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
-
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-personal-addresses',
@@ -13,7 +12,7 @@ import { EmployeeService } from '../../Services/Employee/EmployeeService';
 })
 export class PersonalAddressesComponent implements OnInit {
 
-  
+
   constructor(
     private readonly _route: Router,
     private readonly _employeeService: EmployeeService
@@ -25,9 +24,10 @@ export class PersonalAddressesComponent implements OnInit {
   onAction(event: {type: string, addresses: Address[]}){
 
     const employee = {
-      PersonalAddress: event.addresses
+      EmployeeAddress: event.addresses
     }
     this._employeeService.setEmployeeData(employee);
+
 
     if(event.type === "back"){
       this._route.navigateByUrl('/personal-info')
@@ -36,6 +36,7 @@ export class PersonalAddressesComponent implements OnInit {
       this._route.navigateByUrl('/personal-info')
     }
   }
+
 
 
 }
