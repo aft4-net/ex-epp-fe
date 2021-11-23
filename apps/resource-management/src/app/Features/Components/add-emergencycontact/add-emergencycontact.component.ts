@@ -56,7 +56,7 @@ export class AddEmergencycontactComponent implements OnInit {
   isEthiopia = false;
   emc!: IEmergencyContact;
   emc1!: IEmergencyContact;
-  list: EmergencyContacts[]= [];
+  list: EmergencyContacts[] = [];
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<{ type: string; addresses: Address[] }> =
@@ -242,6 +242,23 @@ export class AddEmergencycontactComponent implements OnInit {
   // };
   // this._employeeService.setEmployeeData(employee);
   submitFormall(): void {
+    const getvalue = {
+      firstName: this.AddForm.value.firstName,
+      fatherName: this.AddForm.value.fatherName,
+      relationship: this.AddForm.value.relationship,
+      address: [
+        {
+          phoneNumber: this.AddForm.value.phoneNumber,
+          country: this.AddForm.value.country,
+          stateRegionProvice: this.AddForm.value.stateRegionPrice,
+          city: this.AddForm.value.cityProvice,
+          subCityZone: this.AddForm.value.subCityZone,
+          woreda: this.AddForm.value.Woreda,
+          houseNumber: this.AddForm.value.houseNumber,
+          postalCode: this.AddForm.value.postalCode,
+        },
+      ],
+    } as IEmergencyContact;
     const getvalueForm = this.AddForm.value;
     if (this.AddForm.valid) {
       console.log('submit', this.AddForm.value);
@@ -250,7 +267,7 @@ export class AddEmergencycontactComponent implements OnInit {
         EmergencyContact: this.list,
       });
       this._router.navigateByUrl('/emergency-contact');
-      this.service.postEmergenycContacts(this.AddForm.value).subscribe(
+      this.service.postIEmergenycContacts(getvalue).subscribe(
         (res) => {
           this.service.refreshList();
           this.toastr.success(
