@@ -1,19 +1,6 @@
 <br>
 <form nz-form id="familyForm" [formGroup]="validateForm">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="employeeId">Employee-Id</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
-      <nz-select formControlName="employeeId" nzShowSearch nzAllowClear
-        (ngModelChange)="onSelectEmpId()">
-        <ng-container *ngFor="let emp of employees">
-          <nz-option nzValue="{{emp.EmployeeId}}"  nzLabel="{{emp.EmployeeId}}"></nz-option>
-
-        </ng-container>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-
-  <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="maritalStatus">Marital-Status</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
       <nz-select formControlName="maritalStatus" nzShowSearch nzAllowClear
@@ -30,13 +17,14 @@
       nzErrorTip="Please privide your relationship!">
       <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>
-          <nz-select formControlName="relationship" class="relationship-select">
+          <nz-select formControlName="relationship" class="relation-select" >
             <ng-container *ngFor="let rel of relationships">
-              <nz-option nzValue="{{rel.Guid}}" nzLabel="{{rel.Name}}"></nz-option>
+              <nz-option nzValue="{{rel.Guid}}" nzLabel="{{rel.Name}}" ></nz-option>
             </ng-container>
           </nz-select>
         </ng-template>
-        <input formControlName="remark" id="'remark'" nzPlaceHolder="provide others" nz-input />
+        <input formControlName="remark" id="'remark'" nzPlaceHolder="provide others" nz-input  />
+
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
