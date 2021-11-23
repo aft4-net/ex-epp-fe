@@ -4,10 +4,9 @@
 
 }
 .label::after {
- content: '*';
+ content: ' *';
  color: red;
  font-weight: bold;
- padding-left: 7px;
 
 }
 .form-item-container {
