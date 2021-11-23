@@ -39,8 +39,18 @@ export class FamilyDetailComponent implements OnInit {
     this._familyDetailService.getListofEmpIds()
         .subscribe((response: FamilyDetail[]) => {
           this.employees = response
+
         });
     this.relationships = []
+
+    this.validateForm = this.fb.group({
+      maritalStatus: new FormControl([null, [Validators.required]]),
+      relationship: [null, [Validators.required]],
+      remark: [null, ],
+      fullName: [null, [this.validateName,Validators.required]],
+      gender: [null, [Validators.required]],
+      dateofBirth: [null, [Validators.required]],
+     });
   }
   getRelationShipName(value:any){
     const result = this.relationships.find(obj => {
@@ -48,16 +58,15 @@ export class FamilyDetailComponent implements OnInit {
     })
     return result?.Name;
   }
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      maritalStatus: [null, [Validators.required]],
-      relationship: [null, [Validators.required]],
-      remark: [null, ],
-      fullName: [null, [Validators.required,]],
-      gender: [null, [Validators.required]],
-      dateofBirth: [null, [Validators.required]],
-    });
 
+  ngOnInit(): void {
+
+    this.validateForm.controls.fullName.valueChanges.subscribe(() => {
+      this.validateForm.controls.fullName.setValidators([
+        this.validateName(),
+        Validators.required,
+      ]);
+    });
     this.validateForm.controls.maritalStatus.valueChanges.subscribe((value)=>{
       if(value==="Not Married"){
         this.isRelationShipRequired = false;
@@ -81,6 +90,7 @@ export class FamilyDetailComponent implements OnInit {
         this.isFullNameRequired=true;
         this.isGenderRequired=true;
         this.isDoBRequired=true;
+
       }
         else if(value2==="Spouse"){
           this.isRelationShipRequired = true;
@@ -124,11 +134,12 @@ export class FamilyDetailComponent implements OnInit {
     validateName(): ValidatorFn {
       return (control: AbstractControl): ValidationErrors | null => {
         const name = control.value;
-        const isValid = name.match('^[a-zA-Z]*$') && name.length >= 2;
+        const isValid = name.match('^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$') && name.length >= 2;
         return !isValid ? { value: control.value } : null;
       };
     }
     onAction(event: string) {
+
 
       if (event === 'back') {
         this._employeeService.setEmployeeData(
@@ -139,6 +150,7 @@ export class FamilyDetailComponent implements OnInit {
         this._router.navigateByUrl('/Organization-Detail')
       }
       else {
+        console.log(event)
 
         if (this.validateForm.valid) {
           const familydetail = {

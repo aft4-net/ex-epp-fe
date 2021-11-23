@@ -17,7 +17,7 @@
       nzErrorTip="Please privide your relationship!">
       <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>
-          <nz-select formControlName="relationship" class="relation-select" >
+          <nz-select formControlName="relationship" class="relation-select" nzShowSearch="true" >
             <ng-container *ngFor="let rel of relationships">
               <nz-option nzValue="{{rel.Guid}}" nzLabel="{{rel.Name}}" ></nz-option>
             </ng-container>
@@ -31,7 +31,7 @@
 
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="fullName" [nzRequired] = 'isFullNameRequired'>Full-Name</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please provide a valid full name!">
       <input nz-input formControlName="fullName" id="fullName" />
     </nz-form-control>
   </nz-form-item>
