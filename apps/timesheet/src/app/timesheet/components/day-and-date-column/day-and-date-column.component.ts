@@ -20,13 +20,13 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
-  @Output() moreTimeEntries: EventEmitter<number> =   new EventEmitter();
+  @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
-  clicked=false;
-  index?:number = 0;
-  overflow=false;
-  moreEntries:any[]=[];
+  morePopover = false;
+  index?: number = 0;
+  overflow = false;
+  moreEntries: any[] = [];
   constructor(private timesheetService: TimesheetService) {
   }
 
@@ -55,12 +55,20 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.clickEventType = timeEntryEvent.clickEventType
       this.projectNamePaletClicked.emit(timeEntryEvent);
     }
+
+    if(this.morePopover){
+      this.clickEventType = ClickEventType.none;
+    }
   }
 
   onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType;
       this.paletEllipsisClicked.emit(timeEntryEvent);
+    }
+
+    if (this.morePopover) {
+      this.clickEventType = ClickEventType.none;      
     }
   }
 
@@ -75,7 +83,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = ClickEventType.showFormDrawer
+      this.clickEventType = ClickEventType.showFormDrawer;
       let dateColumnEvent: DateColumnEvent = {
         clickEventType: this.clickEventType,
         totalHours: this.totalHours
@@ -85,26 +93,30 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
     this.clickEventType = ClickEventType.none;
   }
-  onClick(){
-    this.clicked=true;
+
+  onClick() {
+    this.clickEventType = ClickEventType.showPaletPopover;
+    this.morePopover = true;
   }
-  
-  checkOverflow (el: HTMLElement,index?: number) {
-     if (el.offsetHeight < el.scrollHeight){
-      this.index?index:null;
-      this.overflow=true;
+
+  checkOverflow(el: HTMLElement, index?: number) {
+    if (el.offsetHeight < el.scrollHeight) {
+      this.index ? index : null;
+      this.overflow = true;
       el.style.overflow = "hidden";
     }
-  
-      return el.offsetHeight < el.scrollHeight;
+
+    return el.offsetHeight < el.scrollHeight;
+  }
+
+  split(index: number) {
+    if (this.timeEntrys !== null) {
+      for (let i = index; i < this.timeEntrys.length; i++) {
+        for (let j = 0; j <= this.timeEntrys.length - index; j++) {
+          this.moreEntries[j] = this.timeEntrys[i];
+        }
+      }
     }
-    split(index: number){
-      if(this.timeEntrys!==null){
-      for (let i=index; i<this.timeEntrys.length; i++){
-         for(let j=0;j<=this.timeEntrys.length-index;j++){
-           this.moreEntries[j]=this.timeEntrys[i];
-   }}
-    }
-          return this.moreEntries;
-   }
+    return this.moreEntries;
+  }
 }

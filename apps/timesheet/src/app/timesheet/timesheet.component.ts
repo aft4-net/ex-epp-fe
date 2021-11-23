@@ -296,6 +296,7 @@ export class TimesheetComponent implements OnInit {
 
       if (!this.timeEntry) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
+        this.clearFormData();
         return;
       }
 
@@ -303,6 +304,7 @@ export class TimesheetComponent implements OnInit {
 
       if (this.timesheetApproval.length === 0 || this.timesheetApproval[0].Status != 2) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
+        this.clearFormData();
       }
       else {
         this.showFormDrawer();
