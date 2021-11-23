@@ -15,16 +15,19 @@ export class EmployeeService {
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
    employee$ = this.employeeSource.asObservable();
 
+   employee!:Employee ;
+
   constructor(private http: HttpClient) { }
 
   addEmployee(employee: Employee){
     this.setEmployee(employee);
   }
   setEmployee(employee:Employee){
+    console.log(employee);
     return this.http.post(this.baseUrl,employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
        this.employeeSource.next(response.data),
-       alert(response.message)
+       console.log(response.message);
      },error => {
        console.log(error);
      });
@@ -44,7 +47,7 @@ export class EmployeeService {
     }
 
     getPersonalAddresses(){
-      const addresses = this.employeeSource.getValue().PersonalAddress
+      const addresses = this.employeeSource.getValue().EmployeeAddress
       if(addresses !== null && addresses !== undefined){
         return addresses
       } else {
@@ -58,5 +61,20 @@ export class EmployeeService {
       //}
 
     }
+
+    saveEmployee(){
+       this.employee$.subscribe(x=>{
+         this.employee = x;
+       });
+      console.log("From The new Save Method "+ this.employee);
+      return this.http.post(this.baseUrl,this.employee)
+     .subscribe((response:ResponseDto<Employee> | any) => {
+       this.employeeSource.next(response.data),
+       console.log(response.message);
+     },error => {
+       console.log(error);
+     });
+    }
+
 
 }

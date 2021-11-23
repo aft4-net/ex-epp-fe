@@ -145,9 +145,17 @@
 
     <nz-form-item style="margin-bottom: 10px;">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
-    <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input date of birth!">
-      <nz-date-picker style="width: 350px;" nzFormat="dd.MM.yyyy" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth"></nz-date-picker>
-    </nz-form-control>
+    <nz-form-control [nzErrorTip]="errordateofBirth" [nzSm]="15" [nzXs]="24" nzErrorTip="Please input date of birth!">
+      <nz-date-picker  style="width: 350px;" nzFormat="dd.MM.yyyy" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth"></nz-date-picker>
+
+      <ng-template #errordateofBirth let-control>
+
+        <ng-container *ngIf="control.hasError('required')">Please pick employee's date of Birth</ng-container>
+
+        <ng-container *ngIf="control.errors?.isFutureDate">You picked a futrue date. Please pick a valid date</ng-container>
+      </ng-template>
+
+      </nz-form-control>
     </nz-form-item>
 
 
@@ -267,7 +275,6 @@
      </nz-form-control>
     </nz-form-item>
 <div>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <angular-file-uploader style="right: 0px;bottom: 40px; position: absolute" [config]="afuConfig">
     </angular-file-uploader>
   </div>
