@@ -24,7 +24,7 @@ import { ProgressButtonsComponent } from './components/progress-buttons/progress
 import { FamilyDetailComponent } from './Features/Components/family-detail/family-detail.component';
 import { ToastrModule } from 'ngx-toastr';
 import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
-import { uuid } from 'uuidv4';
+
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 
