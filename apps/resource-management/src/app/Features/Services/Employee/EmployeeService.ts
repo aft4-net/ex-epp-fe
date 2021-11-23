@@ -10,10 +10,12 @@ import {map} from "rxjs/operators"
 })
 export class EmployeeService {
 
-  baseUrl = "http://localhost:5000/api/v1/Employee"
-  
+  baseUrl = "http://localhost:14696/api/v1/Employee"
+
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
    employee$ = this.employeeSource.asObservable();
+
+   employee!:Employee ;
 
   constructor(private http: HttpClient) { }
 
@@ -21,10 +23,11 @@ export class EmployeeService {
     this.setEmployee(employee);
   }
   setEmployee(employee:Employee){
+    console.log(employee);
     return this.http.post(this.baseUrl,employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
        this.employeeSource.next(response.data),
-       alert(response.message)
+       console.log(response.message);
      },error => {
        console.log(error);
      });
@@ -44,12 +47,34 @@ export class EmployeeService {
     }
 
     getPersonalAddresses(){
-      const addresses = this.employeeSource.getValue().PersonalAddress
+      const addresses = this.employeeSource.getValue().EmployeeAddress
       if(addresses !== null && addresses !== undefined){
         return addresses
       } else {
         return []
       }
     }
+    getPersonalInfo(){
+     const PersonInfo = this.employeeSource.getValue()
+      //if(PersonInfo !== null && PersonInfo !== undefined){
+        return PersonInfo;
+      //}
+
+    }
+
+    saveEmployee(){
+       this.employee$.subscribe(x=>{
+         this.employee = x;
+       });
+      console.log("From The new Save Method "+ this.employee);
+      return this.http.post(this.baseUrl,this.employee)
+     .subscribe((response:ResponseDto<Employee> | any) => {
+       this.employeeSource.next(response.data),
+       console.log(response.message);
+     },error => {
+       console.log(error);
+     });
+    }
+
 
 }
