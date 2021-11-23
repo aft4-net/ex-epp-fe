@@ -14,8 +14,8 @@ export class RelationshipService {
   mother_registered=false;
   constructor( private readonly _httpClient: HttpClient
     ) {}
-  getListofRelationships(maritalstatus: string, empId:string){
-    const rels:FamilyDetail[]=FamilyDetails.filter(r=>r.EmployeeId===empId);
+  getListofRelationships(maritalstatus: string){
+  /*  const rels:FamilyDetail[]=FamilyDetails.filter(r=>r.EmployeeId===empId);
 
     for(let i=0;i<rels[0].RelationshipId.length;i++)
     {
@@ -42,8 +42,8 @@ export class RelationshipService {
   else if (maritalstatus=="Not Married" && this.isFatherRegistered() &&  !this.isMotherRegistered())
   {
     return of(Relationships.filter(rel=>rel.Name!=="Spouse" && rel.Name!=="Father"));
-  }
-  else if (maritalstatus=="Not Married" && !this.isFatherRegistered() &&  !this.isMotherRegistered())
+  }*/
+  if (maritalstatus=="Not Married")
   {
     return of(Relationships.filter(rel=>rel.Name!=="Spouse"));
   }
