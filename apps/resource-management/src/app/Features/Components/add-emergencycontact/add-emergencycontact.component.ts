@@ -19,6 +19,7 @@ import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import {
   Address,
   EmergencyContact,
+  EmergencyContacts,
   IEmergencyContact,
 } from '../../Models/emergencycontact';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
@@ -55,7 +56,7 @@ export class AddEmergencycontactComponent implements OnInit {
   isEthiopia = false;
   emc!: IEmergencyContact;
   emc1!: IEmergencyContact;
-  list: EmergencyContacts;
+  list: EmergencyContacts[]= [];
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<{ type: string; addresses: Address[] }> =
