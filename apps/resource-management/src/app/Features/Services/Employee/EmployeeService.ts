@@ -79,7 +79,7 @@ export class EmployeeService {
 
 
     getEmployeeOrganization() : EmployeeOrganization {
-      const organization = this.employeeSource.getValue().Organization;
+      const organization = this.employeeSource.getValue().EmployeeOrganization;
       if(organization !== null && organization !== undefined){
         return organization
       } else {

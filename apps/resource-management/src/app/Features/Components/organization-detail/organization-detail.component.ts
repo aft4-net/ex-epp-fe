@@ -34,7 +34,6 @@ export class OrganizationDetailComponent implements OnInit {
   constructor(private countryService: CountryService,private fb: FormBuilder,
               private router: Router, private _locationPhoneService:LocationPhoneService,
               private employeeService: EmployeeService) {
-                
   }
 
   ngOnInit() {
@@ -103,8 +102,8 @@ export class OrganizationDetailComponent implements OnInit {
         if (this.emloyeeOrganizationForm.valid) {  
           this.employeeService.setEmployeeData(
           {
-            Organization: OrganizationFormData
-          });
+            EmployeeOrganization : OrganizationFormData
+          })
           this.OrganizationSource = this.employeeService.getEmployeeOrganization();
           this.router.navigate(['personal-address']);
         }
