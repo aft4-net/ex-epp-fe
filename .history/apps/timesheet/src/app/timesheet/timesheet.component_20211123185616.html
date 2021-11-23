@@ -60,7 +60,7 @@
 
 
         <label for="project" id="project" class="mt-4 mb-2 font-semibold">Project<span class="font-bold text-base text-red-500  ml-2">*</span></label>
-        <nz-select nzShowSearch nzAllowClear formControlName="project" [(ngModel)]="formData.project" [nzDisabled]="disableProject" (ngModelChange)="projectValueChange($event)" *ngIf="projects?.length else elseBlock">
+        <nz-select formControlName="project" [(ngModel)]="formData.project" [nzDisabled]="disableProject" (ngModelChange)="projectValueChange($event)" *ngIf="projects?.length else elseBlock">
 
 
           <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
