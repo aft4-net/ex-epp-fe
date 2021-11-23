@@ -18,17 +18,14 @@ export interface Employee{
   PersonalEmail3: string,
   DateofBirth : Date,
   Gender : string,
-<<<<<<< HEAD
   Nationality?: Nationality[],
   Organization?: EmployeeOrganization,
   PersonalAddress?: Address[],
   FamilyDetail?: FamilyDetail[],
-=======
   Nationality: Nationality[],
   EmployeeOrganization?: EmployeeOrganization,
   EmployeeAddress?: Address[],
-  FamilyDetails?: FamilyDetails[],
->>>>>>> develop
+  FamilyDetails?: FamilyDetail[],
   EmergencyContact?: IEmergencyContact[]
 
 
