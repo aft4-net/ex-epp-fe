@@ -15,10 +15,11 @@ import {
 } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
-import { Address } from '../../Models/address.model';
 
 import {
+  Address,
   EmergencyContact,
+  EmergencyContacts,
   IEmergencyContact,
 } from '../../Models/emergencycontact';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
@@ -28,6 +29,8 @@ import { EmergencycontactService } from '../../Services/emergencycontact/emergen
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { AttendanceService } from '../../Services/address/attendance.service';
+import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
@@ -38,6 +41,7 @@ export class AddEmergencycontactComponent implements OnInit {
   // Needed to bind formControlName
   @Input() formGroupParent!: FormGroup;
   @Input() formGroupControlName!: string;
+  @Input() isStandalone = false;
   @ViewChild(AddressNewComponent) child: any;
   // FormControl store validators
   control!: FormControl;
@@ -52,13 +56,16 @@ export class AddEmergencycontactComponent implements OnInit {
   isEthiopia = false;
   emc!: IEmergencyContact;
   emc1!: IEmergencyContact;
+  list: EmergencyContacts[]= [];
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<{ type: string; addresses: Address[] }> =
     new EventEmitter<{ type: string; addresses: Address[] }>();
 
   constructor(
+    private _router: Router,
     private fb: FormBuilder,
+    private _employeeService: EmployeeService,
     public service: EmergencycontactService,
     private _locationPhoneService: LocationPhoneService,
     private _attendanceService: AttendanceService,
@@ -90,12 +97,12 @@ export class AddEmergencycontactComponent implements OnInit {
     address: this.fb.group({
       country: [null],
       state: [null],
-      city: [null ],
+      city: [null],
       subCityZone: [null],
       woreda: [null],
       houseNumber: [null],
       postalCode: [null],
-      //phoneNumberPrefix: ['+251'],
+      phoneNumberPrefix: ['+251'],
       residencialPhoneNumber: [null],
     }),
     // Address: this.fb.array([this.createAddress()], Validators.required),
@@ -103,42 +110,65 @@ export class AddEmergencycontactComponent implements OnInit {
 
   createAddress(): FormGroup {
     return this.fb.group({
-      country: ['null', [Validators.required]],
-      state: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      subCityZone: [null, [Validators.required]],
+      country: [null],
+      state: [null],
+      city: [null],
+      subCityZone: [null],
       woreda: [null],
       houseNumber: [null],
       postalCode: [null],
-      residencialPhoneNumber: [null, [Validators.required]],
+      residencialPhoneNumber: [null],
     });
   }
 
   ngOnInit(): void {
+    this.AddForm = this.fb.group({
+      firstName: new FormControl(null, [Validators.required]),
+      fatherName: new FormControl(null, [Validators.required]),
+      relationship: new FormControl(null, [Validators.required]),
+      address: this.fb.group({
+        country: ['', [Validators.required]],
+        state: [null, [Validators.required]],
+        city: [null],
+        subCityZone: [null],
+        woreda: [null],
+        houseNumber: [null],
+        postalCode: [null],
+        phoneNumberPrefix: ['+251'],
+        residencialPhoneNumber: [null],
+      }),
+    });
+
+    this.EForm = this.fb.group({
+      firstName: new FormControl(null, [Validators.required]),
+      fatherName: new FormControl(null, [Validators.required]),
+      relationship: new FormControl(null, [Validators.required]),
+      address: this.fb.array([this.createAddress()]),
+    });
     this.emc1 = {
-      guid: '9fa85f64-5717-4562-b3fc-2c963f66afa1',
+      guid: '2fa85f64-5717-4562-b3fc-2c963f66afa1',
       isActive: true,
       isDeleted: true,
       createdDate: '2021-11-22T00:45:19.900Z',
       createdbyUserGuid: '9fa85f64-5717-4562-b3fc-2c963f66afa1',
-      firstName: 'SImbo',
+      firstName: 'Simbo',
       fatherName: 'Temesgen',
-      relationship: 'Brother',
+      relationship: 'bro',
       address: [
         {
-          guid: '9fa85f64-5717-4562-b3fc-2c963f66afa1',
+          guid: '2fa85f64-5717-4562-b3fc-2c963f66afa1',
           isActive: true,
           isDeleted: true,
           createdDate: '2021-11-22T00:45:19.900Z',
-          createdbyUserGuid: '9fa85f64-5717-4562-b3fc-2c963f66afa1',
-          phoneNumber: 'string',
-          country: 'string',
-          stateRegionProvice: 'string',
-          city: 'string',
-          subCityZone: 'string',
-          woreda: 'string',
-          houseNumber: 'string',
-          postalCode: 0,
+          createdbyUserGuid: '6fa85f64-5717-4562-b3fc-2c963f66afa1',
+          phoneNumber: '',
+          country: '',
+          stateRegionProvice: '',
+          city: '',
+          subCityZone: '',
+          woreda: '',
+          houseNumber: '',
+          postalCode: 4455,
         },
       ],
     };
@@ -167,15 +197,16 @@ export class AddEmergencycontactComponent implements OnInit {
     if (this.someFrom.valid) {
       console.log('submit', this.someFrom.value);
       console.log('Added successfully');
-      this.service.postEmergenycContacts(this.someFrom.value).subscribe(
-        (res) => {
-          this.service.refreshList();
-          // this.toastr.success('Submitted successfully', 'Payment Detail Register')
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
+      this.service.addEmergencycontact(this.someFrom.value);
+      //   .subscribe(
+      //   (res) => {
+      //     this.service.refreshList();
+      //     // this.toastr.success('Submitted successfully', 'Payment Detail Register')
+      //   },
+      //   (err: any) => {
+      //     console.log(err);
+      //   }
+      // );
 
       this.toastr.success('Added successfully', 'Emergency Contact Register');
     } else {
@@ -189,42 +220,71 @@ export class AddEmergencycontactComponent implements OnInit {
     }
   }
 
+  // const add = {
+  //   country: emcr.address.country,
+  //   stateRegionProvice: emcr.address.state,
+  //   city: emcr.address.city,
+  //   subCityZone: emcr.address.subCityZone,
+  //   woreda: emcr.address.woreda,
+  //   houseNumber: emcr.address.houseNumber,
+  //   postalCode: emcr.address.postalCode,
+  //   phoneNumber: emcr.address.residencialPhoneNumber,
+  // } as Address;
+  // const emergencyContact = {
+  //   firstName: emcr.firstName,
+  //   fatherName: emcr.fatherName,
+  //   relationship: emcr.relationship,
+  //   address: [add],
+  // } as IEmergencyContact;
+
+  // const employee = {
+  //   EmergencyContact: emergencyContact,
+  // };
+  // this._employeeService.setEmployeeData(employee);
   submitFormall(): void {
-     if (this.AddForm.valid) {
-    console.log('submit', this.AddForm.value);
-    console.log('Added successfully');
-    this.service.postEmergenycContacts(this.AddForm.value).subscribe(
-      (res) => {
-        this.service.refreshList();
-    this.toastr.success('Added successfully', 'Emergency Contact Register');
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    );
-      } else {
-        Object.values(this.AddForm.controls).forEach((control) => {
-          if (control.invalid) {
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-          }
-        });
-        this.toastr.error('Not Added!');
-      }
-
-
+    const getvalueForm = this.AddForm.value;
+    if (this.AddForm.valid) {
+      console.log('submit', this.AddForm.value);
+      this.list = [...this.list, getvalueForm];
+      this._employeeService.setEmployeeData({
+        EmergencyContact: this.list,
+      });
+      this._router.navigateByUrl('/emergency-contact');
+      this.service.postEmergenycContacts(this.AddForm.value).subscribe(
+        (res) => {
+          this.service.refreshList();
+          this.toastr.success(
+            'Added successfully',
+            'Emergency Contact Register'
+          );
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    } else {
+      Object.values(this.AddForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      this.toastr.error('The Form is Not Valid!');
+    }
   }
   onSelectCountry() {
-    if (this.EForm.value.country !== '') {
+    console.log('The country is :', this.AddForm.value.address.country);
+    console.log('kkkkkkkkk');
+    if (this.AddForm.value.address.country !== '') {
       this._locationPhoneService
-        .getListofStates(this.EForm.value.country)
+        .getListofStates(this.AddForm.value.address.country)
         .subscribe((response: string[]) => {
           this.listOfStates = response;
         });
     } else {
       this.listOfStates = [];
     }
-    if (this.EForm.value.country === 'Ethiopia') {
+    if (this.AddForm.value.address.country === 'Ethiopia') {
       this.isEthiopia = true;
     } else {
       this.isEthiopia = false;

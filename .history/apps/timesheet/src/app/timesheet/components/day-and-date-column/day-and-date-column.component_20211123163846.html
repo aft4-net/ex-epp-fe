@@ -11,7 +11,7 @@
   </svg>
 </div>
   <div  class="date-column-timesheet  w-full">
-    <div #col style="height:31rem; ">
+    <div #col style="height:30.5rem; ">
     <div class="date-and-hour">
       <h1 class="date"> {{dates1}} </h1>
       <h3 class="hour">{{ totalHours }} Hrs</h3>
@@ -24,8 +24,8 @@
    </div>
   </div> 
      <div *ngIf="checkOverflow(col)">
-        <div *ngIf="overflow" class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left"
-    style="width:inherit;  height:40px;background-color: #DCFFDC;margin-top:-5px;"
+        <div *ngIf="overflow && this.more" class="more-btn w-full flex flex-col items-end pt-2 mt-1 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left"
+    style="width:inherit;  height:40px;background-color: #DCFFDC;"
          nzVisible="overflow"
          (click)="onClick()">
          <h2 class="more-txt font-sans font-normal text-base ml-2 ">More</h2>

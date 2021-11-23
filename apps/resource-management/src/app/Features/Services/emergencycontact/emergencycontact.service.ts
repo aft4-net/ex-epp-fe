@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   EmergencyContact,
+  EmergencyContacts,
   IEmergencyContact,
 } from '../../Models/emergencycontact';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
@@ -21,7 +22,7 @@ export class EmergencycontactService {
 
   constructor(private http: HttpClient) {}
 
-  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContact';
+  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContacts';
 
   putEmergencycontact() {
     return this.http.put(
@@ -55,18 +56,6 @@ export class EmergencycontactService {
       }
     );
   }
-  // .subscribe((response: IBasket) => {
-  //     this.basketSource.next(response);
-  //     this.calculateTotals();
-  //   }, error => {
-  //     console.log(error);
-  //   })
-
-  // add(education: IEmergencyContact): Observable<ResponseDTO<any>> {
-  //   return this.http
-  //     .post<ResponseDTO<any>>(this.path, education, this.httpOptions)
-  //     .pipe(catchError(this.errHandler.formatErrors));
-  // }
 
   setEmergencycontactData(emc: EmergencyContact) {
     this.emSource.next(emc);
@@ -77,23 +66,29 @@ export class EmergencycontactService {
     return this.http.post<EmergencyContact>(this.baseURL, emc);
   }
   postEmergenycContact(em: IEmergencyContact) {
-    return this.http.post<ResponseDto<IEmergencyContact>>(this.baseURL, em);
+    return this.http.post<ResponseDTO<IEmergencyContact>>(this.baseURL, em);
   }
 
   createEmergencycontact(em: IEmergencyContact): Observable<IEmergencyContact> {
-    console.log(em);
     return this.http.post<IEmergencyContact>(this.baseURL, em);
   }
 
-  add(address: IEmergencyContact): Observable<ResponseDto<IEmergencyContact>> {
-    console.log('service');
-    return this.http.post<ResponseDto<IEmergencyContact>>(
-      this.baseURL,
-      address
-    );
+  postEmergenycContacts(emc: EmergencyContacts) {
+    return this.http.post(this.baseURL, emc);
   }
 
-  postEmergenycContacts(emc: IEmergencyContact) {
-    return this.http.post(this.baseURL, emc);
+  addEmergencycontact(emc: IEmergencyContact) {
+    this.setEmergencycontact(emc);
+  }
+
+  setEmergencycontact(emc: any) {
+    return this.http.post(this.baseURL, emc).subscribe(
+      (response: ResponseDTO<any> | any) => {
+        this.emSource.next(response.data), console.log(response.data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }
