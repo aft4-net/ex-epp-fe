@@ -118,7 +118,7 @@
           <div class="inner-box">
             <app-country-selector
               label="Country"
-              placeholder="Enter your password"
+              placeholder="Enter your country"
               errorMsg="Country should be selected"
               [selectedValue]="selectedValue"
               (onChange)="onCountryChange($event)"
@@ -127,9 +127,9 @@
         </div>
       </div>
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="5">
+        <div nz-col >
           <app-button [loading]="loading" (click)="onFormSubmit()" [disabled]="!personalInformation.valid" type="primary">
-            Save and Continue
+        {{ personalInformation.touched? "Save and Continue": "Continue" }}   
           </app-button>
         </div>
       </div>

@@ -15,6 +15,8 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
 import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable } from 'rxjs';
+import countryData from '../../../../assets/files/CountryCodes.json';
 
 @Component({
   selector: 'personal-information',
@@ -33,6 +35,7 @@ export class PersonalInformationComponent implements OnInit {
   photoFileList: any = [];
   resumeFileList: NzUploadFile[] = [];
   loading = false;
+  selectedCountry = '';
   selectedValue = {
     name: 'Select country',
     dial_code: '+0',
@@ -195,11 +198,13 @@ export class PersonalInformationComponent implements OnInit {
     this.personalInfoService
       .getPersonalInfo({ email: this.loggedInUser.Email })
       .subscribe((response) => {
+        console.log("two");
         const data = response.Data;
         this.personalInformation.controls.firstName.setValue(data.FirstName);
         this.personalInformation.controls.lastName.setValue(data.LastName);
         this.personalInformation.controls.email.setValue(data.Email);
-        this.personalInformation.controls.phoneNumber.setValue(data.ContactNumber);
+        this.personalInformation.controls.phoneNumber.setValue(data.ContactNumber ?? '');
+        this.personalInformation.controls.country.setValue(data.Country ?? '');
         this.personalInformation.controls.resumeUrl.setValue(data.ResumeFile ?? '');
         this.personalInformation.controls.profileUrl.setValue(data.ProfileImage ?? '');
         const fileNames = data.ResumeFile.split('_');
@@ -210,9 +215,9 @@ export class PersonalInformationComponent implements OnInit {
             name: fileNames[fileNames?.length - 1],
           },
         ];
+        this.onCountryChange(countryData?.find((c) => c.name==data.Country));
+      
 
-        this.personalInformation.controls.country.setValue(data.Country ?? '');
-        console.log(this.personalInformation.controls.country.value);
         for (let key in countryList) {
           if (countryList[key].name == data.Country) {
             this.selectedValue = { ...countryList[key] };
@@ -221,15 +226,14 @@ export class PersonalInformationComponent implements OnInit {
         }
         
       });
-
+      
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
-      this.personalInformation.controls.phoneNumber.setValidators([
+      this.personalInformation.controls.phoneNumber.setValidators([  
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
         Validators.required,
       ]);
     });
-    console.log('*******')
-    console.log(this.personalInformation.controls.country.value);
+
   }
   onClick(e: any) {}
   deleteProfile() {

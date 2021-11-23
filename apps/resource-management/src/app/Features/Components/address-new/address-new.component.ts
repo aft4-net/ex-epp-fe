@@ -1,15 +1,13 @@
 /* eslint-disable @angular-eslint/component-selector */
 /* eslint-disable @angular-eslint/no-output-native */
-
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { Address } from '../../Models/address.model';
-import { AttendanceService } from '../../Services/address/attendance.service';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
-import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { ResponseDto } from '../../Models/response-dto.model';
 import { Router } from '@angular/router';
+import { Address } from '../../Models/address.model';
+import { ResponseDto } from '../../Models/response-dto.model';
+import { AttendanceService } from '../../Services/address/attendance.service';
+import { LocationPhoneService } from '../../Services/address/location-phone.service';
+import { EmployeeService } from '../../Services/Employee/EmployeeService';
 
 export function extractSpaces(value: string): string {
   let result = ''
@@ -43,25 +41,7 @@ export class AddressNewComponent implements OnInit {
 
   @Output() result: EventEmitter<{ type: string, addresses: Address[] }> = new EventEmitter<{ type: string, addresses: Address[] }>()
 
-  checkPhone = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      console.log('Empty!')
-      return { required: true };
-    }
-
-    const phone: string = control.value
-    const digits_only = (value: string) => [...value].every(c => '0123456789'.includes(c));
-    if (!digits_only(phone)) {
-      console.log('Not a number!')
-      return { confirm: true, error: true };
-    }
-    else if (phone.length < 6 || phone.length > 12) {
-      console.log('Exceeds length!')
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
-
+  
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -82,7 +62,11 @@ export class AddressNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addressForm = this.fb.group({
+    this.addressForm = this.createForm()
+  }
+
+  createForm() {
+    return this.fb.group({
       country: [null, [this.checkCountry]],
       state: [null, [this.checkStateReginProvince]],
       city: [null, [this.checkCity]],
@@ -196,13 +180,12 @@ export class AddressNewComponent implements OnInit {
     if (event === 'back') {
       this._employeeService.setEmployeeData(
         {
-          PersonalAddress: this.addresses
+          EmployeeAddress: this.addresses
         }
       )
       this._router.navigateByUrl('/Organization-Detail')
     }
     else {
-
       if (this.addressForm.valid) {
         const address = {
           Country: this.addressForm.value.country,
@@ -224,23 +207,12 @@ export class AddressNewComponent implements OnInit {
         console.log(this.addresses)
 
         if (event === 'submit') {
-          this.addressForm = this.fb.group({
-            country: [null, [Validators.required]],
-            state: [null, [Validators.required]],
-            city: [null, [Validators.required]],
-            subCityZone: [null, [Validators.required]],
-            woreda: [null],
-            houseNumber: [null],
-            postalCode: [null],
-            phoneNumberPrefix: ['+251'],
-            residencialPhoneNumber: [null, [Validators.required, this.checkPhone]]
-          });
-          console.log(this.addresses)
+          this.addressForm = this.createForm()
         }
         else {
           this._employeeService.setEmployeeData(
             {
-              PersonalAddress: this.addresses
+              EmployeeAddress: this.addresses
             }
           )
           this._router.navigateByUrl('/emergency-contact')
@@ -253,11 +225,7 @@ export class AddressNewComponent implements OnInit {
           }
         });
       }
-
     }
-
-
-
 
   }
 

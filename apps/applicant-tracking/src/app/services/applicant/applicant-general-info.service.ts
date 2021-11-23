@@ -42,7 +42,6 @@ export class ApplicantGeneralInfoService {
   getRoutInfo() {
     return this.routerInfo;
   }
-
   hasData(value: boolean) {
     this.dataSource.next(value);
   }
