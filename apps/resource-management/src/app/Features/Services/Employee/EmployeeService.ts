@@ -44,6 +44,7 @@ export class EmployeeService {
       ...employee
 
     });
+    console.log(this.employee$)
   }
     getPersonalAddresses(){
       const addresses = this.employeeSource.getValue().EmployeeAddress

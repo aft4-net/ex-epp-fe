@@ -56,7 +56,7 @@ export class AddEmergencycontactComponent implements OnInit {
   isEthiopia = false;
   emc!: IEmergencyContact;
   emc1!: IEmergencyContact;
-  list: EmergencyContacts[] = [];
+  list: IEmergencyContact[] = [];
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<{ type: string; addresses: Address[] }> =
@@ -241,7 +241,8 @@ export class AddEmergencycontactComponent implements OnInit {
   //   EmergencyContact: emergencyContact,
   // };
   // this._employeeService.setEmployeeData(employee);
-  submitFormall(): void {
+  submitFormall(event: string): void {
+
     const getvalue = {
       firstName: this.AddForm.value.firstName,
       fatherName: this.AddForm.value.fatherName,
@@ -259,26 +260,25 @@ export class AddEmergencycontactComponent implements OnInit {
         },
       ],
     } as IEmergencyContact;
-    const getvalueForm = this.AddForm.value;
+    // const getvalueForm = this.AddForm.value;
     if (this.AddForm.valid) {
       console.log('submit', this.AddForm.value);
-      this.list = [...this.list, getvalueForm];
-      this._employeeService.setEmployeeData({
-        EmergencyContact: this.list,
-      });
-      this._router.navigateByUrl('/emergency-contact');
-      this.service.postIEmergenycContacts(getvalue).subscribe(
-        (res) => {
-          this.service.refreshList();
-          this.toastr.success(
-            'Added successfully',
-            'Emergency Contact Register'
-          );
-        },
-        (err: any) => {
-          console.log(err);
+      this.list = [...this.list, getvalue];
+      // this._employeeService.setEmployeeData({
+      //   EmergencyContact: this.list,
+      // });
+      if (event === 'submit') {
+        this.AddForm.reset();
+      } else {
+        this._employeeService.setEmployeeData({
+          EmergencyContact: this.list,
+        });
+        if (event === 'back') {
+          this._router.navigateByUrl('/personal-address')
+        } else {
+          this._router.navigateByUrl('/personal-address');
         }
-      );
+      }
     } else {
       Object.values(this.AddForm.controls).forEach((control) => {
         if (control.invalid) {
