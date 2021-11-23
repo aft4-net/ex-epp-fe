@@ -22,7 +22,7 @@ export class EmergencycontactService {
 
   constructor(private http: HttpClient) {}
 
-  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContacts';
+  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContact';
 
   putEmergencycontact() {
     return this.http.put(
@@ -74,6 +74,9 @@ export class EmergencycontactService {
   }
 
   postEmergenycContacts(emc: EmergencyContacts) {
+    return this.http.post(this.baseURL, emc);
+  }
+  postIEmergenycContacts(emc: IEmergencyContact) {
     return this.http.post(this.baseURL, emc);
   }
 
