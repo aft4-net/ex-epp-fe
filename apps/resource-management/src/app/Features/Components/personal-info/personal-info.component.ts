@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import { AddMultiComponent } from './add-multi/add-multi.component';
-import { AngularFileUploaderComponent } from 'angular-file-uploader';
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
 import { HttpClient } from '@angular/common/http';
