@@ -9,6 +9,7 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 })
 export class DatePickerComponent {
   @Input() disabled = false;
+  @Input() enabled = true;
   @Input() disableEndDate = false
   @Input() loading = false;
   @Input() show:NzCalendarModule = 'default';

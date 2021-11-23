@@ -11,17 +11,24 @@ export interface Employee{
   FatherName: string,
   GrandFatherName: string,
   MobilePhone: string,
-  Phone1?: string,
-  Phone2?: string,
+  Phone1: string,
+  Phone2: string,
   PersonalEmail: string,
-  PersonalEmail2?: string,
-  PersonalEmail3?: string,
+  PersonalEmail2: string,
+  PersonalEmail3: string,
   DateofBirth : Date,
   Gender : string,
+<<<<<<< HEAD
   Nationality?: Nationality[],
   Organization?: EmployeeOrganization,
   PersonalAddress?: Address[],
   FamilyDetail?: FamilyDetail[],
+=======
+  Nationality: Nationality[],
+  EmployeeOrganization?: EmployeeOrganization,
+  EmployeeAddress?: Address[],
+  FamilyDetails?: FamilyDetails[],
+>>>>>>> develop
   EmergencyContact?: IEmergencyContact[]
 
 
