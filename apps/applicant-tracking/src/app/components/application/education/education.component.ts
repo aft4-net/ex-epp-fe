@@ -242,7 +242,11 @@ export class EducationComponent implements OnInit {
     });
     this.education.controls.yearFrom.valueChanges.subscribe((value) => {
       if (value === null) {
+        this.education.controls.yearTo.setValue(null);
         this.education.controls.yearTo.disable();
+      }
+      else{
+        this.education.controls.yearTo.enable();
       }
     });
 
