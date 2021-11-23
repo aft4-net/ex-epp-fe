@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ResponseDto } from "../../Models/response-dto.model";
 import {map} from "rxjs/operators"
+import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 
 @Injectable({
   providedIn: 'root'
@@ -77,4 +78,12 @@ export class EmployeeService {
     }
 
 
+    getEmployeeOrganization() : EmployeeOrganization {
+      const organization = this.employeeSource.getValue().EmployeeOrganization;
+      if(organization !== null && organization !== undefined){
+        return organization
+      } else {
+        return <EmployeeOrganization>{};
+      }
+    }
 }
