@@ -91,9 +91,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   
   checkOverflow (el: HTMLElement,index?: number) {
      if (el.offsetHeight < el.scrollHeight){
-      this.index?index:null;
-      this.overflow=true;
-      el.style.overflow = "hidden";
+    this.index?index:null;
+    this.overflow=true;
+    if(el!==null){}
+    
     }
   
       return el.offsetHeight < el.scrollHeight;

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
@@ -91,9 +92,13 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   
   checkOverflow (el: HTMLElement,index?: number) {
      if (el.offsetHeight < el.scrollHeight){
-      this.index?index:null;
-      this.overflow=true;
-      el.style.overflow = "hidden";
+    this.index?index:null;
+    this.overflow=true;
+    if(el!==null){
+      let elt =document.getElementById("col")!;
+      elt.style.overflow = "scroll";
+    }
+    
     }
   
       return el.offsetHeight < el.scrollHeight;
