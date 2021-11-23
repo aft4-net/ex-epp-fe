@@ -20,7 +20,7 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
 
 @Component({
-  selector: 'area-of-interest',
+  selector: 'exec-epp-area-of-interest',
   templateUrl: './area-of-interest.component.html',
   styleUrls: ['./area-of-interest.component.scss']
 })
