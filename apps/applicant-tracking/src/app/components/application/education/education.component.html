@@ -24,7 +24,7 @@
               type="text"
               label="Institution"
               placeholder="Enter Your Institution Name"
-              errorMsg="Please Provide a Valid Inistitution Name"
+              errorMsg="Please Provide a Valid Institution Name"
               [displayError]="institution.focusout"
             >
             </app-input>
@@ -39,7 +39,7 @@
                   label="Started From"
                   placeholder="Enter your Started Year"
                   [disabledDate]="disabledStartDate"
-                  errorMsg="Please provide a valid Year"
+                  errorMsg="Please Provide a Valid Year"
                   [displayError]="institution.focusout"
                  
                 >
@@ -51,11 +51,11 @@
                   fcn="yearTo"
                   #institution
                   label="To (or Expected Graduation)"
-                  [disabled]="education.controls.isStudying.value"
                   placeholder="Enter Your Completion Year"
                   [disabledDate]="disabledEndDate"
                   errorMsg="Please Provide a Valid Year"
                   [displayError]="institution.focusout"
+                  
                 >
                 </app-date-picker>
               </div>
@@ -89,7 +89,7 @@
               [form]="education"
               [multiple]="false"
               label="Please Select Field of Study"
-              placeholder="Select Your Field Of Study"
+              placeholder="Select Your Field of Study"
             ></app-select>
           </div>
         </div>
@@ -100,7 +100,7 @@
               <app-country-selector
                 label="Country"
                 placeholder="Enter your Country"
-                errorMsg="Country should be selected"
+                errorMsg="Country should be Selected"
                 (onChange)="onCountryChange($event)"
                 [selectedValue]="education.controls.country.value"
                 [single]="true"
@@ -144,10 +144,10 @@
         <thead>
           <tr>
             <th>Institution</th>
-            <th>Field of study</th>
-            <th>Educatioin Programme</th>
-            <th>Started Date</th>
-            <th>End Date</th>
+            <th>Field of Study</th>
+            <th>Educatioin Program</th>
+            <th>Started Year</th>
+            <th>End (Expected) Year</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -171,12 +171,13 @@
           </tr>
         </tbody>
       </nz-table>
-
+<br>
       <div nz-row nzJustify="end">
         <div nz-col nzSpan="3">
           <app-button
             [loading]="loading"
             type="primary"
+            (click)="onSubmit()"
             [disabled]="educations.length < 1"
           >
             Continue
