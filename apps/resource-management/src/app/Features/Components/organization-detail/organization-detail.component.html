@@ -128,7 +128,7 @@
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-form-control [nzErrorTip] = "errorEmploymentType">
-                <nz-select formControlName="employmenttype" >
+                <nz-select formControlName="employmentType" >
                     <nz-option *ngFor="let employmenttype of employmnetTypeKey(employmentTypes); index as i" 
                     [nzLabel]="employmenttype" [nzValue]="i+1">
                     </nz-option>

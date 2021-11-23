@@ -8,9 +8,9 @@ import { CountryModel } from '../../Models/EmployeeOrganization/ContryModel';
 import { DutyBranchModel } from '../../Models/EmployeeOrganization/DutyBranchModel';
 import { Router  } from '@angular/router';
 import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { BehaviorSubject } from 'rxjs';
 import { EmployeeOrganization } from '../../Models/EmployeeOrganization/EmployeeOrganization';
 import { ValidateFutureDate} from '../../../Features/Validators/ValidateFutureDate';
+import { EmployeeService } from '../../Services/Employee/EmployeeService';
 @Component({
   selector: 'exec-epp-organization-detail',
   templateUrl: './organization-detail.component.html',
@@ -30,36 +30,39 @@ export class OrganizationDetailComponent implements OnInit {
   isEthiopia = false;
   listofCodes: string[] = [];
   isLoading = false;
-  searchChange$ = new BehaviorSubject('');
-  
+  OrganizationSource !: EmployeeOrganization;
   constructor(private countryService: CountryService,private fb: FormBuilder,
-              private router: Router, private _locationPhoneService:LocationPhoneService) {
+              private router: Router, private _locationPhoneService:LocationPhoneService,
+              private employeeService: EmployeeService) {
+                
   }
 
   ngOnInit() {
-    this.createEmployeeOrganizationForm();
     this.getCountries();
     this._locationPhoneService.getCountriesPhoneCode()
     .subscribe((response: string[]) => {
       this.listofCodes = response;
     })
+    this.OrganizationSource = this.employeeService.getEmployeeOrganization();
+    this.createEmployeeOrganizationForm(this.OrganizationSource);
+    
   }
 
-  createEmployeeOrganizationForm() {
+  createEmployeeOrganizationForm(employeeOrganization: EmployeeOrganization) {
     this.emloyeeOrganizationForm = this.fb.group({
-      dutyStation: [null,[Validators.required]],
-      dutyBranch: [null,[Validators.required]],
-      companyEmail: [null,[Validators.email, Validators.required]],
+      dutyStation: [employeeOrganization.DutyStation,[Validators.required]],
+      dutyBranch: [employeeOrganization.DutyBranch,[Validators.required]],
+      companyEmail: [employeeOrganization.CompaynEmail,[Validators.email, Validators.required]],
       phonecodePrefix:['+251'],
-      phoneNumber: [null,[Validators.required,Validators.max(15),Validators.pattern('^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$')]],
-      jobtitle : [null, [Validators.required]],
-      businesstitle: [null, [Validators.required]],
-      department : [null, [Validators.required]],
-      reportingmanager : [null,[Validators.required]],
-      employmenttype: [null, [Validators.required]],
-      joiningdate: [null,[Validators.required,ValidateFutureDate()]],
-      terminationdate:[null,[ValidateFutureDate]],
-      status:[null, [Validators.required]]
+      phoneNumber: [employeeOrganization.PhoneNumber,[Validators.required,Validators.pattern('^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$')]],
+      jobtitle : [employeeOrganization.JobTitle, [Validators.required, Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
+      businesstitle: [null, [Validators.required,Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
+      department : [employeeOrganization.Department, [Validators.required , Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
+      reportingmanager : [employeeOrganization.ReportingManager,[Validators.required , Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
+      employmentType: [employeeOrganization.EmploymentType, [Validators.required]],
+      joiningdate: [employeeOrganization.JoiningDate,[Validators.required,ValidateFutureDate()]],
+      terminationdate:[employeeOrganization.TerminationDate,[ValidateFutureDate]],
+      status:[employeeOrganization.Status, [Validators.required]]
     });
   }
 
@@ -84,13 +87,33 @@ export class OrganizationDetailComponent implements OnInit {
   action(event: string) {
     if(event === "next")
     {
-      if (this.emloyeeOrganizationForm.valid) {   
-        this.router.navigate(['address-new']);
-      }
+      const OrganizationFormData = {
+          DutyStation: this.emloyeeOrganizationForm.value.dutyStation,
+          DutyBranch: this.emloyeeOrganizationForm.value.dutyBranch,
+          CompaynEmail : this.emloyeeOrganizationForm.value.companyEmail,
+          PhoneNumber : this.emloyeeOrganizationForm.value.phoneNumber,
+          JoiningDate : this.emloyeeOrganizationForm.value.joiningdate,
+          TerminationDate : this.emloyeeOrganizationForm.value.terminationdate,
+          EmploymentType : this.emloyeeOrganizationForm.value.employmentType,
+          Department : this.emloyeeOrganizationForm.value.department,
+          ReportingManager : this.emloyeeOrganizationForm.value.reportingmanager,
+          Status : this.emloyeeOrganizationForm.value.status,
+          JobTitle : this.emloyeeOrganizationForm.value.jobtitle
+        }  as EmployeeOrganization;
+        if (this.emloyeeOrganizationForm.valid) {  
+          this.employeeService.setEmployeeData(
+          {
+            Organization: OrganizationFormData
+          });
+          this.OrganizationSource = this.employeeService.getEmployeeOrganization();
+          this.router.navigate(['personal-address']);
+        }
       else
       {
+        console.log('NotValid');
         Object.values(this.emloyeeOrganizationForm.controls).forEach(control => {
           if (control.invalid) {
+            console.log(control.value);
             control.markAsDirty();
             control.updateValueAndValidity({ onlySelf: true });
           }

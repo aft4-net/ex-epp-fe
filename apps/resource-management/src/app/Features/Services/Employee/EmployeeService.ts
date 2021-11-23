@@ -4,16 +4,17 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ResponseDto } from "../../Models/response-dto.model";
 import {map} from "rxjs/operators"
+import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
 
-  baseUrl = "http://localhost:14696/api/v1/Employee"
-
-  private employeeSource=new BehaviorSubject<Employee>({} as Employee);
-  employee$ = this.employeeSource.asObservable();
+  baseUrl = "http://localhost:5000/api/v1/Employee"
+  
+  private employeeSource = new BehaviorSubject<Employee>({} as Employee);
+   employee$ = this.employeeSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -29,8 +30,6 @@ export class EmployeeService {
        console.log(error);
      });
     }
-
-
     setEmployeeData(employee:Partial<Employee>){
 
       this.employeeSource.next({
@@ -45,4 +44,21 @@ export class EmployeeService {
 
     }
 
+    getPersonalAddresses(){
+      const addresses = this.employeeSource.getValue().PersonalAddress
+      if(addresses !== null && addresses !== undefined){
+        return addresses
+      } else {
+        return []
+      }
+    }
+
+    getEmployeeOrganization() : EmployeeOrganization {
+      const organization = this.employeeSource.getValue().Organization;
+      if(organization !== null && organization !== undefined){
+        return organization
+      } else {
+        return <EmployeeOrganization>{};
+      }
+    }
 }
