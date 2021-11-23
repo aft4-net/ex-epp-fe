@@ -105,5 +105,5 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
    }}
     }
           return this.moreEntries;
-   }
+    }
 }

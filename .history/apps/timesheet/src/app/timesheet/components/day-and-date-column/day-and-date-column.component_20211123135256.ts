@@ -103,7 +103,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
          for(let j=0;j<=this.timeEntrys.length-index;j++){
            this.moreEntries[j]=this.timeEntrys[i];
    }}
-    }
+     }
           return this.moreEntries;
-   }
+    }
 }

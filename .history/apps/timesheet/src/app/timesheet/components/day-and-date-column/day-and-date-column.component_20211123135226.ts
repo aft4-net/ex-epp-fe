@@ -101,9 +101,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       if(this.timeEntrys!==null){
       for (let i=index; i<this.timeEntrys.length; i++){
          for(let j=0;j<=this.timeEntrys.length-index;j++){
-           this.moreEntries[j]=this.timeEntrys[i];
-   }}
-    }
-          return this.moreEntries;
+     this.moreEntries[j]=this.timeEntrys[i];
    }
+      }     }
+          return this.moreEntries;
+    }
 }
