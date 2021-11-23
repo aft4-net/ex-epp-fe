@@ -1,5 +1,5 @@
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 
 import { AddMultiComponent } from './add-multi/add-multi.component';
@@ -25,24 +25,48 @@ export class PersonalInfoComponent implements OnInit {
   validateForm!: FormGroup;
   listOfOption: string[] = ["male","female"];
   employee !: Employee;
+  multiEmail = false;
+  multiPhone = false;
+  multiNational = false;
 
   fileName = "";
 
   employeeNumber="";
   personalEmail ="";
-  personalEmail2="sample1@gmail.com";
+  personalEmail2="sample1@gmail.com" ;
   personalEmail3="sample1@gmail.com";
   firstName="";
   fatherName="";
   grandFatherName="";
-  phoneNumber="";
-  phoneNumber2="+111111111";
-  phoneNumber3="+222222222";
+  phoneNumber = "";
+  phoneNumber2="11111111111";
+  phoneNumber3="22222222222";
   dateofBirth = new Date("2021-11-17 14:29:03.107");
   gender = "";
   nationality: string [] =[];
   selectednationality: Nationality [] = [] ;
 
+  currentemployee !: Employee ;
+  currentdate = new Date();
+  dateFormat = 'dd/mm/yyyy';
+
+  afuConfig = {
+    formatsAllowed: ".jpg,.png",
+    maxSize: 2,
+    uploadAPI: {
+      url:"http://localhost:14696/api/v1/EmployeePhoto"
+    },
+    replaceTexts: {
+      selectFileBtn: 'Select Photo',
+      resetBtn: 'Reset',
+      uploadBtn: 'Upload',
+      dragNDropBox: 'Drag N Drop',
+      attachPinBtn: 'Attach Files...',
+      afterUploadMsg_success: 'Successfully Uploaded !',
+      afterUploadMsg_error: 'Upload Failed !',
+      sizeLimit: 'Size Limit'
+    }
+};
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
@@ -51,25 +75,46 @@ export class PersonalInfoComponent implements OnInit {
     this.validateForm = this.fb.group({
       employeeNumber:[null,[Validators.required]],
       personalEmail: [null, [Validators.email, Validators.required]],
-      personalEmail2:[null,null],
-      personalEmail3:[null,null],
+      personalEmail2:[null,[Validators.email]],
+      personalEmail3:[null,[Validators.email]],
       firstName: [null, [Validators.required]],
       fatherName: [null, [Validators.required]],
       grandFatherName: [null, [Validators.required]],
       phoneNumber: [null,[Validators.required]],
       phoneNumber2:[null,null],
       phoneNumber3:[null,null],
-      dateofBirth: [null, [Validators.required]],
+      dateofBirth: [null, [Validators.required,this.ValidateFutureDate()]],
       gender: [null, [Validators.required]],
-      nationality: [null, [Validators.required]]
+      nationality: [null, [Validators.required]],
+      nationality2:[null,null],
+      nationality3:[null,null]
 
     });
    this._locationPhoneService.getListofCountries()
     .subscribe((response: string[]) => {
       this.nationality = response;
     })
+    this.currentemployee = this.employeeService.getPersonalInfo();
+    this.fillCurrentEmployee(this.currentemployee);
+  }
+
+  fillCurrentEmployee(employee: Employee){
+    this.employeeNumber=employee.employeeNumber,
+    this.personalEmail=employee.PersonalEmail,
+    this.personalEmail2=employee.PersonalEmail2,
+    this.personalEmail3=employee.PersonalEmail3,
+    this.firstName=employee.FirstName,
+    this.fatherName=employee.FatherName,
+    this.grandFatherName=employee.GrandFatherName,
+    this.phoneNumber=employee.MobilePhone,
+    this.phoneNumber2=employee.Phone1,
+    this.phoneNumber3=employee.Phone2,
+    this.dateofBirth=employee.DateofBirth,
+    this.gender=employee.Gender,
+    this.selectednationality=employee.Nationality;
 
   }
+
   addEmployee(){
   if(this.validateForm.invalid){
       alert("Invalid inputs on the form");
@@ -88,9 +133,30 @@ export class PersonalInfoComponent implements OnInit {
     else{
     this.ValidateInput();
     console.log("Save Employee Executed");
+    this.employeeService.setEmployeeData(this.employee);
     this.employeeService.addEmployee(this.employee);
 
   }
+}
+
+validateDateofBirth(){
+  const inputDate = this.dateofBirth;
+
+// Get today's date
+const todaysDate = new Date();
+
+// call setHours to take the time out of the comparison
+if(inputDate.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)) {
+    // Date equals today's date
+    alert("Date is Equal");
+    console.log("input date " + inputDate);
+    console.log("todays date " + todaysDate);
+}
+else{
+ // alert("Not");
+  console.log("input date " + inputDate);
+    console.log("todays date " + todaysDate);
+}
 }
 
   ValidateInput(){
@@ -120,15 +186,20 @@ export class PersonalInfoComponent implements OnInit {
       alert("Duplicate  email address detected, will be ignored !");
     }
 */
-    const today = new Date().toLocaleDateString();
-
-    if(new Date() > this.dateofBirth){
-      alert(today+" --> "+this.dateofBirth);
-    }
 
     this.selectednationality = [{
       Name :  this.validateForm.value.nationality
-    }]
+    }//,
+ // {Name: this.validateForm.value.nationality2},
+ // {Name: this.validateForm.value.nationality3}
+]
+if(this.phoneNumber2 == null){this.phoneNumber2 ="11111111111"}else{this.phoneNumber2 = this.phoneNumber2.toString()}
+if(this.phoneNumber3 == null){this.phoneNumber3 ="11111111111"}else{this.phoneNumber3=this.phoneNumber3.toString()}
+if(this.personalEmail2 == null){this.personalEmail2 ="sample1@gmail.com"}
+if(this.personalEmail3 == null){this.personalEmail3 ="sample1@gmail.com"}
+this.phoneNumber = this.phoneNumber.toString();
+
+//this.dateofBirth = new Date("2021-11-17 14:29:03.107");
 
     this.employee = {
       employeeNumber : this.employeeNumber,
@@ -150,6 +221,25 @@ export class PersonalInfoComponent implements OnInit {
 
   }
 
+  EnablemultiEmail(){
+    this.multiEmail = true;
+  }
+  DisableMultiEmail(){
+    this.multiEmail = false;
+  }
+  EnablemultiPhone(){
+     this.multiPhone = true;
+  }
+  DisableMultiPhone(){
+    this.multiPhone = false;
+ }
+ EnablemultiNational(){
+   this.multiNational = true;
+ }
+ DisableMultiNational(){
+   this.multiNational = false;
+ }
+
   handleChange(info: NzUploadChangeParam): void {
 
     if (info.file.status !== 'uploading') {
@@ -162,33 +252,26 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
-  ValidateFutureDate = (control: FormControl) =>
+    ValidateFutureDate() : ValidatorFn {
 
-  new Observable((observer: Observer<ValidationErrors | null>) => {
+    return (control:AbstractControl) : ValidationErrors | null => {
 
-      const currentDateTime = new Date();
+    const currentDateTime = new Date();
 
-      const controlDate = new Date(control.value);
+    const controlDate = new Date(control.value);
 
-      if (!control?.pristine) {
+    if (control?.pristine ) {
 
-          if(!(controlDate <= currentDateTime)) {
-
-              observer.next({ error: true, isFutureDate: true });
-
-          }
-
-      } else {
-
-        observer.next(null);
-
-      }
-
-      observer.complete();
+        return null;
 
     }
 
-  );
+    return (!(controlDate <= currentDateTime)) ? { error: true, isFutureDate:true}: null;
+
+    }
+
+}
+
 
 
 }

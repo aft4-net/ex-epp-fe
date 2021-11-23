@@ -29,6 +29,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { AttendanceService } from '../../Services/address/attendance.service';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
@@ -39,7 +40,7 @@ export class AddEmergencycontactComponent implements OnInit {
   // Needed to bind formControlName
   @Input() formGroupParent!: FormGroup;
   @Input() formGroupControlName!: string;
-  @Input() isStandalone = false
+  @Input() isStandalone = false;
   @ViewChild(AddressNewComponent) child: any;
   // FormControl store validators
   control!: FormControl;
@@ -54,12 +55,14 @@ export class AddEmergencycontactComponent implements OnInit {
   isEthiopia = false;
   emc!: IEmergencyContact;
   emc1!: IEmergencyContact;
+  list: EmergencyContacts;
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<{ type: string; addresses: Address[] }> =
     new EventEmitter<{ type: string; addresses: Address[] }>();
 
   constructor(
+    private _router: Router,
     private fb: FormBuilder,
     private _employeeService: EmployeeService,
     public service: EmergencycontactService,
@@ -134,11 +137,6 @@ export class AddEmergencycontactComponent implements OnInit {
         residencialPhoneNumber: [null],
       }),
     });
-
-
-
-
-
 
     this.EForm = this.fb.group({
       firstName: new FormControl(null, [Validators.required]),
@@ -221,37 +219,36 @@ export class AddEmergencycontactComponent implements OnInit {
     }
   }
 
- 
-    // const add = {
-    //   country: emcr.address.country,
-    //   stateRegionProvice: emcr.address.state,
-    //   city: emcr.address.city,
-    //   subCityZone: emcr.address.subCityZone,
-    //   woreda: emcr.address.woreda,
-    //   houseNumber: emcr.address.houseNumber,
-    //   postalCode: emcr.address.postalCode,
-    //   phoneNumber: emcr.address.residencialPhoneNumber,
-    // } as Address;
-    // const emergencyContact = {
-    //   firstName: emcr.firstName,
-    //   fatherName: emcr.fatherName,
-    //   relationship: emcr.relationship,
-    //   address: [add],
-    // } as IEmergencyContact;
-    
-    // const employee = {
-    //   EmergencyContact: emergencyContact,
-    // };
-    // this._employeeService.setEmployeeData(employee);
-    submitFormall(): void {
-       
+  // const add = {
+  //   country: emcr.address.country,
+  //   stateRegionProvice: emcr.address.state,
+  //   city: emcr.address.city,
+  //   subCityZone: emcr.address.subCityZone,
+  //   woreda: emcr.address.woreda,
+  //   houseNumber: emcr.address.houseNumber,
+  //   postalCode: emcr.address.postalCode,
+  //   phoneNumber: emcr.address.residencialPhoneNumber,
+  // } as Address;
+  // const emergencyContact = {
+  //   firstName: emcr.firstName,
+  //   fatherName: emcr.fatherName,
+  //   relationship: emcr.relationship,
+  //   address: [add],
+  // } as IEmergencyContact;
 
-
-      
-     
+  // const employee = {
+  //   EmergencyContact: emergencyContact,
+  // };
+  // this._employeeService.setEmployeeData(employee);
+  submitFormall(): void {
+    const getvalueForm = this.AddForm.value;
     if (this.AddForm.valid) {
       console.log('submit', this.AddForm.value);
-
+      this.list = [...this.list, getvalueForm];
+      this._employeeService.setEmployeeData({
+        EmergencyContact: this.list,
+      });
+      this._router.navigateByUrl('/emergency-contact');
       this.service.postEmergenycContacts(this.AddForm.value).subscribe(
         (res) => {
           this.service.refreshList();
@@ -275,8 +272,7 @@ export class AddEmergencycontactComponent implements OnInit {
     }
   }
   onSelectCountry() {
-
-    console.log("The country is :",this.AddForm.value.address.country);
+    console.log('The country is :', this.AddForm.value.address.country);
     console.log('kkkkkkkkk');
     if (this.AddForm.value.address.country !== '') {
       this._locationPhoneService
@@ -312,10 +308,4 @@ export class AddEmergencycontactComponent implements OnInit {
     }
     return {};
   };
-
-
-
-
-
-  
 }

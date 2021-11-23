@@ -11,7 +11,13 @@ export class UploadphotoComponent {
 
   fileName = "";
    formData: FormData = new FormData();
-   imageUrl="";
+   imageUrl="assets/Ellipse.png";
+   
+   afuConfig = {
+    uploadAPI: {
+      url:"https://example-file-upload-api"
+    }
+};
 
   constructor(private uploadphoto: EmpphotoService) { }
 
