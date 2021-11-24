@@ -53,6 +53,7 @@ export class ClientService extends ApiService<Client> {
             'Client  Not Added',
             'Please try again letter'
           );
+          this.updateCreateClientData({} as CreateClient);
         }
       );
     }
