@@ -20,6 +20,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
+<<<<<<< Updated upstream
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
@@ -27,6 +28,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   index?: number = 0;
   overflow = false;
   moreEntries: any[] = [];
+=======
+  @Output() moreTimeEntries: EventEmitter<number> =   new EventEmitter();
+  timeEntrys: any[] | null = null;
+  totalHours: number = 0;
+  clicked=false;
+  index?:number = 0;
+  overflow=false;
+  childCount=0;
+  moreEntries?:any[] =[];
+  overFlowPt=0;
+>>>>>>> Stashed changes
   constructor(private timesheetService: TimesheetService) {
   }
 
@@ -122,4 +134,4 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   }
 }
 
-
+}
