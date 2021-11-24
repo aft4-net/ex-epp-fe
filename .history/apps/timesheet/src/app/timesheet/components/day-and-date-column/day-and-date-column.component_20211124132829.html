@@ -22,20 +22,42 @@
         </app-project-name-palet>
       </div>
     </div>
-    <div *ngIf="checkOverflow(col)">
-      <div *ngIf="overflow"
-        class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left"
-        style="width:inherit;  height:40px;background-color: #DCFFDC;margin-top:-5px;" nzVisible="overflow"
-        (click)="onClick()">
-        <h2 class="more-txt font-sans font-normal text-base ml-2 ">More</h2>
-        <a nz-popover [(nzPopoverVisible)]="morePopover" nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"
-          nzPopoverPlacement="right" (click)="onClick()" class="mr-0 flex-row " style="position:absolute;"></a>
-      </div>
-
-    </div>
+    <div *ngFor="let timeEntry of timeEntrys;let i=index" [ngClass]="entries" >
+      <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
+                              (paletEllipsisClicked)="onPaletEllipsisClicked($event)"
+                              (editClicked)="onEditButtonClicked($event)">
+     </app-project-name-palet>
+   </div>
   </div>
+     <div *ngIf="checkOverflow(col)">
+        <div *ngIf="overflow" class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2 text-left"
+    style="width:inherit;  height:40px;background-color: #DCFFDC;margin-top:-5px;"
+         nzVisible="overflow"
+         (click)="onClick()">
+         <h2 class="more-txt font-sans font-normal text-base ml-2 ">More</h2>
+         <a  nz-popover
+         [(nzPopoverVisible)]="clicked"
+         nzPopoverTrigger="click"
+         [nzPopoverContent]="contentTemplate"
+         nzPopoverPlacement="right"
+         class="mr-0 mb-0"
+         style="position:absolute;"></a>
+        </div>
+      </div>
+    </div>
+   <ng-template  #contentTemplate >
+     <div *ngFor="let timeEntry of split(7) ;let i = index;">
+       <ng-container *ngIf="i<this.moreEntries.length">
+       <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
+     (paletEllipsisClicked)="onPaletEllipsisClicked($event)"
+     (editClicked)="onEditButtonClicked($event)"  >
+     </app-project-name-palet>
+    </ng-container>
+   </div>
+   </ng-template>
+   </div>
   <ng-template #contentTemplate>
-    <div *ngFor="let timeEntry of split(7) ;let i = index;">
+    <div *ngFor="let timeEntry of split(6) ;let i = index;">
       <ng-container *ngIf="i<timeEntrys!.length-7">
         <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
           (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">

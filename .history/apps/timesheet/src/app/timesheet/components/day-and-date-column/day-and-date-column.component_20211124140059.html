@@ -33,14 +33,36 @@
       </div>
 
     </div>
+<<<<<<< Updated upstream
   </div>
   <ng-template #contentTemplate>
-    <div *ngFor="let timeEntry of split(7) ;let i = index;">
+    <div *ngFor="let timeEntry of split(6) ;let i = index;">
       <ng-container *ngIf="i<timeEntrys!.length-7">
         <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
           (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">
         </app-project-name-palet>
       </ng-container>
+=======
+
+   <ng-template  #contentTemplate>
+     <div *ngFor="let timeEntry of split(); let i = index;" class="w-full">
+       <app-project-name-palet [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
+     (paletEllipsisClicked)="onPaletEllipsisClicked($event)"
+     (editClicked)="onEditButtonClicked($event)"  >
+     </app-project-name-palet>
+   </div>
+   </ng-template>
+
+
+    <!-- <i nz-icon nzType="plus-circle" nzTheme="outline"></i> -->
+
+     <div class="w-full grid justify-items-end lg:hidden">
+      <svg class="stroke-current text-green-600 text-xl mb-4 mt-4 mr-4" viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="plus-circle" aria-hidden="true">
+        <path d="M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path>
+        <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+      </svg>
+
+>>>>>>> Stashed changes
     </div>
   </ng-template>
 </div>
