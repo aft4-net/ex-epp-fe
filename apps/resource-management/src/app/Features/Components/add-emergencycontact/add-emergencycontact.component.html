@@ -1,6 +1,6 @@
 <br /><br />
 
-<form nz-form [formGroup]="AddForm" (ngSubmit)="submitFormall()">
+<form nz-form [formGroup]="AddForm">
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName"
       >FirstName</nz-form-label
@@ -151,7 +151,7 @@
     <i nz-icon nzType="right"></i>
   </button> -->
 
-  <app-progress-buttons [isMultiple]="true" (actionType)="submitFormall()"></app-progress-buttons>
+  <app-progress-buttons [isMultiple]="true" (actionType)="submitFormall($event)"></app-progress-buttons>
 
 </form>
 

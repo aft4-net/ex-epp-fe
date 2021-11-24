@@ -110,8 +110,10 @@ export class PersonalInfoComponent implements OnInit {
     this.phoneNumber2=employee.Phone1,
     this.phoneNumber3=employee.Phone2,
     this.dateofBirth=employee.DateofBirth,
-    this.gender=employee.Gender,
-    this.selectednationality=employee.Nationality;
+    this.gender=employee.Gender
+    if(employee.Nationality){
+      this.selectednationality=employee.Nationality;
+    }
 
   }
 
