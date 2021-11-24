@@ -14,7 +14,49 @@
 <exec-epp-header-line> </exec-epp-header-line>
 
 <div class="main_container_homepage ">
+  Client View!
+<div nz-row>
+  <div nz-col nzSpan="6" class="ml-1">
+    <nz-input-group [nzSuffix]="suffixIconSearch" >
+      <input type="text" nz-input placeholder="Search" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+  </div>
+ 
 
-Search and view Clients  here ! 
+</div>
+<nz-table class="mt-3">
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Location</th>
+      <th>Status</th>
+      <th>Sales Person</th>
+      <th>Client Contact Person</th>
+      <th>Company Contact Person</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let value of values" >
+      <td>{{value.client}}</td>
+      <td>{{value.address}}</td>
+      <td>{{value.status}}</td>
+      <td>{{value.sales_person}}</td>
+      <td>{{value.client_contact}}</td>
+      <td>{{value.company_contact}}</td> 
+      <td>
+      <span style>  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+        </svg>
+      </span>
+
+      </td>
+
+
+    </tr>
+  </tbody>
+</nz-table>
 
 </div>
