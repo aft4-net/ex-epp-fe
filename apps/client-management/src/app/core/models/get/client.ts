@@ -1,10 +1,14 @@
+import { FormGroupDirective } from '@angular/forms';
+import { ClientStatus } from './client-status';
+
 export interface Client {
 
   ClientName: string,
 
-  ClientStatus: string,
+  ClientStatus: ClientStatus,
+  ClientStatusGuid:string,
 
-  ManagerAssigned: string,
+  SalesPersonGuid: string,
 
   Description: string,
 

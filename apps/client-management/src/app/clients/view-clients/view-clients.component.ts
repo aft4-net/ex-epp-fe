@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { Address } from './../../../../../resource-management/src/app/Features/Models/address.model';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { Router } from '@angular/router';
+import { Client } from "../../core/models/get";
+import { ClientService } from "../../core/services/client.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'exec-epp-view-clients',
@@ -10,11 +10,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./view-clients.component.scss']
 })
 export class ViewClientsComponent implements OnInit  {
+  client:Client[]=[];
    values = [
     {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-    {client:'CocaCola',address:'USA',status:'Active',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
-    {client:'CocaCola',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-    {client:'CocaCola',address:'Canada',status:'Active',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
+    {client:'McDonalds',address:'USA',status:'Active',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
+    {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
+    {client:'Pepsi',address:'Canada',status:'Active',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
   ]
   namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
   {text:'CocaCola',value:'CocaCola',checked:false},
@@ -26,9 +27,13 @@ export class ViewClientsComponent implements OnInit  {
   namesofStatuses = [{text:'Active',value:'Active',checked:true},
   {text:'Signed',value:'Signed',checked:false},
   {text:'Terminated',value:'Terminated',checked:false}];
-  constructor(private router:Router) { }
+  constructor(private router:Router,private _clientservice:ClientService) { }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
+    this._clientservice.getAll().subscribe((data:any)=>{
+      this.client=data;
+
+    })
   }
 
   addClientPage()
