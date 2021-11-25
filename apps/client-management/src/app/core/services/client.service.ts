@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,7 @@ import { Router } from '@angular/router';
 export class ClientService extends ApiService<Client> {
   constructor(
     protected httpClient: HttpClient,
-    private notification: NzNotificationService,
-    private router: Router
-  ) {
+    private notification: NzNotificationService) {
     super(httpClient);
   }
   private createClientSource = new BehaviorSubject<CreateClient>(
@@ -40,7 +38,7 @@ export class ClientService extends ApiService<Client> {
   addClient() {
     if (this.getCreateClientDataValue() != ({} as CreateClient)) {
       this.post(this.getCreateClientDataValue()).subscribe(
-        (response: any) => {
+        (response:any) => {
           if (response.ResponseStatus == 'error') {
             this.notification.error(
               'Client Not Added',
