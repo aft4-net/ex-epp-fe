@@ -1,14 +1,13 @@
-import { Employee } from './../models/get/employee';
-import { HttpClient } from '@angular/common/http';
+import { ClientStatus } from './../models/get/client-status';
 import { Injectable } from '@angular/core';
 
+import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../models/apiService';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService extends ApiService<Employee> {
+export class ClientStatusService extends ApiService<ClientStatus>  {
 
   constructor(protected httpClient: HttpClient ) { 
     super(httpClient);
@@ -16,12 +15,6 @@ export class EmployeeService extends ApiService<Employee> {
 
   getResourceUrl(): string {
 
-    return 'Employees';
+    return 'status';
   }
-
 }
-
-
-
-
-

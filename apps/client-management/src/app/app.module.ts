@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 
+
+
 registerLocaleData(en);
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +23,9 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    
+    
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   exports: [AppComponent],
