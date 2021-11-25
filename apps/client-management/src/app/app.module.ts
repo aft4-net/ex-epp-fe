@@ -10,7 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
-import { Popover, Button } from 'antd';
+
 
 
 registerLocaleData(en);
