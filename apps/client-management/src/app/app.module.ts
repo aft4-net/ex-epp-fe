@@ -10,6 +10,8 @@ import { registerLocaleData } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
+import { Popover, Button } from 'antd';
+
 
 registerLocaleData(en);
 @NgModule({
@@ -21,7 +23,9 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    
+    
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   exports: [AppComponent],
