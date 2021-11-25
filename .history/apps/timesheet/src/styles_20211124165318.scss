@@ -51,15 +51,13 @@
     background-color: #DCFFDC;
     border-radius: 0 0 2px 2px;
 }
-@media only screen and (max-width: 1000px) {
-  .ant-popover-inner {
-    flex-direction: row;
-    width: 800px!important;
-    justify-content:top;
-    position: fixed ;
-    margin-left:-0px;
-  }
-  }
+@media only screen and (max-width: 100px) {
+.ant-popover-inner {
+  color: yellow;
+  background-color: green;
+  width: 800px!important;
+}
+}
 /*.ant-modal-body {
 
   width: 0px;

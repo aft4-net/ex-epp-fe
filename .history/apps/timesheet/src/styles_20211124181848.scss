@@ -53,11 +53,11 @@
 }
 @media only screen and (max-width: 1000px) {
   .ant-popover-inner {
-    flex-direction: row;
+    flex-direction: row-reverse;
     width: 800px!important;
     justify-content:top;
     position: fixed ;
-    margin-left:-0px;
+    margin-left:0px;
   }
   }
 /*.ant-modal-body {

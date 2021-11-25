@@ -1,0 +1,29 @@
+<div class="project-name-palet mt-2 mb-2 pb-2 w-full flex justify-between h-14 pt-2" (click)="onProjectNamePaletClicked()">
+    <h2 class="font-sans font-normal text-base ml-2">
+        {{ project?.name }}
+    </h2>
+    <div class="elipses-and-hours w-16 flex flex-col items-end justify-between pt-2 mr-2">
+        <i 
+            nz-icon nzType="ellipsis" 
+            nzTheme="outline" 
+            nz-popover 
+            nzPopoverPlacement="right"
+            [(nzPopoverVisible)]="popoverVisible"
+            nzPopoverTrigger="click"
+            (click)="showPopover()"
+            [nzPopoverContent]="palet_popover"
+        ></i>
+        <h2>{{ timeEntry?.Hour }} Hrs</h2>
+    </div>
+</div>
+
+<ng-template #palet_popover>
+    <div class="edit-delete w-20 mt-12">
+        <button class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button (click)="showFormDrawer()" id="edit">
+            Edit
+        </button>
+        <button class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button id="delete">
+            Delete
+        </button>
+    </div>
+</ng-template>
