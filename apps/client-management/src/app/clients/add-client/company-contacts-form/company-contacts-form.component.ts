@@ -6,6 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./company-contacts-form.component.scss']
 })
 export class CompanyContactsFormComponent implements OnInit {
+  projects:string[]=[];
+  total = 10;
+  loading = false;
+  pageSize = 10;
+  pageIndex = 1;
+  idParam='';
+  totalPage!:number;
+  searchKey='';
+  searchStateFound=false;
 
   constructor() { }
 
