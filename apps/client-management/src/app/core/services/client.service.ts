@@ -33,19 +33,24 @@ export class ClientService extends ApiService<Client> {
   getCreateClientDataValue() {
     return this.createClientSource.value;
   }
+  restCreateClientDataValue() {
+    this.updateCreateClientData({} as CreateClient);
+  }
 
   addClient() {
     if (this.getCreateClientDataValue() != ({} as CreateClient)) {
       this.post(this.getCreateClientDataValue()).subscribe(
         (response: any) => {
-          if (response.ResponseStatus == 'error')
+          if (response.ResponseStatus == 'error') {
             this.notification.error(
               'Client Not Added',
               'Please try again letter'
             );
+            this.restCreateClientDataValue();
+          }
           else {
             this.notification.success('Client Added Successfully', '');
-            this.updateCreateClientData({} as CreateClient);
+            this.restCreateClientDataValue();
           }
         },
         () => {
