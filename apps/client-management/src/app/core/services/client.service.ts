@@ -39,7 +39,7 @@ export class ClientService extends ApiService<Client> {
     if (this.getCreateClientDataValue() != ({} as CreateClient)) {
       this.post(this.getCreateClientDataValue()).subscribe(
         (response:any) => {
-          if (response.ResponseStatus == 'error') {
+          if (response.ResponseStatus.toString().toLowerCase() == 'error') {
             this.notification.error(
               'Client Not Added',
               'Please Try Again Letter'
