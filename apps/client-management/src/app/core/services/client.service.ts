@@ -44,7 +44,7 @@ export class ClientService extends ApiService<Client> {
           if (response.ResponseStatus == 'error') {
             this.notification.error(
               'Client Not Added',
-              'Please try again letter'
+              'Please Try Again Letter'
             );
             this.restCreateClientDataValue();
           }
@@ -56,7 +56,7 @@ export class ClientService extends ApiService<Client> {
         () => {
           this.notification.error(
             'Client  Not Added',
-            'Please try again letter'
+            'Please Try Again Leetter'
           );
           this.updateCreateClientData({} as CreateClient);
         }
