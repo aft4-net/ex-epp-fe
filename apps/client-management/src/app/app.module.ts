@@ -9,13 +9,8 @@ import { NgModule } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
-<<<<<<< HEAD
-
-
-=======
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
->>>>>>> 78ee1d02d984fbdab17ecf63f1f0bec32ca7bc2d
 
 registerLocaleData(en);
 @NgModule({
