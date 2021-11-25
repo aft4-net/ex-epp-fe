@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, ViewChild } from '@angular/core';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
+import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
 
 @Component({
   selector: 'app-day-and-date-column',
@@ -20,6 +21,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
+<<<<<<< HEAD
+  @Output() moreTimeEntries: EventEmitter<number> =   new EventEmitter();
+  @ViewChild(ProjectNamePaletComponent) timeEntries:TimeEntry[]|undefined;
+  timeEntrys: TimeEntry[] | null = null;
+  totalHours: number = 0;
+  clicked=false;
+  index?:number = 0;
+  overflow=false;
+  moreEntries:any[]=[];
+  entries:any;
+=======
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
@@ -27,6 +39,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   index?: number = 0;
   overflow = false;
   moreEntries: any[] = [];
+>>>>>>> develop
   constructor(private timesheetService: TimesheetService) {
   }
 
@@ -35,7 +48,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
   }
-
+  ngAfterViewInit() {
+   console.log(this.timeEntries?.length)
+}
   ngOnChanges(): void {
     if (this.timesheet) {
       this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date).subscribe(response => {
@@ -99,27 +114,23 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.morePopover = true;
   }
 
-  checkOverflow(el: HTMLElement, index?: number) {
-    if (el.offsetHeight < el.scrollHeight) {
-      this.index ? index : null;
-      this.overflow = true;
-      el.style.overflow = "hidden";
+  checkOverflow (el: HTMLElement,index?: number) {
+     if (el.offsetHeight < el.scrollHeight){
+      this.index?index:null;
+      this.overflow=true;
+       el.style.overflow = "hidden";
     }
 
-    return el.offsetHeight < el.scrollHeight;
-  }
-
-  split(index: number) {
-    if (this.timeEntrys !== null) {
-      for (let i = index; i < this.timeEntrys.length; i++) {
-        for (let j = 0; j <= this.timeEntrys.length - index; j++) {
-          this.moreEntries[j] = this.timeEntrys[i];
-          i++;
-        }
-      }
+      return el.offsetHeight < el.scrollHeight;
     }
-    return this.moreEntries;
-  }
+    split(index: number){
+      if(this.timeEntrys!==null){
+      for (let i=index; i<this.timeEntrys.length; i++){
+         for(let j=0;j<=this.timeEntrys.length-index-1;j++){
+           this.moreEntries[j]=this.timeEntrys[i];
+           i++;
+   }}
+    }
+       return this.moreEntries;
+   }
 }
-
-

@@ -1,4 +1,5 @@
 
+
 import { Address } from "./address.model";
 import { EmployeeOrganization } from "./EmployeeOrganization/EmployeeOrganization";
 import { IEmergencyContact } from "./emergencycontact";
@@ -26,4 +27,5 @@ export interface Employee{
   EmployeeOrganization?: EmployeeOrganization,
   EmployeeAddress?: Address[],
   EmergencyContact?: IEmergencyContact[]
+
 }
