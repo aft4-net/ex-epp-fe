@@ -1,5 +1,6 @@
+import { Client } from './../models/get/client';
 import { ApiService } from '../models/apiService';
-import { Client } from '..';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
