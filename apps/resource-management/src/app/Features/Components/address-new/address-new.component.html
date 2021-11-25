@@ -66,6 +66,8 @@
       <input nz-input formControlName="postalCode" id="postalCode" />
     </nz-form-control>
   </nz-form-item>
+
+  
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="residencialPhoneNumber" nzRequired>Phone Number</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['residencialPhoneNumber']"
@@ -82,5 +84,7 @@
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
+
+
 </form>
 <app-progress-buttons [isMultiple]="true" (actionType)="onAction($event)"></app-progress-buttons>
