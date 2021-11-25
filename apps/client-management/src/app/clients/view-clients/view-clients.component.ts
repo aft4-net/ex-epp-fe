@@ -22,7 +22,46 @@ export class ViewClientsComponent implements OnInit  {
     {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
     {client:'Pepsi',address:'Canada',status:'Active',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
   ]
-  
+
+  listOfColumns = [
+    {
+      id: 'Client',
+      label: 'Client',
+      isChecked: true,
+      compare:true
+    },
+    {
+      id: 'Location',
+      label: 'Location',
+      isChecked: true,
+      compare:true
+    },
+    {
+      id: 'Status',
+      label: 'Status',
+      isChecked: true,
+      compare:false
+    },
+    {
+      id: 'SalesPerson',
+      label: 'SalesPerson',
+      isChecked: true,
+      compare:false
+    },
+    {
+      id: 'ClientContact',
+      label: 'ClientContact',
+      isChecked: false,
+      compare:false
+    },
+    {
+      id: 'CompanyContact',
+      label: 'CompanyContact',
+      isChecked: false,
+      compare:false
+    },
+  ]
+
   constructor(private router:Router,private _clientservice:ClientService) { }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
@@ -31,10 +70,19 @@ export class ViewClientsComponent implements OnInit  {
 
     })
   }
-  
+
+  onDefaultClick() {
+    this.listOfColumns[0].isChecked = true;
+    this.listOfColumns[1].isChecked = true;
+    this.listOfColumns[2].isChecked = true;
+    this.listOfColumns[3].isChecked = true;
+    this.listOfColumns[4].isChecked = false;
+    this.listOfColumns[5].isChecked = false;
+  }
+
   addClientPage()
   {
      this.router.navigateByUrl('clients/add-client');
   }
-  
+
 }
