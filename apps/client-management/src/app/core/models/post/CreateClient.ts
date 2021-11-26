@@ -3,7 +3,7 @@ import { clientContact } from "./clientContact";
 import { CompanyContacts } from "./CompanyContacts";
 import { OperatingAddress } from "./OperatingAddress";
 
-export interface CreateClient{
+export interface  CreateClient {
     SalesPersonGuid: string,
     ClientStatusGuid: string,
     ClientName: string,
