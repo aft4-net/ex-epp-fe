@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  FormControl,  FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICountry } from '../../Models/EmployeeOrganization/Country';
 import { IDutyBranch } from '../../Models/EmployeeOrganization/DutyBranch';
 import { EmploymentType, Status } from '../../Models/EmployeeOrganization/enums';
@@ -26,10 +26,11 @@ export class OrganizationDetailComponent implements OnInit {
   statuses = Status;
   employmnetTypeKey =  Object.values;
   statusKey = Object.values;
-  dateFormat = 'dd/MM/yyyy';
+  dateFormat = 'mm-dd-yyyy';
   isEthiopia = false;
   listofCodes: string[] = [];
   isLoading = false;
+  defaultTerminationDate = new Date();
   OrganizationSource !: EmployeeOrganization;
   constructor(private countryService: CountryService,private fb: FormBuilder,
               private router: Router, private _locationPhoneService:LocationPhoneService,
@@ -51,16 +52,16 @@ export class OrganizationDetailComponent implements OnInit {
     this.emloyeeOrganizationForm = this.fb.group({
       dutyStation: [employeeOrganization.DutyStation,[Validators.required]],
       dutyBranch: [employeeOrganization.DutyBranch,[Validators.required]],
-      companyEmail: [employeeOrganization.CompaynEmail,[Validators.email, Validators.required]],
+      companyEmail: [employeeOrganization.CompaynEmail,[Validators.email, Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       phonecodePrefix:['+251'],
       phoneNumber: [employeeOrganization.PhoneNumber,[Validators.required,Validators.pattern('^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$')]],
       jobtitle : [employeeOrganization.JobTitle, [Validators.required, Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
-      businesstitle: [null, [Validators.required,Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
+      businessunit: [null, [Validators.required,Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
       department : [employeeOrganization.Department, [Validators.required , Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
       reportingmanager : [employeeOrganization.ReportingManager,[Validators.required , Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
       employmentType: [employeeOrganization.EmploymentType, [Validators.required]],
       joiningdate: [employeeOrganization.JoiningDate,[Validators.required,ValidateFutureDate()]],
-      terminationdate:[employeeOrganization.TerminationDate,[ValidateFutureDate]],
+      terminationdate: [employeeOrganization.TerminationDate,[ValidateFutureDate()]],
       status:[employeeOrganization.Status, [Validators.required]]
     });
   }
@@ -83,6 +84,31 @@ export class OrganizationDetailComponent implements OnInit {
     })
   }
 
+  ValidateEmploymentType(employmentType: any) {
+    if((employmentType === EmploymentType.FullTimeContract || employmentType === EmploymentType.PartTimeContract))
+    {
+      this.emloyeeOrganizationForm.controls["terminationdate"].setValidators([Validators.required, ValidateFutureDate()]);
+    }
+    else
+    {
+      this.emloyeeOrganizationForm.controls["terminationdate"].setValidators([ValidateFutureDate()]);
+    }
+    this.emloyeeOrganizationForm.controls["terminationdate"].updateValueAndValidity();
+  }
+
+  ValidateStatus(status: any)
+  {
+    if((status === Status.Terminated))
+    {
+      this.emloyeeOrganizationForm.controls["terminationdate"].setValidators([Validators.required, ValidateFutureDate()]);
+    }
+    else
+    {
+      this.emloyeeOrganizationForm.controls["terminationdate"].setValidators([ValidateFutureDate()]);
+    }
+    this.emloyeeOrganizationForm.controls["terminationdate"].updateValueAndValidity();
+  }
+
   action(event: string) {
     if(event === "next")
     {
@@ -92,9 +118,10 @@ export class OrganizationDetailComponent implements OnInit {
           CompaynEmail : this.emloyeeOrganizationForm.value.companyEmail,
           PhoneNumber : this.emloyeeOrganizationForm.value.phoneNumber,
           JoiningDate : this.emloyeeOrganizationForm.value.joiningdate,
-          TerminationDate : this.emloyeeOrganizationForm.value.terminationdate,
+          TerminationDate : this.defaultTerminationDate,
           EmploymentType : this.emloyeeOrganizationForm.value.employmentType,
           Department : this.emloyeeOrganizationForm.value.department,
+          BusinessUnit : this.emloyeeOrganizationForm.value.businesstitle,
           ReportingManager : this.emloyeeOrganizationForm.value.reportingmanager,
           Status : this.emloyeeOrganizationForm.value.status,
           JobTitle : this.emloyeeOrganizationForm.value.jobtitle
@@ -112,7 +139,6 @@ export class OrganizationDetailComponent implements OnInit {
         console.log('NotValid');
         Object.values(this.emloyeeOrganizationForm.controls).forEach(control => {
           if (control.invalid) {
-            console.log(control.value);
             control.markAsDirty();
             control.updateValueAndValidity({ onlySelf: true });
           }
