@@ -6,7 +6,7 @@
   <div nz-col nzSpan="6">   <button   (click)="showModal()" nz-button> Add Client Contact</button></div>
 </div>
 <nz-table class="mt-3"
-
+[nzData]="listData"
 [nzFrontPagination]="false"
 [nzLoading]="loading"
 [nzTotal]="total"
@@ -55,24 +55,26 @@
 
 
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Contact Detail"
-(nzOnCancel)="handleCancel()"
+<nz-modal class="client-modal-window"  [(nzVisible)]="isVisible" nzTitle="Add Client Contact"
+[nzWidth]="'24%'"
+[nzFooter]="footer"
+(nzOnCancel)="exitModal()"
 (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
 
 
     <form nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
-        <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
+        <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="24" [nzXs]="24" nzHasFeedback>
           <input placeholder="contact person" id="contactName" nz-input formControlName="contactName"/>
 
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress">Email Adress</nz-form-label>
-        <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback>
+        <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
+        <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback [nzSm]="24">
 
           <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
           <div >
@@ -82,15 +84,49 @@
 
       </nz-form-item >
 
-      <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
-        <nz-form-control nzErrorTip="Please add contact number!" [nzSm]="14" [nzXs]="24" nzHasFeedback >
-          <input id="phoneNumber" nz-input formControlName="phoneNumber"/>
-        </nz-form-control>
-      </nz-form-item>
 
+
+      <nz-form-item>
+
+        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
+
+        <nz-form-control nzHasFeedback nzErrorTip="Please add contact number!" [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']"
+
+          nzErrorTip="Please input your phone number!">
+
+          <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+
+            <ng-template #addOnBeforeTemplate>
+
+              <nz-select formControlName="phoneNumberPrefix" nzPlaceHolder="+251" nzShowSearch class="phone-select">
+
+                <ng-container *ngFor="let code of listofCodes">
+
+                  <nz-option nzValue="{{code.value}}" nzLabel="{{code.label}}"></nz-option>
+
+                </ng-container>
+
+              </nz-select>
+
+            </ng-template>
+
+            <input nzErrorTip="Please add contact number!" formControlName="phoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
+
+              nz-input />
+
+          </nz-input-group>
+
+        </nz-form-control>
+
+      </nz-form-item>
+<div class="footer-btn">
+  <button nz-button class="clear-btn" (click)="handleClear()">Clear</button>
+  <button nz-button class="add-btn" (click)="handleOk()">Add</button>
+
+</div>
 
     </form>
+
   </ng-container>
 
 
