@@ -8,10 +8,10 @@ export interface  CreateClient {
     ClientStatusGuid: string,
     ClientName: string,
     Description: string;
-    ClientContact?:clientContact[];
-    CompanyContacts?:CompanyContacts[]; 
-    OperatingAddress?:OperatingAddress[];
-    BillingAddress?:BillingAddress[];
+    ClientContact:clientContact[];
+    CompanyContacts:CompanyContacts[]; 
+    OperatingAddress:OperatingAddress[];
+    BillingAddress:BillingAddress[];
 }
 
 
