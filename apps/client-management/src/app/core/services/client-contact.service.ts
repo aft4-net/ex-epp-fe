@@ -1,7 +1,8 @@
 import { ClientContact } from './../models/get/client-contact';
 import { Injectable } from '@angular/core';
-import { ApiService } from 'apps/project-management/src/app/core/models/apiService';
+
 import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../models/apiService';
 
 @Injectable({
   providedIn: 'root'
