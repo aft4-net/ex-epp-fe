@@ -1,11 +1,8 @@
-import { ClientService } from './../../core/services/client.service';
+import { Component, OnInit } from "@angular/core";
 
-
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Client } from 'apps/project-management/src/app/core';
-
-
+import { Client } from "../../core/models/get";
+import { ClientService } from "../../core/services/client.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'exec-epp-view-clients',
@@ -24,6 +21,16 @@ export class ViewClientsComponent implements OnInit  {
     {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
     {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
   ]
+  namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
+  {text:'CocaCola',value:'CocaCola',checked:false},
+  {text:'Amazon',value:'Amazone',checked:false}];
+
+  namesoflocations = [{text:'Ethiopia',value:'Ethiopia',checked:true},
+  {text:'USA',value:'USA',checked:false},
+  {text:'Canada',value:'Canada',checked:false}];
+  namesofStatuses = [{text:'Active',value:'Active',checked:true},
+  {text:'Signed',value:'Signed',checked:false},
+  {text:'Terminated',value:'Terminated',checked:false}];
 
   listOfColumns = [
     {
