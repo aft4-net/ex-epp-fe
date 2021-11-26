@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
 import { EmergencyContactAddressesComponent } from './Features/Components/emergency-contact-addresses/emergency-contact-addresses.component';
+import { EmployeeDetailComponent } from './Features/Components/employee-detail/employee-detail.component';
+import { EmployeeDetailModule } from './Features/Components/employee-detail/employee-detail.module';
 import { FamilyDetailComponent } from './Features/Components/family-detail/family-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
@@ -34,23 +36,10 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    MainLayoutComponent,
     PageHeaderComponent,
     PageFooterComponent,
-    PageTitleComponent,
     PageBreadcrumbComponent,
-    OrganizationDetailComponent,
-    AddressNewComponent,
-    ProgressButtonsComponent,
-    PersonalInfoComponent,
-    AddEmergencycontactComponent,
-    PersonalAddressesComponent,
-    EmergencyContactAddressesComponent,
-    UploadphotoComponent,
-    AddMultiComponent,
-    FamilyDetailComponent,
-    UploadphotoComponent,
-    AddMultiComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -61,6 +50,7 @@ registerLocaleData(en);
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
     AppRoutingModule,
+    EmployeeDetailModule,
     ToastrModule.forRoot(),
 
 

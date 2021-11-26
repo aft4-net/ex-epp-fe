@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-page-breadcrumb',
@@ -9,13 +10,19 @@ import { EmployeeService } from '../../Features/Services/Employee/EmployeeServic
 })
 export class PageBreadcrumbComponent implements OnInit {
 
-  constructor(private _employeeService: EmployeeService) { }
+  constructor(
+    private _employeeService: EmployeeService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   saveEmployee(){
      this._employeeService.saveEmployee();
+  }
+
+  addEmployee()
+  {
+    this.router.navigateByUrl('/personal-address');
   }
 
 }
