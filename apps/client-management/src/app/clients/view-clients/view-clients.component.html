@@ -55,10 +55,10 @@
 [nzLoading]="loading" >
   <thead>
     <tr>
-      <th  nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" class="table_heading" >Client</th>
-      <th *ngIf="listOfColumns[1].isChecked === true" class="table_heading">Location</th>
-      <th *ngIf="listOfColumns[2].isChecked === true" class="table_heading">Status</th>
-      <th *ngIf="listOfColumns[3].isChecked === true" class="table_heading">Sales Person</th>
+      <th   nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
+      <th *ngIf="listOfColumns[1].isChecked === true" [nzSortFn]="true" (click)="sorter(2)" [(ngModel)]="sortByParam" class="table_heading">Location</th>
+      <th *ngIf="listOfColumns[2].isChecked === true" [nzSortFn]="true" (click)="sorter(3)" [(ngModel)]="sortByParam" class="table_heading">Status</th>
+      <th *ngIf="listOfColumns[3].isChecked === true" [nzSortFn]="true" (click)="sorter(4)" [(ngModel)]="sortByParam" class="table_heading">Sales Person</th>
       <th *ngIf="listOfColumns[4].isChecked === true" class="table_heading">Client Contact Person</th>
       <th *ngIf="listOfColumns[5].isChecked === true" class="table_heading">Company Contact Person</th>
       <th class="table_heading">Action</th>

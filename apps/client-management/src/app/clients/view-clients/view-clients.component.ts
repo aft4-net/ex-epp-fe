@@ -1,9 +1,9 @@
 import { Client, PaginatedResult } from "../../core/models/get";
 import { Component, OnInit } from "@angular/core";
 
-import { ClientService } from "../../core/services/client.service";
+import { ClientService } from "../../core/services";
 import { FormControl } from "@angular/forms";
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzNotificationService } from "ng-zorro-antd/notification";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
@@ -31,11 +31,15 @@ export class ViewClientsComponent implements OnInit  {
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
   client:Client[]=[];
+
+  sortByParam="";
+  sortDirection = "asc";
+
    values = [
     {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-    {client:'McDonalds',address:'USA',status:'Active',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
+    {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
     {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-    {client:'Pepsi',address:'Canada',status:'Active',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
+    {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
   ]
   namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
   {text:'CocaCola',value:'CocaCola',checked:false},
@@ -53,37 +57,31 @@ export class ViewClientsComponent implements OnInit  {
       id: 'Client',
       label: 'Client',
       isChecked: true,
-      compare:true
     },
     {
       id: 'Location',
       label: 'Location',
       isChecked: true,
-      compare:true
     },
     {
       id: 'Status',
       label: 'Status',
       isChecked: true,
-      compare:false
     },
     {
       id: 'SalesPerson',
       label: 'SalesPerson',
       isChecked: true,
-      compare:false
     },
     {
       id: 'ClientContact',
       label: 'ClientContact',
       isChecked: false,
-      compare:false
     },
     {
       id: 'CompanyContact',
       label: 'CompanyContact',
       isChecked: false,
-      compare:false
     },
   ];
 
@@ -95,7 +93,7 @@ export class ViewClientsComponent implements OnInit  {
   nameofclient = '';
   namesofclientsfilterd = [{ text: '', value: '', checked: false }];
   filteredArray = [''];
-  constructor(private router:Router,private _clientservice:ClientService, private notification:NzNotificationService) { }
+  constructor(private router:Router,private _clientservice: ClientService, private notification:NzNotificationService) { }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
     this._clientservice.getAll().subscribe((data:any)=>{
@@ -103,10 +101,28 @@ export class ViewClientsComponent implements OnInit  {
 
     });
     this.initializeData();
-  this. getAllData();
+  // this. getAllData();
   this.searchProject.valueChanges.pipe(debounceTime(3000)).subscribe(() => {
     this.SearchData();
   });
+  }
+
+  sorter(id:number) {
+    if (id === 1){
+      this.sortByParam = "client";
+    } else if (id === 2){
+      this.sortByParam = "address";
+    }else if (id === 3) {
+      this.sortByParam = "status";
+    } else if (id === 4) {
+      this.sortByParam = "sales_person";
+    }
+
+    if (this.sortDirection === "desc") {
+      this.sortDirection = "asc"
+    } else {
+      this.sortDirection = "desc"
+    }
   }
 
   onDefaultClick() {
@@ -323,15 +339,15 @@ export class ViewClientsComponent implements OnInit  {
     // }
   }
 
-  getAllData(){
+  // getAllData(){
 
 
-   this._clientservice.getAll().subscribe(res=>
-    {
-      console.log("This is All Data"+res);
-      return res;
-    });
+  //  this._clientservice.getAll().subscribe((response)=>
+  //   {
+  //     console.log("This is All Data"+response);
+  //     return response;
+  //   });
 
-  }
+  // }
 
 }
