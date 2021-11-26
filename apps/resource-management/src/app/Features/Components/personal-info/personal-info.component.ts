@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import { AddMultiComponent } from './add-multi/add-multi.component';
-import { AngularFileUploaderComponent } from 'angular-file-uploader';
 import { Employee } from '../../Models/Employee';
 import { EmployeeService } from '../../Services/Employee/EmployeeService';
 import { HttpClient } from '@angular/common/http';
@@ -111,8 +110,10 @@ export class PersonalInfoComponent implements OnInit {
     this.phoneNumber2=employee.Phone1,
     this.phoneNumber3=employee.Phone2,
     this.dateofBirth=employee.DateofBirth,
-    this.gender=employee.Gender,
-    this.selectednationality=employee.Nationality;
+    this.gender=employee.Gender
+    if(employee.Nationality){
+      this.selectednationality=employee.Nationality;
+    }
 
   }
 

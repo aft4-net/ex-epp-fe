@@ -3,7 +3,7 @@
   <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
-       Add Education</span
+       Add education</span
     >
   </button>
   <nz-modal
@@ -23,8 +23,8 @@
               #institution
               type="text"
               label="Institution"
-              placeholder="Enter Your Institution Name"
-              errorMsg="Please Provide a Valid Institution Name"
+              placeholder="Enter your institution name"
+              errorMsg="Please provide a valid institution name"
               [displayError]="institution.focusout"
             >
             </app-input>
@@ -36,10 +36,10 @@
                   [form]="education"
                   fcn="yearFrom"
                   #institution
-                  label="Started From"
-                  placeholder="Enter your Started Year"
+                  label="From"
+                  placeholder="Enter your started year"
                   [disabledDate]="disabledStartDate"
-                  errorMsg="Please Provide a Valid Year"
+                  errorMsg="Please provide a valid year"
                   [displayError]="institution.focusout"
                  
                 >
@@ -50,10 +50,10 @@
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="To (or Expected Graduation)"
-                  placeholder="Enter Your Completion Year"
+                  label="To (or Expected graduation year)"
+                  placeholder="Enter your completion year"
                   [disabledDate]="disabledEndDate"
-                  errorMsg="Please Provide a Valid Year"
+                  errorMsg="Please provide a valid year"
                   [displayError]="institution.focusout"
                   
                 >
@@ -65,15 +65,15 @@
         <div nz-row [nzGutter]="16">
           <div nz-col nzSpan="12">
             <app-select
-              errorMsg="Please Select a Program"
+              errorMsg="Please select a program"
               [list]="fetchedEducationProgramme"
               fcn="program"
               #programselection
               [displayError]="programselection.focusout"
               [form]="education"
               [multiple]="false"
-              placeholder="Please Select Your Program"
-              label="Please Select Your Program"
+              placeholder="Please select your program"
+              label="Please select your program"
               [selectedValue]=""
             ></app-select>
           </div>
@@ -81,15 +81,15 @@
           <div nz-col nzSpan="12">
             <app-select
               [disabled]="disableFieldOfStudy"
-              errorMsg="Please Select Field of Study"
+              errorMsg="Please select field of study"
               [list]="fetchedFieldOfStudies"
               fcn="fieldOfStudy"
               #fieldofstudy
               [displayError]="fieldofstudy.focusout"
               [form]="education"
               [multiple]="false"
-              label="Please Select Field of Study"
-              placeholder="Select Your Field of Study"
+              label="Please select field of study"
+              placeholder="Select your field of study"
             ></app-select>
           </div>
         </div>
@@ -99,8 +99,8 @@
             <div class="inner-box">
               <app-country-selector
                 label="Country"
-                placeholder="Enter your Country"
-                errorMsg="Country should be Selected"
+                placeholder="Enter your country"
+                errorMsg="Country should be selected"
                 (onChange)="onCountryChange($event)"
                 [selectedValue]="education.controls.country.value"
                 [single]="true"
@@ -144,10 +144,10 @@
         <thead>
           <tr>
             <th>Institution</th>
-            <th>Field of Study</th>
-            <th>Educatioin Program</th>
-            <th>Started Year</th>
-            <th>End (Expected) Year</th>
+            <th>Field of study</th>
+            <th>Educatioin program</th>
+            <th>Started year</th>
+            <th>End (Expected) year</th>
             <th>Action</th>
           </tr>
         </thead>
