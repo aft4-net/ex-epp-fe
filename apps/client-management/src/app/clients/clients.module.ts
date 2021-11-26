@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SortPipe } from '../core/pipes/sort.pipe';
 import { ViewClientsComponent } from './view-clients/view-clients.component';
 
+
 @NgModule({
   declarations: [
     ViewClientsComponent,
