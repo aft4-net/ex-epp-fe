@@ -10,6 +10,7 @@ import { DetailsFormComponent } from './add-client/details-form/details-form.com
 import { LoacationsFormComponent } from './add-client/loacations-form/loacations-form.component';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SortPipe } from '../core/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ContactsFormComponent,
     DetailsFormComponent,
     LoacationsFormComponent,
-    AddClientComponent
+    AddClientComponent,
+    SortPipe
   ],
   imports: [
     ReactiveFormsModule,

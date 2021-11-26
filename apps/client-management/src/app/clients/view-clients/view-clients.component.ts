@@ -1,10 +1,8 @@
 import { ClientService } from './../../core/services/client.service';
 
 
-import { Address } from './../../../../../resource-management/src/app/Features/Models/address.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { Client } from 'apps/project-management/src/app/core';
 
 
@@ -16,11 +14,15 @@ import { Client } from 'apps/project-management/src/app/core';
 })
 export class ViewClientsComponent implements OnInit  {
   client:Client[]=[];
+
+  sortByParam="";
+  sortDirection = "asc";
+
    values = [
     {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-    {client:'McDonalds',address:'USA',status:'Active',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
+    {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
     {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-    {client:'Pepsi',address:'Canada',status:'Active',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
+    {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
   ]
 
   listOfColumns = [
@@ -28,37 +30,31 @@ export class ViewClientsComponent implements OnInit  {
       id: 'Client',
       label: 'Client',
       isChecked: true,
-      compare:true
     },
     {
       id: 'Location',
       label: 'Location',
       isChecked: true,
-      compare:true
     },
     {
       id: 'Status',
       label: 'Status',
       isChecked: true,
-      compare:false
     },
     {
       id: 'SalesPerson',
       label: 'SalesPerson',
       isChecked: true,
-      compare:false
     },
     {
       id: 'ClientContact',
       label: 'ClientContact',
       isChecked: false,
-      compare:false
     },
     {
       id: 'CompanyContact',
       label: 'CompanyContact',
       isChecked: false,
-      compare:false
     },
   ]
 
@@ -69,6 +65,24 @@ export class ViewClientsComponent implements OnInit  {
       this.client=data;
 
     })
+  }
+
+  sorter(id:number) {
+    if (id === 1){
+      this.sortByParam = "client";
+    } else if (id === 2){
+      this.sortByParam = "address";
+    }else if (id === 3) {
+      this.sortByParam = "status";
+    } else if (id === 4) {
+      this.sortByParam = "sales_person";
+    }
+
+    if (this.sortDirection === "desc") {
+      this.sortDirection = "asc"
+    } else {
+      this.sortDirection = "desc"
+    }
   }
 
   onDefaultClick() {
