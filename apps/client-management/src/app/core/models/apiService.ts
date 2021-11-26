@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
 import { PaginatedResult, Pagination } from '.';
-import { map } from 'rxjs/operators';
 
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class ApiService<T> {
-  private readonly APIUrl = "" + this.getResourceUrl();
+  private readonly APIUrl = environment.baseApiUrl + this.getResourceUrl();
 
   constructor(protected httpClient: HttpClient ) {
   }
@@ -57,8 +57,8 @@ export abstract class ApiService<T> {
 
   }
 
-  getWithPagnationResut( pageindex:number,pageSize:number,searchKey?:string) :Observable<PaginatedResult<T[]>> 
- {  
+  getWithPagnationResut( pageindex:number,pageSize:number,searchKey?:string) :Observable<PaginatedResult<T[]>>
+ {
   const params = new HttpParams()
   .set('pageindex', pageindex.toString())
   .set('pageSize', pageSize.toString())
@@ -68,11 +68,11 @@ export abstract class ApiService<T> {
     data: [] as  T[],
     pagination: {} as Pagination
  };
- return this.get("?" +params.toString())
+ return this.get("Predicated?" +params.toString())
       .pipe(
-      
+
         map((response:any) => {
-       
+
           paginatedResult= {
             data:response.Data,
             pagination:{pageIndex:response.PageIndex,
@@ -80,7 +80,7 @@ export abstract class ApiService<T> {
               pageSize:response.PageSize,
               totalRecord:response.TotalRecord}
          };
-         return paginatedResult;      
+         return paginatedResult;
         })
       );
  }

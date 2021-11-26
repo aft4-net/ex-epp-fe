@@ -1,17 +1,20 @@
+import { Client, PaginatedResult, } from '..';
 
 import { ApiService } from '../models/apiService';
-
+import { BehaviorSubject } from 'rxjs';
+import { CreateClient } from '../models/post/CreateClient';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Client, CreateClient } from '../';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ClientService extends ApiService<Client> {
+  private fristPagantionClientsSource=  new BehaviorSubject<PaginatedResult<Client[]>>(  {} as PaginatedResult<Client[]> );
+  fristPagantionClients$=this.fristPagantionClientsSource.asObservable();
+
   constructor(
     protected httpClient: HttpClient,
     private notification: NzNotificationService) {
@@ -21,6 +24,18 @@ export class ClientService extends ApiService<Client> {
     {} as CreateClient
   );
   createClientSource$ = this.createClientSource.asObservable();
+
+
+  getFirsttPageValue()
+  {
+    return this.fristPagantionClientsSource.value;
+  }
+
+  setFristPageOfClients(data:PaginatedResult<Client[]>)
+  {
+    this.fristPagantionClientsSource.next(data);
+
+  }
 
   getResourceUrl(): string {
     return 'ClientDetails';
