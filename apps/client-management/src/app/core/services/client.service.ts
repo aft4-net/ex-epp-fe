@@ -5,7 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Client, CreateClient } from '../';
+import { Client } from 'apps/project-management/src/app/core/models/get/client';
+import { CreateClient } from '../models/post/CreateClient';
+
 
 
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
-import { ClientService } from '../../core';
+import { ClientService } from '../../core/services/client.service';
+
 
 
 @Component({
@@ -25,5 +26,5 @@ export class AddClientComponent implements OnInit {
   {
      this.router.navigateByUrl('clients');
   }
-  
+
 }
