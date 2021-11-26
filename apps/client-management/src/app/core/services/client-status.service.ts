@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '../models/apiService';
 import { ClientStatus } from '..';
+import { Injectable } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../models/apiService';
 
 @Injectable({
   providedIn: 'root'

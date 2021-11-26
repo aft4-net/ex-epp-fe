@@ -1,20 +1,18 @@
 export interface Employee {
-  Guid: string,
-
-  IActive: boolean,
-
-  IsDeleted: boolean,
-
-  CreatedDate: Date,
-
-  CreatedbyUserGuid: string,
-
-  Name: string,
-
-  Role: string,
-
-  HiredDate: Date
+      Name: string;
+      Role: string;
+      HiredDate: Date;
+      Guid: string;
+      IsActive: boolean;
+      IsDeleted: boolean;
+      CreatedDate: Date;
+      CreatedbyUserGuid: string;
 }
+
+
+
+
+
 
 export enum EmployeePostion {
   TDM = 'Tecnical Delivary Manager',

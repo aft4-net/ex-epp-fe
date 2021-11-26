@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'apps/client-management/src/environments/environment';
-import { Observable } from 'rxjs';
 import { PaginatedResult, Pagination } from '.';
-import { map } from 'rxjs/operators';
 
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +68,7 @@ export abstract class ApiService<T> {
     data: [] as  T[],
     pagination: {} as Pagination
  };
- return this.get("?" +params.toString())
+ return this.get("Predicated?" +params.toString())
       .pipe(
 
         map((response:any) => {
