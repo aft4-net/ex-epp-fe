@@ -1,13 +1,47 @@
-
 <exec-epp-page-title></exec-epp-page-title>
- <div nz-row>
+<div nz-row>
   <div nz-col nzSpan="4">
     <exec-epp-side-bar> </exec-epp-side-bar>
   </div>
- <div nz-col nzSpan="20">
-<div class="page-title">
-    <h2>Organization Detail</h2>
+  <div nz-col nzSpan="20">
+    <div class="page-title">
+      <br />
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="4">
+        <i nz-icon nzType="user" nzTheme="outline"></i> &nbsp;
+
+        <nz-upload
+          class=""
+          nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          (nzChange)="handleChange($event)"
+        >
+          <button nz-button class="btn">
+            <i nz-icon nzType="upload"></i>
+            Upload
+          </button>
+        </nz-upload>
+      </div>
+      <div nz-col nzSpan="4">
+        <button nz-button>
+          <i nz-icon nzType="delete" nzTheme="outline"></i>
+          Delete
+        </button>
+      </div>
+    </div>
+
+
+  <nz-input-group nzCompact>
+    <nz-select [ngModel]="'Zhejiang'">
+      <nz-option [nzLabel]="'Zhejiang'" [nzValue]="'Zhejiang'"></nz-option>
+      <nz-option [nzLabel]="'Jiangsu'" [nzValue]="'Jiangsu'"></nz-option>
+    </nz-select>
+    <input
+      type="text"
+      nz-input
+      [ngModel]="'Xihu District, Hangzhou'"
+      style="width: 50%"
+    />
+  </nz-input-group>
 </div>
-<h3>Personal Info </h3>
-</div>
-</div>
+
