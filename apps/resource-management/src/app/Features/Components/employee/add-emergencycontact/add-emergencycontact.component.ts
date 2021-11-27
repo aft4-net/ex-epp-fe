@@ -21,15 +21,15 @@ import {
   EmergencyContact,
   EmergencyContacts,
   IEmergencyContact,
-} from '../../Models/emergencycontact';
-import { LocationPhoneService } from '../../Services/address/location-phone.service';
+} from '../../../Models/emergencycontact';
+import { LocationPhoneService } from '../../../Services/address/location-phone.service';
 
-import { EmergencycontactService } from '../../Services/emergencycontact/emergencycontact.service';
+import { EmergencycontactService } from '../../../Services/emergencycontact/emergencycontact.service';
 
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AddressNewComponent } from '../address-new/address-new.component';
-import { AttendanceService } from '../../Services/address/attendance.service';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { AttendanceService } from '../../../Services/address/attendance.service';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { Router } from '@angular/router';
 
 @Component({

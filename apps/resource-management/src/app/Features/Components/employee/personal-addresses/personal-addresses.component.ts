@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Address } from '../../Models/address.model';
-import { Employee } from '../../Models/Employee';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { Address } from '../../../Models/address.model';
+import { Employee } from '../../../Models/Employee';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { Router } from '@angular/router';
 
 @Component({

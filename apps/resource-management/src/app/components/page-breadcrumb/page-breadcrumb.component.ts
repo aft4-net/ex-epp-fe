@@ -6,23 +6,21 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'exec-epp-page-breadcrumb',
   templateUrl: './page-breadcrumb.component.html',
-  styleUrls: ['./page-breadcrumb.component.scss']
+  styleUrls: ['./page-breadcrumb.component.scss'],
 })
 export class PageBreadcrumbComponent implements OnInit {
-
   constructor(
-    private _employeeService: EmployeeService, private router: Router) { }
+    private _employeeService: EmployeeService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  saveEmployee() {
+    this._employeeService.saveEmployee();
   }
 
-  saveEmployee(){
-     this._employeeService.saveEmployee();
+  addEmployee() {
+    this.router.navigateByUrl('/add-employee');
   }
-
-  addEmployee()
-  {
-    this.router.navigateByUrl('/personal-address');
-  }
-
 }

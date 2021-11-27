@@ -3,11 +3,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import { AddMultiComponent } from './add-multi/add-multi.component';
-import { Employee } from '../../Models/Employee';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { Employee } from '../../../Models/Employee';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { HttpClient } from '@angular/common/http';
-import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { Nationality } from '../../Models/Nationality';
+import { LocationPhoneService } from '../../../Services/address/location-phone.service';
+import { Nationality } from '../../../Models/Nationality';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';

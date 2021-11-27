@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { EmployeeDetailComponent } from './Features/Components/employee-detail/employee-detail.component';
+import { EmployeeDetailComponent } from './Features/Components/employee/employee-detail/employee-detail.component';
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
@@ -14,13 +14,9 @@ const routes: Routes = [
   // { path: 'family-detail', component: FamilyDetailComponent },
   { path: 'employee-detail', component: EmployeeDetailComponent },
 
-  {
-    path: 'employee-detail',
-    loadChildren: () =>
-      import(
-        './Features/Components/employee-detail/employee-detail.module'
-      ).then((m) => m.EmployeeDetailModule),
-  },
+
+
+  { path: 'employee', loadChildren: () => import('./Features/Components/employee/employee.module').then(m => m.EmployeeModule) },
 ];
 
 @NgModule({

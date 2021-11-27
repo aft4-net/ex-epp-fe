@@ -1,23 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  FormControl,  FormGroup, Validators } from '@angular/forms';
-import { ICountry } from '../../Models/EmployeeOrganization/Country';
-import { IDutyBranch } from '../../Models/EmployeeOrganization/DutyBranch';
-import { EmploymentType, Status } from '../../Models/EmployeeOrganization/enums';
-import { CountryService } from '../../Services/EmployeeOrganization/country.service';
-import { CountryModel } from '../../Models/EmployeeOrganization/ContryModel';
-import { DutyBranchModel } from '../../Models/EmployeeOrganization/DutyBranchModel';
-import { Router  } from '@angular/router';
-import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { EmployeeOrganization } from '../../Models/EmployeeOrganization/EmployeeOrganization';
-import { ValidateFutureDate} from '../../../Features/Validators/ValidateFutureDate';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { EmploymentType, Status } from '../../../Models/EmployeeOrganization/enums';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { CountryModel } from '../../../Models/EmployeeOrganization/ContryModel';
+import { CountryService } from '../../../Services/EmployeeOrganization/country.service';
+import { DutyBranchModel } from '../../../Models/EmployeeOrganization/DutyBranchModel';
+import { EmployeeOrganization } from '../../../Models/EmployeeOrganization/EmployeeOrganization';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { ICountry } from '../../../Models/EmployeeOrganization/Country';
+import { IDutyBranch } from '../../../Models/EmployeeOrganization/DutyBranch';
+import { LocationPhoneService } from '../../../Services/address/location-phone.service';
+import { Router } from '@angular/router';
+import { ValidateFutureDate } from '../../../Validators/ValidateFutureDate';
+
 @Component({
   selector: 'exec-epp-organization-detail',
   templateUrl: './organization-detail.component.html',
   styleUrls: ['./organization-detail.component.scss']
 })
 export class OrganizationDetailComponent implements OnInit {
-  
+
   countries !: ICountry[];
   dutyBranches !: IDutyBranch[];
   reportingManagerList !: string[];
@@ -44,7 +46,7 @@ export class OrganizationDetailComponent implements OnInit {
     })
     this.OrganizationSource = this.employeeService.getEmployeeOrganization();
     this.createEmployeeOrganizationForm(this.OrganizationSource);
-    
+
   }
 
   createEmployeeOrganizationForm(employeeOrganization: EmployeeOrganization) {
@@ -99,7 +101,7 @@ export class OrganizationDetailComponent implements OnInit {
           Status : this.emloyeeOrganizationForm.value.status,
           JobTitle : this.emloyeeOrganizationForm.value.jobtitle
         }  as EmployeeOrganization;
-        if (this.emloyeeOrganizationForm.valid) {  
+        if (this.emloyeeOrganizationForm.valid) {
           this.employeeService.setEmployeeData(
           {
             EmployeeOrganization : OrganizationFormData

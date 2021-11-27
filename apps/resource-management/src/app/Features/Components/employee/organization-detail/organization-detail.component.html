@@ -25,10 +25,10 @@
                     <ng-container *ngIf="control.hasError('required')">Please select employee's duty station</ng-container>
                 </ng-template>
             </nz-form-control>
-            
+
         </div>
         <div nz-col class="gutter-row" [nzSpan]="6">
-            <nz-form-control [nzErrorTip]="errorDutyBranch"> 
+            <nz-form-control [nzErrorTip]="errorDutyBranch">
                 <nz-select formControlName="dutyBranch" >
                     <nz-option *ngFor="let dutyBranch of dutyBranches" [nzLabel]="dutyBranch.name" [nzValue]="dutyBranch.id">
                     </nz-option>
@@ -129,7 +129,7 @@
         <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-form-control [nzErrorTip] = "errorEmploymentType">
                 <nz-select formControlName="employmentType" >
-                    <nz-option *ngFor="let employmenttype of employmnetTypeKey(employmentTypes); index as i" 
+                    <nz-option *ngFor="let employmenttype of employmnetTypeKey(employmentTypes); index as i"
                     [nzLabel]="employmenttype" [nzValue]="i+1">
                     </nz-option>
                 </nz-select>
@@ -168,4 +168,3 @@
         </div>
     </div>
 </form>
-<app-progress-buttons [isMultiple]="false" (actionType)="action($event)"></app-progress-buttons>

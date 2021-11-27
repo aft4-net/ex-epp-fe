@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Relationship } from '../../Models/FamilyDetail/RelationshipModel';
-import { RelationshipService } from '../../Services/FamilyDetails/relationship.service';
-import { FamilydetailService } from '../../Services/FamilyDetails/familydetail.service';
-import { FamilyDetail } from '../../Models/FamilyDetail/FamilyDetailModel';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
+import { FamilydetailService } from '../../../Services/FamilyDetails/familydetail.service';
+import { Relationship } from '../../../Models/FamilyDetail/RelationshipModel';
+import { RelationshipService } from '../../../Services/FamilyDetails/relationship.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'exec-epp-family-detail',
   templateUrl: './family-detail.component.html',

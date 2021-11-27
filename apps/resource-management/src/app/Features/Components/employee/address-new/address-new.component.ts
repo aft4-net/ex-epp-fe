@@ -1,13 +1,15 @@
 /* eslint-disable @angular-eslint/component-selector */
 /* eslint-disable @angular-eslint/no-output-native */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Address } from '../../../Models/address.model';
+import { AttendanceService } from '../../../Services/address/attendance.service';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { LocationPhoneService } from '../../../Services/address/location-phone.service';
+import { ResponseDto } from '../../../Models/response-dto.model';
 import { Router } from '@angular/router';
-import { Address } from '../../Models/address.model';
-import { ResponseDto } from '../../Models/response-dto.model';
-import { AttendanceService } from '../../Services/address/attendance.service';
-import { LocationPhoneService } from '../../Services/address/location-phone.service';
-import { EmployeeService } from '../../Services/Employee/EmployeeService';
 
 export function extractSpaces(value: string): string {
   let result = ''
@@ -41,7 +43,7 @@ export class AddressNewComponent implements OnInit {
 
   @Output() result: EventEmitter<{ type: string, addresses: Address[] }> = new EventEmitter<{ type: string, addresses: Address[] }>()
 
-  
+
   constructor(
     private fb: FormBuilder,
     private _router: Router,
