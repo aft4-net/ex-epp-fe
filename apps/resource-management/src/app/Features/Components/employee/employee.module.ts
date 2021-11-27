@@ -11,6 +11,7 @@ import { DemoNgZorroAntdModule } from '../../../ng-zorro-antd.module';
 import { EmployeeComponent } from './employee.component';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
+import { MainLayoutComponent } from '../../../components/main-layout/main-layout.component';
 import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
 import { PageTitleComponent } from '../../../components/page-title/page-title.component';
@@ -37,6 +38,7 @@ import { registerLocaleData } from '@angular/common';
     FamilyDetailComponent,
     PageTitleComponent,
     SideBarComponent,
+    MainLayoutComponent
   ],
   imports: [
     CommonModule,

@@ -9,28 +9,34 @@ import { PersonalAddressesComponent } from './personal-addresses/personal-addres
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 
 const routes: Routes = [
-  { path: 'add-employee', component: EmployeeComponent },
+  { path: 'employee/add-employee', component: EmployeeComponent },
 
-  { path: 'add-employee/person-detail', component: PersonalInfoComponent },
   {
-    path: 'add-employee/Organization-Detail',
+    path: 'employee/add-employee/personal-info',
+    component: PersonalInfoComponent,
+  },
+  {
+    path: 'employee/add-employee/Organization-Detail',
     component: OrganizationDetailComponent,
   },
   {
-    path: 'personal-address',
+    path: 'employee/add-employee/personal-address',
     component: PersonalAddressesComponent,
   },
 
   {
-    path: 'add-employee/Organization-Detail',
+    path: 'employee/add-employee/Organization-Detail',
     component: OrganizationDetailComponent,
   },
 
   {
-    path: 'add-employee/emergency-contact',
+    path: 'employee/add-employee/emergency-contact',
     component: AddEmergencycontactComponent,
   },
-  { path: 'add-employee/family-detail', component: FamilyDetailComponent },
+  {
+    path: 'employee/add-employee/family-detail',
+    component: FamilyDetailComponent,
+  },
 ];
 
 @NgModule({
