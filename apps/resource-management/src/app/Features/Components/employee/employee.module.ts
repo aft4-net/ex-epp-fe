@@ -18,8 +18,10 @@ import { PersonalAddressesComponent } from './personal-addresses/personal-addres
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import en from '@angular/common/locales/en';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { registerLocaleData } from '@angular/common';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 
 //
 
@@ -49,7 +51,7 @@ import { registerLocaleData } from '@angular/common';
     AngularFileUploaderModule,
   ],
 
-  exports: [SideBarComponent],
+  exports: [EmployeeComponent],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
 })
 export class EmployeeModule {}
