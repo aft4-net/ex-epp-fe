@@ -36,7 +36,7 @@
       <nz-form-label
         [nzSm]="10"
         [nzXs]="24"
-        nzFor="eid"
+        nzFor=""
         nzRequired
         >Employee Identification Number</nz-form-label
       >
@@ -48,7 +48,7 @@
         <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
           <ng-template #addOnBeforeTemplate>
             <nz-select
-              formControlName="eid"
+            
               class="id-select"
             >
               <ng-container >
@@ -60,7 +60,7 @@
             </nz-select>
           </ng-template>
           <input
-            formControlName="eid"
+          
             id="'eid'"
            
             nz-input
@@ -70,8 +70,13 @@
     </nz-form-item>
 
 
-
-
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+        <input nz-input  id="email" />
+      </nz-form-control>
+    </nz-form-item>
+ 
 <nz-form-item>
   <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="geder"
     >Gender</nz-form-label
@@ -82,7 +87,7 @@
     nzErrorTip="The input is required!"
   >
     <nz-select
-      formControlName="geder"
+    
       nzShowSearch
       nzAllowClear
       
