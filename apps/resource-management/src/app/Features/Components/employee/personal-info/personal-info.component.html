@@ -7,41 +7,97 @@
     <div class="page-title">
       <br />
     </div>
+    <form nz-form id="myForm" [formGroup]="validateForm" [nzLayout]="'vertical'">
     <div nz-row>
       <div nz-col nzSpan="4">
-        <i nz-icon nzType="user" nzTheme="outline"></i> &nbsp;
 
+        <i nz-icon nzType="user" nzTheme="outline"></i> &nbsp;
         <nz-upload
-          class=""
-          nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          (nzChange)="handleChange($event)"
-        >
-          <button nz-button class="btn">
-            <i nz-icon nzType="upload"></i>
-            Upload
-          </button>
-        </nz-upload>
-      </div>
-      <div nz-col nzSpan="4">
+      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      [nzHeaders]="{ authorization: 'authorization-text' }"
+      (nzChange)="handleChange($event)"
+    >
+      <button nz-button class="btn">
+        <i nz-icon nzType="upload"></i>
+         Upload
+      </button>
+    </nz-upload>
+    </div>
+      <div nz-col nzSpan="8">
         <button nz-button>
           <i nz-icon nzType="delete" nzTheme="outline"></i>
           Delete
         </button>
       </div>
     </div>
+    <br/>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="10"
+        [nzXs]="24"
+        nzFor="eid"
+        nzRequired
+        >Employee Identification Number</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+      
+      >
+        <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+          <ng-template #addOnBeforeTemplate>
+            <nz-select
+              formControlName="eid"
+              class="id-select"
+            >
+              <ng-container >
+                <nz-option
+                  nzValue="ETS"
+                  nzLabel="ETS"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+          </ng-template>
+          <input
+            formControlName="eid"
+            id="'eid'"
+           
+            nz-input
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
 
 
-  <nz-input-group nzCompact>
-    <nz-select [ngModel]="'Zhejiang'">
-      <nz-option [nzLabel]="'Zhejiang'" [nzValue]="'Zhejiang'"></nz-option>
-      <nz-option [nzLabel]="'Jiangsu'" [nzValue]="'Jiangsu'"></nz-option>
+
+
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="geder"
+    >Gender</nz-form-label
+  >
+  <nz-form-control
+    [nzSm]="14"
+    [nzXs]="24"
+    nzErrorTip="The input is required!"
+  >
+    <nz-select
+      formControlName="geder"
+      nzShowSearch
+      nzAllowClear
+      
+    >
+      <ng-container >
+        <nz-option
+          nzValue="Male"
+          nzLabel="Male"
+        ></nz-option>
+      </ng-container>
     </nz-select>
-    <input
-      type="text"
-      nz-input
-      [ngModel]="'Xihu District, Hangzhou'"
-      style="width: 50%"
-    />
-  </nz-input-group>
+  </nz-form-control>
+</nz-form-item>
+
+ </form>
+</div>
 </div>
 

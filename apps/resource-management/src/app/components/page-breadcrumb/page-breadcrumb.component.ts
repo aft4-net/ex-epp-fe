@@ -21,6 +21,6 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   addEmployee() {
-    this.router.navigate(['/employee/add-employee/personal-info']);
+    this.router.navigate(['/employee/add-employee']);
   }
 }

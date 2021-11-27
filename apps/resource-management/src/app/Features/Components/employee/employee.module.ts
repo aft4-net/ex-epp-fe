@@ -53,7 +53,7 @@ import { registerLocaleData } from '@angular/common';
     AngularFileUploaderModule,
   ],
 
-  exports: [EmployeeComponent],
+  exports: [EmployeeComponent,SideBarComponent],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
 })
 export class EmployeeModule {}
