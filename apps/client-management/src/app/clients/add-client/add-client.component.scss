@@ -149,3 +149,12 @@ header {
   background: #03da6b !important;
   color: white;
 }
+
+ ::ng-deep  .ant-tabs-left>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-left>div>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-right>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-right>div>.ant-tabs-nav
+ .ant-tabs-tab  {
+  padding: 8px 24px;
+  /* text-align: center; */
+  /* border-block: revert; */
+  border: 1px solid red;
+  outline-color: red;
+}

@@ -15,7 +15,7 @@
   <div class="justify-between" nz-row>
     <div class="page-title"> Enter Client Details </div>
     <div>
-      <button (click)="clientsPage()" class="text-green-600   border-green-600  border bg-transparent  font-semibold
+      <button (click)="cancelAddClientPage()" class="text-green-600   border-green-600  border bg-transparent  font-semibold
            py-1 px-3   hover:border-green-700 hover:text-green-700  mr-4 ">
         Cancel
       </button>
@@ -24,10 +24,10 @@
   </div>
 </header>
 <hr>
-<nz-tabset class=" p-2" [nzTabPosition]="position">
-  <nz-tab class="side-nav-tab" nzSelected nzTitle='Client Details'>
+<nz-tabset class=" p-2" [nzTabPosition]="position" [(nzSelectedIndex)]="activeTabIndex">
+  <nz-tab id="error"  class="side-nav-tab " nzSelected nzTitle='Client Details'>
     <div class="tab-content">
-      <exec-epp-details-form> </exec-epp-details-form>
+      <exec-epp-details-form > </exec-epp-details-form>
     </div>
   </nz-tab>
   <nz-tab nzSelected nzTitle='Client Contacts'>

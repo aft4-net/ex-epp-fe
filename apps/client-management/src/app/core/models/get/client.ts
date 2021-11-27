@@ -2,10 +2,9 @@ import { BillingAddress } from './billing-address';
 import { ClientContact } from './client-contact';
 import { ClientStatus } from './client-status';
 import { CompanyContact } from './company-contact';
-import { CompanyContacts } from '../post/CompanyContacts';
 import { Employee } from './employee';
-import { FormGroupDirective } from '@angular/forms';
 import { OperatingAddress } from './operational-address';
+
 
 export interface Client {
   SalesPerson: Employee;
