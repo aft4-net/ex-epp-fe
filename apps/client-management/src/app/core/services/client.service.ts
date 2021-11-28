@@ -1,6 +1,5 @@
 import { AddClientStateService, ApiService, Client, PaginatedResult } from '..';
 import { BehaviorSubject } from 'rxjs';
-import { ClientCreate } from '../models/post/ClientCreate ';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -39,20 +38,17 @@ export class ClientService extends ApiService<Client> {
       (response: any) => {
         if (response.ResponseStatus.toString().toLowerCase() == 'error') {
           this.notification.error(
-            'Client Not Added',
-            'Please Try Again Letter'
+            'Client not added',
+            'Please try again letter'
           );
           this.addClientStateService.restAddClientState();
         } else {
-          this.notification.success('Client Added Successfully', '');
+          this.notification.success('Client added successfully', '');
           this.addClientStateService.restAddClientState();
         }
       },
       () => {
-        this.notification.error(
-          'Client  Not Added',
-          'Please Try Again Leetter'
-        );
+        this.notification.error('Client  not added', 'Please try again letter');
         this.addClientStateService.restAddClientState();
       }
     );
