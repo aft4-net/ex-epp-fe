@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
 import { PersonalAddressesComponent } from './personal-addresses/personal-addresses.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { AddressViewComponent } from './address-view/address-view.component';
 
 const routes: Routes = [
   { path: 'employee/add-employee', component: EmployeeComponent },
@@ -32,7 +33,12 @@ const routes: Routes = [
   {
     path: 'employee/add-employee/emergency-contact',
     component: AddEmergencycontactComponent,
+   
   },
+
+  {path: 'employee/add-employee/address-view',
+  component: AddressViewComponent,
+},
   {
     path: 'employee/add-employee/family-detail',
     component: FamilyDetailComponent,
