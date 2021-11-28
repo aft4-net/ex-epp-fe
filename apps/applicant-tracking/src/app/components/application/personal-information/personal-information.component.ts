@@ -7,13 +7,12 @@ import {
 } from '@angular/forms';
 import countryList from '../../../../assets/files/CountryCodes.json';
 import { FormValidator } from '../../../utils/validator';
-import { environment } from 'apps/applicant-tracking/src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
-import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
@@ -33,6 +32,7 @@ export class PersonalInformationComponent implements OnInit {
   photoFileList: any = [];
   resumeFileList: NzUploadFile[] = [{ uid: '', name: '' }];
   loading = false;
+  selectedCountry = '';
   selectedValue = {
     name: 'Select country',
     dial_code: '+0',
@@ -229,14 +229,16 @@ export class PersonalInformationComponent implements OnInit {
             this.personalInformation.controls.phoneNumber.updateValueAndValidity();
           }
         }
+        
       });
-
+      
     this.personalInformation.controls.country.valueChanges.subscribe(() => {
-      this.personalInformation.controls.phoneNumber.setValidators([
+      this.personalInformation.controls.phoneNumber.setValidators([  
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
         Validators.required,
       ]);
     });
+
   }
 
   async createFile(url: string, type: string) {
@@ -255,7 +257,6 @@ export class PersonalInformationComponent implements OnInit {
     this.personalInformation.controls.profileUrl.setValue('');
     this.photoFileList = [];
   }
-  onUploadChange(e: any) {}
   onFormSubmit() {
     this.loading = true;
     const personInfo: any = {
@@ -273,7 +274,7 @@ export class PersonalInformationComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Personal Information has been updated.',
+          content: 'Personal information has been updated.',
           duration: 5000,
         });
         this.applicantService.setRoutInfo('/application/area-of-interest');
@@ -283,7 +284,7 @@ export class PersonalInformationComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'error',
-          content: 'Personal Information is not updated. Please try again',
+          content: 'Personal information is not updated. Please try again',
           duration: 5000,
         });
         console.log('error:' + err);

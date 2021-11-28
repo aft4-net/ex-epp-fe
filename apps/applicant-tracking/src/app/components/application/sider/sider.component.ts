@@ -11,7 +11,7 @@ interface RouteLinks {
 }
 
 @Component({
-  selector: 'app-sider',
+  selector: 'exec-epp-sider',
   templateUrl: './sider.component.html',
   styleUrls: ['./sider.component.css'],
 })
@@ -36,6 +36,10 @@ export class SiderComponent implements OnInit {
   }
 
   personalCheck() {
+    this.generalInfoService.data.subscribe((response) => {
+      this.generalSubmitCheck = response;
+    });
+    
     this.generalInfoService.getPersonalInfo({ email: this.user.Email })
     .subscribe((response) => {
       if(response.Data.ContactNumber){
@@ -48,11 +52,17 @@ export class SiderComponent implements OnInit {
     this.aoiService.data.subscribe((response) => {
       this.aofSubmitCheck = response;
     });
+    this.aoiService.getApplicantAreaOfInterestByID(this.user.Guid).subscribe((response) => {
+      this.aofSubmitCheck = response.Data.length > 0 ? true : false;
+    });
   }
 
   educationCheck() {
     this.educationService.data.subscribe((response) => {
       this.educationSubmitCheck = response;
+    });
+    this.educationService.getByApplicantId(this.user.Guid).subscribe((response) => {
+      this.educationSubmitCheck = response.Data.length > 0 ? true : false;
     });
   }
 

@@ -4,11 +4,10 @@
 
 }
 
-.label::after {
-  content: '*';
+.required:after {
+  content: ' *';
   color: red;
   font-weight: bold;
-  padding-left: 7px;
  
  }
  

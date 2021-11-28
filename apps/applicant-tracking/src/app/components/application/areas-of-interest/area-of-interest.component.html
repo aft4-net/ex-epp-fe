@@ -1,5 +1,5 @@
 <div class="m-5">
-  <h2>Step 2- Areas of Interest</h2>
+  <h2 class="font-bold">Step 2- Areas of Interest</h2>
   <button
     nz-button
     [nzType]="'link'"
@@ -45,12 +45,12 @@
               fcn="ProficiencyLevelID"
               [form]="areaOfInterest"
               [multiple]="false"
-              label="Proficiency Level"
+              label="Proficiency level"
             ></app-select>
           </div>
           <div nz-col nzSpan="7">
             <div>
-              <div class="label required">Years of experience</div>
+              <div class="label required">Years of Experience</div>
               <div nz-row [nzGutter]="16">
                 <div nz-col nzSpan="12">
                   <app-input
@@ -164,8 +164,8 @@
             >
                 <thead>
                     <tr>
-                        <th>Position Name</th>
-                        <th>Proficiency Level</th>
+                        <th>Position name</th>
+                        <th>Proficiency level</th>
                         <th>Experience</th>
                         <th>Action</th>
                     </tr>
@@ -194,7 +194,8 @@
             </nz-table>
         </div>
     </div>
-
+ </div>
+ <br>
     <div nz-row nzJustify="end">
         <div nz-col nzSpan="3">
                 <app-button [loading]="loading" (click)="onFormSubmit()"
@@ -204,4 +205,4 @@
         </div>
     </div>
 </div>
-</div>
+
