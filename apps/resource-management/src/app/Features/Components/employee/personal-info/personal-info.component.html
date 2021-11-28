@@ -121,21 +121,21 @@
 
 
       <nz-form-item>
-        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
-        <nz-form-control [nzSm]="21" [nzXs]="24">
-          <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
-            <ng-template #addOnBeforeTemplate>
-              <nz-select formControlName="phoneNumberPrefix" class="phone-select">
-                <nz-option nzLabel="✚251" nzValue="✚251"></nz-option>
-                <nz-option nzLabel="✚226" nzValue="✚226"></nz-option>
-              </nz-select>
-            </ng-template>
-            <input class="passenger-input" formControlName="phoneNumber" id="'phoneNumber'" nz-input />
-            <i i nz-icon nzType="plus-circle" class="add-button"></i> &nbsp;
-            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"></i>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
+        <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="phoneNumber" nzRequired>Work Contact Number
+        </nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24">
+      <nz-input-group nzCompact>
+        <nz-select class="id-select" [ngModel]="'Option1'">
+          <nz-option [nzLabel]="'✚251'" [nzValue]="'✚251'"></nz-option>
+          <nz-option [nzLabel]="'✚1'" [nzValue]="'✚1'"></nz-option>
+        </nz-select>  &nbsp; 
+        <input formControlName="phoneNumber" id="'phoneNumber'" nz-input [ngModel]="'555-9337-157'" style="width:43%;" />
+        <i i nz-icon nzType="plus-circle" class="add-button"></i>
+        <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"></i>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
       
     </form>
   </div>
