@@ -1,14 +1,13 @@
 <form class="w-full max-w-4xl" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">
-  <!-- <nz-form-item>
+  <nz-form-item>
     <nz-form-label class="" [nzSm]="6" [nzXs]="24" nzFor="salesPerson">Salesperson &nbsp;
       <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M3.09375 3.90625L0.710938 3.21875L1.14062 1.89844L3.5 2.8125L3.38281 0.125H4.78125L4.66406 2.85938L6.98438 1.96094L7.40625 3.30469L4.98438 3.99219L6.54688 6.07031L5.41406 6.89844L4.00781 4.64844L2.61719 6.82812L1.47656 6.03125L3.09375 3.90625Z"
           fill="#F52121" />
       </svg>
-
     </nz-form-label>
-    <nz-form-control [nzSm]="6" [nzXs]="24">
+    <nz-form-control [nzSm]="10" [nzXs]="24">
       <input placeholder="Please type sales person's name" formControlName="salesPerson" nz-input
         [(ngModel)]="inputValue" (ngModelChange)="onChange($event)" [nzAutocomplete]="auto" />
       <nz-autocomplete [nzDataSource]="filteredOptions" #auto></nz-autocomplete>
@@ -18,8 +17,7 @@
         </span>
       </span>
     </nz-form-control>
-    
-  </nz-form-item> -->
+  </nz-form-item>
   <nz-form-item>
     <nz-form-label class="" [nzSm]="6" [nzXs]="24" nzFor="clientName">Client Name &nbsp;
       <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">

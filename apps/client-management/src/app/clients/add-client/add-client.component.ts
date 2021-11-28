@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
@@ -17,12 +18,14 @@ export class AddClientComponent implements OnInit {
   validateAddClientFormState$?: Observable<ValidtyAddClientForms>;
   validateAddClientFormState?: ValidtyAddClientForms;
   addButtonClicked = false;
+  contactDetailsTabEnabled = false;
   activeTabIndex = 0;
   constructor(
     private router: Router,
     private clientService: ClientService,
     private addClientState: AddClientStateService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private modal: NzModalService
   ) {}
   ngOnInit(): void {
     this.addClientState.restAddClientState();
@@ -45,10 +48,9 @@ export class AddClientComponent implements OnInit {
 
     this.addButtonClicked = true;
     if (
-      this.validateAddClientFormState?.clientDetailsForm == true &&
-      this.validateAddClientFormState?.clientLocationForm == true &&
-      this.validateAddClientFormState?.comapanyContactFrom == true &&
-      this.validateAddClientFormState?.clientContactsForm
+      this.validateAddClientFormState?.clientDetailsForm &&
+      this.validateAddClientFormState?.clientLocationForm &&
+      this.validateAddClientFormState?.contactDetailsForm
     ) {
       this.clientService.addClient();
     }
@@ -56,34 +58,49 @@ export class AddClientComponent implements OnInit {
     else {
       if (this.validateAddClientFormState?.clientDetailsForm == false) {
         this.activeTabIndex = 0;
-        this.notification.error(     
-          'Client Details is mandatory !',
-          '', { nzPlacement:"bottomRight" }
-        );
-      } else if (this.validateAddClientFormState?.clientContactsForm == false) {
+        this.notification.error('Client details is mandatory !', '', {
+          nzPlacement: 'bottomRight',
+        });
+      } else if (this.validateAddClientFormState?.contactDetailsForm == false) {
         this.activeTabIndex = 1;
-        this.notification.error(     
-          'Client Contact is mandatory !',
-          '', { nzPlacement:"bottomRight" }
-        );
-      } else if (this.validateAddClientFormState?.comapanyContactFrom == false) {
-        this.activeTabIndex = 2;
-        this.notification.error(     
-          'Company Contact is mandatory !',
-          '', { nzPlacement:"bottomRight" }
-        );
+        this.notification.error('Contact details is mandatory !', '', {
+          nzPlacement: 'bottomRight',
+        });
       } else if (this.validateAddClientFormState?.clientLocationForm == false) {
         this.activeTabIndex = 3;
-        this.notification.error(     
-          'Client Location is mandatory !',
-          '', { nzPlacement:"bottomRight" }
-        );
+        this.notification.error('Client location is mandatory !', '', {
+          nzPlacement: 'bottomRight',
+        });
       }
     }
   }
 
   cancelAddClientPage() {
-    this.router.navigateByUrl('clients');
-    this.addClientState.restAddClientState();
+    this.cancelConfirm();
+  }
+
+  cancelConfirm(): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel ?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.router.navigateByUrl('clients');
+        this.addClientState.restAddClientState();
+      },
+      nzCancelText: 'No',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      nzOnCancel: () => {},
+    });
+  }
+  ClientContacTab() {
+    if (this.contactDetailsTabEnabled == false) {
+      this.contactDetailsTabEnabled = true;
+      this.activeTabIndex = 2;
+    } else {
+      this.contactDetailsTabEnabled = false;
+    }
   }
 }

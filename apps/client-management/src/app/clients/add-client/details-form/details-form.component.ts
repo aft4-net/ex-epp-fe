@@ -58,8 +58,10 @@ export class DetailsFormComponent implements OnInit {
       if (this.validateForm.valid) {
         this.clientDetailCreate.ClientName =
           this.validateForm.controls.clientName.value;
-        this.clientDetailCreate.SalesPersonGuid = 'hello';
-        this.clientDetailCreate.ClientStatusGuid = 'hello';
+        this.clientDetailCreate.SalesPersonGuid =
+          this.validateForm.controls.salesPerson.value.Guid;
+        this.clientDetailCreate.ClientStatusGuid =
+          this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
           this.validateForm.controls.description.value;
         console.log(this.clientDetailCreate);
@@ -104,8 +106,8 @@ export class DetailsFormComponent implements OnInit {
           Validators.maxLength(70),
         ],
       ],
-      //  status: [null, [Validators.required]],
-      ///  salesPerson: [null, [Validators.required]],
+      status: [null, [Validators.required]],
+      salesPerson: [null, [Validators.required]],
       description: [''],
     });
   }

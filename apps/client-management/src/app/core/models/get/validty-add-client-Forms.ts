@@ -1,6 +1,5 @@
 export interface ValidtyAddClientForms {
   clientDetailsForm: boolean;
-  clientContactsForm: boolean;
-  comapanyContactFrom: boolean;
+  contactDetailsForm: boolean;
   clientLocationForm: boolean;
 }

@@ -13,8 +13,8 @@ import {
 } from '..';
 
 const iniitalAddClientState: ClientCreate = {
-  SalesPersonGuid: 'dddd',
-  ClientStatusGuid: 'dddd',
+  SalesPersonGuid: '',
+  ClientStatusGuid: '',
   ClientName: '',
   Description: '',
   ClientContact: [] as ClientContactCreate[],
@@ -75,8 +75,7 @@ export class AddClientStateService extends StateService<ClientCreate> {
     // eslint-disable-next-line prefer-const
     let validtyAddClientForms: ValidtyAddClientForms = {
       clientDetailsForm: false,
-      clientContactsForm: false,
-      comapanyContactFrom: false,
+      contactDetailsForm: false,
       clientLocationForm: false,
     };
 
@@ -99,13 +98,9 @@ export class AddClientStateService extends StateService<ClientCreate> {
           validtyAddClientForms.clientLocationForm = true;
         else validtyAddClientForms.clientLocationForm = false;
 
-        if (res.ClientContact.length >= 1)
-          validtyAddClientForms.clientContactsForm = true;
-        else validtyAddClientForms.clientContactsForm = false;
-
-        if (res.CompanyContacts.length >= 1)
-          validtyAddClientForms.comapanyContactFrom = true;
-        else validtyAddClientForms.comapanyContactFrom = false;
+        if (res.ClientContact.length >= 1 || res.CompanyContacts.length >= 1)
+          validtyAddClientForms.contactDetailsForm = true;
+        else validtyAddClientForms.contactDetailsForm = false;
 
         return validtyAddClientForms;
       })
