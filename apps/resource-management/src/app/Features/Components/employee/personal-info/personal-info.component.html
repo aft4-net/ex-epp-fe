@@ -32,75 +32,145 @@
     </div>
     <br/>
 
+
     <nz-form-item>
-      <nz-form-label
-        [nzSm]="10"
-        [nzXs]="24"
-        nzFor=""
-        nzRequired
-        >Employee Identification Number</nz-form-label
-      >
+      <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="employeeNumber" nzRequired>Employee Identification Number</nz-form-label>
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-      
-      >
+             >
         <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
           <ng-template #addOnBeforeTemplate>
-            <nz-select
-            
-              class="id-select"
-            >
-              <ng-container >
-                <nz-option
-                  nzValue="ETS"
-                  nzLabel="ETS"
-                ></nz-option>
-              </ng-container>
+            <nz-select formControlName="phoneNumberPrefix" class="id-select">
+              <nz-option nzLabel="ETS" nzValue="ETS"></nz-option>
+              <nz-option nzLabel="ETS-PT" nzValue="ETS-PT"></nz-option>
+             
             </nz-select>
-          </ng-template>
-          <input
-          
-            id="'eid'"
            
-            nz-input
-          />
+          </ng-template>
+         
+          <input formControlName="employeeNumber" id="'employeeNumber'" nz-input />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
 
 
+
+
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">First Name</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
-        <input nz-input  id="email" />
+        <input nz-input  id="firstName" formControlName="firstName"/>
       </nz-form-control>
     </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="firstName">Middle Name</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+        <input nz-input  id="firstName" formControlName="firstName"/>
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">Last Name</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+        <input nz-input  id="firstName" formControlName="firstName"/>
+      </nz-form-control>
+    </nz-form-item>
+
+
  
+
 <nz-form-item>
-  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="geder"
-    >Gender</nz-form-label
-  >
-  <nz-form-control
-    [nzSm]="14"
-    [nzXs]="24"
-    nzErrorTip="The input is required!"
-  >
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="gender" nzRequired>Gender</nz-form-label>
+  <nz-form-control 
+  [nzSm]="14"
+  [nzXs]="24"
+  nzErrorTip="Please select your gender!">
     <nz-select
-    
-      nzShowSearch
-      nzAllowClear
-      
-    >
-      <ng-container >
-        <nz-option
-          nzValue="Male"
-          nzLabel="Male"
-        ></nz-option>
-      </ng-container>
+      id="gender"
+      formControlName="gender"
+      nzPlaceHolder="Gneder"
+          >
+      <nz-option nzValue="male" nzLabel="male"></nz-option>
+      <nz-option nzValue="female" nzLabel="female"></nz-option>
     </nz-select>
   </nz-form-control>
 </nz-form-item>
+
+
+
+<nz-form-item >
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>Date Of Birth</nz-form-label>
+  <nz-form-control [nzErrorTip]="errordateofBirth" [nzSm]="14" [nzXs]="24"  nzErrorTip="Please input date of birth!">
+    <nz-date-picker  class="date"  nzFormat="dd.MM.yyyy" id="dateofBirth" formControlName="dateofBirth" placeholder="dateofBirth" [(ngModel)]="dateofBirth">
+
+    </nz-date-picker>
+    <ng-template #errordateofBirth let-control>
+      <ng-container *ngIf="control.hasError('required')">Please pick employee's date of Birth</ng-container>
+      <ng-container *ngIf="control.errors?.isFutureDate">You picked a futrue date. Please pick a valid date</ng-container>
+    </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+
+
+  <nz-form-item >
+    <nz-form-label [nzXs]="24" [nzSm]="4" >
+      E-mail
+    </nz-form-label>
+    <nz-form-control
+    [nzSm]="23"
+     [nzXs]="24"
+     nzErrorTip="Please input Employee's E-mail or delete this field."
+    >
+      <input
+        class="passenger-input"
+        nz-input
+        placeholder="placeholder"
+          
+      />
+      <i i nz-icon nzType="plus-circle" class="add-button" ></i>
+      <i  nz-icon nzType="minus-circle-o" class="dynamic-delete-button" ></i>
+    </nz-form-control>
+  </nz-form-item>
+  
+
+
+
+  
+
+  
+  <nz-form-item>
+    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+    <nz-form-control
+      [nzSm]="21"
+      [nzXs]="24"
+           >
+      <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+        <ng-template #addOnBeforeTemplate>
+          <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+            <nz-option nzLabel="✚251" nzValue="✚251"></nz-option>
+            <nz-option nzLabel="✚226" nzValue="✚226"></nz-option>
+           
+          </nz-select>
+         
+        </ng-template>
+       
+        <input class="passenger-input" formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+        <i i nz-icon nzType="plus-circle" class="add-button" ></i>
+        <i  nz-icon nzType="minus-circle-o" class="dynamic-delete-button" ></i>
+      </nz-input-group>
+     
+    </nz-form-control>
+    
+  </nz-form-item>
+
+
+
+
 
  </form>
 </div>
