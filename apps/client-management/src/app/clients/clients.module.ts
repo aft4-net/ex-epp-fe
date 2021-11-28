@@ -10,6 +10,10 @@ import { DetailsFormComponent } from './add-client/details-form/details-form.com
 import { LoacationsFormComponent } from './add-client/loacations-form/loacations-form.component';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BillingAddressComponent } from './add-client/loacations-form/billing-address/billing-address.component';
+import { OperatingAddressComponent } from './add-client/loacations-form/operating-address/operating-address.component';
+import { OperatingAddressFormComponent } from './add-client/loacations-form/operating-address-form/operating-address-form.component';
+import { BillingAddressFormComponent } from './add-client/loacations-form/billing-address-form/billing-address-form.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ContactsFormComponent,
     DetailsFormComponent,
     LoacationsFormComponent,
-    AddClientComponent
+    AddClientComponent,
+    BillingAddressComponent,
+    OperatingAddressComponent,
+    OperatingAddressFormComponent,
+    BillingAddressFormComponent
   ],
   imports: [
     ReactiveFormsModule,

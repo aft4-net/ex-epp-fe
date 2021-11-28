@@ -1,12 +1,14 @@
+
 import { ApiService } from '../models/apiService';
-import { Client } from '..';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CountryCity } from '../models/get/CoountryCity';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientService extends ApiService<Client> {
+export class CityService extends ApiService<CountryCity> {
 
   constructor(protected httpClient: HttpClient ) {
     super(httpClient);
@@ -14,7 +16,7 @@ export class ClientService extends ApiService<Client> {
 
   getResourceUrl(): string {
 
-    return 'Client';
+    return 'https://countriesnow.space/api/v0.1/countries';
   }
   
 
