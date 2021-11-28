@@ -14,6 +14,7 @@ import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
 import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'personal-information',
@@ -30,7 +31,7 @@ export class PersonalInformationComponent implements OnInit {
   uploadingResume = false;
   uploadingProfile = false;
   photoFileList: any = [];
-  resumeFileList: any = [];
+  resumeFileList: NzUploadFile[] = [{ uid: '', name: '' }];
   loading = false;
   selectedValue = {
     name: 'Select country',
@@ -193,8 +194,8 @@ export class PersonalInformationComponent implements OnInit {
 
     this.personalInfoService
       .getPersonalInfo({ email: this.loggedInUser.Email })
-      .subscribe((response) => {
-        var data = response.Data;
+      .subscribe(async (response) => {
+        const data = response.Data;
         console.log(data);
         this.personalInformation.controls.firstName.setValue(data.FirstName);
         this.personalInformation.controls.lastName.setValue(data.LastName);
@@ -210,8 +211,19 @@ export class PersonalInformationComponent implements OnInit {
         );
 
         this.personalInformation.controls.country.setValue(data.Country + '');
+        const fileNames = data.ResumeFile.split('_');
+        this.resumeFileList = [
+          {
+            uid: data.Id,
+            name: fileNames[fileNames?.length - 1],
+            url: data.ResumeFile,
+            linkProps: {
+              download: 'download',
+            },
+          },
+        ];
 
-        for (var key in countryList) {
+        for (const key in countryList) {
           if (countryList[key].name == data.Country) {
             this.selectedValue = { ...countryList[key] };
             this.personalInformation.controls.phoneNumber.updateValueAndValidity();
@@ -224,9 +236,19 @@ export class PersonalInformationComponent implements OnInit {
         this.validator.validatePhoneNumber(this.selectedValue.dial_code),
         Validators.required,
       ]);
-      
     });
   }
+
+  async createFile(url: string, type: string) {
+    if (typeof window === 'undefined') return; // make sure we are in the browser
+    const response = await fetch(url);
+    const data = await response.blob();
+    const metadata = {
+      type: type || 'application/pdf',
+    };
+    return new File([data], url, metadata);
+  }
+
   onInputClick(e: any) {}
   onClick(e: any) {}
   deleteProfile() {
