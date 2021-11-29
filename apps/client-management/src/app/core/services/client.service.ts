@@ -52,6 +52,7 @@ export class ClientService extends ApiService<Client> {
     this.updateCreateClientData({} as CreateClient);
 
   }
+  
 
   addClient() {
     if (this.getCreateClientDataValue() != ({} as CreateClient)) {
