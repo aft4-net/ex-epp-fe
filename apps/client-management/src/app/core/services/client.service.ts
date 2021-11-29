@@ -1,8 +1,5 @@
-import { Client, PaginatedResult, } from '..';
-
-import { ApiService } from '../models/apiService';
+import { AddClientStateService, ApiService, Client, PaginatedResult } from '..';
 import { BehaviorSubject } from 'rxjs';
-import { CreateClient } from '../models/post/CreateClient';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -11,73 +8,49 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   providedIn: 'root',
 })
 export class ClientService extends ApiService<Client> {
-  private fristPagantionClientsSource=  new BehaviorSubject<PaginatedResult<Client[]>>(  {} as PaginatedResult<Client[]> );
-  fristPagantionClients$=this.fristPagantionClientsSource.asObservable();
+  private fristPagantionClientsSource = new BehaviorSubject<
+    PaginatedResult<Client[]>
+  >({} as PaginatedResult<Client[]>);
+  fristPagantionClients$ = this.fristPagantionClientsSource.asObservable();
 
   constructor(
     protected httpClient: HttpClient,
-    private notification: NzNotificationService) {
+    private notification: NzNotificationService,
+    private addClientStateService: AddClientStateService
+  ) {
     super(httpClient);
   }
-  private createClientSource = new BehaviorSubject<CreateClient>(
-    {} as CreateClient
-  );
-  createClientSource$ = this.createClientSource.asObservable();
 
-
-  getFirsttPageValue()
-  {
+  getFirsttPageValue() {
     return this.fristPagantionClientsSource.value;
   }
 
-  setFristPageOfClients(data:PaginatedResult<Client[]>)
-  {
+  setFristPageOfClients(data: PaginatedResult<Client[]>) {
     this.fristPagantionClientsSource.next(data);
-
   }
 
   getResourceUrl(): string {
     return 'ClientDetails';
   }
 
-  updateCreateClientData(data: CreateClient) {
-    this.createClientSource.next(data);
-  }
-
-
-  getCreateClientDataValue() {
-    return this.createClientSource.value;
-  }
-  restCreateClientDataValue() {
-    this.updateCreateClientData({} as CreateClient);
-
-  }
-  
-
   addClient() {
-    if (this.getCreateClientDataValue() != ({} as CreateClient)) {
-      this.post(this.getCreateClientDataValue()).subscribe(
-        (response:any) => {
-          if (response.ResponseStatus.toString().toLowerCase() == 'error') {
-            this.notification.error(
-              'Client Not Added',
-              'Please Try Again Letter'
-            );
-            this.restCreateClientDataValue();
-          }
-          else {
-            this.notification.success('Client Added Successfully', '');
-            this.restCreateClientDataValue();
-          }
-        },
-        () => {
+    this.post(this.addClientStateService.addClientData).subscribe(
+      (response: any) => {
+        if (response.ResponseStatus.toString().toLowerCase() == 'error') {
           this.notification.error(
-            'Client  Not Added',
-            'Please Try Again Leetter'
+            'Client not added',
+            'Please try again letter'
           );
-          this.updateCreateClientData({} as CreateClient);
+          this.addClientStateService.restAddClientState();
+        } else {
+          this.notification.success('Client added successfully', '');
+          this.addClientStateService.restAddClientState();
         }
-      );
-    }
+      },
+      () => {
+        this.notification.error('Client  not added', 'Please try again letter');
+        this.addClientStateService.restAddClientState();
+      }
+    );
   }
 }
