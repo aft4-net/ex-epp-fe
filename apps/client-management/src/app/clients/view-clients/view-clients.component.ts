@@ -15,6 +15,13 @@ export class ViewClientsComponent implements OnInit  {
   sortByParam="";
   sortDirection = "asc";
 
+  clientCheckbox = true;
+  locationCheckbox = true;
+  statusCheckbox = true;
+  salesCheckbox = true;
+  clientContactCheckbox = false;
+  companyContactCheckbox = false;
+
    values = [
     {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
     {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
@@ -32,46 +39,16 @@ export class ViewClientsComponent implements OnInit  {
   {text:'Signed',value:'Signed',checked:false},
   {text:'Terminated',value:'Terminated',checked:false}];
 
-  listOfColumns = [
-    {
-      id: 'Client',
-      label: 'Client',
-      isChecked: true,
-    },
-    {
-      id: 'Location',
-      label: 'Location',
-      isChecked: true,
-    },
-    {
-      id: 'Status',
-      label: 'Status',
-      isChecked: true,
-    },
-    {
-      id: 'SalesPerson',
-      label: 'SalesPerson',
-      isChecked: true,
-    },
-    {
-      id: 'ClientContact',
-      label: 'ClientContact',
-      isChecked: false,
-    },
-    {
-      id: 'CompanyContact',
-      label: 'CompanyContact',
-      isChecked: false,
-    },
-  ]
-
   constructor(private router:Router,private _clientservice:ClientService) { }
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
     this._clientservice.getAll().subscribe((data:any)=>{
       this.client=data;
 
     })
+  }
+
+  try() {
+    console.log();
   }
 
   sorter(id:number) {
@@ -93,12 +70,12 @@ export class ViewClientsComponent implements OnInit  {
   }
 
   onDefaultClick() {
-    this.listOfColumns[0].isChecked = true;
-    this.listOfColumns[1].isChecked = true;
-    this.listOfColumns[2].isChecked = true;
-    this.listOfColumns[3].isChecked = true;
-    this.listOfColumns[4].isChecked = false;
-    this.listOfColumns[5].isChecked = false;
+    this.clientCheckbox = true;
+    this.locationCheckbox = true;
+    this.statusCheckbox = true;
+    this.salesCheckbox = true;
+    this.clientContactCheckbox = false;
+    this.companyContactCheckbox = false;
   }
 
   addClientPage()
