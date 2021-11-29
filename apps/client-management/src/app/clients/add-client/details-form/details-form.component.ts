@@ -64,7 +64,7 @@ export class DetailsFormComponent implements OnInit {
           this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
           this.validateForm.controls.description.value;
-        console.log(this.clientDetailCreate);
+  
         this.addClientStateService.updateAddClientDetails(
           this.clientDetailCreate
         );
