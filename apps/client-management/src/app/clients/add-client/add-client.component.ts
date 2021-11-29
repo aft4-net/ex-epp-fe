@@ -53,7 +53,9 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientLocationForm &&
       this.validateAddClientFormState?.contactDetailsForm
     ) {
+      this.router.navigateByUrl('clients');
       this.clientService.addClient();
+      
     }
     // eslint-disable-next-line no-empty
     else {

@@ -18,7 +18,7 @@ const iniitalAddClientState: ClientCreate = {
   ClientStatusGuid: '',
   ClientName: '',
   Description: '',
-  ClientContact: [] as ClientContactCreate[],
+  ClientContacts: [] as ClientContactCreate[],
   CompanyContacts: [] as CompanyContactCreate[],
   OperatingAddress: [] as OperatingAddressCreate[],
   BillingAddress: [] as BillingAddressCreate[],
@@ -54,7 +54,7 @@ export class AddClientStateService extends StateService<ClientCreate> {
   }
 
   updateClientContacts(clientCotacts: ClientContactCreate[]) {
-    this.setState({ ClientContact: clientCotacts });
+    this.setState({ ClientContacts: clientCotacts });
   }
 
   updateCompanyContacts(CompanyContacts: CompanyContactCreate[]) {
@@ -99,7 +99,7 @@ export class AddClientStateService extends StateService<ClientCreate> {
           validtyAddClientForms.clientLocationForm = true;
         else validtyAddClientForms.clientLocationForm = false;
 
-        if (res.ClientContact.length >= 1 && res.CompanyContacts.length >= 1)
+        if (res.ClientContacts.length >= 1 && res.CompanyContacts.length >= 1)
           validtyAddClientForms.contactDetailsForm = true;
         else validtyAddClientForms.contactDetailsForm = false;
 

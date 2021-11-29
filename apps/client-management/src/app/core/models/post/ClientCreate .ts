@@ -9,7 +9,7 @@ export interface ClientCreate {
     ClientStatusGuid: string,
     ClientName: string,
     Description: string;
-    ClientContact:ClientContactCreate[];
+    ClientContacts:ClientContactCreate[];
     CompanyContacts:CompanyContactCreate[]; 
     OperatingAddress:OperatingAddressCreate[];
     BillingAddress:BillingAddressCreate[];
