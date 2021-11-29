@@ -19,7 +19,7 @@
            py-1 px-3   hover:border-green-700 hover:text-green-700  mr-4 ">
         Cancel
       </button>
-      <button nz-button> Save </button>
+      <button type="submit" (click)="addClient()"    nz-button> Save </button>
     </div>
   </div>
 </header>
@@ -42,7 +42,12 @@
   </nz-tab>
   <nz-tab nzSelected nzTitle='Location'>
     <div class="tab-content">
-      <exec-epp-loacations-form> </exec-epp-loacations-form>
+      <exec-epp-billing-address-form> </exec-epp-billing-address-form>
+    </div>
+  </nz-tab>
+  <nz-tab nzSelected nzTitle='Location2'>
+    <div class="tab-content">
+      <exec-epp-operating-address-form> </exec-epp-operating-address-form>
     </div>
   </nz-tab>
 

@@ -13,41 +13,66 @@
  </header>
 <exec-epp-header-line> </exec-epp-header-line>
 
-<div class="main_container_homepage ">
-  
+
+
 <div nz-row>
   <div nz-col nzSpan="6" class="ml-1">
     <nz-input-group [nzSuffix]="suffixIconSearch" >
-      <input type="text" nz-input placeholder="Search" />
+      <input [formControl]="searchProject" type="text" nz-input placeholder="Search" />
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <i nz-icon nzType="search"></i>
     </ng-template>
   </div>
- 
+
+  <div>
+    <ng-template #contentTemplate>
+      <div>
+        <nz-card nzBordered="false" style="width:170px;">
+          <div>
+            <ul style="list-style-type:none; padding: 0%;" class="checkbox-items">
+              <li *ngFor="let item of listOfColumns">
+                <label nz-checkbox [(ngModel)]="item.isChecked">{{item.label}}</label>
+              </li>
+            </ul>
+          </div>
+
+        </nz-card>
+        <button style="width: 100%;background-color:#00a551;" nz-button (click)="onDefaultClick()">
+          Default
+        </button>
+
+      </div>
+    </ng-template>
+    <a style="color: #00a551;margin-left: 975px;background-color: white;" nz-popover
+      [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
+      >Manage Columns</a>
+  </div>
 
 </div>
-<nz-table class="mt-3">
+<nz-table class="mt-3" [nzData]="clientsdata" [nzFrontPagination]="false" [nzLoading]="loading"  [nzTotal]="total"
+[nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
+[nzLoading]="loading" >
   <thead>
     <tr>
-      <th class="table_heading">Client</th>
-      <th class="table_heading">Location</th>
-      <th class="table_heading">Status</th>
-      <th class="table_heading">Sales Person</th>
-      <th class="table_heading">Client Contact Person</th>
-      <th class="table_heading">Company Contact Person</th>
+      <th   nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
+      <th *ngIf="listOfColumns[1].isChecked === true" [nzSortFn]="true" (click)="sorter(2)" [(ngModel)]="sortByParam" class="table_heading">Location</th>
+      <th *ngIf="listOfColumns[2].isChecked === true" [nzSortFn]="true" (click)="sorter(3)" [(ngModel)]="sortByParam" class="table_heading">Status</th>
+      <th *ngIf="listOfColumns[3].isChecked === true" [nzSortFn]="true" (click)="sorter(4)" [(ngModel)]="sortByParam" class="table_heading">Sales Person</th>
+      <th *ngIf="listOfColumns[4].isChecked === true" class="table_heading">Client Contact Person</th>
+      <th *ngIf="listOfColumns[5].isChecked === true" class="table_heading">Company Contact Person</th>
       <th class="table_heading">Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of values" >
-      <td>{{value.client}}</td>
-      <td>{{value.address}}</td>
-      <td>{{value.status}}</td>
-      <td>{{value.sales_person}}</td>
-      <td>{{value.client_contact}}</td>
-      <td>{{value.company_contact}}</td> 
-      
+    <tr *ngFor="let value of clientsdata" >
+      <td *ngIf="listOfColumns[0].isChecked === true">{{value.ClientName}}</td>
+      <td *ngIf="listOfColumns[1].isChecked === true">{{value.OperatingAddress}}</td>
+      <td *ngIf="listOfColumns[2].isChecked === true">{{value.ClientStatus}}</td>
+      <td *ngIf="listOfColumns[3].isChecked === true">{{value.SalesPerson.Name}}</td>
+      <td *ngIf="listOfColumns[4].isChecked === true">{{value.ClientContacts}}</td>
+      <td *ngIf="listOfColumns[5].isChecked === true">{{value.CompanyContacts}}</td>
+
         <td>
           <a class="text-black mr-3">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,9 +93,11 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-pagination>
+<nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
+  [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
+  nzShowSizeChanger nzShowQuickJumper>
 
 </nz-pagination>
 
 
-</div>
+
