@@ -27,9 +27,9 @@
   <tbody>
 
     <tr *ngFor="let item of  listData">
-      <td >{{item.contactName}}</td>
-      <td>{{item.emailAdress}}</td>
-      <td>{{item.phoneNumber}}</td>
+      <td >{{item.name+' - '+ item.role}}</td>
+      <td>{{item.email}}</td>
+      <td>{{item.phone}}</td>
 
 
 
@@ -64,19 +64,31 @@
 
 
     <form nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
-      <nz-form-item>
-        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
-        <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="24" [nzXs]="24" nzHasFeedback>
-          <input placeholder="contact person" id="contactName" nz-input formControlName="contactName"/>
 
-        </nz-form-control>
-      </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
-        <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback [nzSm]="24">
+        <nz-form-label [nzSpan]="6" nzFor="companyContact"  nzFor="companyContact" [nzSm]="24">Company contact</nz-form-label>
+      <nz-form-control nzHasFeedback nzErrorTip="Please select a contact Person!"  >
+        <nz-select  (ngModelChange)="getClientContact()" nzShowSearch nzAllowClear
+          id="companyContact"
+          formControlName="companyContactName"
+          nzPlaceHolder="Select company contact"
+        >
+        <nz-option   *ngFor="let employee of listofContactNames"   nzLabel={{employee.name}}-{{employee.role}}  [nzValue]="employee.name" nzLabel="kokoko"  ></nz-option>
+        </nz-select>
 
-          <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
+      </nz-form-control>
+    </nz-form-item >
+
+
+
+
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="email"  nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
+        <nz-form-control  [nzSpan]="14"  [nzSm]="24">
+
+          <input matInput [readonly]="!editable" placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
           <div >
            <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['emailAdress'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
           </div>
@@ -90,9 +102,9 @@
 
         <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
 
-        <nz-form-control nzHasFeedback nzErrorTip="Please add contact number!" [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']"
+        <nz-form-control  [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']"
 
-          nzErrorTip="Please input your phone number!">
+         >
 
           <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
 
@@ -110,7 +122,7 @@
 
             </ng-template>
 
-            <input nzErrorTip="Please add contact number!" formControlName="phoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
+            <input [readonly]="!editable" nzErrorTip="Please add contact number!" formControlName="phoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
 
               nz-input />
 

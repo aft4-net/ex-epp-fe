@@ -51,7 +51,7 @@ export class ContactsFormComponent implements OnInit {
     this.listData=[];
     this.addContactForm = this.fb.group({
       contactName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$")]],
       phoneNumberPrefix:['+251',[Validators.required]],
       emailAdress:['',[Validators.required,Validators.email,Validators.maxLength(320),Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
     });
@@ -84,6 +84,7 @@ export class ContactsFormComponent implements OnInit {
 exitModal()
 {
   this.isVisible = false;
+  this.addContactForm.reset();
 }
   handleClear(): void {
     console.log('Button cancel clicked!');
