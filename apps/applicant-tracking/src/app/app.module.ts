@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 import { AppComponent } from './app.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
@@ -9,8 +9,6 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from './shared/modules/shared.module';
 import { ApplicationRoutingModule } from './app-routing.module';
 import { httpInterceptor } from './interceptor/httpInterceptor';
@@ -19,11 +17,12 @@ import { errorInterceptor } from './interceptor/errorInterceptor';
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
     ApplicationRoutingModule,
+    PageTemplateModule,
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,

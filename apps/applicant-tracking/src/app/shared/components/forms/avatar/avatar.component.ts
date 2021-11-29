@@ -12,7 +12,8 @@ import {
 export class AvatarComponent implements OnInit {
   @Input() icon: any;
   @Input() size: any;
-  @Input() url: string = '';
+  @Input() url = '';
+  @Input() text = '';
   @Input() shape:any;
   constructor() {}
 
