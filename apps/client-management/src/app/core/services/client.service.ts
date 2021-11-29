@@ -37,7 +37,7 @@ export class ClientService extends ApiService<Client> {
   }
 
   getResourceUrl(): string {
-    return 'http://localhost:14696/api/v1/ClientDetails';
+    return 'ClientDetails';
   }
 
   updateCreateClientData(data: CreateClient) {

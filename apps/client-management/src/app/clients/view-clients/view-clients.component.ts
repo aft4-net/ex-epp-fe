@@ -44,17 +44,17 @@ export class ViewClientsComponent implements OnInit  {
   // clientsdata!: Client[];
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
-  client:Client[]=[];
+  //client:Client[]=[];
 
   sortByParam="";
   sortDirection = "asc";
 
-   values = [
-    {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-    {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
-    {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-    {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
-  ]
+  //  values = [
+  //   {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
+  //   {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
+  //   {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
+  //   {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
+  // ]
   namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
   {text:'CocaCola',value:'CocaCola',checked:false},
   {text:'Amazon',value:'Amazone',checked:false}];
@@ -110,15 +110,28 @@ export class ViewClientsComponent implements OnInit  {
   constructor(private router:Router,private _clientservice: ClientService, private notification:NzNotificationService) { }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
-    this._clientservice.getAll().subscribe((clientRespose:any)=>{
-      this.client=clientRespose.Data;
-      console.log(this.client);
-    });
+
+    
+    // this._clientservice.getAll().subscribe((clientRespose:any)=>{
+    //   this.client=clientRespose.Data;
+    //   console.log(this.client);
+    // });
     this.initializeData();
   // this. getAllData();
   this.searchProject.valueChanges.pipe(debounceTime(3000)).subscribe(() => {
     this.SearchData();
   });
+  this._clientservice.getWithPagnationResut(this.pageIndex, this.pageSize,).subscribe((response: PaginatedResult<Client[]>) => {
+    this.clientsdata = response.data;
+    this.pageIndex = response.pagination.pageIndex;
+    this.pageSize = response.pagination.pageSize;
+    console.log("log");
+    console.log(this.clientsdata);
+    console.log("log2");
+    this.loading = false;
+  });
+
+
 
   }
 

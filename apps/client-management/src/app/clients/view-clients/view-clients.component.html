@@ -48,11 +48,10 @@
       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
       >Manage Columns</a>
   </div>
+  
 
 </div>
-<nz-table class="mt-3" [nzData]="clientsdata" [nzFrontPagination]="false" [nzLoading]="loading"  [nzTotal]="total"
-[nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
-[nzLoading]="loading" >
+<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false">
   <thead>
     <tr>
       <th   nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
@@ -65,7 +64,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of client" >
+    <tr *ngFor="let value of clientsdata" >
       <td>{{value.ClientName}}</td>
       <td>{{value.OperatingAddress[0].Country}}</td>
       <td>{{value.ClientStatus.StatusName}}</td>
@@ -93,6 +92,7 @@
     </tr>
   </tbody>
 </nz-table>
+<br>
 <nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
   nzShowSizeChanger nzShowQuickJumper>
