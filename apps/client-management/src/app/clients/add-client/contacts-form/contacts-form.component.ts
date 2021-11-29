@@ -13,11 +13,11 @@ export class ContactsFormComponent implements OnInit {
 
 
   @Input() isVisible: boolean;
-  @Output() handleSubmit: EventEmitter<any> = new EventEmitter<any>();
-  @Output() handleClose: EventEmitter<any> = new EventEmitter<any>();
-  countries: string[] = []
 
-  listofCodes: string[] = []
+  countries: string[] = []
+  footer=null;
+
+  listofCodes :{ value: string, label: string }[]=[];
 
   listOfStates: string[] = []
 
@@ -35,15 +35,18 @@ isEditMode=false;
   pageIndex = 1;
   idParam='';
   totalPage!:number;
-  searchKey='';
-  searchStateFound=false;
 
-  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientStateService: AddClientStateService,) {
+  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientStateService: AddClientStateService) {
 
 
-   }
+
+ 
+  }
 
   ngOnInit(): void {
+
+
+
     this.listData=[];
     this.addContactForm = this.fb.group({
       ContactPersonName: ['', [Validators.required]],
@@ -77,10 +80,18 @@ isEditMode=false;
 
 
   }
+exitModal()
+{
+  this.isVisible = false;
+  this.addContactForm.reset();
+}
+  handleClear(): void {
+    console.log('Button cancel clicked!');
 
-  handleCancel(): void {
-
-    this.isVisible = false;
+    this.addContactForm.reset();
+  }
+  handleCancel(){
+    this.isVisible=false;
     this.addContactForm.reset();
   }
   removeItem(element:any)

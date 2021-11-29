@@ -6,7 +6,7 @@
   <div nz-col nzSpan="6">   <button   (click)="showModal()" nz-button> Add Client Contact</button></div>
 </div>
 <nz-table class="mt-3"
-
+[nzData]="listData"
 [nzFrontPagination]="false"
 [nzLoading]="loading"
 [nzTotal]="total"
@@ -67,8 +67,8 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress">Email Adress</nz-form-label>
-        <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback>
+        <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
+        <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback [nzSm]="24">
 
           <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="Email">
           <div >

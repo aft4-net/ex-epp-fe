@@ -6,13 +6,14 @@ import {
   FormControl,
 } from '@angular/forms';
 import {
-  ClientDetails,
+  
   ClientStatus,
   Employee,
   ClientStatusService,
   EmployeeService,
   ClientDetailCreate,
   AddClientStateService,
+  Client,
 } from '../../../core';
 
 @Component({
@@ -24,7 +25,7 @@ export class DetailsFormComponent implements OnInit {
   inputValue?: string;
   filteredOptions: string[] = [];
   employees = [] as Employee[];
-  clients = [] as ClientDetails[];
+  clients = [] as Client[];
   clientStatuses = [] as ClientStatus[];
   clientDetailCreate: ClientDetailCreate = {} as ClientDetailCreate;
   options: string[] = [];
