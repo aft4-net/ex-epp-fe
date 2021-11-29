@@ -5,7 +5,8 @@ import { Address } from './../../../../../resource-management/src/app/Features/M
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { Client } from 'apps/project-management/src/app/core';
+import { Client } from '../../core/models/get/client';
+
 
 
 
@@ -26,10 +27,15 @@ export class ViewClientsComponent implements OnInit  {
   constructor(private router:Router,private _clientservice:ClientService) { }
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
-    this._clientservice.getAll().subscribe((data:any)=>{
-      this.client=data;
+    this._clientservice.getAll().subscribe((clientRespose:any)=>{
+      this.client=clientRespose.Data;
+      console.log(this.client);
+      
 
     })
+    //this._clientservice.getAll().subscribe((response:Client)=>{
+      //this.client=response;
+    //})
   }
   
   addClientPage()

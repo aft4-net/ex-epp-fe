@@ -40,13 +40,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of values" >
-      <td>{{value.client}}</td>
-      <td>{{value.address}}</td>
-      <td>{{value.status}}</td>
-      <td>{{value.sales_person}}</td>
-      <td>{{value.client_contact}}</td>
-      <td>{{value.company_contact}}</td> 
+    <tr *ngFor="let value of client" >
+      <td>{{value.ClientName}}</td>
+      <td>{{value.OperatingAddress[0].Country}}</td>
+      <td>{{value.ClientStatus.StatusName}}</td>
+      <td>{{value.SalesPerson.Name}}</td>
+      <td>{{value.ClientContacts[0].ContactPersonName}}</td>
+      <td *ngIf="value.CompanyContacts!=null">{{value.CompanyContacts[0].Employee.Name}}</td> 
       
         <td>
           <a class="text-black mr-3">

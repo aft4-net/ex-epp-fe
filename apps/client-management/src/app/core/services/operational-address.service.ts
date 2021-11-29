@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ApiService } from '../models/apiService';
-import { OperationalAddress } from '../models/get/operational-address';
+import { OperationalAddress } from '../models/get/operating-address';
 
 @Injectable({
   providedIn: 'root'

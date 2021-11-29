@@ -1,4 +1,4 @@
-export interface  OperationalAddress{
+export interface  OperatingAddress{
  Country:string,
  City:string,
  state:string,
