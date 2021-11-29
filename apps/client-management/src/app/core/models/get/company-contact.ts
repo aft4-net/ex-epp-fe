@@ -1,3 +1,8 @@
+import { Employee } from "apps/project-management/src/app/core/models";
+
+export interface CompanyContact{
+  employee:Employee;
+}
 
 
 
@@ -11,5 +16,6 @@ export interface CompanyContact{
   IsDeleted: boolean;
   CreatedDate: Date;
   CreatedbyUserGuid: string;
+
 }
 
