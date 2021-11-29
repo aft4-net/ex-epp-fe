@@ -7,16 +7,13 @@ import {
 } from '@angular/forms';
 import countryList from '../../../../assets/files/CountryCodes.json';
 import { FormValidator } from '../../../utils/validator';
-import { environment } from 'apps/applicant-tracking/src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
-import { PersonalInfoModel } from '../../../models/applicant/personal-info.model';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable } from 'rxjs';
-import countryData from '../../../../assets/files/CountryCodes.json';
 
 @Component({
   selector: 'personal-information',
@@ -33,7 +30,7 @@ export class PersonalInformationComponent implements OnInit {
   uploadingResume = false;
   uploadingProfile = false;
   photoFileList: any = [];
-  resumeFileList: NzUploadFile[] = [];
+  resumeFileList: NzUploadFile[] = [{ uid: '', name: '' }];
   loading = false;
   selectedCountry = '';
   selectedValue = {
@@ -197,28 +194,36 @@ export class PersonalInformationComponent implements OnInit {
 
     this.personalInfoService
       .getPersonalInfo({ email: this.loggedInUser.Email })
-      .subscribe((response) => {
-        console.log("two");
+      .subscribe(async (response) => {
         const data = response.Data;
+        console.log(data);
         this.personalInformation.controls.firstName.setValue(data.FirstName);
         this.personalInformation.controls.lastName.setValue(data.LastName);
         this.personalInformation.controls.email.setValue(data.Email);
-        this.personalInformation.controls.phoneNumber.setValue(data.ContactNumber ?? '');
-        this.personalInformation.controls.country.setValue(data.Country ?? '');
-        this.personalInformation.controls.resumeUrl.setValue(data.ResumeFile ?? '');
-        this.personalInformation.controls.profileUrl.setValue(data.ProfileImage ?? '');
+        this.personalInformation.controls.phoneNumber.setValue(
+          data.ContactNumber
+        );
+        this.personalInformation.controls.resumeUrl.setValue(
+          data.ResumeFile ?? ''
+        );
+        this.personalInformation.controls.profileUrl.setValue(
+          data.ProfileImage ?? ''
+        );
+
+        this.personalInformation.controls.country.setValue(data.Country + '');
         const fileNames = data.ResumeFile.split('_');
         this.resumeFileList = [
           {
             uid: data.Id,
-            url: data.ResumeFile,
             name: fileNames[fileNames?.length - 1],
+            url: data.ResumeFile,
+            linkProps: {
+              download: 'download',
+            },
           },
         ];
-        this.onCountryChange(countryData?.find((c) => c.name==data.Country));
-      
 
-        for (let key in countryList) {
+        for (const key in countryList) {
           if (countryList[key].name == data.Country) {
             this.selectedValue = { ...countryList[key] };
             this.personalInformation.controls.phoneNumber.updateValueAndValidity();
@@ -235,6 +240,18 @@ export class PersonalInformationComponent implements OnInit {
     });
 
   }
+
+  async createFile(url: string, type: string) {
+    if (typeof window === 'undefined') return; // make sure we are in the browser
+    const response = await fetch(url);
+    const data = await response.blob();
+    const metadata = {
+      type: type || 'application/pdf',
+    };
+    return new File([data], url, metadata);
+  }
+
+  onInputClick(e: any) {}
   onClick(e: any) {}
   deleteProfile() {
     this.personalInformation.controls.profileUrl.setValue('');
