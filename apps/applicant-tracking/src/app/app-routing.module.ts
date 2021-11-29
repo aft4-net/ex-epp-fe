@@ -1,17 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { PrimaryPageTemplateComponent } from './shared/components/page-view-templates/primary-template/primary-page-template.component';
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/user' },
   {
-    path: 'user',
-    loadChildren: () =>
-      import('./modules/user/user.module').then((m) => m.UserModule),
+    path: '',
+    component: PrimaryPageTemplateComponent,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'user' },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('./modules/user/user.module').then((m) => m.UserModule),
+      },
+      {
+        path: 'application',
+        loadChildren: () =>
+          import('./modules/application/application.module').then(
+            (m) => m.ApplicationModule
+          ),
+      },
+    ],
   },
+
   {
-    path: 'application',
+    path: 'job-requisition',
     loadChildren: () =>
-      import('./modules/application/application.module').then((m) => m.ApplicationModule),
+      import('./modules/job-requisition/job-requisition.module').then(
+        (m) => m.JobRequisitionModule
+      ),
   },
 ];
 
