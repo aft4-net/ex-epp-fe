@@ -48,11 +48,10 @@
       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
       >Manage Columns</a>
   </div>
+  
 
 </div>
-<nz-table class="mt-3" [nzData]="clientsdata" [nzFrontPagination]="false" [nzLoading]="loading"  [nzTotal]="total"
-[nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
-[nzLoading]="loading" >
+<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false">
   <thead>
     <tr>
       <th   nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
@@ -66,13 +65,13 @@
   </thead>
   <tbody>
     <tr *ngFor="let value of clientsdata" >
-      <td *ngIf="listOfColumns[0].isChecked === true">{{value.ClientName}}</td>
-      <td *ngIf="listOfColumns[1].isChecked === true">{{value.OperatingAddress}}</td>
-      <td *ngIf="listOfColumns[2].isChecked === true">{{value.ClientStatus}}</td>
-      <td *ngIf="listOfColumns[3].isChecked === true">{{value.SalesPerson.Name}}</td>
-      <td *ngIf="listOfColumns[4].isChecked === true">{{value.ClientContacts}}</td>
-      <td *ngIf="listOfColumns[5].isChecked === true">{{value.CompanyContacts}}</td>
-
+      <td>{{value.ClientName}}</td>
+      <td>{{value.OperatingAddress[0].Country}}</td>
+      <td>{{value.ClientStatus.StatusName}}</td>
+      <td>{{value.SalesPerson.Name}}</td>
+      <td>{{value.ClientContacts[0].ContactPersonName}}</td>
+      <td *ngIf="value.CompanyContacts!=null">{{value.CompanyContacts[0].Employee.Name}}</td> 
+      
         <td>
           <a class="text-black mr-3">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,6 +92,7 @@
     </tr>
   </tbody>
 </nz-table>
+<br>
 <nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
   nzShowSizeChanger nzShowQuickJumper>

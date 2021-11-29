@@ -1,4 +1,5 @@
 export interface  OperatingAddress{
+
        Country: string;
         City: string;
         State: string;
@@ -10,3 +11,4 @@ export interface  OperatingAddress{
         CreatedDate: Date;
         CreatedbyUserGuid: string;
 }
+

@@ -1,10 +1,15 @@
-import { Employee } from "apps/project-management/src/app/core/models";
+
 
 export interface CompanyContact{
   employee:Employee;
 }
 
-export interface CompanyContact {
+
+
+import { Employee } from '..';
+export interface CompanyContact{
+  Employee:Employee;
+
   EmployeeGuid: string;
   Guid: string;
   IsActive: boolean;
@@ -13,3 +18,4 @@ export interface CompanyContact {
   CreatedbyUserGuid: string;
 
 }
+
