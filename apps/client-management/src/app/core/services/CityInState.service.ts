@@ -8,17 +8,16 @@ import { CountryCity } from '../models/get/CoountryCity';
 @Injectable({
   providedIn: 'root'
 })
-export class CityInStateService extends ApiService<CountryCity> {
-
+export class CityInStateService  {
+cityInStateUrl='https://countriesnow.space/api/v0.1/countries/state/cities';
   constructor(protected httpClient: HttpClient ) {
-    super(httpClient);
+    
   }
 
-  getResourceUrl(): string {
 
-   
-    return 'https://countriesnow.space/api/v0.1/countries/state/cities'
+  post(resource:any) {
+    return this.httpClient.post(this.cityInStateUrl , resource);
   }
-  
+
 
 }

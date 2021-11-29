@@ -4,20 +4,18 @@ import { ApiService } from '../models/apiService';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CountryState } from '../models/get/CountryState';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StateService extends ApiService<CountryState> {
-
-  constructor(protected httpClient: HttpClient ) {
-    super(httpClient);
+export class StateService  {
+stateUrl ='https://countriesnow.space/api/v0.1/countries/states';
+  constructor(protected _httpClient: HttpClient ) {
+   
   }
-
-  getResourceUrl(): string {
-
-    return 'https://countriesnow.space/api/v0.1/countries/states';
+  getAll():Observable<Array<CountryState>>{
+    return this._httpClient.get<CountryState[]>(this.stateUrl);
   }
-  
 
 }
