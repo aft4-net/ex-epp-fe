@@ -1,8 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddClientStateService } from '../../../core';
+import { CountryCode } from '../../../core/models/get/country-code';
+import { CountryCodeService } from '../../../core/services/country-code.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { countryPhoneCodes } from '../../../shared/Data/dummy';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -13,11 +16,11 @@ export class ContactsFormComponent implements OnInit {
 
 
   @Input() isVisible: boolean;
-  @Output() handleSubmit: EventEmitter<any> = new EventEmitter<any>();
-  @Output() handleClose: EventEmitter<any> = new EventEmitter<any>();
-  countries: string[] = []
 
-  listofCodes: string[] = []
+  countries: string[] = []
+  footer=null;
+
+  listofCodes :{ value: string, label: string }[]=[];
 
   listOfStates: string[] = []
 
@@ -27,29 +30,33 @@ export class ContactsFormComponent implements OnInit {
 
 
   addContactForm!: FormGroup;
-  listData:any;
-isModalVisible = false;
-isEditMode=false;
+  listData:any=[];
+  isModalVisible = false;
   total = 10;
   loading = false;
   pageSize = 10;
   pageIndex = 1;
   idParam='';
   totalPage!:number;
-  searchKey='';
-  searchStateFound=false;
 
-  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientState: AddClientStateService,) {
 
+
+
+  constructor(private fb: FormBuilder,private modal: NzModalService, private _countryService:CountryCodeService) {
+    this.listofCodes=this._countryService.getPhonePrefices();
 
    }
 
   ngOnInit(): void {
+
+
+
     this.listData=[];
     this.addContactForm = this.fb.group({
       contactName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
-      emailAdress:['',[Validators.required,Validators.email,Validators.maxLength(320)]]
+      phoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$")]],
+      phoneNumberPrefix:['+251',[Validators.required]],
+      emailAdress:['',[Validators.required,Validators.email,Validators.maxLength(320),Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
     });
   }
   showModal(): void {
@@ -77,10 +84,14 @@ isEditMode=false;
 
 
   }
-
-  handleCancel(): void {
+exitModal()
+{
+  this.isVisible = false;
+  this.addContactForm.reset();
+}
+  handleClear(): void {
     console.log('Button cancel clicked!');
-    this.isVisible = false;
+
     this.addContactForm.reset();
   }
   removeItem(element:any)
