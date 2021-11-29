@@ -34,7 +34,7 @@ export class AddressViewComponent implements OnInit {
 
   showModal2(): void {
     this.modalService.create({
-      nzTitle: 'Modal Title',
+      nzTitle: 'Add Addresses',
       nzContent: AddressNewComponent
     });
   }
@@ -104,7 +104,7 @@ export class AddressViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listOfData = new Array(1).fill(0).map((_, index) => ({
+    this.listOfData = new Array(0).fill(0).map((_, index) => ({
       id: index,
       name: `Edward King ${index}`,
       age: 32,
