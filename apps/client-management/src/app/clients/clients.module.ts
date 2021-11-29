@@ -9,10 +9,14 @@ import { DetailsFormComponent } from './add-client/details-form/details-form.com
 import { LoacationsFormComponent } from './add-client/loacations-form/loacations-form.component';
 import { NgModule } from '@angular/core';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
+import { BillingAddressComponent } from './add-client/loacations-form/billing-address/billing-address.component';
+import { OperatingAddressComponent } from './add-client/loacations-form/operating-address/operating-address.component';
+import { OperatingAddressFormComponent } from './add-client/loacations-form/operating-address-form/operating-address-form.component';
+import { BillingAddressFormComponent } from './add-client/loacations-form/billing-address-form/billing-address-form.component';
+
 import { SharedModule } from '../shared/shared.module';
 import { SortPipe } from '../core/pipes/sort.pipe';
 import { ViewClientsComponent } from './view-clients/view-clients.component';
-
 
 @NgModule({
   declarations: [
@@ -22,6 +26,10 @@ import { ViewClientsComponent } from './view-clients/view-clients.component';
     DetailsFormComponent,
     LoacationsFormComponent,
     AddClientComponent,
+    BillingAddressComponent,
+    OperatingAddressComponent,
+    OperatingAddressFormComponent,
+    BillingAddressFormComponent,
     SortPipe
   ],
   imports: [
