@@ -1,4 +1,4 @@
-export  interface clientContact{
+export  interface ClientContactCreate{
     ContactPersonName: string,
     Email: string,
     PhoneNumber: string
