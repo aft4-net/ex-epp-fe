@@ -1,0 +1,12 @@
+$tableHeadingBackgroundColour:#E8FFE8 !important;
+$tblRowBackgroundColour:#F9FFF9;
+$addClientButtonFloat:right;
+.table_heading
+{
+background-color: $tableHeadingBackgroundColour
+}
+tr:nth-child(even) {background: $tblRowBackgroundColour}
+
+button.ant-btn {
+  float: $addClientButtonFloat;
+}
