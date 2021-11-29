@@ -31,8 +31,8 @@ export class EducationComponent implements OnInit {
   loading = false;
   is_studying = false;
   disableFieldOfStudy = false;
-  disableEnd = true;
-  // databinding
+  enableEndDate = false
+    // databinding
   showConfirm = false;
   guid: any;
   fetchedEducationProgramme: [EducationProgramModel] | [] = [];
@@ -65,9 +65,14 @@ export class EducationComponent implements OnInit {
     this.isModalVisible = false;
   }
   openModal() {
-    this.disableEnd = true;
     this.education.controls.yearTo.disable();
     this.isModalVisible = true;
+  }
+
+  openModalForEdit() {
+    this.education.controls.yearTo.enable();
+    this.isModalVisible = true;
+  
   }
   onSaveRecord(): void {
     this.loading = true;
@@ -75,29 +80,30 @@ export class EducationComponent implements OnInit {
   onAddNewRecord()
   {
     this.isUpdateMode = false;
+    this.enableEndDate = false;
     this.education.reset();
     this.validation.controls.isMultitpleEntry.setValue(false);
     this.openModal();
   }
   onEditRecord(guid: string | null) {
     this.isUpdateMode = true;
-    
-    this.education.reset();
-    this.openModal();
-    this.education.controls.yearTo.enable();
+    this.enableEndDate= true;
+    this.education.controls.yearTo.enabled;
+    this.openModalForEdit();
     const id: string = guid == null ? '' : guid;
     this.guid = id;
     this.educationService.getById(id).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         const row = res.Data[0];
+
         this.education.patchValue({
           institution: row.Institution,
           yearFrom: new Date(row.DateFrom),
-          yearTo: new Date(row.DateTo),
+          yearTo: row.DateTo,
           country: row.Country,
           program: row.EducationProgramme?.Guid,
           fieldOfStudy: row.FieldOfStudy?.Guid,
-          isStudying: row.IsCompleted,
+          //isStudying: row.IsCompleted,
           otherFieldOfStudy: row.OtherFieldOfStudy,
         });
       },
@@ -154,7 +160,7 @@ export class EducationComponent implements OnInit {
   {
     this.isModalVisible = false;
     this.loading = true;
-    this.router.navigate(['/application/workexpirence']);
+    this.router.navigate(['/application/work-experience']);
     this.loading = false;
   }
   addItem(educationModel: EducationModel) {
@@ -162,9 +168,9 @@ export class EducationComponent implements OnInit {
       (_) => {
         
         this.onSaveCompleted();
-        this.education.controls.yearTo.disable();
         this.bindRecord();
         this.hasDataEntry(this.educations.length > 0 ? true:false);
+        this.education.controls.yearTo.disable();
       },
       (err) => this.onShowError(err)
     );
@@ -236,7 +242,11 @@ export class EducationComponent implements OnInit {
     });
     this.education.controls.yearFrom.valueChanges.subscribe((value) => {
       if (value === null) {
+        this.education.controls.yearTo.setValue(null);
         this.education.controls.yearTo.disable();
+      }
+      else{
+        this.education.controls.yearTo.enable();
       }
     });
 
