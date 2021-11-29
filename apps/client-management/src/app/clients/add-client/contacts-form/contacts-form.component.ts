@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { AddClientStateService } from '../../../core';
+import { AddClientStateService, ClientContactCreate } from '../../../core';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -25,9 +25,8 @@ export class ContactsFormComponent implements OnInit {
 
   buttonClicked = 0
 
-
   addContactForm!: FormGroup;
-  listData:any;
+  listData=[] as ClientContactCreate[];
 isModalVisible = false;
 isEditMode=false;
   total = 10;
@@ -39,7 +38,7 @@ isEditMode=false;
   searchKey='';
   searchStateFound=false;
 
-  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientState: AddClientStateService,) {
+  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientStateService: AddClientStateService,) {
 
 
    }
@@ -47,9 +46,9 @@ isEditMode=false;
   ngOnInit(): void {
     this.listData=[];
     this.addContactForm = this.fb.group({
-      contactName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
-      emailAdress:['',[Validators.required,Validators.email,Validators.maxLength(320)]]
+      ContactPersonName: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required]],
+      Email:['',[Validators.required,Validators.email,Validators.maxLength(320)]]
     });
   }
   showModal(): void {
@@ -64,6 +63,7 @@ isEditMode=false;
     if(this.addContactForm.valid)
     {
       this.listData.push(this.addContactForm.value);
+      this.addClientStateService.updateClientContacts(this.listData);
       this.addContactForm.reset();
       this.isVisible = false;
     }else {
@@ -79,7 +79,7 @@ isEditMode=false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
+
     this.isVisible = false;
     this.addContactForm.reset();
   }
@@ -87,8 +87,9 @@ isEditMode=false;
   {
     this.listData.forEach((value:any,index:any) => {
       if(value==element)
-      this.listData.splice(index,1);
-
+     {this.listData.splice(index,1);
+      this.addClientStateService.updateClientContacts(this.listData);
+     }
     });
 
   }

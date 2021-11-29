@@ -27,12 +27,11 @@
   <tbody>
 
     <tr *ngFor="let item of  listData">
-      <td >{{item.contactName}}</td>
-      <td>{{item.emailAdress}}</td>
-      <td>{{item.phoneNumber}}</td>
+      <td >{{item.ContactPersonName}}</td>
+      <td>{{item.Email}}</td>
+      <td>{{item.PhoneNumber}}</td>
 
-
-
+    
       <td>
         <a class="text-black mr-3">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,9 +51,6 @@
   </tbody>
 </nz-table>
 
-
-
-
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Contact Detail"
 (nzOnCancel)="handleCancel()"
 (nzOnOk)="handleOk()">
@@ -63,9 +59,9 @@
 
     <form nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ContactPersonName">Contact Person</nz-form-label>
         <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="14" [nzXs]="24" nzHasFeedback>
-          <input placeholder="contact person" id="contactName" nz-input formControlName="contactName"/>
+          <input placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName"/>
 
         </nz-form-control>
       </nz-form-item>
@@ -74,9 +70,9 @@
         <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress">Email Adress</nz-form-label>
         <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback>
 
-          <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
+          <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="Email">
           <div >
-           <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['emailAdress'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
+           <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['Email'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
           </div>
         </nz-form-control>
 
@@ -85,12 +81,12 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
         <nz-form-control nzErrorTip="Please add contact number!" [nzSm]="14" [nzXs]="24" nzHasFeedback >
-          <input id="phoneNumber" nz-input formControlName="phoneNumber"/>
+          <input id="phoneNumber" nz-input formControlName="PhoneNumber"/>
         </nz-form-control>
       </nz-form-item>
 
 
-    </form>
+ </form>
   </ng-container>
 
 
