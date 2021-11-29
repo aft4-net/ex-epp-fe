@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { AddClientStateService } from '../../../core';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -38,7 +39,7 @@ isEditMode=false;
   searchKey='';
   searchStateFound=false;
 
-  constructor(private fb: FormBuilder,private modal: NzModalService) {
+  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientState: AddClientStateService,) {
 
 
    }

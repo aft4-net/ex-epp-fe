@@ -1,9 +1,7 @@
 import { Employee } from './../models/get/employee';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { ApiService } from '../models/apiService';
-
+import { ApiService } from '..';
 
 @Injectable({
   providedIn: 'root'
