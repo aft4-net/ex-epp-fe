@@ -5,9 +5,10 @@ export interface EmployeeOrganization {
     PhoneNumber: string;
     JoiningDate: Date;
     TerminationDate: Date;
-    EmploymentType: number;
+    EmploymentType: string;
     Department: string;
+    BusinessUnit:string;
     ReportingManager: string;
     JobTitle: string;
-    Status: number;
+    Status: string;
 }
