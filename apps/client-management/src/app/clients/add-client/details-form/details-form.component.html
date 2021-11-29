@@ -41,8 +41,8 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-label nzFor="status">Status </nz-form-label>
-    <nz-form-control [nzSm]="10">
-      <nz-select [(ngModel)]="selectedValue" [ngModelOptions]="{ standalone: true }" nzDisabled>
+    <nz-form-control [nzSm]="10" >
+      <nz-select   formControlName="status"  [(ngModel)]="selectedValue"  nzDisabled>
         <nz-option *ngFor="let option of clientStatuses" [nzLabel]="option.StatusName" [nzValue]="option.Guid">
         </nz-option>
       </nz-select>

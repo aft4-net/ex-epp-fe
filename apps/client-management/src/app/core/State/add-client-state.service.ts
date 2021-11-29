@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
+
   BillingAddressCreate,
   ClientContactCreate,
   ClientCreate,
@@ -11,6 +12,7 @@ import {
   StateService,
   ValidtyAddClientForms,
 } from '..';
+
 
 const iniitalAddClientState: ClientCreate = {
   SalesPersonGuid: '',
@@ -94,11 +96,11 @@ export class AddClientStateService extends StateService<ClientCreate> {
           validtyAddClientForms.clientDetailsForm = false;
         }
 
-        if (res.BillingAddress.length >= 1 || res.OperatingAddress.length >= 1)
+        if (res.BillingAddress.length >= 1 && res.OperatingAddress.length >= 1)
           validtyAddClientForms.clientLocationForm = true;
         else validtyAddClientForms.clientLocationForm = false;
 
-        if (res.ClientContact.length >= 1 || res.CompanyContacts.length >= 1)
+        if (res.ClientContact.length >= 1 && res.CompanyContacts.length >= 1)
           validtyAddClientForms.contactDetailsForm = true;
         else validtyAddClientForms.contactDetailsForm = false;
 

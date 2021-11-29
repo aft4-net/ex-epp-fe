@@ -1,7 +1,7 @@
-import { BillingAddressCreate } from "./BillingAddressCreate";
+import { BillingAddressCreate, OperatingAddressCreate } from ".";
+
 import { ClientContactCreate } from "./clientContactCreate";
 import { CompanyContactCreate } from "./CompanyContactsCreate";
-import { OperatingAddressCreate } from "./OperatingAddressCreate";
 
 
 export interface ClientCreate {

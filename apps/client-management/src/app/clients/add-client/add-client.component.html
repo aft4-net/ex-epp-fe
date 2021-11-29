@@ -87,7 +87,7 @@
     </ng-template>
 
   </nz-tab>
-  <nz-tab class="error" nzSelected [nzTitle]="ClientLocationTmeplate">
+  <nz-tab class="error" nzSelected [nzTitle]="ClientLocationTmeplate" (nzClick)="LocationTab()" >
     <ng-template #ClientLocationTmeplate>
       <span [ngClass]="addButtonClicked && !validateAddClientFormState?.clientLocationForm ? 'invalisForm':''">
         <svg class="mr-3" width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,12 +96,38 @@
             fill="#262626" />
         </svg>
         Location
+        <i *ngIf="!locationTabEnabled" class="ml-12" nz-icon nzType="down"></i>
+        <i *ngIf="locationTabEnabled" class="ml-12" nz-icon nzType="up"></i>
       </span>
     </ng-template>
     <div class="tab-content">
-      <exec-epp-loacations-form> </exec-epp-loacations-form>
+      <exec-epp-billing-address-form> </exec-epp-billing-address-form>
     </div>
   </nz-tab>
+
+ 
+
+  <nz-tab [nzTitle]="BillingAddressTitle" *ngIf="locationTabEnabled" >
+    <ng-template #BillingAddressTitle>
+   <span class="ml-10">Billing Address</span>
+    </ng-template>
+    <div class="tab-content">
+      <exec-epp-billing-address-form> </exec-epp-billing-address-form>
+    </div>
+  </nz-tab>
+
+
+
+  <nz-tab [nzTitle]="OperatingAddressTitle" *ngIf="locationTabEnabled" >
+    <ng-template #OperatingAddressTitle>
+   <span class="ml-10">Operating Address</span>
+    </ng-template>
+    <div class="tab-content">
+      <exec-epp-operating-address-form> </exec-epp-operating-address-form>
+    </div>
+  </nz-tab>
+
+ 
 
 
 </nz-tabset>

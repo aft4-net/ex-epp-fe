@@ -50,6 +50,7 @@ export class DetailsFormComponent implements OnInit {
       for (let i = 0; i < this.clientStatuses.length; i++) {
         if (this.clientStatuses[i].StatusName == 'Active') {
           this.selectedValue = this.clientStatuses[i].Guid;
+          this.validateForm.controls.status.setValue(this.clientStatuses[i].Guid);
         }
       }
     });
@@ -65,6 +66,7 @@ export class DetailsFormComponent implements OnInit {
         this.clientDetailCreate.Description =
           this.validateForm.controls.description.value;
   
+        
         this.addClientStateService.updateAddClientDetails(
           this.clientDetailCreate
         );

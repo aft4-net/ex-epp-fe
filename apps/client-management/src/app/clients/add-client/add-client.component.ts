@@ -20,6 +20,7 @@ export class AddClientComponent implements OnInit {
   addButtonClicked = false;
   contactDetailsTabEnabled = false;
   activeTabIndex = 0;
+  locationTabEnabled=false;
   constructor(
     private router: Router,
     private clientService: ClientService,
@@ -103,4 +104,15 @@ export class AddClientComponent implements OnInit {
       this.contactDetailsTabEnabled = false;
     }
   }
+
+  LocationTab() {
+    if (this.locationTabEnabled == false) {
+      this.locationTabEnabled = true;
+      this.activeTabIndex = 5;
+    } else {
+      this.locationTabEnabled = false;
+    }
+  }
+
+
 }

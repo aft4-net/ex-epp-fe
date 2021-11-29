@@ -5,3 +5,5 @@ export interface OperatingAddressCreate {
     ZipCode: string,
     Address: string
 }
+
+
