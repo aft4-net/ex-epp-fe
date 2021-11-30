@@ -14,6 +14,7 @@ export interface DeviceDetail {
     DeviceName: string;
     BusinessUnit: string;
     IsWorking: boolean;
+    AllocateTo: string;
     DeviceClassificationGuid: string;
     PurchaseDate: Date;
     Purchaser: string;

@@ -4,26 +4,18 @@ body, * {
 }
 
 nz-content {
-  padding: 0 120px;
+  // padding: 0 120px;
+  // padding: 11px 24px;
   width: 100%;
+}
+.inner-content {
+  padding: 11px 24px;
 }
 
 .inner-content-menu {
   background: #fff;
   height: auto;
   padding: 0px 24px;
-
-}
-
-
-.inner-content {
-
-  background: #fff;
-  height: auto;
-  float: left;
-  padding: 0;
-
-  margin: 10px  -117px;
 
 }
 
