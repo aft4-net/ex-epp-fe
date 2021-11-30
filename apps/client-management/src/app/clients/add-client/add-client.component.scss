@@ -128,9 +128,19 @@ header {
 
 }
 
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+
+  background:#fff;
+   color: #00A551;
+ border:1px solid;
+  border-color: #03da6b!important;
+  outline-color: #03da6b!important;
+}
+
 ::ng-deep .ant-btn:not([disabled]):hover {
   background: #03da6b !important;
   color: white;
+
 }
 
 

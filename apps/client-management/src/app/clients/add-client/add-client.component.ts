@@ -83,11 +83,16 @@ export class AddClientComponent implements OnInit {
   }
 
   cancelConfirm(): void {
+    if (
+      this.validateAddClientFormState?.clientDetailsForm || 
+      this.validateAddClientFormState?.clientLocationForm ||
+      this.validateAddClientFormState?.contactDetailsForm
+    )   
     this.modal.confirm({
       nzTitle: 'Are you sure, you want to cancel ?',
-      nzContent: '<b style="color: red;"></b>',
+      nzContent: '<b style="color: green;"></b>',
       nzOkText: 'Yes',
-      nzOkType: 'primary',
+    
       nzOkDanger: true,
       nzOnOk: () => {
         this.router.navigateByUrl('clients');
@@ -97,6 +102,9 @@ export class AddClientComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       nzOnCancel: () => {},
     });
+   else
+   this.router.navigateByUrl('clients');
+
   }
   ClientContacTab() {
     if (this.contactDetailsTabEnabled == false) {
@@ -110,7 +118,7 @@ export class AddClientComponent implements OnInit {
   LocationTab() {
     if (this.locationTabEnabled == false) {
       this.locationTabEnabled = true;
-      this.activeTabIndex = 5;
+      this.activeTabIndex = 3;
     } else {
       this.locationTabEnabled = false;
     }

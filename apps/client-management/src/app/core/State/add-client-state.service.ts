@@ -95,7 +95,7 @@ export class AddClientStateService extends StateService<ClientCreate> {
           validtyAddClientForms.clientDetailsForm = false;
         }
 
-        if (res.BillingAddress.length >= 1 && res.OperatingAddress.length >= 1)
+        if (res.BillingAddress.length >= 0 && res.OperatingAddress.length >= 1)
           validtyAddClientForms.clientLocationForm = true;
         else validtyAddClientForms.clientLocationForm = false;
 
