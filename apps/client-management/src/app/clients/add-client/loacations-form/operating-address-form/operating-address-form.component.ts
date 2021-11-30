@@ -94,7 +94,10 @@ export class OperatingAddressFormComponent implements OnInit {
       this.editAt=-1;
       }
      else{
-      this.operatingAddress.push(this.forms.value);
+      this.operatingAddress =[
+        ...this.operatingAddress,
+        this.forms.value
+      ]
       this.addClientStateService.updateOperatingAddress(this.operatingAddress);
      }
     this.isVisible = false;
