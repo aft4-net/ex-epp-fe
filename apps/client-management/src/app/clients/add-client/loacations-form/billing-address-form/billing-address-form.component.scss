@@ -5,11 +5,11 @@
   border: 0.5px solid #00a551;
   padding: 4px;
 }
-.button-style:hover{
+.button-style:hover {
   background: #04d86a;
 }
 .table_heading {
-  background-color: #e8ffe8 !important;
+  background-color: #B4DFB4 !important;
 }
 .clear-btn {
   background: white;
@@ -18,12 +18,31 @@
 
   border: 0.5px solid #00a551;
 }
-.border-red{
+.border-red {
   border: 1px solid red;
 }
-.border-none{
+.border-none {
   border: none;
 }
-.error-message{
+.error-message {
   color: red;
 }
+
+.button-position {
+  position: bottom;
+}
+
+.addButtonwhenNodata {
+  background-color: #00a551;
+
+  color: white;
+
+  height: 40px;
+
+  display: flex;
+
+  margin-left: 600px;
+  position: absolute;
+  margin-top: -45px;
+}
+

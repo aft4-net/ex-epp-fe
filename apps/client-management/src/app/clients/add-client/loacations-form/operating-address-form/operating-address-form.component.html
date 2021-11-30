@@ -1,3 +1,8 @@
+<div *ngIf="operatingAddress.length">
+  <button  class="button-style " (click)="showModal()">
+    Add Operating Address
+  </button>
+ </div>
 <div style="padding-bottom: 15px">
     <h3>Operating Address</h3>
   </div>
@@ -54,11 +59,12 @@
         </td>
       </tr>
     </tbody>
-    <button  class="button-style" (click)="showModal()">
-      Add Operating Address
-    </button>
+    <div *ngIf="!operatingAddress.length">
+      <button  class="button-style addButtonwhenNodata" (click)="showModal()">
+        Add Operating Address
+      </button>
+     </div>
   </nz-table>
-  
   <nz-modal
     [(nzVisible)]="isVisible"
     nzTitle="Add Operating Address"
@@ -93,7 +99,7 @@
             <nz-select
               nzShowSearch
               nzAllowClear
-              nzPlaceHolder="Select a country"
+              nzPlaceHolder="Select a Country"
               formControlName="Country"
               (ngModelChange)="getSelectedCountry()"
               
@@ -110,45 +116,6 @@
             *ngIf="!forms.get('Country')?.valid && forms.get('Country')?.touched"
           >
             Country is required.
-          </div>
-          <span>{{ selectedCountry }}</span>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city"
-            >City
-            <svg
-              width="7"
-              height="7"
-              viewBox="0 0 7 7"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M2.59375 3.90625L0.210938 3.21875L0.640625 1.89844L3 2.8125L2.88281 0.125H4.28125L4.16406 2.85938L6.48438 1.96094L6.90625 3.30469L4.48438 3.99219L6.04688 6.07031L4.91406 6.89844L3.50781 4.64844L2.11719 6.82812L0.976562 6.03125L2.59375 3.90625Z"
-                fill="#F52121"
-              />
-            </svg>
-          </nz-form-label>
-          <nz-form-control>
-            <nz-select
-             
-              nzShowSearch
-              nzAllowClear
-              nzPlaceHolder="Select a city"
-              formControlName="City"
-            >
-              <nz-option
-                *ngFor="let city of cities"
-                nzLabel="{{ city }}"
-                nzValue="{{ city }}"
-              ></nz-option>
-            </nz-select>
-          </nz-form-control>
-          <div
-            class="error-message"
-            *ngIf="!forms.get('City')?.valid && forms.get('City')?.touched"
-          >
-            City is required.
           </div>
         </nz-form-item>
         <nz-form-item>
@@ -172,7 +139,7 @@
             <nz-select
               nzShowSearch
               nzAllowClear
-              nzPlaceHolder="Select a state/region"
+              nzPlaceHolder="Select a State/Region"
               formControlName="State"
               (ngModelChange)="getSelectedState()"
             >
@@ -183,6 +150,44 @@
               ></nz-option>
             </nz-select>
           </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city"
+            >City
+            <svg
+              width="7"
+              height="7"
+              viewBox="0 0 7 7"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.59375 3.90625L0.210938 3.21875L0.640625 1.89844L3 2.8125L2.88281 0.125H4.28125L4.16406 2.85938L6.48438 1.96094L6.90625 3.30469L4.48438 3.99219L6.04688 6.07031L4.91406 6.89844L3.50781 4.64844L2.11719 6.82812L0.976562 6.03125L2.59375 3.90625Z"
+                fill="#F52121"
+              />
+            </svg>
+          </nz-form-label>
+          <nz-form-control>
+            <nz-select
+             
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Select a City"
+              formControlName="City"
+            >
+              <nz-option
+                *ngFor="let city of cities"
+                nzLabel="{{ city }}"
+                nzValue="{{ city }}"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+          <div
+            class="error-message"
+            *ngIf="!forms.get('City')?.valid && forms.get('City')?.touched"
+          >
+            City is required.
+          </div>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="zipCode"
@@ -200,7 +205,7 @@
             <input
               nz-input
               formControlName="ZipCode"
-              placeholder="enter zip code"
+              placeholder="Enter ZIP Code"
             />
           </nz-form-control>
         </nz-form-item>
@@ -212,7 +217,7 @@
             <textarea
               nz-input
               formControlName="Address"
-              placeholder="enter address"
+              placeholder="Enter Address"
             ></textarea>
           </nz-form-control>
         </nz-form-item>
