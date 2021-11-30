@@ -1,3 +1,6 @@
+
+
+<div class="main-content">
 <header>
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
@@ -14,8 +17,7 @@
 <exec-epp-header-line> </exec-epp-header-line>
 
 
-
-<div nz-row class="ml-1">
+<div nz-row class="ml-1 ">
   <div nz-col nzSpan="6" class="ml-1">
     <nz-input-group [nzSuffix]="suffixIconSearch" >
       <input [formControl]="searchProject" type="text" nz-input placeholder="Search" />
@@ -104,6 +106,10 @@
 <nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
   nzShowSizeChanger nzShowQuickJumper>
+
+</nz-pagination>
+</div>
+
 
 
 
