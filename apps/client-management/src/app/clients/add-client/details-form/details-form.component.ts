@@ -1,129 +1,116 @@
-import { Component, OnInit} from '@angular/core';
+import {
+AddClientStateService,
+Client,
+ClientDetailCreate,
+ClientStatus,
+ClientStatusService,
+Employee,
+EmployeeService,
+} from '../../../core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ClientDetails, ClientStatus, Employee, ClientDetailsService, ClientStatusService, EmployeeService, ClientDetailsAdd } from '../../../core';
-
-
 
 @Component({
   selector: 'exec-epp-details-form',
   templateUrl: './details-form.component.html',
-  styleUrls: ['./details-form.component.scss']
+  styleUrls: ['./details-form.component.scss'],
 })
 export class DetailsFormComponent implements OnInit {
   inputValue?: string;
   filteredOptions: string[] = [];
   employees = [] as Employee[];
-  clients = [] as ClientDetails[];
+  clients = [] as Client[];
   clientStatuses = [] as ClientStatus[];
-  clientCreate: ClientDetailsAdd = {} as ClientDetailsAdd;
+  clientDetailCreate: ClientDetailCreate = {} as ClientDetailCreate;
   options: string[] = [];
-  selectedValue="";
+  selectedValue = '';
+
   validateForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private clientDetailsService: ClientDetailsService,
     private employeeService: EmployeeService,
     private clientStatusService: ClientStatusService,
-    private router: Router
-  ) {
-    //this.filteredOptions = this.options;
-  }
+    private addClientStateService: AddClientStateService
+  ) {}
 
   ngOnInit(): void {
     this.createRegistrationForm();
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
-
-    });
-
-    this.clientDetailsService.getAll().subscribe((response) => {
-      this.clients = response;
-
     });
 
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
       this.clientStatuses = res;
-      for(let i=0;i<this.clientStatuses.length;i++)
-      {
-        if(this.clientStatuses[i].StatusName=='Active')
-        {
-          this.selectedValue=this.clientStatuses[i].Guid;
+      for (let i = 0; i < this.clientStatuses.length; i++) {
+        if (this.clientStatuses[i].StatusName == 'Active') {
+          this.selectedValue = this.clientStatuses[i].Guid;
+          this.validateForm.controls.status.setValue(this.clientStatuses[i].Guid);
         }
       }
     });
 
-    console.log(this.clientStatuses[0].StatusName.toString());
-
-
     this.validateForm.valueChanges.subscribe(() => {
       if (this.validateForm.valid) {
-        this.clientCreate.ClientName =
-          this.validateForm.controls.ClientName.value;
-
-        this.clientCreate.SalesPersonGuid =
-          this.validateForm.controls.salesPerson.value;
-        this.clientCreate.ClientStatusGuid =
-          this.validateForm.controls.status.value.Guid;
-        this.clientCreate.Description =
+        this.clientDetailCreate.ClientName =
+          this.validateForm.controls.clientName.value;
+        this.clientDetailCreate.SalesPersonGuid =
+          this.validateForm.controls.salesPerson.value.Guid;
+        this.clientDetailCreate.ClientStatusGuid =
+          this.validateForm.controls.status.value;
+        this.clientDetailCreate.Description =
           this.validateForm.controls.description.value;
 
 
-      } else {
-        this.clientCreate = {} as ClientDetailsAdd;
-      }
+        this.addClientStateService.updateAddClientDetails(
+          this.clientDetailCreate
+        );
+      } else this.addClientStateService.restAddClientDetails();
     });
-
   }
-
-
-
-
 
   onChange(value: string): void {
-    if(this.inputValue==""){
-this.filteredOptions=[];
+    if (this.inputValue == '') {
+      this.filteredOptions = [];
+    } else {
+      for (let i = 0; i < this.employees.length; i++) {
+        this.options[i] = (
+          this.employees[i].Name +
+          '-' +
+          this.employees[i].Role
+        ).toString();
+      }
+      this.filteredOptions = this.options.filter(
+        (option) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      );
     }
-    else{
-     for(let i=0; i<this.employees.length;i++)
-     {
-        this.options[i]=(this.employees[i].Name+'-'+this.employees[i].Role).toString();
-     }
-    this.filteredOptions = this.options.filter(option => option.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  }
+
+  get salesPerson() {
+    return this.validateForm.controls.salesPerson as FormControl;
+  }
+  get clientName() {
+    return this.validateForm.controls.clientName as FormControl;
+  }
+
+  createRegistrationForm() {
+    this.validateForm = this.fb.group({
+      clientName: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(70),
+        ],
+      ],
+      status: [null, [Validators.required]],
+      salesPerson: [null, [Validators.required]],
+      description: [''],
+    });
   }
 }
-
-get salesPerson() {
-  return this.validateForm.controls.salesPerson as FormControl;
-}
-get clientName() {
-  return this.validateForm.controls.clientName as FormControl;
-}
-
-
-
-
-createRegistrationForm() {
-  this.validateForm = this.fb.group({
-    clientName: [
-      null,
-      [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(70),
-      ],
-    ],
-    status: ['Active', [Validators.required]],
-    salesPerson: [null, [Validators.required]],
-    description: [''],
-  });
-}
-}
-
-

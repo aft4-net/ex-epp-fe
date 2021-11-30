@@ -1,4 +1,4 @@
-export interface ClientDetailsAdd {
+export interface ClientDetailsAddCreate {
   SalesPersonGuid: string
   ClientName: string
   ClientStatusGuid: string

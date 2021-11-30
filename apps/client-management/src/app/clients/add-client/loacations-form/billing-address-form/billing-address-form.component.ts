@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BillingAddress } from 'apps/client-management/src/app/core/models/post/BillingAddressAdd';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { StateService } from 'apps/client-management/src/app/core/services/State.service';
 
 @Component({
@@ -11,7 +17,7 @@ import { StateService } from 'apps/client-management/src/app/core/services/State
   styleUrls: ['./billing-address-form.component.scss'],
 })
 export class BillingAddressFormComponent implements OnInit {
-  billingAddressess: BillingAddress[] = [];
+  billingAddressess: BillingAddressCreate[] = [];
   isVisible = false;
   isOkLoading = false;
   footer = null;
@@ -35,7 +41,8 @@ export class BillingAddressFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _state: StateService,
     private _city: CityService,
-    private _cityInState: CityInStateService
+    private _cityInState: CityInStateService,
+    private  addClientService:AddClientStateService
   ) {
     this.forms = _fb.group({
       Name: ['',Validators.required],
@@ -85,11 +92,13 @@ export class BillingAddressFormComponent implements OnInit {
     if (this.forms.valid) {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
+      this.addClientService.updateBillingAddress(this.billingAddressess);
       this.IsEdit=false;
       this.editAt=-1;
       }
      else{
       this.billingAddressess.push(this.forms.value);
+      this.addClientService.updateBillingAddress(this.billingAddressess);
      }
     this.isVisible = false;
     this.forms.reset();
@@ -145,6 +154,7 @@ export class BillingAddressFormComponent implements OnInit {
   removeBillingAddress(index: number) {
     if (index > -1) {
       this.billingAddressess.splice(index, 1);
+      this.addClientService.updateBillingAddress(this.billingAddressess);
     }
   }
   edit(index:number){
