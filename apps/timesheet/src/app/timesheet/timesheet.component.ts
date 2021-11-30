@@ -15,6 +15,7 @@ import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
 import { retry } from 'rxjs/operators';
+import { TimeEntryFormData } from '../models/timeEntryFormData';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -41,12 +42,12 @@ export class TimesheetComponent implements OnInit {
   projectsFiltered: Project[] | null = null;
   employee: Employee[] = [];
 
-  formData = {
+  formData: TimeEntryFormData = {
     fromDate: new Date(),
     toDate: new Date(),
     client: '', //this.clients,
     project: '', //this.projects
-    hours: 0,
+    hours: null,
     note: '',
   };
 
@@ -62,7 +63,7 @@ export class TimesheetComponent implements OnInit {
   lastWeeks = null;
   startValue: Date | null = null;
   endValue: Date | null = null;
-  timesheetApproval: TimesheetApproval[] | null = [];
+  timesheetApprovals: TimesheetApproval[] | null = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   disabledDate = (current: Date): boolean =>
@@ -99,8 +100,6 @@ export class TimesheetComponent implements OnInit {
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     this.calcualteNoOfDaysBetweenDates();
-
-    this.formData.hours = 0;
   }
 
   // To calculate the time difference of two dates
@@ -124,6 +123,10 @@ export class TimesheetComponent implements OnInit {
           this.timeEntries = response ? response : null;
         }, error => {
           console.log(error);
+        });
+
+        this.timesheetService.getTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
+          this.timesheetApprovals = response ? response : null;
         });
       }
     }, error => {
@@ -151,6 +154,7 @@ export class TimesheetComponent implements OnInit {
     let clientId = value;
     this.timesheetService.getProjects(this.userId, clientId).subscribe(pp => {
       this.projects = pp;
+      this.setDefaultProject(this.projects);
     });
   }
 
@@ -162,6 +166,7 @@ export class TimesheetComponent implements OnInit {
       if (project) {
         this.timesheetService.getClient(project.clientId).subscribe(response => {
           this.clients = response
+          this.setDefaultClient(this.clients);
         });
       }
     });
@@ -195,8 +200,6 @@ export class TimesheetComponent implements OnInit {
       if (this.userId) {
         this.getTimesheet(this.userId, this.weekDays[0]);
       }
-    } else {
-      window.location.reload();
     }
   }
 
@@ -205,8 +208,6 @@ export class TimesheetComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(curr);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    } else {
-      window.location.reload();
     }
   }
 
@@ -243,19 +244,14 @@ export class TimesheetComponent implements OnInit {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
     this.setDateColumnTotalHour();
 
-    console.log(this.date);
-    this.timeEntries?.forEach(timeEntry => {
-      console.log(new Date(timeEntry.Date));
-    })
-
     if (this.date <= new Date()) {
       if (this.dateColumnTotalHour < 24) {
         this.checkForApproalAndShowFormDrawer();
       } else {
-        this.createNotificationErrorOnDailyMaximumHour("bottomRight");
+        this.createNotificationError("bottomRight", "Time already full 24");
       }
     } else {
-      this.createNotificationError('bottomRight');
+      this.createNotificationError('bottomRight', "Can't fill timesheet for the future.");
     }
   }
 
@@ -288,8 +284,8 @@ export class TimesheetComponent implements OnInit {
     }
 
     this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
-      this.timesheetApproval = objApprove ? objApprove : null;
-      if (!this.timesheetApproval || this.timesheetApproval.length===0) {
+      this.timesheetApprovals = objApprove ? objApprove : null;
+      if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
         return;
       }
@@ -300,9 +296,9 @@ export class TimesheetComponent implements OnInit {
         return;
       }
 
-      this.timesheetApproval = this.timesheetApproval.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId);
+      let timesheetApproval = this.timesheetApprovals.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId);
 
-      if (this.timesheetApproval.length === 0 || this.timesheetApproval[0].Status != 2) {
+      if (timesheetApproval.length === 0 || timesheetApproval[0].Status != 2) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
         this.clearFormData();
       }
@@ -314,8 +310,8 @@ export class TimesheetComponent implements OnInit {
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.showFormDrawer) {
-      (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
-      (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
+      this.setDefaultClient(this.clients);
+      this.setDefaultProject(this.projects);
 
       if (this.timeEntry) {
         let clientId = this.projects?.filter(project => project.id == this.timeEntry?.ProjectId)[0].clientId.toString();
@@ -335,6 +331,28 @@ export class TimesheetComponent implements OnInit {
     }
 
     this.clickEventType = ClickEventType.none;
+  }
+
+  setDefaultClient(clients: Client[] | null) {
+    if (!clients) {
+      return;
+    }
+    else if(this.formData.client && this.formData.client != ""){
+      return;
+    }
+
+    (clients.length === 1) ? this.formData.client = clients[0].id.toString() : this.formData.client = '';
+  }
+
+  setDefaultProject(projects: Project[] | null) {
+    if (!projects) {
+      return;
+    }
+    else if(this.formData.project && this.formData.project != ""){
+      return;
+    }
+
+    (projects.length === 1) ? this.formData.project = projects[0].id.toString() : this.formData.project = '';
   }
 
   submitForm(): void {
@@ -369,7 +387,7 @@ export class TimesheetComponent implements OnInit {
           if (this.timeEntry) {
             timeEntry.Guid = this.timeEntry.Guid;
             timeEntry.Hour = this.timeEntry.Hour + timeEntry.Hour;
-            timeEntry.Note = this.timeEntry.Note + "/n" + timeEntry.Note;
+            timeEntry.Note = this.timeEntry.Note + "\n" + timeEntry.Note;
             timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
             this.updateTimeEntry(timeEntry);
@@ -445,18 +463,10 @@ export class TimesheetComponent implements OnInit {
     this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
   }
 
-  createNotificationError(position: NzNotificationPlacement): void {
+  createNotificationError(position: NzNotificationPlacement, message: string): void {
     this.notification.error(
       '',
-      'You cannot fill your timesheet for the future!',
-      { nzPlacement: position }
-    );
-  }
-
-  createNotificationErrorOnDailyMaximumHour(position: NzNotificationPlacement): void {
-    this.notification.error(
-      '',
-      'Time already full 24',
+      message,
       { nzPlacement: position }
     );
   }
@@ -471,6 +481,6 @@ export class TimesheetComponent implements OnInit {
       message = "Warning"
     }
 
-    this.notification.create(type,message,'Timesheet');
+    this.notification.create(type, message, 'Timesheet');
   }
 }

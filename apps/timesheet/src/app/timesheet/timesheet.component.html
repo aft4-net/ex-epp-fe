@@ -17,6 +17,7 @@
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
                                [date]="myD"
                                [timesheet]="timesheet"
+                               [timesheetApprovals]="timesheetApprovals"
                                (dateColumnClicked)="onDateColumnClicked($event, myD)"
                                (projectNamePaletClicked)="onProjectNamePaletClicked($event, myD)"
                                (paletEllipsisClicked)="onPaletEllipsisClicked($event, myD)"
@@ -77,13 +78,12 @@
         <nz-form-item>
           <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
             <input [(ngModel)]="formData.hours" nz-input formControlName="hours"
-                   placeholder="enter bellow {{24-dateColumnTotalHour}}" type="number" min="1"
+                   placeholder="Please enter {{24-dateColumnTotalHour}} hours or less." type="number" min="1"
                    max="{{24-dateColumnTotalHour}}"/>
             <ng-template #userErrorTpl let-control>
-              <ng-container *ngIf="formData.hours <=0 ">Please Enter above 0 hour</ng-container>
-              <ng-container *ngIf="formData.hours > (24-dateColumnTotalHour) ">Please Enter
-                bellow {{24 - dateColumnTotalHour}}</ng-container>
-              <ng-container *ngIf="control>=24">Please Enter Below 24</ng-container>
+              <ng-container *ngIf="formData.hours && formData.hours <=0 ">Time entry should not have less than or equal to 0 hours. Please enter more than 0 hours.</ng-container>
+              <ng-container *ngIf="formData.hours && formData.hours > (24-dateColumnTotalHour) ">Time entry should not have more than {{24 - dateColumnTotalHour}} hours. Please enter {{24 - dateColumnTotalHour}} hours or less.</ng-container>
+              <ng-container *ngIf="control>=24">Time entry should not have more than 24 hours. Please enter 24 hours or less.</ng-container>
             </ng-template>
           </nz-form-control>
         </nz-form-item>
