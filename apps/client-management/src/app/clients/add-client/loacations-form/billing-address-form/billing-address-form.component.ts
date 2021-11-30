@@ -44,7 +44,7 @@ export class BillingAddressFormComponent implements OnInit {
     private  addClientService:AddClientStateService
   ) {
     this.forms = _fb.group({
-      Name: [null,Validators.required],
+      Name: [null,[Validators.required,this.noWhitespaceValidator]],
       Affliation: ['',Validators.required],
       Country: ['',Validators.required],
       City: ['',Validators.required],
