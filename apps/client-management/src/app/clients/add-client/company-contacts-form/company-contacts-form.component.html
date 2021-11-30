@@ -1,9 +1,9 @@
 
 <div nz-row>
-  <div nz-col nzSpan="6">Client Contacts</div>
+  <div nz-col nzSpan="6">Company Contacts</div>
   <div nz-col nzSpan="6"></div>
   <div nz-col nzSpan="6"></div>
-  <div nz-col nzSpan="6">   <button   (click)="showModal()" nz-button> Add Client Contact</button></div>
+  <div nz-col nzSpan="6">   <button   (click)="showModal()" nz-button> Add Company Contact</button></div>
 </div>
 <nz-table class="mt-3"
 [nzData]="listData"
@@ -63,7 +63,7 @@
 
 
       <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="companyContact"  nzFor="companyContact" [nzSm]="24">Company contact</nz-form-label>
+        <nz-form-label [nzSpan]="6" nzFor="companyContact"   [nzSm]="24">Company contact</nz-form-label>
       <nz-form-control nzHasFeedback nzErrorTip="Please select a contact Person!"  >
         <nz-select  (ngModelChange)="getClientContact()" nzShowSearch nzAllowClear
           id="companyContact"

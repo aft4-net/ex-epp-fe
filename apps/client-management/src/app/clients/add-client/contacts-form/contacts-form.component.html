@@ -29,7 +29,7 @@
     <tr *ngFor="let item of  listData">
       <td >{{item.contactName}}</td>
       <td>{{item.emailAdress}}</td>
-      <td>{{item.phoneNumber}}</td>
+      <td>{{'('+item.phoneNumberPrefix+')'+' '+item.phoneNumber}}</td>
 
 
 

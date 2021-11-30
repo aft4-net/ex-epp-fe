@@ -70,7 +70,14 @@ export class ContactsFormComponent implements OnInit {
 
     if(this.addContactForm.valid)
     {
-      this.listData.push(this.addContactForm.value);
+      // this.listData.push(this.addContactForm.value);
+      this.listData =[
+
+        ...this.listData,
+
+        this.addContactForm.value
+
+      ]
       this.addContactForm.reset();
       this.isVisible = false;
     }else {

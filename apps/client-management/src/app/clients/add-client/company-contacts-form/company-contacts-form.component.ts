@@ -91,7 +91,14 @@ export class CompanyContactsFormComponent implements OnInit {
 
     if(this.addContactForm.valid)
     {
-      this.listData.push(this.contactDetail);
+      // this.listData.push(this.contactDetail);
+      this.listData =[
+
+        ...this.listData,
+
+        this.contactDetail
+
+      ]
       this.addContactForm.reset();
       this.isVisible = false;
     }else {

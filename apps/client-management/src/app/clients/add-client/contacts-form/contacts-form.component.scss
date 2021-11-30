@@ -6,6 +6,7 @@ $modalWindowPaddingTop:15px;
 $modalWindowPaddingBottom:40px;
 $footer-btn:left;
 $addBtnMarginRight:1rem;
+$transformBeforeErrorAstrics:translate(120px, 0%);
 .table_heading
 {
 background-color: $tableHeadingBackgroundColour
@@ -39,3 +40,9 @@ button.add-btn.ant-btn {
 
   margin-bottom: 15px !important;
 }
+
+::ng-deep ::before {
+
+  transform: $transformBeforeErrorAstrics;
+}
+
