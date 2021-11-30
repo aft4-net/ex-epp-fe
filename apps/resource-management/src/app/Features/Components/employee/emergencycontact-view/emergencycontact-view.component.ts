@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
+import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 
 @Component({
   selector: 'exec-epp-emergencycontact-view',
@@ -10,8 +11,8 @@ import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emerge
 })
 export class EmergencycontactViewComponent implements OnInit {
 
-  
-  
+
+
   isVisible = false;
   isConfirmLoading = false;
   checked = false;
@@ -24,12 +25,12 @@ export class EmergencycontactViewComponent implements OnInit {
 
   i = 0;
   editId: string | null = null;
-  
+
 
 
   constructor(private modalService: NzModalService) {}
 
- 
+
   addemergencycontact(): void {
     this.modalService.create({
       nzTitle: 'Add Emergency Contacts',
@@ -49,7 +50,7 @@ export class EmergencycontactViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  
+
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -88,7 +89,7 @@ export class EmergencycontactViewComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  
+
 
   ngOnInit(): void {
     this.listOfData = new Array(0).fill(0).map((_, index) => ({
@@ -101,7 +102,7 @@ export class EmergencycontactViewComponent implements OnInit {
   }
 
 
- 
+
   startEdit(id: string): void {
     this.editId = id;
   }

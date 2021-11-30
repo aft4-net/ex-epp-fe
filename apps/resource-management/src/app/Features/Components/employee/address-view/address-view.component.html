@@ -5,9 +5,11 @@
     </div>
     <div nz-col nzSpan="20" class="inner-content">
         <div nz-row>
-            <div nz-col nzSpan="20" class="page-title">
+    <div nz-col nzSpan="20" class="inner-content">
+            <div nz-col nzSpan="20">
                 <h1>Addresses</h1>
             </div>
+
             <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length >0">
                 <button class="addButton" nz-button nzType="primary" (click)="addaddress()">
                     <span>Add Address</span>
@@ -17,13 +19,12 @@
         <br />
         <br />
 
-        <nz-table #rowSelectionTable  nzShowSizeChanger [nzData]="listOfData"
+        <nz-table class= "table" #rowSelectionTable  nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
 
-            <thead>
-                <tr>
-                    <th [nzChecked]="checked" [nzIndeterminate]="indeterminate"
-                        (nzCheckedChange)="onAllChecked($event)"></th>
+            <thead >
+                <tr class ="tr">
+
                     <th>Country</th>
                     <th>City</th>
                     <th>Action</th>
@@ -33,8 +34,7 @@
             <tbody>
                 <tr *ngFor="let data of rowSelectionTable.data">
 
-                    <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
-                        (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+
                     <td>{{ data.name }}</td>
                     <td>{{ data.age }}</td>
 
@@ -45,7 +45,7 @@
                                 (click)="startEdit(data.id)">
                                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                             </div>
-                           &nbsp;    &nbsp;  
+                           &nbsp;    &nbsp;
                             <div nz-col nzSpan="2">
                                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                                     (nzOnConfirm)="deleteRow(data.id)"><i nz-icon nzType="delete"

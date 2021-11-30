@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Data } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { AddressNewComponent } from '../address-new/address-new.component';
+import { Data } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -23,12 +23,12 @@ export class AddressViewComponent implements OnInit {
 
   i = 0;
   editId: string | null = null;
-  
+
 
 
   constructor(private modalService: NzModalService) {}
 
- 
+
   addaddress(): void {
     this.modalService.create({
       nzTitle: 'Add Addresses',
@@ -48,7 +48,7 @@ export class AddressViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  
+
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -87,7 +87,7 @@ export class AddressViewComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  
+
 
   ngOnInit(): void {
     this.listOfData = new Array(0).fill(0).map((_, index) => ({
@@ -100,7 +100,7 @@ export class AddressViewComponent implements OnInit {
   }
 
 
- 
+
   startEdit(id: string): void {
     this.editId = id;
   }
