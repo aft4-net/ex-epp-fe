@@ -1,9 +1,4 @@
-// export interface ResponseStatus {
-//   ResponseStatus: string
-//   Message: string
-//   Ex: any
-//   Data: ClientDetails[]
-// }
+
 
 export interface ClientDetails {
   SalesPerson: any

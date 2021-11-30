@@ -55,10 +55,10 @@
 [nzLoading]="loading" >
   <thead>
     <tr>
-      <th   nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
-      <th *ngIf="listOfColumns[1].isChecked === true" [nzSortFn]="true" (click)="sorter(2)" [(ngModel)]="sortByParam" class="table_heading">Location</th>
-      <th *ngIf="listOfColumns[2].isChecked === true" [nzSortFn]="true" (click)="sorter(3)" [(ngModel)]="sortByParam" class="table_heading">Status</th>
-      <th *ngIf="listOfColumns[3].isChecked === true" [nzSortFn]="true" (click)="sorter(4)" [(ngModel)]="sortByParam" class="table_heading">Sales Person</th>
+      <th   *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
+      <th  nzShowFilter [nzFilters]="namesofLocationsfilterd" (nzFilterChange)="search($event,searchstatusList,searchsalesPersonList)" *ngIf="listOfColumns[1].isChecked === true" [nzSortFn]="true" (click)="sorter(2)" [(ngModel)]="sortByParam" class="table_heading">Location</th>
+      <th nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="search(searchAddressList,$event,searchsalesPersonList)"  *ngIf="listOfColumns[2].isChecked === true" [nzSortFn]="true" (click)="sorter(3)" [(ngModel)]="sortByParam" class="table_heading">Status</th>
+      <th   nzShowFilter [nzFilters]="namesofSalesfilterd" (nzFilterChange)="search(searchAddressList,searchstatusList,$event)" *ngIf="listOfColumns[3].isChecked === true" [nzSortFn]="true" (click)="sorter(4)" [(ngModel)]="sortByParam" class="table_heading">Sales Person</th>
       <th *ngIf="listOfColumns[4].isChecked === true" class="table_heading">Client Contact Person</th>
       <th *ngIf="listOfColumns[5].isChecked === true" class="table_heading">Company Contact Person</th>
       <th class="table_heading">Action</th>
@@ -67,11 +67,11 @@
   <tbody>
     <tr *ngFor="let value of clientsdata" >
       <td *ngIf="listOfColumns[0].isChecked === true">{{value.ClientName}}</td>
-      <td *ngIf="listOfColumns[1].isChecked === true">{{value.OperatingAddress}}</td>
-      <td *ngIf="listOfColumns[2].isChecked === true">{{value.ClientStatus}}</td>
+      <td *ngIf="listOfColumns[1].isChecked === true">{{value.OperatingAddress[0].Country}}</td>
+      <td *ngIf="listOfColumns[2].isChecked === true">{{value.ClientStatus.StatusName}}</td>
       <td *ngIf="listOfColumns[3].isChecked === true">{{value.SalesPerson.Name}}</td>
-      <td *ngIf="listOfColumns[4].isChecked === true">{{value.ClientContacts}}</td>
-      <td *ngIf="listOfColumns[5].isChecked === true">{{value.CompanyContacts}}</td>
+      <td *ngIf="listOfColumns[4].isChecked === true">{{value.ClientContacts[0].PhoneNumber}}</td>
+      <td *ngIf="listOfColumns[5].isChecked === true">{{value.CompanyContacts[0].Guid}}</td>
 
         <td>
           <a class="text-black mr-3">
@@ -93,11 +93,7 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
-  [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
-  nzShowSizeChanger nzShowQuickJumper>
 
-</nz-pagination>
 
 
 

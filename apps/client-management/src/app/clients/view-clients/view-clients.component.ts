@@ -1,20 +1,19 @@
-import { Client, PaginatedResult } from "../../core/models/get";
-import { Component, OnInit } from "@angular/core";
+import { Client, PaginatedResult } from '../../core/models/get';
+import { Component, OnInit } from '@angular/core';
 
-import { ClientService } from "../../core/services";
-import { FormControl } from "@angular/forms";
-import { NzNotificationService } from "ng-zorro-antd/notification";
-import { Observable } from "rxjs";
-import { Router } from "@angular/router";
-import { debounceTime } from "rxjs/operators";
+import { ClientService } from '../../core/services';
+import { FormControl } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-view-clients',
   templateUrl: './view-clients.component.html',
-  styleUrls: ['./view-clients.component.scss']
+  styleUrls: ['./view-clients.component.scss'],
 })
-export class ViewClientsComponent implements OnInit  {
-
+export class ViewClientsComponent implements OnInit {
   paginatedprojects$!: Observable<PaginatedResult<Client[]>>;
 
   clientsdata: Client[] = [];
@@ -26,31 +25,65 @@ export class ViewClientsComponent implements OnInit  {
   idParam = '';
   totalPage!: number;
   searchKey = '';
-  unfilteredData!:Client[];
+  unfilteredData!: Client[];
   // clientsdata!: Client[];
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
-  client:Client[]=[];
+  client: Client[] = [];
 
-  sortByParam="";
-  sortDirection = "asc";
+  sortByParam = '';
+  sortDirection = 'asc';
 
-   values = [
-    {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-    {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
-    {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-    {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
-  ]
-  namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
-  {text:'CocaCola',value:'CocaCola',checked:false},
-  {text:'Amazon',value:'Amazone',checked:false}];
+  values = [
+    {
+      client: 'CocaCola',
+      address: 'Ethiopia',
+      status: 'Active',
+      sales_person: 'Yonas',
+      client_contact: 'Ayalew',
+      company_contact: 'Seifu',
+    },
+    {
+      client: 'McDonalds',
+      address: 'USA',
+      status: 'On-Hold',
+      sales_person: 'Abebe',
+      client_contact: 'Jhon',
+      company_contact: 'Jimy',
+    },
+    {
+      client: 'Apple',
+      address: 'USA',
+      status: 'Active',
+      sales_person: 'Zerihun',
+      client_contact: 'Henock',
+      company_contact: 'Haile',
+    },
+    {
+      client: 'Pepsi',
+      address: 'Canada',
+      status: 'Terminated',
+      sales_person: 'Robel',
+      client_contact: 'Yonatan',
+      company_contact: 'Pete',
+    },
+  ];
+  namesofclients = [
+    { text: 'Excelerent', value: 'Excelerent', checked: true },
+    { text: 'CocaCola', value: 'CocaCola', checked: false },
+    { text: 'Amazon', value: 'Amazone', checked: false },
+  ];
 
-  namesoflocations = [{text:'Ethiopia',value:'Ethiopia',checked:true},
-  {text:'USA',value:'USA',checked:false},
-  {text:'Canada',value:'Canada',checked:false}];
-  namesofStatuses = [{text:'Active',value:'Active',checked:true},
-  {text:'Signed',value:'Signed',checked:false},
-  {text:'Terminated',value:'Terminated',checked:false}];
+  namesoflocations = [
+    { text: 'Ethiopia', value: 'Ethiopia', checked: true },
+    { text: 'USA', value: 'USA', checked: false },
+    { text: 'Canada', value: 'Canada', checked: false },
+  ];
+  namesofStatuses = [
+    { text: 'Active', value: 'Active', checked: true },
+    { text: 'Signed', value: 'Signed', checked: false },
+    { text: 'Terminated', value: 'Terminated', checked: false },
+  ];
 
   listOfColumns = [
     {
@@ -93,35 +126,46 @@ export class ViewClientsComponent implements OnInit  {
   nameofclient = '';
   namesofclientsfilterd = [{ text: '', value: '', checked: false }];
   filteredArray = [''];
-  constructor(private router:Router,private _clientservice: ClientService, private notification:NzNotificationService) { }
+  ListOfSalesPerson = [''];
+  namesofSalesPerson = '';
+  filteredPersonArray = [''];
+  namesofSalesfilterd = [{ text: '', value: '', checked: false }];
+  searchSalesPerson!: string;
+  listsearchSalesPerson: string[] = [];
+  searchAddressList: string[] = [];
+  searchstatusList: string[] = [];
+  searchsalesPersonList: string[] = [];
+  listOfLocation: string[] = [];
+  nameOfLocation = '';
+  namesofLocationsfilterd = [{ text: '', value: '', checked: false }];
+  constructor(
+    private router: Router,
+    private _clientservice: ClientService,
+    private notification: NzNotificationService
+  ) {}
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
-    this._clientservice.getAll().subscribe((data:any)=>{
-      this.client=data;
-
-    });
     this.initializeData();
-  // this. getAllData();
-  this.searchProject.valueChanges.pipe(debounceTime(3000)).subscribe(() => {
-    this.SearchData();
-  });
+
+    this.searchProject.valueChanges.pipe(debounceTime(3000)).subscribe(() => {
+      this.SearchData();
+    });
   }
 
-  sorter(id:number) {
-    if (id === 1){
-      this.sortByParam = "client";
-    } else if (id === 2){
-      this.sortByParam = "address";
-    }else if (id === 3) {
-      this.sortByParam = "status";
+  sorter(id: number) {
+    if (id === 1) {
+      this.sortByParam = 'client';
+    } else if (id === 2) {
+      this.sortByParam = 'address';
+    } else if (id === 3) {
+      this.sortByParam = 'status';
     } else if (id === 4) {
-      this.sortByParam = "sales_person";
+      this.sortByParam = 'sales_person';
     }
 
-    if (this.sortDirection === "desc") {
-      this.sortDirection = "asc"
+    if (this.sortDirection === 'desc') {
+      this.sortDirection = 'asc';
     } else {
-      this.sortDirection = "desc"
+      this.sortDirection = 'desc';
     }
   }
 
@@ -134,11 +178,9 @@ export class ViewClientsComponent implements OnInit  {
     this.listOfColumns[5].isChecked = false;
   }
 
-  addClientPage()
-  {
-     this.router.navigateByUrl('clients/add-client');
+  addClientPage() {
+    this.router.navigateByUrl('clients/add-client');
   }
-
 
   PageSizeChange(pageSize: number) {
     console.log(pageSize);
@@ -154,8 +196,7 @@ export class ViewClientsComponent implements OnInit  {
       });
   }
 
-
-  PageIndexChange(index: any) : void {
+  PageIndexChange(index: any): void {
     console.log(index);
     this.pageIndex = index;
     this.loading = true;
@@ -164,59 +205,70 @@ export class ViewClientsComponent implements OnInit  {
         .getWithPagnationResut(index, 10, this.searchProject.value)
         .subscribe((response: PaginatedResult<Client[]>) => {
           this.clientsdata = response.data;
+          this.unfilteredData = response.data;
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
-
           this.loading = false;
+
         });
+
+
     } else {
       this._clientservice
         .getWithPagnationResut(index, 10)
         .subscribe((response: PaginatedResult<Client[]>) => {
           this.clientsdata = response.data;
+          this.unfilteredData = response.data;
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
+          this.search(
+            this.searchAddressList,
+            this.searchstatusList,
+            this.searchsalesPersonList
+          );
+          console.log('Status---' + this.searchstatusList);
+
+          console.log('Location---' + this.searchAddressList);
+
+          console.log('SalesPerson---' + this.searchsalesPersonList);
         });
       this.searchStateFound = false;
     }
   }
 
-
-
-
-  initializeData():void{
+  initializeData(): void {
     this._clientservice
-    .getWithPagnationResut(1, 10)
-    .subscribe((response: PaginatedResult<Client[]>) => {
-      this.AllData = response;
-      this.clientsdata = response.data;
-      this.unfilteredData = response.data;
-      this.pageIndex = response.pagination.pageIndex;
-      this.pageSize = response.pagination.pageSize;
-      this.total = response.pagination.totalRecord;
-      this.totalPage = response.pagination.totalPage;
-      this.loading = false;
-      this._clientservice.setFristPageOfClients(response);
-      this.findlistofNames();
+      .getWithPagnationResut(1, 10)
+      .subscribe((response: PaginatedResult<Client[]>) => {
+        this.AllData = response;
+        this.clientsdata = response.data;
+        this.unfilteredData = response.data;
+        this.pageIndex = response.pagination.pageIndex;
+        this.pageSize = response.pagination.pageSize;
+        this.total = response.pagination.totalRecord;
+        this.totalPage = response.pagination.totalPage;
+        this.loading = false;
+        this._clientservice.setFristPageOfClients(response);
+        this.findlistofNames();
+        this.findlistSalesPersonNames();
+        this.findlistOfLocation();
+      });
 
-    });
-
-  this._clientservice.fristPagantionClients$.subscribe(
-    (response: PaginatedResult<Client[]>) => {
-      this.AllData = response;
-      this.clientsdata = response.data;
-      this.unfilteredData = response.data;
-      this.pageIndex = response.pagination.pageIndex;
-      this.pageSize = response.pagination.pageSize;
-      this.total = response.pagination.totalRecord;
-      this.totalPage = response.pagination.totalPage;
-      this.loading = false;
-    }
-  );
+    this._clientservice.fristPagantionClients$.subscribe(
+      (response: PaginatedResult<Client[]>) => {
+        this.AllData = response;
+        this.clientsdata = response.data;
+        this.unfilteredData = response.data;
+        this.pageIndex = response.pagination.pageIndex;
+        this.pageSize = response.pagination.pageSize;
+        this.total = response.pagination.totalRecord;
+        this.totalPage = response.pagination.totalPage;
+        this.loading = false;
+      }
+    );
   }
-  SearchData():void {
-
+  SearchData(): void {
     if (this.searchProject.value?.length > 1) {
       this.loading = true;
       this._clientservice
@@ -235,7 +287,7 @@ export class ViewClientsComponent implements OnInit  {
           } else {
             this.loading = false;
             this.clientsdata = [] as Client[];
-            this.unfilteredData =[] as Client[];
+            this.unfilteredData = [] as Client[];
             this.pageIndex = 0;
             this.pageSize = 0;
             this.total = 0;
@@ -246,8 +298,7 @@ export class ViewClientsComponent implements OnInit  {
             });
           }
         });
-      }
-      else {
+    } else {
       this.clientsdata = this._clientservice.getFirsttPageValue().data;
       this.unfilteredData = this._clientservice.getFirsttPageValue().data;
       this.pageIndex =
@@ -259,14 +310,12 @@ export class ViewClientsComponent implements OnInit  {
       this.totalPage =
         this._clientservice.getFirsttPageValue().pagination.totalPage;
     }
-
   }
 
-
   findlistofNames(): void {
-   this.listofNames = [''];
+    this.listofNames = [''];
     for (let i = 0; i < this.clientsdata.length; i++) {
-      this.nameofclient = this.clientsdata[i].ClientName;
+      this.nameofclient = this.clientsdata[i].ClientStatus.StatusName;
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
@@ -284,70 +333,157 @@ export class ViewClientsComponent implements OnInit  {
     }
     console.log(this.namesofclientsfilterd);
 
-    this.namesofclientsfilterd = this.namesofclientsfilterd.filter((word) => word);
+    this.namesofclientsfilterd = this.namesofclientsfilterd.filter(
+      (word) => word
+    );
     this.namesofclientsfilterd.shift();
 
     console.log(this.namesofclientsfilterd);
   }
-  // data = this.projects;
 
+  findlistSalesPersonNames(): void {
+    this.ListOfSalesPerson = [''];
+    for (let i = 0; i < this.clientsdata.length; i++) {
+      this.namesofSalesPerson = this.clientsdata[i].SalesPerson.Name;
+      this.ListOfSalesPerson.push(this.namesofSalesPerson);
+      this.filteredPersonArray = this.ListOfSalesPerson.filter((item, pos) => {
+        return this.ListOfSalesPerson.indexOf(item) == pos;
+      });
 
-  filter(listOfSearchName: string[], searchAddress: string): void {
-    this.listOfSearchName = listOfSearchName;
-    this.searchAddress = searchAddress;
-    this.clientsdata = this.unfilteredData;
-    this.search(false);
+      this.ListOfSalesPerson = this.filteredPersonArray.filter((item) => item);
+    }
 
+    for (let i = 0; i < this.ListOfSalesPerson.length; i++) {
+      this.namesofSalesfilterd.push({
+        text: this.ListOfSalesPerson[i],
+        value: this.ListOfSalesPerson[i],
+        checked: true,
+      });
+    }
+
+    this.namesofSalesfilterd = this.namesofSalesfilterd.filter((word) => word);
+    this.namesofSalesfilterd.shift();
+
+    console.log(this.namesofSalesfilterd);
   }
 
-  search(reset:boolean): void {
-    /** filter data **/
-    // console.log("This is Reset  "+reset);
-    // if(reset){
-    //   this.ngOnInit();
-    //   // this.pageIndex = 1;
+  findlistOfLocation(): void {
+    this.listOfLocation = [''];
+    for (let i = 0; i < this.clientsdata.length; i++) {
+      this.nameOfLocation = this.clientsdata[i].OperatingAddress[0].Country;
+      this.listOfLocation.push(this.nameOfLocation);
+      this.filteredPersonArray = this.listOfLocation.filter((item, pos) => {
+        return this.listOfLocation.indexOf(item) == pos;
+      });
 
-    // }
+      this.listOfLocation = this.filteredPersonArray.filter((item) => item);
+    }
 
+    for (let i = 0; i < this.listOfLocation.length; i++) {
+      this.namesofLocationsfilterd.push({
+        text: this.listOfLocation[i],
+        value: this.listOfLocation[i],
+        checked: true,
+      });
+    }
+
+    this.namesofLocationsfilterd = this.namesofLocationsfilterd.filter(
+      (word) => word
+    );
+    this.namesofLocationsfilterd.shift();
+
+    console.log(this.namesofLocationsfilterd);
+  }
+
+  // filterSalesPesrson(
+  //   listsearchSalesPerson: string[],
+  //   searchSalesPerson: string
+  // ): void {
+  //   this.listsearchSalesPerson = listsearchSalesPerson;
+  //   this.searchSalesPerson = searchSalesPerson;
+  //   if(this.resolve()) {
+  //     this.searchPerson(false);
+  //   }
+  //   else {
+  //     this.clientsdata = this.unfilteredData;
+  //     this.searchPerson(false);
+  //   }
+
+  // }
+
+  // filter(listOfSearchName: string[], searchAddress: string): void {
+  //   this.listOfSearchName = listOfSearchName;
+  //   this.searchAddress = searchAddress;
+  //   if(this.resolve()) {
+  //     this.search(false);
+  //   }
+  //   else {
+  //     this.clientsdata = this.unfilteredData;
+  //     this.search(false);
+  //   }
+  // }
+
+  // searchPerson(reset: boolean): void {
+  //   const filterFunc = (item: Client) =>
+  //     (this.searchAddress
+  //       ? item.SalesPerson.Name.indexOf(this.searchSalesPerson) !== -1
+  //       : true) &&
+  //     (this.listsearchSalesPerson.length
+  //       ? this.listsearchSalesPerson.some(
+  //           (name) => item.SalesPerson.Name.indexOf(name) !== -1
+  //         )
+  //       : true);
+  //   const data = this.clientsdata.filter((item) => filterFunc(item));
+  //   this.clientsdata = data;
+  //   console.log(data);
+  // }
+
+  // search(_reset: boolean): void {
+  //   const filterFunc = (item: Client) =>
+  //     (this.searchAddress
+  //       ? item.ClientName.indexOf(this.searchAddress) !== -1
+  //       : true) &&
+  //     (this.listOfSearchName.length
+  //       ? this.listOfSearchName.some(
+  //           (name) => item.ClientName.indexOf(name) !== -1
+  //         )
+  //       : true);
+  //   const data = this.clientsdata.filter((item) => filterFunc(item));
+  //   this.clientsdata = data;
+  //   console.log(data);
+  // }
+
+  search(
+    searchAddressList: string[],
+    searchstatusList: string[],
+    searchsalesPersonList: string[]
+  ): void {
+    this.searchstatusList = searchstatusList;
+    console.log('Status---' + this.searchstatusList);
+    this.searchAddressList = searchAddressList;
+    console.log('Location---' + this.searchAddressList);
+    this.searchsalesPersonList = searchsalesPersonList;
+    console.log('SalesPerson---' + this.searchsalesPersonList);
+    this.clientsdata = this.unfilteredData;
     const filterFunc = (item: Client) =>
-      (this.searchAddress
-        ? item.ClientName.indexOf(this.searchAddress) !== -1
+      (this.searchAddressList.length
+        ? this.searchAddressList.some(
+            (address) =>
+              item.OperatingAddress[0].Country.indexOf(address) !== -1
+          )
         : true) &&
-      (this.listOfSearchName.length
-        ? this.listOfSearchName.some(
-            (name) => item.ClientName.indexOf(name) !== -1
+      (this.searchstatusList.length
+        ? this.searchstatusList.some(
+            (name) => item.ClientStatus.StatusName.indexOf(name) !== -1
+          )
+        : true) &&
+      (this.searchsalesPersonList.length
+        ? this.searchsalesPersonList.some(
+            (name) => item.SalesPerson.Name.indexOf(name) !== -1
           )
         : true);
     const data = this.clientsdata.filter((item) => filterFunc(item));
     this.clientsdata = data;
     console.log(data);
-    /** sort data **/
-    // if (this.sortName) {
-    //   this.clientsdata = data.sort((a, b) =>
-    //     this.sortValue === 'ascend'
-    //       // ? a[this.sortName] > b[this.sortName]
-    //         ? 1
-    //         // eslint-disable-next-line no-constant-condition
-    //         : -1
-    //       // : b[this.sortName] > a[this.sortName]
-    //       ? 1
-    //       : -1
-    //   );
-    // } else {
-    //   this.clientsdata = data;
-    //   // this.total = this.projects.length;
-    // }
   }
-
-  // getAllData(){
-
-
-  //  this._clientservice.getAll().subscribe((response)=>
-  //   {
-  //     console.log("This is All Data"+response);
-  //     return response;
-  //   });
-
-  // }
-
 }

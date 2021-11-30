@@ -10,10 +10,6 @@ export interface Employee {
 }
 
 
-
-
-
-
 export enum EmployeePostion {
   TDM = 'Tecnical Delivary Manager',
   Dev3 = 'Devloper 3',

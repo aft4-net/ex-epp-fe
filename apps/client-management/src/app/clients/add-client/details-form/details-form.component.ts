@@ -1,14 +1,13 @@
-import { Component, OnInit} from '@angular/core';
+import { ClientDetails, ClientDetailsAdd, ClientDetailsService, ClientStatus, ClientStatusService, Employee, EmployeeService } from '../../../core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
+
 import { Router } from '@angular/router';
-import { ClientDetails, ClientStatus, Employee, ClientDetailsService, ClientStatusService, EmployeeService, ClientDetailsAdd } from '../../../core';
-
-
 
 @Component({
   selector: 'exec-epp-details-form',
