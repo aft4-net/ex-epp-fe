@@ -1,20 +1,19 @@
+import {
+AddClientStateService,
+Client,
+ClientDetailCreate,
+ClientStatus,
+ClientStatusService,
+Employee,
+EmployeeService,
+} from '../../../core';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
-import {
-  
-  ClientStatus,
-  Employee,
-  ClientStatusService,
-  EmployeeService,
-  ClientDetailCreate,
-  AddClientStateService,
-  Client,
-} from '../../../core';
 
 @Component({
   selector: 'exec-epp-details-form',
@@ -30,7 +29,7 @@ export class DetailsFormComponent implements OnInit {
   clientDetailCreate: ClientDetailCreate = {} as ClientDetailCreate;
   options: string[] = [];
   selectedValue = '';
-
+  clientNameExistErrorMessage='';
   validateForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -66,8 +65,8 @@ export class DetailsFormComponent implements OnInit {
           this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
           this.validateForm.controls.description.value;
-  
-        
+
+
         this.addClientStateService.updateAddClientDetails(
           this.clientDetailCreate
         );
@@ -75,28 +74,38 @@ export class DetailsFormComponent implements OnInit {
     });
   }
 
-  onChange(value: string): void {
-    if (this.inputValue == '') {
-      this.filteredOptions = [];
-    } else {
-      for (let i = 0; i < this.employees.length; i++) {
-        this.options[i] = (
-          this.employees[i].Name +
-          '-' +
-          this.employees[i].Role
-        ).toString();
+  checkClientName() {
+    var name = this.validateForm.value['clientName'];
+
+      for (let i = 0; i < this.clients.length; i++) {
+        if (
+          name.toLowerCase() ===
+          this.clients[i].ClientName.toString().toLowerCase()
+        ) {
+          this.clientNameExistErrorMessage = 'Client name already exists';
+          break;
+        } else {
+          this.clientNameExistErrorMessage = '';
+        }
       }
-      this.filteredOptions = this.options.filter(
-        (option) => option.toLowerCase().indexOf(value.toLowerCase()) !== -1
-      );
-    }
+
   }
+
+  handleError(): void {
+        if (this.validateForm.controls.salesPerson.invalid) {
+          this.validateForm.controls.salesPerson.markAsDirty();
+          this.validateForm.controls.salesPerson.updateValueAndValidity({ onlySelf: true });
+       }
+}
 
   get salesPerson() {
     return this.validateForm.controls.salesPerson as FormControl;
   }
   get clientName() {
     return this.validateForm.controls.clientName as FormControl;
+  }
+  get description() {
+    return this.validateForm.controls.description as FormControl;
   }
 
   createRegistrationForm() {
@@ -107,11 +116,12 @@ export class DetailsFormComponent implements OnInit {
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(70),
+
         ],
       ],
-      status: [null, [Validators.required]],
-      salesPerson: [null, [Validators.required]],
-      description: [''],
+      status: ['Active', [Validators.required]],
+      salesPerson: ['', [Validators.required]],
+      description:['',[Validators.maxLength(250)]],
     });
   }
 }
