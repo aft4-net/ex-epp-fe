@@ -13,7 +13,10 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './view-clients.component.html',
   styleUrls: ['./view-clients.component.scss'],
 })
-export class ViewClientsComponent implements OnInit {
+
+export class ViewClientsComponent implements OnInit  {
+  isVisible = false;
+
   paginatedprojects$!: Observable<PaginatedResult<Client[]>>;
 
   clientsdata: Client[] = [];
@@ -67,6 +70,9 @@ export class ViewClientsComponent implements OnInit {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
+  }
+  showModal(): void {
+    this.isVisible = true;
   }
 
   sorter(id:number) {
