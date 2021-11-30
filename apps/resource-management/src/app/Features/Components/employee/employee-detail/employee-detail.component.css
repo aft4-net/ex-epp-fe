@@ -1,7 +1,7 @@
- .send-request {
-   margin-bottom: 16px;
- }
+ .inner-content {
+  min-height: 380px;
+  width: 100%;
+  padding: 0px;
+  align-content: unset;
 
- .send-request span {
-   margin-left: 8px;
- }
+}
