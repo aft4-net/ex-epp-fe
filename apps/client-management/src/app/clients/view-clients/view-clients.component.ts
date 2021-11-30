@@ -321,10 +321,12 @@ export class ViewClientsComponent implements OnInit {
     searchsalesPersonList: string[]
   ): void {
     this.searchstatusList = searchstatusList;
-    console.log('Status---' + this.searchstatusList);
+
     this.searchAddressList = searchAddressList;
-    console.log('Location---' + this.searchAddressList);
+
     this.searchsalesPersonList = searchsalesPersonList;
+    console.log('Location---' + this.searchAddressList);
+    console.log('Status---' + this.searchstatusList);
     console.log('SalesPerson---' + this.searchsalesPersonList);
     this.clientsdata = this.unfilteredData;
     const filterFunc = (item: Client) =>
