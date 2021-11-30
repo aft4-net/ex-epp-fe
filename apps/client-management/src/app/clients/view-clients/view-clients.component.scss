@@ -1,8 +1,9 @@
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #B4DFB4 !important;
 }
+
 tr:nth-child(even) {background: #F9FFF9}
 .page-title {
   font-family: SF Pro Display;
@@ -14,7 +15,9 @@ tr:nth-child(even) {background: #F9FFF9}
   align-items: center;
   color: #262626;
 }
-
+::ng-deep.ml-1{
+  padding-left: 9px;
+}
 header {
   padding: 0px 2%;
 }
@@ -62,10 +65,26 @@ header {
   color: #FFFFFF;
 
 }
+// .ant-pagination {
+//   float: right;
+  
+// }
 
 
 
 ::ng-deep .ant-btn:not([disabled]):hover {
   background: #03da6b !important;
   color: white;
+}
+
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+
+}
+::ng-deep  .ant-table-wrapper {
+
+  padding-left: 25px;
+  padding-right: 25px;
+
 }

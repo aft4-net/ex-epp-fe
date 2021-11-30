@@ -15,7 +15,7 @@
 
 
 
-<div nz-row>
+<div nz-row class="ml-1">
   <div nz-col nzSpan="6" class="ml-1">
     <nz-input-group [nzSuffix]="suffixIconSearch" >
       <input [formControl]="searchProject" type="text" nz-input placeholder="Search" />
@@ -51,7 +51,7 @@
   
 
 </div>
-<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false">
+<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false" >
   <thead>
     <tr>
       <th   nzShowFilter [nzFilters]="namesofclientsfilterd" (nzFilterChange)="filter($event,searchAddress)" *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
@@ -66,7 +66,29 @@
   <tbody>
     <tr *ngFor="let value of clientsdata" >
       <td>{{value.ClientName}}</td>
-      <td>{{value.OperatingAddress[0].Country}}</td>
+      <td>
+        <span *ngFor="let item of value.OperatingAddress">{{item.Country}}
+          <br>
+        </span>
+        <!-- <a >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" 
+            (click)="showModal()"/></svg>
+        </a>
+        
+        <nz-modal
+        [(nzVisible)]="isVisible"
+        [nzContent]="modalContent"
+        >
+        
+        <ng-template #modalContent>
+          <p>{{value.OperatingAddress[1].Country}}</p>
+          
+        </ng-template>
+      </nz-modal>
+         -->
+          
+        
+      </td>
       <td>{{value.ClientStatus.StatusName}}</td>
       <td>{{value.SalesPerson.Name}}</td>
       <td>{{value.ClientContacts[0].ContactPersonName}}</td>
