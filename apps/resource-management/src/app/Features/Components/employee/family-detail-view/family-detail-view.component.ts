@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
-import { AddressNewComponent } from '../address-new/address-new.component';
+import { FamilyDetailComponent } from '../family-detail/family-detail.component';
 
 @Component({
-  selector: 'exec-epp-address-view',
-  templateUrl: './address-view.component.html',
-  styleUrls: ['./address-view.component.scss']
+  selector: 'exec-epp-family-detail-view',
+  templateUrl: './family-detail-view.component.html',
+  styleUrls: ['./family-detail-view.component.scss']
 })
-export class AddressViewComponent implements OnInit {
+export class FamilyDetailViewComponent implements OnInit {
 
+  
   isVisible = false;
   isConfirmLoading = false;
   checked = false;
@@ -29,10 +29,10 @@ export class AddressViewComponent implements OnInit {
   constructor(private modalService: NzModalService) {}
 
  
-  addaddress(): void {
+  addfamilies(): void {
     this.modalService.create({
-      nzTitle: 'Add Addresses',
-      nzContent: AddressNewComponent
+      nzTitle: 'Add Family Details',
+      nzContent: FamilyDetailComponent
     });
   }
 
@@ -124,5 +124,24 @@ export class AddressViewComponent implements OnInit {
 
   deleteRow(id: string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
+  }
+
+
+
+
+  
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+
+ 
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: 'Confirm',
+      nzContent: 'Bla bla ...',
+      nzOkText: 'OK',
+      nzCancelText: 'Cancel'
+    });
   }
 }

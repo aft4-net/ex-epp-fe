@@ -8,6 +8,8 @@ import { OrganizationDetailComponent } from './organization-detail/organization-
 import { PersonalAddressesComponent } from './personal-addresses/personal-addresses.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { AddressViewComponent } from './address-view/address-view.component';
+import { FamilyDetailViewComponent } from './family-detail-view/family-detail-view.component';
+import { EmergencycontactViewComponent } from './emergencycontact-view/emergencycontact-view.component';
 
 const routes: Routes = [
   { path: 'employee/add-employee', component: EmployeeComponent },
@@ -43,6 +45,18 @@ const routes: Routes = [
     path: 'employee/add-employee/family-detail',
     component: FamilyDetailComponent,
   },
+  {
+    path: 'employee/add-employee/family-detail-view',
+    component: FamilyDetailViewComponent,
+  },
+
+  {
+    path: 'employee/add-employee/emergencycontacts-view',
+    component: EmergencycontactViewComponent,
+  },
+
+
+
 ];
 
 @NgModule({
