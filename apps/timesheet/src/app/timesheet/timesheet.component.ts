@@ -63,7 +63,7 @@ export class TimesheetComponent implements OnInit {
   lastWeeks = null;
   startValue: Date | null = null;
   endValue: Date | null = null;
-  timesheetApproval: TimesheetApproval[] | null = [];
+  timesheetApprovals: TimesheetApproval[] | null = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   disabledDate = (current: Date): boolean =>
@@ -123,6 +123,10 @@ export class TimesheetComponent implements OnInit {
           this.timeEntries = response ? response : null;
         }, error => {
           console.log(error);
+        });
+
+        this.timesheetService.getTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
+          this.timesheetApprovals = response ? response : null;
         });
       }
     }, error => {
@@ -196,8 +200,6 @@ export class TimesheetComponent implements OnInit {
       if (this.userId) {
         this.getTimesheet(this.userId, this.weekDays[0]);
       }
-    } else {
-      window.location.reload();
     }
   }
 
@@ -206,8 +208,6 @@ export class TimesheetComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(curr);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    } else {
-      window.location.reload();
     }
   }
 
@@ -284,8 +284,8 @@ export class TimesheetComponent implements OnInit {
     }
 
     this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
-      this.timesheetApproval = objApprove ? objApprove : null;
-      if (!this.timesheetApproval || this.timesheetApproval.length === 0) {
+      this.timesheetApprovals = objApprove ? objApprove : null;
+      if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
         return;
       }
@@ -296,9 +296,9 @@ export class TimesheetComponent implements OnInit {
         return;
       }
 
-      this.timesheetApproval = this.timesheetApproval.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId);
+      let timesheetApproval = this.timesheetApprovals.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId);
 
-      if (this.timesheetApproval.length === 0 || this.timesheetApproval[0].Status != 2) {
+      if (timesheetApproval.length === 0 || timesheetApproval[0].Status != 2) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
         this.clearFormData();
       }

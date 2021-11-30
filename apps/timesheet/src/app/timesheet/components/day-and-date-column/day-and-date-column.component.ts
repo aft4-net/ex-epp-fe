@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
-import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
+import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
@@ -20,6 +20,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
+  @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
@@ -119,6 +120,21 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       }
     }
     return this.moreEntries;
+  }
+
+  timesheetApprovalForaProject(projectId: string){
+    if(!this.timesheetApprovals){
+      return null;
+    }
+
+    let timesheetApprovals = this.timesheetApprovals.filter(tsa => tsa.ProjectId === projectId)
+
+    if (timesheetApprovals.length === 0){
+      return null;
+    }
+    else{
+      return timesheetApprovals[0];
+    }
   }
 }
 

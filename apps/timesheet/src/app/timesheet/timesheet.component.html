@@ -17,6 +17,7 @@
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' "
                                [date]="myD"
                                [timesheet]="timesheet"
+                               [timesheetApprovals]="timesheetApprovals"
                                (dateColumnClicked)="onDateColumnClicked($event, myD)"
                                (projectNamePaletClicked)="onProjectNamePaletClicked($event, myD)"
                                (paletEllipsisClicked)="onPaletEllipsisClicked($event, myD)"
