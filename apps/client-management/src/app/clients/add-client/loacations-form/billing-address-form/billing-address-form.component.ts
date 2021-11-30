@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BillingAddress } from 'apps/client-management/src/app/core/models/post/BillingAddressAdd';
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
@@ -12,6 +12,7 @@ import { StateService } from 'apps/client-management/src/app/core/services/State
 })
 export class BillingAddressFormComponent implements OnInit {
   billingAddressess: BillingAddress[] = [];
+  tabledata:any=[];
   isVisible = false;
   isOkLoading = false;
   footer = null;
@@ -38,7 +39,7 @@ export class BillingAddressFormComponent implements OnInit {
     private _cityInState: CityInStateService
   ) {
     this.forms = _fb.group({
-      Name: ['',Validators.required],
+      Name: [null,Validators.required],
       Affliation: ['',Validators.required],
       Country: ['',Validators.required],
       City: ['',Validators.required],
@@ -85,11 +86,16 @@ export class BillingAddressFormComponent implements OnInit {
     if (this.forms.valid) {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
+      this.tabledata=['']
       this.IsEdit=false;
       this.editAt=-1;
       }
      else{
-      this.billingAddressess.push(this.forms.value);
+    
+      this.billingAddressess =[
+        ...this.billingAddressess,
+        this.forms.value
+      ]
      }
     this.isVisible = false;
     this.forms.reset();
@@ -173,4 +179,9 @@ export class BillingAddressFormComponent implements OnInit {
     this.getSelectedState();
     this.found=false;
   }
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+}
 }
