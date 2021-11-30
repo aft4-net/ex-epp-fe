@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillingAddress } from 'apps/client-management/src/app/core/models/post/BillingAddressAdd';
-
-import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
+import { AddClientStateService } from 'apps/client-management/src/app/core';
+import { BillingAddress } from 'apps/client-management/src/app/core/models/get/billing-address';
 
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
-
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
-
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { StateService } from 'apps/client-management/src/app/core/services/State.service';
 
 @Component({
@@ -93,7 +92,6 @@ export class BillingAddressFormComponent implements OnInit {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
       this.tabledata=['']
-      this.addClientService.updateBillingAddress(this.billingAddressess);
       this.IsEdit=false;
       this.editAt=-1;
       }
@@ -103,7 +101,6 @@ export class BillingAddressFormComponent implements OnInit {
         ...this.billingAddressess,
         this.forms.value
       ]
-      this.addClientService.updateBillingAddress(this.billingAddressess);
      }
     this.isVisible = false;
     this.forms.reset();
