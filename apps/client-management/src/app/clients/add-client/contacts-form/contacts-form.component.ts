@@ -1,11 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import { AddClientStateService } from '../../../core';
-import { CountryCode } from '../../../core/models/get/country-code';
-import { CountryCodeService } from '../../../core/services/country-code.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { countryPhoneCodes } from '../../../shared/Data/dummy';
+import { AddClientStateService, ClientContactCreate } from '../../../core';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -28,10 +25,10 @@ export class ContactsFormComponent implements OnInit {
 
   buttonClicked = 0
 
-
   addContactForm!: FormGroup;
-  listData:any=[];
-  isModalVisible = false;
+  listData=[] as ClientContactCreate[];
+isModalVisible = false;
+isEditMode=false;
   total = 10;
   loading = false;
   pageSize = 10;
@@ -39,13 +36,12 @@ export class ContactsFormComponent implements OnInit {
   idParam='';
   totalPage!:number;
 
+  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientStateService: AddClientStateService) {
 
 
 
-  constructor(private fb: FormBuilder,private modal: NzModalService, private _countryService:CountryCodeService) {
-    this.listofCodes=this._countryService.getPhonePrefices();
-
-   }
+ 
+  }
 
   ngOnInit(): void {
 
@@ -53,10 +49,9 @@ export class ContactsFormComponent implements OnInit {
 
     this.listData=[];
     this.addContactForm = this.fb.group({
-      contactName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$")]],
-      phoneNumberPrefix:['+251',[Validators.required]],
-      emailAdress:['',[Validators.required,Validators.email,Validators.maxLength(320),Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
+      ContactPersonName: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required]],
+      Email:['',[Validators.required,Validators.email,Validators.maxLength(320)]]
     });
   }
   showModal(): void {
@@ -71,6 +66,7 @@ export class ContactsFormComponent implements OnInit {
     if(this.addContactForm.valid)
     {
       this.listData.push(this.addContactForm.value);
+      this.addClientStateService.updateClientContacts(this.listData);
       this.addContactForm.reset();
       this.isVisible = false;
     }else {
@@ -94,12 +90,17 @@ exitModal()
 
     this.addContactForm.reset();
   }
+  handleCancel(){
+    this.isVisible=false;
+    this.addContactForm.reset();
+  }
   removeItem(element:any)
   {
     this.listData.forEach((value:any,index:any) => {
       if(value==element)
-      this.listData.splice(index,1);
-
+     {this.listData.splice(index,1);
+      this.addClientStateService.updateClientContacts(this.listData);
+     }
     });
 
   }
