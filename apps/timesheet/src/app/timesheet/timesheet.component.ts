@@ -387,7 +387,7 @@ export class TimesheetComponent implements OnInit {
           if (this.timeEntry) {
             timeEntry.Guid = this.timeEntry.Guid;
             timeEntry.Hour = this.timeEntry.Hour + timeEntry.Hour;
-            timeEntry.Note = this.timeEntry.Note + "/n" + timeEntry.Note;
+            timeEntry.Note = this.timeEntry.Note + "\n" + timeEntry.Note;
             timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
             this.updateTimeEntry(timeEntry);
