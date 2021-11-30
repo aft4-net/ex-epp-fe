@@ -26,11 +26,8 @@ export class ViewClientsComponent implements OnInit {
   totalPage!: number;
   searchKey = '';
   unfilteredData!: Client[];
-  // clientsdata!: Client[];
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
-  //client:Client[]=[];
-
   sortByParam="";
   sortDirection = "asc";
 
@@ -67,7 +64,7 @@ export class ViewClientsComponent implements OnInit {
   ngOnInit(): void {
     this.initializeData();
 
-    this.searchProject.valueChanges.pipe(debounceTime(3000)).subscribe(() => {
+    this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
   }
@@ -114,6 +111,7 @@ export class ViewClientsComponent implements OnInit {
         this.pageSize = response.pagination.pageSize;
 
         this.loading = false;
+
       });
   }
 
@@ -130,7 +128,6 @@ export class ViewClientsComponent implements OnInit {
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
-
         });
 
 
@@ -143,16 +140,16 @@ export class ViewClientsComponent implements OnInit {
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
-          this.search(
-            this.searchAddressList,
-            this.searchstatusList,
-            this.searchsalesPersonList
-          );
-          console.log('Status---' + this.searchstatusList);
+          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+            this.search(
+              this.searchAddressList,
+              this.searchstatusList,
+              this.searchsalesPersonList
+            );
 
-          console.log('Location---' + this.searchAddressList);
+          }
 
-          console.log('SalesPerson---' + this.searchsalesPersonList);
+
         });
       this.searchStateFound = false;
     }
@@ -316,63 +313,7 @@ export class ViewClientsComponent implements OnInit {
     console.log(this.namesofLocationsfilterd);
   }
 
-  // filterSalesPesrson(
-  //   listsearchSalesPerson: string[],
-  //   searchSalesPerson: string
-  // ): void {
-  //   this.listsearchSalesPerson = listsearchSalesPerson;
-  //   this.searchSalesPerson = searchSalesPerson;
-  //   if(this.resolve()) {
-  //     this.searchPerson(false);
-  //   }
-  //   else {
-  //     this.clientsdata = this.unfilteredData;
-  //     this.searchPerson(false);
-  //   }
 
-  // }
-
-  // filter(listOfSearchName: string[], searchAddress: string): void {
-  //   this.listOfSearchName = listOfSearchName;
-  //   this.searchAddress = searchAddress;
-  //   if(this.resolve()) {
-  //     this.search(false);
-  //   }
-  //   else {
-  //     this.clientsdata = this.unfilteredData;
-  //     this.search(false);
-  //   }
-  // }
-
-  // searchPerson(reset: boolean): void {
-  //   const filterFunc = (item: Client) =>
-  //     (this.searchAddress
-  //       ? item.SalesPerson.Name.indexOf(this.searchSalesPerson) !== -1
-  //       : true) &&
-  //     (this.listsearchSalesPerson.length
-  //       ? this.listsearchSalesPerson.some(
-  //           (name) => item.SalesPerson.Name.indexOf(name) !== -1
-  //         )
-  //       : true);
-  //   const data = this.clientsdata.filter((item) => filterFunc(item));
-  //   this.clientsdata = data;
-  //   console.log(data);
-  // }
-
-  // search(_reset: boolean): void {
-  //   const filterFunc = (item: Client) =>
-  //     (this.searchAddress
-  //       ? item.ClientName.indexOf(this.searchAddress) !== -1
-  //       : true) &&
-  //     (this.listOfSearchName.length
-  //       ? this.listOfSearchName.some(
-  //           (name) => item.ClientName.indexOf(name) !== -1
-  //         )
-  //       : true);
-  //   const data = this.clientsdata.filter((item) => filterFunc(item));
-  //   this.clientsdata = data;
-  //   console.log(data);
-  // }
 
   search(
     searchAddressList: string[],
@@ -380,10 +321,12 @@ export class ViewClientsComponent implements OnInit {
     searchsalesPersonList: string[]
   ): void {
     this.searchstatusList = searchstatusList;
-    console.log('Status---' + this.searchstatusList);
+
     this.searchAddressList = searchAddressList;
-    console.log('Location---' + this.searchAddressList);
+
     this.searchsalesPersonList = searchsalesPersonList;
+    console.log('Location---' + this.searchAddressList);
+    console.log('Status---' + this.searchstatusList);
     console.log('SalesPerson---' + this.searchsalesPersonList);
     this.clientsdata = this.unfilteredData;
     const filterFunc = (item: Client) =>
