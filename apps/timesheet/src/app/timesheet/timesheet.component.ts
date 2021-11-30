@@ -151,6 +151,7 @@ export class TimesheetComponent implements OnInit {
     let clientId = value;
     this.timesheetService.getProjects(this.userId, clientId).subscribe(pp => {
       this.projects = pp;
+      this.setDefaultProject(this.projects);
     });
   }
 
@@ -162,6 +163,7 @@ export class TimesheetComponent implements OnInit {
       if (project) {
         this.timesheetService.getClient(project.clientId).subscribe(response => {
           this.clients = response
+          this.setDefaultClient(this.clients);
         });
       }
     });
@@ -289,7 +291,7 @@ export class TimesheetComponent implements OnInit {
 
     this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApproval = objApprove ? objApprove : null;
-      if (!this.timesheetApproval || this.timesheetApproval.length===0) {
+      if (!this.timesheetApproval || this.timesheetApproval.length === 0) {
         this.showFormDrawer();
         return;
       }
@@ -314,8 +316,8 @@ export class TimesheetComponent implements OnInit {
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.showFormDrawer) {
-      (this.projects?.length === 1) ? this.formData.project = this.projects[0].id.toString() : this.formData.project = '';
-      (this.clients?.length === 1) ? this.formData.client = this.clients[0].id.toString() : this.formData.client = '';
+      this.setDefaultClient(this.clients);
+      this.setDefaultProject(this.projects);
 
       if (this.timeEntry) {
         let clientId = this.projects?.filter(project => project.id == this.timeEntry?.ProjectId)[0].clientId.toString();
@@ -335,6 +337,28 @@ export class TimesheetComponent implements OnInit {
     }
 
     this.clickEventType = ClickEventType.none;
+  }
+
+  setDefaultClient(clients: Client[] | null) {
+    if (!clients) {
+      return;
+    }
+    else if(this.formData.client && this.formData.client != ""){
+      return;
+    }
+
+    (clients.length === 1) ? this.formData.client = clients[0].id.toString() : this.formData.client = '';
+  }
+
+  setDefaultProject(projects: Project[] | null) {
+    if (!projects) {
+      return;
+    }
+    else if(this.formData.project && this.formData.project != ""){
+      return;
+    }
+
+    (projects.length === 1) ? this.formData.project = projects[0].id.toString() : this.formData.project = '';
   }
 
   submitForm(): void {
@@ -471,6 +495,6 @@ export class TimesheetComponent implements OnInit {
       message = "Warning"
     }
 
-    this.notification.create(type,message,'Timesheet');
+    this.notification.create(type, message, 'Timesheet');
   }
 }
