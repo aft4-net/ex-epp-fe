@@ -1,11 +1,13 @@
 
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Employee } from "../../Models/Employee";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ResponseDto } from "../../Models/response-dto.model";
+import { ResponseDTO, ResponseDto } from "../../Models/response-dto.model";
 import {map} from "rxjs/operators"
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
+import { IEmployeeViewModel } from "../../Models/Employee/EmployeeViewModel";
+import { EmployeeParams } from "../../Models/Employee/EmployeeParams";
 
 
 @Injectable({
@@ -13,14 +15,15 @@ import { EmployeeOrganization } from "../../Models/EmployeeOrganization/Employee
 })
 export class EmployeeService {
   baseUrl = 'http://localhost:14696/api/v1/Employee';
-
+  constructor(private http: HttpClient) { }
 
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
    employee$ = this.employeeSource.asObservable();
 
-   employee!:Employee ;
+   private employeeListSource = new BehaviorSubject<IEmployeeViewModel[]>({} as IEmployeeViewModel[]);
+   employeeList$ = this.employeeListSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+   employee!:Employee;
 
   addEmployee(employee: Employee) {
     this.setEmployee(employee);
@@ -62,6 +65,11 @@ export class EmployeeService {
 
     }
 
+    getEmployeeListInfo(){
+      const employeeList = this.employeeListSource.getValue()
+      return employeeList;
+     }
+
     saveEmployee(){
        this.employee$.subscribe(x=>{
          this.employee = x;
@@ -84,5 +92,18 @@ export class EmployeeService {
       } else {
         return <EmployeeOrganization>{};
       }
+    }
+
+    SearchEmployeeData(employeeParams: EmployeeParams) : Observable<IEmployeeViewModel[]>{
+      let params = new HttpParams();    
+      if(employeeParams.searchKey) {
+        params = params.append("search", employeeParams.searchKey);
+      }
+      params = params.append("pageIndex", employeeParams.pageIndex.toString());
+      params = params.append("pageSize", employeeParams.pageSize.toString());
+
+      return this.http.get<ResponseDTO<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' , {params}).pipe(
+        map(result => result.Data)
+      ) 
     }
 }

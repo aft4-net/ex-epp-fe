@@ -1,47 +1,49 @@
-
- 
-
-<div class="send-request">
-  <button
-    nz-button
-    nzType="primary"
-    [disabled]="setOfCheckedId.size === 0"
-    [nzLoading]="loading"
-    (click)="sendRequest()"
-  >
-    Send Request
-  </button>
-  <span>Selected {{ setOfCheckedId.size }} items</span>
+<br/>
+<div nz-row>
+  <div nz-col class="gutter-row" [nzSpan]="8">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input type="text" nz-input placeholder="Search" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <button nz-button  nzSearch><i nz-icon nzType="search"></i></button>
+        </ng-template>
+  </div>
 </div>
-<nz-table
-  #rowSelectionTable
-  nzShowPagination
-  nzShowSizeChanger
-  [nzData]="listOfData"
-  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
->
-  <thead>
-    <tr>
-      <th
-        [nzChecked]="checked"
-        [nzIndeterminate]="indeterminate"
-        (nzCheckedChange)="onAllChecked($event)"
-      ></th>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Address</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of rowSelectionTable.data">
-      <td
-        [nzChecked]="setOfCheckedId.has(data.id)"
-        [nzDisabled]="data.disabled"
-        (nzCheckedChange)="onItemChecked(data.id, $event)"
-      ></td>
-      <td>{{ data.name }}</td>
-      <td>{{ data.age }}</td>
-      <td>{{ data.address }}</td>
-    </tr>
-  </tbody>
-</nz-table>
+<br/>
+<div nz-row>
+  <div nz-col class="gutter-row" [nzSpan]="24">
+    <ng-container *ngIf="(employeeViewModels$ | async) as employeeList">
+    <nz-table
+      #rowSelectionTable
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="listOfData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+      <thead>
+        <tr>
+          <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+          <th>Employees</th>
+          <th>Job Title</th>
+          <th>Country</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr *ngFor="let employeeView of employeeList">
+            <!-- <td
+              [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
+              (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)">
+            </td> -->
+            <td>{{ employeeView.FullName }}</td>
+            <td>{{ employeeView.JobTitle }}</td>
+            <td>{{ employeeView.Location }}</td>
+            <td>{{ employeeView.Status }}</td>
+          </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  </div>
+</div>
+
