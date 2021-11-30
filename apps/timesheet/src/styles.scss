@@ -25,7 +25,7 @@
     //margin-top: 127px;
     margin-top: 8rem;
     ///min-height: 900px;
-    border-top-left-radius: 15px; 
+    border-top-left-radius: 15px;
     background-color: #FFFFFF;
 
     .ant-drawer-body {
@@ -51,7 +51,15 @@
     background-color: #DCFFDC;
     border-radius: 0 0 2px 2px;
 }
-
+@media only screen and (max-width: 1000px) {
+  .ant-popover-inner {
+    flex-direction: row !important;
+    width: 800px!important;
+    justify-content:top;
+    position: fixed ;
+    margin-left:-0px;
+  }
+  }
 /*.ant-modal-body {
 
   width: 0px;

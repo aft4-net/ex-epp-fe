@@ -1,42 +1,60 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, AfterViewInit, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
+import { findIndex } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
-import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
+import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
+import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
 
+@Directive({
+  selector:'[entries]',
+})
+export class DayAndDateDirective{
+constructor(public elRef:ElementRef){
+
+}
+}
 @Component({
   selector: 'app-day-and-date-column',
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges {
+export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewInit {
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
+  @Output() columnOverflow=new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
+  @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
+  @ViewChildren('entries')  entriesDiv!: QueryList<any>;
+  @ViewChild('pt') pointerEl!: ElementRef;
+  @ViewChild('col') colEl!: ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
   morePopover = false;
-  index?: number = 0;
+  index: number = 0;
   overflow = false;
   moreEntries: any[] = [];
-  constructor(private timesheetService: TimesheetService) {
-  }
+  overflowPt?: number=0;
+  of: any;
+  constructor(private timesheetService: TimesheetService,public elRef:ElementRef) {  }
+  ngAfterViewInit(): void {
+    this.checkOverflow(this.colEl.nativeElement);
+    this.overflowCalc();
+      }
+  
+   clickEventType = ClickEventType.none;
 
-  clickEventType = ClickEventType.none;
+   ngOnInit(): void {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function,@angular-eslint/no-empty-lifecycle-method
-  ngOnInit(): void {
-  }
-
-  ngOnChanges(): void {
+   ngOnChanges(): void {   
     if (this.timesheet) {
       this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date).subscribe(response => {
         this.timeEntrys = response ? response : null;
@@ -47,9 +65,30 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
           this.totalHoursCalculated.emit(totalHours);
         }
       });
-    }
+      this.overflowCalc();
+    }   
+   
   }
-
+  overflowCalc(){
+  this.entriesDiv?.changes.subscribe(() => {     
+    this.entriesDiv.toArray().forEach(el => {
+        if(this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom< this.pointerEl.nativeElement.getBoundingClientRect().top){
+          this.overflowPt=this.index+1;   
+                         
+     } 
+           this.index!++;
+    });
+     if(this.overflowPt!>0){
+       if(this.checkOverflow(this.colEl.nativeElement)){
+      this.overflow=true;
+      this.colEl.nativeElement.style.overflow="hidden";
+      this.columnOverflow.emit(this.overflow);
+      this.split(this.overflowPt!);
+      console.log(this.checkOverflow(this.colEl.nativeElement))
+       }
+     } 
+});
+  }
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
@@ -103,14 +142,13 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     if (el.offsetHeight < el.scrollHeight) {
       this.index ? index : null;
       this.overflow = true;
-      el.style.overflow = "hidden";
     }
-
     return el.offsetHeight < el.scrollHeight;
   }
 
   split(index: number) {
-    if (this.timeEntrys !== null) {
+
+    if(this.timeEntrys!==null) {
       for (let i = index; i < this.timeEntrys.length; i++) {
         for (let j = 0; j <= this.timeEntrys.length - index; j++) {
           this.moreEntries[j] = this.timeEntrys[i];
@@ -119,6 +157,21 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       }
     }
     return this.moreEntries;
+  }
+
+  timesheetApprovalForaProject(projectId: string){
+    if(!this.timesheetApprovals){
+      return null;
+    }
+
+    let timesheetApprovals = this.timesheetApprovals.filter(tsa => tsa.ProjectId === projectId)
+
+    if (timesheetApprovals.length === 0){
+      return null;
+    }
+    else{
+      return timesheetApprovals[0];
+    }
   }
 }
 

@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Data } from '@angular/router';
+
+import { data } from 'autoprefixer';
+import { Observable } from 'rxjs';
+import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
+import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
+import { ResponseDTO } from '../../../Models/response-dto.model';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -9,13 +15,22 @@ import { Data } from '@angular/router';
 })
 export class EmployeeDetailComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() {}
+  constructor(private _employeeService : EmployeeService) {
+
+  }
   checked = false;
   loading = false;
   indeterminate = false;
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
+  employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
+  employeeParams = new EmployeeParams();
+  
+
+  ngOnInit(): void {
+    this.FeatchAllEmployees();
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -67,18 +82,11 @@ export class EmployeeDetailComponent implements OnInit {
     }, 1000);
   }
 
-  ngOnInit(): void {
-    this.listOfData = new Array(20).fill(0).map((_, index) => ({
-      id: index,
-      name: `Edward King ${index}`,
-      age: 32,
-      address: `London, Park Lane no. ${index}`,
-      disabled: index % 2 === 0,
-    }));
+  
+  FeatchAllEmployees() {
+    this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
+   
   }
-
-
-
 }
 
 

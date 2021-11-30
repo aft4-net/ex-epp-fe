@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
-import { TimeEntry } from '../../../models/timesheetModels';
+import { TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
@@ -15,7 +15,9 @@ export class ProjectNamePaletComponent implements OnInit {
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editClicked = new EventEmitter<ClickEventType>()
   @Input() timeEntry: TimeEntry | null = null;
+  @Input() timesheetApproval: TimesheetApproval | null = null;
   project: Project | null = null;
+  projectNamePaletClass = "project-name-palet"
 
   clickEventType = ClickEventType.none;
   popoverVisible = false;
@@ -28,17 +30,25 @@ export class ProjectNamePaletComponent implements OnInit {
         this.project = response ? response[0] : null;
       });
     }
+
+    if (this.timesheetApproval && this.timesheetApproval.Status != 2) {
+      this.projectNamePaletClass = "project-name-palet-approval";
+    }
+    else{
+      this.projectNamePaletClass = "project-name-palet";
+    }
   }
 
   showPopover() {
+    debugger;
     let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry};
 
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showPaletPopover;
       this.paletEllipsisClicked.emit(timeEntryEvent);
-      this.popoverVisible = true;
+      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === 2 : true;
     }
-  }  
+  } 
 
   onProjectNamePaletClicked() {
     let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry};
@@ -49,8 +59,7 @@ export class ProjectNamePaletComponent implements OnInit {
     }
 
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
-  }
-  
+  }  
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.none) {

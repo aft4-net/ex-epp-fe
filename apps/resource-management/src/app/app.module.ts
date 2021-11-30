@@ -22,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
+import { AddDeviceDetailComponent } from './Features/Components/add-device-detail/add-device-detail.component';
 
 registerLocaleData(en);
 
@@ -33,8 +34,8 @@ registerLocaleData(en);
     PageBreadcrumbComponent,
     ProgressButtonsComponent,
     EmployeeDetailComponent,
-
-
+    AddDeviceDetailComponent
+    
   ],
   imports: [
     EmployeeRoutingModule,
