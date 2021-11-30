@@ -15,6 +15,7 @@ import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
 import { retry } from 'rxjs/operators';
+import { TimeEntryFormData } from '../models/timeEntryFormData';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -41,12 +42,12 @@ export class TimesheetComponent implements OnInit {
   projectsFiltered: Project[] | null = null;
   employee: Employee[] = [];
 
-  formData = {
+  formData: TimeEntryFormData = {
     fromDate: new Date(),
     toDate: new Date(),
     client: '', //this.clients,
     project: '', //this.projects
-    hours: 0,
+    hours: null,
     note: '',
   };
 
@@ -99,8 +100,6 @@ export class TimesheetComponent implements OnInit {
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     this.calcualteNoOfDaysBetweenDates();
-
-    this.formData.hours = 0;
   }
 
   // To calculate the time difference of two dates
@@ -245,19 +244,14 @@ export class TimesheetComponent implements OnInit {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
     this.setDateColumnTotalHour();
 
-    console.log(this.date);
-    this.timeEntries?.forEach(timeEntry => {
-      console.log(new Date(timeEntry.Date));
-    })
-
     if (this.date <= new Date()) {
       if (this.dateColumnTotalHour < 24) {
         this.checkForApproalAndShowFormDrawer();
       } else {
-        this.createNotificationErrorOnDailyMaximumHour("bottomRight");
+        this.createNotificationError("bottomRight", "Time already full 24");
       }
     } else {
-      this.createNotificationError('bottomRight');
+      this.createNotificationError('bottomRight', "Can't fill timesheet for the future.");
     }
   }
 
@@ -469,18 +463,10 @@ export class TimesheetComponent implements OnInit {
     this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
   }
 
-  createNotificationError(position: NzNotificationPlacement): void {
+  createNotificationError(position: NzNotificationPlacement, message: string): void {
     this.notification.error(
       '',
-      'You cannot fill your timesheet for the future!',
-      { nzPlacement: position }
-    );
-  }
-
-  createNotificationErrorOnDailyMaximumHour(position: NzNotificationPlacement): void {
-    this.notification.error(
-      '',
-      'Time already full 24',
+      message,
       { nzPlacement: position }
     );
   }
