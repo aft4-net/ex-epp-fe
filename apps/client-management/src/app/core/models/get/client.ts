@@ -13,8 +13,7 @@ export interface Client {
   SalesPerson: Employee;
   SalesPersonGuid: string;
   ClientName: string;
-  //ClientStatus: ClientStatus;
-  ClientStatus:ClientStatus;
+  ClientStatusName: string;
   ClientStatusGuid: string;
   Description: string;
   ClientContacts: ClientContact[];
