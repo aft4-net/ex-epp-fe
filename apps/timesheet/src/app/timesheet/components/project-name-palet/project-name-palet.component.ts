@@ -46,7 +46,7 @@ export class ProjectNamePaletComponent implements OnInit {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showPaletPopover;
       this.paletEllipsisClicked.emit(timeEntryEvent);
-      this.popoverVisible = this.timesheetApproval?.Status === 2;
+      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === 2 : true;
     }
   } 
 
