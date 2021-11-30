@@ -90,7 +90,7 @@ export class AddressViewComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.listOfData = new Array(1).fill(0).map((_, index) => ({
+    this.listOfData = new Array(0).fill(0).map((_, index) => ({
       id: index,
       name: `Edward King ${index}`,
       age: 32,
