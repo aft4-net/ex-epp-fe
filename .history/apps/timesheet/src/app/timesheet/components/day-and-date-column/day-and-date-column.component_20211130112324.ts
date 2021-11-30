@@ -26,15 +26,15 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
-  @Output() columnOverflow=new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
-  @ViewChildren('entries')  entriesDiv!: QueryList<any>;
-  @ViewChild('pt') pointerEl!: ElementRef;
-  @ViewChild('col') colEl!: ElementRef;
+  //@ViewChildren('entries') entries!: QueryList<TemplateRef<DayAndDateColumnComponent>>;
+   @ViewChildren('entries')  entriesDiv!: QueryList<any>;
+   @ViewChild('pt') pointerEl!: ElementRef;
+   @ViewChild('col') colEl!: ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
   morePopover = false;
@@ -43,11 +43,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
   moreEntries: any[] = [];
   overflowPt?: number=0;
   of: any;
-  constructor(private timesheetService: TimesheetService,public elRef:ElementRef) {  }
-  ngAfterViewInit(): void {
-    this.checkOverflow(this.colEl.nativeElement);
-      }
-  
+  constructor(private timesheetService: TimesheetService,public elRef:ElementRef) {
+  }
+  ngAfterViewInit(): void {  }
    clickEventType = ClickEventType.none;
 
    ngOnInit(): void {}
@@ -64,23 +62,25 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
         }
       });
     }   
-    this.entriesDiv?.changes.subscribe(() => {     
+    this.entriesDiv?.changes.subscribe(() => {
+     
       this.entriesDiv.toArray().forEach(el => {
+       // this.entriesDiv?.toArray().map(i=>{
           if(this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom< this.pointerEl.nativeElement.getBoundingClientRect().top){
-            this.overflowPt=this.index+1;   
-                           
-       } 
-             this.index!++;
-      });
+            this.overflowPt=this.index+1;
+                  
+                       } 
+        console.log(this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom)
+        console.log(this.pointerEl.nativeElement.getBoundingClientRect().top)
+            
+     
+      this.index!++;
+       }); console.log(this.overflowPt);
        if(this.overflowPt!>0){
-         if(this.checkOverflow(this.colEl.nativeElement)){
-        this.overflow=true;
-        this.colEl.nativeElement.style.overflow="hidden";
-        this.columnOverflow.emit(this.overflow);
+         this.overflow=true;
         this.split(this.overflowPt!);
-        console.log(this.checkOverflow(this.colEl.nativeElement))
-         }
-       } 
+                console.log(this.moreEntries.length);
+      } 
   });
 
   }
@@ -137,7 +137,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
     if (el.offsetHeight < el.scrollHeight) {
       this.index ? index : null;
       this.overflow = true;
+     // el.style.overflow = "hidden";
+      // if(this.overflowPt>1){
+      //   this.split(index!);
+      // }
     }
+
     return el.offsetHeight < el.scrollHeight;
   }
 
@@ -151,7 +156,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
         }
       }
     }
-    return this.moreEntries;
+        return this.moreEntries;
   
 }
 }

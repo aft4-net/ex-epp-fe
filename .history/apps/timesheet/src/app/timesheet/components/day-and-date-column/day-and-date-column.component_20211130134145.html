@@ -21,8 +21,8 @@
           (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">
         </app-project-name-palet>
       </div> 
-    </div>
-      <div *ngIf="checkOverflow(col) && moreEntries.length >0" #btn class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left"
+    </div>{{moreEntries.length}}{{checkOverflow(col)}}
+      <div *ngIf="checkOverflow(col) && moreEntries.length >" #btn class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left"
       style="width:inherit; height:40px;background-color: #DCFFDC;margin-top:-15px;" nzVisible="overflow"
       (click)="onClick()">
       <h2 class="more-txt font-sans font-normal text-base ml-2 ">More</h2>

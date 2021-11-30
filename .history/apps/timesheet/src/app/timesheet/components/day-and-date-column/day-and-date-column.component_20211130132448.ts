@@ -45,7 +45,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
   of: any;
   constructor(private timesheetService: TimesheetService,public elRef:ElementRef) {  }
   ngAfterViewInit(): void {
-    this.checkOverflow(this.colEl.nativeElement);
       }
   
    clickEventType = ClickEventType.none;
@@ -136,7 +135,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
   checkOverflow(el: HTMLElement, index?: number) {
     if (el.offsetHeight < el.scrollHeight) {
       this.index ? index : null;
-      this.overflow = true;
+     // this.overflow = true;
     }
     return el.offsetHeight < el.scrollHeight;
   }
