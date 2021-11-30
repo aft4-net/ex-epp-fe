@@ -95,15 +95,16 @@ export class EmployeeService {
     }
 
     SearchEmployeeData(employeeParams: EmployeeParams) : Observable<IEmployeeViewModel[]>{
-      let params = new HttpParams();    
-      if(employeeParams.searchKey) {
-        params = params.append("search", employeeParams.searchKey);
-      }
-      params = params.append("pageIndex", employeeParams.pageIndex.toString());
-      params = params.append("pageSize", employeeParams.pageSize.toString());
 
-      return this.http.get<ResponseDTO<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' , {params}).pipe(
+
+      return this.http.get<ResponseDTO<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' ,
+      {params:{
+        searhKey:employeeParams.searchKey,
+        pageIndex:employeeParams.pageIndex,
+        pageSize:employeeParams.pageSize
+
+      }}).pipe(
         map(result => result.Data)
-      ) 
+      )
     }
 }

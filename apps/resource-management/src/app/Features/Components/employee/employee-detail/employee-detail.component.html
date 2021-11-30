@@ -2,10 +2,10 @@
 <div nz-row>
   <div nz-col class="gutter-row" [nzSpan]="8">
         <nz-input-group [nzSuffix]="suffixIconSearch">
-          <input type="text" nz-input placeholder="Search" />
+          <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
-          <button nz-button  nzSearch><i nz-icon nzType="search"></i></button>
+          <button nz-button  nzSearch (click)="searchEmployees()" ><i nz-icon nzType="search"></i></button>
         </ng-template>
   </div>
 </div>
@@ -17,21 +17,36 @@
       #rowSelectionTable
       nzShowPagination
       nzShowSizeChanger
-      [nzData]="listOfData"
+      [nzData]="employeeList"
+      nzTableLayout="fixed"
       (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
       <thead>
         <tr>
-          <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
-          <th>Employees</th>
-          <th>Job Title</th>
+          <!-- <th [nzChecked]="checked"
+
+           [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
+           <th *ngFor="let column of listOfColumnsFullName"
+           [nzSortOrder]="column.sortOrder"
+           [nzSortFn]="column.sortFn"
+           [nzSortDirections]="column.sortDirections"
+           >Employee</th>
+           
+           <th *ngFor="let column of listOfColumns"
+           [nzSortOrder]="column.sortOrder"
+           [nzSortFn]="column.sortFn"
+           [nzSortDirections]="column.sortDirections"
+           [nzFilterMultiple]="column.filterMultiple"
+           [nzFilters]="column.listOfFilter"
+           [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+          <!--<th>Job Title</th>
           <th>Country</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th>Actions</th> -->
         </tr>
       </thead>
       <tbody>
-        
-          <tr *ngFor="let employeeView of employeeList">
+
+          <tr *ngFor="let employeeView of rowSelectionTable.data">
             <!-- <td
               [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
               (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)">
