@@ -26,30 +26,13 @@ export class ViewClientsComponent implements OnInit {
   totalPage!: number;
   searchKey = '';
   unfilteredData!: Client[];
-  // clientsdata!: Client[];
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
-  //client:Client[]=[];
-
   sortByParam="";
   sortDirection = "asc";
 
-  //  values = [
-  //   {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-  //   {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
-  //   {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-  //   {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
-  // ]
-  namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
-  {text:'CocaCola',value:'CocaCola',checked:false},
-  {text:'Amazon',value:'Amazone',checked:false}];
 
-  namesoflocations = [{text:'Ethiopia',value:'Ethiopia',checked:true},
-  {text:'USA',value:'USA',checked:false},
-  {text:'Canada',value:'Canada',checked:false}];
-  namesofStatuses = [{text:'Active',value:'Active',checked:true},
-  {text:'Signed',value:'Signed',checked:false},
-  {text:'Terminated',value:'Terminated',checked:false}];
+
 
   listOfColumns = [
     {
@@ -84,10 +67,9 @@ export class ViewClientsComponent implements OnInit {
     },
   ];
 
-  sortName!: string;
-  sortValue!: string;
-  listOfSearchName: string[] = [];
-  searchAddress!: string;
+
+
+
   listofNames = [''];
   nameofclient = '';
   namesofclientsfilterd = [{ text: '', value: '', checked: false }];
@@ -175,7 +157,6 @@ export class ViewClientsComponent implements OnInit {
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
-
         });
 
 
@@ -188,16 +169,20 @@ export class ViewClientsComponent implements OnInit {
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
-          this.search(
-            this.searchAddressList,
-            this.searchstatusList,
-            this.searchsalesPersonList
-          );
-          console.log('Status---' + this.searchstatusList);
+          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+            this.search(
+              this.searchAddressList,
+              this.searchstatusList,
+              this.searchsalesPersonList
+            );
+            console.log('Status---' + this.searchstatusList);
 
           console.log('Location---' + this.searchAddressList);
 
           console.log('SalesPerson---' + this.searchsalesPersonList);
+          }
+
+
         });
       this.searchStateFound = false;
     }
@@ -361,63 +346,7 @@ export class ViewClientsComponent implements OnInit {
     console.log(this.namesofLocationsfilterd);
   }
 
-  // filterSalesPesrson(
-  //   listsearchSalesPerson: string[],
-  //   searchSalesPerson: string
-  // ): void {
-  //   this.listsearchSalesPerson = listsearchSalesPerson;
-  //   this.searchSalesPerson = searchSalesPerson;
-  //   if(this.resolve()) {
-  //     this.searchPerson(false);
-  //   }
-  //   else {
-  //     this.clientsdata = this.unfilteredData;
-  //     this.searchPerson(false);
-  //   }
 
-  // }
-
-  // filter(listOfSearchName: string[], searchAddress: string): void {
-  //   this.listOfSearchName = listOfSearchName;
-  //   this.searchAddress = searchAddress;
-  //   if(this.resolve()) {
-  //     this.search(false);
-  //   }
-  //   else {
-  //     this.clientsdata = this.unfilteredData;
-  //     this.search(false);
-  //   }
-  // }
-
-  // searchPerson(reset: boolean): void {
-  //   const filterFunc = (item: Client) =>
-  //     (this.searchAddress
-  //       ? item.SalesPerson.Name.indexOf(this.searchSalesPerson) !== -1
-  //       : true) &&
-  //     (this.listsearchSalesPerson.length
-  //       ? this.listsearchSalesPerson.some(
-  //           (name) => item.SalesPerson.Name.indexOf(name) !== -1
-  //         )
-  //       : true);
-  //   const data = this.clientsdata.filter((item) => filterFunc(item));
-  //   this.clientsdata = data;
-  //   console.log(data);
-  // }
-
-  // search(_reset: boolean): void {
-  //   const filterFunc = (item: Client) =>
-  //     (this.searchAddress
-  //       ? item.ClientName.indexOf(this.searchAddress) !== -1
-  //       : true) &&
-  //     (this.listOfSearchName.length
-  //       ? this.listOfSearchName.some(
-  //           (name) => item.ClientName.indexOf(name) !== -1
-  //         )
-  //       : true);
-  //   const data = this.clientsdata.filter((item) => filterFunc(item));
-  //   this.clientsdata = data;
-  //   console.log(data);
-  // }
 
   search(
     searchAddressList: string[],
