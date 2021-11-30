@@ -34,58 +34,13 @@ export class ViewClientsComponent implements OnInit {
   sortByParam="";
   sortDirection = "asc";
 
-  //  values = [
-  //   {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
-  //   {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
-  //   {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
-  //   {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
-  // ]
-  namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
-  {text:'CocaCola',value:'CocaCola',checked:false},
-  {text:'Amazon',value:'Amazone',checked:false}];
+  clientCheckbox = true;
+  locationCheckbox = true;
+  statusCheckbox = true;
+  salesCheckbox = true;
+  clientContactCheckbox = false;
+  companyContactCheckbox = false;
 
-  namesoflocations = [{text:'Ethiopia',value:'Ethiopia',checked:true},
-  {text:'USA',value:'USA',checked:false},
-  {text:'Canada',value:'Canada',checked:false}];
-  namesofStatuses = [{text:'Active',value:'Active',checked:true},
-  {text:'Signed',value:'Signed',checked:false},
-  {text:'Terminated',value:'Terminated',checked:false}];
-
-  listOfColumns = [
-    {
-      id: 'Client',
-      label: 'Client',
-      isChecked: true,
-    },
-    {
-      id: 'Location',
-      label: 'Location',
-      isChecked: true,
-    },
-    {
-      id: 'Status',
-      label: 'Status',
-      isChecked: true,
-    },
-    {
-      id: 'SalesPerson',
-      label: 'SalesPerson',
-      isChecked: true,
-    },
-    {
-      id: 'ClientContact',
-      label: 'ClientContact',
-      isChecked: false,
-    },
-    {
-      id: 'CompanyContact',
-      label: 'CompanyContact',
-      isChecked: false,
-    },
-  ];
-
-  sortName!: string;
-  sortValue!: string;
   listOfSearchName: string[] = [];
   searchAddress!: string;
   listofNames = [''];
@@ -117,15 +72,15 @@ export class ViewClientsComponent implements OnInit {
     });
   }
 
-  sorter(id: number) {
-    if (id === 1) {
-      this.sortByParam = 'client';
-    } else if (id === 2) {
-      this.sortByParam = 'address';
-    } else if (id === 3) {
-      this.sortByParam = 'status';
+  sorter(id:number) {
+    if (id === 1){
+      this.sortByParam = "ClientName";
+    } else if (id === 2){
+      this.sortByParam = "OperatingAddressCountry";
+    }else if (id === 3) {
+      this.sortByParam = "ClientStatusName";
     } else if (id === 4) {
-      this.sortByParam = 'sales_person';
+      this.sortByParam = "SalesPersonName";
     }
 
     if (this.sortDirection === 'desc') {
@@ -136,12 +91,12 @@ export class ViewClientsComponent implements OnInit {
   }
 
   onDefaultClick() {
-    this.listOfColumns[0].isChecked = true;
-    this.listOfColumns[1].isChecked = true;
-    this.listOfColumns[2].isChecked = true;
-    this.listOfColumns[3].isChecked = true;
-    this.listOfColumns[4].isChecked = false;
-    this.listOfColumns[5].isChecked = false;
+    this.clientCheckbox = true;
+    this.locationCheckbox = true;
+    this.statusCheckbox = true;
+    this.salesCheckbox = true;
+    this.clientContactCheckbox = false;
+    this.companyContactCheckbox = false;
   }
 
   addClientPage() {
@@ -281,7 +236,7 @@ export class ViewClientsComponent implements OnInit {
   findlistofNames(): void {
     this.listofNames = [''];
     for (let i = 0; i < this.clientsdata.length; i++) {
-      this.nameofclient = this.clientsdata[i].ClientStatus.StatusName;
+      this.nameofclient = this.clientsdata[i].ClientStatusName;
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
@@ -440,7 +395,7 @@ export class ViewClientsComponent implements OnInit {
         : true) &&
       (this.searchstatusList.length
         ? this.searchstatusList.some(
-            (name) => item.ClientStatus.StatusName.indexOf(name) !== -1
+            (name) => item.ClientStatusName.indexOf(name) !== -1
           )
         : true) &&
       (this.searchsalesPersonList.length
