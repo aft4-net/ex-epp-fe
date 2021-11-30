@@ -21,6 +21,8 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { AddressViewComponent } from './address-view/address-view.component';
+import { FamilyDetailViewComponent } from './family-detail-view/family-detail-view.component';
+import { EmergencycontactViewComponent } from './emergencycontact-view/emergencycontact-view.component';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -41,6 +43,8 @@ import { AddressViewComponent } from './address-view/address-view.component';
     SideBarComponent,
     MainLayoutComponent,
     AddressViewComponent,
+    FamilyDetailViewComponent,
+    EmergencycontactViewComponent,
     
   ],
   imports: [
