@@ -1,10 +1,20 @@
-<div class="breadcrumb">
-    <nz-breadcrumb>
-        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Resource Management</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <h1 style="font-family: 'SF Pro Display';">Add Employee</h1>
+<div class="breadcrumb box-shadow: 0px -3px 0px 0px #EAEAEA inset;">
+  <nz-breadcrumb>
+<div nz-row>
+    <div nz-col nzSpan="22">
+    <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Resources</nz-breadcrumb-item> <br />
+    <h3>Resources</h3>
+    </div>
+    <div nz-col nzSpan="2" >
+     <button nz-button  class="addButton" (click)="addEmployee()">Add Employee</button>
+    </div>
+  </div>
 
-    <button nz-button nzType="primary" (click)="saveEmployee()">Save</button>
 
+
+
+
+
+  </nz-breadcrumb>
 </div>

@@ -1,3 +1,36 @@
-nz-footer {
-    text-align: center;
+
+.nz-footer {
+  text-align: center;
+  color: white;
+  background: #6E716E;
+  height: 10px;
+  margin: 10px -230px;
+ 
+  font-family:-apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  Oxygen,
+  Ubuntu,
+  Cantarell,
+  'Open Sans',
+  'Helvetica Neue',
+  sans-serif
+
+}
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  margin-left: 0px;
+  position: absolute;
+  width: 1519px;
+  height: 36px;
+  left: 0px;
+
+  color: white;
+  background: #595959;
+
 }
