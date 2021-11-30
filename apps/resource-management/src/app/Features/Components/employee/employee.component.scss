@@ -7,12 +7,16 @@ body,
 nz-content {
   padding: 0 120px;
   width: 100%;
+  background-color: red;
+
+
 }
 
 .inner-content-menu {
   background: #fff;
   height: auto;
   padding: 0px 24px;
+  
   
 
 }
@@ -26,6 +30,7 @@ nz-content {
   height: auto;
   float: left;
   padding: 0px;
+  background-color: red;
 
 
   // margin: 10px -117px;
