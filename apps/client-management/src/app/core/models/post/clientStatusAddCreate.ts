@@ -1,4 +1,4 @@
-export class ClientStatusAdd {
+export class ClientStatusAddCreate {
   name: string;
    constructor(name:string)
   {

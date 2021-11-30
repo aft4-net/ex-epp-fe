@@ -9,13 +9,17 @@ export interface  CreateClient {
     ClientName: string,
     Description: string;
     ClientContact?:clientContact[];
-    CompanyContacts?:CompanyContacts[]; 
+    CompanyContacts?:CompanyContacts[];
     OperatingAddress?:OperatingAddress[];
     BillingAddress?:BillingAddress[];
+}
+
+export function sortClient(C1:CreateClient,C2:CreateClient ){
+;
 }
 
 
 
 
- 
+
 

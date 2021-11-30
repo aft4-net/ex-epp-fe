@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OperatingAddress } from 'apps/client-management/src/app/core/models/post/OperatingAddress';
+import { AddClientStateService, OperatingAddressCreate } from 'apps/client-management/src/app/core';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { StateService } from 'apps/client-management/src/app/core/services/State.service';
 
 @Component({
@@ -11,7 +16,7 @@ import { StateService } from 'apps/client-management/src/app/core/services/State
   styleUrls: ['./operating-address-form.component.scss']
 })
 export class OperatingAddressFormComponent implements OnInit {
-  operatingAddress: OperatingAddress[] = [];
+  operatingAddress: OperatingAddressCreate[] = [];
   isVisible = false;
   isOkLoading = false;
   footer = null;
@@ -35,7 +40,8 @@ export class OperatingAddressFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _state: StateService,
     private _city: CityService,
-    private _cityInState: CityInStateService
+    private _cityInState: CityInStateService,
+    private  addClientStateService:AddClientStateService
   ) {
     this.forms = _fb.group({
       Country: ['',Validators.required],
@@ -83,6 +89,7 @@ export class OperatingAddressFormComponent implements OnInit {
     if (this.forms.valid) {
       if(this.IsEdit){
       this.operatingAddress[this.editAt]=this.forms.value;
+      this.addClientStateService.updateOperatingAddress(this.operatingAddress);
       this.IsEdit=false;
       this.editAt=-1;
       }
@@ -91,7 +98,7 @@ export class OperatingAddressFormComponent implements OnInit {
         ...this.operatingAddress,
         this.forms.value
       ]
-     
+      this.addClientStateService.updateOperatingAddress(this.operatingAddress);
      }
     this.isVisible = false;
     this.forms.reset();
@@ -147,6 +154,7 @@ export class OperatingAddressFormComponent implements OnInit {
   removeOperatingAddress(index: number) {
     if (index > -1) {
       this.operatingAddress.splice(index, 1);
+      this.addClientStateService.updateOperatingAddress(this.operatingAddress);
     }
   }
   edit(index:number){

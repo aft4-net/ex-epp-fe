@@ -1,4 +1,4 @@
-export interface BillingAddress{
+export interface BillingAddressCreate{
     Name : string,
     Affliation : string,
     Country : string,
@@ -7,3 +7,4 @@ export interface BillingAddress{
     ZipCode : string,
     Address: string
 }
+

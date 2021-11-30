@@ -3,6 +3,7 @@
 {
 background-color: #E8FFE8 !important;
 }
+tr:nth-child(even) {background: #F9FFF9}
 .page-title {
   font-family: SF Pro Display;
   font-style: normal;
@@ -67,4 +68,20 @@ header {
 ::ng-deep .ant-btn:not([disabled]):hover {
   background: #03da6b !important;
   color: white;
+}
+.ant-pagination {
+
+  float: right;
+
+  padding: 15px 0px 15px 15px;
+
+
+
+}
+::ng-deep .ant-table {
+
+  padding-right: 25px;
+
+  padding-left: 25px;
+
 }

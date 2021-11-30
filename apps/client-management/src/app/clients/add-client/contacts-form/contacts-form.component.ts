@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { AddClientStateService, ClientContactCreate } from '../../../core';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -12,11 +13,11 @@ export class ContactsFormComponent implements OnInit {
 
 
   @Input() isVisible: boolean;
-  @Output() handleSubmit: EventEmitter<any> = new EventEmitter<any>();
-  @Output() handleClose: EventEmitter<any> = new EventEmitter<any>();
-  countries: string[] = []
 
-  listofCodes: string[] = []
+  countries: string[] = []
+  footer=null;
+
+  listofCodes :{ value: string, label: string }[]=[];
 
   listOfStates: string[] = []
 
@@ -24,9 +25,8 @@ export class ContactsFormComponent implements OnInit {
 
   buttonClicked = 0
 
-
   addContactForm!: FormGroup;
-  listData:any;
+  listData=[] as ClientContactCreate[];
 isModalVisible = false;
 isEditMode=false;
   total = 10;
@@ -35,20 +35,23 @@ isEditMode=false;
   pageIndex = 1;
   idParam='';
   totalPage!:number;
-  searchKey='';
-  searchStateFound=false;
 
-  constructor(private fb: FormBuilder,private modal: NzModalService) {
+  constructor(private fb: FormBuilder,private modal: NzModalService, private addClientStateService: AddClientStateService) {
 
 
-   }
+
+ 
+  }
 
   ngOnInit(): void {
+
+
+
     this.listData=[];
     this.addContactForm = this.fb.group({
-      contactName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
-      emailAdress:['',[Validators.required,Validators.email,Validators.maxLength(320)]]
+      ContactPersonName: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required]],
+      Email:['',[Validators.required,Validators.email,Validators.maxLength(320)]]
     });
   }
   showModal(): void {
@@ -63,6 +66,7 @@ isEditMode=false;
     if(this.addContactForm.valid)
     {
       this.listData.push(this.addContactForm.value);
+      this.addClientStateService.updateClientContacts(this.listData);
       this.addContactForm.reset();
       this.isVisible = false;
     }else {
@@ -76,18 +80,27 @@ isEditMode=false;
 
 
   }
-
-  handleCancel(): void {
+exitModal()
+{
+  this.isVisible = false;
+  this.addContactForm.reset();
+}
+  handleClear(): void {
     console.log('Button cancel clicked!');
-    this.isVisible = false;
+
+    this.addContactForm.reset();
+  }
+  handleCancel(){
+    this.isVisible=false;
     this.addContactForm.reset();
   }
   removeItem(element:any)
   {
     this.listData.forEach((value:any,index:any) => {
       if(value==element)
-      this.listData.splice(index,1);
-
+     {this.listData.splice(index,1);
+      this.addClientStateService.updateClientContacts(this.listData);
+     }
     });
 
   }

@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BillingAddress } from 'apps/client-management/src/app/core/models/post/BillingAddressAdd';
+
+import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
+
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
+
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
+
 import { StateService } from 'apps/client-management/src/app/core/services/State.service';
 
 @Component({
@@ -36,7 +41,8 @@ export class BillingAddressFormComponent implements OnInit {
     private _fb: FormBuilder,
     private _state: StateService,
     private _city: CityService,
-    private _cityInState: CityInStateService
+    private _cityInState: CityInStateService,
+    private  addClientService:AddClientStateService
   ) {
     this.forms = _fb.group({
       Name: [null,Validators.required],
@@ -87,6 +93,7 @@ export class BillingAddressFormComponent implements OnInit {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
       this.tabledata=['']
+      this.addClientService.updateBillingAddress(this.billingAddressess);
       this.IsEdit=false;
       this.editAt=-1;
       }
@@ -96,6 +103,7 @@ export class BillingAddressFormComponent implements OnInit {
         ...this.billingAddressess,
         this.forms.value
       ]
+      this.addClientService.updateBillingAddress(this.billingAddressess);
      }
     this.isVisible = false;
     this.forms.reset();
@@ -151,6 +159,7 @@ export class BillingAddressFormComponent implements OnInit {
   removeBillingAddress(index: number) {
     if (index > -1) {
       this.billingAddressess.splice(index, 1);
+      this.addClientService.updateBillingAddress(this.billingAddressess);
     }
   }
   edit(index:number){
