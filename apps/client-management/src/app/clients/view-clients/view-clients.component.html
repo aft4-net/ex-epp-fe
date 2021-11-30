@@ -54,7 +54,9 @@
 
 
 </div>
-<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false">
+<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false"  [nzLoading]="loading" [nzTotal]="total"
+[nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
+[nzLoading]="loading">
   <thead>
     <tr>
       <th [nzSortFn]="true"  (click)="sorter(1)" class="table_heading">Client</th>
@@ -74,8 +76,8 @@
       <td *ngIf="locationCheckbox">{{value.OperatingAddressCountry}}</td>
       <td *ngIf="statusCheckbox">{{value.ClientStatusName}}</td>
       <td *ngIf="salesCheckbox">{{value.SalesPersonName}}</td>
-      <td *ngIf="clientContactCheckbox">{{value.ClientContacts}}</td>
-      <td *ngIf="companyContactCheckbox">{{value.CompanyContacts}}</td>
+      <td *ngIf="clientContactCheckbox">{{value.ClientContacts[0].ContactPersonName}}</td>
+      <td *ngIf="companyContactCheckbox">{{value.CompanyContacts[0].EmployeeGuid}}</td>
 
         <td>
           <a class="text-black mr-3">
