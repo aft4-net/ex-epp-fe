@@ -46,7 +46,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
   constructor(private timesheetService: TimesheetService,public elRef:ElementRef) {  }
   ngAfterViewInit(): void {
     this.checkOverflow(this.colEl.nativeElement);
-    this.overflowCalc();
       }
   
    clickEventType = ClickEventType.none;
@@ -64,11 +63,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
           this.totalHoursCalculated.emit(totalHours);
         }
       });
-      this.overflowCalc();
     }   
    
   }
-  overflowCalc(){
+  
   this.entriesDiv?.changes.subscribe(() => {     
     this.entriesDiv.toArray().forEach(el => {
         if(this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom< this.pointerEl.nativeElement.getBoundingClientRect().top){
@@ -87,7 +85,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
        }
      } 
 });
-  }
+
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType

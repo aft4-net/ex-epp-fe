@@ -20,7 +20,8 @@
         <app-project-name-palet  [timeEntry]="timeEntry" (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
           (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">
         </app-project-name-palet>
-      </div> </div>
+      </div> 
+   {{}}
       <div *ngIf="checkOverflow(col) && moreEntries.length >0" #btn class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left"
       style="width:inherit; height:40px;background-color: #DCFFDC;margin-top:0px;" nzVisible="overflow"
       (click)="onClick()">
@@ -28,7 +29,7 @@
       <a nz-popover [(nzPopoverVisible)]="morePopover" nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"
         nzPopoverPlacement="right" (click)="onClick()" class="mr-0 flex-row " style="position:absolute;"></a>
      </div>
-
+</div>
 <ng-template #contentTemplate>
   <div *ngFor="let timeEntry of moreEntries ;let i = index;">
     <ng-container>
@@ -37,9 +38,9 @@
     </ng-container>
   </div>
 </ng-template>
-  <div #pt style="margin-bottom:500px;" ></div>
-  </div></div>
-
+  <div #pt style="margin-bottom:500px;border:solid 1px;" ></div>
+  </div>
+</div>
 <!-- <i nz-icon nzType="plus-circle" nzTheme="outline"></i> -->
 
 <div class="w-full grid justify-center lg:hidden">
