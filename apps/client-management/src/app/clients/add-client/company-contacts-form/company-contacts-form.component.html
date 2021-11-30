@@ -9,10 +9,6 @@
 [nzData]="listData"
 [nzFrontPagination]="false"
 [nzLoading]="loading"
-[nzTotal]="total"
-[nzPageSize]=" pageSize "
-[nzPageIndex]="pageIndex"
-
   [nzLoading]="loading">
   <thead>
     <tr>
@@ -27,9 +23,9 @@
   <tbody>
 
     <tr *ngFor="let item of  listData">
-      <td >{{item.name+' - '+ item.role}}</td>
-      <td>{{item.email}}</td>
-      <td>{{item.phone}}</td>
+      <td >{{item.Name+' - '+ item.Role}}</td>
+      <td>{{item.Email}}</td>
+      <td>{{item.Phone}}</td>
 
 
 
@@ -74,7 +70,7 @@
           formControlName="companyContactName"
           nzPlaceHolder="Select company contact"
         >
-        <nz-option   *ngFor="let employee of listofContactNames"   nzLabel={{employee.name}}-{{employee.role}}  [nzValue]="employee.name" nzLabel="kokoko"  ></nz-option>
+        <nz-option   *ngFor="let employee of employees"   nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Name"   ></nz-option>
         </nz-select>
 
       </nz-form-control>
@@ -110,7 +106,7 @@
 
             <ng-template #addOnBeforeTemplate>
 
-              <nz-select formControlName="phoneNumberPrefix" nzPlaceHolder="+251" nzShowSearch class="phone-select">
+              <nz-select [nzDisabled]="true" formControlName="phoneNumberPrefix" nzPlaceHolder="+251"  class="phone-select">
 
                 <ng-container *ngFor="let code of listofCodes">
 

@@ -1,19 +1,19 @@
+import {
+  AddClientStateService,
+  ClientDetailCreate,
+  ClientDetails,
+  ClientStatus,
+  ClientStatusService,
+  Employee,
+  EmployeeService,
+} from '../../../core';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
-import {
-  ClientDetails,
-  ClientStatus,
-  Employee,
-  ClientStatusService,
-  EmployeeService,
-  ClientDetailCreate,
-  AddClientStateService,
-} from '../../../core';
 
 @Component({
   selector: 'exec-epp-details-form',
@@ -65,8 +65,8 @@ export class DetailsFormComponent implements OnInit {
           this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
           this.validateForm.controls.description.value;
-  
-        
+
+
         this.addClientStateService.updateAddClientDetails(
           this.clientDetailCreate
         );

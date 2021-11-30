@@ -2,7 +2,8 @@ $tableHeadingBackgroundColour:#E8FFE8 !important;
 $tblRowBackgroundColour:#F9FFF9;
 $addClientButtonFloat:right;
 $countryCodeWidth:4.5vw !important;
-$modalWindowMinHeight:61vh !important;
+$modalWindowPaddingTop:15px;
+$modalWindowPaddingBottom:40px;
 $footer-btn:left;
 $addBtnMarginRight:1rem;
 .table_heading
@@ -22,14 +23,19 @@ button.ant-btn {
   text-align: left !important;
 }
 
-::ng-deep .client-modal-window {
 
-  min-height: $modalWindowMinHeight;
-}
 .footer-btn {
   float: $footer-btn;
 }
 button.add-btn.ant-btn {
 
   margin-right: $addBtnMarginRight;
+}
+::ng-deep .ant-modal-content {
+  padding-top:  $modalWindowPaddingTop;
+  padding-bottom: $modalWindowPaddingBottom;
+}
+::ng-deep .ant-form-item {
+
+  margin-bottom: 15px !important;
 }

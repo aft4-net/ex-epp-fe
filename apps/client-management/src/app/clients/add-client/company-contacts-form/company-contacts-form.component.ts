@@ -26,15 +26,11 @@ export class CompanyContactsFormComponent implements OnInit {
   emailAdress = new FormControl('');
   phoneNumber=new FormControl('');;
   searchChange$ = new BehaviorSubject('');
-  optionList: string[] = [];
   employees = [] as Employee[];
   selectedUser?: string;
   isLoading = false;
   contactDetail:any;
   listofContactNames=getNames();
-
-
-
 
   @Input() isVisible: boolean;
   @Input() editable : boolean=false;
@@ -46,20 +42,12 @@ export class CompanyContactsFormComponent implements OnInit {
 
   listOfStates: string[] = []
 
-  isEthiopia = false;
-
-  buttonClicked = 0
-
-
   addContactForm!: FormGroup;
   listData:any=[];
   isModalVisible = false;
-  total = 10;
   loading = false;
-  pageSize = 4;
-  pageIndex = 1;
-  idParam='';
-  totalPage!:number;
+
+
 
 
   constructor(private employeeService: EmployeeService,private _companyContactService:CompanyContactService,private http: HttpClient,private fb: FormBuilder,private modal: NzModalService, private _countryService:CountryCodeService) {
@@ -69,7 +57,11 @@ export class CompanyContactsFormComponent implements OnInit {
 
    }
 
+
   ngOnInit(): void {
+    this.employeeService.getAll().subscribe((response: Employee[]) => {
+      this.employees = response;
+    });
 
     this.listData=[];
     this.addContactForm = this.fb.group({
@@ -156,13 +148,29 @@ exitModal()
 getClientContact()
 {
   console.log(this.addContactForm.value.companyContactName)
-  this.contactDetail=getClientDetails(this.addContactForm.value.companyContactName);
+  this.contactDetail=this.getClientDetails(this.addContactForm.value.companyContactName);
   console.log(this.contactDetail)
-  this.addContactForm.controls['phoneNumber'].setValue(this.contactDetail.phone);
-    console.log(this.contactDetail)
-    this.addContactForm.controls['emailAdress'].setValue(this.contactDetail.email);
+  this.addContactForm.controls['phoneNumber'].setValue(this.contactDetail.Phone);
+  console.log(this.contactDetail)
+  this.addContactForm.controls['emailAdress'].setValue(this.contactDetail.Email);
 
 }
+
+ getClientDetails(name:string)
+{
+    for (let i = 0; i < this.employees.length; i++) {
+       if(this.employees[i].Name===name){
+           return this.employees[i];
+       }
+    }
+    return this.employees[1];
+
+
+
+}
+
+
+
 
   }
 
