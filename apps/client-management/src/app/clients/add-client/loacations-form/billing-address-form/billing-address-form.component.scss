@@ -1,0 +1,29 @@
+.button-style {
+  float: right;
+  background: #00a551;
+  color: white;
+  border: 0.5px solid #00a551;
+  padding: 4px;
+}
+.button-style:hover{
+  background: #04d86a;
+}
+.table_heading {
+  background-color: #e8ffe8 !important;
+}
+.clear-btn {
+  background: white;
+  color: #00a551;
+  margin-right: 10px;
+
+  border: 0.5px solid #00a551;
+}
+.border-red{
+  border: 1px solid red;
+}
+.border-none{
+  border: none;
+}
+.error-message{
+  color: red;
+}

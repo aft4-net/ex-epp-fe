@@ -29,61 +29,27 @@ export class ViewClientsComponent implements OnInit {
   // clientsdata!: Client[];
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
-  client: Client[] = [];
+  //client:Client[]=[];
 
-  sortByParam = '';
-  sortDirection = 'asc';
+  sortByParam="";
+  sortDirection = "asc";
 
-  values = [
-    {
-      client: 'CocaCola',
-      address: 'Ethiopia',
-      status: 'Active',
-      sales_person: 'Yonas',
-      client_contact: 'Ayalew',
-      company_contact: 'Seifu',
-    },
-    {
-      client: 'McDonalds',
-      address: 'USA',
-      status: 'On-Hold',
-      sales_person: 'Abebe',
-      client_contact: 'Jhon',
-      company_contact: 'Jimy',
-    },
-    {
-      client: 'Apple',
-      address: 'USA',
-      status: 'Active',
-      sales_person: 'Zerihun',
-      client_contact: 'Henock',
-      company_contact: 'Haile',
-    },
-    {
-      client: 'Pepsi',
-      address: 'Canada',
-      status: 'Terminated',
-      sales_person: 'Robel',
-      client_contact: 'Yonatan',
-      company_contact: 'Pete',
-    },
-  ];
-  namesofclients = [
-    { text: 'Excelerent', value: 'Excelerent', checked: true },
-    { text: 'CocaCola', value: 'CocaCola', checked: false },
-    { text: 'Amazon', value: 'Amazone', checked: false },
-  ];
+  //  values = [
+  //   {client:'CocaCola',address:'Ethiopia',status:'Active',sales_person:'Yonas',client_contact:'Ayalew',company_contact:'Seifu'},
+  //   {client:'McDonalds',address:'USA',status:'On-Hold',sales_person:'Abebe',client_contact:'Jhon',company_contact:'Jimy'},
+  //   {client:'Apple',address:'USA',status:'Active',sales_person:'Zerihun',client_contact:'Henock',company_contact:'Haile'},
+  //   {client:'Pepsi',address:'Canada',status:'Terminated',sales_person:'Robel',client_contact:'Yonatan',company_contact:'Pete'},
+  // ]
+  namesofclients = [{text:'Excelerent',value:'Excelerent',checked:true},
+  {text:'CocaCola',value:'CocaCola',checked:false},
+  {text:'Amazon',value:'Amazone',checked:false}];
 
-  namesoflocations = [
-    { text: 'Ethiopia', value: 'Ethiopia', checked: true },
-    { text: 'USA', value: 'USA', checked: false },
-    { text: 'Canada', value: 'Canada', checked: false },
-  ];
-  namesofStatuses = [
-    { text: 'Active', value: 'Active', checked: true },
-    { text: 'Signed', value: 'Signed', checked: false },
-    { text: 'Terminated', value: 'Terminated', checked: false },
-  ];
+  namesoflocations = [{text:'Ethiopia',value:'Ethiopia',checked:true},
+  {text:'USA',value:'USA',checked:false},
+  {text:'Canada',value:'Canada',checked:false}];
+  namesofStatuses = [{text:'Active',value:'Active',checked:true},
+  {text:'Signed',value:'Signed',checked:false},
+  {text:'Terminated',value:'Terminated',checked:false}];
 
   listOfColumns = [
     {

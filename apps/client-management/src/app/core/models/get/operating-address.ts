@@ -10,3 +10,4 @@ export interface  OperatingAddress{
         CreatedDate: Date;
         CreatedbyUserGuid: string;
 }
+

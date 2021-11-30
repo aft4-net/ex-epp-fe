@@ -2,7 +2,7 @@
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      Clients
+       Clients
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <div class="justify-between" nz-row>
@@ -49,10 +49,9 @@
       >Manage Columns</a>
   </div>
 
+
 </div>
-<nz-table class="mt-3" [nzData]="clientsdata" [nzFrontPagination]="false" [nzLoading]="loading"  [nzTotal]="total"
-[nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
-[nzLoading]="loading" >
+<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false">
   <thead>
     <tr>
       <th   *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>
@@ -93,6 +92,10 @@
     </tr>
   </tbody>
 </nz-table>
+<br>
+<nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
+  [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
+  nzShowSizeChanger nzShowQuickJumper>
 
 
 
