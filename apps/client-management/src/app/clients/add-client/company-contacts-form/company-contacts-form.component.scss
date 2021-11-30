@@ -2,7 +2,7 @@ $tableHeadingBackgroundColour:#E8FFE8 !important;
 $tblRowBackgroundColour:#F9FFF9;
 $addClientButtonFloat:right;
 $countryCodeWidth:8vw !important;
-$modalWindowMinHeight:61vh !important;
+
 $footer-btn:left;
 $addBtnMarginRight:1rem;
 .table_heading
@@ -22,10 +22,7 @@ button.ant-btn {
   text-align: left !important;
 }
 
-::ng-deep .ant-modal-content {
 
-  min-height: $modalWindowMinHeight;
-}
 .footer-btn {
   float: $footer-btn;
 }
