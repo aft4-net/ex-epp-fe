@@ -51,7 +51,9 @@
 
 
 </div>
-<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false">
+<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false"  [nzLoading]="loading" [nzTotal]="total"
+[nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
+[nzLoading]="loading">
   <thead>
     <tr>
       <th   *ngIf="listOfColumns[0].isChecked === true" [nzSortFn]="true" (click)="sorter(1)" [(ngModel)]="sortByParam" class="table_heading">Client</th>

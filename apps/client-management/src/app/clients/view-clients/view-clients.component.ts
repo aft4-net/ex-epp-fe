@@ -141,6 +141,7 @@ export class ViewClientsComponent implements OnInit {
         this.pageSize = response.pagination.pageSize;
 
         this.loading = false;
+
       });
   }
 
@@ -175,11 +176,7 @@ export class ViewClientsComponent implements OnInit {
               this.searchstatusList,
               this.searchsalesPersonList
             );
-            console.log('Status---' + this.searchstatusList);
 
-          console.log('Location---' + this.searchAddressList);
-
-          console.log('SalesPerson---' + this.searchsalesPersonList);
           }
 
 
