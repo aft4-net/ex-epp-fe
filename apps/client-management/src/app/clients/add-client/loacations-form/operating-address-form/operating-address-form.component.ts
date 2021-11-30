@@ -27,12 +27,15 @@ export class OperatingAddressFormComponent implements OnInit {
   countryCities: any;
   cities: any;
   selectedCountry = '';
+  statePlaceHolder='Select a State/Province';
+  postalCode='Enter Postal/ZIP Code';
   selectedState = '';
   stateData = {
     country: '',
     state: '',
   };
   data='';
+  emptyData=[];
   IsEdit=false;
   editAt=-1;
   found=false;
@@ -117,6 +120,14 @@ export class OperatingAddressFormComponent implements OnInit {
    if(!this.found){
     this.forms.controls['City'].setValue(null);
     this.forms.controls['State'].setValue(null);
+    if(this.selectedCountry==="Ethiopia"){
+      this.statePlaceHolder='Select a Region';
+      this.postalCode='Enter Postal Code';
+    }
+    else{
+      this.statePlaceHolder='Select a State/Province';
+      this.postalCode='Enter Postal/ZIP Code';
+    }
    }
     this.countries.forEach((country: any) => {
       if (country.name == this.selectedCountry) {
@@ -154,6 +165,9 @@ export class OperatingAddressFormComponent implements OnInit {
   removeOperatingAddress(index: number) {
     if (index > -1) {
       this.operatingAddress.splice(index, 1);
+      if(!this.operatingAddress.length){
+        this.operatingAddress=this.emptyData;
+      }
       this.addClientStateService.updateOperatingAddress(this.operatingAddress);
     }
   }

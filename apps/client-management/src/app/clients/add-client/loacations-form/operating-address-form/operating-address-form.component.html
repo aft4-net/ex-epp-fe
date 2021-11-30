@@ -11,7 +11,7 @@
     class="mt-3"
     #basicTable
     [nzData]="operatingAddress"
-    pagination="false"
+    [nzShowPagination]="false"
   >
     <thead>
       <tr>
@@ -139,7 +139,7 @@
             <nz-select
               nzShowSearch
               nzAllowClear
-              nzPlaceHolder="Select a State/Region"
+              [nzPlaceHolder]="statePlaceHolder"
               formControlName="State"
               (ngModelChange)="getSelectedState()"
             >
@@ -205,7 +205,7 @@
             <input
               nz-input
               formControlName="ZipCode"
-              placeholder="Enter ZIP Code"
+              [placeholder]="postalCode"
             />
           </nz-form-control>
         </nz-form-item>

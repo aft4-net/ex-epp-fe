@@ -28,6 +28,7 @@ export class BillingAddressFormComponent implements OnInit {
   cities: any;
   selectedCountry = '';
   selectedState = '';
+  emptyData=[];
   stateData = {
     country: '',
     state: '',
@@ -35,6 +36,8 @@ export class BillingAddressFormComponent implements OnInit {
   data='';
   IsEdit=false;
   editAt=-1;
+  statePlaceHolder='Select a State/Province';
+  postalCode='Enter Postal/ZIP Code';
   found=false;
   constructor(
     private _fb: FormBuilder,
@@ -119,6 +122,14 @@ export class BillingAddressFormComponent implements OnInit {
    if(!this.found){
     this.forms.controls['City'].setValue(null);
     this.forms.controls['State'].setValue(null);
+    if(this.selectedCountry==="Ethiopia"){
+      this.statePlaceHolder='Select a Region';
+      this.postalCode='Enter Postal Code';
+    }
+    else{
+      this.statePlaceHolder='Select a State/Province';
+      this.postalCode='Enter Postal/ZIP Code';
+    }
    }
     this.countries.forEach((country: any) => {
       if (country.name == this.selectedCountry) {
@@ -156,6 +167,9 @@ export class BillingAddressFormComponent implements OnInit {
   removeBillingAddress(index: number) {
     if (index > -1) {
       this.billingAddressess.splice(index, 1);
+      if(!this.billingAddressess.length){
+        this.billingAddressess=this.emptyData;
+      }
       this.addClientService.updateBillingAddress(this.billingAddressess);
     }
   }
