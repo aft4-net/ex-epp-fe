@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export abstract class ApiService<T> {
-  private readonly APIUrl = environment.baseApiUrl + this.getResourceUrl();
+  public readonly APIUrl = environment.baseApiUrl + this.getResourceUrl();
 
   constructor(protected httpClient: HttpClient) {
   }
