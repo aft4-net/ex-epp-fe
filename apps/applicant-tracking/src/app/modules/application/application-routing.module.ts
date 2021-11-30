@@ -33,7 +33,7 @@ const routes: Routes = [
 
       },
       {
-        path: 'workexperience',
+        path: 'work-experience',
         component:WorkExperienceComponent,
         canActivate: [educationGuard, AuthorizationCheck]
 
