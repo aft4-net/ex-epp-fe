@@ -39,7 +39,7 @@
            class="w-20 ml-2 rounded-none border-0 border-t-0"
           ></nz-date-picker>
           <label for="to-date"  class="ml-2">To Date:</label>
-          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="true" nzFormat="MM-dd-YY" nzSuffixIcon=""
+          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="false" nzFormat="MM-dd-YY" nzSuffixIcon="" [nzDisabledDate]="disabledDates"
            class="w-20  rounded-none border-0 border-t-0"
           ></nz-date-picker>
 
