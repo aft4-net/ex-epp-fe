@@ -30,6 +30,7 @@ export class EmployeeDetailComponent implements OnInit {
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<string>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
+  employeeViewModel !: IEmployeeViewModel[];
   employeeParams = new EmployeeParams();
 
   fullname!: string;
@@ -87,6 +88,7 @@ export class EmployeeDetailComponent implements OnInit {
           value:"India"
         }
       ],
+
       filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
     },
     {
@@ -195,6 +197,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
 
   }
+
 
   Edit(employeeGuid : string)
   {

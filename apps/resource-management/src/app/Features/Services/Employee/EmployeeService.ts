@@ -1,7 +1,7 @@
 
 import { BehaviorSubject, Observable } from "rxjs";
 import { Employee } from "../../Models/Employee";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ResponseDTO, ResponseDto } from "../../Models/response-dto.model";
 import {map} from "rxjs/operators"
@@ -20,8 +20,8 @@ export class EmployeeService {
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
    employee$ = this.employeeSource.asObservable();
 
-   private employeeListSource = new BehaviorSubject<IEmployeeViewModel[]>({} as IEmployeeViewModel[]);
-   employeeList$ = this.employeeListSource.asObservable();
+   public employeeListSource = new BehaviorSubject<IEmployeeViewModel[]>({} as IEmployeeViewModel[]);
+   employeeList$  : Observable<IEmployeeViewModel[]> = this.employeeListSource.asObservable();
 
    employee!:Employee;
 
@@ -96,7 +96,6 @@ export class EmployeeService {
 
     SearchEmployeeData(employeeParams: EmployeeParams) : Observable<IEmployeeViewModel[]>{
 
-
       return this.http.get<ResponseDTO<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' ,
       {params:{
         searhKey:employeeParams.searchKey,
@@ -104,7 +103,10 @@ export class EmployeeService {
         pageSize:employeeParams.pageSize
 
       }}).pipe(
-        map(result => result.Data)
+        map(result =>  result.Data)
       )
     }
+   
+
 }
+
