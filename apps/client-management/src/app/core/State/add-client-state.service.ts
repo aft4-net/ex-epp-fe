@@ -34,7 +34,7 @@ export class AddClientStateService extends StateService<ClientCreate> {
   updateAddClientDetails(clientDetail: ClientDetailCreate) {
     this.setState({
       ClientName: clientDetail.ClientName,
-      SalesPersonGuid: clientDetail.ClientStatusGuid,
+      SalesPersonGuid: clientDetail.SalesPersonGuid,
       ClientStatusGuid: clientDetail.ClientStatusGuid,
       Description: clientDetail.Description,
     });
