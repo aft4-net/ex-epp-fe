@@ -193,6 +193,7 @@ export class ViewClientsComponent implements OnInit  {
         this.findlistofNames();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
+        console.log(response.data);
       });
 
     this._clientservice.fristPagantionClients$.subscribe(
