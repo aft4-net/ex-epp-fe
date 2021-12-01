@@ -30,7 +30,7 @@
            [nzSortFn]="column.sortFn"
            [nzSortDirections]="column.sortDirections"
            >Employee</th>
-           
+
            <th *ngFor="let column of listOfColumns"
            [nzSortOrder]="column.sortOrder"
            [nzSortFn]="column.sortFn"
@@ -53,8 +53,9 @@
             </td> -->
             <td>{{ employeeView.FullName }}</td>
             <td>{{ employeeView.JobTitle }}</td>
-            <td>{{ employeeView.Location }}</td>
             <td>{{ employeeView.Status }}</td>
+            <td>{{ employeeView.Location }}</td>
+
           </tr>
       </tbody>
     </nz-table>

@@ -99,16 +99,16 @@ export class EmployeeDetailComponent implements OnInit {
           value:"string"
         },
         {
-          text:"Ethiopian",
-          value:"Ethiopian"
+          text:"Ethiopia",
+          value:"Ethiopia"
         },
         {
-          text:"American",
-          value:"American"
+          text:"America",
+          value:"America"
         },
         {
-          text:"Indian",
-          value:"Indian"
+          text:"India",
+          value:"India"
         }
       ],
       filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
