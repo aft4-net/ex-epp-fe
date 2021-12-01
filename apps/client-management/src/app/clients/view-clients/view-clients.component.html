@@ -1,3 +1,6 @@
+
+
+<div class="main-content">
 <header>
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
@@ -14,8 +17,7 @@
 <exec-epp-header-line> </exec-epp-header-line>
 
 
-
-<div nz-row class="ml-1">
+<div nz-row class="ml-1 ">
   <div nz-col nzSpan="6" class="ml-1">
     <nz-input-group [nzSuffix]="suffixIconSearch" >
       <input [formControl]="searchProject" type="text" nz-input placeholder="Search" />
@@ -34,9 +36,9 @@
 
                <li> <label nz-checkbox [(ngModel)]="locationCheckbox">Location</label></li>
                <li> <label nz-checkbox [(ngModel)]="statusCheckbox">Status</label></li>
-               <li> <label nz-checkbox [(ngModel)]="salesCheckbox">Sales-Person</label></li>
-               <li> <label nz-checkbox [(ngModel)]="clientContactCheckbox">Client-Contact</label></li>
-               <li>  <label nz-checkbox [(ngModel)]="companyContactCheckbox">Company-Contact</label> </li>
+               <li> <label nz-checkbox [(ngModel)]="salesCheckbox">Sales Person</label></li>
+               <li> <label nz-checkbox [(ngModel)]="clientContactCheckbox">Client Contact Person</label></li>
+               <li>  <label nz-checkbox [(ngModel)]="companyContactCheckbox">Company Contact Person</label> </li>
             </ul>
           </div>
 
@@ -47,13 +49,17 @@
 
       </div>
     </ng-template>
-    <a style="color: #00A551;margin-left: 975px;background-color: white;" nz-popover
+    <a style="color: #00A551;margin-left: 980px;background-color: white;" nz-popover
       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
       >Manage Columns</a>
   </div>
 
 
-</div>
+</div><br>
+
+<nz-pagination style="margin-left: 1200px;" [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
+  [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
+  nzShowSizeChanger nzShowQuickJumper></nz-pagination>
 
 <nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false" >
 
@@ -103,7 +109,12 @@
 <br>
 <nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
-  nzShowSizeChanger nzShowQuickJumper>
+  nzShowSizeChanger nzShowQuickJumper></nz-pagination>
+
+
+</div>
+
+
 
 
 

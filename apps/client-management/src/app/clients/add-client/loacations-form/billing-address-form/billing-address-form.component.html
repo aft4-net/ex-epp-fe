@@ -1,9 +1,9 @@
-<div  *ngIf="billingAddressess.length">
+<div style="margin-bottom: 0% ;" *ngIf="billingAddressess.length">
   <button  class="button-style" (click)="showModal()">
     Add Billing Address
   </button>
  </div>
-<div>
+<div style="margin-bottom: 15px;">
   <h3>Billing Address</h3>
 </div>
 
@@ -203,6 +203,40 @@
             nzShowSearch
             nzAllowClear
             [nzPlaceHolder]="statePlaceHolder"
+            formControlName="State"
+            (ngModelChange)="getSelectedState()"
+          >
+            <nz-option
+              *ngFor="let state of states"
+              nzLabel="{{ state.name }}"
+              nzValue="{{ state.name }}"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry === 'Ethiopia'"
+          >Region</nz-form-label
+        >
+
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry !== 'Ethiopia'"
+          >State/Province</nz-form-label
+        >
+
+        <nz-form-control nzErrorTip="The input is not valid State!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Select a State/Region"
             formControlName="State"
             (ngModelChange)="getSelectedState()"
           >
