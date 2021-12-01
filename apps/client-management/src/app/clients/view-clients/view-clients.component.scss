@@ -65,8 +65,11 @@ header {
   color: #FFFFFF;
 
 }
-.ant-pagination {
+
+::ng-deep.ant-pagination {
   float: right;
+  padding-right: 15px;
+
   
 }
 
