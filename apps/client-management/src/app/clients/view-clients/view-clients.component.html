@@ -25,11 +25,11 @@
     <ng-template #suffixIconSearch>
       <i nz-icon nzType="search"></i>
     </ng-template>
-    
+
   </div>
-  
+
   <div>
-   
+
     <ng-template #contentTemplate>
       <div style="width: 190px;">
 
@@ -55,23 +55,23 @@
       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
       >Manage Columns</a>
   </div>
-  
+
 
 
 </div>
 
  <div >
-  <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
+  <nz-pagination [nzPageSize]="pageSize"  [nzPageIndex]="pageIndex" [nzTotal]="total"
   (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
-  
- </nz-pagination> 
+
+ </nz-pagination>
  <p style="margin-left: 1740px;">Showing 1 - {{clientsdata.length}} of {{total}} entries</p>
- </div> 
+ </div>
 
 
 
 
-<nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false" >
+<nz-table class="mt-3" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
 
 
   <thead>

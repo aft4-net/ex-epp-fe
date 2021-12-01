@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
 import { Router } from '@angular/router';
+import { ToastContainerDirective } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -26,6 +27,7 @@ export class ViewClientsComponent implements OnInit  {
   clientsdata: Client[] = [];
   searchProject = new FormControl();
   total = 10;
+  totalRecordBackup=0;
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -44,7 +46,7 @@ export class ViewClientsComponent implements OnInit  {
   salesCheckbox = true;
   clientContactCheckbox = false;
   companyContactCheckbox = false;
-
+  isFilter= false;
   listOfSearchName: string[] = [];
   searchAddress!: string;
   listofNames = [''];
@@ -68,6 +70,8 @@ export class ViewClientsComponent implements OnInit  {
   locations!: OperatingAddress[];
   employees!: Employee[];
   allClients!: Client[];
+  totalData: Client[]= [];
+  totalData1: Client[]= [];
   constructor(
     private router: Router,
     private _clientservice: ClientService,
@@ -137,8 +141,26 @@ export class ViewClientsComponent implements OnInit  {
       });
   }
 
-  PageIndexChange(index: any): void {
+
+  getAllClientData(index: any) {
     console.log(index);
+
+      this._clientservice
+        .getWithPagnationResut(index, 10, this.searchProject.value)
+        .subscribe((response: PaginatedResult<Client[]>) => {
+          this.totalData1= response.data
+          this.totalData.push(...this.totalData1);
+
+        });
+
+    }
+  PageIndexChange(index: any): void {
+
+   if(this.isFilter){
+    this.clientsdata =this.totalData.slice((index-1)*10,index*10);
+
+   }
+   else{
     this.pageIndex = index;
     this.loading = true;
     if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
@@ -148,6 +170,9 @@ export class ViewClientsComponent implements OnInit  {
           this.clientsdata = response.data;
           this.unfilteredData = response.data;
           this.pageIndex = response.pagination.pageIndex;
+          this.total = response.pagination.totalRecord;
+
+          this.totalPage = response.pagination.totalPage;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
         });
@@ -174,7 +199,7 @@ export class ViewClientsComponent implements OnInit  {
 
         });
       this.searchStateFound = false;
-    }
+    }}
   }
 
   initializeData(): void {
@@ -344,7 +369,7 @@ getClientStatus() {
 getLocations(){
   this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
     this.locations = res.data;
-    console.log(this.locations);
+
       });
 }
 fetchAllData(){
@@ -369,27 +394,50 @@ getSalesPerson(){
     this.searchAddressList = searchAddressList;
 
     this.searchsalesPersonList = searchsalesPersonList;
+    if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+      this.isFilter =true;
+      this.totalData =[];
+      this.loading = true;
+      for(let i = 1; i <=this.totalPage;i++){
+      this.getAllClientData(i);
+      }
 
-    this.clientsdata = this.unfilteredData;
-    const filterFunc = (item: Client) =>
-      (this.searchAddressList.length
-        ? this.searchAddressList.some(
-            (address) =>
-              item.OperatingAddress[0].Country.indexOf(address) !== -1
-          )
-        : true) &&
-      (this.searchstatusList.length
-        ? this.searchstatusList.some(
-            (name) => item.ClientStatusName.indexOf(name) !== -1
-          )
-        : true) &&
-      (this.searchsalesPersonList.length
-        ? this.searchsalesPersonList.some(
-            (name) => item.SalesPerson.Name.indexOf(name) !== -1
-          )
-        : true);
-    const data = this.clientsdata.filter((item) => filterFunc(item));
-    this.clientsdata = data;
-    console.log(data);
+      setTimeout(() => {
+        this.clientsdata = this.totalData;
+        this.loading = false;
+
+        const filterFunc = (item: Client) =>
+          (this.searchAddressList.length
+            ? this.searchAddressList.some(
+                (address) =>
+                  item.OperatingAddress[0].Country.indexOf(address) !== -1
+              )
+            : true) &&
+          (this.searchstatusList.length
+            ? this.searchstatusList.some(
+                (name) => item.ClientStatusName.indexOf(name) !== -1
+              )
+            : true) &&
+          (this.searchsalesPersonList.length
+            ? this.searchsalesPersonList.some(
+                (name) => item.SalesPerson.Name.indexOf(name) !== -1
+              )
+            : true);
+        const data = this.clientsdata.filter((item) => filterFunc(item));
+        this.clientsdata = data.slice(0,10);
+        this.totalRecordBackup=this.total
+              this.totalData=data;
+              this.total=data.length;
+
+
+      },4000)
+    }
+    else{
+      this.isFilter = false;
+      this.clientsdata = this.unfilteredData;
+      this.total=this.totalRecordBackup;
+    }
+
+    // console.log(data);
   }
 }
