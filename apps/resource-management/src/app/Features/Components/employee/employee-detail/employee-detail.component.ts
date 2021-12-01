@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Data } from '@angular/router';
-
-import { data } from 'autoprefixer';
 import { Observable } from 'rxjs';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-import { ResponseDTO } from '../../../Models/response-dto.model';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-
+import { NzConfigService } from 'ng-zorro-antd/core/config';
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
-  styleUrls: ['./employee-detail.component.css'],
+  styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private _employeeService : EmployeeService) {
 
@@ -23,20 +21,20 @@ export class EmployeeDetailComponent implements OnInit {
   indeterminate = false;
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
-  setOfCheckedId = new Set<number>();
+  setOfCheckedId = new Set<string>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
-  
+  customize = false;
 
   ngOnInit(): void {
     this.FeatchAllEmployees();
   }
 
-  updateCheckedSet(id: number, checked: boolean): void {
+  updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
-      this.setOfCheckedId.add(id);
+      this.setOfCheckedId.add(employeeGuid);
     } else {
-      this.setOfCheckedId.delete(id);
+      this.setOfCheckedId.delete(employeeGuid);
     }
   }
 
@@ -57,8 +55,8 @@ export class EmployeeDetailComponent implements OnInit {
       !this.checked;
   }
 
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
+  onItemChecked(employeeGuid: string, checked: boolean): void {
+    this.updateCheckedSet(employeeGuid, checked);
     this.refreshCheckedStatus();
   }
 
@@ -82,11 +80,18 @@ export class EmployeeDetailComponent implements OnInit {
     }, 1000);
   }
 
-  
   FeatchAllEmployees() {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
-   
+  }
+
+  Edit(employeeGuid : string)
+  {
+
+  }
+
+  Delete(employeeGuid : string)
+  {
+
   }
 }
-
 
