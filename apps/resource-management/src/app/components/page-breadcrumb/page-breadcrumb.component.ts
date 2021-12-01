@@ -9,18 +9,39 @@ import { Router } from '@angular/router';
   styleUrls: ['./page-breadcrumb.component.scss'],
 })
 export class PageBreadcrumbComponent implements OnInit {
+  isdefault = true;
+
+  router: string;
+
   constructor(
     private _employeeService: EmployeeService,
-    private router: Router
-  ) {}
+    private _router: Router
+  ) {
+    this._router.events.subscribe((url: any) => console.log(url));
+    this.router = _router.url;
+    // console.log(this.router);
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.reloadCurrentRoute();
+  }
 
   saveEmployee() {
     this._employeeService.saveEmployee();
   }
 
+  reloadCurrentRoute() {
+    const currentUrl = this._router.url;
+    this._router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this._router.navigate([currentUrl]);
+      console.log('current route is', currentUrl);
+    });
+  }
+
   addEmployee() {
-    this.router.navigate(['/employee/add-employee/personal-info']);
+    this._router.navigate(['/employee/add-employee/personal-info']);
+    this._router.events.subscribe((url: any) => console.log(url));
+    this.router = this._router.url;
+    this.isdefault = false;
   }
 }
