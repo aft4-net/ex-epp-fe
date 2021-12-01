@@ -1,10 +1,14 @@
-import { Client, PaginatedResult } from '../../core/models/get';
+import { Client, ClientStatus, Employee, PaginatedResult } from '../../core/models/get';
+import { ClientService, ClientStatusService, EmployeeService } from '../../core/services';
 import { Component, OnInit } from '@angular/core';
 
-import { ClientService } from '../../core/services';
+import { AllDataResponse } from '../../core/models/get/AllDataResponse';
+import { FetchclientsService } from '../../core/services/fetchclients.service';
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
+import { OperatingAddress } from '../../core/models/get/operating-address';
+import { OperationalAddressService } from '../../core/services/operational-address.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 
@@ -56,12 +60,25 @@ export class ViewClientsComponent implements OnInit {
   listOfLocation: string[] = [];
   nameOfLocation = '';
   namesofLocationsfilterd = [{ text: '', value: '', checked: false }];
+  clientStatuses!: ClientStatus[];
+  selectedValue!: string;
+  locations!: OperatingAddress[];
+  employees!: Employee[];
+  allClients: Client[];
   constructor(
     private router: Router,
     private _clientservice: ClientService,
+    private clientStatusService: ClientStatusService,
+    private operatingAddressService: OperationalAddressService,
+    private fetchclientsService: FetchclientsService,
+    private employeeService: EmployeeService,
     private notification: NzNotificationService
   ) {}
   ngOnInit(): void {
+    this.getClientStatus();
+    this.getLocations();
+    this.getSalesPerson();
+    this.fetchAllData();
     this.initializeData();
 
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
@@ -109,7 +126,6 @@ export class ViewClientsComponent implements OnInit {
         this.clientsdata = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;
-
         this.loading = false;
 
       });
@@ -232,13 +248,12 @@ export class ViewClientsComponent implements OnInit {
 
   findlistofNames(): void {
     this.listofNames = [''];
-    for (let i = 0; i < this.clientsdata.length; i++) {
-      this.nameofclient = this.clientsdata[i].ClientStatusName;
+    for (let i = 0; i < this.clientStatuses.length; i++) {
+      this.nameofclient = this.clientStatuses[i].StatusName;
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
       });
-      console.log(this.AllData);
       this.listofNames = this.filteredArray.filter((item) => item);
     }
 
@@ -261,8 +276,8 @@ export class ViewClientsComponent implements OnInit {
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
-    for (let i = 0; i < this.clientsdata.length; i++) {
-      this.namesofSalesPerson = this.clientsdata[i].SalesPerson.Name;
+    for (let i = 0; i < this.employees.length; i++) {
+      this.namesofSalesPerson = this.employees[i].Name;
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
       this.filteredPersonArray = this.ListOfSalesPerson.filter((item, pos) => {
         return this.ListOfSalesPerson.indexOf(item) == pos;
@@ -287,8 +302,8 @@ export class ViewClientsComponent implements OnInit {
 
   findlistOfLocation(): void {
     this.listOfLocation = [''];
-    for (let i = 0; i < this.clientsdata.length; i++) {
-      this.nameOfLocation = this.clientsdata[i].OperatingAddress[0].Country;
+    for (let i = 0; i < this.locations.length; i++) {
+      this.nameOfLocation = this.locations[i].Country;
       this.listOfLocation.push(this.nameOfLocation);
       this.filteredPersonArray = this.listOfLocation.filter((item, pos) => {
         return this.listOfLocation.indexOf(item) == pos;
@@ -313,8 +328,31 @@ export class ViewClientsComponent implements OnInit {
     console.log(this.namesofLocationsfilterd);
   }
 
+getClientStatus() {
 
+  this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
+    this.clientStatuses = res;
+      });
+}
 
+getLocations(){
+  this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
+    this.locations = res.data;
+    console.log(this.locations);
+      });
+}
+fetchAllData(){
+  this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
+    this.allClients = res.data;
+
+      });
+
+}
+getSalesPerson(){
+  this.employeeService.getAll().subscribe((response: Employee[]) => {
+    this.employees = response;
+  })
+}
   search(
     searchAddressList: string[],
     searchstatusList: string[],

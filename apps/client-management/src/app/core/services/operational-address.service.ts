@@ -1,24 +1,25 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ApiService } from '..';
-
-<<<<<<< HEAD
+import { AllDataResponse } from '../models/get/AllDataResponse';
 import { ApiService } from '../models/apiService';
-import { OperationalAddress } from '../models/get/operating-address';
-=======
->>>>>>> 9a36515d7fa15031fb782446435e965ba7e8f9d7
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { OperatingAddress } from '../models/get/operating-address';
+import { ResponseMessage } from '../models/get/response-message';
+import { map } from 'rxjs/operators';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class OperationalAddressService extends ApiService<OperationalAddress> {
+@Injectable({
+  providedIn: 'root'
+})
+export class OperationalAddressService extends ApiService<OperatingAddress> {
 
-//   constructor(protected httpClient: HttpClient ) { 
-//     super(httpClient);
-//   }
+  constructor(protected httpClient: HttpClient ) {
+    super(httpClient);
+  }
 
-//   getResourceUrl(): string {
+  getResourceUrl(): string {
 
-//     return 'address';
-//   }
-// }
+    return 'OperatingAddress';
+  }
+
+
+}
