@@ -2,6 +2,7 @@ import {
 AddClientStateService,
 Client,
 ClientDetailCreate,
+ClientService,
 ClientStatus,
 ClientStatusService,
 Employee,
@@ -35,7 +36,8 @@ export class DetailsFormComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private clientStatusService: ClientStatusService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private clientDetailsService: ClientService 
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +47,12 @@ export class DetailsFormComponent implements OnInit {
       this.employees = response;
     });
 
+    this.clientDetailsService.getAll().subscribe((response: any) => {
+
+      this.clients = response.Data;
+
+    });
+  
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
       this.clientStatuses = res;
       for (let i = 0; i < this.clientStatuses.length; i++) {
@@ -55,12 +63,16 @@ export class DetailsFormComponent implements OnInit {
       }
     });
 
+    this.validateForm.controls.clientName.valueChanges.subscribe(()=>{
+      
+      this.checkClientName();
+    });
+
     this.validateForm.valueChanges.subscribe(() => {
       if (this.validateForm.valid) {
         this.clientDetailCreate.ClientName =
           this.validateForm.controls.clientName.value;
-        this.clientDetailCreate.SalesPersonGuid =
-          this.validateForm.controls.salesPerson.value.Guid;
+        this.clientDetailCreate.SalesPersonGuid =this.validateForm.controls.salesPerson.value.Guid;
         this.clientDetailCreate.ClientStatusGuid =
           this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
@@ -75,9 +87,10 @@ export class DetailsFormComponent implements OnInit {
   }
 
   checkClientName() {
-    var name = this.validateForm.value['clientName'];
+    const  name = this.validateForm.controls.clientName.value;
 
       for (let i = 0; i < this.clients.length; i++) {
+       
         if (
           name.toLowerCase() ===
           this.clients[i].ClientName.toString().toLowerCase()

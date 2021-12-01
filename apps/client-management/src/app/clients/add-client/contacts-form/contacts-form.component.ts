@@ -10,8 +10,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   styleUrls: ['./contacts-form.component.scss'],
 })
 export class ContactsFormComponent implements OnInit {
-  isVisible=false;
- countries: string[] = [];
+  isVisible = false;
+  countries: string[] = [];
   footer = null;
 
   listofCodes: { value: string; label: string }[] = [];
@@ -21,7 +21,6 @@ export class ContactsFormComponent implements OnInit {
   isEthiopia = false;
 
   buttonClicked = 0;
-
 
   addContactForm!: FormGroup;
   listData = [] as ClientContactCreate[];
@@ -43,12 +42,21 @@ export class ContactsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listData = [];
+    this.listData = this.addClientStateService.addClientData.ClientContacts;
     this.addContactForm = this.fb.group({
-ContactPersonName: ['', [Validators.required]],
-PhoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$")]],
-PhoneNumberPrefix:['+251',[Validators.required]],
-Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
+      ContactPersonName: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      PhoneNumberPrefix: ['+251', [Validators.required]],
+      Email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(320),
+          Validators.email,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
     });
   }
   showModal(): void {

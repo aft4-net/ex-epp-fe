@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   BillingAddressCreate,
@@ -7,11 +7,11 @@ import {
   ClientCreate,
   ClientDetailCreate,
   CompanyContactCreate,
+  Employee,
   OperatingAddressCreate,
   StateService,
   ValidtyAddClientForms,
 } from '..';
-
 
 const iniitalAddClientState: ClientCreate = {
   SalesPersonGuid: '',
@@ -23,18 +23,29 @@ const iniitalAddClientState: ClientCreate = {
   OperatingAddress: [] as OperatingAddressCreate[],
   BillingAddress: [] as BillingAddressCreate[],
 };
+
 @Injectable({
   providedIn: 'root',
 })
 export class AddClientStateService extends StateService<ClientCreate> {
+  private comapanyContacts = new BehaviorSubject<Employee[]>({} as Employee[]);
+
   constructor() {
     super(iniitalAddClientState);
+  }
+
+  get getClientcomapanyContacts() {
+    return this.comapanyContacts.getValue();
+  }
+
+  updateClientcomapanyContacts(employees: Employee[]) {
+    this.comapanyContacts.next(employees);
   }
 
   updateAddClientDetails(clientDetail: ClientDetailCreate) {
     this.setState({
       ClientName: clientDetail.ClientName,
-      SalesPersonGuid: clientDetail.ClientStatusGuid,
+      SalesPersonGuid: clientDetail.SalesPersonGuid,
       ClientStatusGuid: clientDetail.ClientStatusGuid,
       Description: clientDetail.Description,
     });
@@ -47,6 +58,7 @@ export class AddClientStateService extends StateService<ClientCreate> {
       ClientStatusGuid: '',
       Description: '',
     });
+    this.comapanyContacts.next([] as Employee[]);
   }
 
   get addClientData(): ClientCreate {
@@ -76,8 +88,9 @@ export class AddClientStateService extends StateService<ClientCreate> {
     // eslint-disable-next-line prefer-const
     let validtyAddClientForms: ValidtyAddClientForms = {
       clientDetailsForm: false,
-      contactDetailsForm: false,
       clientLocationForm: false,
+      clientContactsForm: false,
+      CompanyContactsForm: false,
     };
 
     return this.state$.pipe(
@@ -99,9 +112,13 @@ export class AddClientStateService extends StateService<ClientCreate> {
           validtyAddClientForms.clientLocationForm = true;
         else validtyAddClientForms.clientLocationForm = false;
 
-        if (res.ClientContacts.length >= 1 && res.CompanyContacts.length >= 1)
-          validtyAddClientForms.contactDetailsForm = true;
-        else validtyAddClientForms.contactDetailsForm = false;
+        if (res.ClientContacts.length >= 1)
+          validtyAddClientForms.clientContactsForm = true;
+        else validtyAddClientForms.clientContactsForm = false;
+
+        if (res.CompanyContacts.length >= 1)
+          validtyAddClientForms.CompanyContactsForm = true;
+        else validtyAddClientForms.CompanyContactsForm = false;
 
         return validtyAddClientForms;
       })

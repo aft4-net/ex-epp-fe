@@ -64,13 +64,12 @@ export class CompanyContactsFormComponent implements OnInit {
     this.listofCodes = this._countryService.getPhonePrefices();
   }
 
-
   ngOnInit(): void {
+    this.listData=this.addClientStateService.getClientcomapanyContacts
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
 
-    this.listData = [];
     this.addContactForm = this.fb.group({
       companyContactName: ['', [Validators.required]],
       phoneNumber: ['', []],
@@ -95,6 +94,7 @@ export class CompanyContactsFormComponent implements OnInit {
         ContactPersonGuid: this.contactDetail.Guid,
       });
       this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+      this.addClientStateService.updateClientcomapanyContacts(this.listData);
       this.addContactForm.reset();
       this.isVisible = false;
     } else {

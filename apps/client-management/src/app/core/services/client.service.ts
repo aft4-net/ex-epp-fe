@@ -34,7 +34,6 @@ export class ClientService extends ApiService<Client> {
   }
 
   addClient() {
-    console.log(this.addClientStateService.addClientData);
     this.post(this.addClientStateService.addClientData).subscribe(
       (response: any) => {
         if (response.ResponseStatus.toString().toLowerCase() == 'error') {

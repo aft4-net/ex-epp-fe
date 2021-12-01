@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { AddClientStateService } from 'apps/client-management/src/app/core';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { BillingAddress } from 'apps/client-management/src/app/core/models/get/billing-address';
-
+import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
@@ -18,7 +15,7 @@ import { StateService } from 'apps/client-management/src/app/core/services/State
   styleUrls: ['./billing-address-form.component.scss'],
 })
 export class BillingAddressFormComponent implements OnInit {
-  billingAddressess: BillingAddress[] = [];
+  billingAddressess: BillingAddressCreate[] = [];
   tabledata:any=[];
   isVisible = false;
   isOkLoading = false;
@@ -76,6 +73,7 @@ export class BillingAddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("data="+ this.data)
+    this.billingAddressess = this.addStateClientService.addClientData.BillingAddress;
   }
 
   showModal(): void {

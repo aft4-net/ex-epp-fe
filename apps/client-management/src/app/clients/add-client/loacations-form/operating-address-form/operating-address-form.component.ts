@@ -71,6 +71,7 @@ export class OperatingAddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("data="+ this.data)
+    this. operatingAddress = this.addClientStateService.addClientData.OperatingAddress;
   }
 
   showModal(): void {
