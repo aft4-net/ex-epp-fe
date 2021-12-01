@@ -16,6 +16,10 @@ import { PageFooterComponent } from './components/page-footer/page-footer.compon
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { ProgressButtonsComponent } from './components/progress-buttons/progress-buttons.component';
 import { ToastrModule } from 'ngx-toastr';
+
+// import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
+
+
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { AddDeviceDetailComponent } from './Features/Components/add-device-detail/add-device-detail.component';

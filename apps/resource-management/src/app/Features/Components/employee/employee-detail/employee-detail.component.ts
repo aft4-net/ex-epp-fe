@@ -5,6 +5,7 @@ import { Data } from '@angular/router';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { Observable } from 'rxjs';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
@@ -14,9 +15,10 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
-  styleUrls: ['./employee-detail.component.css'],
+  styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private _employeeService : EmployeeService) {
 
@@ -26,9 +28,10 @@ export class EmployeeDetailComponent implements OnInit {
   indeterminate = false;
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
-  setOfCheckedId = new Set<number>();
+  setOfCheckedId = new Set<string>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
+
   fullname!: string;
   empList !: listtToFilter[];
 
@@ -61,33 +64,6 @@ export class EmployeeDetailComponent implements OnInit {
       filterFn: null
     },
     {
-      name: 'Status',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
-      filterMultiple: true,
-      listOfFilter: [
-        {
-          text:"string",
-          value:"string"
-        },
-        {
-          text:"Active",
-          value:"Active"
-        },
-        {
-          text:"On Leave",
-          value:"On Leave"
-        },
-        {
-          text:"Terminated",
-          value:"Terminated"
-        }
-      ],
-      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
-    },
-
-    {
       name: 'Location',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
@@ -112,7 +88,35 @@ export class EmployeeDetailComponent implements OnInit {
         }
       ],
       filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+    },
+    {
+      name: 'Status',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+      filterMultiple: true,
+      listOfFilter: [
+        {
+          text:"string",
+          value:"string"
+        },
+        {
+          text:"Active",
+          value:"Active"
+        },
+        {
+          text:"On Leave",
+          value:"On Leave"
+        },
+        {
+          text:"Terminated",
+          value:"Terminated"
+        }
+      ],
+      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
     }
+
+
   ];
 
   listOfData2: IEmployeeViewModel[] = [
@@ -125,15 +129,16 @@ export class EmployeeDetailComponent implements OnInit {
     }
   ];
 
+
   ngOnInit(): void {
     this.FeatchAllEmployees();
   }
 
-  updateCheckedSet(id: number, checked: boolean): void {
+  updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
-      this.setOfCheckedId.add(id);
+      this.setOfCheckedId.add(employeeGuid);
     } else {
-      this.setOfCheckedId.delete(id);
+      this.setOfCheckedId.delete(employeeGuid);
     }
   }
 
@@ -154,8 +159,8 @@ export class EmployeeDetailComponent implements OnInit {
       !this.checked;
   }
 
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
+  onItemChecked(employeeGuid: string, checked: boolean): void {
+    this.updateCheckedSet(employeeGuid, checked);
     this.refreshCheckedStatus();
   }
 
@@ -180,6 +185,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
 
+
   FeatchAllEmployees() {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
   }
@@ -188,8 +194,16 @@ export class EmployeeDetailComponent implements OnInit {
     console.log(this.fullname);
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
 
+  }
 
+  Edit(employeeGuid : string)
+  {
+  //not implemented
+  }
+
+  Delete(employeeGuid : string)
+  {
+  //not implemented
   }
 }
-
 

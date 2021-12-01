@@ -1,54 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
+
+import { data } from 'autoprefixer';
+import { Observable } from 'rxjs';
+import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
+import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
+import { ResponseDTO } from '../../../Models/response-dto.model';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
-  selector: 'exec-epp-address-view',
-  templateUrl: './address-view.component.html',
-  styleUrls: ['./address-view.component.scss']
+  selector: 'exec-epp-employee-detail',
+  templateUrl: './employee-detail.component.html',
+  styleUrls: ['./employee-detail.component.css'],
 })
-export class AddressViewComponent implements OnInit {
+export class EmployeeDetailComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  constructor(private _employeeService : EmployeeService) {
 
-  isVisible = false;
-  isConfirmLoading = false;
+  }
   checked = false;
   loading = false;
   indeterminate = false;
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
+  employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
+  employeeParams = new EmployeeParams();
+  
 
-
-  i = 0;
-  editId: string | null = null;
-
-
-
-  constructor(private modalService: NzModalService) {}
-
-
-  addaddress(): void {
-    this.modalService.create({
-      nzTitle: 'Add Addresses',
-      nzContent: AddressNewComponent
-    });
+  ngOnInit(): void {
+    this.FeatchAllEmployees();
   }
-
-  handleOk(): void {
-    this.isConfirmLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isConfirmLoading = false;
-    }, 3000);
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-  }
-
-
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -87,42 +69,35 @@ export class AddressViewComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
+  sendRequest(): void {
+    this.loading = true;
+    const requestData = this.listOfData.filter((data) =>
+      this.setOfCheckedId.has(data.id)
+    );
+    console.log(requestData);
+    setTimeout(() => {
+      this.setOfCheckedId.clear();
+      this.refreshCheckedStatus();
+      this.loading = false;
+    }, 1000);
+  }
 
-
+<<<<<<< HEAD
   ngOnInit(): void {
-    this.listOfData = new Array(0).fill(0).map((_, index) => ({
+    this.listOfData = new Array(20).fill(0).map((_, index) => ({
       id: index,
       name: `Edward King ${index}`,
       age: 32,
       address: `London, Park Lane no. ${index}`,
       disabled: index % 2 === 0,
     }));
-  }
-
-
-
-  startEdit(id: string): void {
-    this.editId = id;
-  }
-
-  stopEdit(): void {
-    this.editId = null;
-  }
-
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
-  }
-
-  deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+=======
+  
+  FeatchAllEmployees() {
+    this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
+   
+>>>>>>> develop
   }
 }
+
+

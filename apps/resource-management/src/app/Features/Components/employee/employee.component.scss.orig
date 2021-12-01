@@ -7,17 +7,12 @@ body,
 nz-content {
   padding: 0 120px;
   width: 100%;
-  background-color: red;
-
-
 }
 
 .inner-content-menu {
   background: #fff;
   height: auto;
   padding: 0px 24px;
-  
-  
 
 }
 .main-content {
@@ -29,11 +24,13 @@ nz-content {
   background: #fff;
   height: auto;
   float: left;
-  padding: 0px;
-  background-color: red;
-
+  padding: 0;
+<<<<<<< HEAD
+  margin: 10px -117px;
+=======
 
   // margin: 10px -117px;
+>>>>>>> develop
 
 }
 

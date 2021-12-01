@@ -1,11 +1,13 @@
 <br/>
-<div nz-row>
+<div nz-row >
   <div nz-col class="gutter-row" [nzSpan]="8">
-        <nz-input-group [nzSuffix]="suffixIconSearch">
-          <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname" />
+
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" >
+          <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname"/>
         </nz-input-group>
-        <ng-template #suffixIconSearch>
-          <button nz-button  nzSearch (click)="searchEmployees()" ><i nz-icon nzType="search"></i></button>
+        <ng-template #suffixIconButton>
+          <button nz-button  nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
+
         </ng-template>
   </div>
 </div>
@@ -13,6 +15,7 @@
 <div nz-row>
   <div nz-col class="gutter-row" [nzSpan]="24">
     <ng-container *ngIf="(employeeViewModels$ | async) as employeeList">
+
     <nz-table
       #rowSelectionTable
       nzShowPagination
@@ -22,44 +25,45 @@
       (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
       <thead>
         <tr>
-          <!-- <th [nzChecked]="checked"
-
-           [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
-           <th *ngFor="let column of listOfColumnsFullName"
+          <th class="table_heading" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+           <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
            [nzSortOrder]="column.sortOrder"
            [nzSortFn]="column.sortFn"
            [nzSortDirections]="column.sortDirections"
            >Employee</th>
 
-           <th *ngFor="let column of listOfColumns"
+           <th class="table_heading" *ngFor="let column of listOfColumns"
            [nzSortOrder]="column.sortOrder"
            [nzSortFn]="column.sortFn"
            [nzSortDirections]="column.sortDirections"
            [nzFilterMultiple]="column.filterMultiple"
            [nzFilters]="column.listOfFilter"
            [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-          <!--<th>Job Title</th>
-          <th>Country</th>
-          <th>Status</th>
-          <th>Actions</th> -->
+           <th class="table_heading">Actions</th>
         </tr>
       </thead>
       <tbody>
 
-          <tr *ngFor="let employeeView of rowSelectionTable.data">
-            <!-- <td
-              [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
-              (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)">
-            </td> -->
-            <td>{{ employeeView.FullName }}</td>
-            <td>{{ employeeView.JobTitle }}</td>
-            <td>{{ employeeView.Status }}</td>
-            <td>{{ employeeView.Location }}</td>
-
-          </tr>
-      </tbody>
-    </nz-table>
-  </ng-container>
+            <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'" [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
+                (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.FullName }} </td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.JobTitle }}</td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.Location }}</td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.Status }}</td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <a (click)="Edit(employeeView.EmployeeGuid)">
+                    <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  </a>
+                  &nbsp; &nbsp;
+                  <a (click)="Delete(employeeView.EmployeeGuid)">
+                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                  </a>
+              </td>
+            </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
   </div>
 </div>
 
