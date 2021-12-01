@@ -11,6 +11,7 @@ import { CityService } from 'apps/client-management/src/app/core/services/city.s
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { StateService } from 'apps/client-management/src/app/core/services/State.service';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-billing-address-form',
@@ -18,6 +19,7 @@ import { StateService } from 'apps/client-management/src/app/core/services/State
   styleUrls: ['./billing-address-form.component.scss'],
 })
 export class BillingAddressFormComponent implements OnInit {
+  confirmModal?: NzModalRef;
   billingAddressess: BillingAddress[] = [];
   tabledata:any=[];
   isVisible = false;
@@ -47,7 +49,8 @@ export class BillingAddressFormComponent implements OnInit {
     private _state: StateService,
     private _city: CityService,
     private _cityInState: CityInStateService,
-    private  addStateClientService:AddClientStateService
+    private  addStateClientService:AddClientStateService,
+    private modal: NzModalService
   ) {
     this.forms = _fb.group({
       Name: [null,
@@ -223,5 +226,22 @@ export class BillingAddressFormComponent implements OnInit {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true };
+}
+showConfirm(index:number): void {
+  this.confirmModal = this.modal.confirm({
+    nzTitle: 'Do you want to delete this item?',
+    nzContent: 'The action is not recoverable. ',
+    nzOnOk: () =>
+      new Promise((resolve, reject) => {
+        if (index > -1) {
+          this.billingAddressess.splice(index, 1);
+          if(!this.billingAddressess.length){
+            this.billingAddressess=this.emptyData;
+          }
+          this.addStateClientService.updateBillingAddress(this.billingAddressess);
+        }
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+      }).catch(() => console.log('Error.'))
+  });
 }
 }
