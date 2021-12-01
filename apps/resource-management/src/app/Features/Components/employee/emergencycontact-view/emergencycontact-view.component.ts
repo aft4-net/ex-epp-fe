@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AddressNewComponent } from '../address-new/address-new.component';
+import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'exec-epp-address-view',
-  templateUrl: './address-view.component.html',
-  styleUrls: ['./address-view.component.scss']
+  selector: 'exec-epp-emergencycontact-view',
+  templateUrl: './emergencycontact-view.component.html',
+  styleUrls: ['./emergencycontact-view.component.scss']
 })
-export class AddressViewComponent implements OnInit {
+export class EmergencycontactViewComponent implements OnInit {
+
+
 
   isVisible = false;
   isConfirmLoading = false;
@@ -29,10 +31,10 @@ export class AddressViewComponent implements OnInit {
   constructor(private modalService: NzModalService) {}
 
 
-  addaddress(): void {
+  addemergencycontact(): void {
     this.modalService.create({
-      nzTitle: 'Add Addresses',
-      nzContent: AddressNewComponent
+      nzTitle: 'Add Emergency Contacts',
+      nzContent: AddEmergencycontactComponent
     });
   }
 
@@ -125,4 +127,5 @@ export class AddressViewComponent implements OnInit {
   deleteRow(id: string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
+
 }

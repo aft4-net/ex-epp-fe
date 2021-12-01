@@ -5,28 +5,29 @@
     </div>
     <div nz-col nzSpan="20" class="inner-content">
         <div nz-row>
-    <div nz-col nzSpan="20" class="inner-content">
-            <div nz-col nzSpan="20">
-                <h1>Addresses</h1>
+            <div nz-col nzSpan="20" class="page-title">
+                <h1>Emergency Contacts</h1>
             </div>
-
             <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length >0">
-                <button class="addButton" nz-button nzType="primary" (click)="addaddress()">
-                    <span>Add Address</span>
+                <button class="addButton" nz-button nzType="primary" (click)="addemergencycontact()">
+                    <span>Add Emergency Contacts</span>
                 </button>
             </div>
         </div>
         <br />
         <br />
 
-        <nz-table class= "table" #rowSelectionTable  nzShowSizeChanger [nzData]="listOfData"
+        <nz-table #rowSelectionTable  nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
 
-            <thead >
-                <tr class ="tr">
-
-                    <th>Country</th>
-                    <th>City</th>
+            <thead>
+                <tr>
+                    <th [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                        (nzCheckedChange)="onAllChecked($event)"></th>
+                    <th>Full Name</th>
+                    <th>Relationship with Employee</th>
+                    <th>Contact Numbber</th>
+                    <th>Location</th>
                     <th>Action</th>
                 </tr>
 
@@ -34,9 +35,12 @@
             <tbody>
                 <tr *ngFor="let data of rowSelectionTable.data">
 
-
+                    <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                        (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                     <td>{{ data.name }}</td>
-                    <td>{{ data.age }}</td>
+                    <td>{{ data.phone }}</td>
+                    <td>{{ data.phone }}</td>
+                    <td>{{ data.address }}</td>
 
                     <td>
                         <div nz-row>
@@ -45,7 +49,7 @@
                                 (click)="startEdit(data.id)">
                                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                             </div>
-                           &nbsp;    &nbsp;
+                           &nbsp;    &nbsp;  
                             <div nz-col nzSpan="2">
                                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                                     (nzOnConfirm)="deleteRow(data.id)"><i nz-icon nzType="delete"
@@ -58,8 +62,8 @@
             </tbody>
         </nz-table>
         <button *ngIf="rowSelectionTable.data.length === 0" class="addButtonwhenNodata" nz-button
-            (click)="addaddress()">
-            <span>Add Addresses</span>
+            (click)="addemergencycontact()">
+            <span>Add Emergency Contacts</span>
 
         </button>
     </div>
