@@ -50,8 +50,8 @@ export class OperatingAddressFormComponent implements OnInit {
       Country: ['',Validators.required],
       City: ['',Validators.required],
       State: [''],
-      ZipCode: [''],
-      Address: [''],
+      ZipCode: ['',Validators.maxLength(70)],
+      Address: ['',Validators.maxLength(250)],
     });
     this.cityForms = _fb.group({
       country: '',
