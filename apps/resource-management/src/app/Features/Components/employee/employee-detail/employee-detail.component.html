@@ -1,11 +1,13 @@
 <br/>
 <div nz-row >
   <div nz-col class="gutter-row" [nzSpan]="8">
+
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" >
-          <input type="text" nz-input placeholder="Search" />
+          <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname"/>
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button nz-button  nzSearch><i nz-icon nzType="search"></i></button>
+          <button nz-button  nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
+
         </ng-template>
   </div>
 </div>
@@ -13,20 +15,36 @@
 <div nz-row>
   <div nz-col class="gutter-row" [nzSpan]="24">
     <ng-container *ngIf="(employeeViewModels$ | async) as employeeList">
-      <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger  [nzData]="employeeList"
+
+    <nz-table
+      #rowSelectionTable
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="employeeList"
+      nzTableLayout="fixed"
       (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
-        <thead>
-          <tr >
-            <th class="table_heading" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
-            <th class="table_heading">Employees</th>
-            <th class="table_heading">Job Title</th>
-            <th class="table_heading">Country</th>
-            <th class="table_heading">Status</th>
-            <th class="table_heading">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let employeeView of employeeList; let indexOfelement=index;">
+      <thead>
+        <tr>
+          <th class="table_heading" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+           <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+           [nzSortOrder]="column.sortOrder"
+           [nzSortFn]="column.sortFn"
+           [nzSortDirections]="column.sortDirections"
+           >Employee</th>
+
+           <th class="table_heading" *ngFor="let column of listOfColumns"
+           [nzSortOrder]="column.sortOrder"
+           [nzSortFn]="column.sortFn"
+           [nzSortDirections]="column.sortDirections"
+           [nzFilterMultiple]="column.filterMultiple"
+           [nzFilters]="column.listOfFilter"
+           [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+           <th class="table_heading">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+            <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'" [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
                 (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.FullName }} </td>

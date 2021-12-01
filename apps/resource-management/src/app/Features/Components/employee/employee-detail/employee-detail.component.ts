@@ -1,10 +1,17 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { ColumnItem } from'../../../Models/EmployeeColumnItem';
 import { Data } from '@angular/router';
-import { Observable } from 'rxjs';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
-import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { Observable } from 'rxjs';
+import { ResponseDTO } from '../../../Models/response-dto.model';
+import { data } from 'autoprefixer';
+import { listtToFilter } from '../../../Models/listToFilter';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -24,7 +31,104 @@ export class EmployeeDetailComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
-  customize = false;
+
+  fullname!: string;
+  empList !: listtToFilter[];
+
+  listOfColumnsFullName: ColumnItem[] = [
+    {
+      name: 'Employee',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.FullName.length - b.FullName.length,
+      filterMultiple: false,
+      listOfFilter: [
+
+      ],
+      filterFn: null
+    }
+  ]
+
+  listOfColumns: ColumnItem[] = [
+
+
+    {
+      name: 'JobTitle',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+      filterMultiple: false,
+      listOfFilter: [
+
+      ],
+      filterFn: null
+    },
+    {
+      name: 'Location',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+      filterMultiple: true,
+      listOfFilter: [
+        {
+          text:"string",
+          value:"string"
+        },
+        {
+          text:"Ethiopia",
+          value:"Ethiopia"
+        },
+        {
+          text:"America",
+          value:"America"
+        },
+        {
+          text:"India",
+          value:"India"
+        }
+      ],
+      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+    },
+    {
+      name: 'Status',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+      filterMultiple: true,
+      listOfFilter: [
+        {
+          text:"string",
+          value:"string"
+        },
+        {
+          text:"Active",
+          value:"Active"
+        },
+        {
+          text:"On Leave",
+          value:"On Leave"
+        },
+        {
+          text:"Terminated",
+          value:"Terminated"
+        }
+      ],
+      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+    }
+
+
+  ];
+
+  listOfData2: IEmployeeViewModel[] = [
+    {
+      EmployeeGuid:'default',
+      Location:"default",
+      FullName: 'default',
+      JobTitle: 'default',
+      Status: 'default'
+    }
+  ];
+
 
   ngOnInit(): void {
     this.FeatchAllEmployees();
@@ -80,18 +184,26 @@ export class EmployeeDetailComponent implements OnInit {
     }, 1000);
   }
 
+
+
   FeatchAllEmployees() {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
+  }
+  searchEmployees() {
+    this.employeeParams.searchKey = this.fullname;
+    console.log(this.fullname);
+    this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
+
   }
 
   Edit(employeeGuid : string)
   {
-
+  //not implemented
   }
 
   Delete(employeeGuid : string)
   {
-
+  //not implemented
   }
 }
 
