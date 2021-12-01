@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 <div style="margin-bottom: 0% ;" *ngIf="billingAddressess.length">
+=======
+<div  *ngIf="billingAddressess.length">
+>>>>>>> Client-Management
   <button  class="button-style" (click)="showModal()">
     Add Billing Address
   </button>
  </div>
+<<<<<<< HEAD
 <div style="margin-bottom: 15px;">
+=======
+<div>
+>>>>>>> Client-Management
   <h3>Billing Address</h3>
 </div>
 
@@ -181,7 +189,40 @@
         >
           Country is required.
         </div>
-        <span>{{ selectedCountry }}</span>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry === 'Ethiopia'"
+          >Region</nz-form-label
+        >
+
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry !== 'Ethiopia'"
+          >State/Province</nz-form-label
+        >
+
+        <nz-form-control nzErrorTip="The input is not valid State!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="statePlaceHolder"
+            formControlName="State"
+            (ngModelChange)="getSelectedState()"
+          >
+            <nz-option
+              *ngFor="let state of states"
+              nzLabel="{{ state.name }}"
+              nzValue="{{ state.name }}"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
@@ -271,7 +312,11 @@
           <input
             nz-input
             formControlName="ZipCode"
+<<<<<<< HEAD
             placeholder="Enter ZIP Code"
+=======
+            [placeholder]="postalCode"
+>>>>>>> Client-Management
           />
         </nz-form-control>
       </nz-form-item>

@@ -36,9 +36,9 @@
 
                <li> <label nz-checkbox [(ngModel)]="locationCheckbox">Location</label></li>
                <li> <label nz-checkbox [(ngModel)]="statusCheckbox">Status</label></li>
-               <li> <label nz-checkbox [(ngModel)]="salesCheckbox">Sales-Person</label></li>
-               <li> <label nz-checkbox [(ngModel)]="clientContactCheckbox">Client-Contact</label></li>
-               <li>  <label nz-checkbox [(ngModel)]="companyContactCheckbox">Company-Contact</label> </li>
+               <li> <label nz-checkbox [(ngModel)]="salesCheckbox">Sales Person</label></li>
+               <li> <label nz-checkbox [(ngModel)]="clientContactCheckbox">Client Contact Person</label></li>
+               <li>  <label nz-checkbox [(ngModel)]="companyContactCheckbox">Company Contact Person</label> </li>
             </ul>
           </div>
 
@@ -49,13 +49,21 @@
 
       </div>
     </ng-template>
-    <a style="color: #00A551;margin-left: 975px;background-color: white;" nz-popover
+    <a style="color: #00A551;margin-left: 980px;background-color: white;" nz-popover
       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
       >Manage Columns</a>
   </div>
 
 
+<<<<<<< HEAD
 </div>
+=======
+</div><br>
+
+<nz-pagination style="margin-left: 1200px;" [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
+  [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
+  nzShowSizeChanger nzShowQuickJumper></nz-pagination>
+>>>>>>> Client-Management
 
 <nz-table class="mt-3" [nzData]="clientsdata" [nzShowPagination]="false" >
 
@@ -105,7 +113,9 @@
 <br>
 <nz-pagination [(nzPageIndex)]="pageIndex" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   [nzSize]="'small'" (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)"
-  nzShowSizeChanger nzShowQuickJumper>
+  nzShowSizeChanger nzShowQuickJumper></nz-pagination>
+
+
 
 </nz-pagination>
 </div>

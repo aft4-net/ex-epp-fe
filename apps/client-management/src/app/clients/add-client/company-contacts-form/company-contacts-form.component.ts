@@ -33,8 +33,13 @@ export class CompanyContactsFormComponent implements OnInit {
   employees = [] as Employee[];
   selectedUser?: string;
   isLoading = false;
+<<<<<<< HEAD
   contactDetail = {} as Employee;
   listofContactNames = getNames();
+=======
+  contactDetail:any;
+  listofContactNames=getNames();
+>>>>>>> Client-Management
 
   @Input() isVisible: boolean;
   @Input() editable: boolean = false;
@@ -42,15 +47,26 @@ export class CompanyContactsFormComponent implements OnInit {
   countries: string[] = [];
   footer = null;
 
+<<<<<<< HEAD
   listofCodes: { value: string; label: string }[] = [];
 
   listOfStates: string[] = [];
+=======
+  listofCodes :{ value: string, label: string }[]=[];
+
+  listOfStates: string[] = []
+>>>>>>> Client-Management
 
   addContactForm!: FormGroup;
   listData: any = [];
   comapanyContacts = [] as CompanyContactCreate[];
   isModalVisible = false;
   loading = false;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Client-Management
 
   constructor(
     private employeeService: EmployeeService,
@@ -63,6 +79,7 @@ export class CompanyContactsFormComponent implements OnInit {
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
   }
+
 
   ngOnInit(): void {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
@@ -88,12 +105,27 @@ export class CompanyContactsFormComponent implements OnInit {
   }
   submitForm(): void {}
   handleOk(): void {
+<<<<<<< HEAD
     if (this.addContactForm.valid) {
       this.listData = [...this.listData, this.contactDetail];
       this.comapanyContacts.push({
         ContactPersonGuid: this.contactDetail.Guid,
       });
       this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+=======
+
+
+    if(this.addContactForm.valid)
+    {
+      // this.listData.push(this.contactDetail);
+      this.listData =[
+
+        ...this.listData,
+
+        this.contactDetail
+
+      ]
+>>>>>>> Client-Management
       this.addContactForm.reset();
       this.isVisible = false;
     } else {
@@ -156,6 +188,7 @@ export class CompanyContactsFormComponent implements OnInit {
     );
   }
 
+<<<<<<< HEAD
   getClientDetails(name: string) {
     for (let i = 0; i < this.employees.length; i++) {
       if (this.employees[i].Name === name) {
@@ -165,3 +198,37 @@ export class CompanyContactsFormComponent implements OnInit {
     return this.employees[1];
   }
 }
+=======
+
+getClientContact()
+{
+  console.log(this.addContactForm.value.companyContactName)
+  this.contactDetail=this.getClientDetails(this.addContactForm.value.companyContactName);
+  console.log(this.contactDetail)
+  this.addContactForm.controls['phoneNumber'].setValue(this.contactDetail.Phone);
+  console.log(this.contactDetail)
+  this.addContactForm.controls['emailAdress'].setValue(this.contactDetail.Email);
+
+}
+
+ getClientDetails(name:string)
+{
+    for (let i = 0; i < this.employees.length; i++) {
+       if(this.employees[i].Name===name){
+           return this.employees[i];
+       }
+    }
+    return this.employees[1];
+
+
+
+}
+
+
+
+
+  }
+
+
+
+>>>>>>> Client-Management
