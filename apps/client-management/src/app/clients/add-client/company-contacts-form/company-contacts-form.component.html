@@ -1,35 +1,26 @@
-
 <div nz-row>
-  <div nz-col nzSpan="6">Client Contacts</div>
+  <div nz-col nzSpan="6">Company Contacts</div>
   <div nz-col nzSpan="6"></div>
   <div nz-col nzSpan="6"></div>
-  <div nz-col nzSpan="6">   <button   (click)="showModal()" nz-button> Add Client Contact</button></div>
+  <div nz-col nzSpan="6"> <button (click)="showModal()" nz-button> Add Company Contact</button></div>
 </div>
-<nz-table class="mt-3"
-[nzData]="listData"
-[nzFrontPagination]="false"
-[nzLoading]="loading"
-[nzTotal]="total"
-[nzPageSize]=" pageSize "
-[nzPageIndex]="pageIndex"
-
-  [nzLoading]="loading">
+<nz-table class="mt-3" [nzData]="listData" [nzFrontPagination]="false" [nzLoading]="loading" [nzLoading]="loading">
   <thead>
     <tr>
 
 
-      <th class="table_heading" nzColumnKey="clients" >Clients</th>
-      <th class="table_heading" nzColumnKey="email" >Email</th>
-      <th class="table_heading" nzColumnKey="contactno" >Contact Number</th>
+      <th class="table_heading" nzColumnKey="clients">Clients</th>
+      <th class="table_heading" nzColumnKey="email">Email</th>
+      <th class="table_heading" nzColumnKey="contactno">Contact Number</th>
       <th class="table_heading" nzColumnKey="action">Action</th>
     </tr>
   </thead>
   <tbody>
 
     <tr *ngFor="let item of  listData">
-      <td >{{item.name+' - '+ item.role}}</td>
-      <td>{{item.email}}</td>
-      <td>{{item.phone}}</td>
+      <td>{{item.Name+' - '+ item.Role}}</td>
+      <td>{{item.Email}}</td>
+      <td>{{item.Phone}}</td>
 
 
 
@@ -55,11 +46,8 @@
 
 
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Company Contact"
-[nzWidth]="'24%'"
-[nzFooter]="footer"
-(nzOnCancel)="exitModal()"
-(nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Company Contact" [nzWidth]="'24%'" [nzFooter]="footer"
+  (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
 
 
@@ -67,34 +55,35 @@
 
 
       <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="companyContact"  nzFor="companyContact" [nzSm]="24">Company contact</nz-form-label>
-      <nz-form-control nzHasFeedback nzErrorTip="Please select a contact Person!"  >
-        <nz-select  (ngModelChange)="getClientContact()" nzShowSearch nzAllowClear
-          id="companyContact"
-          formControlName="companyContactName"
-          nzPlaceHolder="Select company contact"
-        >
-        <nz-option   *ngFor="let employee of listofContactNames"   nzLabel={{employee.name}}-{{employee.role}}  [nzValue]="employee.name" nzLabel="kokoko"  ></nz-option>
-        </nz-select>
+        <nz-form-label [nzSpan]="6" nzFor="companyContact" [nzSm]="24">Company contact</nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="Please select a contact Person!">
+          <nz-select (ngModelChange)="getClientContact()" nzShowSearch nzAllowClear id="companyContact"
+            formControlName="companyContactName" nzPlaceHolder="Select company contact">
+            <nz-option *ngFor="let employee of employees" nzLabel={{employee.Name}}-{{employee.Role}}
+              [nzValue]="employee.Name"></nz-option>
+          </nz-select>
 
-      </nz-form-control>
-    </nz-form-item >
+        </nz-form-control>
+      </nz-form-item>
 
 
 
 
 
       <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="email"  nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
-        <nz-form-control  [nzSpan]="14"  [nzSm]="24">
+        <nz-form-label [nzSpan]="6" nzFor="email" nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
+        <nz-form-control [nzSpan]="14" [nzSm]="24">
 
-          <input matInput [readonly]="!editable" placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
-          <div >
-           <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['emailAdress'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
+          <input matInput [readonly]="!editable" placeholder="someone@example.com" id="emailAdress" nz-input
+            type="email" formControlName="emailAdress">
+          <div>
+            <small nzErrorTip="Maximum number of character allwoed is 320"
+              *ngIf="addContactForm.controls['emailAdress'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')">
+              Maximum of 10 characters</small>
           </div>
         </nz-form-control>
 
-      </nz-form-item >
+      </nz-form-item>
 
 
 
@@ -102,15 +91,14 @@
 
         <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
 
-        <nz-form-control  [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']"
-
-         >
+        <nz-form-control [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']">
 
           <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
 
             <ng-template #addOnBeforeTemplate>
 
-              <nz-select formControlName="phoneNumberPrefix" nzPlaceHolder="+251" nzShowSearch class="phone-select">
+              <nz-select [nzDisabled]="true" formControlName="phoneNumberPrefix" nzPlaceHolder="+251"
+                class="phone-select">
 
                 <ng-container *ngFor="let code of listofCodes">
 
@@ -122,20 +110,19 @@
 
             </ng-template>
 
-            <input [readonly]="!editable" nzErrorTip="Please add contact number!" formControlName="phoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
-
-              nz-input />
+            <input [readonly]="!editable" nzErrorTip="Please add contact number!" formControlName="phoneNumber"
+              id="'residencialPhoneNumber'" nzPlaceHolder="911223344" nz-input />
 
           </nz-input-group>
 
         </nz-form-control>
 
       </nz-form-item>
-<div class="footer-btn">
-  <button nz-button class="clear-btn" (click)="handleClear()">Clear</button>
-  <button nz-button class="add-btn" (click)="handleOk()">Add</button>
+      <div class="footer-btn">
+        <button nz-button class="clear-btn" (click)="handleClear()">Clear</button>
+        <button nz-button class="add-btn" (click)="handleOk()">Add</button>
 
-</div>
+      </div>
 
     </form>
 

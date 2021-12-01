@@ -17,7 +17,10 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './view-clients.component.html',
   styleUrls: ['./view-clients.component.scss'],
 })
-export class ViewClientsComponent implements OnInit {
+
+export class ViewClientsComponent implements OnInit  {
+  isVisible = false;
+
   paginatedprojects$!: Observable<PaginatedResult<Client[]>>;
 
   clientsdata: Client[] = [];
@@ -64,7 +67,7 @@ export class ViewClientsComponent implements OnInit {
   selectedValue!: string;
   locations!: OperatingAddress[];
   employees!: Employee[];
-  allClients: Client[];
+  allClients!: Client[];
   constructor(
     private router: Router,
     private _clientservice: ClientService,
@@ -84,6 +87,9 @@ export class ViewClientsComponent implements OnInit {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
+  }
+  showModal(): void {
+    this.isVisible = true;
   }
 
   sorter(id:number) {
@@ -363,9 +369,7 @@ getSalesPerson(){
     this.searchAddressList = searchAddressList;
 
     this.searchsalesPersonList = searchsalesPersonList;
-    console.log('Location---' + this.searchAddressList);
-    console.log('Status---' + this.searchstatusList);
-    console.log('SalesPerson---' + this.searchsalesPersonList);
+
     this.clientsdata = this.unfilteredData;
     const filterFunc = (item: Client) =>
       (this.searchAddressList.length

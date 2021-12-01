@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { NzTabPosition, NzTabsCanDeactivateFn } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
 import { ValidtyAddClientForms } from '../../core';
 import { ClientService } from '../../core/services/client.service';
@@ -20,7 +20,7 @@ export class AddClientComponent implements OnInit {
   addButtonClicked = false;
   contactDetailsTabEnabled = false;
   activeTabIndex = 0;
-  locationTabEnabled=false;
+  locationTabEnabled = false;
   constructor(
     private router: Router,
     private clientService: ClientService,
@@ -53,6 +53,7 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientLocationForm &&
       this.validateAddClientFormState?.contactDetailsForm
     ) {
+      this.router.navigateByUrl('clients');
       this.clientService.addClient();
     }
     // eslint-disable-next-line no-empty
@@ -63,12 +64,15 @@ export class AddClientComponent implements OnInit {
           nzPlacement: 'bottomRight',
         });
       } else if (this.validateAddClientFormState?.contactDetailsForm == false) {
-        this.activeTabIndex = 1;
+        this.contactDetailsTabEnabled = true;
+        this.activeTabIndex = 2;
         this.notification.error('Contact details is mandatory !', '', {
           nzPlacement: 'bottomRight',
         });
       } else if (this.validateAddClientFormState?.clientLocationForm == false) {
-        this.activeTabIndex = 3;
+        this.locationTabEnabled = true;
+        if (this.contactDetailsTabEnabled) this.activeTabIndex = 5;
+        else this.activeTabIndex = 3;
         this.notification.error('Client location is mandatory !', '', {
           nzPlacement: 'bottomRight',
         });
@@ -81,20 +85,26 @@ export class AddClientComponent implements OnInit {
   }
 
   cancelConfirm(): void {
-    this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel ?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.router.navigateByUrl('clients');
-        this.addClientState.restAddClientState();
-      },
-      nzCancelText: 'No',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      nzOnCancel: () => {},
-    });
+    if (
+      this.validateAddClientFormState?.clientDetailsForm ||
+      this.validateAddClientFormState?.clientLocationForm ||
+      this.validateAddClientFormState?.contactDetailsForm
+    )
+      this.modal.confirm({
+        nzTitle: 'Are you sure, you want to cancel ?',
+        nzContent: '<b style="color: green;"></b>',
+        nzOkText: 'Yes',
+
+        nzOkDanger: true,
+        nzOnOk: () => {
+          this.router.navigateByUrl('clients');
+          this.addClientState.restAddClientState();
+        },
+        nzCancelText: 'No',
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        nzOnCancel: () => {},
+      });
+    else this.router.navigateByUrl('clients');
   }
   ClientContacTab() {
     if (this.contactDetailsTabEnabled == false) {
@@ -102,17 +112,20 @@ export class AddClientComponent implements OnInit {
       this.activeTabIndex = 2;
     } else {
       this.contactDetailsTabEnabled = false;
+      this.activeTabIndex = 0;
     }
   }
 
   LocationTab() {
     if (this.locationTabEnabled == false) {
       this.locationTabEnabled = true;
-      this.activeTabIndex = 5;
+      if (this.contactDetailsTabEnabled) this.activeTabIndex = 5;
+      else this.activeTabIndex = 3;
     } else {
       this.locationTabEnabled = false;
+
+      if (this.contactDetailsTabEnabled == true) this.activeTabIndex = 3;
+      else this.activeTabIndex = 0;
     }
   }
-
-
 }

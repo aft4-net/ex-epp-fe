@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
+import { AddClientStateService } from 'apps/client-management/src/app/core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { BillingAddress } from 'apps/client-management/src/app/core/models/get/billing-address';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
@@ -17,7 +18,8 @@ import { StateService } from 'apps/client-management/src/app/core/services/State
   styleUrls: ['./billing-address-form.component.scss'],
 })
 export class BillingAddressFormComponent implements OnInit {
-  billingAddressess: BillingAddressCreate[] = [];
+  billingAddressess: BillingAddress[] = [];
+  tabledata:any=[];
   isVisible = false;
   isOkLoading = false;
   footer = null;
@@ -29,6 +31,7 @@ export class BillingAddressFormComponent implements OnInit {
   cities: any;
   selectedCountry = '';
   selectedState = '';
+  emptyData=[];
   stateData = {
     country: '',
     state: '',
@@ -36,16 +39,18 @@ export class BillingAddressFormComponent implements OnInit {
   data='';
   IsEdit=false;
   editAt=-1;
+  statePlaceHolder='Select a State/Province';
+  postalCode='Enter Postal/ZIP Code';
   found=false;
   constructor(
     private _fb: FormBuilder,
     private _state: StateService,
     private _city: CityService,
     private _cityInState: CityInStateService,
-    private  addClientService:AddClientStateService
+    private  addStateClientService:AddClientStateService
   ) {
     this.forms = _fb.group({
-      Name: ['',Validators.required],
+      Name: [null,[Validators.required,this.noWhitespaceValidator]],
       Affliation: ['',Validators.required],
       Country: ['',Validators.required],
       City: ['',Validators.required],
@@ -92,13 +97,18 @@ export class BillingAddressFormComponent implements OnInit {
     if (this.forms.valid) {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
-      this.addClientService.updateBillingAddress(this.billingAddressess);
+      this.addStateClientService.updateBillingAddress(this.billingAddressess);
+      this.tabledata=['']
       this.IsEdit=false;
       this.editAt=-1;
       }
      else{
-      this.billingAddressess.push(this.forms.value);
-      this.addClientService.updateBillingAddress(this.billingAddressess);
+    
+      this.billingAddressess =[
+        ...this.billingAddressess,
+        this.forms.value
+      ]
+      this.addStateClientService.updateBillingAddress(this.billingAddressess);
      }
     this.isVisible = false;
     this.forms.reset();
@@ -117,6 +127,14 @@ export class BillingAddressFormComponent implements OnInit {
    if(!this.found){
     this.forms.controls['City'].setValue(null);
     this.forms.controls['State'].setValue(null);
+    if(this.selectedCountry==="Ethiopia"){
+      this.statePlaceHolder='Select a Region';
+      this.postalCode='Enter Postal Code';
+    }
+    else{
+      this.statePlaceHolder='Select a State/Province';
+      this.postalCode='Enter Postal/ZIP Code';
+    }
    }
     this.countries.forEach((country: any) => {
       if (country.name == this.selectedCountry) {
@@ -154,7 +172,10 @@ export class BillingAddressFormComponent implements OnInit {
   removeBillingAddress(index: number) {
     if (index > -1) {
       this.billingAddressess.splice(index, 1);
-      this.addClientService.updateBillingAddress(this.billingAddressess);
+      if(!this.billingAddressess.length){
+        this.billingAddressess=this.emptyData;
+      }
+      this.addStateClientService.updateBillingAddress(this.billingAddressess);
     }
   }
   edit(index:number){
@@ -165,6 +186,7 @@ export class BillingAddressFormComponent implements OnInit {
        this.editAt=index;
        this.found=true;
         this.patchValues(this.billingAddressess[count]);
+        this.addStateClientService.updateBillingAddress(this.billingAddressess);
       }
     }
    
@@ -183,4 +205,9 @@ export class BillingAddressFormComponent implements OnInit {
     this.getSelectedState();
     this.found=false;
   }
+  noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+}
 }

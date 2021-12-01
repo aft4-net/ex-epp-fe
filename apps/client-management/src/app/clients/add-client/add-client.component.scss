@@ -61,7 +61,6 @@
 }
 
 
-
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
   box-shadow: inset -2px 0px 0px #DADADA;
@@ -128,17 +127,21 @@ header {
 
 }
 
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+
+  background:#fff;
+   color: #00A551;
+ border:1px solid;
+  border-color: #03da6b!important;
+  outline-color: #03da6b!important;
+}
+
 ::ng-deep .ant-btn:not([disabled]):hover {
   background: #03da6b !important;
   color: white;
-}
-
-
-
-::ng-deep .ant-tabs-tab.error {
-  padding: 8px 24px;
-
-  border: 1px solid rgb(230, 60, 60);
-  outline-color: rgb(231, 31, 31);
 
 }
+
+
+
+

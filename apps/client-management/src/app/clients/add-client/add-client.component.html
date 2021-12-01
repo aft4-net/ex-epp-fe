@@ -15,8 +15,8 @@
   <div class="justify-between" nz-row>
     <div class="page-title"> Enter Client Details </div>
     <div>
-      <button (click)="cancelAddClientPage()" class="text-green-600   border-green-600  border bg-transparent  font-semibold
-           py-1 px-3   hover:border-green-700 hover:text-green-700  mr-4 ">
+      <button (click)="cancelAddClientPage()" class="text-green-600   border-green-500  border bg-transparent  font-semibold
+           py-1 px-3   hover:border-green-600 hover:text-green-700  mr-4 ">
         Cancel
       </button>
       <button type="submit" (click)="addClient()" nz-button> Save </button>
@@ -42,7 +42,7 @@
       </div>
     </nz-tab>
   </div>
-  <nz-tab [nzTitle]="ClientTitleTmeplate" nzForceRender="true" (nzClick)="ClientContacTab()">
+  <nz-tab [nzTitle]="ClientTitleTmeplate" (nzClick)="ClientContacTab()" nzSelected>
 
     <ng-template #ClientTitleTmeplate>
 
@@ -54,17 +54,18 @@
             fill="#262626" />
         </svg>
         Contact Details
+
         <i *ngIf="!contactDetailsTabEnabled" class="ml-8" nz-icon nzType="down"></i>
         <i *ngIf="contactDetailsTabEnabled" class="ml-8" nz-icon nzType="up"></i>
       </span>
     </ng-template>
     <div class="tab-content">
-      <exec-epp-contacts-form> </exec-epp-contacts-form>
+
     </div>
 
   </nz-tab>
 
-  <nz-tab [nzTitle]="ClientContactsTitle" *ngIf="contactDetailsTabEnabled">
+  <nz-tab [nzTitle]="ClientContactsTitle" *ngIf="contactDetailsTabEnabled" nzSelected>
     <ng-template #ClientContactsTitle>
 
       <span class="ml-10"> Client Contacts</span>
@@ -75,7 +76,7 @@
   </nz-tab>
 
 
-  <nz-tab [nzTitle]='ComapnyConatactsTitle' *ngIf="contactDetailsTabEnabled">
+  <nz-tab [nzTitle]='ComapnyConatactsTitle' *ngIf="contactDetailsTabEnabled" nzSelected>
     <div class="tab-content">
       <exec-epp-company-contacts-form> </exec-epp-company-contacts-form>
     </div>
@@ -87,7 +88,7 @@
     </ng-template>
 
   </nz-tab>
-  <nz-tab class="error" nzSelected [nzTitle]="ClientLocationTmeplate" (nzClick)="LocationTab()" >
+  <nz-tab class="error" [nzTitle]="ClientLocationTmeplate" (nzClick)="LocationTab()" nzSelected>
     <ng-template #ClientLocationTmeplate>
       <span [ngClass]="addButtonClicked && !validateAddClientFormState?.clientLocationForm ? 'invalisForm':''">
         <svg class="mr-3" width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -101,33 +102,27 @@
       </span>
     </ng-template>
     <div class="tab-content">
-      <exec-epp-billing-address-form> </exec-epp-billing-address-form>
     </div>
   </nz-tab>
 
- 
-
-  <nz-tab [nzTitle]="BillingAddressTitle" *ngIf="locationTabEnabled" >
-    <ng-template #BillingAddressTitle>
-   <span class="ml-10">Billing Address</span>
-    </ng-template>
-    <div class="tab-content">
-      <exec-epp-billing-address-form> </exec-epp-billing-address-form>
-    </div>
-  </nz-tab>
-
-
-
-  <nz-tab [nzTitle]="OperatingAddressTitle" *ngIf="locationTabEnabled" >
+  <nz-tab [nzTitle]="OperatingAddressTitle" *ngIf="locationTabEnabled" nzSelected>
     <ng-template #OperatingAddressTitle>
-   <span class="ml-10">Operating Address</span>
+      <span class="ml-10">Operating Address</span>
     </ng-template>
     <div class="tab-content">
       <exec-epp-operating-address-form> </exec-epp-operating-address-form>
     </div>
   </nz-tab>
 
- 
+  <nz-tab [nzTitle]="BillingAddressTitle" *ngIf="locationTabEnabled" nzSelected>
+    <ng-template #BillingAddressTitle>
+      <span class="ml-10">Billing Address</span>
+    </ng-template>
+    <div class="tab-content">
+      <exec-epp-billing-address-form> </exec-epp-billing-address-form>
+    </div>
+  </nz-tab>
+
 
 
 </nz-tabset>
