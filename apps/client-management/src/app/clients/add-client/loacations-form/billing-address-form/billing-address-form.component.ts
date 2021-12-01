@@ -50,13 +50,20 @@ export class BillingAddressFormComponent implements OnInit {
     private  addStateClientService:AddClientStateService
   ) {
     this.forms = _fb.group({
-      Name: [null,[Validators.required,this.noWhitespaceValidator]],
-      Affliation: ['',Validators.required],
+      Name: [null,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(70)
+      ]],
+      Affliation: [null,
+        [Validators.required,Validators.minLength(2),Validators.maxLength(70)]
+      ],
       Country: ['',Validators.required],
       City: ['',Validators.required],
       State: [''],
-      ZipCode: [''],
-      Address: [''],
+      ZipCode: ['',Validators.maxLength(70)],
+      Address: ['',Validators.maxLength(250)],
     });
     this.cityForms = _fb.group({
       country: '',
@@ -80,6 +87,13 @@ export class BillingAddressFormComponent implements OnInit {
 
   showModal(): void {
     this.isVisible = true;
+  }
+  get Name() {
+    return this.forms.controls.Name as FormControl;
+  }
+  
+  get Affliation() {
+    return this.forms.controls.Affliation as FormControl;
   }
   handleOk(): void {
     this.isOkLoading = true;
