@@ -20,7 +20,7 @@ export class AddClientComponent implements OnInit {
   addButtonClicked = false;
   contactDetailsTabEnabled = false;
   activeTabIndex = 0;
-  locationTabEnabled=false;
+  locationTabEnabled = false;
   constructor(
     private router: Router,
     private clientService: ClientService,
@@ -39,22 +39,24 @@ export class AddClientComponent implements OnInit {
         this.validateAddClientFormState = res;
       });
   }
-  canDeactivate:NzTabsCanDeactivateFn=(fromIndex:number,toIndex:number)=>{
-    switch(fromIndex)
-    {
-    case 1:{
- console.log(fromIndex);
-      return toIndex==2;
-    }
-    case 4:{
-      console.log(fromIndex);
-           return toIndex==5;
-         }
-  
+  canDeactivate: NzTabsCanDeactivateFn = (
+    fromIndex: number,
+    toIndex: number
+  ) => {
+    switch (fromIndex) {
+      case 1: {
+        console.log(fromIndex);
+        return toIndex == 2;
+      }
+      case 4: {
+        console.log(fromIndex);
+        return toIndex == 5;
+      }
+
       default:
         return true;
     }
-  }
+  };
   addClient() {
     this.addClientState
       .validateAddClientFormState()
@@ -70,7 +72,6 @@ export class AddClientComponent implements OnInit {
     ) {
       this.router.navigateByUrl('clients');
       this.clientService.addClient();
-      
     }
     // eslint-disable-next-line no-empty
     else {
@@ -80,12 +81,15 @@ export class AddClientComponent implements OnInit {
           nzPlacement: 'bottomRight',
         });
       } else if (this.validateAddClientFormState?.contactDetailsForm == false) {
-        this.activeTabIndex = 1;
+        this.contactDetailsTabEnabled = true;
+        this.activeTabIndex = 2;
         this.notification.error('Contact details is mandatory !', '', {
           nzPlacement: 'bottomRight',
         });
       } else if (this.validateAddClientFormState?.clientLocationForm == false) {
-        this.activeTabIndex = 3;
+        this.locationTabEnabled = true;
+        if (this.contactDetailsTabEnabled) this.activeTabIndex = 5;
+        else this.activeTabIndex = 3;
         this.notification.error('Client location is mandatory !', '', {
           nzPlacement: 'bottomRight',
         });
@@ -99,32 +103,30 @@ export class AddClientComponent implements OnInit {
 
   cancelConfirm(): void {
     if (
-      this.validateAddClientFormState?.clientDetailsForm || 
+      this.validateAddClientFormState?.clientDetailsForm ||
       this.validateAddClientFormState?.clientLocationForm ||
       this.validateAddClientFormState?.contactDetailsForm
-    )   
-    this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel ?',
-      nzContent: '<b style="color: green;"></b>',
-      nzOkText: 'Yes',
-    
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.router.navigateByUrl('clients');
-        this.addClientState.restAddClientState();
-      },
-      nzCancelText: 'No',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      nzOnCancel: () => {},
-    });
-   else
-   this.router.navigateByUrl('clients');
+    )
+      this.modal.confirm({
+        nzTitle: 'Are you sure, you want to cancel ?',
+        nzContent: '<b style="color: green;"></b>',
+        nzOkText: 'Yes',
 
+        nzOkDanger: true,
+        nzOnOk: () => {
+          this.router.navigateByUrl('clients');
+          this.addClientState.restAddClientState();
+        },
+        nzCancelText: 'No',
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        nzOnCancel: () => {},
+      });
+    else this.router.navigateByUrl('clients');
   }
   ClientContacTab() {
     if (this.contactDetailsTabEnabled == false) {
       this.contactDetailsTabEnabled = true;
-     this.activeTabIndex = 2;
+      this.activeTabIndex = 2;
     } else {
       this.contactDetailsTabEnabled = false;
       this.activeTabIndex = 0;
@@ -134,16 +136,13 @@ export class AddClientComponent implements OnInit {
   LocationTab() {
     if (this.locationTabEnabled == false) {
       this.locationTabEnabled = true;
-      this.activeTabIndex = 3;
+      if (this.contactDetailsTabEnabled) this.activeTabIndex = 5;
+      else this.activeTabIndex = 3;
     } else {
       this.locationTabEnabled = false;
- 
-      if(this.contactDetailsTabEnabled==true)
-      this.activeTabIndex = 3;
-      else
-      this.activeTabIndex = 0;
+
+      if (this.contactDetailsTabEnabled == true) this.activeTabIndex = 3;
+      else this.activeTabIndex = 0;
     }
   }
-
-
 }
