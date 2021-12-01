@@ -1,9 +1,9 @@
-<div  *ngIf="billingAddressess.length">
+<div style="margin-bottom: 0% ;" *ngIf="billingAddressess.length">
   <button  class="button-style" (click)="showModal()">
     Add Billing Address
   </button>
  </div>
-<div>
+<div style="margin-bottom: 15px;">
   <h3>Billing Address</h3>
 </div>
 
@@ -105,10 +105,10 @@
           />
         </nz-form-control>
         <div
-          class="error-message"
-          *ngIf="!forms.get('Name')?.valid &&  forms.get('Name')?.touched"
-        >
-          Name is required.
+          class="error-message">
+      <span *ngIf="Name.errors?.maxlength &&  forms.get('Name')?.touched">Maximum 70 charactures allowed.</span>
+      <span *ngIf="Name.errors?.minlength &&  forms.get('Name')?.touched">Minimum 2 charactures allowed.</span>
+      <span *ngIf="Name.errors?.required &&  forms.get('Name')?.touched">Name is required.</span>
         </div>
       </nz-form-item>
       <nz-form-item>
@@ -135,12 +135,10 @@
           />
         </nz-form-control>
         <div
-          class="error-message"
-          *ngIf="
-            !forms.get('Affliation')?.valid &&  forms.get('Affliation')?.touched
-          "
-        >
-          Affliation is required.
+          class="error-message">
+          <span *ngIf="Affliation.errors?.maxlength &&  forms.get('Affliation')?.touched">Minimum 70 charactures allowed.</span>
+        <span *ngIf="Affliation.errors?.minlength &&  forms.get('Affliation')?.touched">Minimum 2 charactures allowed.</span>
+        <span *ngIf="Affliation.errors?.required &&  forms.get('Affliation')?.touched">Name is required.</span>
         </div>
       </nz-form-item>
       <nz-form-item>
@@ -216,6 +214,40 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry === 'Ethiopia'"
+          >Region</nz-form-label
+        >
+
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry !== 'Ethiopia'"
+          >State/Province</nz-form-label
+        >
+
+        <nz-form-control nzErrorTip="The input is not valid State!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Select a State/Region"
+            formControlName="State"
+            (ngModelChange)="getSelectedState()"
+          >
+            <nz-option
+              *ngFor="let state of states"
+              nzLabel="{{ state.name }}"
+              nzValue="{{ state.name }}"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city"
           >City
@@ -266,7 +298,7 @@
           >Postal/ZIP Code</nz-form-label
         >
 
-        <nz-form-control nzErrorTip="The input is not valid ZipCode!">
+        <nz-form-control nzErrorTip="Maximum 70 charactures allowed.">
           <input
             nz-input
             formControlName="ZipCode"
@@ -278,7 +310,7 @@
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address"
           >Address</nz-form-label
         >
-        <nz-form-control nzErrorTip="The input is not valid Address!">
+        <nz-form-control nzErrorTip="Maximum 250 charactures allowed.">
           <textarea
             nz-input
             formControlName="Address"

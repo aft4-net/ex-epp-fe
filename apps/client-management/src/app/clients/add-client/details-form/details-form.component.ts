@@ -43,6 +43,9 @@ export class DetailsFormComponent implements OnInit {
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
+      console.log("employees")
+      console.log(this.employees)
+      console.log('employees')
     });
 
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {

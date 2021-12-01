@@ -1,61 +1,68 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { Employee, EmployeeService } from '../../../core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { getClientDetails, getNames } from '../../../shared/Data/contacts';
+import { BehaviorSubject } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  AddClientStateService,
+  CompanyContactCreate,
+  Employee,
+  EmployeeService,
+} from '../../../core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
-import { Company } from '../../../core/models/get/company';
-import { CompanyContact } from '../../../core/models/get/company-contact';
+import { getNames } from '../../../shared/Data/contacts';
+
 import { CompanyContactService } from '../../../core/services/company-contact.service';
-import { CountryCode } from '../../../core/models/get/country-code';
+
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { countryPhoneCodes } from '../../../shared/Data/dummy';
-import { observable } from 'rxjs';
 
 @Component({
   selector: 'exec-epp-company-contacts-form',
   templateUrl: './company-contacts-form.component.html',
-  styleUrls: ['./company-contacts-form.component.scss']
+  styleUrls: ['./company-contacts-form.component.scss'],
 })
 export class CompanyContactsFormComponent implements OnInit {
-
-
   emailAdress = new FormControl('');
-  phoneNumber=new FormControl('');;
+  phoneNumber = new FormControl('');
   searchChange$ = new BehaviorSubject('');
   employees = [] as Employee[];
   selectedUser?: string;
   isLoading = false;
-  contactDetail:any;
-  listofContactNames=getNames();
+  contactDetail = {} as Employee;
+  listofContactNames = getNames();
 
   @Input() isVisible: boolean;
-  @Input() editable : boolean=false;
+  @Input() editable: boolean = false;
 
-  countries: string[] = []
-  footer=null;
+  countries: string[] = [];
+  footer = null;
 
-  listofCodes :{ value: string, label: string }[]=[];
+  listofCodes: { value: string; label: string }[] = [];
 
-  listOfStates: string[] = []
+  listOfStates: string[] = [];
 
   addContactForm!: FormGroup;
-  listData:any=[];
+  listData: any = [];
+  comapanyContacts = [] as CompanyContactCreate[];
   isModalVisible = false;
   loading = false;
 
-
-
-
-  constructor(private employeeService: EmployeeService,private _companyContactService:CompanyContactService,private http: HttpClient,private fb: FormBuilder,private modal: NzModalService, private _countryService:CountryCodeService) {
-    this.listofCodes=this._countryService.getPhonePrefices();
-
-
-
-   }
+  constructor(
+    private employeeService: EmployeeService,
+    private _companyContactService: CompanyContactService,
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private modal: NzModalService,
+    private _countryService: CountryCodeService,
+    private addClientStateService: AddClientStateService
+  ) {
+    this.listofCodes = this._countryService.getPhonePrefices();
+  }
 
 
   ngOnInit(): void {
@@ -63,74 +70,62 @@ export class CompanyContactsFormComponent implements OnInit {
       this.employees = response;
     });
 
-    this.listData=[];
+    this.listData = [];
     this.addContactForm = this.fb.group({
       companyContactName: ['', [Validators.required]],
       phoneNumber: ['', []],
-      phoneNumberPrefix:['+251',[]],
+      phoneNumberPrefix: ['+251', []],
 
-      emailAdress:['',[]]
+      emailAdress: ['', []],
     });
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
-
     });
-
-
   }
 
   showModal(): void {
     this.isVisible = true;
   }
-  submitForm(): void {
-
-  }
+  submitForm(): void {}
   handleOk(): void {
-
-
-    if(this.addContactForm.valid)
-    {
-      // this.listData.push(this.contactDetail);
-      this.listData =[
-
-        ...this.listData,
-
-        this.contactDetail
-
-      ]
+    if (this.addContactForm.valid) {
+      this.listData = [...this.listData, this.contactDetail];
+      this.comapanyContacts.push({
+        ContactPersonGuid: this.contactDetail.Guid,
+      });
+      this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
       this.addContactForm.reset();
       this.isVisible = false;
-    }else {
-      Object.values(this.addContactForm.controls).forEach(control => {
+    } else {
+      Object.values(this.addContactForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
     }
-
-
   }
-exitModal()
-{
-  this.isVisible = false;
-}
+  exitModal() {
+    this.isVisible = false;
+  }
   handleClear(): void {
     console.log('Button cancel clicked!');
 
     this.addContactForm.reset();
   }
-  removeItem(element:any)
-  {
-    this.listData.forEach((value:any,index:any) => {
-      if(value==element)
-      this.listData.splice(index,1);
-
+  removeItem(element: Employee) {
+    this.listData.forEach((value: Employee, index: any) => {
+      if (value == element) this.listData.splice(index, 1);
     });
 
+    this.comapanyContacts.forEach((value: CompanyContactCreate, index: any) => {
+      if (value.ContactPersonGuid == element.Guid)
+        this.listData.splice(index, 1);
+    });
+    this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
   }
-  showDeleteConfirm(element:any): void {
+  showDeleteConfirm(element: any): void {
     this.modal.confirm({
       nzTitle: 'Are you sure, you want to cancel this contact?',
       nzContent: '<b style="color: red;"></b>',
@@ -138,48 +133,36 @@ exitModal()
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-
-
-        this.removeItem(element)
+        this.removeItem(element);
       },
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
+      nzOnCancel: () => console.log('Cancel'),
     });
   }
 
-  deleteBackEnd(element: any){
+  deleteBackEnd(element: any) {}
 
+  getClientContact() {
+    console.log(this.addContactForm.value.companyContactName);
+    this.contactDetail = this.getClientDetails(
+      this.addContactForm.value.companyContactName
+    );
+
+    this.addContactForm.controls['phoneNumber'].setValue(
+      this.contactDetail.Phone
+    );
+
+    this.addContactForm.controls['emailAdress'].setValue(
+      this.contactDetail.Email
+    );
   }
 
-
-getClientContact()
-{
-  console.log(this.addContactForm.value.companyContactName)
-  this.contactDetail=this.getClientDetails(this.addContactForm.value.companyContactName);
-  console.log(this.contactDetail)
-  this.addContactForm.controls['phoneNumber'].setValue(this.contactDetail.Phone);
-  console.log(this.contactDetail)
-  this.addContactForm.controls['emailAdress'].setValue(this.contactDetail.Email);
-
-}
-
- getClientDetails(name:string)
-{
+  getClientDetails(name: string) {
     for (let i = 0; i < this.employees.length; i++) {
-       if(this.employees[i].Name===name){
-           return this.employees[i];
-       }
+      if (this.employees[i].Name === name) {
+        return this.employees[i];
+      }
     }
     return this.employees[1];
-
-
-
-}
-
-
-
-
   }
-
-
-
+}
