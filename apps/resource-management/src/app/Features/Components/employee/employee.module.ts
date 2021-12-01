@@ -46,6 +46,7 @@ import { EmergencycontactViewComponent } from './emergencycontact-view/emergency
     FamilyDetailViewComponent,
     EmergencycontactViewComponent,
     
+    
   ],
   imports: [
     CommonModule,

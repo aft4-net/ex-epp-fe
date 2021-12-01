@@ -1,7 +1,14 @@
- .inner-content {
-  min-height: 380px;
-  width: 100%;
-  padding: 0px;
-  align-content: unset;
+.table_heading
+{
+background-color: #E8FFE8 !important;
+}
 
+.table_evenrow_heading
+{
+background-color: #E8FFE8 !important;
+}
+
+.table_oddrow_heading
+{
+background-color: white !important;
 }

@@ -104,6 +104,6 @@ export class EmployeeService {
 
       return this.http.get<ResponseDTO<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' , {params}).pipe(
         map(result => result.Data)
-      ) 
+      )
     }
 }
