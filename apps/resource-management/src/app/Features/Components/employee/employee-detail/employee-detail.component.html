@@ -14,12 +14,14 @@
   <div nz-col class="gutter-row" [nzSpan]="24">
     <ng-container *ngIf="(employeeViewModels$ | async) as employeeList">
       <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger  [nzData]="employeeList"
-      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
+      
         <thead>
           <tr >
             <th class="table_heading" [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
             <th class="table_heading">Employees</th>
             <th class="table_heading">Job Title</th>
+            <th class="table_heading">Joining Date</th>
             <th class="table_heading">Country</th>
             <th class="table_heading">Status</th>
             <th class="table_heading">Actions</th>
@@ -31,6 +33,7 @@
                 (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.FullName }} </td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.JobTitle }}</td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.JoiningDate | date:'M/d/yyyy' }}</td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.Location }}</td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.Status }}</td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">

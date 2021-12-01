@@ -1,18 +1,16 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import { NzConfigService } from 'ng-zorro-antd/core/config';
+
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
   styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private _employeeService : EmployeeService) {
 
   }
@@ -24,7 +22,6 @@ export class EmployeeDetailComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
-  customize = false;
 
   ngOnInit(): void {
     this.FeatchAllEmployees();
@@ -94,4 +91,3 @@ export class EmployeeDetailComponent implements OnInit {
 
   }
 }
-
