@@ -25,7 +25,7 @@
 
     >
 
-    <nz-option   *ngFor="let employee of employees"   nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee"   ></nz-option>
+    <nz-option   *ngFor="let employee of employees"   nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Name"   ></nz-option>
 
     </nz-select>
 
@@ -101,7 +101,7 @@
         nz-input placeholder="Write a description about the client only up to 250 characters">
       </textarea>
       <span *ngIf="description.errors?.maxlength" style="color: red">
-        About the client should not be more than 250 character
+        A maximum of 250 characters
       </span>
     </nz-form-control>
   </nz-form-item>
