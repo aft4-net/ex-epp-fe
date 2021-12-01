@@ -1,13 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddClientStateService, ClientContactCreate } from '../../../core';
+import { CountryCodeService } from '../../../core/services/country-code.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -15,9 +10,8 @@ import { AddClientStateService, ClientContactCreate } from '../../../core';
   styleUrls: ['./contacts-form.component.scss'],
 })
 export class ContactsFormComponent implements OnInit {
-  @Input() isVisible: boolean;
-
-  countries: string[] = [];
+  isVisible=false;
+ countries: string[] = [];
   footer = null;
 
   listofCodes: { value: string; label: string }[] = [];
@@ -31,7 +25,6 @@ export class ContactsFormComponent implements OnInit {
   addContactForm!: FormGroup;
   listData = [] as ClientContactCreate[];
   isModalVisible = false;
-  isEditMode = false;
   total = 10;
   loading = false;
   pageSize = 10;
@@ -42,17 +35,27 @@ export class ContactsFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private modal: NzModalService,
+    private _countryService: CountryCodeService,
     private addClientStateService: AddClientStateService
-  ) {}
+  ) {
+    this.listofCodes = this._countryService.getPhonePrefices();
+  }
 
   ngOnInit(): void {
     this.listData = [];
     this.addContactForm = this.fb.group({
       ContactPersonName: ['', [Validators.required]],
-      PhoneNumber: ['', [Validators.required]],
+      PhoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      PhoneNumberPrefix: ['+251', [Validators.required]],
       Email: [
         '',
-        [Validators.required, Validators.email, Validators.maxLength(320)],
+        [
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(320),
+          Validators.email,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
       ],
     });
   }
@@ -81,12 +84,6 @@ export class ContactsFormComponent implements OnInit {
     this.addContactForm.reset();
   }
   handleClear(): void {
-    console.log('Button cancel clicked!');
-
-    this.addContactForm.reset();
-  }
-  handleCancel() {
-    this.isVisible = false;
     this.addContactForm.reset();
   }
   removeItem(element: any) {

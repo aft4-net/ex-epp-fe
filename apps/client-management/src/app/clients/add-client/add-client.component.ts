@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { NzTabPosition, NzTabsCanDeactivateFn } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
 import { ValidtyAddClientForms } from '../../core';
 import { ClientService } from '../../core/services/client.service';
@@ -39,7 +39,22 @@ export class AddClientComponent implements OnInit {
         this.validateAddClientFormState = res;
       });
   }
-
+  canDeactivate:NzTabsCanDeactivateFn=(fromIndex:number,toIndex:number)=>{
+    switch(fromIndex)
+    {
+    case 1:{
+ console.log(fromIndex);
+      return toIndex==2;
+    }
+    case 4:{
+      console.log(fromIndex);
+           return toIndex==5;
+         }
+  
+      default:
+        return true;
+    }
+  }
   addClient() {
     this.addClientState
       .validateAddClientFormState()
@@ -109,9 +124,10 @@ export class AddClientComponent implements OnInit {
   ClientContacTab() {
     if (this.contactDetailsTabEnabled == false) {
       this.contactDetailsTabEnabled = true;
-      this.activeTabIndex = 2;
+     this.activeTabIndex = 2;
     } else {
       this.contactDetailsTabEnabled = false;
+      this.activeTabIndex = 0;
     }
   }
 
@@ -121,6 +137,11 @@ export class AddClientComponent implements OnInit {
       this.activeTabIndex = 3;
     } else {
       this.locationTabEnabled = false;
+ 
+      if(this.contactDetailsTabEnabled==true)
+      this.activeTabIndex = 3;
+      else
+      this.activeTabIndex = 0;
     }
   }
 

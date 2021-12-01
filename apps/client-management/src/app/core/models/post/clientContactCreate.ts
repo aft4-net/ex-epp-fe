@@ -1,6 +1,7 @@
 export  interface ClientContactCreate{
     ContactPersonName: string,
     Email: string,
-    PhoneNumber: string
+    PhoneNumber: string,
+    PhoneNumberPrefix:string
 }
 
