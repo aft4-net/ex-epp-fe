@@ -1,8 +1,7 @@
 import { Client } from "./client";
+import { ResponseMessage } from "./response-message";
 
-export interface AllDataResponse {
-  ResponseStatus: string;
-  Message: string;
-  Ex?: unknown;
-  Data: Client[];
+export interface AllDataResponse<T> {
+  responseStatus:ResponseMessage,
+  data: T
 }
