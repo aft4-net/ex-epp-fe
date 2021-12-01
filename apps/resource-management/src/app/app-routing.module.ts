@@ -7,7 +7,7 @@ import { AddDeviceDetailComponent } from './Features/Components/add-device-detai
 const routes: Routes = [
   { path: '', component: EmployeeDetailComponent },
 
-  {path: 'device-detail', component: AddDeviceDetailComponent},
+  {path: 'device-detail', loadChildren: () => import('./Features/Components/device-detail/device-detail.module').then(m=>m.DeviceDetailModule)},
 
   { path: 'employee', loadChildren: () => import('./Features/Components/employee/employee.module').then(m => m.EmployeeModule) },
 ];
