@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult, Pagination } from '.';
 
+import{AllDataResponse} from './get/AllDataResponse';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResponseMessage } from './get/response-message';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 
@@ -78,6 +80,29 @@ export abstract class ApiService<T> {
             }
           };
           return paginatedResult;
+        })
+      );
+  }
+
+getData(): Observable<AllDataResponse<T[]>> {
+
+
+    let AllDataResponse: AllDataResponse<T[]> = {
+       responseStatus: {} as ResponseMessage,
+       data: [] as T[]
+    };
+    return this.get('')
+      .pipe(
+        map((response: any) => {
+          AllDataResponse = {
+            data: response.Data,
+            responseStatus: {
+                   ResponseStatus: response.ResponseStatus,
+                   Message: response.Message,
+                   Ex: response.Ex
+            }
+          };
+          return AllDataResponse;
         })
       );
   }
