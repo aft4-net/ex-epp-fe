@@ -65,11 +65,14 @@ header {
   color: #FFFFFF;
 
 }
-// .ant-pagination {
-//   float: right;
+.ant-pagination {
+  float: right;
   
-// }
+}
 
+.main-content {
+  height: 95vh;
+}
 
 
 ::ng-deep .ant-btn:not([disabled]):hover {
