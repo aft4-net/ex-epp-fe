@@ -51,7 +51,9 @@
 
       </div>
     </ng-template>
-    <a style="color: #00A551;margin-left: 1440px;background-color: white;" nz-popover
+    </div>
+    <div class="manageColumns">
+    <a style="color: #00A551;background-color: white;" nz-popover
       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
       >Manage Columns</a>
   </div>
@@ -60,13 +62,16 @@
 
 </div>
 
- <div >
+ <div class="pagination">
+  <div>Showing 1 - {{clientsdata.length}} of {{total}} entries</div> 
   <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
   
+ 
  </nz-pagination> 
- <p style="margin-left: 1740px;">Showing 1 - {{clientsdata.length}} of {{total}} entries</p>
+ 
  </div> 
+ <br>
 
 
 
