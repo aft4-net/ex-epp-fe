@@ -27,11 +27,12 @@
   <tbody>
 
     <tr *ngFor="let item of  listData">
-      <td >{{item.ContactPersonName}}</td>
-      <td>{{item.Email}}</td>
-      <td>{{item.PhoneNumber}}</td>
+      <td >{{item.contactName}}</td>
+      <td>{{item.emailAdress}}</td>
+      <td>{{'('+item.phoneNumberPrefix+')'+' '+item.phoneNumber}}</td>
 
-    
+
+
       <td>
         <a class="text-black mr-3">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,17 +52,22 @@
   </tbody>
 </nz-table>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Contact Detail"
-(nzOnCancel)="handleCancel()"
+
+
+
+<nz-modal   [(nzVisible)]="isVisible" nzTitle="Add Client Contact"
+[nzWidth]="'24%'"
+[nzFooter]="footer"
+(nzOnCancel)="exitModal()"
 (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
 
 
     <form nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ContactPersonName">Contact Person</nz-form-label>
-        <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="14" [nzXs]="24" nzHasFeedback>
-          <input placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName"/>
+        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
+        <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="24" [nzXs]="24" nzHasFeedback>
+          <input placeholder="contact person" id="contactName" nz-input formControlName="contactName"/>
 
         </nz-form-control>
       </nz-form-item>
@@ -70,23 +76,57 @@
         <nz-form-label [nzSpan]="6" nzFor="email" nzRequired  nzFor="emailAdress" [nzSm]="24">Email Adress</nz-form-label>
         <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback [nzSm]="24">
 
-          <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="Email">
+          <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
           <div >
-           <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['Email'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
+           <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['emailAdress'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
           </div>
         </nz-form-control>
 
       </nz-form-item >
 
+
+
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
-        <nz-form-control nzErrorTip="Please add contact number!" [nzSm]="14" [nzXs]="24" nzHasFeedback >
-          <input id="phoneNumber" nz-input formControlName="PhoneNumber"/>
+
+        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
+
+        <nz-form-control nzHasFeedback nzErrorTip="Please add contact number!" [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']"
+
+          nzErrorTip="Please input your phone number!">
+
+          <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+
+            <ng-template #addOnBeforeTemplate>
+
+              <nz-select formControlName="phoneNumberPrefix" nzPlaceHolder="+251" nzShowSearch class="phone-select">
+
+                <ng-container *ngFor="let code of listofCodes">
+
+                  <nz-option nzValue="{{code.value}}" nzLabel="{{code.label}}"></nz-option>
+
+                </ng-container>
+
+              </nz-select>
+
+            </ng-template>
+
+            <input nzErrorTip="Please add contact number!" formControlName="phoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
+
+              nz-input />
+
+          </nz-input-group>
+
         </nz-form-control>
+
       </nz-form-item>
+<div class="footer-btn">
+  <button nz-button class="clear-btn" (click)="handleClear()">Clear</button>
+  <button nz-button class="add-btn" (click)="handleOk()">Add</button>
 
+</div>
 
- </form>
+    </form>
+
   </ng-container>
 
 

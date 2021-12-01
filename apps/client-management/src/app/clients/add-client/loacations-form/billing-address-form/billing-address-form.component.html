@@ -1,12 +1,17 @@
-<div style="padding-bottom: 15px">
+<div  *ngIf="billingAddressess.length">
+  <button  class="button-style" (click)="showModal()">
+    Add Billing Address
+  </button>
+ </div>
+<div>
   <h3>Billing Address</h3>
 </div>
 
 <nz-table
   class="mt-3"
-  #basicTable
+  #basicTable 
   [nzData]="billingAddressess"
-  pagination="false"
+  [nzShowPagination]="false"
 >
   <thead>
     <tr>
@@ -53,10 +58,13 @@
         >
       </td>
     </tr>
+  
   </tbody>
-  <button  class="button-style" (click)="showModal()">
-    Add Billing Address
-  </button>
+  <div *ngIf="!billingAddressess.length">
+    <button  class="button-style addButtonwhenNodata" (click)="showModal()">
+      Add Billing Address
+    </button>
+   </div>
 </nz-table>
 
 <nz-modal
@@ -93,7 +101,7 @@
           <input
             nz-input
             formControlName="Name"
-            placeholder="enter name"
+            placeholder="Enter Name"
           />
         </nz-form-control>
         <div
@@ -123,7 +131,7 @@
           <input
             nz-input
             formControlName="Affliation"
-            placeholder="enter affliation"
+            placeholder="Enter Affliation"
           />
         </nz-form-control>
         <div
@@ -155,7 +163,7 @@
           <nz-select
             nzShowSearch
             nzAllowClear
-            nzPlaceHolder="Select a country"
+            nzPlaceHolder="Select a Country"
             formControlName="Country"
             (ngModelChange)="getSelectedCountry()"
            
@@ -173,7 +181,40 @@
         >
           Country is required.
         </div>
-        <span>{{ selectedCountry }}</span>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry === 'Ethiopia'"
+          >Region</nz-form-label
+        >
+
+        <nz-form-label
+          [nzSm]="6"
+          [nzXs]="24"
+          nzFor="state"
+          *ngIf="selectedCountry !== 'Ethiopia'"
+          >State/Province</nz-form-label
+        >
+
+        <nz-form-control nzErrorTip="The input is not valid State!">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="statePlaceHolder"
+            formControlName="State"
+            (ngModelChange)="getSelectedState()"
+          >
+            <nz-option
+              *ngFor="let state of states"
+              nzLabel="{{ state.name }}"
+              nzValue="{{ state.name }}"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city"
@@ -196,7 +237,7 @@
            
             nzShowSearch
             nzAllowClear
-            nzPlaceHolder="Select a city"
+            nzPlaceHolder="Select a Sity"
             formControlName="City"
           >
             <nz-option
@@ -214,39 +255,6 @@
         </div>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label
-          [nzSm]="6"
-          [nzXs]="24"
-          nzFor="state"
-          *ngIf="selectedCountry === 'Ethiopia'"
-          >Region</nz-form-label
-        >
-
-        <nz-form-label
-          [nzSm]="6"
-          [nzXs]="24"
-          nzFor="state"
-          *ngIf="selectedCountry !== 'Ethiopia'"
-          >State/Province</nz-form-label
-        >
-
-        <nz-form-control nzErrorTip="The input is not valid State!">
-          <nz-select
-            nzShowSearch
-            nzAllowClear
-            nzPlaceHolder="Select a state/region"
-            formControlName="State"
-            (ngModelChange)="getSelectedState()"
-          >
-            <nz-option
-              *ngFor="let state of states"
-              nzLabel="{{ state.name }}"
-              nzValue="{{ state.name }}"
-            ></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="zipCode"
 
         *ngIf="selectedCountry === 'Ethiopia'"
@@ -262,7 +270,7 @@
           <input
             nz-input
             formControlName="ZipCode"
-            placeholder="enter zip code"
+            [placeholder]="postalCode"
           />
         </nz-form-control>
       </nz-form-item>
@@ -274,7 +282,7 @@
           <textarea
             nz-input
             formControlName="Address"
-            placeholder="enter address"
+            placeholder="Enter Address"
           ></textarea>
         </nz-form-control>
       </nz-form-item>

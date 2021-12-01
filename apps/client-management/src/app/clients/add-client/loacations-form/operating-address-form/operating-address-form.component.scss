@@ -9,7 +9,7 @@
     background: #04d86a;
   }
   .table_heading {
-    background-color: #e8ffe8 !important;
+    background-color: #B4DFB4 !important;
   }
   .clear-btn {
     background: white;
@@ -26,4 +26,17 @@
   }
   .error-message{
     color: red;
+  }
+  .addButtonwhenNodata {
+    background-color: #00a551;
+  
+    color: white;
+  
+    height: 40px;
+  
+    display: flex;
+  
+    margin-left: 600px;
+  position: absolute;
+    margin-top: -45px;
   }
