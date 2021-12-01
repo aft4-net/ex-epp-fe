@@ -98,10 +98,10 @@
         <textarea
         rows="4"
         formControlName="description"
-        nz-input placeholder="Write a description about the client only up to 250 characters">
+        nz-input placeholder="A maximum of 250 characters">
       </textarea>
       <span *ngIf="description.errors?.maxlength" style="color: red">
-        A maximum of 250 characters
+        About the client should not be more than 250 characters
       </span>
     </nz-form-control>
   </nz-form-item>
