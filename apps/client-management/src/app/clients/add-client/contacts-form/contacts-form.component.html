@@ -19,15 +19,9 @@
   <tbody>
 
     <tr *ngFor="let item of  listData">
-<<<<<<< HEAD
       <td>{{item.ContactPersonName}}</td>
       <td>{{item.Email}}</td>
       <td>{{'('+item.PhoneNumberPrefix+')'+' '+item.PhoneNumber}}</td>
-=======
-      <td >{{item.contactName}}</td>
-      <td>{{item.emailAdress}}</td>
-      <td>{{'('+item.phoneNumberPrefix+')'+' '+item.phoneNumber}}</td>
->>>>>>> Client-Management
 
 
 
@@ -53,16 +47,8 @@
 
 
 
-<<<<<<< HEAD
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Client Contact" [nzWidth]="'24%'" [nzFooter]="footer"
   (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
-=======
-<nz-modal   [(nzVisible)]="isVisible" nzTitle="Add Client Contact"
-[nzWidth]="'24%'"
-[nzFooter]="footer"
-(nzOnCancel)="exitModal()"
-(nzOnOk)="handleOk()">
->>>>>>> Client-Management
   <ng-container *nzModalContent>
 
 
@@ -70,11 +56,7 @@
       <nz-form-item>
         <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
         <nz-form-control nzErrorTip="Please add contact name!" [nzSm]="24" [nzXs]="24" nzHasFeedback>
-<<<<<<< HEAD
           <input placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName" />
-=======
-          <input placeholder="contact person" id="contactName" nz-input formControlName="contactName"/>
->>>>>>> Client-Management
 
         </nz-form-control>
       </nz-form-item>
@@ -84,7 +66,6 @@
         </nz-form-label>
         <nz-form-control nzErrorTip="Email Adress is invalid" [nzSpan]="14" nzHasFeedback [nzSm]="24">
 
-<<<<<<< HEAD
           <input placeholder="someone@example.com" id="emailAdress" nz-input type="email" formControlName="Email">
           <div>
             <small nzErrorTip="Maximum number of character allwoed is 320"
@@ -93,60 +74,9 @@
           </div>
         </nz-form-control>
 
-=======
-          <input placeholder="someone@example.com" id="emailAdress" nz-input  type="email" formControlName="emailAdress">
-          <div >
-           <small nzErrorTip="Maximum number of character allwoed is 320" *ngIf="addContactForm.controls['emailAdress'].touched && addContactForm.controls['emailAdress'].hasError('maxlength')"> Maximum of 10 characters</small>
-          </div>
-        </nz-form-control>
-
-      </nz-form-item >
-
-
-
-      <nz-form-item>
-
-        <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="phoneNumber" nzRequired>Contact Number</nz-form-label>
-
-        <nz-form-control nzHasFeedback nzErrorTip="Please add contact number!" [nzSm]="24" [nzXs]="24" [nzValidateStatus]="addContactForm.controls['residencialPhoneNumber']"
-
-          nzErrorTip="Please input your phone number!">
-
-          <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
-
-            <ng-template #addOnBeforeTemplate>
-
-              <nz-select formControlName="phoneNumberPrefix" nzPlaceHolder="+251" nzShowSearch class="phone-select">
-
-                <ng-container *ngFor="let code of listofCodes">
-
-                  <nz-option nzValue="{{code.value}}" nzLabel="{{code.label}}"></nz-option>
-
-                </ng-container>
-
-              </nz-select>
-
-            </ng-template>
-
-            <input nzErrorTip="Please add contact number!" formControlName="phoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
-
-              nz-input />
-
-          </nz-input-group>
-
-        </nz-form-control>
-
->>>>>>> Client-Management
       </nz-form-item>
-<div class="footer-btn">
-  <button nz-button class="clear-btn" (click)="handleClear()">Clear</button>
-  <button nz-button class="add-btn" (click)="handleOk()">Add</button>
 
-</div>
 
-    </form>
-
-<<<<<<< HEAD
 
       <nz-form-item>
 
@@ -187,8 +117,6 @@
 
     </form>
 
-=======
->>>>>>> Client-Management
   </ng-container>
 
 

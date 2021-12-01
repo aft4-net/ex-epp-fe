@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { AddClientStateService } from 'apps/client-management/src/app/core';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { BillingAddress } from 'apps/client-management/src/app/core/models/get/billing-address';
 
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityService } from 'apps/client-management/src/app/core/services/city.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
@@ -44,7 +47,7 @@ export class BillingAddressFormComponent implements OnInit {
     private _state: StateService,
     private _city: CityService,
     private _cityInState: CityInStateService,
-    private  addClientService:AddClientStateService
+    private  addStateClientService:AddClientStateService
   ) {
     this.forms = _fb.group({
       Name: [null,[Validators.required,this.noWhitespaceValidator]],
@@ -94,6 +97,7 @@ export class BillingAddressFormComponent implements OnInit {
     if (this.forms.valid) {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
+      this.addStateClientService.updateBillingAddress(this.billingAddressess);
       this.tabledata=['']
       this.IsEdit=false;
       this.editAt=-1;
@@ -104,6 +108,7 @@ export class BillingAddressFormComponent implements OnInit {
         ...this.billingAddressess,
         this.forms.value
       ]
+      this.addStateClientService.updateBillingAddress(this.billingAddressess);
      }
     this.isVisible = false;
     this.forms.reset();
@@ -170,7 +175,7 @@ export class BillingAddressFormComponent implements OnInit {
       if(!this.billingAddressess.length){
         this.billingAddressess=this.emptyData;
       }
-      this.addClientService.updateBillingAddress(this.billingAddressess);
+      this.addStateClientService.updateBillingAddress(this.billingAddressess);
     }
   }
   edit(index:number){
@@ -181,6 +186,7 @@ export class BillingAddressFormComponent implements OnInit {
        this.editAt=index;
        this.found=true;
         this.patchValues(this.billingAddressess[count]);
+        this.addStateClientService.updateBillingAddress(this.billingAddressess);
       }
     }
    

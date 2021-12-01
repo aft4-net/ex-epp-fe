@@ -39,24 +39,7 @@ export class AddClientComponent implements OnInit {
         this.validateAddClientFormState = res;
       });
   }
-  canDeactivate: NzTabsCanDeactivateFn = (
-    fromIndex: number,
-    toIndex: number
-  ) => {
-    switch (fromIndex) {
-      case 1: {
-        console.log(fromIndex);
-        return toIndex == 2;
-      }
-      case 4: {
-        console.log(fromIndex);
-        return toIndex == 5;
-      }
 
-      default:
-        return true;
-    }
-  };
   addClient() {
     this.addClientState
       .validateAddClientFormState()
