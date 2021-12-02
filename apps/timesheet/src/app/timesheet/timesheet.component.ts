@@ -236,7 +236,12 @@ export class TimesheetComponent implements OnInit {
   }
 
   calculateWeeklyTotalHours(dailyTotalHours: number) {
-    this.weeklyTotalHours = this.weeklyTotalHours + dailyTotalHours;
+    if (this.timeEntries){
+      this.weeklyTotalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
+    }
+    else{
+      this.weeklyTotalHours = 0;
+    }
   }
 
   onDateColumnClicked(dateColumnEvent: DateColumnEvent, date: Date) {
