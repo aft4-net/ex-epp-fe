@@ -40,6 +40,7 @@ export class OperatingAddressFormComponent implements OnInit {
   IsEdit=false;
   editAt=-1;
   found=false;
+  actionTitle="Add"
   confirmModal?: NzModalRef;
   isClearButtonActive= true;
   constructor(
@@ -93,6 +94,7 @@ export class OperatingAddressFormComponent implements OnInit {
 
   showModal(): void {
     this.isVisible = true;
+    this.actionTitle="Add";
   }
   handleOk(): void {
     this.isOkLoading = true;
@@ -195,6 +197,7 @@ export class OperatingAddressFormComponent implements OnInit {
     for(let count=0;count<this.operatingAddress.length;count++){
       this.isVisible = true;
       if(count==index){
+        this.actionTitle="Edit"
        this.IsEdit=true;
        this.editAt=index;
        this.found=true;
@@ -221,6 +224,8 @@ export class OperatingAddressFormComponent implements OnInit {
       nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
       nzOkDanger: true,
+      nzOkText: 'Yes',
+      nzCancelText: 'No',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
           if (index > -1) {
