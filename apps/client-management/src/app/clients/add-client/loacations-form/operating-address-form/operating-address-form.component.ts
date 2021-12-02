@@ -121,6 +121,7 @@ export class OperatingAddressFormComponent implements OnInit {
      }
     this.isVisible = false;
     this.forms.reset();
+    this.isClearButtonActive=true;
     } else {
       Object.values(this.forms.controls).forEach(control => {
         if (control.invalid) {
@@ -216,6 +217,8 @@ export class OperatingAddressFormComponent implements OnInit {
     this.confirmModal = this.modal.confirm({
       nzTitle: 'Do you want to delete this item?',
       nzContent: 'The action is not recoverable. ',
+      nzOkType: 'primary',
+      nzOkDanger: true,
       nzOnOk: () =>
         new Promise((resolve, reject) => {
           if (index > -1) {
