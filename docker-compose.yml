@@ -17,5 +17,9 @@ services:
     image: timesheet
     ports:
       - "4204:80"
+  resource-management:
+    image: resource-management
+    ports:
+      - "4205:80" 
     
    
