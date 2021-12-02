@@ -7,6 +7,7 @@ import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import {  Observable, pipe } from 'rxjs';
 import { listtToFilter } from '../../../Models/listToFilter';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 
 @Component({
@@ -37,6 +38,15 @@ export class EmployeeDetailComponent implements OnInit {
   empListStatus: NzTableFilterList=[];
   empListJobType: NzTableFilterList=[];
   empJoinDate:NzTableFilterList=[];
+
+
+  //added by simbo just you remove 
+
+  isVisible = false;
+  isConfirmLoading = false;
+  
+  
+  ///
 
 
   listOfColumnsFullName: ColumnItem[] = [
@@ -229,11 +239,29 @@ export class EmployeeDetailComponent implements OnInit {
 
   Edit(employeeGuid : string)
   {
-  //not implemented
+    this.isVisible = true;
   }
 
   Delete(employeeGuid : string)
   {
   //not implemented
   }
+
+
+  //added by simbo just you can delete
+
+  handleOk(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+
+  //
 }

@@ -1,25 +1,3 @@
-<exec-epp-page-title></exec-epp-page-title>
-<div nz-row>
-    <div nz-col nzSpan="4">
-        <exec-epp-side-bar> </exec-epp-side-bar>
-    </div>
-    <div nz-col nzSpan="20" class="inner-content">
-        <div nz-row>
-            <div nz-col nzSpan="21">
-
-                <h1>Addresses</h1>
-            </div>
-
-            <div nz-col nzSpan="3" *ngIf="rowSelectionTable.data.length >0" >
-
-
-                <button class="addButton" nz-button (click)="addaddress()">
-                    <span>Add Address</span>
-                </button>
-            </div>
-        </div>
-
-
 
         <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
@@ -59,10 +37,4 @@
 
             </tbody>
         </nz-table>
-        <button *ngIf="rowSelectionTable.data.length === 0" class="addButtonwhenNodata" nz-button
-            (click)="addaddress()">
-            <span>Add Addresses</span>
-
-        </button>
-    </div>
-</div>
+      
