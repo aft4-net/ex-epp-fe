@@ -1,3 +1,11 @@
+
+
+$background:red;
+$background-hover:red;
+$color:white;
+$border:red;
+
+
 .button-style {
     float: right;
     background: #00a551;
@@ -46,4 +54,21 @@
 }
 .column-padding-center{
   padding-left: 35%;
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+
+  background: $background;
+
+  color: $color;
+
+  border: $border;
+}
+
+::ng-deep .ant-btn-primary:hover{
+
+  background: $background-hover;
+
+  color: $color;
+
+  border: $border;
 }
