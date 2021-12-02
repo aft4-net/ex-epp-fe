@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
-
+import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
 import { Data } from '@angular/router';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-import { NzConfigService } from 'ng-zorro-antd/core/config';
-import { Observable } from 'rxjs';
-import { ResponseDTO } from '../../../Models/response-dto.model';
-import { data } from 'autoprefixer';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import {  Observable, pipe } from 'rxjs';
 import { listtToFilter } from '../../../Models/listToFilter';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -19,8 +15,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private _employeeService : EmployeeService) {
 
   }
@@ -37,10 +31,12 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
+  holdItJoinDate: listtToFilter[]=[];
 
   empListCountry : NzTableFilterList=[];
   empListStatus: NzTableFilterList=[];
   empListJobType: NzTableFilterList=[];
+  empJoinDate:NzTableFilterList=[];
 
 
   listOfColumnsFullName: ColumnItem[] = [
@@ -104,15 +100,22 @@ export class EmployeeDetailComponent implements OnInit {
         )
         }
         }
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.holdItJoinDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate.toString()) === -1){
+          this.holdItJoinDate.push(
+            {
+              text:this.employeeViewModel.map(join=>join.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i].toString(),
+              value:this.employeeViewModel.map(join=>join.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i].toString()
+            }
+          )
+          }
+          }
 
-      this.holdItCountry.map(country=>country.text).filter((value,index,self)=>self.indexOf(value)===index)
-      this.holdItJobTitle.map(title=>title.text).filter((value,index,self)=>self.indexOf(value)===index)
-      this.holdItStatus.map(status=>status.text).filter((value,index,self)=>self.indexOf(value)===index)
 
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
-
+        this.empJoinDate = this.holdItJoinDate,
        // array.map(item => item.age)
        // .filter((value, index, self) => self.indexOf(value) === index)
 
@@ -124,6 +127,15 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter:this.empListJobType,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          },
+          {
+            name: 'JoiningDate',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.toString().length - b.JoiningDate.toString().length,
+            filterMultiple: true,
+            listOfFilter:this.empJoinDate,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
           {
@@ -205,8 +217,6 @@ export class EmployeeDetailComponent implements OnInit {
     }, 1000);
   }
 
-
-
   FeatchAllEmployees() {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
   }
@@ -214,7 +224,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeParams.searchKey = this.fullname;
     console.log(this.fullname);
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
-
   }
 
 
@@ -228,4 +237,3 @@ export class EmployeeDetailComponent implements OnInit {
   //not implemented
   }
 }
-

@@ -1,6 +1,7 @@
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #b8fab8 !important;
+font-weight: 700;
 }
 
 .table_evenrow_heading
@@ -11,4 +12,9 @@ background-color: #E8FFE8 !important;
 .table_oddrow_heading
 {
 background-color: white !important;
+}
+.inner-content {
+    padding: 24px;
+    background: #fff;
+    min-height: 360px;
 }
