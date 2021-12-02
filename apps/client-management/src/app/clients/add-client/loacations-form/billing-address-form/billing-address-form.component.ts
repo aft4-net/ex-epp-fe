@@ -31,6 +31,7 @@ export class BillingAddressFormComponent implements OnInit {
   selectedCountry = '';
   selectedState = '';
   emptyData=[];
+  actionTitle="Add";
   stateData = {
     country: '',
     state: '',
@@ -105,6 +106,7 @@ export class BillingAddressFormComponent implements OnInit {
 
   showModal(): void {
     this.isVisible = true;
+    this.actionTitle="Add";
   }
   get Name() {
     return this.forms.controls.Name as FormControl;
@@ -218,6 +220,7 @@ export class BillingAddressFormComponent implements OnInit {
     for(let count=0;count<this.billingAddressess.length;count++){
       this.isVisible = true;
       if(count==index){
+        this.actionTitle="Edit";
        this.IsEdit=true;
        this.editAt=index;
        this.found=true;
