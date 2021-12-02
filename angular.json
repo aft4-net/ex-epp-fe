@@ -7,9 +7,17 @@
       "sourceRoot": "apps/applicant-tracking/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy":{
+          "builder":"@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx build applicant-tracking --with-deps",
+            "docker build -f ./apps/applicant-tracking/Dockerfile . -t applicant-tracking"],
+            "parallel": false  
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": ["dist/apps/applicant-tracking"],
           "options": {
             "outputPath": "dist/apps/applicant-tracking",
             "index": "apps/applicant-tracking/src/index.html",
@@ -30,7 +38,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -151,6 +159,14 @@
       "sourceRoot": "apps/epp/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy":{
+          "builder":"@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx build epp --with-deps",
+            "docker build -f ./apps/epp/Dockerfile . -t epp"],
+            "parallel": false  
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -420,6 +436,14 @@
       "sourceRoot": "apps/project-management/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy":{
+          "builder":"@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx build project-management --with-deps",
+            "docker build -f ./apps/project-management/Dockerfile . -t project-management"],
+            "parallel": false  
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -443,7 +467,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -539,6 +563,14 @@
       "sourceRoot": "apps/timesheet/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy":{
+          "builder":"@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx build timesheet --with-deps",
+            "docker build -f ./apps/timesheet/Dockerfile . -t timesheet"],
+            "parallel": false  
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -562,7 +594,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",

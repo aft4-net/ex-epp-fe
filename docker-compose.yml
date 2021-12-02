@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  applicant-tracking:
+    image: applicant-tracking
+    ports: 
+      - "4201:80"
+  epp:
+    image: epp
+    ports: 
+      - "4202:80"
+  project-management:
+    image: project-management
+    ports:
+      - "4203:80"
+  timesheet:
+    image: timesheet
+    ports:
+      - "4204:80"
+    
+   

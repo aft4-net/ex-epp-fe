@@ -10,7 +10,9 @@
     "test": "nx test",
     "postcss:build": "postcss apps/passport/src/styles.pcss -o apps/passport/src/styles.scss",
     "postcss:epp": "postcss apps/epp/src/styles.pcss -o apps/epp/src/styles.scss",
-    "prestart": "npm run postcss:build && npm run postcss:epp"
+    "prestart": "npm run postcss:build && npm run postcss:epp",
+    "build-all" : "nx run-many --target=build --all ",
+    "deploy": "nx run-many --target=deploy --all "
   },
   "private": true,
   "dependencies": {
