@@ -3,8 +3,18 @@ import { AbstractControl, FormControl } from "@angular/forms";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormItemData, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { ValidatorResponse } from "../../../../Models/supporting-models/validator-response.model";
-import { validateFirstName } from "../../../../Services/supporting-services/custom.validators";
+import { commonErrorMessage, validateFirstName, validateLastName, validateMiddleName } from "../../../../Services/supporting-services/custom.validators";
 
+const errorMessageRequired: ValidatorResponse =
+{
+    required: true,
+    message: ''
+}
+const errorMessageOptional: ValidatorResponse =
+{
+    required: false,
+    message: ''
+}
 
 @Component({
     selector: 'exec-epp-custom-full-name',
@@ -17,55 +27,26 @@ export class CustomFullNameComponent implements OnInit {
     @Input() middleNameControl: FormControl = new FormControl()
     @Input() lastNameControl: FormControl = new FormControl()
 
-    errMessages: ValidatorResponse[]
-
-
     constructor() {
         this.firstNameControl.setValidators(this.validateFirstName)
-        this.middleNameControl.setValidators(this.validateModdleName)
-        this.lastNameControl.setValidators(this.validateLaseName)
-        this.errMessages = [
-            {
-                required: true,
-                message: ''
-            },
-            {
-                required: true,
-                message: ''
-            },
-            {
-                required: true,
-                message: ''
-            }
-        ]    
+        this.middleNameControl.setValidators(validateMiddleName)
+        this.lastNameControl.setValidators(validateLastName)
     }
 
     ngOnInit(): void {
     }
 
-    validateName(control: AbstractControl, index:number) {
-        const errMessage: ValidatorResponse = {
-            required: true,
-            message: ''
-        } 
-        const result = validateFirstName(
-            control,
-            errMessage
-        )
-        this.errMessages[index] = errMessage
-        return result
-    }
-
     validateFirstName(control: AbstractControl) {
-        return this.validateName(control, 0)
+        commonErrorMessage.required = true
+        return validateFirstName(control, commonErrorMessage)
     }
 
     validateModdleName(control: AbstractControl) {
-        return this.validateName(control, 1)
+        return {required:true}
     }
 
     validateLaseName(control: AbstractControl) {
-        return this.validateName(control, 2)
+        return {required:true}
     }
 
 }

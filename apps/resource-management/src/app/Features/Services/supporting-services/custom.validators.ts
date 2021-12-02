@@ -3,6 +3,11 @@ import { ValidatorResponse } from "../../Models/supporting-models/validator-resp
 import { maxNumberofCharactersinName, minNumberofCharactersinName, nearestEmployeeDateofBirth } from "./basic-data.collection";
 
 
+export const commonErrorMessage = {
+    required: true,
+    message: ''
+} as ValidatorResponse
+
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Validators
@@ -37,17 +42,15 @@ export function validateFirstName(
 }
 
 export function validateMiddleName(
-    control: AbstractControl,
-    errorLog: ValidatorResponse
+    control: AbstractControl
 ) {
-    return validateName(control, errorLog, 'Middle name')
+    return validateName(control, commonErrorMessage, 'Middle name')
 }
 
 export function validateLastName(
-    control: AbstractControl,
-    errorLog: ValidatorResponse
+    control: AbstractControl
 ) {
-    return validateName(control, errorLog, 'Last name')
+    return validateName(control, commonErrorMessage, 'Last name')
 }
 
 export function validateName(
@@ -211,9 +214,9 @@ function checkLetter(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!RegExp(`[A-Z][a-z]`).test(control.value)) {
+    if (!(/^[A-Za-z]+$/).test(control.value)) {
         errorLog.message = 'Contains an invalid character(s)!'
-        return { minLength: true }
+        return { invalidCharacter: true }
     }
     return null
 }

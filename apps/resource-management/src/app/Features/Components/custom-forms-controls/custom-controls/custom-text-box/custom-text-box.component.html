@@ -12,6 +12,6 @@
     [nzXs]="controlConfig.nzXs"
     [nzErrorTip]="errMessage">
       <input
-        [formControl]="myControl" nzPlaceHolder="Smith" nz-input />
+        [formControl]="myControl" nzPlaceHolder="Smith" (ngModelChange)="onChange()" nz-input />
     </nz-form-control>
   </nz-form-item>
