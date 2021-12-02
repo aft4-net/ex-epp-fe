@@ -16,6 +16,7 @@ import { Employee } from '../models/employee';
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
 import { retry } from 'rxjs/operators';
 import { TimeEntryFormData } from '../models/timeEntryFormData';
+import { TimesheetValidationService } from './services/timesheet-validation.service';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -76,7 +77,8 @@ export class TimesheetComponent implements OnInit {
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
     private apiService: TimesheetApiService,
-    private timeSheetService: TimesheetService) {
+    private timeSheetService: TimesheetService,
+    public timesheetvalidation: TimesheetValidationService) {
   }
 
   ngOnInit(): void {
@@ -362,7 +364,14 @@ export class TimesheetComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-
+    if(this.formData.toDate!==null && this.formData.fromDate!==null && this.formData.fromDate){
+    if(Math.floor(this.formData.toDate.getTime()-this.formData.fromDate.getTime()) / 1000 / 60 / 60 / 24){
+    if(this.timesheetvalidation.dateSelectionInWeek(this.formData.fromDate?this.formData.fromDate:new Date(),
+    this.formData.toDate?this.formData.toDate:new Date(),this.firstday1,this.lastday1)){
+        this.notification.create('error',"Error","You can only enter time entry for the range of days in this week.");
+    }
+  }
+  }
     try {
       let timeEntry: TimeEntry = {
         Guid: "00000000-0000-0000-0000-000000000000",
@@ -486,5 +495,5 @@ export class TimesheetComponent implements OnInit {
   disabledDates=(current: Date): boolean => {
       return current.valueOf() > Date.now();
   }
- 
+
 }
