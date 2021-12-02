@@ -23,6 +23,11 @@ import { registerLocaleData } from '@angular/common';
 import { AddressViewComponent } from './address-view/address-view.component';
 import { FamilyDetailViewComponent } from './family-detail-view/family-detail-view.component';
 import { EmergencycontactViewComponent } from './emergencycontact-view/emergencycontact-view.component';
+import { PersonalInfoEditComponent } from './employee-edit/personal-info-edit/personal-info-edit.component';
+import { OrganizationDetailEditComponent } from './employee-edit/organization-detail-edit/organization-detail-edit.component';
+import { EmergencycontactEditComponent } from './employee-edit/emergencycontact-edit/emergencycontact-edit.component';
+import { AddressEditComponent } from './employee-edit/address-edit/address-edit.component';
+import { FamilyDetailEditComponent } from './employee-edit/family-detail-edit/family-detail-edit.component';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -45,6 +50,11 @@ import { EmergencycontactViewComponent } from './emergencycontact-view/emergency
     AddressViewComponent,
     FamilyDetailViewComponent,
     EmergencycontactViewComponent,
+    PersonalInfoEditComponent,
+    OrganizationDetailEditComponent,
+    EmergencycontactEditComponent,
+    AddressEditComponent,
+    FamilyDetailEditComponent,
     
     
   ],
