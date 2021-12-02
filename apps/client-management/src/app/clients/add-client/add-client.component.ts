@@ -106,14 +106,11 @@ export class AddClientComponent implements OnInit {
         nzTitle: 'Are you sure, you want to cancel ?',
 
         nzCancelText: 'No',
-
-        nzOnCancel: () => {
-          this.router.navigateByUrl('clients');
-          this.addClientState.restAddClientState();
-        },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        nzOnCancel: () => {},
         nzOkText: 'Yes',
         nzOkDanger: true,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
+
         nzOnOk: () => {
           this.router.navigateByUrl('clients');
           this.addClientState.restAddClientState();
