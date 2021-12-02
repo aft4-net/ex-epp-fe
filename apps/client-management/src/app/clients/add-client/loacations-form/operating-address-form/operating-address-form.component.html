@@ -16,15 +16,19 @@
     <thead>
       <tr>
         <th class="table_heading">Country</th>
-        <th class="table_heading">City</th>
-        <th class="table_heading">Action</th>
+        <th class="table_heading" style="border-style: none;">
+          <span class="column-padding-center"  >City</span>
+        </th>
+        <th class="table_heading">
+          <span class="action-column">Action</span>
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of operatingAddress; let i = index">
         <td>{{ data.Country }}</td>
-        <td>{{ data.City }}</td>
-        <td>
+        <td  ><span class="column-padding-center">{{ data.City }}</span></td>
+        <td class="action-column">
           <a class="text-black mr-3"  (click)="edit(i)">
             <svg
               width="14"
@@ -217,8 +221,8 @@
           </nz-form-control>
         </nz-form-item>
         <div>
-          <button nz-button class="clear-btn" (click)="resetForm()">Clear</button>
-          <button nz-button>Add</button>
+          <button nz-button class="clear-btn" [disabled]="isClearButtonActive" (click)="resetForm()">Clear</button>
+          <button nz-button [title]="forms.invalid?'Enter Valid Data.':''" [disabled]="forms.invalid">Add</button>
         </div>
       </form>
     </div>

@@ -41,6 +41,7 @@ export class OperatingAddressFormComponent implements OnInit {
   editAt=-1;
   found=false;
   confirmModal?: NzModalRef;
+  isClearButtonActive= true;
   constructor(
     private _fb: FormBuilder,
     private _state: StateService,
@@ -73,7 +74,19 @@ export class OperatingAddressFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("data="+ this.data)
+    this.forms.valueChanges.subscribe(x => {
+      if(this.forms.value['Country']!='' ||
+      this.forms.value['City']!='' ||
+      this.forms.value['State']!='' ||
+      this.forms.value['ZipCode']!='' ||
+      this.forms.value['Address']!='' ){
+       this.isClearButtonActive=false;
+      }
+      else{
+       this.isClearButtonActive=true;
+      }
+    
+    });
   }
 
   showModal(): void {
@@ -164,6 +177,7 @@ export class OperatingAddressFormComponent implements OnInit {
 
   resetForm() {
     this.forms.reset();
+    this.isClearButtonActive= true;
   }
   removeOperatingAddress(index: number) {
     if (index > -1) {
