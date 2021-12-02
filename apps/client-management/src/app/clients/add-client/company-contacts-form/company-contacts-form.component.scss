@@ -1,4 +1,4 @@
-$tableHeadingBackgroundColour:#E8FFE8 !important;
+$tableHeadingBackgroundColour:#B4DFB4 !important;
 $tblRowBackgroundColour:#F9FFF9;
 $addClientButtonFloat:right;
 $countryCodeWidth:8vw !important;
@@ -29,4 +29,8 @@ button.ant-btn {
 button.add-btn.ant-btn {
 
   margin-right: $addBtnMarginRight;
+}
+.error-block
+{
+  color: red !important;
 }
