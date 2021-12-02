@@ -42,7 +42,6 @@ export class DetailsFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.createRegistrationForm();
-    //this.checkClientName();
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
