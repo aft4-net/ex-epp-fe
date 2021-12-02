@@ -16,7 +16,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
-  constructor(private _employeeService : EmployeeService,modalService: NzModalService) {
+  constructor(private _employeeService : EmployeeService) {
 
   }
   checked = false;
