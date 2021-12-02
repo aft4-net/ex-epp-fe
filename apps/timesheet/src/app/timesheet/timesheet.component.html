@@ -31,10 +31,10 @@
         <div class="from-date-to-date">
 
           <label for="from-date">From Date:</label>
-          <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" [nzDisabled]="true"
+          <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" [nzDisabled]="false" [nzDisabledDate]="disabledDates"
             nzFormat="MM-dd-YY" nzSuffixIcon="" class="w-20 ml-2 rounded-none border-0 border-t-0"></nz-date-picker>
           <label for="to-date" class="ml-2">To Date:</label>
-          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="true" nzFormat="MM-dd-YY"
+          <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="false" nzFormat="MM-dd-YY" [nzDisabledDate]="disabledDates"
             nzSuffixIcon="" class="w-20 rounded-none border-0 border-t-0"></nz-date-picker>
 
         </div>
