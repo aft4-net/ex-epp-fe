@@ -41,6 +41,7 @@ export class BillingAddressFormComponent implements OnInit {
   statePlaceHolder='Select a State/Province';
   postalCode='Enter Postal/ZIP Code';
   found=false;
+  isClearButtonActive=true;
   constructor(
     private _fb: FormBuilder,
     private _state: StateService,
@@ -50,13 +51,13 @@ export class BillingAddressFormComponent implements OnInit {
     private modal: NzModalService
   ) {
     this.forms = _fb.group({
-      Name: [null,
+      Name: ['',
         [
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(70)
       ]],
-      Affliation: [null,
+      Affliation: ['',
         [Validators.required,Validators.minLength(2),Validators.maxLength(70)]
       ],
       Country: ['',Validators.required],
@@ -84,6 +85,22 @@ export class BillingAddressFormComponent implements OnInit {
   ngOnInit(): void {
     console.log("data="+ this.data)
     this.billingAddressess = this.addStateClientService.addClientData.BillingAddress;
+   
+    this.forms.valueChanges.subscribe(x => {
+      if(this.forms.value['Name']!='' ||
+      this.forms.value['Country']!='' ||
+      this.forms.value['City']!='' ||
+      this.forms.value['State']!='' ||
+      this.forms.value['ZipCode']!='' ||
+      this.forms.value['Address']!='' ||
+      this.forms.value['Affliation']!='' ){
+       this.isClearButtonActive=false;
+      }
+      else{
+       this.isClearButtonActive=true;
+      }
+    
+    });
   }
 
   showModal(): void {
@@ -106,8 +123,10 @@ export class BillingAddressFormComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible = false;
+    
   }
-
+ 
+ 
   submitForm() {
     if (this.forms.valid) {
       if(this.IsEdit){
@@ -183,6 +202,7 @@ export class BillingAddressFormComponent implements OnInit {
 
   resetForm() {
     this.forms.reset();
+    this.isClearButtonActive=true
   }
   removeBillingAddress(index: number) {
     if (index > -1) {
