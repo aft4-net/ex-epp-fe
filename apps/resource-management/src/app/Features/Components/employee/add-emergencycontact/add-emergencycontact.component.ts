@@ -326,4 +326,19 @@ export class AddEmergencycontactComponent implements OnInit {
     }
     return {};
   };
+
+
+
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  tabs = [
+    {
+      name: 'Basic Details',
+      icon: 'apple'
+    },
+    {
+      name: 'Address',
+      icon: 'android'
+    }
+  ];
 }

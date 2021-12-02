@@ -5,29 +5,31 @@
     </div>
     <div nz-col nzSpan="20" class="inner-content">
         <div nz-row>
-    <div nz-col nzSpan="20" class="inner-content">
-            <div nz-col nzSpan="20">
+            <div nz-col nzSpan="21">
+
                 <h1>Addresses</h1>
             </div>
 
-            <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length >0">
-                <button class="addButton" nz-button nzType="primary" (click)="addaddress()">
+            <div nz-col nzSpan="3" *ngIf="rowSelectionTable.data.length >0" >
+
+
+                <button class="addButton" nz-button (click)="addaddress()">
                     <span>Add Address</span>
                 </button>
             </div>
         </div>
-        <br />
-        <br />
 
-        <nz-table class= "table" #rowSelectionTable  nzShowSizeChanger [nzData]="listOfData"
+
+
+        <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
 
-            <thead >
-                <tr class ="tr">
+            <thead>
+                <tr class="tr">
 
                     <th>Country</th>
-                    <th>City</th>
-                    <th>Action</th>
+                    <th>City/SubCity</th>
+                    <th style="max-width: 1px;">Actions</th>
                 </tr>
 
             </thead>
@@ -45,7 +47,7 @@
                                 (click)="startEdit(data.id)">
                                 <i nz-icon nzType="edit" nzTheme="outline"></i>
                             </div>
-                           &nbsp;    &nbsp;
+                            &nbsp; &nbsp;
                             <div nz-col nzSpan="2">
                                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                                     (nzOnConfirm)="deleteRow(data.id)"><i nz-icon nzType="delete"
@@ -63,5 +65,4 @@
 
         </button>
     </div>
-
 </div>

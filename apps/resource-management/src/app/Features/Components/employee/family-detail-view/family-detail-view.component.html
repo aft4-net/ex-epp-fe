@@ -6,22 +6,21 @@
     <div nz-col nzSpan="20" class="inner-content">
         <div nz-row>
             <div nz-col nzSpan="20" class="page-title">
-                <h1>Families</h1>
+                <h1>Family Details</h1>
             </div>
             <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length >0">
                 <button class="addButton" nz-button nzType="primary" (click)="addfamilies()">
-                    <span>Add Families</span>
+                    <span>Add Family Details</span>
                 </button>
             </div>
         </div>
-        <br />
-        <br />
+       
 
-        <nz-table #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
+        <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
 
             <thead>
-                <tr>
+                <tr class="tr">
                     <th [nzChecked]="checked" [nzIndeterminate]="indeterminate"
                         (nzCheckedChange)="onAllChecked($event)"></th>
                     <th>Full Name</th>
@@ -60,7 +59,7 @@
 
         <button *ngIf="rowSelectionTable.data.length === 0" class="addButtonwhenNodata" nz-button
             (click)="addfamilies()">
-            <span>Add Families</span>
+            <span>Add Family Details</span>
 
         </button>
 
