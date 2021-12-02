@@ -2,6 +2,7 @@ import {
 AddClientStateService,
 Client,
 ClientDetailCreate,
+ClientDetailsService,
 ClientStatus,
 ClientStatusService,
 Employee,
@@ -35,7 +36,8 @@ export class DetailsFormComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private clientStatusService: ClientStatusService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private clientDetailsService: ClientDetailsService,
   ) {}
 
   ngOnInit(): void {
@@ -43,11 +45,10 @@ export class DetailsFormComponent implements OnInit {
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
-      console.log("employees")
-      console.log(this.employees)
-      console.log('employees')
     });
-
+    this.clientDetailsService.getAll().subscribe((response: any) => {
+      this.clients = response.Data;
+    });
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
       this.clientStatuses = res;
       for (let i = 0; i < this.clientStatuses.length; i++) {
@@ -78,11 +79,10 @@ export class DetailsFormComponent implements OnInit {
   }
 
   checkClientName() {
-    var name = this.validateForm.value['clientName'];
 
       for (let i = 0; i < this.clients.length; i++) {
         if (
-          name.toLowerCase() ===
+          this.validateForm.value['clientName'].toLowerCase() ===
           this.clients[i].ClientName.toString().toLowerCase()
         ) {
           this.clientNameExistErrorMessage = 'Client name already exists';
