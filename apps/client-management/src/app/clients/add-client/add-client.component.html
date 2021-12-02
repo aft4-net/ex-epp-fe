@@ -15,10 +15,12 @@
   <div class="justify-between" nz-row>
     <div class="page-title"> Enter Client Details </div>
     <div>
-      <button (click)="cancelAddClientPage()" class="text-green-600   border-green-500  border bg-transparent  font-semibold
+      <!-- <button (click)="cancelAddClientPage()" class="text-green-600   border-green-500  border bg-transparent  font-semibold
            py-1 px-3   hover:border-green-600 hover:text-green-700  mr-4 ">
         Cancel
-      </button>
+      </button> -->
+
+      <button nz-button class="clear-btn" (click)="cancelAddClientPage()"  >   Cancel</button>
       <button type="submit" (click)="addClient()" nz-button> Save </button>
     </div>
   </div>

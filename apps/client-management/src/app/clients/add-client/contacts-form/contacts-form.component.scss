@@ -89,6 +89,13 @@ button.add-btn.ant-btn {
   background: white;
   color: #00a551;
   margin-right: 10px;
-
   border: 0.5px solid #00a551;
+}
+::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active {
+  background-color: #00A551;
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #FFFFFF;
 }
