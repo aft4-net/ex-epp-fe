@@ -7,33 +7,33 @@ import { TimesheetService } from '../../services/timesheet.service';
 import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
 
 @Directive({
-  selector:'[entries]',
+  selector: '[entries]',
 })
-export class DayAndDateDirective{
-constructor(public elRef:ElementRef){
+export class DayAndDateDirective {
+  constructor(public elRef: ElementRef) {
 
-}
+  }
 }
 @Component({
   selector: 'app-day-and-date-column',
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewInit {
+export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
-  @Output() columnOverflow=new EventEmitter<boolean>();
+  @Output() columnOverflow = new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
-  @ViewChildren('entries')  entriesDiv!: QueryList<any>;
+  @ViewChildren('entries') entriesDiv!: QueryList<any>;
   @ViewChild('pt') pointerEl!: ElementRef;
   @ViewChild('col') colEl!: ElementRef;
   timeEntrys: TimeEntry[] | null = null;
@@ -42,19 +42,19 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
   index: number = 0;
   overflow = false;
   moreEntries: any[] = [];
-  overflowPt?: number=0;
+  overflowPt?: number = 0;
   of: any;
-  constructor(private timesheetService: TimesheetService,public elRef:ElementRef) {  }
+  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
   ngAfterViewInit(): void {
     this.checkOverflow(this.colEl.nativeElement);
     this.overflowCalc();
-      }
-  
-   clickEventType = ClickEventType.none;
+  }
 
-   ngOnInit(): void {}
+  clickEventType = ClickEventType.none;
 
-   ngOnChanges(): void {   
+  ngOnInit(): void { }
+
+  ngOnChanges(): void {
     if (this.timesheet) {
       this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date).subscribe(response => {
         this.timeEntrys = response ? response : null;
@@ -66,28 +66,28 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
         }
       });
       this.overflowCalc();
-    }   
-   
+    }
+
   }
-  overflowCalc(){
-  this.entriesDiv?.changes.subscribe(() => {     
-    this.entriesDiv.toArray().forEach(el => {
-        if(this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom< this.pointerEl.nativeElement.getBoundingClientRect().top){
-          this.overflowPt=this.index+1;   
-                         
-     } 
-           this.index!++;
+  overflowCalc() {
+    this.entriesDiv?.changes.subscribe(() => {
+      this.entriesDiv.toArray().forEach(el => {
+        if (this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom < this.pointerEl.nativeElement.getBoundingClientRect().top) {
+          this.overflowPt = this.index + 1;
+
+        }
+        this.index!++;
+      });
+      if (this.overflowPt! > 0) {
+        if (this.checkOverflow(this.colEl.nativeElement)) {
+          this.overflow = true;
+          this.colEl.nativeElement.style.overflow = "hidden";
+          this.columnOverflow.emit(this.overflow);
+          this.split(this.overflowPt!);
+          console.log(this.checkOverflow(this.colEl.nativeElement))
+        }
+      }
     });
-     if(this.overflowPt!>0){
-       if(this.checkOverflow(this.colEl.nativeElement)){
-      this.overflow=true;
-      this.colEl.nativeElement.style.overflow="hidden";
-      this.columnOverflow.emit(this.overflow);
-      this.split(this.overflowPt!);
-      console.log(this.checkOverflow(this.colEl.nativeElement))
-       }
-     } 
-});
   }
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
@@ -95,7 +95,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
       this.projectNamePaletClicked.emit(timeEntryEvent);
     }
 
-    if(this.morePopover){
+    if (this.morePopover) {
       this.clickEventType = ClickEventType.none;
     }
   }
@@ -148,9 +148,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
 
   split(index: number) {
 
-    if(this.timeEntrys!==null) {
+    if (this.timeEntrys !== null) {
       for (let i = index; i < this.timeEntrys.length; i++) {
-        for (let j = 0; j <= this.timeEntrys.length - index; j++) {
+        for (let j = 0; j <= this.timeEntrys.length - index-1; j++) {
           this.moreEntries[j] = this.timeEntrys[i];
           i++;
         }
@@ -159,17 +159,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges,AfterViewIni
     return this.moreEntries;
   }
 
-  timesheetApprovalForaProject(projectId: string){
-    if(!this.timesheetApprovals){
+  timesheetApprovalForaProject(projectId: string) {
+    if (!this.timesheetApprovals) {
       return null;
     }
 
     let timesheetApprovals = this.timesheetApprovals.filter(tsa => tsa.ProjectId === projectId)
 
-    if (timesheetApprovals.length === 0){
+    if (timesheetApprovals.length === 0) {
       return null;
     }
-    else{
+    else {
       return timesheetApprovals[0];
     }
   }

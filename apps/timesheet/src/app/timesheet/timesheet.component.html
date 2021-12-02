@@ -36,11 +36,11 @@
 
           <label for="from-date" >From Date:</label>
           <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" [nzDisabled]="true" nzFormat="MM-dd-YY" nzSuffixIcon=""
-           class="w-20 ml-2 rounded-none border-0 border-t-0"
+           class="w-20 rounded-none border-0 border-t-0"
           ></nz-date-picker>
           <label for="to-date"  class="ml-2">To Date:</label>
           <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="true" nzFormat="MM-dd-YY" nzSuffixIcon=""
-           class="w-20  rounded-none border-0 border-t-0"
+           class="w-20 rounded-none border-0 border-t-0"
           ></nz-date-picker>
 
         </div>
@@ -82,7 +82,7 @@
                    max="{{24-dateColumnTotalHour}}"/>
             <ng-template #userErrorTpl let-control>
               <ng-container *ngIf="formData.hours && formData.hours <=0 ">Time entry should not have less than or equal to 0 hours. Please enter more than 0 hours.</ng-container>
-              <ng-container *ngIf="formData.hours && formData.hours > (24-dateColumnTotalHour) ">Time entry should not have more than {{24 - dateColumnTotalHour}} hours. Please enter {{24 - dateColumnTotalHour}} hours or less.</ng-container>
+              <ng-container *ngIf="formData.hours && formData.hours > (24-dateColumnTotalHour) ">Time entry should not have more than 24 hours. Please enter {{24 - dateColumnTotalHour}} hours or less.</ng-container>
               <ng-container *ngIf="control>=24">Time entry should not have more than 24 hours. Please enter 24 hours or less.</ng-container>
             </ng-template>
           </nz-form-control>
