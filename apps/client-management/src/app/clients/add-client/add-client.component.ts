@@ -52,8 +52,7 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientDetailsForm &&
       this.validateAddClientFormState?.clientLocationForm &&
       this.validateAddClientFormState?.clientContactsForm &&
-      this.validateAddClientFormState?.clientContactsForm 
-
+      this.validateAddClientFormState?.clientContactsForm
     ) {
       this.router.navigateByUrl('clients');
       this.clientService.addClient();
@@ -65,19 +64,23 @@ export class AddClientComponent implements OnInit {
         this.notification.error('Client details is mandatory !', '', {
           nzPlacement: 'bottomRight',
         });
-      } else if (this.validateAddClientFormState?.clientContactsForm == false ||
-         this.validateAddClientFormState?.CompanyContactsForm == false) {
+      } else if (
+        this.validateAddClientFormState?.clientContactsForm == false ||
+        this.validateAddClientFormState?.CompanyContactsForm == false
+      ) {
         this.contactDetailsTabEnabled = true;
-        if(this.validateAddClientFormState?.clientContactsForm == false)
-        this.activeTabIndex = 2;
-        else
-        this.activeTabIndex = 3;
-        this.notification.error('Contact details is mandatory !', '', {
-          nzPlacement: 'bottomRight',
-        });
-      }
-  
-      else if (this.validateAddClientFormState?.clientLocationForm == false) {
+        if (this.validateAddClientFormState?.clientContactsForm == false) {
+          this.activeTabIndex = 2;
+          this.notification.error('Client Contacts is mandatory !', '', {
+            nzPlacement: 'bottomRight',
+          });
+        } else {
+          this.activeTabIndex = 3;
+          this.notification.error('Company Contacts is mandatory !', '', {
+            nzPlacement: 'bottomRight',
+          });
+        }
+      } else if (this.validateAddClientFormState?.clientLocationForm == false) {
         this.locationTabEnabled = true;
         if (this.contactDetailsTabEnabled) this.activeTabIndex = 5;
         else this.activeTabIndex = 3;
@@ -101,17 +104,20 @@ export class AddClientComponent implements OnInit {
     )
       this.modal.confirm({
         nzTitle: 'Are you sure, you want to cancel ?',
-        nzContent: '<b style="color: green;"></b>',
-        nzOkText: 'Yes',
 
+        nzCancelText: 'No',
+
+        nzOnCancel: () => {
+          this.router.navigateByUrl('clients');
+          this.addClientState.restAddClientState();
+        },
+        nzOkText: 'Yes',
         nzOkDanger: true,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         nzOnOk: () => {
           this.router.navigateByUrl('clients');
           this.addClientState.restAddClientState();
         },
-        nzCancelText: 'No',
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        nzOnCancel: () => {},
       });
     else this.router.navigateByUrl('clients');
   }

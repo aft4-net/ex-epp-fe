@@ -65,7 +65,7 @@ export class CompanyContactsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listData=this.addClientStateService.getClientcomapanyContacts
+    this.listData = this.addClientStateService.getClientcomapanyContacts;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
@@ -110,8 +110,6 @@ export class CompanyContactsFormComponent implements OnInit {
     this.isVisible = false;
   }
   handleClear(): void {
-    console.log('Button cancel clicked!');
-
     this.addContactForm.reset();
   }
   removeItem(element: Employee) {
@@ -119,10 +117,9 @@ export class CompanyContactsFormComponent implements OnInit {
       if (value == element) this.listData.splice(index, 1);
     });
 
-    this.comapanyContacts.forEach((value: CompanyContactCreate, index: any) => {
-      if (value.ContactPersonGuid == element.Guid)
-        this.listData.splice(index, 1);
-    });
+    this.comapanyContacts = this.comapanyContacts.filter(
+      (s) => s.ContactPersonGuid !== element.Guid
+    );
     this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
   }
   showDeleteConfirm(element: any): void {
