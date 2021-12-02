@@ -90,9 +90,9 @@ export class FamilyDetailViewComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.listOfData = new Array(0).fill(0).map((_, index) => ({
+    this.listOfData = new Array(1).fill(0).map((_, index) => ({
       id: index,
-      name: `Edward King ${index}`,
+      name: `Edward King `,
       age: 32,
       address: `London, Park Lane no. ${index}`,
       disabled: index % 2 === 0,
@@ -103,6 +103,7 @@ export class FamilyDetailViewComponent implements OnInit {
  
   startEdit(id: string): void {
     this.editId = id;
+    this.isVisible = true;
   }
 
   stopEdit(): void {
@@ -114,7 +115,7 @@ export class FamilyDetailViewComponent implements OnInit {
       ...this.listOfData,
       {
         id: `${this.i}`,
-        name: `Edward King ${this.i}`,
+        name: `Edward King `,
         age: '32',
         address: `London, Park Lane no. ${this.i}`
       }

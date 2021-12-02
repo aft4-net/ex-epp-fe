@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-       
+
 
         <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
@@ -51,6 +51,22 @@
                                         nzTheme="outline"></i></a>
                             </div>
                         </div>
+
+
+
+                        <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
+                            (nzOnOk)="handleOk()">
+                            <ng-container *nzModalContent>
+                                <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar> {{data.name}} Edit
+                                <nz-tabset>
+                                    <nz-tab nzTitle="Personal Info"><exec-epp-personal-info-edit></exec-epp-personal-info-edit></nz-tab>
+                                    <nz-tab nzTitle="Address"><exec-epp-address-edit></exec-epp-address-edit></nz-tab>
+                                    <nz-tab nzTitle="Family Details"><exec-epp-family-detail-edit></exec-epp-family-detail-edit></nz-tab>
+                                    <nz-tab nzTitle="Emergency Contacts"> <exec-epp-emergencycontact-edit></exec-epp-emergencycontact-edit></nz-tab>
+                                    <nz-tab nzTitle="Organization Detail"><exec-epp-organization-detail-edit></exec-epp-organization-detail-edit></nz-tab>
+                                </nz-tabset>
+                            </ng-container>
+                        </nz-modal>
                     </td>
                 </tr>
 
@@ -65,7 +81,7 @@
 
 
 
-        
+
 
 
 
