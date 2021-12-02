@@ -75,25 +75,36 @@ export class EmployeeDetailComponent implements OnInit {
         console.log(this.employeeViewModel.length)
 
         for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
         this.holdItCountry.push(
           {
             text: this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i],
             value:this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i]
           }
-        )
+             )
+          }
+        }
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
         this.holdItJobTitle.push(
           {
             text:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i],
             value:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i]
           }
         )
+          }
+        }
+        for(let i=0; i < this.employeeViewModel.length;i++){
+        if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
         this.holdItStatus.push(
           {
             text:this.employeeViewModel.map(status=>status.Status).filter((value,index,self)=>self.indexOf(value)===index)[i],
             value:this.employeeViewModel.map(status=>status.Status).filter((value,index,self)=>self.indexOf(value)===index)[i]
           }
         )
-      }
+        }
+        }
+
       this.holdItCountry.map(country=>country.text).filter((value,index,self)=>self.indexOf(value)===index)
       this.holdItJobTitle.map(title=>title.text).filter((value,index,self)=>self.indexOf(value)===index)
       this.holdItStatus.map(status=>status.text).filter((value,index,self)=>self.indexOf(value)===index)
@@ -122,7 +133,6 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
             filterMultiple: true,
             listOfFilter: this.empListCountry,
-
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
           },
           {
