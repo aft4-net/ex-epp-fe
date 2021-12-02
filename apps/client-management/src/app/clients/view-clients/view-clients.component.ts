@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
 import { Router } from '@angular/router';
-import { ToastContainerDirective } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({

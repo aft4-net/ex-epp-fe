@@ -11,9 +11,6 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./addresource.component.scss']
 })
 export class AddresourceComponent implements OnInit {
-
-
-
   addResorceForm!: FormGroup;
   editResorceForm!: FormGroup;
 

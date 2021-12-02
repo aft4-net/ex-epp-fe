@@ -7,7 +7,7 @@
 }
 
 
-::ng-deep .ant-tabs-nav {  
+::ng-deep .ant-tabs-nav {
   font-size: 26px;
 }
 
@@ -84,7 +84,7 @@
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
   box-shadow: inset -3px 0px 0px #EAEAEA;
-  
+
 }
 
 ::ng-deep .ant-tabs-ink-bar {
@@ -129,11 +129,11 @@ header {
 
 ::ng-deep .ant-btn-dangerous.ant-btn-primary {
 
-  background:#fff;
-   color: #00A551;
- border:1px solid;
-  border-color: #03da6b!important;
-  outline-color: #03da6b!important;
+  background: #fff;
+  color: #00A551;
+  border: 1px solid;
+  border-color: #03da6b !important;
+  outline-color: #03da6b !important;
 }
 
 ::ng-deep .ant-btn:not([disabled]):hover {
@@ -141,7 +141,3 @@ header {
   color: white;
 
 }
-
-
-
-
