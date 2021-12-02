@@ -1,10 +1,10 @@
-<div *ngIf="operatingAddress.length">
+<div >
   <button  class="button-style " (click)="showModal()">
     Add Operating Address
   </button>
  </div>
-<div>
-    <h3>Operating Address</h3>
+<div >
+    <h3>Operating Addresses</h3>
   </div>
 
   <nz-table
@@ -39,9 +39,9 @@
                 fill="#262626"
               />
             </svg>
-            Edit
+            
           </a>
-          <a class="text-black" (click)="removeOperatingAddress(i)">
+          <a class="text-black" (click)="showConfirm(i)">
             <svg
               width="12"
               height="14"
@@ -54,16 +54,11 @@
                 fill="#262626"
               />
             </svg>
-            Delete</a
+            </a
           >
         </td>
       </tr>
     </tbody>
-    <div *ngIf="!operatingAddress.length">
-      <button  class="button-style addButtonwhenNodata" (click)="showModal()">
-        Add Operating Address
-      </button>
-     </div>
   </nz-table>
   <nz-modal
     [(nzVisible)]="isVisible"
@@ -95,7 +90,7 @@
               />
             </svg>
           </nz-form-label>
-          <nz-form-control>
+          <nz-form-control nzHasFeedback>
             <nz-select
               nzShowSearch
               nzAllowClear
@@ -135,7 +130,7 @@
             >State/Province</nz-form-label
           >
   
-          <nz-form-control nzErrorTip="The input is not valid State!">
+          <nz-form-control nzHasFeedback nzErrorTip="The input is not valid State!">
             <nz-select
               nzShowSearch
               nzAllowClear
@@ -167,7 +162,7 @@
               />
             </svg>
           </nz-form-label>
-          <nz-form-control>
+          <nz-form-control nzHasFeedback>
             <nz-select
              
               nzShowSearch
@@ -201,7 +196,7 @@
             >Postal/ZIP Code</nz-form-label
           >
   
-          <nz-form-control nzErrorTip="The input is not valid ZipCode!">
+          <nz-form-control nzHasFeedback nzErrorTip="Maximum 70 charactures allowed.">
             <input
               nz-input
               formControlName="ZipCode"
@@ -213,7 +208,7 @@
           <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address"
             >Address</nz-form-label
           >
-          <nz-form-control nzErrorTip="The input is not valid Address!">
+          <nz-form-control nzHasFeedback nzErrorTip="Maximum 250 charactures allowed.">
             <textarea
               nz-input
               formControlName="Address"
@@ -229,3 +224,4 @@
     </div>
   </nz-modal>
   
+

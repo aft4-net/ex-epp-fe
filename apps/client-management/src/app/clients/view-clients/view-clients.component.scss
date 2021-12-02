@@ -65,9 +65,21 @@ header {
   color: #FFFFFF;
 
 }
-.ant-pagination {
+
+::ng-deep .pagination {
+  display: flex;
   float: right;
+  padding-right: 15px;
+
   
+}
+::ng-deep.manageColumns{
+  
+  display:flex;
+  float:right;
+  padding-left: 980px;
+  
+ 
 }
 
 .main-content {
