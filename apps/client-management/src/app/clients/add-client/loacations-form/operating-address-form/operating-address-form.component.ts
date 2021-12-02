@@ -75,6 +75,8 @@ export class OperatingAddressFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("data="+ this.data)
+    this. operatingAddress = this.addClientStateService.addClientData.OperatingAddress;
     this.forms.valueChanges.subscribe(x => {
       if(this.forms.value['Country']!='' ||
       this.forms.value['City']!='' ||

@@ -59,12 +59,16 @@ export class DetailsFormComponent implements OnInit {
       }
     });
 
+    this.validateForm.controls.clientName.valueChanges.subscribe(()=>{
+
+      this.checkClientName();
+    });
+
     this.validateForm.valueChanges.subscribe(() => {
       if (this.validateForm.valid) {
         this.clientDetailCreate.ClientName =
           this.validateForm.controls.clientName.value;
-        this.clientDetailCreate.SalesPersonGuid =
-          this.validateForm.controls.salesPerson.value.Guid;
+        this.clientDetailCreate.SalesPersonGuid =this.validateForm.controls.salesPerson.value.Guid;
         this.clientDetailCreate.ClientStatusGuid =
           this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
@@ -81,14 +85,18 @@ export class DetailsFormComponent implements OnInit {
   checkClientName() {
 
       for (let i = 0; i < this.clients.length; i++) {
+
         if (
           this.validateForm.value['clientName'].toLowerCase() ===
           this.clients[i].ClientName.toString().toLowerCase()
         ) {
           this.clientNameExistErrorMessage = 'Client name already exists';
+          this.validateForm.controls.clientName.setErrors({'incorrect':true});
+          this.validateForm.controls.salesPerson.updateValueAndValidity({ onlySelf: true });
           break;
         } else {
           this.clientNameExistErrorMessage = '';
+         this.validateForm.controls.salesPerson.updateValueAndValidity({ onlySelf: false });
         }
       }
 
@@ -114,13 +122,14 @@ export class DetailsFormComponent implements OnInit {
   createRegistrationForm() {
     this.validateForm = this.fb.group({
       clientName: [
-        null,
+        '',
         [
           Validators.required,
           Validators.minLength(2),
           Validators.maxLength(70),
 
         ],
+
       ],
       status: ['Active', [Validators.required]],
       salesPerson: ['', [Validators.required]],
