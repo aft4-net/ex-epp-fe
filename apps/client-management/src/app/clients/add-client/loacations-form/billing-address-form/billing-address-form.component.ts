@@ -252,6 +252,8 @@ showConfirm(index:number): void {
     nzTitle: 'Do you want to delete this item?',
     nzContent: 'The action is not recoverable. ',
     nzOkType: 'primary',
+    nzOkText: 'Yes',
+    nzCancelText: 'No',
     nzOkDanger: true,
     nzOnOk: () =>
       new Promise((resolve, reject) => {
