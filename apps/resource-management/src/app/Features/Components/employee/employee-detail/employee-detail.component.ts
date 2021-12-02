@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
 import { Data } from '@angular/router';
@@ -30,10 +31,17 @@ export class EmployeeDetailComponent implements OnInit {
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<string>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
+  employeeViewModel !: IEmployeeViewModel[];
   employeeParams = new EmployeeParams();
-
   fullname!: string;
-  empList !: listtToFilter[];
+  holdItCountry: listtToFilter[] = [];
+  holdItJobTitle: listtToFilter[] = [];
+  holdItStatus: listtToFilter[] = [];
+
+  empListCountry : NzTableFilterList=[];
+  empListStatus: NzTableFilterList=[];
+  empListJobType: NzTableFilterList=[];
+
 
   listOfColumnsFullName: ColumnItem[] = [
     {
@@ -49,90 +57,103 @@ export class EmployeeDetailComponent implements OnInit {
     }
   ]
 
-  listOfColumns: ColumnItem[] = [
-
-
-    {
-      name: 'JobTitle',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
-      filterMultiple: false,
-      listOfFilter: [
-
-      ],
-      filterFn: null
-    },
-    {
-      name: 'Location',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
-      filterMultiple: true,
-      listOfFilter: [
-        {
-          text:"string",
-          value:"string"
-        },
-        {
-          text:"Ethiopia",
-          value:"Ethiopia"
-        },
-        {
-          text:"America",
-          value:"America"
-        },
-        {
-          text:"India",
-          value:"India"
-        }
-      ],
-      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
-    },
-    {
-      name: 'Status',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
-      filterMultiple: true,
-      listOfFilter: [
-        {
-          text:"string",
-          value:"string"
-        },
-        {
-          text:"Active",
-          value:"Active"
-        },
-        {
-          text:"On Leave",
-          value:"On Leave"
-        },
-        {
-          text:"Terminated",
-          value:"Terminated"
-        }
-      ],
-      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
-    }
-
-
-  ];
-
-  listOfData2: IEmployeeViewModel[] = [
-    {
-      EmployeeGuid:'default',
-      Location:"default",
-      FullName: 'default',
-      JobTitle: 'default',
-      Status: 'default'
-    }
-  ];
+  listOfColumns!: ColumnItem[];
 
 
   ngOnInit(): void {
+
     this.FeatchAllEmployees();
+    this.FillTheFilter();
+
   }
+
+  FillTheFilter(){
+
+    this.employeeViewModels$.subscribe(
+       val => {this.employeeViewModel = val,
+
+        console.log(this.employeeViewModel.length)
+
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+        this.holdItCountry.push(
+          {
+            text: this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i],
+            value:this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i]
+          }
+             )
+          }
+        }
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+        this.holdItJobTitle.push(
+          {
+            text:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i],
+            value:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i]
+          }
+        )
+          }
+        }
+        for(let i=0; i < this.employeeViewModel.length;i++){
+        if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+        this.holdItStatus.push(
+          {
+            text:this.employeeViewModel.map(status=>status.Status).filter((value,index,self)=>self.indexOf(value)===index)[i],
+            value:this.employeeViewModel.map(status=>status.Status).filter((value,index,self)=>self.indexOf(value)===index)[i]
+          }
+        )
+        }
+        }
+
+      this.holdItCountry.map(country=>country.text).filter((value,index,self)=>self.indexOf(value)===index)
+      this.holdItJobTitle.map(title=>title.text).filter((value,index,self)=>self.indexOf(value)===index)
+      this.holdItStatus.map(status=>status.text).filter((value,index,self)=>self.indexOf(value)===index)
+
+        this.empListCountry= this.holdItCountry,
+        this.empListStatus=this.holdItStatus,
+        this.empListJobType=this.holdItJobTitle,
+
+       // array.map(item => item.age)
+       // .filter((value, index, self) => self.indexOf(value) === index)
+
+        this.listOfColumns = [
+          {
+            name: 'JobTitle',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+            filterMultiple: true,
+            listOfFilter:this.empListJobType,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          },
+          {
+            name: 'Location',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+            filterMultiple: true,
+            listOfFilter: this.empListCountry,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+          },
+          {
+            name: 'Status',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+            filterMultiple: true,
+            listOfFilter: this.empListStatus,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+          }
+
+
+        ];
+
+      },
+
+    );
+
+
+}
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
@@ -195,6 +216,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
 
   }
+
 
   Edit(employeeGuid : string)
   {
