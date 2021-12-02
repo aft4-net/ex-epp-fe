@@ -7,14 +7,8 @@
     <h3>Resources</h3>
     </div>
     <div nz-col nzSpan="2" >
-     <button nz-button  class="addButton" (click)="addEmployee()">Add Employee</button>
+     <button *ngIf="isdefault"  nz-button  class="addButton" (click)="addEmployee()">Add Employee</button>
     </div>
   </div>
-
-
-
-
-
-
   </nz-breadcrumb>
 </div>
