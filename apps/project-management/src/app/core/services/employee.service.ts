@@ -15,7 +15,7 @@ export class EmployeeService extends ApiService<Employee> {
 
   getResourceUrl(): string {
 
-    return 'employees';
+    return 'Employees';
   }
 
 }

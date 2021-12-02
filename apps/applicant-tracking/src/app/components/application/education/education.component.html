@@ -1,14 +1,14 @@
 <div class="m-5">
   <h2 class="font-bold">Step 3- Education Information</h2>
-  <button nz-button [nzType]="'link'" (click)="openModal()" class="link-button">
+  <button nz-button [nzType]="'link'" (click)="onAddNewRecord()" class="link-button">
     <span>
       <i nz-icon nzType="plus" nzTheme="outline"></i>
-      Add Education</span
+       Add education</span
     >
   </button>
   <nz-modal
     [(nzVisible)]="isModalVisible"
-    nzTitle="Add Education"
+    [nzTitle]="this.isUpdateMode?'Edit Education' : 'Add Education'"
     nzWidth="80%"
     [nzFooter]="null"
     (nzOnCancel)="closeModal()"
@@ -23,8 +23,8 @@
               #institution
               type="text"
               label="Institution"
-              placeholder="Enter your Institution name"
-              errorMsg="Please provide a valid inistitution name"
+              placeholder="Enter your institution name"
+              errorMsg="Please provide a valid institution name"
               [displayError]="institution.focusout"
             >
             </app-input>
@@ -37,25 +37,25 @@
                   fcn="yearFrom"
                   #institution
                   label="From"
-                  placeholder="Enter your Institution name"
+                  placeholder="Enter your started year"
                   [disabledDate]="disabledStartDate"
-                  errorMsg="Please provide a valid year name"
+                  errorMsg="Please provide a valid year"
                   [displayError]="institution.focusout"
+                 
                 >
                 </app-date-picker>
-                <app-checkbox-input [form]="education" fcn="isStudying" label="Currently studying"></app-checkbox-input>
               </div>
               <div nz-col nzSpan="12">
                 <app-date-picker
                   [form]="education"
                   fcn="yearTo"
                   #institution
-                  label="To"
-                  [disabled]="education.controls.isStudying.value"
-                  placeholder="Enter your Institution name"
+                  label="To (or Expected graduation year)"
+                  placeholder="Enter your completion year"
                   [disabledDate]="disabledEndDate"
-                  errorMsg="Please provide a valid year name"
+                  errorMsg="Please provide a valid year"
                   [displayError]="institution.focusout"
+                  
                 >
                 </app-date-picker>
               </div>
@@ -66,30 +66,30 @@
           <div nz-col nzSpan="12">
             <app-select
               errorMsg="Please select a program"
-              [list]="['BSC', 'MSC', 'PHD']"
+              [list]="fetchedEducationProgramme"
               fcn="program"
               #programselection
               [displayError]="programselection.focusout"
               [form]="education"
               [multiple]="false"
-              label="Please select a program"
+              placeholder="Please select your program"
+              label="Please select your program"
+              [selectedValue]=""
             ></app-select>
           </div>
 
           <div nz-col nzSpan="12">
             <app-select
-              errorMsg="Please select a Field of Study"
-              [list]="[
-                'Computer Science',
-                'Project Managment',
-                'Software Enginering'
-              ]"
+              [disabled]="disableFieldOfStudy"
+              errorMsg="Please select field of study"
+              [list]="fetchedFieldOfStudies"
               fcn="fieldOfStudy"
               #fieldofstudy
               [displayError]="fieldofstudy.focusout"
               [form]="education"
               [multiple]="false"
-              label="Please select a Field of Study"
+              label="Please select field of study"
+              placeholder="Select your field of study"
             ></app-select>
           </div>
         </div>
@@ -99,69 +99,91 @@
             <div class="inner-box">
               <app-country-selector
                 label="Country"
-                placeholder="Enter your password"
+                placeholder="Enter your country"
                 errorMsg="Country should be selected"
                 (onChange)="onCountryChange($event)"
                 [selectedValue]="education.controls.country.value"
                 [single]="true"
+                [isRequired]="false"
               ></app-country-selector>
             </div>
           </div>
         </div>
       </form>
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="4" *ngIf="!isUpdateMode">
-          <app-checkbox-input [form]="validation" fcn="isMultitpleEntry" label="Apply for more education"></app-checkbox-input>
+        <div nz-col nzSpan="3" *ngIf="!isUpdateMode">
+          <app-checkbox-input
+            [form]="validation"
+            fcn="isMultitpleEntry"
+            label="Add More"
+          ></app-checkbox-input>
         </div>
         <div nz-col class="col-pad" nzSpan="3">
           <app-button
             [loading]="loading"
-            (click)="addItem()"
+            (click)="onFormSubmit()"
             type="primary"
             [disabled]="!education.valid"
           >
-          {{ isUpdateMode?'Update':'Add' }} 
+            {{ isUpdateMode ? 'Update' : 'Add' }}
           </app-button>
         </div>
       </div>
     </ng-container>
   </nz-modal>
 
-  <div nz-row>
+  <div nz-row > 
     <div nz-col nzSpan="24">
-      <nz-table #table [nzData]="educations">
+      <nz-table
+        [nzLoading]="loading"
+        #table
+        [nzData]="educations"
+        [nzFrontPagination]="false"
+        style="overflow-y: auto;max-height: 20rem;"
+      >
         <thead>
           <tr>
             <th>Institution</th>
             <th>Field of study</th>
-            <th>Country</th>
+            <th>Educatioin program</th>
+            <th>Started year</th>
+            <th>End (Expected) year</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of table?.data; let i = index">
-            <td>{{ data?.institution }}</td>
-            <td>{{ data?.fieldOfStudy }}</td>
-            <td>{{ data?.country }}</td>
+            <td>{{ data?.Institution }}</td>
+            <td>{{ getFieldOfStudyWithId(data?.FieldOfStudy?.Guid ?? '') }}</td>
+            <td>{{ data?.EducationProgramme?.Name }}</td>
+            <td>{{ this.datepipe.transform(data?.DateFrom, 'dd-MM--yyyy')  }}</td>
+            <td>{{ this.datepipe.transform(data?.DateTo, 'dd-MM--yyyy')  }}</td>
+      
             <td>
-              <a (click)="onEditRecord(i)">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-                Edit</a
-              >
+              <a (click)="onEditRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Edit" nzTooltipColor="blue">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                  </a>
               <nz-divider nzType="vertical"></nz-divider>
-              <a (click)="onDeleteRecord(i)">Delete</a>
-            </td>
+              <a (click)="onDeleteRecord(data.Guid)" nzTooltipPlacement="bottom" nz-tooltip nzTooltipTitle="Delete" nzTooltipColor="red"> 
+                <i nz-icon style="font-size: 16px; color: red;" nzType="delete" nzTheme="outline"></i>
+              </a>
+          </td> 
           </tr>
         </tbody>
       </nz-table>
-
+<br>
       <div nz-row nzJustify="end">
-        <div nz-col nzSpan="5">
-                <app-button [loading]="loading" (click)="onFormSubmit()" type="primary" [disabled]="(educations.length < 1 || !isRecordUpdated)">
-                    Save and continue
-                </app-button>
+        <div nz-col nzSpan="3">
+          <app-button
+            [loading]="loading"
+            type="primary"
+            (click)="onSubmit()"
+            [disabled]="educations.length < 1"
+          >
+            Continue
+          </app-button>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </div>

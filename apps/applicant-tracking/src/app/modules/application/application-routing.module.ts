@@ -6,6 +6,8 @@ import { AuthorizationCheck } from '../../services/autherization/authorizationCh
 import { AreaOfInterestComponent } from '../../components/application/areas-of-interest/area-of-interest.component';
 import { aoiGuard } from '../../services/navigationGuard/aoiGuard';
 import { EducationComponent } from '../../components/application/education/education.component';
+import { educationGuard } from '../../services/navigationGuard/educationGuard';
+import { WorkExperienceComponent } from '../../components/application/work-experience/work-experience.component';
 
 const routes: Routes = [
   {
@@ -20,14 +22,20 @@ const routes: Routes = [
       },
       {
         path: 'area-of-interest',
-        component:AreaOfInterestComponent
-        // canActivate: [aoiGuard, AuthorizationCheck]
+        component:AreaOfInterestComponent,
+        canActivate: [aoiGuard, AuthorizationCheck]
 
       },
       {
         path: 'education',
-        component:EducationComponent
-        // canActivate: [aoiGuard, AuthorizationCheck]
+        component:EducationComponent,
+        canActivate: [educationGuard, AuthorizationCheck]
+
+      },
+      {
+        path: 'work-experience',
+        component:WorkExperienceComponent,
+        canActivate: [educationGuard, AuthorizationCheck]
 
       }
     ],
