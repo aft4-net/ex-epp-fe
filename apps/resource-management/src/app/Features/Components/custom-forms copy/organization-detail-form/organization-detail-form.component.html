@@ -1,0 +1,246 @@
+<form nz-form [formGroup]="organizationalDetailsForm" [nzLayout]="'vertical'">
+
+  <nz-form-item class="form-item form-item-organizational-details form-item-organizational-details-country">
+    <nz-form-label class="form-label form-label-organizational-details form-label-organizational-details-country"
+      [nzSm]="6" [nzXs]="24" nzFor="country" nzRequired>
+      Country
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-organizational-details form-control-organizational-details-country"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.country.state"
+      [nzErrorTip]="errorMessages.controls.country.message">
+      <nz-select
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-country"
+        formControlName="country" nzAllowClear nzShowSearch (ngModelChange)="validateCountry()">
+        <ng-container *ngFor="let country of countriesData">
+          <nz-option [nzValue]="country.name" [nzLabel]="country.name">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="form-item form-item-organizational-details form-item-organizational-details-dutyBranch">
+    <nz-form-label
+      class="form-label form-label-organizational-details form-label-organizational-details-dutyBranch" [nzSm]="6"
+      [nzXs]="24" nzFor="dutyBranch" nzRequired>
+      Duty Branch
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-organizational-details form-control-organizational-details-dutyBranch"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.dutyBranch.state"
+      [nzErrorTip]="errorMessages.controls.dutyBranch.message">
+      <nz-select
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-dutyBranch"
+        formControlName="dutyBranch" nzAllowClear nzShowSearch (ngModelChange)="validateDutyBranch()">
+        <ng-container *ngFor="let dutyBranch of dutyBranches">
+          <nz-option [nzValue]="dutyBranch" [nzLabel]="dutyBranch">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="form-item form-item-organizational-details form-item-organizational-details-phoneNumbers">
+    <nz-form-label class="form-label form-label-organizational-details form-label-organizational-details-phoneNumbers"
+      [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>
+      Phone Number
+    </nz-form-label>
+    <nz-form-control class="form-control form-control-organizational-details form-control-organizational-details-phoneNumber"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.phoneNumber.state"
+      [nzErrorTip]="errorMessages.controls.phoneNumber.message">
+      <nz-input-group
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-phoneNumber"
+        [nzAddOnBefore]="phonePrefixTemplate">
+        <input class="input-control input-control-organizational-details input-control-organizational-details-phoneNumber"
+          formControlName="phoneNumber" (ngModelChange)="validatePhoneNumber()" nz-input />
+        <ng-template #phonePrefixTemplate
+          class="phoneNumber-prefix prefix-template phoneNumber-prefix-template prefix-template-organizational-details prefix-template-organizational-details-phoneNumber">
+          <nz-select
+            class="phoneNumber-prefix prefix-input-control prefix-input-control-organizational-details prefix-input-control-organizational-details-phoneNumber"
+            formControlName="phonecodePrefix" nzShowSearch (ngModelChange)="onPhonePrefixChange()">
+            <ng-container
+              class="select-option prefix-select-option phoneNumber-prefix-select-option prefix-select-option-organizational-details phoneNumber-prefix-select-option-organizational-details prefix-select-option-organizational-details-phoneNumber"
+              *ngFor="let country of countriesData">
+              <nz-option nzValue="{{ country.prefix }}" nzLabel="{{ '[' + country.prefix + '] ' + country.name }}">
+              </nz-option>
+            </ng-container>
+          </nz-select>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label class="form-item form-item-organizational-details form-item-organizational-details-email" [nzSm]="6"
+      [nzXs]="24" nzFor="email" nzRequired>
+      Work Email Address
+    </nz-form-label>
+    <nz-form-control class="form-control form-control-organizational-details form-control-organizational-details-email"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.email.state"
+      [nzErrorTip]="errorMessages.controls.email.message">
+      <nz-input-group class="entry-control entry-control-organizational-details entry-control-organizational-details-email">
+        <input class="input-control input-control-organizational-details input-control-organizational-details-email"
+          formControlName="email" (ngModelChange)="validateEmail()" nz-input />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label class="form-label form-label-organizational-details form-label-organizational-details-jobTitle"
+      [nzSm]="6" [nzXs]="24" nzFor="jobTitle" nzRequired>
+      Job Title
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-organizational-details form-control-organizational-details-jobTitle"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.jobTitle.state"
+      [nzErrorTip]="errorMessages.controls.jobTitle.message">
+      <nz-select
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-jobTitle"
+        formControlName="jobTitle" nzAllowClear nzShowSearch (ngModelChange)="validateJobTitle()">
+        <ng-container *ngFor="let jobTitle of jobTitles">
+          <nz-option [nzValue]="jobTitle" [nzLabel]="jobTitle">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label
+      class="form-label form-label-organizational-details form-label-organizational-details-businessUnit"
+      [nzSm]="6" [nzXs]="24" nzFor="businessUnit" nzRequired>
+      Business Unit
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-organizational-details form-control-organizational-details-businessUnit"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.businessUnit.state"
+      [nzErrorTip]="errorMessages.controls.businessUnit.message">
+      <nz-select
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-businessUnit"
+        formControlName="businessUnit" nzAllowClear nzShowSearch (ngModelChange)="validateBusinessUnit()">
+        <ng-container *ngFor="let businessUnit of businessUnits">
+          <nz-option [nzValue]="businessUnit" [nzLabel]="businessUnit">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label
+      class="form-label form-label-organizational-details form-label-organizational-details-department" [nzSm]="6"
+      [nzXs]="24" nzFor="department" nzRequired>
+      Department
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-organizational-details form-control-organizational-details-department"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.department.state"
+      [nzErrorTip]="errorMessages.controls.department.message">
+      <nz-select
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-department"
+        formControlName="department" nzAllowClear nzShowSearch (ngModelChange)="validateDepartment()">
+        <ng-container *ngFor="let department of departments">
+          <nz-option [nzValue]="department" [nzLabel]="department">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label
+      class="form-label form-label-organizational-details form-label-organizational-details-reportingManager"
+      [nzSm]="6" [nzXs]="24" nzFor="reportingManager" nzRequired>
+      Reporting Manager
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-organizational-details form-control-organizational-details-reportingManager"
+      [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.reportingManager.state"
+      [nzErrorTip]="errorMessages.controls.reportingManager.message">
+      <nz-select
+        class="entry-control entry-control-organizational-details entry-control-organizational-details-reportingManager"
+        formControlName="reportingManager" nzAllowClear nzShowSearch (ngModelChange)="validateReportingManager()">
+        <ng-container *ngFor="let reportingManager of reportingManagers">
+          <nz-option [nzValue]="reportingManager.guid" [nzLabel]="reportingManager.fullName">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+   <nz-form-label
+     class="form-label form-label-organizational-details form-label-organizational-details-employmentType"
+     [nzSm]="6" [nzXs]="24" nzFor="employmentType" nzRequired>
+     Employment Type
+   </nz-form-label>
+   <nz-form-control
+     class="form-control form-control-organizational-details form-control-organizational-details-employmentType"
+     [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.employmentType.state"
+     [nzErrorTip]="errorMessages.controls.employmentType.message">
+     <nz-select
+       class="entry-control entry-control-organizational-details entry-control-organizational-details-employmentType"
+       formControlName="employmentType" nzAllowClear nzShowSearch (ngModelChange)="validateEmploymentType()">
+       <ng-container *ngFor="let employmentType of employmentTypes">
+         <nz-option [nzValue]="employmentType" [nzLabel]="employmentType">
+         </nz-option>
+       </ng-container>
+     </nz-select>
+   </nz-form-control>
+ </nz-form-item>
+
+ <nz-form-item class="form-item form-item-organizational-details form-item-organizational-details-joiningDate">
+   <nz-form-label class="form-label form-label-organizational-details form-label-organizational-details-joiningDate"
+     [nzSm]="6" [nzXs]="24" nzFor="joiningDate" nzRequired>
+     Joining Date
+   </nz-form-label>
+   <nz-form-control class="form-control form-control-organizational-details form-control-organizational-details-joiningDate"
+     [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.joiningDate.state"
+     [nzErrorTip]="errorMessages.controls.joiningDate.message">
+     <nz-date-picker
+       class="entry-control entry-control-organizational-details entry-control-organizational-details-joiningDate"
+       nzFormat="MM/dd/yyyy" id="joiningDate" formControlName="joiningDate" nzPlaceHolder="MM/DD/YYYY"
+       [nzDisabledDate]="disabledJoiningDate">
+     </nz-date-picker>
+   </nz-form-control>
+ </nz-form-item>
+
+ <nz-form-item class="form-item form-item-organizational-details form-item-organizational-details-terminationDate">
+   <nz-form-label class="form-label form-label-organizational-details form-label-organizational-details-terminationDate"
+     [nzSm]="6" [nzXs]="24" nzFor="terminationDate" nzRequired>
+     Termination Date
+   </nz-form-label>
+   <nz-form-control class="form-control form-control-organizational-details form-control-organizational-details-terminationDate"
+     [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.terminationDate.state"
+     [nzErrorTip]="errorMessages.controls.terminationDate.message">
+     <nz-date-picker
+       class="entry-control entry-control-organizational-details entry-control-organizational-details-terminationDate"
+       nzFormat="MM/dd/yyyy" formControlName="terminationDate" nzPlaceHolder="MM/DD/YYYY"
+       [nzDisabledDate]="disabledTerminationDate">
+     </nz-date-picker>
+   </nz-form-control>
+ </nz-form-item>
+
+ <nz-form-item>
+   <nz-form-label
+     class="form-label form-label-organizational-details form-label-organizational-details-status"
+     [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>
+     Status
+   </nz-form-label>
+   <nz-form-control
+     class="form-control form-control-organizational-details form-control-organizational-details-status"
+     [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.status.state"
+     [nzErrorTip]="errorMessages.controls.status.message">
+     <nz-select
+       class="entry-control entry-control-organizational-details entry-control-organizational-details-status"
+       formControlName="status" nzAllowClear nzShowSearch (ngModelChange)="validateStatus()">
+       <ng-container *ngFor="let status of statuses">
+         <nz-option [nzValue]="status" [nzLabel]="status">
+         </nz-option>
+       </ng-container>
+     </nz-select>
+   </nz-form-control>
+ </nz-form-item>
+
+</form>

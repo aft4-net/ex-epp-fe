@@ -1,0 +1,58 @@
+<form nz-form [formGroup]="familyDetailForm">
+  <nz-form-item
+    class="form-item form-item-family-detail form-item-family-detail-name form-item-family-detail-name-firstname ">
+    <nz-form-label
+      class="form-label form-label-family-detail form-label-family-detail-name form-label-family-detail-name-firstname"
+      [nzSm]="6" [nzXs]="24" nzFor="firstName" nzRequired>
+      First Name
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-family-detail form-control-family-detail-name form-control-family-detail-name-firstname"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.firstName.state"
+      [nzErrorTip]="errorMessages.controls.firstName.message">
+      <input
+        class="entry-control entry-control-family-detail entry-control-family-detail-name entry-control-family-detail-name-firstname"
+        formControlName="firstName" nzPlaceHolder="Smith" (ngModelChange)="validateName('first')" nz-input />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item
+    class="form-item form-item-family-detail form-item-family-detail-name form-item-family-detail-name-middlename ">
+    <nz-form-label
+      class="form-label form-label-family-detail form-label-family-detail-name form-label-family-detail-name-middlename"
+      [nzSm]="6" [nzXs]="24" nzFor="middleName" nzRequired>
+      Middle Name
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-family-detail form-control-family-detail-name form-control-family-detail-name-middlename"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.middleName.state"
+      [nzErrorTip]="errorMessages.controls.middleName.message">
+      <input
+        class="entry-control entry-control-family-detail entry-control-family-detail-name entry-control-family-detail-name-middlename"
+        formControlName="middleName" nzPlaceHolder="Smith" (ngModelChange)="validateName('middle')" nz-input />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item
+    class="form-item form-item-family-detail form-item-family-detail-name form-item-family-detail-name-lastname ">
+    <nz-form-label
+      class="form-label form-label-family-detail form-label-family-detail-name form-label-family-detail-name-lastname"
+      [nzSm]="6" [nzXs]="24" nzFor="middleName" nzRequired>
+      Last Name
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-family-detail form-control-family-detail-name form-control-family-detail-name-lastname"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.lastName.state"
+      [nzErrorTip]="errorMessages.controls.lastName.message">
+      <input
+        class="entry-control entry-control-family-detail entry-control-family-detail-name entry-control-family-detail-name-lastname"
+        formControlName="lastName" nzPlaceHolder="Smith" (ngModelChange)="validateName('last')" nz-input />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="relationship">Relationship</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.relationship.state"
+      [nzErrorTip]="errorMessages.controls.relationship.message">
+      <input nz-input formControlName="relationship" />
+    </nz-form-control>
+  </nz-form-item>
+</form>

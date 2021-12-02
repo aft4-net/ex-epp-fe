@@ -23,6 +23,7 @@ import { registerLocaleData } from '@angular/common';
 import { AddressViewComponent } from './address-view/address-view.component';
 import { FamilyDetailViewComponent } from './family-detail-view/family-detail-view.component';
 import { EmergencycontactViewComponent } from './emergencycontact-view/emergencycontact-view.component';
+import { CustomFormsModule } from '../custom-forms copy/custom-forms.module';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -59,6 +60,7 @@ import { EmergencycontactViewComponent } from './emergencycontact-view/emergency
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
+    CustomFormsModule
   ],
 
   exports: [EmployeeComponent,SideBarComponent],

@@ -1,0 +1,263 @@
+<form nz-form class="form form-personal-details" [formGroup]="basicPersonalDetailsForm" [nzLayout]="'vertical'">
+  <nz-form-item>
+    <nz-form-control>
+      <nz-input-group>
+        <div class="profile-picture">
+          <nz-upload class="avatar-uploader" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false">
+            <ng-container>
+              <i class="upload-icon" nz-icon [nzType]="'user'"></i>
+              <div class="ant-upload-text"></div>
+            </ng-container>
+            <!-- <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" /> -->
+          </nz-upload>
+          <span class="picture-action">
+            <!-- <nz-upload [nzCustomRequest]="customUploadReq" [nzHeaders] = "setMediaUploadHeaders" [nzName]="'file'">
+              <button nz-button class="picture-button upload-button">
+                <i nz-icon nzType="upload"></i>
+                Upload
+              </button>
+            </nz-upload> -->
+            <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzFileType="image/png">
+              <button nz-button class="picture-button upload-button">
+                <i nz-icon nzType="upload"></i>
+                Upload
+              </button>
+            </nz-upload>
+          </span>
+          <span class="picture-action">
+            <button nz-button class="picture-button">
+              <i nz-icon nzType="delete"></i>
+              Delete
+            </button>
+          </span>
+        </div>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="form-item form-item-personal-details form-item-personal-details-employeeIdNumber">
+    <nz-form-label class="form-label form-label-personal-details form-label-employeeIdNumber" [nzSm]="6"
+      [nzXs]="24" nzFor="employeeIdNumber" nzRequired>
+      Employee Identification Number
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-personal-details form-control-personal-details-employeeIdNumber"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.employeeIdNumber.state"
+      [nzErrorTip]="errorMessages.controls.employeeIdNumber.message">
+      <nz-input-group
+        class="entry-control entry-control-personal-details entry-control-personal-details-employeeIdNumber"
+        [nzAddOnBefore]="employeeIdNumberPrefixTemplate">
+        <input
+          class="input-control input-control-personal-details input-control-personal-details-employeeIdNumber"
+          formControlName="employeeIdNumber" nzPlaceHolder="12345/21" (ngModelChange)="validateEmployeeIdNumber()"
+          nz-input />
+        <ng-template #employeeIdNumberPrefixTemplate
+          class="prefix-template prefix-template-personal-details prefix-template-personal-details-employeeIdNumber">
+          <nz-select
+            class="prefix-input-control prefix-input-control-personal-details prefix-input-control-personal-details-employeeIdNumber"
+            formControlName="employeeIdNumberPrefix" (ngModelChange)="onEmployeeIdNumberPrefixChange()">
+            <ng-container
+              class="select-options-container prefix-select-options-container prefix-select-options-container-personal-details prefix-select-options-container-personal-details-employeeIdNumber"
+              *ngFor="let employeeIdNumberPrefix of employeeIdNumberPrefices">
+              <nz-option
+                class="select-option  prefix-select-option prefix-select-option-personal-details prefix-select-option-personal-details-employeeIdNumber"
+                [nzValue]="employeeIdNumberPrefix" [nzLabel]="employeeIdNumberPrefix">
+              </nz-option>
+            </ng-container>
+          </nz-select>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item
+    class="form-item form-item-personal-details form-item-personal-details-name form-item-personal-details-name-firstname ">
+    <nz-form-label
+      class="form-label form-label-personal-details form-label-personal-details-name form-label-personal-details-name-firstname"
+      [nzSm]="6" [nzXs]="24" nzFor="firstName" nzRequired>
+      First Name
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-personal-details form-control-personal-details-name form-control-personal-details-name-firstname"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.firstName.state"
+      [nzErrorTip]="errorMessages.controls.firstName.message">
+      <input
+        class="entry-control entry-control-personal-details entry-control-personal-details-name entry-control-personal-details-name-firstname"
+        formControlName="firstName" nzPlaceHolder="Smith" (ngModelChange)="validateName('first')" nz-input />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item
+    class="form-item form-item-personal-details form-item-personal-details-name form-item-personal-details-name-middlename ">
+    <nz-form-label
+      class="form-label form-label-personal-details form-label-personal-details-name form-label-personal-details-name-middlename"
+      [nzSm]="6" [nzXs]="24" nzFor="middleName" nzRequired>
+      Middle Name
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-personal-details form-control-personal-details-name form-control-personal-details-name-middlename"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.middleName.state"
+      [nzErrorTip]="errorMessages.controls.middleName.message">
+      <input
+        class="entry-control entry-control-personal-details entry-control-personal-details-name entry-control-personal-details-name-middlename"
+        formControlName="middleName" nzPlaceHolder="Smith" (ngModelChange)="validateName('middle')" nz-input />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item
+    class="form-item form-item-personal-details form-item-personal-details-name form-item-personal-details-name-lastname ">
+    <nz-form-label
+      class="form-label form-label-personal-details form-label-personal-details-name form-label-personal-details-name-lastname"
+      [nzSm]="6" [nzXs]="24" nzFor="middleName" nzRequired>
+      Last Name
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-personal-details form-control-personal-details-name form-control-personal-details-name-lastname"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.lastName.state"
+      [nzErrorTip]="errorMessages.controls.lastName.message">
+      <input
+        class="entry-control entry-control-personal-details entry-control-personal-details-name entry-control-personal-details-name-lastname"
+        formControlName="lastName" nzPlaceHolder="Smith" (ngModelChange)="validateName('last')" nz-input />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="form-item form-item-personal-details form-item-personal-details-gender">
+    <nz-form-label class="form-label form-label-personal-details form-label-personal-details-gender" [nzSm]="6"
+      [nzXs]="24" nzFor="gender" nzRequired>
+      Gender
+    </nz-form-label>
+    <nz-form-control class="form-control form-control-personal-details form-control-personal-details-gender"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.gender.state"
+      [nzErrorTip]="errorMessages.controls.gender.message">
+      <nz-select class="entry-control entry-control-personal-details entry-control-personal-details-gender"
+        formControlName="gender" nzPlaceHolder="Female" (ngModelChange)="validateGender()">
+        <ng-container
+          class="entry-select-options-container entry-select-options-container-personal-details entry-select-options-container-personal-details-gender"
+          *ngFor="let gender of genders">
+          <nz-option [nzValue]="gender" [nzLabel]="gender">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="form-item form-item-personal-details form-item-personal-details-dateofBirth">
+    <nz-form-label class="form-label form-label-personal-details form-label-personal-details-dateofBirth"
+      [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" nzRequired>
+      Date Of Birth
+    </nz-form-label>
+    <nz-form-control class="form-control form-control-personal-details form-control-personal-details-dateofBirth"
+      [nzSm]="14" [nzXs]="24" [nzValidateStatus]="errorMessages.controls.dateofBirth.state"
+      [nzErrorTip]="errorMessages.controls.dateofBirth.message">
+      <nz-date-picker
+        class="entry-control entry-control-personal-details entry-control-personal-details-dateofBirth"
+        nzFormat="MM/dd/yy" id="dateofBirth" formControlName="dateofBirth" nzPlaceHolder="MM/DD/YY"
+        [nzDisabledDate]="disabledDate">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <ng-container *ngFor="let phoneControl of phoneNumbersFormArray; let i = index;">
+    <nz-form-item class="form-item form-item-personal-details form-item-personal-details-phoneNumbers">
+      <nz-form-label class="form-label form-label-personal-details form-label-personal-details-phoneNumbers"
+        [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired [hidden]="i > 0">
+        Phone Number(s)
+      </nz-form-label>
+
+      <nz-form-control
+        class="form-control form-control-personal-details form-control-personal-details-phoneNumber" [nzSm]="18"
+        [nzXs]="24" [nzValidateStatus]="errorMessages.arrays.phones[i].state"
+        [nzErrorTip]="errorMessages.arrays.phones[i].message">
+        <nz-input-group
+          class="entry-control entry-control-personal-details entry-control-personal-details-phoneNumber"
+          [nzAddOnBefore]="phonePrefixTemplate" [nzAddOnAfter]="phoneActionTemplate">
+          <input class="input-control input-control-personal-details input-control-personal-details-phoneNumber"
+            [formControl]="phoneControl[1]" (ngModelChange)="validatePhone(i)" nz-input />
+          <ng-template #phonePrefixTemplate
+            class="phoneNumber-prefix prefix-template phoneNumber-prefix-template prefix-template-personal-details prefix-template-personal-details-phoneNumber">
+            <nz-select
+              class="phoneNumber-prefix prefix-input-control prefix-input-control-personal-details prefix-input-control-personal-details-phoneNumber"
+              [formControl]="phoneControl[0]" nzShowSearch (ngModelChange)="onPhonePrefixChange(i)">
+              <ng-container
+                class="select-option prefix-select-option phoneNumber-prefix-select-option prefix-select-option-personal-details phoneNumber-prefix-select-option-personal-details prefix-select-option-personal-details-phoneNumber"
+                *ngFor="let country of countriesData">
+                <nz-option nzValue="{{ country.prefix }}"
+                  nzLabel="{{ '[' + country.prefix + '] ' + country.name }}"></nz-option>
+              </ng-container>
+            </nz-select>
+          </ng-template>
+
+          <ng-template #phoneActionTemplate
+            class="action-template suffix-action-template action-template-personal-details suffix-action-template-personal-details suffix-action-template-personal-details-phoneNumber"
+            [nzSm]="4">
+            <button nz-button
+              class="action suffix-action action-personal-details suffix-action-personal-details action-personal-details-phoneNumber"
+              (click)="onPhoneNumberAction(i)">
+
+              <a>
+                <ng-container *ngIf="getPhoneActionType(i); else removePhoneButton">
+                  + Add More
+                </ng-container>
+                <ng-template #removePhoneButton>
+                  - Remove &nbsp;&nbsp;&nbsp;
+                </ng-template>
+              </a>
+
+            </button>
+          </ng-template>
+
+        </nz-input-group>
+      </nz-form-control>
+
+    </nz-form-item>
+  </ng-container>
+
+  <ng-container *ngFor="let emailControl of emailsFormArray; let j = index;">
+    <nz-form-item>
+      <nz-form-label class="form-item form-item-personal-details form-item-personal-details-email" [nzSm]="6"
+        [nzXs]="24" nzFor="emails" nzRequired [hidden]="j > 0">
+        Personal Email Addresses
+      </nz-form-label>
+      <nz-form-control class="form-control form-control-personal-details form-control-personal-details-email"
+        [nzSm]="18" [nzXs]="24" [nzValidateStatus]="errorMessages.arrays.emails[j].state"
+        [nzErrorTip]="errorMessages.arrays.emails[j].message">
+        <nz-input-group class="entry-control entry-control-personal-details entry-control-personal-details-email"
+          [nzAddOnAfter]="emailActionTemplate">
+          <input class="input-control input-control-personal-details input-control-personal-details-email"
+            [formControl]="emailControl" nz-input />
+          <ng-template #emailActionTemplate
+            class="action-template suffix-action-template action-template-personal-details suffix-action-template-personal-details suffix-action-template-personal-details-email"
+            [nzSm]="4">
+            <button nz-button
+              class="action suffix-action action-personal-details suffix-action-personal-details action-personal-details-email"
+              (click)="onEmailAction(j)">
+              <a>
+                <ng-container *ngIf="getEmailActionType(j); else removeEmailButton">
+                  + Add More
+                </ng-container>
+                <ng-template #removeEmailButton>
+                  - Remove &nbsp;&nbsp;&nbsp;
+                </ng-template>
+              </a>
+            </button>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+  <nz-form-item
+    class="form-item form-item-personal-details form-item-personal-details-name form-item-personal-details-nationalities">
+    <nz-form-label class="form-label form-label-personal-details form-label-nationalities" [nzSm]="6" [nzXs]="24"
+      nzFor="gender" nzRequired>
+      Nationality(ies)
+    </nz-form-label>
+    <nz-form-control
+      class="form-control form-control-personal-details form-control-personal-details-nationalities" [nzSm]="14"
+      [nzXs]="24" [nzValidateStatus]="errorMessages.controls.nationalities.state"
+      [nzErrorTip]="errorMessages.controls.nationalities.message">
+      <nz-select class="entry-control entry-control-personal-details entry-control-personal-details-nationalities"
+        formControlName="nationalities" nzAllowClear nzShowSearch [nzMode]="'tags'" [nzMaxMultipleCount]="2"
+        (ngModelChange)="validateNationality()">
+        <ng-container *ngFor="let country of countriesData">
+          <nz-option [nzValue]="country.nationality" [nzLabel]="country.nationality">
+          </nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>
