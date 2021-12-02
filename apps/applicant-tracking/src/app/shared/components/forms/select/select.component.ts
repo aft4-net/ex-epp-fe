@@ -6,6 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./select.component.css'],
 })
 export class SelectComponent {
+  @Input() disabled = false;
   @Input() label: string | any = null;
   @Input() labelMuted: string | any = null;
   @Input() placeholder = '';

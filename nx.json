@@ -34,6 +34,13 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
+    "client-management": {
+      "tags": []
+    },
+    "client-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["client-management"]
+    },
     "core-model": {
       "tags": []
     },
@@ -47,19 +54,19 @@
     "ng-zorro": {
       "tags": []
     },
-    "passport": {
-      "tags": []
-    },
-    "passport-e2e": {
-      "tags": [],
-      "implicitDependencies": ["passport"]
-    },
     "project-management": {
       "tags": []
     },
     "project-management-e2e": {
       "tags": [],
       "implicitDependencies": ["project-management"]
+    },
+    "resource-management": {
+      "tags": []
+    },
+    "resource-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["resource-management"]
     },
     "timesheet": {
       "tags": []

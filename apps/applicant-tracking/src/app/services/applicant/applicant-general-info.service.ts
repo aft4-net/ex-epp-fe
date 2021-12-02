@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
-import { Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PersonalInfoModel } from '../../models/applicant/personal-info.model';
 
@@ -12,6 +12,10 @@ import { PersonalInfoModel } from '../../models/applicant/personal-info.model';
 export class ApplicantGeneralInfoService {
   header = new HttpHeaders({ 'Content-Type': 'application/json' });
   routerInfo = '/application/personal-information';
+
+  private dataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  data: Observable<boolean> = this.dataSource.asObservable();
+  
   constructor(private http: HttpClient) {}
   private formatErrors(error: any) {
     return throwError(error.error);
@@ -23,38 +27,6 @@ export class ApplicantGeneralInfoService {
         headers: this.header,
       })
       .pipe(catchError(this.formatErrors));
-  }
-  appliedToPositions() {
-    return of([
-      {
-        id: 1,
-        positionId: 1
-      },
-      {
-        id: 2,
-        positionId: 6
-      }
-    ]);
-  }
-  getSkills() {
-    return of([
-      {
-        id: 1,
-        name: 'test'
-      },
-      {
-        id: 2,
-        name: 'abcd'
-      },
-      {
-        id: 4,
-        name: 'added new'
-      },
-      {
-        id: 3,
-        name: 'skillSetTesting'
-      }
-    ]);
   }
 
   getPersonalInfo(
@@ -69,5 +41,8 @@ export class ApplicantGeneralInfoService {
   }
   getRoutInfo() {
     return this.routerInfo;
+  }
+  hasData(value: boolean) {
+    this.dataSource.next(value);
   }
 }

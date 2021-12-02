@@ -1,32 +1,82 @@
 import { ApiService } from '../models/apiService';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Project } from '../models/get/project';
-import { ProjectCreate } from '../models';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { PaginatedResult, Project, ProjectCreate } from '../models';
+
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService extends ApiService<Project> {
 
-  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService ) {
+  
+private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
+fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
+
+
+  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) { 
     super(httpClient);
   }
 
+
+
+
+getFirsttPageValue()
+{   
+  return this.fristPagantionProjectsSource.value;
+}
+
+setFristPageOfProjects(data:PaginatedResult<Project[]>)
+{
+  this.fristPagantionProjectsSource.next(data);
+  
+}
+
+
+
   getResourceUrl(): string {
 
-    return 'projects';
+    return 'Project';
   }
+
+
 
   createProject(data:ProjectCreate)
    {
-     this.post(data).pipe(
-           tap(()=>this.notification.success('Project Saved','')
-            ,(error:any)=>{
-              this.notification.error('Project Not Saved','Please Try again letter');
+
+
+     this.post(data).subscribe
+         ((error)=>{
+           
+           this.notification.success('Project Added successfully','');  
+           
+  this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
+    this.fristPagantionProjectsSource.next(response);
+   }))
+
+
+        }               
+           ,()=>{
+     
+              this.notification.error('Project Not saved','Please try again letter');
             }
-           ))
+           )
   }
+
+  getProjects()
+  {
+  return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
+     
+        return response.Data;
+        
+    }))
+  }
+  
+
 }

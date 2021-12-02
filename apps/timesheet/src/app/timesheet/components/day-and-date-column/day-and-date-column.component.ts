@@ -1,79 +1,178 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
-import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, AfterViewInit, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
+import { findIndex } from 'rxjs/operators';
+import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
-import { TimeEntry, Timesheet } from '../../../models/timesheetModels';
+import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
+import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
 
+@Directive({
+  selector: '[entries]',
+})
+export class DayAndDateDirective {
+  constructor(public elRef: ElementRef) {
+
+  }
+}
 @Component({
   selector: 'app-day-and-date-column',
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges {
+export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewInit {
 
-  @Output() dateColumnClicked = new EventEmitter<any>();
+  @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
+  @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
+  @Output() columnOverflow = new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
-
+  @Input() timesheetApprovals: TimesheetApproval[] | null = null;
+  @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
+  @ViewChildren('entries') entriesDiv!: QueryList<any>;
+  @ViewChild('pt') pointerEl!: ElementRef;
+  @ViewChild('col') colEl!: ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
-
-  constructor(private timesheetService: TimesheetService) {
+  morePopover = false;
+  index: number = 0;
+  overflow = false;
+  moreEntries: any[] = [];
+  overflowPt?: number = 0;
+  of: any;
+  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
+  ngAfterViewInit(): void {
+    this.checkOverflow(this.colEl.nativeElement);
+    this.overflowCalc();
   }
 
   clickEventType = ClickEventType.none;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function,@angular-eslint/no-empty-lifecycle-method
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngOnChanges(): void {
     if (this.timesheet) {
-      this.timesheetService.getTimeEntry(this.timesheet.guid, this.date).subscribe(response => {
-        this.timeEntrys = response;
+      this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date).subscribe(response => {
+        this.timeEntrys = response ? response : null;
 
         if (this.timesheet) {
-          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.hours).reduce((prev, next) => prev + next, 0);
+          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
           this.totalHours = totalHours ? totalHours : 0;
           this.totalHoursCalculated.emit(totalHours);
         }
       });
+      this.overflowCalc();
     }
-  }
 
+  }
+  overflowCalc() {
+    this.entriesDiv?.changes.subscribe(() => {
+      this.entriesDiv.toArray().forEach(el => {
+        if (this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom < this.pointerEl.nativeElement.getBoundingClientRect().top) {
+          this.overflowPt = this.index + 1;
+
+        }
+        this.index!++;
+      });
+      if (this.overflowPt! > 0) {
+        if (this.checkOverflow(this.colEl.nativeElement)) {
+          this.overflow = true;
+          this.colEl.nativeElement.style.overflow = "hidden";
+          this.columnOverflow.emit(this.overflow);
+          this.split(this.overflowPt!);
+          console.log(this.checkOverflow(this.colEl.nativeElement))
+        }
+      }
+    });
+  }
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
       this.projectNamePaletClicked.emit(timeEntryEvent);
     }
+
+    if (this.morePopover) {
+      this.clickEventType = ClickEventType.none;
+    }
   }
 
-  onPaletEllipsisClicked(clickEventType: ClickEventType) {
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = clickEventType;
-      this.dateColumnClicked.emit(this.clickEventType);
+      this.clickEventType = timeEntryEvent.clickEventType;
+      this.paletEllipsisClicked.emit(timeEntryEvent);
+    }
+
+    if (this.morePopover) {
+      this.clickEventType = ClickEventType.none;
     }
   }
 
   onEditButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
-      this.dateColumnClicked.emit(this.clickEventType);
-    }
-  }
-
-  showFormDrawer() {
-    if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = ClickEventType.showFormDrawer
-      //this.dateColumnClicked.emit(this.clickEventType);
-      this.dateColumnClicked.emit({eventType:this.clickEventType,totalHours:this.totalHours});
+      this.editButtonClicked.emit(this.clickEventType);
     }
 
     this.clickEventType = ClickEventType.none;
   }
+
+  showFormDrawer() {
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = ClickEventType.showFormDrawer;
+      let dateColumnEvent: DateColumnEvent = {
+        clickEventType: this.clickEventType,
+        totalHours: this.totalHours
+      }
+      this.dateColumnClicked.emit(dateColumnEvent);
+    }
+
+    this.clickEventType = ClickEventType.none;
+  }
+
+  onClick() {
+    this.clickEventType = ClickEventType.showPaletPopover;
+    this.morePopover = true;
+  }
+
+  checkOverflow(el: HTMLElement, index?: number) {
+    if (el.offsetHeight < el.scrollHeight) {
+      this.index ? index : null;
+      this.overflow = true;
+    }
+    return el.offsetHeight < el.scrollHeight;
+  }
+
+  split(index: number) {
+
+    if (this.timeEntrys !== null) {
+      for (let i = index; i < this.timeEntrys.length; i++) {
+        for (let j = 0; j <= this.timeEntrys.length - index-1; j++) {
+          this.moreEntries[j] = this.timeEntrys[i];
+          i++;
+        }
+      }
+    }
+    return this.moreEntries;
+  }
+
+  timesheetApprovalForaProject(projectId: string) {
+    if (!this.timesheetApprovals) {
+      return null;
+    }
+
+    let timesheetApprovals = this.timesheetApprovals.filter(tsa => tsa.ProjectId === projectId)
+
+    if (timesheetApprovals.length === 0) {
+      return null;
+    }
+    else {
+      return timesheetApprovals[0];
+    }
+  }
 }
+
+
