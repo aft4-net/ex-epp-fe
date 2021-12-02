@@ -9,6 +9,7 @@ import { CityService } from 'apps/client-management/src/app/core/services/city.s
 import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { StateService } from 'apps/client-management/src/app/core/services/State.service';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-operating-address-form',
@@ -39,19 +40,21 @@ export class OperatingAddressFormComponent implements OnInit {
   IsEdit=false;
   editAt=-1;
   found=false;
+  confirmModal?: NzModalRef;
   constructor(
     private _fb: FormBuilder,
     private _state: StateService,
     private _city: CityService,
     private _cityInState: CityInStateService,
-    private  addClientStateService:AddClientStateService
+    private  addClientStateService:AddClientStateService,
+    private modal: NzModalService
   ) {
     this.forms = _fb.group({
       Country: ['',Validators.required],
       City: ['',Validators.required],
       State: [''],
-      ZipCode: [''],
-      Address: [''],
+      ZipCode: ['',Validators.maxLength(70)],
+      Address: ['',Validators.maxLength(250)],
     });
     this.cityForms = _fb.group({
       country: '',
@@ -195,5 +198,22 @@ export class OperatingAddressFormComponent implements OnInit {
     this.getSelectedCountry();
     this.getSelectedState();
     this.found=false;
+  }
+  showConfirm(index:number): void {
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Do you want to delete this item?',
+      nzContent: 'The action is not recoverable. ',
+      nzOnOk: () =>
+        new Promise((resolve, reject) => {
+          if (index > -1) {
+            this.operatingAddress.splice(index, 1);
+            if(!this.operatingAddress.length){
+              this.operatingAddress=this.emptyData;
+            }
+            this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+          }
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+        }).catch(() => console.log('Error.'))
+    });
   }
 }

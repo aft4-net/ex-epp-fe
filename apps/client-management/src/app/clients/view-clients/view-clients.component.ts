@@ -1,10 +1,14 @@
-import { Client, PaginatedResult } from '../../core/models/get';
+import { Client, ClientStatus, Employee, PaginatedResult } from '../../core/models/get';
+import { ClientService, ClientStatusService, EmployeeService } from '../../core/services';
 import { Component, OnInit } from '@angular/core';
 
-import { ClientService } from '../../core/services';
+import { AllDataResponse } from '../../core/models/get/AllDataResponse';
+import { FetchclientsService } from '../../core/services/fetchclients.service';
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
+import { OperatingAddress } from '../../core/models/get/operating-address';
+import { OperationalAddressService } from '../../core/services/operational-address.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 
@@ -22,6 +26,7 @@ export class ViewClientsComponent implements OnInit  {
   clientsdata: Client[] = [];
   searchProject = new FormControl();
   total = 10;
+  totalRecordBackup=0;
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -40,7 +45,7 @@ export class ViewClientsComponent implements OnInit  {
   salesCheckbox = true;
   clientContactCheckbox = false;
   companyContactCheckbox = false;
-
+  isFilter= false;
   listOfSearchName: string[] = [];
   searchAddress!: string;
   listofNames = [''];
@@ -59,12 +64,27 @@ export class ViewClientsComponent implements OnInit  {
   listOfLocation: string[] = [];
   nameOfLocation = '';
   namesofLocationsfilterd = [{ text: '', value: '', checked: false }];
+  clientStatuses!: ClientStatus[];
+  selectedValue!: string;
+  locations!: OperatingAddress[];
+  employees!: Employee[];
+  allClients!: Client[];
+  totalData: Client[]= [];
+  totalData1: Client[]= [];
   constructor(
     private router: Router,
     private _clientservice: ClientService,
+    private clientStatusService: ClientStatusService,
+    private operatingAddressService: OperationalAddressService,
+    private fetchclientsService: FetchclientsService,
+    private employeeService: EmployeeService,
     private notification: NzNotificationService
   ) {}
   ngOnInit(): void {
+    this.getClientStatus();
+    this.getLocations();
+    this.getSalesPerson();
+    this.fetchAllData();
     this.initializeData();
 
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
@@ -115,14 +135,31 @@ export class ViewClientsComponent implements OnInit  {
         this.clientsdata = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;
-
         this.loading = false;
 
       });
   }
 
-  PageIndexChange(index: any): void {
+
+  getAllClientData(index: any) {
     console.log(index);
+
+      this._clientservice
+        .getWithPagnationResut(index, 10, this.searchProject.value)
+        .subscribe((response: PaginatedResult<Client[]>) => {
+          this.totalData1= response.data
+          this.totalData.push(...this.totalData1);
+
+        });
+
+    }
+  PageIndexChange(index: any): void {
+
+   if(this.isFilter){
+    this.clientsdata =this.totalData.slice((index-1)*10,index*10);
+
+   }
+   else{
     this.pageIndex = index;
     this.loading = true;
     if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
@@ -132,6 +169,9 @@ export class ViewClientsComponent implements OnInit  {
           this.clientsdata = response.data;
           this.unfilteredData = response.data;
           this.pageIndex = response.pagination.pageIndex;
+          this.total = response.pagination.totalRecord;
+
+          this.totalPage = response.pagination.totalPage;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
         });
@@ -158,7 +198,7 @@ export class ViewClientsComponent implements OnInit  {
 
         });
       this.searchStateFound = false;
-    }
+    }}
   }
 
   initializeData(): void {
@@ -177,6 +217,7 @@ export class ViewClientsComponent implements OnInit  {
         this.findlistofNames();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
+        console.log(response.data);
       });
 
     this._clientservice.fristPagantionClients$.subscribe(
@@ -238,13 +279,12 @@ export class ViewClientsComponent implements OnInit  {
 
   findlistofNames(): void {
     this.listofNames = [''];
-    for (let i = 0; i < this.clientsdata.length; i++) {
-      this.nameofclient = this.clientsdata[i].ClientStatusName;
+    for (let i = 0; i < this.clientStatuses.length; i++) {
+      this.nameofclient = this.clientStatuses[i].StatusName;
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
       });
-      console.log(this.AllData);
       this.listofNames = this.filteredArray.filter((item) => item);
     }
 
@@ -267,8 +307,8 @@ export class ViewClientsComponent implements OnInit  {
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
-    for (let i = 0; i < this.clientsdata.length; i++) {
-      this.namesofSalesPerson = this.clientsdata[i].SalesPerson.Name;
+    for (let i = 0; i < this.employees.length; i++) {
+      this.namesofSalesPerson = this.employees[i].Name;
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
       this.filteredPersonArray = this.ListOfSalesPerson.filter((item, pos) => {
         return this.ListOfSalesPerson.indexOf(item) == pos;
@@ -293,8 +333,8 @@ export class ViewClientsComponent implements OnInit  {
 
   findlistOfLocation(): void {
     this.listOfLocation = [''];
-    for (let i = 0; i < this.clientsdata.length; i++) {
-      this.nameOfLocation = this.clientsdata[i].OperatingAddress[0].Country;
+    for (let i = 0; i < this.locations.length; i++) {
+      this.nameOfLocation = this.locations[i].Country;
       this.listOfLocation.push(this.nameOfLocation);
       this.filteredPersonArray = this.listOfLocation.filter((item, pos) => {
         return this.listOfLocation.indexOf(item) == pos;
@@ -319,8 +359,31 @@ export class ViewClientsComponent implements OnInit  {
     console.log(this.namesofLocationsfilterd);
   }
 
+getClientStatus() {
 
+  this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
+    this.clientStatuses = res;
+      });
+}
 
+getLocations(){
+  this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
+    this.locations = res.data;
+
+      });
+}
+fetchAllData(){
+  this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
+    this.allClients = res.data;
+
+      });
+
+}
+getSalesPerson(){
+  this.employeeService.getAll().subscribe((response: Employee[]) => {
+    this.employees = response;
+  })
+}
   search(
     searchAddressList: string[],
     searchstatusList: string[],
@@ -331,29 +394,50 @@ export class ViewClientsComponent implements OnInit  {
     this.searchAddressList = searchAddressList;
 
     this.searchsalesPersonList = searchsalesPersonList;
-    console.log('Location---' + this.searchAddressList);
-    console.log('Status---' + this.searchstatusList);
-    console.log('SalesPerson---' + this.searchsalesPersonList);
-    this.clientsdata = this.unfilteredData;
-    const filterFunc = (item: Client) =>
-      (this.searchAddressList.length
-        ? this.searchAddressList.some(
-            (address) =>
-              item.OperatingAddress[0].Country.indexOf(address) !== -1
-          )
-        : true) &&
-      (this.searchstatusList.length
-        ? this.searchstatusList.some(
-            (name) => item.ClientStatusName.indexOf(name) !== -1
-          )
-        : true) &&
-      (this.searchsalesPersonList.length
-        ? this.searchsalesPersonList.some(
-            (name) => item.SalesPerson.Name.indexOf(name) !== -1
-          )
-        : true);
-    const data = this.clientsdata.filter((item) => filterFunc(item));
-    this.clientsdata = data;
-    console.log(data);
+    if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+      this.isFilter =true;
+      this.totalData =[];
+      this.loading = true;
+      for(let i = 1; i <=this.totalPage;i++){
+      this.getAllClientData(i);
+      }
+
+      setTimeout(() => {
+        this.clientsdata = this.totalData;
+        this.loading = false;
+
+        const filterFunc = (item: Client) =>
+          (this.searchAddressList.length
+            ? this.searchAddressList.some(
+                (address) =>
+                  item.OperatingAddress[0].Country.indexOf(address) !== -1
+              )
+            : true) &&
+          (this.searchstatusList.length
+            ? this.searchstatusList.some(
+                (name) => item.ClientStatusName.indexOf(name) !== -1
+              )
+            : true) &&
+          (this.searchsalesPersonList.length
+            ? this.searchsalesPersonList.some(
+                (name) => item.SalesPerson.Name.indexOf(name) !== -1
+              )
+            : true);
+        const data = this.clientsdata.filter((item) => filterFunc(item));
+        this.clientsdata = data.slice(0,10);
+        this.totalRecordBackup=this.total
+              this.totalData=data;
+              this.total=data.length;
+
+
+      },4000)
+    }
+    else{
+      this.isFilter = false;
+      this.clientsdata = this.unfilteredData;
+      this.total=this.totalRecordBackup;
+    }
+
+    // console.log(data);
   }
 }
