@@ -6,7 +6,7 @@ import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
 import { FamilydetailService } from '../../../Services/FamilyDetails/familydetail.service';
 import { Relationship } from '../../../Models/FamilyDetail/RelationshipModel';
 import { RelationshipService } from '../../../Services/FamilyDetails/relationship.service';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-family-detail',
@@ -30,7 +30,12 @@ export class FamilyDetailComponent implements OnInit {
   familydetails:FamilyDetail[]=[]
   validateForm!: FormGroup;
   @Output() result: EventEmitter<{type: string, familydetails: FamilyDetail[]}> = new EventEmitter<{type: string, familydetails: FamilyDetail[]}>()
-
+ //===========
+ listOfData: readonly Data[] = [];
+ isConfirmLoading = false;
+ i = 0;
+ isVisible = false;
+ //==========================
   constructor(
     private fb: FormBuilder,
     private _relationshipService: RelationshipService,
@@ -209,5 +214,36 @@ export class FamilyDetailComponent implements OnInit {
         return startValue.getTime() > Date.now();
     };
 
+
+
+
+
+    handleOk(): void {
+      this.listOfData = [
+        ...this.listOfData,
+        {
+          id: `${this.i}`,
+          name: `Edward King ${this.i}`,
+          age: '32',
+          address: `London, Park Lane no. ${this.i}`
+        }
+      ];
+      this.i++;
+      this.isConfirmLoading = true;
+      setTimeout(() => {
+        this.isVisible = false;
+        this.isConfirmLoading = false;
+      }, 3000);
+  
+    }
+    
+  
+    handleCancel(): void {
+      this.isVisible = false;
+    }
+    handlereset(): void {
+      this.validateForm.reset();
+      this.isVisible = false;
+    }
 
 }
