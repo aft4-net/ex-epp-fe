@@ -24,7 +24,6 @@ export class CustomPhoneNumberComponent implements OnInit {
     required = true
     errMessage = ''
 
-    prefices$ = of(defaultEmployeeIdNumberPrefices)
 
     constructor() {
     }
