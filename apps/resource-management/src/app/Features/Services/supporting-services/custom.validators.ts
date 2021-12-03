@@ -13,43 +13,40 @@ export const commonErrorMessage = {
 // Validators
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-export function validateEmployeeIdNumberPrefix(
-    control: AbstractControl,
-    errorLog: ValidatorResponse,
-    prefices: string[]
+export function validateEmployeeIdNumber(
+    control: AbstractControl
 ) {
-    if (!errorLog.required && !control.value) {
+    commonErrorMessage.required = true
+    if (!commonErrorMessage.required && !control.value) {
         return null
     }
-    const parameters = [control, errorLog, null, 'Employee ID number']
+    const parameters = [control, commonErrorMessage, null, 'Employee ID number']
     return checkMultiple(
         {
             method: checkrequired,
             parameters: parameters
-        },
-        {
-            method: checkFromList,
-            parameters: modifyParameters(parameters, prefices)
         }
     )
 }
 
 export function validateFirstName(
-    control: AbstractControl,
-    errorLog: ValidatorResponse
+    control: AbstractControl
 ) {
-    return validateName(control, errorLog, 'First name')
+    commonErrorMessage.required = true
+    return validateName(control, commonErrorMessage, 'First name')
 }
 
 export function validateMiddleName(
     control: AbstractControl
 ) {
+    commonErrorMessage.required = false
     return validateName(control, commonErrorMessage, 'Middle name')
 }
 
 export function validateLastName(
     control: AbstractControl
 ) {
+    commonErrorMessage.required = true
     return validateName(control, commonErrorMessage, 'Last name')
 }
 

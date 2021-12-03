@@ -10,10 +10,13 @@ import { en_US, NZ_I18N } from "ng-zorro-antd/i18n";
 import { DemoNgZorroAntdModule } from "../../../ng-zorro-antd.module";
 import { PersonalDetailGroupComponent } from "./custom-control-groups/personal-details-group/personal-details-group.component";
 import { CustomDatepickerComponent } from "./custom-controls/custom-datepicker/custom-datepicker.component";
+import { CustomEmailMultipleComponent } from "./custom-controls/custom-email-multiple/custom-email-multiple.component";
 import { CustomEmployeeDateofBirthComponent } from "./custom-controls/custom-employee-date-of-birth/custom-employee-date-of-birth.component";
 import { CustomEmployeeIdNumberComponent } from "./custom-controls/custom-employee-id-number/custom-employee-id-number.component";
 import { CustomFullNameComponent } from "./custom-controls/custom-full-name/custom-full-name.component";
 import { CustomGenderComponent } from "./custom-controls/custom-gender/custom-gender.component";
+import { CustomNationalityComponent } from "./custom-controls/custom-nationality/custom-nationality.component";
+import { CustomPhoneNumberMultipleComponent } from "./custom-controls/custom-phone-multiple/custom-phone-multiple.component";
 import { CustomPhoneNumberComponent } from "./custom-controls/custom-phone/custom-phone.component";
 import { CustomSelectComponent } from "./custom-controls/custom-select/custom-select.component";
 import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom-text-box.component";
@@ -31,6 +34,9 @@ registerLocaleData(en);
         CustomGenderComponent,
         CustomEmployeeDateofBirthComponent,
         CustomPhoneNumberComponent,
+        CustomPhoneNumberMultipleComponent,
+        CustomEmailMultipleComponent,
+        CustomNationalityComponent,
 
         PersonalDetailGroupComponent,
         TestFormComponent
@@ -54,6 +60,9 @@ registerLocaleData(en);
         CustomEmployeeDateofBirthComponent,
         CustomGenderComponent,
         CustomPhoneNumberComponent,
+        CustomPhoneNumberMultipleComponent,
+        CustomEmailMultipleComponent,
+        CustomNationalityComponent,
 
         PersonalDetailGroupComponent,
         TestFormComponent
