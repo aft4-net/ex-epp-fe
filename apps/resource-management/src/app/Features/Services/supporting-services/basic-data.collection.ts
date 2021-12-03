@@ -30,6 +30,8 @@ export const separatorsinDescriptions = {
     hyphen: '-'
 }
 
+export const defaultEmployeeIdNumberPrefices = ['EDC/DT', 'EDC/QA', 'EDC/HR', 'EDC/FD', 'EDC/LT']
+
 // Usefull data
 
 export const countriesURL = 'https://countriesnow.space/api/v0.1/countries/states'

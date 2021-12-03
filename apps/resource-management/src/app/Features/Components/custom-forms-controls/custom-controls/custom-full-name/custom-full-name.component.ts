@@ -28,9 +28,6 @@ export class CustomFullNameComponent implements OnInit {
     @Input() lastNameControl: FormControl = new FormControl()
 
     constructor() {
-        this.firstNameControl.setValidators(this.validateFirstName)
-        this.middleNameControl.setValidators(validateMiddleName)
-        this.lastNameControl.setValidators(validateLastName)
     }
 
     ngOnInit(): void {
@@ -41,12 +38,14 @@ export class CustomFullNameComponent implements OnInit {
         return validateFirstName(control, commonErrorMessage)
     }
 
-    validateModdleName(control: AbstractControl) {
-        return {required:true}
+    validateMiddleName(control: AbstractControl) {
+        commonErrorMessage.required = false
+        return validateFirstName(control, commonErrorMessage)
     }
 
-    validateLaseName(control: AbstractControl) {
-        return {required:true}
+    validateLastName(control: AbstractControl) {
+        commonErrorMessage.required = true
+        return validateFirstName(control, commonErrorMessage)
     }
 
 }
