@@ -10,7 +10,6 @@ import { TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse } fr
 import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';
-import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
@@ -76,8 +75,6 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
-    private apiService: TimesheetApiService,
-    private timeSheetService: TimesheetService,
     public timesheetvalidation: TimesheetValidationService) {
   }
 
@@ -290,7 +287,7 @@ export class TimesheetComponent implements OnInit {
       return;
     }
 
-    this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
+    this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
