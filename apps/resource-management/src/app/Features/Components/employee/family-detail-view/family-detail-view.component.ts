@@ -12,6 +12,7 @@ export class FamilyDetailViewComponent implements OnInit {
 
   
   isVisible = false;
+  footer = null;
   isConfirmLoading = false;
   checked = false;
   loading = false;
@@ -30,8 +31,10 @@ export class FamilyDetailViewComponent implements OnInit {
 
  
   addfamilies(): void {
+    this.isVisible= true;
     this.modalService.create({
       nzTitle: 'Add Family Details',
+      nzFooter:null,
       nzContent: FamilyDetailComponent
     });
   }
@@ -145,4 +148,9 @@ export class FamilyDetailViewComponent implements OnInit {
       nzCancelText: 'Cancel'
     });
   }
+
+  exitModal() {
+    this.isVisible = false;
+  }
+  
 }
