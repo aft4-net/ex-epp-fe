@@ -1,11 +1,10 @@
-import { BehaviorSubject } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
 import {
   AddClientStateService,
   CompanyContactCreate,
   Employee,
   EmployeeService,
 } from '../../../core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,13 +12,12 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { getNames } from '../../../shared/Data/contacts';
-
+import { BehaviorSubject } from 'rxjs';
 import { CompanyContactService } from '../../../core/services/company-contact.service';
-
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { getNames } from '../../../shared/Data/contacts';
 
 @Component({
   selector: 'exec-epp-company-contacts-form',
@@ -29,18 +27,20 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class CompanyContactsFormComponent implements OnInit {
   emailAdress = new FormControl('');
   phoneNumber = new FormControl('');
+  phoneNumberPrefix=new FormControl('');
   searchChange$ = new BehaviorSubject('');
   employees = [] as Employee[];
   selectedUser?: string;
   isLoading = false;
   contactDetail = {} as Employee;
   listofContactNames = getNames();
-
+clientalreadyExist=false;
   @Input() isVisible: boolean;
   @Input() editable: boolean = false;
 
   countries: string[] = [];
   footer = null;
+  modalTitle: string
 
   listofCodes: { value: string; label: string }[] = [];
 
@@ -51,7 +51,10 @@ export class CompanyContactsFormComponent implements OnInit {
   comapanyContacts = [] as CompanyContactCreate[];
   isModalVisible = false;
   loading = false;
-
+  IsEdit=false;
+  editAt=-1;
+  found=false;
+  clientExist='';
   constructor(
     private employeeService: EmployeeService,
     private _companyContactService: CompanyContactService,
@@ -64,12 +67,13 @@ export class CompanyContactsFormComponent implements OnInit {
     this.listofCodes = this._countryService.getPhonePrefices();
   }
 
+
   ngOnInit(): void {
-    this.listData = this.addClientStateService.getClientcomapanyContacts;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
 
+    this.listData = this.addClientStateService.getClientcomapanyContacts;
     this.addContactForm = this.fb.group({
       companyContactName: ['', [Validators.required]],
       phoneNumber: ['', []],
@@ -84,19 +88,45 @@ export class CompanyContactsFormComponent implements OnInit {
   }
 
   showModal(): void {
+    this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Client Contact'
     this.isVisible = true;
   }
-  submitForm(): void {}
-  handleOk(): void {
+  submitForm(): void {
     if (this.addContactForm.valid) {
-      this.listData = [...this.listData, this.contactDetail];
-      this.comapanyContacts.push({
-        ContactPersonGuid: this.contactDetail.Guid,
+      this.listData.forEach((value: any, index: any) => {
+        if (value.companyContactName==this.addContactForm.value['companyContactName'])
+        {
+        this.clientalreadyExist=true;
+
+        }
+
       });
-      this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-      this.addClientStateService.updateClientcomapanyContacts(this.listData);
-      this.addContactForm.reset();
-      this.isVisible = false;
+      if(!this.IsEdit){
+       if(!this.clientalreadyExist){
+        this.listData = [...this.listData, this.addContactForm.value];
+        this.comapanyContacts.push({
+          ContactPersonGuid: this.contactDetail.Guid,
+        }); 
+        this.isVisible = false;
+        this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+        this.addClientStateService.updateClientcomapanyContacts(this.listData);
+        this.addContactForm.reset();
+       }
+       else{
+         this.clientExist="Exist."
+         this.clientalreadyExist=false;
+       }
+      }
+     else{
+        this.listData[this.editAt]=this.addContactForm.value;
+        this.IsEdit=false;
+        this.editAt=-1;
+        this.isVisible = false;
+        this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+        this.addClientStateService.updateClientcomapanyContacts(this.listData);
+        this.addContactForm.reset();
+      }
+
     } else {
       Object.values(this.addContactForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -105,22 +135,79 @@ export class CompanyContactsFormComponent implements OnInit {
         }
       });
     }
+
+  }
+  handleOk(): void {
+    // if (this.addContactForm.valid) {
+    //   this.listData = [...this.listData, this.contactDetail];
+    //   this.comapanyContacts.push({
+    //     ContactPersonGuid: this.contactDetail.Guid,
+    //   });
+    //   this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+    //   this.addContactForm.reset();
+    //   this.isVisible = false;
+    // } else {
+    //   Object.values(this.addContactForm.controls).forEach((control) => {
+    //     if (control.invalid) {
+    //       control.markAsDirty();
+    //       control.updateValueAndValidity({ onlySelf: true });
+    //     }
+    //   });
+    // }
+    // this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+    // this.addContactForm.reset();
+  }
+  edit(index:number){
+    for(let count=0;count<this.listData.length;count++){
+
+      if(count==index){
+       this.IsEdit=true;
+       this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Client Contact'
+       this.isVisible = true;
+       this.editAt=index;
+       this.found=true;
+        this.patchValues(this.listData[count]);
+      }
+    }
+
+  }
+  patchValues(data: any) {
+
+    this.addContactForm.patchValue({
+      companyContactName: data.companyContactName,
+      phoneNumber: data.phoneNumber,
+      emailAdress: data.emailAdress,
+      phoneNumberPrefix: data.phoneNumberPrefix,
+
+
+    });
+    // this.getSelectedCountry();
+    // this.getSelectedState();
+    this.found=true;
   }
   exitModal() {
     this.isVisible = false;
   }
   handleClear(): void {
+    console.log('Button cancel clicked!');
+
     this.addContactForm.reset();
   }
   removeItem(element: Employee) {
     this.listData.forEach((value: Employee, index: any) => {
-      if (value == element) this.listData.splice(index, 1);
+      if (value == element)
+      {
+        this.listData.splice(index, 1);
+        this.comapanyContacts.slice(index,1);
+      }
     });
 
-    this.comapanyContacts = this.comapanyContacts.filter(
-      (s) => s.ContactPersonGuid !== element.Guid
-    );
+    this.comapanyContacts.forEach((value: CompanyContactCreate, index: any) => {
+      if (value.ContactPersonGuid == element.Guid)
+        this.listData.splice(index, 1);
+    });
     this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+    this.addClientStateService.updateClientcomapanyContacts(this.listData);
   }
   showDeleteConfirm(element: any): void {
     this.modal.confirm({
@@ -146,12 +233,13 @@ export class CompanyContactsFormComponent implements OnInit {
     );
 
     this.addContactForm.controls['phoneNumber'].setValue(
-      this.contactDetail.Phone
+      this.contactDetail.PhoneNumberPrefix+''+ this.contactDetail.Phone
     );
 
     this.addContactForm.controls['emailAdress'].setValue(
       this.contactDetail.Email
     );
+
   }
 
   getClientDetails(name: string) {
@@ -162,4 +250,5 @@ export class CompanyContactsFormComponent implements OnInit {
     }
     return this.employees[1];
   }
+
 }
