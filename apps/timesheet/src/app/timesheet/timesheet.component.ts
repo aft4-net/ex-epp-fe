@@ -485,8 +485,6 @@ export class TimesheetComponent implements OnInit {
     this.notification.create(type, message, 'Timesheet');
   }
   disabledDates=(current: Date): boolean => {
-
-    return current.valueOf() > this.lastday1 || current.valueOf() <= this.firstday1;
+    return  current.setDate(current.getDate()+1)<=this.dayAndDateService.firstday1 || current.setDate(current.getDate()-1) > this.lastday1 ;
   }
-
 }
