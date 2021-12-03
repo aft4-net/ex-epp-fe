@@ -40,8 +40,6 @@ export class AddressViewComponent implements OnInit {
   }
 
   handleOk(): void {
-
-
     this.listOfData = [
       ...this.listOfData,
       {
@@ -59,6 +57,7 @@ export class AddressViewComponent implements OnInit {
     }, 3000);
 
   }
+  
 
   handleCancel(): void {
     this.isVisible = false;
@@ -147,21 +146,8 @@ export class AddressViewComponent implements OnInit {
 exitModal() {
   this.isVisible = false;
 }
-handleClear(): void {
-  console.log('Button cancel clicked!');
 
-}
-// removeItem(element: Employee) {
-//   this.listData.forEach((value: Employee, index: any) => {
-//     if (value == element) this.listData.splice(index, 1);
-//   });
 
-//   this.comapanyContacts.forEach((value: CompanyContactCreate, index: any) => {
-//     if (value.ContactPersonGuid == element.Guid)
-//       this.listData.splice(index, 1);
-//   });
-//   this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-// }
 showDeleteConfirm(element: any): void {
   this.modalService.confirm({
     nzTitle: 'Are you sure, you want to cancel this contact?',

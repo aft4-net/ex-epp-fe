@@ -67,14 +67,14 @@
 
 
 
-<nz-modal class="modal" [(nzVisible)]="isVisible" nzTitle="Add Address"  [nzWidth]="'40%'" [nzFooter]="footer"
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Address" [nzWidth]="'40%'" [nzFooter]="footer"
     (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-        <app-address-new>
-
-           
-        </app-address-new>
+        <app-address-new></app-address-new>
        
-        
+            
+    
+     
     </ng-container>
+
 </nz-modal>
