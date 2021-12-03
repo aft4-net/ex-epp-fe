@@ -13,7 +13,8 @@ export class EducationProgrammeService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  path = `${environment.apiUrl}/LUEducationProgram`;
+  
+  path = `${environment.apiUrl}/LUEducationProgramme`;
   
   constructor(private http: HttpClient, 
     private errHandler: ErrHandleService) {}

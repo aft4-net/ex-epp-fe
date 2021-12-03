@@ -1,0 +1,63 @@
+<form nz-form id="familyForm" [formGroup]="validateForm" [nzLayout]="'vertical'">
+  
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="10" [nzXs]="24" nzFor="relationship" [nzRequired]="isRelationShipRequired">Relationship with Employee
+    </nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['remark']"
+      nzErrorTip="Please privide your relationship!">
+               <nz-select formControlName="relationship" class="relation-select" nzShowSearch="true">
+            <ng-container *ngFor="let rel of relationships">
+              <nz-option nzValue="{{ rel.Guid }}" nzLabel="{{ rel.Name }}"></nz-option>
+            </ng-container>
+          </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="fullName" [nzRequired]="isFullNameRequired">Full-Name</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please provide a valid full name!">
+      <input nz-input formControlName="fullName" id="fullName" />
+    </nz-form-control>
+  </nz-form-item>
+
+
+
+
+  
+
+  
+
+  
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="gender" [nzRequired]="isGenderRequired">Gender</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
+      <nz-select formControlName="gender" nzShowSearch nzAllowClear>
+        <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+        <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="dateofBirth" [nzRequired]="isDoBRequired">Date Of Birth</nz-form-label>
+    <nz-date-picker class="date" nzErrorTip="Please input dateofBirth!" nzFormat="yyyy-MM-dd" id="dateofBirth"
+      formControlName="dateofBirth" nzPlaceHolder="dd/mm/yy" [nzDisabledDate]="disabledDate"></nz-date-picker>
+  </nz-form-item>
+
+
+<nz-form-item>
+  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="maritalStatus">Marital-Status</nz-form-label>
+  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
+    <nz-select formControlName="maritalStatus" nzShowSearch nzAllowClear (ngModelChange)="onSelectMaritalStatus()">
+      <nz-option nzValue="Married" nzLabel="Married"></nz-option>
+      <nz-option nzValue="Not Married" nzLabel="Not Married"></nz-option>
+    </nz-select>
+  </nz-form-control>
+</nz-form-item>
+
+</form>
