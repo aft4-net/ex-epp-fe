@@ -1,5 +1,5 @@
 
-  <ng-container *ngFor="let control of myControls; let i = index">
+  <ng-container *ngFor="let control of myControls.controls; let i = index">
     <nz-form-item class="form-item">
         <nz-form-label class="form-label" [nzSm]="labelConfig.nzSm" [nzXs]="labelConfig.nzXs" [nzRequired]="required"
         [hidden]="i > 0">
@@ -7,7 +7,7 @@
         </nz-form-label>
         <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessage">
       <nz-input-group [nzAddOnAfter]="suffixTemplate">
-        <input [formControl]="control" 
+        <input [formControl]="getControl(i)" 
         class="email-input-box"
         nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange()" nz-input />
         <ng-template #suffixTemplate>

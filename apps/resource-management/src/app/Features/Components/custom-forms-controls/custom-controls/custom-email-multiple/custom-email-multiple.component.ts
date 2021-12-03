@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormArray, FormControl } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormControlParameter, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
@@ -19,7 +19,11 @@ export class CustomEmailMultipleComponent implements OnInit {
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig =  new FormControlParameter(18, 24)
     @Input() controlConfig = defaultFormControlParameter
-    @Input() myControls:FormControl[] = []
+    @Input() myControls: FormArray = new FormArray([
+        new FormControl()
+    ])
+
+    @Output() reply = new EventEmitter<boolean>()
     required = true
     errMessage = ''
 
@@ -40,6 +44,11 @@ export class CustomEmailMultipleComponent implements OnInit {
         } else {
             this.onAdd()
         }
+        this.reply.emit(true)
+    }
+
+    getControl(index: number) {
+        return this.myControls.at(index) as FormControl
     }
 
     onAdd() {
@@ -47,10 +56,7 @@ export class CustomEmailMultipleComponent implements OnInit {
     }
 
     onRemove(index: number) {
-        this.myControls = [
-            ...this.myControls.slice(0, index),
-            ...this.myControls.slice(index + 1)
-        ]
+        this.myControls.removeAt(index)
     }
 
     onChange() {

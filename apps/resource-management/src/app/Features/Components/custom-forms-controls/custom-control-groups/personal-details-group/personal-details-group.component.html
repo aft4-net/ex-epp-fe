@@ -1,21 +1,18 @@
-<exec-epp-custom-employee-id-number
-[myControl]="getControl('employeeIdNumberPrefix')"
-[myControl]="getControl('employeeIdNumber')">
+<exec-epp-custom-employee-id-number [myControl]="getControl('employeeIdNumberPrefix')"
+  [myControl]="getControl('employeeIdNumber')">
 </exec-epp-custom-employee-id-number>
-<exec-epp-custom-full-name
-    [firstNameControl]="getControl('firstName')"
-    [middleNameControl]="getControl('middleName')"
-    [lastNameControl]="getControl('lastName')">
+<exec-epp-custom-full-name [firstNameControl]="getControl('firstName')" [middleNameControl]="getControl('middleName')"
+  [lastNameControl]="getControl('lastName')">
 </exec-epp-custom-full-name>
-<exec-epp-custom-gender
-[myControl]="getControl('gender')">
+<exec-epp-custom-gender [myControl]="getControl('gender')">
 </exec-epp-custom-gender>
-<exec-epp-custom-employee-date-of-birth
-[myControl]="getControl('dateofBirth')">
+<exec-epp-custom-employee-date-of-birth [myControl]="getControl('dateofBirth')">
 </exec-epp-custom-employee-date-of-birth>
-<exec-epp-custom-email-multiple>
+<exec-epp-custom-email-multiple 
+(reply)="showData()">
 
 </exec-epp-custom-email-multiple>
-<exec-epp-custom-phone-multiple></exec-epp-custom-phone-multiple>
+<exec-epp-custom-phone-multiple [myControls]="getFormArray('phoneNumbers')"
+(reply)="showData()"></exec-epp-custom-phone-multiple>
 <exec-epp-custom-nationality></exec-epp-custom-nationality>
 <button (click)="showData()">Test</button>

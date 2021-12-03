@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormArray, FormBuilder, FormControl } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
@@ -10,58 +10,86 @@ import { commonErrorMessage } from "../../../../Services/supporting-services/cus
     selector: 'exec-epp-custom-phone-multiple',
     templateUrl: './custom-phone-multiple.component.html',
     styleUrls: ['./custom-phone-multiple.component.scss']
-  })
+})
 export class CustomPhoneNumberMultipleComponent implements OnInit {
 
     // @Input() formItem: FormItemData = defaultFormItemData
     label = 'Phone Number'
-    prefices$: Observable<any> = of([{country:'Ethiopia', code:'+251'}])
+    prefices$: Observable<any> = of([{ country: 'Ethiopia', code: '+251' }])
     maxAmount = 3
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig = defaultFormControlParameter
     @Input() controlConfig = defaultFormControlParameter
-    @Input() myControls:FormControl[][] = []
+    @Input() myControls: FormArray = new FormArray([
+        new FormControl()
+    ])
+
+    @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>()
+    prefixControls: FormArray = new FormArray([
+        this.createPhoneControl()
+    ])
     required = true
     errMessage = ''
 
 
-    constructor() {
-        if(this.myControls.length === 0) {
-            this.myControls.push([
-                new FormControl(),
-                new FormControl()
-            ])
-        }
-    }
+    constructor(
+        private readonly _formBuilder: FormBuilder
+    ) {}
 
     ngOnInit(): void {
     }
 
     onAction(index: number) {
-        if(index + 1 < this.myControls.length
+        if (index + 1 < this.myControls.length
             || this.myControls.length >= this.maxAmount) {
             this.onRemove(index)
         } else {
             this.onAdd()
         }
+        this.reply.emit(true)
     }
 
-    onAdd() {
-        this.myControls.push([
+    createPhoneControl() {
+        return this._formBuilder.array([
             new FormControl(),
             new FormControl()
         ])
     }
 
+    getPrefixControl(index: number): FormControl {
+        const array = this.myControls.at(index) as FormArray
+        return array.at(0) as FormControl
+    }
+
+    getControl(index: number): FormControl {
+        const array = this.myControls.at(index) as FormArray
+        return array.at(1) as FormControl
+    }
+
+    onAdd() {
+        this.myControls.controls.push(
+            this.createPhoneControl()
+        )
+    }
+
     onRemove(index: number) {
-        this.myControls = [
-            ...this.myControls.slice(0, index),
-            ...this.myControls.slice(index + 1)
-        ]
+
+        for (let i = this.myControls.length - 1; i >= 0; i--) {
+            const element = this.myControls.controls.pop() as FormControl
+            if(index !== i) {
+                this.myControls.controls.push(
+                    element
+                )
+            }
+        }
+        // this.myControls = this._formBuilder.array([
+        //     ...this.myControls.controls.slice(0, index),
+        //     ...this.myControls.controls.slice(index + 1)
+        // ])
     }
 
     onChange() {
-      this.errMessage = commonErrorMessage.message.substring(0)
+        this.errMessage = commonErrorMessage.message.substring(0)
     }
 
 }

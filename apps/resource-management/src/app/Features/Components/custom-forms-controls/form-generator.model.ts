@@ -1,5 +1,5 @@
 import { Directive, Injectable } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, FormControl } from "@angular/forms";
 import { validateFirstName, validateLastName, validateMiddleName } from "../../Services/supporting-services/custom.validators";
 
 @Injectable({
@@ -22,8 +22,15 @@ return this._formBuilder.group({
     lastName: [null, [validateLastName]],
     gender: [null],
     dateofBirth: [null],
-    phoneNumbers: this._formBuilder.array([]),
-    EmailAddresses: this._formBuilder.array([]),
+    phoneNumbers: this._formBuilder.array([
+        this._formBuilder.array([
+            new FormControl(),
+            new FormControl()
+        ])
+    ]),
+    EmailAddresses: this._formBuilder.array([
+        new FormControl()
+    ]),
     nationalities: [null]
 });
     }
