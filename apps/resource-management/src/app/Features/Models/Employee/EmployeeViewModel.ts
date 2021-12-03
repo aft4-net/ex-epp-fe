@@ -4,4 +4,5 @@ export interface IEmployeeViewModel {
     JobTitle: string;
     Location: string;
     Status: string;
+    JoiningDate: string;
 }

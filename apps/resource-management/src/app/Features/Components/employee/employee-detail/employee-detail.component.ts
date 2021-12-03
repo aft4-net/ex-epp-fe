@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+import { Observable, fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
-import { Data } from '@angular/router';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
-import { Observable } from 'rxjs';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -20,10 +20,9 @@ import { map } from 'rxjs/operators';
 })
 export class EmployeeDetailComponent implements OnInit {
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor(private _employeeService : EmployeeService) {
+  @ViewChild('searchInput', { static: true })
+  input!: ElementRef;
 
-  }
   checked = false;
   loading = false;
   indeterminate = false;
@@ -37,10 +36,12 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
+  holdItJoiningDate: listtToFilter[] = [];
 
   empListCountry : NzTableFilterList=[];
   empListStatus: NzTableFilterList=[];
   empListJobType: NzTableFilterList=[];
+  empJoinDate: NzTableFilterList=[];
 
 
   listOfColumnsFullName: ColumnItem[] = [
@@ -54,17 +55,43 @@ export class EmployeeDetailComponent implements OnInit {
 
       ],
       filterFn: null
+    },
+    {
+          name: 'Joining Date',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
+          filterMultiple: true,
+          listOfFilter:this.empJoinDate,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
     }
   ]
 
   listOfColumns!: ColumnItem[];
 
+   // eslint-disable-next-line @typescript-eslint/no-empty-function
+   constructor(private _employeeService : EmployeeService) {
+
+  }
 
   ngOnInit(): void {
 
     this.FeatchAllEmployees();
     this.FillTheFilter();
 
+  }
+  ngAfterViewInit() {
+
+    fromEvent<any>(this.input.nativeElement,'keyup')
+     .pipe(
+       map(event => event.target.value),
+       startWith(''),
+       debounceTime(3000),
+       distinctUntilChanged(),
+       switchMap( async (search) => {this.fullname = search,
+        this.searchEmployees()
+       })
+     ).subscribe();
   }
 
   FillTheFilter(){
@@ -75,8 +102,10 @@ export class EmployeeDetailComponent implements OnInit {
         console.log(this.employeeViewModel.length)
 
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
-        this.holdItCountry.push(
+          console.log(i+"-->"+this.employeeViewModel[i].Location.trim());
+          if(this.employeeViewModel[i].Location){
+          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location) === -1 ){
+          this.holdItCountry.push(
           {
             text: this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i],
             value:this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i]
@@ -84,8 +113,10 @@ export class EmployeeDetailComponent implements OnInit {
              )
           }
         }
+        }
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+          if(this.employeeViewModel[i].JobTitle){
+          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].JobTitle) === -1){
         this.holdItJobTitle.push(
           {
             text:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i],
@@ -94,7 +125,9 @@ export class EmployeeDetailComponent implements OnInit {
         )
           }
         }
+        }
         for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.employeeViewModel[i].Status){
         if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
         this.holdItStatus.push(
           {
@@ -103,22 +136,29 @@ export class EmployeeDetailComponent implements OnInit {
           }
         )
         }
+      }
         }
-
-      this.holdItCountry.map(country=>country.text).filter((value,index,self)=>self.indexOf(value)===index)
-      this.holdItJobTitle.map(title=>title.text).filter((value,index,self)=>self.indexOf(value)===index)
-      this.holdItStatus.map(status=>status.text).filter((value,index,self)=>self.indexOf(value)===index)
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.employeeViewModel[i].JoiningDate){
+          if(this.holdItJoiningDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate) === -1){
+          this.holdItJoiningDate.push(
+            {
+              text:this.employeeViewModel.map(joindate=>joindate.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i],
+              value:this.employeeViewModel.map(joindate=>joindate.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i]
+            }
+          )
+          }
+         }
+        }
 
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
-
-       // array.map(item => item.age)
-       // .filter((value, index, self) => self.indexOf(value) === index)
+        this.empJoinDate = this.holdItJoiningDate,
 
         this.listOfColumns = [
           {
-            name: 'JobTitle',
+            name: 'Job Title',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
@@ -144,7 +184,6 @@ export class EmployeeDetailComponent implements OnInit {
             listOfFilter: this.empListStatus,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
           }
-
 
         ];
 
@@ -211,10 +250,10 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
   }
   searchEmployees() {
+    if(this.fullname.length > 2 || this.fullname == ""){
     this.employeeParams.searchKey = this.fullname;
-    console.log(this.fullname);
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
-
+    }
   }
 
 
