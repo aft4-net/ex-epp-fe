@@ -17,8 +17,6 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-
-
 }
 
 .invalisForm {
@@ -27,13 +25,6 @@
   border: 1.5px solid red !important;
   outline-color: red !important;
 
-}
-
-::ng-deep .ant-form-item-label {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
 }
 
 
@@ -129,15 +120,6 @@ header {
 }
 
 
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #FFFFFF;
-}
-
 ::ng-deep .ant-btn:not([disabled]):hover {
   background: #03da6b !important;
   color: white;
@@ -151,10 +133,4 @@ header {
   border: 0.5px solid #00A551;
 }
 
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active .clear-btn :hover{
-  background: white;
-  color: #00A551;
-  margin-right: 10px;
-  border: 0.5px solid #00a551;
 
-}
