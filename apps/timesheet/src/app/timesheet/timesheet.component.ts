@@ -253,7 +253,7 @@ export class TimesheetComponent implements OnInit {
       if (this.dateColumnTotalHour < 24) {
         this.checkForApproalAndShowFormDrawer();
       } else {
-        this.createNotificationError("bottomRight", "Time already full 24");
+        this.createNotificationError("bottomRight", "Day is already filled up to 24 hours");
       }
     } else {
       this.createNotificationError('bottomRight', "Can't fill timesheet for the future.");
@@ -491,5 +491,5 @@ export class TimesheetComponent implements OnInit {
   disabledDates=(current: Date): boolean => {
       return current.valueOf() > Date.now();
   }
- 
+
 }
