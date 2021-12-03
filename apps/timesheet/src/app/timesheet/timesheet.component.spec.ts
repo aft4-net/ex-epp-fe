@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimesheetComponent } from './timesheet.component';
 
-describe('TimesheetComponent', () => {
+fdescribe('TimesheetComponent', () => {
+//Arrange
   let component: TimesheetComponent;
   let fixture: ComponentFixture<TimesheetComponent>;
 
@@ -19,8 +20,10 @@ describe('TimesheetComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  
+  it('should check date', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-unit-test!');
+  }));
 });
