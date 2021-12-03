@@ -7,29 +7,50 @@ import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 
 @Component({
-    selector: 'exec-epp-custom-phone',
-    templateUrl: './custom-phone.component.html',
-    styleUrls: ['./custom-phone.component.scss']
+    selector: 'exec-epp-custom-email-multiple',
+    templateUrl: './custom-email-multiple.component.html',
+    styleUrls: ['./custom-email-multiple.component.scss']
   })
-export class CustomPhoneNumberComponent implements OnInit {
+export class CustomEmailMultipleComponent implements OnInit {
 
     // @Input() formItem: FormItemData = defaultFormItemData
-    label = 'Phone Number'
-    prefices$: Observable<any> = of([{country:'Ethiopia', code:'+251'}])
+    label = 'Email Address'
+    maxAmount = 3
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig = defaultFormControlParameter
     @Input() controlConfig = defaultFormControlParameter
-    @Input() prefixControl: FormControl = new FormControl()
-    @Input() myControl: FormControl = new FormControl()
-    
+    @Input() myControls:FormControl[] = []
     required = true
     errMessage = ''
 
 
     constructor() {
+        if(this.myControls.length === 0) {
+            this.myControls.push(new FormControl())
+        }
     }
 
     ngOnInit(): void {
+    }
+
+    onAction(index: number) {
+        if(index + 1 < this.myControls.length
+            || this.myControls.length >= this.maxAmount) {
+            this.onRemove(index)
+        } else {
+            this.onAdd()
+        }
+    }
+
+    onAdd() {
+        this.myControls.push(new FormControl())
+    }
+
+    onRemove(index: number) {
+        this.myControls = [
+            ...this.myControls.slice(0, index),
+            ...this.myControls.slice(index + 1)
+        ]
     }
 
     onChange() {

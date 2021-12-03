@@ -1,0 +1,33 @@
+
+  <ng-container *ngFor="let control of myControls; let i = index">
+    <nz-form-item class="form-item">
+        <nz-form-label class="form-label" [nzSm]="labelConfig.nzSm" [nzXs]="labelConfig.nzXs" [nzRequired]="required"
+        [hidden]="i > 0">
+          {{label}}
+        </nz-form-label>
+        <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessage">
+      <nz-input-group [nzAddOnBefore]="prefixTemplate" [nzAddOnAfter]="suffixTemplate">
+        <input [formControl]="control[1]" nzPlaceHolder="Smith" (ngModelChange)="onChange()" nz-input />
+        <ng-template #prefixTemplate>
+          <nz-select class="prefix phone-number" [formControl]="control[0]">
+            <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.code"
+              [nzLabel]="choice.code+' '+choice.country">
+            </nz-option>
+          </nz-select>
+        </ng-template>
+        <ng-template #suffixTemplate>
+          <button nz-button
+          (click)="onAction(i)">
+              <ng-container *ngIf="i + 1 === myControls.length && i + 1 < maxAmount; else removeButton ">
+                + Add Move
+              </ng-container>
+              <ng-template #removeButton>
+                - Remove
+            </ng-template>
+          </button>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+</nz-form-item>
+  </ng-container>
+
