@@ -136,7 +136,7 @@ export class AddClientComponent implements OnInit {
     } else {
      
       this.locationTabEnabled = false;
-      if (this.contactDetailsTabEnabled == true) this.activeTabIndex = 2;
+      if (this.contactDetailsTabEnabled == true) this.activeTabIndex = 3;
       else this.activeTabIndex = -3;
 
     }
