@@ -121,6 +121,17 @@
     </tr>
   </tbody>
 </nz-table>
+
+<div class="pagination mt-2">
+  <div>Showing 1 - {{clientsdata.length}} of {{total}} entries</div>
+  <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
+  (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+
+
+ </nz-pagination>
+
+ </div>
+
 <br><br>
 
 
