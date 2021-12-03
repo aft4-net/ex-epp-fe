@@ -3,6 +3,7 @@ export interface Employee {
       Role: string;
       Email:string;
       Phone:number;
+      PhoneNumberPrefix:string
       HiredDate: Date;
       Guid: string;
       IsActive: boolean;
