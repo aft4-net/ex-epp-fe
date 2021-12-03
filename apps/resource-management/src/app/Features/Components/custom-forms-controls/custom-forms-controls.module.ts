@@ -14,6 +14,7 @@ import { CustomEmployeeDateofBirthComponent } from "./custom-controls/custom-emp
 import { CustomEmployeeIdNumberComponent } from "./custom-controls/custom-employee-id-number/custom-employee-id-number.component";
 import { CustomFullNameComponent } from "./custom-controls/custom-full-name/custom-full-name.component";
 import { CustomGenderComponent } from "./custom-controls/custom-gender/custom-gender.component";
+import { CustomPhoneNumberComponent } from "./custom-controls/custom-phone/custom-phone.component";
 import { CustomSelectComponent } from "./custom-controls/custom-select/custom-select.component";
 import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom-text-box.component";
 import { TestFormComponent } from "./test-form/test-form.component";
@@ -29,6 +30,7 @@ registerLocaleData(en);
         CustomEmployeeIdNumberComponent,
         CustomGenderComponent,
         CustomEmployeeDateofBirthComponent,
+        CustomPhoneNumberComponent,
 
         PersonalDetailGroupComponent,
         TestFormComponent
@@ -51,6 +53,7 @@ registerLocaleData(en);
         CustomEmployeeIdNumberComponent,
         CustomEmployeeDateofBirthComponent,
         CustomGenderComponent,
+        CustomPhoneNumberComponent,
 
         PersonalDetailGroupComponent,
         TestFormComponent
