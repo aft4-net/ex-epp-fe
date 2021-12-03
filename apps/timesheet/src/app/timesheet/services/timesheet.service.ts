@@ -10,6 +10,7 @@ import {
   TimeEntryResponse,
   Timesheet,
   TimesheetApprovalResponse,
+  TimesheetConfigResponse,
   TimesheetResponse
 } from '../../models/timesheetModels';
 import { Project } from '../../models/project';
@@ -118,6 +119,14 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.Data));
 
+  }
+
+  //#endregion
+
+  //#region Timesheet Configuration
+
+  getTimeSheetConfiguration(){
+    return this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
   }
 
   //#endregion
