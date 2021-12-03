@@ -97,9 +97,7 @@ export class EmployeeDetailComponent implements OnInit {
   FillTheFilter(){
 
     this.employeeViewModels$.subscribe(
-       val => {this.employeeViewModel = val,
-
-        console.log(this.employeeViewModel.length)
+       val => {this.employeeViewModel = val
 
         for(let i=0; i < this.employeeViewModel.length;i++){
           console.log(i+"-->"+this.employeeViewModel[i].Location.trim());
