@@ -1,7 +1,20 @@
-<div class="breadcrumb">
-    <nz-breadcrumb>
-        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Resource Management</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <h1 style="font-family: 'SF Pro Display';">Add Employee</h1>
+<div class="breadcrumb ">
+  <nz-breadcrumb>
+<div nz-row>
+    <div nz-col nzSpan="22">
+    <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Resources</nz-breadcrumb-item> <br />
+
+    <h3 *ngIf="isdefault; else employees" >Resources</h3>
+    <ng-template #employees>
+      <h3>Employees</h3>
+    </ng-template>
+    </div>
+
+
+    <div nz-col nzSpan="2" >
+     <button *ngIf="isdefault"  nz-button  class="addButton" (click)="addEmployee()">Add Employee</button>
+    </div>
+  </div>
+  </nz-breadcrumb>
 </div>

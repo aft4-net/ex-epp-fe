@@ -1,19 +1,15 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { AddEmergencycontactComponent } from './Features/Components/add-emergencycontact/add-emergencycontact.component';
-import { AddressNewComponent } from './Features/Components/address-new/address-new.component';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { EmployeeDetailComponent } from './Features/Components/employee/employee-detail/employee-detail.component';
 import { NgModule } from '@angular/core';
-import { OrganizationDetailComponent } from './Features/Components/organization-detail/organization-detail.component';
-import { PersonalInfoComponent } from './Features/Components/personal-info/personal-info.component';
+import { AddDeviceDetailComponent } from './Features/Components/add-device-detail/add-device-detail.component';
 
 const routes: Routes = [
-  { path: '', component: PersonalInfoComponent },
-  { path: 'Organization-Detail', component: OrganizationDetailComponent },
-  { path: 'address-new', component: AddressNewComponent },
-  { path: 'Organization-Detail', component: OrganizationDetailComponent },
-  { path: 'personal-info', component: PersonalInfoComponent },
-  { path: 'emergency-contact', component: AddEmergencycontactComponent },
+  { path: '', component: EmployeeDetailComponent },
+
+  {path: 'device-detail', loadChildren: () => import('./Features/Components/device-detail/device-detail.module').then(m=>m.DeviceDetailModule)},
+
+  { path: 'employee', loadChildren: () => import('./Features/Components/employee/employee.module').then(m => m.EmployeeModule) },
 ];
 
 @NgModule({
