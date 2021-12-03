@@ -14,15 +14,14 @@
                 </button>
             </div>
         </div>
-       
+
 
         <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
 
             <thead>
                 <tr class="tr">
-                    <th [nzChecked]="checked" [nzIndeterminate]="indeterminate"
-                        (nzCheckedChange)="onAllChecked($event)"></th>
+                    
                     <th>Full Name</th>
                     <th>Relationship with Employee</th>
                     <th>Action</th>
@@ -32,8 +31,7 @@
             <tbody>
                 <tr *ngFor="let data of rowSelectionTable.data">
 
-                    <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
-                        (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                    
                     <td>{{ data.name }}</td>
                     <td>{{ data.relationship }}</td>
 
@@ -51,6 +49,10 @@
                                         nzTheme="outline"></i></a>
                             </div>
                         </div>
+
+
+
+
                     </td>
                 </tr>
 
@@ -63,14 +65,6 @@
 
         </button>
 
-
-
-        
-
-
-
-
-
-
-    </div>
+   </div>
 </div>
+

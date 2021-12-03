@@ -1,17 +1,22 @@
+
 import { ActivatedRoute, Data } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 import { Observable, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { NzTableFilterList } from 'ng-zorro-antd/table';
 
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
+
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -22,6 +27,9 @@ export class EmployeeDetailComponent implements OnInit {
 
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
+
+  constructor(private _employeeService : EmployeeService) {}
+
 
   checked = false;
   loading = false;
@@ -36,12 +44,24 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
-  holdItJoiningDate: listtToFilter[] = [];
+
+
+  holdItJoinDate: listtToFilter[]=[];
 
   empListCountry : NzTableFilterList=[];
   empListStatus: NzTableFilterList=[];
   empListJobType: NzTableFilterList=[];
-  empJoinDate: NzTableFilterList=[];
+
+  empJoinDate:NzTableFilterList=[];
+
+
+  //added by simbo just you remove
+
+  isVisible = false;
+  isConfirmLoading = false;
+
+
+  ///
 
 
   listOfColumnsFullName: ColumnItem[] = [
@@ -69,10 +89,6 @@ export class EmployeeDetailComponent implements OnInit {
 
   listOfColumns!: ColumnItem[];
 
-   // eslint-disable-next-line @typescript-eslint/no-empty-function
-   constructor(private _employeeService : EmployeeService) {
-
-  }
 
   ngOnInit(): void {
 
@@ -138,8 +154,8 @@ export class EmployeeDetailComponent implements OnInit {
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
           if(this.employeeViewModel[i].JoiningDate){
-          if(this.holdItJoiningDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate) === -1){
-          this.holdItJoiningDate.push(
+          if(this.holdItJoinDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate) === -1){
+          this.holdItJoinDate.push(
             {
               text:this.employeeViewModel.map(joindate=>joindate.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i],
               value:this.employeeViewModel.map(joindate=>joindate.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i]
@@ -149,10 +165,23 @@ export class EmployeeDetailComponent implements OnInit {
          }
         }
 
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.holdItJoinDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate.toString()) === -1){
+          this.holdItJoinDate.push(
+            {
+              text:this.employeeViewModel.map(join=>join.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i].toString(),
+              value:this.employeeViewModel.map(join=>join.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i].toString()
+            }
+          )
+          }
+          }
+
+
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
-        this.empJoinDate = this.holdItJoiningDate,
+        this.empJoinDate = this.holdItJoinDate,
+
 
         this.listOfColumns = [
           {
@@ -162,6 +191,15 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter:this.empListJobType,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          },
+          {
+            name: 'JoiningDate',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.toString().length - b.JoiningDate.toString().length,
+            filterMultiple: true,
+            listOfFilter:this.empJoinDate,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
           {
@@ -242,8 +280,6 @@ export class EmployeeDetailComponent implements OnInit {
     }, 1000);
   }
 
-
-
   FeatchAllEmployees() {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
   }
@@ -251,18 +287,35 @@ export class EmployeeDetailComponent implements OnInit {
     if(this.fullname.length > 2 || this.fullname == ""){
     this.employeeParams.searchKey = this.fullname;
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
-    }
+ }
   }
 
 
   Edit(employeeGuid : string)
   {
-  //not implemented
+    this.isVisible = true;
   }
 
   Delete(employeeGuid : string)
   {
   //not implemented
   }
-}
 
+
+  //added by simbo just you can delete
+
+  handleOk(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+
+  //
+}
