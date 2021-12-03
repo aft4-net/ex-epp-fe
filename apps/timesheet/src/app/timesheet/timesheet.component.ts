@@ -364,15 +364,7 @@ export class TimesheetComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-    if(this.formData.toDate!==null && this.formData.fromDate!==null && this.formData.fromDate){
-    if(Math.floor(this.formData.toDate.getTime()-this.formData.fromDate.getTime()) / 1000 / 60 / 60 / 24){
-    if(this.timesheetvalidation.dateSelectionInWeek(this.formData.fromDate?this.formData.fromDate:new Date(),
-    this.formData.toDate?this.formData.toDate:new Date(),this.firstday1,this.lastday1)){
-        this.notification.create('error',"Error","You can only enter time entry for the range of days in this week.");
-    }
-  }
-  }
-    try {
+      try {
       let timeEntry: TimeEntry = {
         Guid: "00000000-0000-0000-0000-000000000000",
         Note: this.validateForm.value.note,
@@ -493,7 +485,8 @@ export class TimesheetComponent implements OnInit {
     this.notification.create(type, message, 'Timesheet');
   }
   disabledDates=(current: Date): boolean => {
-      return current.valueOf() > Date.now();
+
+    return current.valueOf() > this.lastday1 || current.valueOf() <= this.firstday1;
   }
 
 }
