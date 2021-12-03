@@ -12,7 +12,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class EmergencycontactViewComponent implements OnInit {
 
 
-
+  footer = null;
   isVisible = false;
   isConfirmLoading = false;
   checked = false;
@@ -32,10 +32,12 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   addemergencycontact(): void {
-    this.modalService.create({
-      nzTitle: 'Add Emergency Contacts',
-      nzContent: AddEmergencycontactComponent
-    });
+    this.isVisible = true;
+
+    // this.modalService.create({
+    //   nzTitle: 'Add Emergency Contacts',
+    //   nzContent: AddEmergencycontactComponent
+    // });
   }
 
   handleOk(): void {
@@ -127,5 +129,8 @@ export class EmergencycontactViewComponent implements OnInit {
   deleteRow(id: string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
-
+  exitModal() {
+    this.isVisible = false;
+  }
+  
 }
