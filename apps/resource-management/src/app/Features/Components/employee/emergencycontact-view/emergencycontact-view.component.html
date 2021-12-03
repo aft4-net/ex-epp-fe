@@ -66,9 +66,9 @@
 
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Address" [nzWidth]="'40%'" [nzFooter]="footer"
+<nz-modal  [(nzVisible)]="isVisible" nzTitle="Add Address" [nzWidth]="'51%'" [nzFooter]="footer"
     (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
-    <ng-container *nzModalContent>
+    <ng-container *nzModalContent style="margin:10px">
         <exec-epp-add-emergencycontact></exec-epp-add-emergencycontact>
             
     

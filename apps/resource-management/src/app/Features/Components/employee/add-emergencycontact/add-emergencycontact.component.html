@@ -1,6 +1,10 @@
 
-<div>
-<div style="border: 2px solid #D9D9D9; border-radius: 5px;">
+
+
+<form  nz-form id="myForm" [formGroup]="AddForm" [nzLayout]="'vertical'">
+<div style="padding:24px;">
+
+<div style="border: 2px solid #D9D9D9; border-radius: 5px; width: 650px;">
   <div nz-row style="border-bottom: 1px solid #D9D9D9; height: 50px; justify-content: center;">
     <div nz-col nzSpan="20">
       <h2> Enter Details</h2>
@@ -10,8 +14,8 @@
     </div>
   </div>
 
-  <div nz-col nzSpan="24">
-    <nz-tabset class="p-2" [nzTabPosition]="'left'">
+  <div nz-col nzSpan="24" > 
+    <nz-tabset [nzTabPosition]="'left'"  >
       <div>
         <nz-tab [nzTitle]="basic">
           <ng-template #basic>
@@ -26,8 +30,9 @@
             </span>
           </ng-template>
           <div>
+            <exec-epp-custom-full-name class="inner"  ></exec-epp-custom-full-name>
             
-            <h1>Basic  will here</h1>
+          
           </div>
         </nz-tab>
       </div>
@@ -51,6 +56,8 @@
   </div>
  
 </div>
+<br/>
 <button nz-button class="saveButton" (click)="handleOk()">Add</button> &nbsp;
 <button nz-button class="cancelButton" (click)="handlereset()">Clear</button>
 </div>
+</form>
