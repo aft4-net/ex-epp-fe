@@ -194,15 +194,6 @@ export class EmployeeDetailComponent implements OnInit {
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
           {
-            name: 'JoiningDate',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.toString().length - b.JoiningDate.toString().length,
-            filterMultiple: true,
-            listOfFilter:this.empJoinDate,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
-          },
-          {
             name: 'Location',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
