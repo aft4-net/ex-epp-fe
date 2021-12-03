@@ -1,0 +1,32 @@
+$tableHeadingBackgroundColour:#E8FFE8 !important;
+$tblRowBackgroundColour:#F9FFF9;
+$addClientButtonFloat:right;
+$countryCodeWidth:8vw !important;
+
+$footer-btn:left;
+$addBtnMarginRight:1rem;
+.table_heading
+{
+background-color: $tableHeadingBackgroundColour
+}
+tr:nth-child(even) {background: $tblRowBackgroundColour}
+
+button.ant-btn {
+  float: $addClientButtonFloat;
+}
+::ng-deep  .phone-select {
+  min-width: $countryCodeWidth;
+}
+::ng-deep .ant-modal-footer {
+
+  text-align: left !important;
+}
+
+
+.footer-btn {
+  float: $footer-btn;
+}
+button.add-btn.ant-btn {
+
+  margin-right: $addBtnMarginRight;
+}
