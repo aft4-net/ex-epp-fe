@@ -7,7 +7,9 @@
         </nz-form-label>
         <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessage">
       <nz-input-group [nzAddOnAfter]="suffixTemplate">
-        <input [formControl]="control" nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange()" nz-input />
+        <input [formControl]="control" 
+        class="email-input-box"
+        nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange()" nz-input />
         <ng-template #suffixTemplate>
           <button nz-button
           (click)="onAction(i)">

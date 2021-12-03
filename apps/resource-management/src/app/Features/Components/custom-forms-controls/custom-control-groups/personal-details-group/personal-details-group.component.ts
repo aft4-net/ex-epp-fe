@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { of } from "rxjs";
 import { commonErrorMessage, validateFirstName } from "../../../../Services/supporting-services/custom.validators";
+import { FormGenerator } from "../../form-generator.model";
 
 @Component({
     selector: 'exec-epp-personal-details-group',
@@ -15,13 +16,10 @@ export class PersonalDetailGroupComponent implements OnInit {
 
 
     constructor(
-        private readonly _formBuilder: FormBuilder
+        private readonly _formBuilder: FormBuilder,
+        private readonly _formGenerator: FormGenerator
     ) {
-        if (this.personalDetailGroup !== undefined) {
-            this.formGroup = this.personalDetailGroup
-        } else {
-            this.formGroup = this.createBasicForm()
-        }
+        this.formGroup = this._formGenerator.getPersonalDetailsForm()
     }
 
     ngOnInit(): void {
@@ -35,7 +33,7 @@ export class PersonalDetailGroupComponent implements OnInit {
         const form = this._formBuilder.group({
             employeeIdNumberPrefix: [null],
             employeeIdNumber: [null],
-            firstName: [null, this.validateFirstName],
+            firstName: [null],
             middleName: [null],
             lastName: [null],
             gender: [null],
@@ -45,20 +43,6 @@ export class PersonalDetailGroupComponent implements OnInit {
             nationalities: [null]
         });
         return form
-    }
-    validateFirstName(control: AbstractControl) {
-        commonErrorMessage.required = true
-        return validateFirstName(control, commonErrorMessage)
-    }
-
-    // validateMiddleName(control: AbstractControl) {
-    //     commonErrorMessage.required = false
-    //     return this.validateMiddleName(control)
-    // }
-
-    validateLastName(control: AbstractControl) {
-        commonErrorMessage.required = true
-        return validateFirstName(control, commonErrorMessage)
     }
 
     showData() {

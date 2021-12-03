@@ -7,9 +7,11 @@
         </nz-form-label>
         <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessage">
       <nz-input-group [nzAddOnBefore]="prefixTemplate" [nzAddOnAfter]="suffixTemplate">
-        <input [formControl]="control[1]" nzPlaceHolder="Smith" (ngModelChange)="onChange()" nz-input />
+        <input 
+            class="phone-input"
+        [formControl]="control[1]" nzPlaceHolder="Smith" (ngModelChange)="onChange()" nz-input />
         <ng-template #prefixTemplate>
-          <nz-select class="prefix phone-number" [formControl]="control[0]">
+          <nz-select class="prefix-phone-number" [formControl]="control[0]">
             <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.code"
               [nzLabel]="choice.code+' '+choice.country">
             </nz-option>

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
-import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
+import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormControlParameter, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 
@@ -17,7 +17,7 @@ export class CustomEmailMultipleComponent implements OnInit {
     label = 'Email Address'
     maxAmount = 3
     @Input() labelConfig = defaultFormLabellParameter
-    @Input() prefixControlConfig = defaultFormControlParameter
+    @Input() prefixControlConfig =  new FormControlParameter(18, 24)
     @Input() controlConfig = defaultFormControlParameter
     @Input() myControls:FormControl[] = []
     required = true
