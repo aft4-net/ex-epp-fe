@@ -9,7 +9,7 @@ import { AttendanceService } from '../../../Services/address/attendance.service'
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { LocationPhoneService } from '../../../Services/address/location-phone.service';
 import { ResponseDto } from '../../../Models/response-dto.model';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 
 export function extractSpaces(value: string): string {
   let result = ''
@@ -27,14 +27,20 @@ export function extractSpaces(value: string): string {
 })
 export class AddressNewComponent implements OnInit {
 
-  countries: string[] = []
 
+  //===========
+  listOfData: readonly Data[] = [];
+  isConfirmLoading = false;
+  i = 0;
+  //=======================
+  countries: string[] = []
+ 
   listofCodes: string[] = []
 
   listOfStates: string[] = []
 
   isEthiopia = false;
-
+  isVisible =false;
   buttonClicked = 0
 
   addressForm!: FormGroup;
@@ -230,5 +236,46 @@ export class AddressNewComponent implements OnInit {
     }
 
   }
+
+
+
+  addRow(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: `${this.i}`,
+        name: `Edward King ${this.i}`,
+        age: '32',
+        address: `London, Park Lane no. ${this.i}`
+      }
+    ];
+    this.i++;
+  }
+
+
+  handleOk(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: `${this.i}`,
+        name: `Edward King ${this.i}`,
+        age: '32',
+        address: `London, Park Lane no. ${this.i}`
+      }
+    ];
+    this.i++;
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+
+  }
+
+  handlereset(): void {
+    this.addressForm.reset();
+    this.isVisible = false;
+  }
+
 
 }
