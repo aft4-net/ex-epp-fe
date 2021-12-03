@@ -4,17 +4,17 @@
     <div nz-col nzSpan="22">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
     <nz-breadcrumb-item>Resources</nz-breadcrumb-item> <br />
-    <h3>Resources</h3>
+
+    <h3 *ngIf="isdefault; else employees" >Resources</h3>
+    <ng-template #employees>
+      <h3>Employees</h3>
+    </ng-template>
     </div>
+
+
     <div nz-col nzSpan="2" >
-     <button nz-button  class="addButton" (click)="addEmployee()">Add Employee</button>
+     <button *ngIf="isdefault"  nz-button  class="addButton" (click)="addEmployee()">Add Employee</button>
     </div>
   </div>
-
-
-
-
-
-
   </nz-breadcrumb>
 </div>
