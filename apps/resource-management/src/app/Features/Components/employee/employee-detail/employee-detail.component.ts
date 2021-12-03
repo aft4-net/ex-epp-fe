@@ -1,12 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+
+import { ActivatedRoute, Data } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Observable, fromEvent } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
+
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
-import { Data } from '@angular/router';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import {  Observable, pipe } from 'rxjs';
+
+import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { ResponseDTO } from '../../../Models/response-dto.model';
+import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 
@@ -16,9 +24,13 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
-  constructor(private _employeeService : EmployeeService) {
 
-  }
+  @ViewChild('searchInput', { static: true })
+  input!: ElementRef;
+
+  constructor(private _employeeService : EmployeeService) {}
+
+
   checked = false;
   loading = false;
   indeterminate = false;
@@ -32,20 +44,23 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
+
+
   holdItJoinDate: listtToFilter[]=[];
 
   empListCountry : NzTableFilterList=[];
   empListStatus: NzTableFilterList=[];
   empListJobType: NzTableFilterList=[];
+
   empJoinDate:NzTableFilterList=[];
 
 
-  //added by simbo just you remove 
+  //added by simbo just you remove
 
   isVisible = false;
   isConfirmLoading = false;
-  
-  
+
+
   ///
 
 
@@ -60,6 +75,15 @@ export class EmployeeDetailComponent implements OnInit {
 
       ],
       filterFn: null
+    },
+    {
+          name: 'Joining Date',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
+          filterMultiple: true,
+          listOfFilter:this.empJoinDate,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
     }
   ]
 
@@ -72,17 +96,30 @@ export class EmployeeDetailComponent implements OnInit {
     this.FillTheFilter();
 
   }
+  ngAfterViewInit() {
+
+    fromEvent<any>(this.input.nativeElement,'keyup')
+     .pipe(
+       map(event => event.target.value),
+       startWith(''),
+       debounceTime(3000),
+       distinctUntilChanged(),
+       switchMap( async (search) => {this.fullname = search,
+        this.searchEmployees()
+       })
+     ).subscribe();
+  }
 
   FillTheFilter(){
 
     this.employeeViewModels$.subscribe(
-       val => {this.employeeViewModel = val,
-
-        console.log(this.employeeViewModel.length)
+       val => {this.employeeViewModel = val
 
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
-        this.holdItCountry.push(
+          console.log(i+"-->"+this.employeeViewModel[i].Location.trim());
+          if(this.employeeViewModel[i].Location){
+          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location) === -1 ){
+          this.holdItCountry.push(
           {
             text: this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i],
             value:this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i]
@@ -90,8 +127,10 @@ export class EmployeeDetailComponent implements OnInit {
              )
           }
         }
+        }
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+          if(this.employeeViewModel[i].JobTitle){
+          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].JobTitle) === -1){
         this.holdItJobTitle.push(
           {
             text:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i],
@@ -100,7 +139,9 @@ export class EmployeeDetailComponent implements OnInit {
         )
           }
         }
+        }
         for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.employeeViewModel[i].Status){
         if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
         this.holdItStatus.push(
           {
@@ -109,7 +150,21 @@ export class EmployeeDetailComponent implements OnInit {
           }
         )
         }
+      }
         }
+        for(let i=0; i < this.employeeViewModel.length;i++){
+          if(this.employeeViewModel[i].JoiningDate){
+          if(this.holdItJoinDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate) === -1){
+          this.holdItJoinDate.push(
+            {
+              text:this.employeeViewModel.map(joindate=>joindate.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i],
+              value:this.employeeViewModel.map(joindate=>joindate.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i]
+            }
+          )
+          }
+         }
+        }
+
         for(let i=0; i < this.employeeViewModel.length;i++){
           if(this.holdItJoinDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate.toString()) === -1){
           this.holdItJoinDate.push(
@@ -126,26 +181,16 @@ export class EmployeeDetailComponent implements OnInit {
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
         this.empJoinDate = this.holdItJoinDate,
-       // array.map(item => item.age)
-       // .filter((value, index, self) => self.indexOf(value) === index)
+
 
         this.listOfColumns = [
           {
-            name: 'JobTitle',
+            name: 'Job Title',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter:this.empListJobType,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
-          },
-          {
-            name: 'JoiningDate',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.toString().length - b.JoiningDate.toString().length,
-            filterMultiple: true,
-            listOfFilter:this.empJoinDate,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
           {
@@ -166,7 +211,6 @@ export class EmployeeDetailComponent implements OnInit {
             listOfFilter: this.empListStatus,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
           }
-
 
         ];
 
@@ -231,9 +275,10 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
   }
   searchEmployees() {
+    if(this.fullname.length > 2 || this.fullname == ""){
     this.employeeParams.searchKey = this.fullname;
-    console.log(this.fullname);
     this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
+ }
   }
 
 
