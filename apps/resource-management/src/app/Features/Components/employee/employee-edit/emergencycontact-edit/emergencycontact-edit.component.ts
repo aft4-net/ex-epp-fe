@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { FamilyDetailComponent } from '../family-detail/family-detail.component';
+import { AddEmergencycontactComponent } from '../../add-emergencycontact/add-emergencycontact.component';
 
 @Component({
-  selector: 'exec-epp-family-detail-view',
-  templateUrl: './family-detail-view.component.html',
-  styleUrls: ['./family-detail-view.component.scss']
+  selector: 'exec-epp-emergencycontact-edit',
+  templateUrl: './emergencycontact-edit.component.html',
+  styleUrls: ['./emergencycontact-edit.component.scss']
 })
-export class FamilyDetailViewComponent implements OnInit {
+export class EmergencycontactEditComponent implements OnInit {
 
-  
+ 
+
   isVisible = false;
   isConfirmLoading = false;
   checked = false;
@@ -23,19 +24,13 @@ export class FamilyDetailViewComponent implements OnInit {
 
   i = 0;
   editId: string | null = null;
-  
+
 
 
   constructor(private modalService: NzModalService) {}
 
- 
-  addfamilies(): void {
-    this.modalService.create({
-      nzTitle: 'Add Family Details',
-      nzContent: FamilyDetailComponent
-    });
-  }
 
+ 
   handleOk(): void {
     this.isConfirmLoading = true;
     setTimeout(() => {
@@ -48,7 +43,7 @@ export class FamilyDetailViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  
+
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -87,12 +82,12 @@ export class FamilyDetailViewComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  
+
 
   ngOnInit(): void {
-    this.listOfData = new Array(1).fill(0).map((_, index) => ({
+    this.listOfData = new Array(0).fill(0).map((_, index) => ({
       id: index,
-      name: `Edward King `,
+      name: `Edward King ${index}`,
       age: 32,
       address: `London, Park Lane no. ${index}`,
       disabled: index % 2 === 0,
@@ -100,10 +95,9 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
 
- 
+
   startEdit(id: string): void {
     this.editId = id;
-    this.isVisible = true;
   }
 
   stopEdit(): void {
@@ -115,7 +109,7 @@ export class FamilyDetailViewComponent implements OnInit {
       ...this.listOfData,
       {
         id: `${this.i}`,
-        name: `Edward King `,
+        name: `Edward King ${this.i}`,
         age: '32',
         address: `London, Park Lane no. ${this.i}`
       }
@@ -127,22 +121,4 @@ export class FamilyDetailViewComponent implements OnInit {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
 
-
-
-
-  
-  showModal(): void {
-    this.isVisible = true;
-  }
-
-
- 
-  showConfirm(): void {
-    this.modalService.confirm({
-      nzTitle: 'Confirm',
-      nzContent: 'Bla bla ...',
-      nzOkText: 'OK',
-      nzCancelText: 'Cancel'
-    });
-  }
 }
