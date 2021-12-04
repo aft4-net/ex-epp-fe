@@ -1,0 +1,14 @@
+<form nz-form class="form-group organizational-detail-form-group"
+[nzLayout]="'vertical'">
+
+    <div>
+        <h2>
+            Organizational Details
+        </h2>
+    </div>
+  <exec-epp-custom-select
+    label="Country"
+    [myControl]="getControl('country')"
+    [list$]="countries$">
+  </exec-epp-custom-select>
+</form>

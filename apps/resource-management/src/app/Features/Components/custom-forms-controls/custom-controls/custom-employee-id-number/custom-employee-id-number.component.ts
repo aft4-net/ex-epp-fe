@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { CountryDetailStateService } from "../../../../state-services/country-detail.state-service";
 
 @Component({
     selector: 'exec-epp-custom-employee-id-number',
@@ -13,7 +14,6 @@ import { commonErrorMessage } from "../../../../Services/supporting-services/cus
   })
 export class CustomEmployeeIdNumberComponent implements OnInit {
 
-    // @Input() formItem: FormItemData = defaultFormItemData
     label = 'Employee Identification Number'
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig = defaultFormControlParameter
@@ -23,9 +23,17 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
     required = true
     errMessage = ''
 
-    prefices$ = of(defaultEmployeeIdNumberPrefices)
+    prefices$: Observable<string[]>
 
-    constructor() {
+    constructor(
+      private readonly _countryDetailStateService: CountryDetailStateService
+    ) {
+      this.prefices$ = this._countryDetailStateService.employeeIdNumberPrefices$
+      // if(!this.prefixControl.value) {
+      //   this.prefixControl.setValue(
+      //     this._countryDetailStateService.defaultEmployeeIdNumberPrefices
+      //   )
+      // }
     }
 
     ngOnInit(): void {

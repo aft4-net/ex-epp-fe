@@ -1,7 +1,7 @@
 <nz-form-item
     class="form-item">
     <nz-form-label
-      class="form-label"
+      class="form-label employeIdNumber-form-label"
       [nzSm]="labelConfig.nzSm" 
       [nzXs]="labelConfig.nzXs"
       [nzRequired]="required">
@@ -10,7 +10,8 @@
     <nz-form-control
     [nzSm]="controlConfig.nzSm" 
     [nzXs]="controlConfig.nzXs"
-    [nzErrorTip]="errMessage">
+    [nzErrorTip]="errMessage"
+    nzHasFeedback>
       <nz-input-group
         [nzAddOnBefore]="prefixTemplate">
         <input

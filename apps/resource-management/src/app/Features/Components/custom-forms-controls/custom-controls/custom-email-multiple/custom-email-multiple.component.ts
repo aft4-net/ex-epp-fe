@@ -5,6 +5,7 @@ import { defaultFormItemConfig } from "../../../../Models/supporting-models/form
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormControlParameter, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { FormGenerator } from "../../form-generator.model";
 
 @Component({
     selector: 'exec-epp-custom-email-multiple',
@@ -17,34 +18,23 @@ export class CustomEmailMultipleComponent implements OnInit {
     label = 'Email Address'
     maxAmount = 3
     @Input() labelConfig = defaultFormLabellParameter
-    @Input() prefixControlConfig =  new FormControlParameter(18, 24)
     @Input() controlConfig = defaultFormControlParameter
-    @Input() myControls: FormArray = new FormArray([
-        new FormControl()
-    ])
+    @Input() myControls: FormArray = new FormArray([])
 
     @Output() reply = new EventEmitter<boolean>()
     required = true
-    errMessage = ''
+    errMessages: string[] = []
 
 
-    constructor() {
-        if(this.myControls.length === 0) {
-            this.myControls.push(new FormControl())
-        }
+    constructor(
+        private readonly _formGenerator: FormGenerator
+    ) {
     }
 
     ngOnInit(): void {
-    }
-
-    onAction(index: number) {
-        if(index + 1 < this.myControls.length
-            || this.myControls.length >= this.maxAmount) {
-            this.onRemove(index)
-        } else {
-            this.onAdd()
+        for (let i = 0; i < this.myControls.length; i++) {
+            this.errMessages.push('')
         }
-        this.reply.emit(true)
     }
 
     getControl(index: number) {
@@ -52,15 +42,19 @@ export class CustomEmailMultipleComponent implements OnInit {
     }
 
     onAdd() {
-        this.myControls.push(new FormControl())
+        // this.add.emit(true)
+        this.myControls.push(
+            this._formGenerator.getEmailControl()
+        )
+        this.errMessages.push('')
     }
 
     onRemove(index: number) {
         this.myControls.removeAt(index)
     }
 
-    onChange() {
-      this.errMessage = commonErrorMessage.message.substring(0)
+    onChange(index: number) {
+        this.errMessages[index] = commonErrorMessage.message.substring(0)
     }
 
 }

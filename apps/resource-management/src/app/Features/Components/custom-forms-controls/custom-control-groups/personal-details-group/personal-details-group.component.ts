@@ -1,8 +1,5 @@
-import { ThisReceiver } from "@angular/compiler";
-import { Component, Input, OnInit } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { of } from "rxjs";
-import { commonErrorMessage, validateFirstName } from "../../../../Services/supporting-services/custom.validators";
+import { Component, OnInit } from "@angular/core";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -12,20 +9,19 @@ import { FormGenerator } from "../../form-generator.model";
 })
 export class PersonalDetailGroupComponent implements OnInit {
 
-    @Input() personalDetailGroup?: FormGroup
     formGroup: FormGroup
 
 
     constructor(
-        private readonly _formBuilder: FormBuilder,
         private readonly _formGenerator: FormGenerator
     ) {
         this.formGroup
-            = this._formGenerator.getPersonalDetailsForm()
+            = this._formGenerator.personalDetailsForm
 
     }
 
     ngOnInit(): void {
+        this.showData()
     }
 
     getControl(name: string): FormControl {
@@ -40,6 +36,5 @@ export class PersonalDetailGroupComponent implements OnInit {
         console.log(this.formGroup.value)
         console.log(this.formGroup.valid)
     }
-
 
 }

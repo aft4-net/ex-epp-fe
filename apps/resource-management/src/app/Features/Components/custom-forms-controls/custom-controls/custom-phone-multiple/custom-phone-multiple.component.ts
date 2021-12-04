@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormArray, FormBuilder, FormControl } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { FormGenerator } from "../../form-generator.model";
 
 @Component({
     selector: 'exec-epp-custom-phone-multiple',
@@ -20,76 +21,56 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig = defaultFormControlParameter
     @Input() controlConfig = defaultFormControlParameter
-    @Input() myControls: FormArray = new FormArray([
-        new FormControl()
-    ])
+    @Input() myControls: FormArray = new FormArray([])
 
     @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>()
-    prefixControls: FormArray = new FormArray([
-        this.createPhoneControl()
-    ])
     required = true
-    errMessage = ''
+    errMessages: string[] = []
 
 
     constructor(
-        private readonly _formBuilder: FormBuilder
-    ) {}
+        private readonly _formGenerator: FormGenerator
+    ) {
+    }
 
     ngOnInit(): void {
-    }
-
-    onAction(index: number) {
-        if (index + 1 < this.myControls.length
-            || this.myControls.length >= this.maxAmount) {
-            this.onRemove(index)
-        } else {
-            this.onAdd()
+        for (let i = 0; i < this.myControls.length; i++) {
+            this.errMessages.push('')
         }
-        this.reply.emit(true)
     }
 
-    createPhoneControl() {
-        return this._formBuilder.array([
-            new FormControl(),
-            new FormControl()
-        ])
+    getFormgroup(index: number) {
+        return this.myControls.at(index) as FormGroup
     }
 
     getPrefixControl(index: number): FormControl {
-        const array = this.myControls.at(index) as FormArray
-        return array.at(0) as FormControl
+        const formGroup = this.getFormgroup(index)
+        return formGroup.get('prefix') as FormControl
     }
 
     getControl(index: number): FormControl {
-        const array = this.myControls.at(index) as FormArray
-        return array.at(1) as FormControl
+        const formGroup = this.getFormgroup(index)
+        return formGroup.get('phone') as FormControl
     }
 
     onAdd() {
-        this.myControls.controls.push(
-            this.createPhoneControl()
+        this.myControls.push(
+            this._formGenerator.getPhoneNumberFormGroup()
         )
+        this.errMessages.push('')
     }
 
     onRemove(index: number) {
+        this.myControls.removeAt(index)
+        this.errMessages = [
+            ...this.errMessages.slice(0, index),
+            ...this.errMessages.slice(index + 1),
 
-        for (let i = this.myControls.length - 1; i >= 0; i--) {
-            const element = this.myControls.controls.pop() as FormControl
-            if(index !== i) {
-                this.myControls.controls.push(
-                    element
-                )
-            }
-        }
-        // this.myControls = this._formBuilder.array([
-        //     ...this.myControls.controls.slice(0, index),
-        //     ...this.myControls.controls.slice(index + 1)
-        // ])
+        ]
     }
 
-    onChange() {
-        this.errMessage = commonErrorMessage.message.substring(0)
+    onChange(index: number) {
+        this.errMessages[index] = commonErrorMessage.message.substring(0)
     }
 
 }

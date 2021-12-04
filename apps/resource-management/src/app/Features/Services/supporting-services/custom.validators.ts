@@ -17,9 +17,6 @@ export function validateEmployeeIdNumber(
     control: AbstractControl
 ) {
     commonErrorMessage.required = true
-    if (!commonErrorMessage.required && !control.value) {
-        return null
-    }
     const parameters = [control, commonErrorMessage, null, 'Employee ID number']
     return checkMultiple(
         {
@@ -126,6 +123,45 @@ export function validateEmployeeDateofBirth(
         }
     )
 
+}
+
+export function validateEmailAddress (
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'Email address']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        }
+    )
+}
+
+export function validatePhoneNumber (
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'Phone Number']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        }
+    )
+}
+
+export function validateNationality (
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'Phone Number']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        }
+    )
 }
 
 export function validatePhonePrefix(
@@ -283,6 +319,15 @@ function modifyParameters(params: any[], condition: any) {
         condition,
         params[3]
     ]
+}
+
+function resetError(required = true) {
+    commonErrorMessage.message = ''
+    if(required) {
+        commonErrorMessage.required = true
+    } else {
+        commonErrorMessage.required = false
+    }
 }
 
 type Argument = {

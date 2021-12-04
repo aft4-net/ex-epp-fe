@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { en_US, NZ_I18N } from "ng-zorro-antd/i18n";
 import { DemoNgZorroAntdModule } from "../../../ng-zorro-antd.module";
+import { OrganizationalDetailGroupComponent } from "./custom-control-groups/organizational-detail-group/organizational-detail-group.component";
 import { PersonalDetailGroupComponent } from "./custom-control-groups/personal-details-group/personal-details-group.component";
 import { CustomDatepickerComponent } from "./custom-controls/custom-datepicker/custom-datepicker.component";
 import { CustomEmailMultipleComponent } from "./custom-controls/custom-email-multiple/custom-email-multiple.component";
@@ -39,6 +40,7 @@ registerLocaleData(en);
         CustomNationalityComponent,
 
         PersonalDetailGroupComponent,
+        OrganizationalDetailGroupComponent,
         TestFormComponent
     ],
     imports: [
@@ -65,6 +67,7 @@ registerLocaleData(en);
         CustomNationalityComponent,
 
         PersonalDetailGroupComponent,
+        OrganizationalDetailGroupComponent,
         TestFormComponent
     ]
 })

@@ -11,7 +11,6 @@ import { commonErrorMessage } from "../../../../Services/supporting-services/cus
   })
 export class CustomEmployeeDateofBirthComponent implements OnInit {
 
-    genders$: Observable<string[]> = of(['Female', 'Male', 'Other'])
     label = 'Date of Birth'
     startingDate = new Date()
     @Input() labelConfig = defaultFormLabellParameter
