@@ -133,7 +133,7 @@ export function validateEmailAddress(
             method: checkLength,
             parameters: modifyParameters(
                 parameters,
-                {min: 0, max: maxNumberofCharactersinEmail}
+                { min: 0, max: maxNumberofCharactersinEmail }
             )
         },
         {
@@ -172,10 +172,6 @@ export function validateNationality(
         }
     )
 }
-
-// export function validatePhoneNumber(params:type) {
-
-// }
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -354,7 +350,7 @@ function checkEmailCharacters(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[0-9A-Za-z_.]+$@[0-9A-Za-z_.]+$/).test(control.value)) {
+    if (!(/^[0-9A-Za-z_.@]+$/).test(control.value)) {
         errorLog.message = 'Input contains invalid character(s)!'
         return { invalidCharacter: true }
     }
@@ -381,17 +377,25 @@ function checkEmailLayout(
     }
 
     segments = segments[0].split('@')
-    for (i = 0; i < segments.length; i++) {
-        result = checkCharSeparatedSegment(segments[i], '@', 1, 1, minNumberofCharactersinEmailSegment, maxNumberofCharactersinEmail, errorLog)
-        if (result.type === 'minbn') {
-            return { minLength: true }
-        } else if (result.type === 'maxbn') {
-            return { maxLength: true }
-        } else if (result.type === 'maxchar') {
-            return { minChar: true }
-        } else if (result.type === 'minchar') {
-            return { maxChar: true }
-        }
+    result = checkCharSeparatedSegment(segments[0], '.', 0, 10, minNumberofCharactersinEmailSegment, maxNumberofCharactersinEmail, errorLog)
+    if (result.type === 'minbn') {
+        return { minLength: true }
+    } else if (result.type === 'maxbn') {
+        return { maxLength: true }
+    } else if (result.type === 'maxchar') {
+        return { minChar: true }
+    } else if (result.type === 'minchar') {
+        return { maxChar: true }
+    }
+    result = checkCharSeparatedSegment(segments[0], '.', 1, 2, minNumberofCharactersinEmailSegment, maxNumberofCharactersinEmail, errorLog)
+    if (result.type === 'minbn') {
+        return { minLength: true }
+    } else if (result.type === 'maxbn') {
+        return { maxLength: true }
+    } else if (result.type === 'maxchar') {
+        return { minChar: true }
+    } else if (result.type === 'minchar') {
+        return { maxChar: true }
     }
     return null
 }
@@ -462,6 +466,7 @@ export function resetError(required = true) {
     } else {
         commonErrorMessage.required = false
     }
+    commonErrorMessage.message = ''
 }
 
 type Argument = {

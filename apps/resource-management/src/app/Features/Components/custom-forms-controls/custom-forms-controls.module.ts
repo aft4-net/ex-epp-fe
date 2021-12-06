@@ -12,6 +12,7 @@ import { AddressDetailGroupComponent } from "./custom-control-groups/address-det
 import { EmergencyContactDetailGroupComponent } from "./custom-control-groups/emergency-contact-detail-group/emergency-contact-detail-group.component";
 import { FamilyDetailGroupComponent } from "./custom-control-groups/family-detail-group/family-detail-group.component";
 import { OrganizationalDetailGroupComponent } from "./custom-control-groups/organizational-detail-group/organizational-detail-group.component";
+import { EmergencyAddressDetailGroupComponent } from "./custom-control-groups/personal-address-detail-group/emergency-address-detail-group.component";
 import { PersonalDetailGroupComponent } from "./custom-control-groups/personal-details-group/personal-details-group.component";
 import { CustomDatepickerComponent } from "./custom-controls/custom-datepicker/custom-datepicker.component";
 import { CustomEmailMultipleComponent } from "./custom-controls/custom-email-multiple/custom-email-multiple.component";
@@ -48,6 +49,7 @@ registerLocaleData(en);
         OrganizationalDetailGroupComponent,
         AddressDetailGroupComponent,
         EmergencyContactDetailGroupComponent,
+        EmergencyAddressDetailGroupComponent,
         FamilyDetailGroupComponent,
         TestFormComponent
     ],
@@ -80,6 +82,7 @@ registerLocaleData(en);
         OrganizationalDetailGroupComponent,
         AddressDetailGroupComponent,
         EmergencyContactDetailGroupComponent,
+        EmergencyAddressDetailGroupComponent,
         FamilyDetailGroupComponent,
         TestFormComponent
     ]
