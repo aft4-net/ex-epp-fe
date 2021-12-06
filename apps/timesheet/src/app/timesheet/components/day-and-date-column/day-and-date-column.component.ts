@@ -38,6 +38,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @ViewChild('col') colEl!: ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
+  dateColumnHighlightClass: string = "date-column-highlight"
   morePopover = false;
   index: number = 0;
   overflow = false;
@@ -52,7 +53,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {    
+  }
 
   ngOnChanges(): void {
     if (this.timesheet) {
@@ -66,8 +68,14 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
         }
       });
       this.overflowCalc();
-    }
 
+      if (this.timesheetApprovals && this.timesheetApprovals.length > 0){
+        this.dateColumnHighlightClass = "date-column-no-highlight";
+      }
+      else {
+        this.dateColumnHighlightClass = "date-column-highlight"
+      }
+    }
   }
   overflowCalc() {
     this.entriesDiv?.changes.subscribe(() => {
@@ -150,7 +158,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
     if (this.timeEntrys !== null) {
       for (let i = index; i < this.timeEntrys.length; i++) {
-        for (let j = 0; j <= this.timeEntrys.length - index-1; j++) {
+        for (let j = 0; j <= this.timeEntrys.length - index - 1; j++) {
           this.moreEntries[j] = this.timeEntrys[i];
           i++;
         }
