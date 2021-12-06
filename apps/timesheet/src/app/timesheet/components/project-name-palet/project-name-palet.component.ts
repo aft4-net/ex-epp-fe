@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
-import { TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
+import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class ProjectNamePaletComponent implements OnInit {
       });
     }
 
-    if (this.timesheetApproval && this.timesheetApproval.Status != 2) {
+    if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
       this.projectNamePaletClass = "project-name-palet-approval";
     }
     else{
@@ -46,7 +46,7 @@ export class ProjectNamePaletComponent implements OnInit {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showPaletPopover;
       this.paletEllipsisClicked.emit(timeEntryEvent);
-      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === 2 : true;
+      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
     }
   } 
 
