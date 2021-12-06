@@ -18,7 +18,6 @@ export class PersonalDetailGroupComponent implements OnInit {
     genders$: Observable<SelectOptionModel[]>
     phoenPrefices$: Observable<SelectOptionModel[]>
     nationalities$: Observable<SelectOptionModel[]>
-    minDateofBirth = minEmployeeDateofBirth? minEmployeeDateofBirth: new Date(1900,1,1)
     maxDateofBirth = maxEmployeeDateofBirth? maxEmployeeDateofBirth: new Date(Date.now())
     maxEmailQty = 3
     maxPhoneQty = 3

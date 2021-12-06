@@ -14,6 +14,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { ValueTransformer } from '@angular/compiler/src/util';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 
 @Component({
   selector: 'exec-epp-personal-info',
@@ -69,7 +70,10 @@ export class PersonalInfoComponent implements OnInit {
 };
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
-    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
+    private readonly _form: FormGenerator,
+    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
+      this._form.personalDetailsForm
+     }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
