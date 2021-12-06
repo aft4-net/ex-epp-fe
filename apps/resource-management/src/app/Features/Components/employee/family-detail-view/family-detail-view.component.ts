@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Data } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { FamilyDetailComponent } from '../family-detail/family-detail.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
   templateUrl: './family-detail-view.component.html',
-  styleUrls: ['./family-detail-view.component.scss']
+  styleUrls: ['./family-detail-view.component.scss'],
 })
 export class FamilyDetailViewComponent implements OnInit {
-
-  
   isVisible = false;
   footer = null;
   isConfirmLoading = false;
@@ -21,22 +20,18 @@ export class FamilyDetailViewComponent implements OnInit {
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
 
-
   i = 0;
   editId: string | null = null;
-  
-
 
   constructor(private modalService: NzModalService) {}
 
- 
   addfamilies(): void {
-    this.isVisible= true;
-    this.modalService.create({
-      nzTitle: 'Add Family Details',
-      nzFooter:null,
-      nzContent: FamilyDetailComponent
-    });
+    this.isVisible = true;
+    // this.modalService.create({
+    //   nzTitle: 'Add Family Details',
+    //   nzFooter:null,
+    //   nzContent: FamilyDetailComponent
+    // });
   }
 
   handleOk(): void {
@@ -50,8 +45,6 @@ export class FamilyDetailViewComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
-
-  
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -90,8 +83,6 @@ export class FamilyDetailViewComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  
-
   ngOnInit(): void {
     this.listOfData = new Array(1).fill(0).map((_, index) => ({
       id: index,
@@ -102,8 +93,6 @@ export class FamilyDetailViewComponent implements OnInit {
     }));
   }
 
-
- 
   startEdit(id: string): void {
     this.editId = id;
     this.isVisible = true;
@@ -120,37 +109,30 @@ export class FamilyDetailViewComponent implements OnInit {
         id: `${this.i}`,
         name: `Edward King `,
         age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
+        address: `London, Park Lane no. ${this.i}`,
+      },
     ];
     this.i++;
   }
 
   deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+    this.listOfData = this.listOfData.filter((d) => d.id !== id);
   }
 
-
-
-
-  
   showModal(): void {
     this.isVisible = true;
   }
 
-
- 
   showConfirm(): void {
     this.modalService.confirm({
       nzTitle: 'Confirm',
       nzContent: 'Bla bla ...',
       nzOkText: 'OK',
-      nzCancelText: 'Cancel'
+      nzCancelText: 'Cancel',
     });
   }
 
   exitModal() {
     this.isVisible = false;
   }
-  
 }
