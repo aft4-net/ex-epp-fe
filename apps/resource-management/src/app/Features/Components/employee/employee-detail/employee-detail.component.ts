@@ -28,8 +28,8 @@ export class EmployeeDetailComponent implements OnInit {
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<string>();
-  employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
-  employeeViewModel !: IEmployeeViewModel[];
+  employeeViewModels$ : Observable<IEmployeeViewModel[]>= new Observable<any>();
+  employeeViewModel : IEmployeeViewModel[] = [];
   paginatedResult !: PaginationResult<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
   searchStateFound !: boolean;
@@ -71,6 +71,15 @@ export class EmployeeDetailComponent implements OnInit {
 
       ],
       filterFn: null
+    },
+    {
+      name: 'JoiningDate',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
+      filterMultiple: true,
+      listOfFilter:this.empJoinDate,
+      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JoiningDate.indexOf(name) !== -1)
     }
   ]
 
@@ -80,23 +89,25 @@ export class EmployeeDetailComponent implements OnInit {
   ngOnInit(): void {
 
     this.FeatchAllEmployees();
-    //this.FillTheFilter();
+    this.FillTheFilter();
 
   }
 
   FillTheFilter(){
 
+    this.holdItJobTitle.length = 0;
+
     this.employeeViewModels$.subscribe(
        val => {this.employeeViewModel = val,
 
-        console.log(this.employeeViewModel.length)
+        console.log("From HERE "+ val);
 
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location) === -1){
         this.holdItCountry.push(
           {
-            text: this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i],
-            value:this.employeeViewModel.map(country=>country.Location).filter((value,index,self)=>self.indexOf(value)===index)[i]
+            text: this.employeeViewModel.map(country=>country.Location)[i],
+            value:this.employeeViewModel.map(country=>country.Location)[i]
           }
              )
           }
@@ -105,33 +116,23 @@ export class EmployeeDetailComponent implements OnInit {
           if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].JobTitle) === -1){
         this.holdItJobTitle.push(
           {
-            text:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i],
-            value:this.employeeViewModel.map(title=>title.JobTitle).filter((value,index,self)=>self.indexOf(value)===index)[i]
+            text:this.employeeViewModel.map(title=>title.JobTitle)[i],
+            value:this.employeeViewModel.map(title=>title.JobTitle)[i]
           }
         )
           }
+        
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
         if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
         this.holdItStatus.push(
           {
-            text:this.employeeViewModel.map(status=>status.Status).filter((value,index,self)=>self.indexOf(value)===index)[i],
-            value:this.employeeViewModel.map(status=>status.Status).filter((value,index,self)=>self.indexOf(value)===index)[i]
+            text:this.employeeViewModel.map(status=>status.Status)[i],
+            value:this.employeeViewModel.map(status=>status.Status)[i]
           }
         )
         }
         }
-        for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItJoinDate.findIndex(x=>x.text === this.employeeViewModel[i].JoiningDate) === -1){
-          this.holdItJoinDate.push(
-            {
-              text:this.employeeViewModel.map(join=>join.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i],
-              value:this.employeeViewModel.map(join=>join.JoiningDate).filter((value,index,self)=>self.indexOf(value)===index)[i]
-            }
-          )
-          }
-          }
-
 
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
@@ -150,15 +151,7 @@ export class EmployeeDetailComponent implements OnInit {
             listOfFilter:this.empListJobType,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
-          {
-            name: 'JoiningDate',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
-            filterMultiple: true,
-            listOfFilter:this.empJoinDate,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JoiningDate.indexOf(name) !== -1)
-          },
+         
           {
             name: 'Location',
             sortOrder: null,
@@ -240,6 +233,7 @@ export class EmployeeDetailComponent implements OnInit {
 FeatchAllEmployees() {
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
       this.employeeViewModels$=of(response.Data);
+      console.log(response.Data);
       this.employeeViewModel = response.Data;
       this.pageIndex=response.pagination.PageIndex;
       this.pageSize=response.pagination.PageSize;
@@ -248,6 +242,7 @@ FeatchAllEmployees() {
       this.lastRow = this.totalRows;
       this.beginingRow = 1;
       console.log(response.pagination);
+      this.FillTheFilter();
     }   
   );
   this.searchStateFound=false; 
@@ -318,6 +313,7 @@ searchEmployees() {
             this.beginingRow = (this.totalRecord - this.totalRows) + 1;  
           }
           this.loading =false;
+          this.FillTheFilter();
         });
     }else {
       this._employeeService.SearchEmployeeData(this.employeeParams)
@@ -338,6 +334,7 @@ searchEmployees() {
           this.beginingRow = (this.totalRecord - this.totalRows) + 1;  
         }
         this.loading =false;
+        this.FillTheFilter();
       });
       this.searchStateFound=false;
     }

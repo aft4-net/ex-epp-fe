@@ -22,7 +22,7 @@
                     (nzCheckedChange)="onAllChecked($event)"></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                    [nzSortDirections]="column.sortDirections">Employee</th>
+                    [nzSortDirections]="column.sortDirections">{{column.name}}</th>
 
                   <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                     [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
@@ -39,10 +39,10 @@
                     (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.FullName }} </td>
+                    <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
+                      employeeView.JoiningDate | date:'M/d/yyyy' }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.JobTitle }}</td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                    employeeView.JoiningDate | date:'M/d/yyyy' }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.Location }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
