@@ -1,0 +1,48 @@
+<form nz-form class="form-group address-detail-form-group"
+[nzLayout]="'vertical'">
+
+    <div>
+        <h2>
+            Address Detail
+        </h2>
+    </div>
+  <exec-epp-custom-select
+    label="Country"
+    [myControl]="getControl('country')"
+    [list$]="countries$"
+    (formResponse)="onCountrySelect()">
+  </exec-epp-custom-select>
+  <exec-epp-custom-select
+    [label]="stateName"
+    [myControl]="getControl('state')"
+    [list$]="stateRegions$"
+    (formResponse)="onStateSelect()">
+  </exec-epp-custom-select>
+  <exec-epp-custom-select
+    [label]="'City'"
+    [myControl]="getControl('city')"
+    [list$]="cities$">
+  </exec-epp-custom-select>
+  <exec-epp-custom-select
+    [label]="subcityName"
+    [myControl]="getControl('subcity')"
+    [list$]="cities$">
+  </exec-epp-custom-select>
+  <exec-epp-custom-text-box
+    [label]="weredaName"
+    [myControl]="getControl('wereda')">
+  </exec-epp-custom-text-box>
+  <exec-epp-custom-text-box
+    [label]="'House Number'"
+    [myControl]="getControl('houseNumber')">
+  </exec-epp-custom-text-box>
+  <exec-epp-custom-text-box
+    [label]="'Posta/Zip code'"
+    [myControl]="getControl('postalCode')">
+  </exec-epp-custom-text-box>
+  <exec-epp-custom-phone-multiple
+    label="Residencial Phone Number"
+    [formArray]="getFormArray('phoneNumber')"
+    [maxAmount]="1">
+  </exec-epp-custom-phone-multiple>
+</form>

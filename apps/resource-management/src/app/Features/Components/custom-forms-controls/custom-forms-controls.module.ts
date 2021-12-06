@@ -8,6 +8,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { en_US, NZ_I18N } from "ng-zorro-antd/i18n";
 import { DemoNgZorroAntdModule } from "../../../ng-zorro-antd.module";
+import { AddressDetailGroupComponent } from "./custom-control-groups/address-detail-group/address-detail-group.component";
+import { EmergencyContactDetailGroupComponent } from "./custom-control-groups/emergency-contact-detail-group/emergency-contact-detail-group.component";
+import { FamilyDetailGroupComponent } from "./custom-control-groups/family-detail-group/family-detail-group.component";
 import { OrganizationalDetailGroupComponent } from "./custom-control-groups/organizational-detail-group/organizational-detail-group.component";
 import { PersonalDetailGroupComponent } from "./custom-control-groups/personal-details-group/personal-details-group.component";
 import { CustomDatepickerComponent } from "./custom-controls/custom-datepicker/custom-datepicker.component";
@@ -19,6 +22,7 @@ import { CustomGenderComponent } from "./custom-controls/custom-gender/custom-ge
 import { CustomNationalityComponent } from "./custom-controls/custom-nationality/custom-nationality.component";
 import { CustomPhoneNumberMultipleComponent } from "./custom-controls/custom-phone-multiple/custom-phone-multiple.component";
 import { CustomPhoneNumberComponent } from "./custom-controls/custom-phone/custom-phone.component";
+import { CustomSelectMultipleComponent } from "./custom-controls/custom-select-multiple/custom-select-multiple.component";
 import { CustomSelectComponent } from "./custom-controls/custom-select/custom-select.component";
 import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom-text-box.component";
 import { TestFormComponent } from "./test-form/test-form.component";
@@ -29,6 +33,7 @@ registerLocaleData(en);
     declarations: [
         CustomTextBoxComponent,
         CustomSelectComponent,
+        CustomSelectMultipleComponent,
         CustomDatepickerComponent,
         CustomFullNameComponent,
         CustomEmployeeIdNumberComponent,
@@ -41,6 +46,9 @@ registerLocaleData(en);
 
         PersonalDetailGroupComponent,
         OrganizationalDetailGroupComponent,
+        AddressDetailGroupComponent,
+        EmergencyContactDetailGroupComponent,
+        FamilyDetailGroupComponent,
         TestFormComponent
     ],
     imports: [
@@ -56,6 +64,8 @@ registerLocaleData(en);
     exports: [
         CustomTextBoxComponent,
         CustomSelectComponent,
+        CustomSelectMultipleComponent,
+        CustomSelectMultipleComponent,
         CustomDatepickerComponent,
         CustomFullNameComponent,
         CustomEmployeeIdNumberComponent,
@@ -68,6 +78,9 @@ registerLocaleData(en);
 
         PersonalDetailGroupComponent,
         OrganizationalDetailGroupComponent,
+        AddressDetailGroupComponent,
+        EmergencyContactDetailGroupComponent,
+        FamilyDetailGroupComponent,
         TestFormComponent
     ]
 })

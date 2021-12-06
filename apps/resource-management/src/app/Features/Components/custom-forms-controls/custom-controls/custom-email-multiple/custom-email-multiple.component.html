@@ -1,5 +1,5 @@
 
-  <ng-container *ngFor="let control of myControls.controls; let i = index">
+  <ng-container *ngFor="let control of formArray.controls; let i = index">
     <nz-form-item class="form-item">
         <nz-form-label class="form-label" [nzSm]="labelConfig.nzSm" [nzXs]="labelConfig.nzXs" [nzRequired]="required"
         [hidden]="i > 0">
@@ -12,11 +12,11 @@
         class="email-input-box"
         nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange(i)" nz-input />
         <ng-template #suffixTemplate>
-            <button nz-button [hidden]="(i === 0 && myControls.length === 1)"
+            <button nz-button [hidden]="(i === 0 && formArray.length === 1)"
                 (click)="onRemove(i)">
                 - Remove
             </button>
-          <button nz-button [hidden]="!(i + 1 === myControls.length && myControls.length < maxAmount)"
+          <button nz-button [hidden]="!(i + 1 === formArray.length && formArray.length < maxAmount) || (maxAmount === 1)"
             (click)="onAdd()">
             + Add More
           </button>

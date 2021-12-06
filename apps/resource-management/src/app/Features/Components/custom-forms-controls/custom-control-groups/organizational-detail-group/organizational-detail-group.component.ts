@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
-import { CountryDetailStateService } from "../../../../state-services/country-detail.state-service";
+import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -13,14 +14,30 @@ export class OrganizationalDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
 
-    countries$: Observable<string[]>
+    countries$: Observable<SelectOptionModel[]>
+    dutyStations$: Observable<SelectOptionModel[]>
+    jobTitles$: Observable<SelectOptionModel[]>
+    businessUnits$: Observable<SelectOptionModel[]>
+    reportingManagers$: Observable<SelectOptionModel[]>
+    departments$: Observable<SelectOptionModel[]>
+    employementTypes$: Observable<SelectOptionModel[]>
+    employementStatuses$: Observable<SelectOptionModel[]>
 
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _countryDetailStateService: CountryDetailStateService
+        private readonly _organizationDetailStateService: OrganizationDetailStateService
     ) {
-        this.countries$ = this._countryDetailStateService.countriesName$
+        this.countries$ = this._organizationDetailStateService.countriesName$
+        this.dutyStations$ = this._organizationDetailStateService.dutyStations$
+        this.jobTitles$ = this._organizationDetailStateService.jobTitles$
+        this.businessUnits$ = this._organizationDetailStateService.businessUnits$
+        this.departments$ = this._organizationDetailStateService.departments$
+        this.employementTypes$ = this._organizationDetailStateService.employementTypes$
+        this.reportingManagers$ = this._organizationDetailStateService.reportingManagers$
+        this.employementStatuses$ = this._organizationDetailStateService.employementStatuses$
+        
+
         this.formGroup
             = this._formGenerator.organizationalForm
 
@@ -31,11 +48,11 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     }
 
     getControl(name: string): FormControl {
-        return this.formGroup.get(name) as FormControl
+        return this._formGenerator.getFormControl(name, this.formGroup)
     }
 
     getFormArray(name: string): FormArray {
-        return this.formGroup.get(name) as FormArray
+        return this._formGenerator.getFormArray(name, this.formGroup)
     }
 
     showData(event?: any) {

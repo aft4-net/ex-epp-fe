@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { NzSelectModeType } from "ng-zorro-antd/select";
 import { Observable, of } from "rxjs";
 import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
+import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 
 @Component({
@@ -11,12 +13,15 @@ import { commonErrorMessage } from "../../../../Services/supporting-services/cus
   })
 export class CustomSelectComponent implements OnInit {
 
-    @Input() list$: Observable<string[]> = of(['Option1', 'Option2', 'Option3'])
+    @Input() list$: Observable<SelectOptionModel[]> = of([])
     @Input() label = 'Label'
     @Input() labelConfig = defaultFormLabellParameter
     @Input() controlConfig = defaultFormControlParameter
     @Input() myControl: FormControl = new FormControl()
     @Input() required = true
+
+    @Output() formResponse = new EventEmitter()
+
     errMessage = ''
 
     constructor() {
@@ -27,6 +32,7 @@ export class CustomSelectComponent implements OnInit {
 
     onChange() {
       this.errMessage = commonErrorMessage.message.substring(0)
+      this.formResponse.emit()
     }
 
 }
