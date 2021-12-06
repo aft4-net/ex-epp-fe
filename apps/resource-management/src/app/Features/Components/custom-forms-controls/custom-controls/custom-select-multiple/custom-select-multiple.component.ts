@@ -14,7 +14,7 @@ import { commonErrorMessage } from "../../../../Services/supporting-services/cus
 export class CustomSelectMultipleComponent implements OnInit {
 
     @Input() list$: Observable<SelectOptionModel[]> = of([])
-    @Input() label = 'Label'
+    @Input() label = 'Nationality(ies)'
     @Input() labelConfig = defaultFormLabellParameter
     @Input() controlConfig = defaultFormControlParameter
     @Input() maxChoices = 2

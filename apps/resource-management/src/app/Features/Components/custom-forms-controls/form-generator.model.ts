@@ -1,6 +1,7 @@
 import { Directive, Injectable } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Observable, of } from "rxjs";
+import { Address } from "../../Models/address.model";
 import { EmployeeDetail } from "../../Models/core-models/employee-detail.model";
 import { PersonalDetail } from "../../Models/core-models/personal-detailsmodel";
 import { Employee } from "../../Models/Employee";
@@ -60,6 +61,9 @@ export class FormGenerator {
     public readonly addressForm: FormGroup
     public readonly emergencyContact: FormGroup
     public readonly familyDetail: FormGroup
+
+    public readonly address: Address[] = []
+
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -153,7 +157,7 @@ export class FormGenerator {
 
     private _createEmployeeIdNumberFormGroup() {
         return this._formBuilder.group({
-            prefix: [this._defaultPhonePrefix],
+            prefix: [this._defaultEmployeeIdNumberPrefix],
             idNumber: [null, [validateEmployeeIdNumber]],
         })
     }
