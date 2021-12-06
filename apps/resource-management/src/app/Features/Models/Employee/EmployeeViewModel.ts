@@ -2,7 +2,7 @@ export interface IEmployeeViewModel {
     EmployeeGuid: string;
     FullName: string;
     JobTitle: string;
-    JoiningDate: Date
+    JoiningDate: string;
     Location: string;
     Status: string;
 }

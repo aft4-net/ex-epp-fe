@@ -3,21 +3,18 @@
     <div class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="8">
-
           <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
             <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname" />
           </nz-input-group>
           <ng-template #suffixIconButton>
             <button nz-button nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
-
           </ng-template>
         </div>
       </div>
       <br />
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="24">
-          <ng-container *ngIf="(employeeViewModels$ | async) as employeeList; else emptyEmployeeViewModels">
-            <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="employeeList"
+            <nz-table [nzLoading]="loading" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
               <thead>
                 <tr>
@@ -58,7 +55,6 @@
                     <a (click)="Delete(employeeView.EmployeeGuid)">
                       <i nz-icon nzType="delete" nzTheme="outline"></i>
                     </a>
-
                     <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
                       <ng-container *nzModalContent>
@@ -82,34 +78,16 @@
                         </nz-tabset>
                       </ng-container>
                     </nz-modal>
-
-
                   </td>
                 </tr>
               </tbody>
             </nz-table>
-          </ng-container>
-          <ng-template #emptyEmployeeViewModels>
-            <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="[]" nzTableLayout="fixed"
-              (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
-              <thead>
-                <tr>
-                  <th class="table_heading" style="width:30px"></th>
-                  <th class="table_heading">Employee</th>
-                  <th class="table_heading">Job Title</th>
-                  <th class="table_heading">Joining Date</th>
-                  <th class="table_heading">Location</th>
-                  <th class="table_heading">Status</th>
-
-                  <th class="table_heading">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- <nz-empty style="width: 100%;" nzNotFoundImage="simple"></nz-empty> -->
-              </tbody>
-            </nz-table>
-          </ng-template>
         </div>
+      </div>
+      <div nz-row nzJustify="end">
+        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
       </div>
     </div>
   </nz-content>
