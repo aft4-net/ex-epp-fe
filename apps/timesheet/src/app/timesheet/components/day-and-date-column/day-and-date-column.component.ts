@@ -36,6 +36,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @ViewChildren('entries') entriesDiv!: QueryList<any>;
   @ViewChild('pt') pointerEl!: ElementRef;
   @ViewChild('col') colEl!: ElementRef;
+  @ViewChild ('addIcon') iconEL!:ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
   morePopover = false;
@@ -52,7 +53,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    //
+   }
 
   ngOnChanges(): void {
     if (this.timesheet) {
@@ -172,6 +175,19 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     else {
       return timesheetApprovals[0];
     }
+  }
+  disableAddIcon():void{
+let today = new Date();
+console.log(today)
+    if(new Date()<this.date){
+      this.iconEL.nativeElement.style.display = 'none';
+    }
+  }
+  deleteTimeEntry(Guid:string):void{
+    this.timesheetService.deleteTimeEntry(Guid).subscribe(data => {
+      console.log(data);
+    });
+
   }
 }
 
