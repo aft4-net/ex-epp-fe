@@ -17,10 +17,16 @@ export interface TimeEntry {
     TimeSheetId: string;
 }
 
+export enum ApprovalStatus {
+    Requested,
+    Approved,
+    Rejected
+}
+
 export interface TimesheetApproval {
     TimesheetId: string;
     ProjectId: string;
-    Status: number;
+    Status: ApprovalStatus;
 }
 
 export interface TimesheetConfiguration {
