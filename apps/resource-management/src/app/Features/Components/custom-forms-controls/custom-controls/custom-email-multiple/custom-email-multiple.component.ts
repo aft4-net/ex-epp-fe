@@ -1,60 +1,78 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormArray, FormControl } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormControlParameter, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { FormGenerator } from "../../form-generator.model";
 
 @Component({
     selector: 'exec-epp-custom-email-multiple',
     templateUrl: './custom-email-multiple.component.html',
     styleUrls: ['./custom-email-multiple.component.scss']
-  })
+})
 export class CustomEmailMultipleComponent implements OnInit {
 
     // @Input() formItem: FormItemData = defaultFormItemData
     label = 'Email Address'
-    maxAmount = 3
+    @Input() maxAmount = 3
     @Input() labelConfig = defaultFormLabellParameter
-    @Input() prefixControlConfig =  new FormControlParameter(18, 24)
     @Input() controlConfig = defaultFormControlParameter
-    @Input() myControls:FormControl[] = []
+    @Input() formArray: FormArray = new FormArray([])
+
+    @Output() reply = new EventEmitter<boolean>()
     required = true
-    errMessage = ''
+    errMessages: string[] = []
 
 
-    constructor() {
-        if(this.myControls.length === 0) {
-            this.myControls.push(new FormControl())
-        }
+    constructor(
+        private readonly _formGenerator: FormGenerator
+    ) {
     }
 
     ngOnInit(): void {
-    }
-
-    onAction(index: number) {
-        if(index + 1 < this.myControls.length
-            || this.myControls.length >= this.maxAmount) {
-            this.onRemove(index)
-        } else {
-            this.onAdd()
+        for (let i = 0; i < this.formArray.length; i++) {
+            this.errMessages.push('')
         }
     }
 
+    getControl(index: number): FormControl {
+        const formControl = this._formGenerator.getFormControlfromArray(index, this.formArray)
+        if(formControl) {
+            return formControl
+        }
+        return new FormControl
+        
+    }
+
     onAdd() {
-        this.myControls.push(new FormControl())
+        if ((this.formArray.length === this.maxAmount)
+            || this.maxAmount == 1) {
+            window.alert('Exceeds the allowed number of phones!')
+            return
+        }
+        this.formArray.push(
+            this._formGenerator.createEmailControl()
+        )
+        this.errMessages.push('')
     }
 
     onRemove(index: number) {
-        this.myControls = [
-            ...this.myControls.slice(0, index),
-            ...this.myControls.slice(index + 1)
+        if ((this.formArray.length === 1 && this.required)
+            || this.maxAmount == 1) {
+            window.alert('At least one email is required!')
+            return
+        }
+        this.formArray.removeAt(index)
+        this.errMessages = [
+            ...this.errMessages.slice(0, index),
+            ...this.errMessages.slice(index + 1),
         ]
     }
 
-    onChange() {
-      this.errMessage = commonErrorMessage.message.substring(0)
+    onChange(index: number) {
+        this.errMessages[index] = commonErrorMessage.message.substring(0)
     }
 
 }

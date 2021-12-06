@@ -1,0 +1,29 @@
+<form nz-form class="form-group personal-detail-form-group" [nzLayout]="'vertical'">
+
+  <div>
+    <h2>
+      Family Detail
+    </h2>
+  </div>
+
+  <exec-epp-custom-full-name [formGroup]="getFormGroup('fullName')">
+  </exec-epp-custom-full-name>
+  <exec-epp-custom-select [label]="'Relationship'" [myControl]="getControl('relationship')" [required]="true"
+    [list$]="relationships$"
+    (formResponse)="onChange()">
+    </exec-epp-custom-select>
+
+    <ng-container *ngIf="isChild || isOther">
+    <exec-epp-custom-select [label]="'Gender'" [myControl]="getControl('gender')" [required]="true"
+      [list$]="genders$">
+    </exec-epp-custom-select>
+    <ng-container *ngIf="isChild">
+      <exec-epp-custom-datepicker
+      [label]="'Date of Birth'"
+      [myControl]="getControl('dateofBirth')">
+    </exec-epp-custom-datepicker>
+    </ng-container>
+    
+    </ng-container>
+  
+</form>
