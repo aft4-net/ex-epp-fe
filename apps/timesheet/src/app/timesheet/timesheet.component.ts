@@ -10,12 +10,12 @@ import { TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse } fr
 import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';
-import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
 import { retry } from 'rxjs/operators';
 import { TimeEntryFormData } from '../models/timeEntryFormData';
+import { TimesheetValidationService } from './services/timesheet-validation.service';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -75,8 +75,7 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
-    private apiService: TimesheetApiService,
-    private timeSheetService: TimesheetService) {
+    public timesheetvalidation: TimesheetValidationService) {
   }
 
   ngOnInit(): void {
@@ -288,7 +287,7 @@ export class TimesheetComponent implements OnInit {
       return;
     }
 
-    this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
+    this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
@@ -367,8 +366,7 @@ export class TimesheetComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-
-    try {
+      try {
       let timeEntry: TimeEntry = {
         Guid: "00000000-0000-0000-0000-000000000000",
         Note: this.validateForm.value.note,
@@ -489,7 +487,6 @@ export class TimesheetComponent implements OnInit {
     this.notification.create(type, message, 'Timesheet');
   }
   disabledDates=(current: Date): boolean => {
-      return current.valueOf() > Date.now();
+    return  current.setDate(current.getDate()+1)<=this.dayAndDateService.firstday1 || current.setDate(current.getDate()-1) > this.lastday1 ;
   }
-
 }

@@ -1,0 +1,13 @@
+::ng-deep .ant-btn, .ant-btn:active, .ant-btn:focus {
+    outline: 0;
+    border: none;
+}
+
+::ng-deep .ant-input-group-addon:last-child {
+    border-left: 0;
+    border: none;
+}
+
+.email-input-box {
+    width: 28rem;
+}

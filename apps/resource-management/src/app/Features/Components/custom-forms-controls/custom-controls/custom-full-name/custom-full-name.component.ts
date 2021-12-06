@@ -33,19 +33,4 @@ export class CustomFullNameComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    validateFirstName(control: AbstractControl) {
-        commonErrorMessage.required = true
-        return validateFirstName(control, commonErrorMessage)
-    }
-
-    validateMiddleName(control: AbstractControl) {
-        commonErrorMessage.required = false
-        return validateFirstName(control, commonErrorMessage)
-    }
-
-    validateLastName(control: AbstractControl) {
-        commonErrorMessage.required = true
-        return validateFirstName(control, commonErrorMessage)
-    }
-
 }
