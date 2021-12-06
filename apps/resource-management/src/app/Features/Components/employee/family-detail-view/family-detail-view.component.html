@@ -8,7 +8,7 @@
       <div nz-col nzSpan="20" class="page-title">
         <h1>Family Details</h1>
       </div>
-      <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length > 0">
+      <div nz-col nzSpan="4" >
         <button
           class="addButton"
           nz-button
@@ -24,8 +24,8 @@
       class="table"
       #rowSelectionTable
       nzShowSizeChanger
-      [nzData]="listOfData"
-      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+      [nzData]="listOfFamilies"
+      
     >
       <thead>
         <tr class="tr">
@@ -36,8 +36,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rowSelectionTable.data">
-          <td>{{ data.name }}</td>
-          <td>{{ data.relationship }}</td>
+          <td>{{ data.FullName }}</td>
+          <td>{{ data.RelationshipId }}</td>
 
           <td>
             <div nz-row>
@@ -45,8 +45,8 @@
                 nz-col
                 nzSpan="2"
                 class="editable-cell"
-                [hidden]="editId === data.id"
-                (click)="startEdit(data.id)"
+                [hidden]="editId === data.Guid"
+                (click)="startEdit(data.Guid)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
@@ -55,7 +55,7 @@
                 <a
                   nz-popconfirm
                   nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="deleteRow(data.id)"
+                  (nzOnConfirm)="showConfirm(data.Guid)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
@@ -65,14 +65,7 @@
       </tbody>
     </nz-table>
 
-    <button
-      *ngIf="rowSelectionTable.data.length === 0"
-      class="addButtonwhenNodata"
-      nz-button
-      (click)="addfamilies()"
-    >
-      <span>Add Family Details</span>
-    </button>
+    
   </div>
 </div>
 
@@ -85,6 +78,8 @@
 >
   <ng-container *nzModalContent>
 <exec-epp-family-detail-group></exec-epp-family-detail-group>
+<button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
+<button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
 
    </ng-container>
 </nz-modal>
