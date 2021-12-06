@@ -15,6 +15,7 @@ export class AddressViewComponent implements OnInit {
   isConfirmLoading = false;
   checked = false;
   loading = false;
+  footer = null;
   indeterminate = false;
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
@@ -30,19 +31,33 @@ export class AddressViewComponent implements OnInit {
 
 
   addaddress(): void {
-    this.modalService.create({
-      nzTitle: 'Add Addresses',
-      nzContent: AddressNewComponent
-    });
+
+    this.isVisible = true;
+    // this.modalService.create({
+    //   nzTitle: 'Add Addresses',
+    //   nzContent: AddressNewComponent
+    // });
   }
 
   handleOk(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: `${this.i}`,
+        name: `Edward King ${this.i}`,
+        age: '32',
+        address: `London, Park Lane no. ${this.i}`
+      }
+    ];
+    this.i++;
     this.isConfirmLoading = true;
     setTimeout(() => {
       this.isVisible = false;
       this.isConfirmLoading = false;
     }, 3000);
+
   }
+  
 
   handleCancel(): void {
     this.isVisible = false;
@@ -125,4 +140,38 @@ export class AddressViewComponent implements OnInit {
   deleteRow(id: string): void {
     this.listOfData = this.listOfData.filter(d => d.id !== id);
   }
+//====================================
+
+
+exitModal() {
+  this.isVisible = false;
+}
+
+
+showDeleteConfirm(element: any): void {
+  this.modalService.confirm({
+    nzTitle: 'Are you sure, you want to cancel this contact?',
+    nzContent: '<b style="color: red;"></b>',
+    nzOkText: 'Yes',
+    nzOkType: 'primary',
+    nzOkDanger: true,
+    
+    nzCancelText: 'No',
+    nzOnCancel: () => console.log('Cancel'),
+  });
+}
+
+//===============================================
+
+
+
+
+
+
+
+
+
+
+
+
 }
