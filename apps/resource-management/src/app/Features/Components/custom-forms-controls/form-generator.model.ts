@@ -7,6 +7,8 @@ import { PersonalDetail } from "../../Models/core-models/personal-detailsmodel";
 import { EmergencyContact } from "../../Models/emergencycontact";
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
+import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
+import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
 import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber } from "../../Services/supporting-services/custom.validators";
@@ -62,6 +64,7 @@ export class FormGenerator {
     public organizationalForm: FormGroup
     public addressForm: FormGroup
     public emergencyContact: FormGroup
+    public emergencyAddress: FormGroup
     public familyDetail: FormGroup
 
     public readonly address: Address[] = []
@@ -85,6 +88,7 @@ export class FormGenerator {
         this.organizationalForm = this._createOrganizationalnalDetailsForm()
         this.addressForm = this._createAddressDetailsForm()
         this.emergencyContact = this._createEmergencyContactDetailsForm()
+        this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         this.familyDetail = this._createFamilyDetailsForm()
     }
 
@@ -153,9 +157,28 @@ export class FormGenerator {
     private _createEmergencyContactDetailsForm() {
         return this._formBuilder.group({
             fullName: this._createFullNameFormGroup(),
-            relationship: []
+            relationship: [],
+            emailAddresses: this._formBuilder.array([
+                this.createEmailControl()
+            ]),
+            phoneNumbers: this._formBuilder.array([
+                this.createPhoneNumberFormGroup()
+            ]),
         });
     }
+
+    private _createEmergencyAddressDetailsForm() {
+        return this._formBuilder.group({
+            country: [null],
+            state: [null],
+            city: [null],
+            subCityZone: [null],
+            woreda: [null],
+            houseNumber: [null],
+            postalCode: [null],
+        });
+    }
+
 
     private _createEmployeeIdNumberFormGroup() {
         return this._formBuilder.group({
@@ -420,42 +443,82 @@ export class FormGenerator {
         )
     }
 
-    // private _setEmergencyContactDetail(emergencyContact: EmergencyContact) {
-    //     this._setControlValue(
-    //         emergencyContact.Country,
-    //         this.getFormControl('country', this.addressForm)
-    //     )
-    //     this._setControlValue(
-    //         emergencyContact.StateRegionProvice,
-    //         this.getFormControl('state', this.addressForm)
-    //     )
-    //     this._setControlValue(
-    //         emergencyContact.City,
-    //         this.getFormControl('city', this.addressForm)
-    //     )
-    //     this._setControlValue(
-    //         emergencyContact.SubCityZone,
-    //         this.getFormControl('subCityZone', this.addressForm)
-    //     )
-    //     this._setControlValue(
-    //         emergencyContact.Woreda,
-    //         this.getFormControl('woreda', this.addressForm)
-    //     )
-    //     this._setControlValue(
-    //         emergencyContact.HouseNumber,
-    //         this.getFormControl('houseNumber', this.addressForm)
-    //     )
-    //     this._setControlValue(
-    //         emergencyContact.PostalCode,
-    //         this.getFormControl('postalCode', this.addressForm)
-    //     )
-    //     this._setPhoneArray(
-    //         [
-    //             emergencyContact.PhoneNumber
-    //         ],
-    //         this.getFormArray('phoneNumber', this.addressForm)
-    //     )
-    // }
+    private _setEmergencyContactDetail(emergencyContact: EmergencyContact) {
+        if(emergencyContact.firstName && emergencyContact.fatherName) {
+            this._setNames(
+                emergencyContact.firstName,
+                emergencyContact.fatherName,
+                'X',
+                this.getFormGroup('fullName', this.emergencyContact)
+            )
+        }
+        this._setControlValue(
+            emergencyContact.relationship,
+            this.getFormControl('relationship', this.emergencyContact)
+        )
+        this._setEmailArray(
+            [
+                
+            ],
+            this.getFormArray('emailAddresses', this.emergencyContact)
+        )
+
+        this._setPhoneArray(
+            [
+            ],
+            this.getFormArray('phoneNumbers', this.emergencyContact)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].Country,
+            this.getFormControl('country', this.emergencyAddress)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].StateRegionProvice,
+            this.getFormControl('state', this.emergencyAddress)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].City,
+            this.getFormControl('city', this.emergencyAddress)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].SubCityZone,
+            this.getFormControl('subCityZone', this.emergencyAddress)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].Woreda,
+            this.getFormControl('woreda', this.emergencyAddress)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].HouseNumber,
+            this.getFormControl('houseNumber', this.emergencyAddress)
+        )
+        this._setControlValue(
+            emergencyContact.address[0].PostalCode,
+            this.getFormControl('postalCode', this.emergencyAddress)
+        )
+    }
+
+    private _setFamilyDetail(familyDetail: FamilyDetails) {
+        const names = familyDetail.FullName.split(' ')
+        this._setNames(
+            names[0],
+            (names.length === 3? names[1]: null),
+            (names.length === 3? names[2]: names[1]),
+            this.getFormGroup('fullName', this.familyDetail)
+        )
+        this._setControlValue(
+            familyDetail.Relationship,
+            this.getFormControl('relationship', this.familyDetail)
+        )
+        this._setControlValue(
+            familyDetail.Gender,
+            this.getFormControl('gender', this.familyDetail)
+        )
+        this._setControlValue(
+            familyDetail.DoB,
+            this.getFormControl('dateofBirth', this.familyDetail)
+        )
+    }
 
     private _regenerateForm() {
         this.personalDetailsForm = this._createPersonalDetailsForm()
@@ -479,6 +542,21 @@ export class FormGenerator {
         this.addressForm = this._createAddressDetailsForm()
         if(address) {
             this._setAddressDetail(address)
+        }
+    }
+
+    generateEmergencyContactForm(emergencyContact?: EmergencyContact) {
+        this.emergencyContact = this._createEmergencyContactDetailsForm()
+        this.emergencyAddress = this._createEmergencyAddressDetailsForm()
+        if(emergencyContact) {
+            this._setEmergencyContactDetail(emergencyContact)
+        }
+    }
+
+    generateFamilyDetailForm(familyDetail?: FamilyDetails) {
+        this.familyDetail = this._createFamilyDetailsForm()
+        if(familyDetail) {
+            this._setFamilyDetail(familyDetail)
         }
     }
     
