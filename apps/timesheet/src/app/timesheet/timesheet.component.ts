@@ -113,7 +113,10 @@ export class TimesheetComponent implements OnInit {
 
   getTimesheet(userId: string, date?: Date) {
     this.weeklyTotalHours = 0;
-
+    
+    this.timesheet = null;
+    this.timeEntries = null;
+    this.timesheetApprovals = null;
     this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
       this.timesheet = response ? response : null;
 
