@@ -38,7 +38,7 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
         
 
         this.formGroup
-            = this._formGenerator.addressForm
+            = this._formGenerator.emergencyAddress
 
     }
 

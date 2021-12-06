@@ -37,6 +37,8 @@ export const relationships: SelectOptionModel[] = [
 export class EmergencyContactDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
+    maxEmailQty = 3
+    maxPhoneQty = 3
 
     relationships$: Observable<SelectOptionModel[]> = of(relationships)
 
@@ -58,16 +60,12 @@ export class EmergencyContactDetailGroupComponent implements OnInit {
         return this._formGenerator.getFormControl(name, this.formGroup)
     }
 
+    getFormArray(name: string): FormArray {
+        return this._formGenerator.getFormArray(name, this.formGroup)
+    }
+
     getFormGroup(name: string): FormGroup {
         return this._formGenerator.getFormGroup(name, this.formGroup)
-    }
-
-    onCountrySelect() {
-
-    }
-    
-    onStateSelect() {
-
     }
 
     showData(event?: any) {
