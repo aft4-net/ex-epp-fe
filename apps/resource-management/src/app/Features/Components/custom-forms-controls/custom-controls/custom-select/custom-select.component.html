@@ -1,0 +1,23 @@
+<nz-form-item
+    class="form-item">
+    <nz-form-label
+      class="form-label"
+      [nzSm]="labelConfig.nzSm" 
+      [nzXs]="labelConfig.nzXs"
+      [nzRequired]="required">
+      {{label}}
+    </nz-form-label>
+    <nz-form-control
+    [nzSm]="controlConfig.nzSm" 
+    [nzXs]="controlConfig.nzXs"
+    [nzErrorTip]="errMessage">
+    <nz-select
+    class="prefix employee-prefix"
+    [formControl]="myControl">
+        <nz-option
+            *ngFor="let choice of (list$ | async)"
+            [nzValue]="choice" [nzLabel]="choice">
+        </nz-option>
+    </nz-select>
+    </nz-form-control>
+  </nz-form-item>

@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
+
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
-import { Data } from '@angular/router';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import {  from, Observable, of, pipe } from 'rxjs';
+
+import {  from, fromEvent, Observable, of, pipe } from 'rxjs';
+import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { map, throttleTime } from 'rxjs/operators';
 import { Result } from 'postcss';
+import { Data } from '@angular/router';
 
 
 @Component({
@@ -19,9 +24,13 @@ import { Result } from 'postcss';
   styleUrls: ['./employee-detail.component.css']
 })
 export class EmployeeDetailComponent implements OnInit {
-  constructor(private _employeeService : EmployeeService,modalService: NzModalService) {
 
-  }
+  @ViewChild('searchInput', { static: true })
+  input!: ElementRef;
+
+  constructor(private _employeeService : EmployeeService) {}
+
+
   checked = false;
   loading = false;
   indeterminate = false;
@@ -43,20 +52,23 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
+
+
   holdItJoinDate: listtToFilter[]=[];
 
   empListCountry : NzTableFilterList=[];
   empListStatus: NzTableFilterList=[];
   empListJobType: NzTableFilterList=[];
+
   empJoinDate:NzTableFilterList=[];
 
 
-  //added by simbo just you remove 
+  //added by simbo just you remove
 
   isVisible = false;
   isConfirmLoading = false;
-  
-  
+
+
   ///
 
 
@@ -92,28 +104,43 @@ export class EmployeeDetailComponent implements OnInit {
     this.FillTheFilter();
 
   }
+  ngAfterViewInit() {
+    fromEvent<any>(this.input.nativeElement,'keyup')
+     .pipe(
+       map(event => event.target.value),
+       startWith(''),
+       debounceTime(3000),
+       distinctUntilChanged(),
+       switchMap( async (search) => {this.fullname = search,
+        this.searchEmployees()
+       })
+     ).subscribe();
+  }
 
   FillTheFilter(){
 
     this.holdItJobTitle.length = 0;
+    this.holdItStatus.length = 0;
+    this.holdItCountry.length = 0;
+
 
     this.employeeViewModels$.subscribe(
-       val => {this.employeeViewModel = val,
-
-        console.log("From HERE "+ val);
+       val => {this.employeeViewModel = val
 
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location) === -1){
-        this.holdItCountry.push(
+     
+          if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location.trim()) === -1 ){
+          this.holdItCountry.push(
           {
             text: this.employeeViewModel.map(country=>country.Location)[i],
             value:this.employeeViewModel.map(country=>country.Location)[i]
           }
              )
-          }
+          
+        }
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
-          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].JobTitle) === -1){
+          if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].JobTitle.trim()) === -1){
         this.holdItJobTitle.push(
           {
             text:this.employeeViewModel.map(title=>title.JobTitle)[i],
@@ -124,26 +151,24 @@ export class EmployeeDetailComponent implements OnInit {
         
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
-        if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status) === -1){
+        if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status.trim()) === -1){
         this.holdItStatus.push(
           {
             text:this.employeeViewModel.map(status=>status.Status)[i],
             value:this.employeeViewModel.map(status=>status.Status)[i]
           }
         )
+        
+      }
         }
-        }
-
+        
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
         this.empJoinDate = this.holdItJoinDate,
-       // array.map(item => item.age)
-       // .filter((value, index, self) => self.indexOf(value) === index)
-
         this.listOfColumns = [
           {
-            name: 'JobTitle',
+            name: 'Job Title',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
@@ -151,7 +176,6 @@ export class EmployeeDetailComponent implements OnInit {
             listOfFilter:this.empListJobType,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
-         
           {
             name: 'Location',
             sortOrder: null,
@@ -171,12 +195,8 @@ export class EmployeeDetailComponent implements OnInit {
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
           }
         ];
-
       },
-
     );
-
-
 }
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
@@ -228,7 +248,6 @@ export class EmployeeDetailComponent implements OnInit {
       this.loading = false;
     }, 1000);
   }
-  
 
 FeatchAllEmployees() {
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
@@ -263,33 +282,32 @@ searchEmployees() {
     this.searchStateFound=true; 
  }
 
+Edit(employeeGuid : string)
+{
+  this.isVisible = true;
+}
 
-  Edit(employeeGuid : string)
-  {
-    this.isVisible = true;
-  }
-
-  Delete(employeeGuid : string)
-  {
-  //not implemented
-  }
+Delete(employeeGuid : string)
+{
+//not implemented
+}
 
 
   //added by simbo just you can delete
 
-  handleOk(): void {
-    this.isConfirmLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isConfirmLoading = false;
-    }, 3000);
-  }
-
-  handleCancel(): void {
+handleOk(): void {
+  this.isConfirmLoading = true;
+  setTimeout(() => {
     this.isVisible = false;
-  }
+    this.isConfirmLoading = false;
+  }, 3000);
+}
 
-  PageIndexChange(index: any): void {
+handleCancel(): void {
+  this.isVisible = false;
+}
+
+PageIndexChange(index: any): void {
     this.loading =true;
     this.employeeParams.pageIndex = index;
     this.employeeParams.searchKey = this.fullname ?? "";

@@ -35,6 +35,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
     // NzAffixModule,
     NzAlertModule,
     // NzAnchorModule,
-    // NzAutocompleteModule,
+    NzAutocompleteModule,
     NzAvatarModule,
     // NzBackTopModule,
     NzBadgeModule,

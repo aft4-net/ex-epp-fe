@@ -23,6 +23,11 @@ export interface TimesheetApproval {
     Status: number;
 }
 
+export interface TimesheetConfiguration {
+    WorkingDays: string[];
+    WorkingHour: number;
+}
+
 interface Response {
     ResponseStatus: string;
     Message: string;
@@ -49,3 +54,6 @@ export interface TimesheetApprovalResponse extends Response {
     Data: TimesheetApproval[] | null;
 }
 
+export interface TimesheetConfigResponse extends Response {
+    Data: TimesheetConfiguration;
+}

@@ -30,7 +30,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { AttendanceService } from '../../../Services/address/attendance.service';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
@@ -44,6 +44,14 @@ export class AddEmergencycontactComponent implements OnInit {
   @Input() isStandalone = false;
   @ViewChild(AddressNewComponent) child: any;
   // FormControl store validators
+
+
+  //===========
+  listOfData: readonly Data[] = [];
+  isConfirmLoading = false;
+  i = 0;
+  isVisible =false;
+  //=======================
   control!: FormControl;
   EForm!: FormGroup;
   emcaddresses: Address[] = [];
@@ -341,4 +349,33 @@ export class AddEmergencycontactComponent implements OnInit {
       icon: 'android'
     }
   ];
+
+
+
+  handleOk(): void {
+    this.listOfData = [
+      ...this.listOfData,
+      {
+        id: `${this.i}`,
+        name: `Edward King ${this.i}`,
+        age: '32',
+        address: `London, Park Lane no. ${this.i}`
+      }
+    ];
+    this.i++;
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+
+  }
+
+  handlereset(): void {
+    this.AddForm.reset();
+    this.isVisible = false;
+  }
+
+
+
 }

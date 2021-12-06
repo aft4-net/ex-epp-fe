@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TimesheetApiService } from './timesheet-api.service';
+import { ClientStatusService } from './client-status.service';
 
-describe('TimesheetApiService', () => {
-  let service: TimesheetApiService;
+describe('ClientStatusService', () => {
+  let service: ClientStatusService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TimesheetApiService);
+    service = TestBed.inject(ClientStatusService);
   });
 
   it('should be created', () => {
