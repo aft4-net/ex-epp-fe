@@ -96,6 +96,8 @@ export class PersonalInfoComponent implements OnInit {
     })
     this.currentemployee = this.employeeService.getPersonalInfo();
     this.fillCurrentEmployee(this.currentemployee);
+
+
   }
 
   fillCurrentEmployee(employee: Employee){
