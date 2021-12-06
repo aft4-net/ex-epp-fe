@@ -32,10 +32,12 @@
     [label]="weredaName"
     [myControl]="getControl('wereda')">
   </exec-epp-custom-text-box>
-  <exec-epp-custom-text-box
+  <ng-container *ngIf="isEthiopia">
+    <exec-epp-custom-text-box
     [label]="'House Number'"
     [myControl]="getControl('houseNumber')">
   </exec-epp-custom-text-box>
+  </ng-container>
   <exec-epp-custom-text-box
     [label]="'Posta/Zip code'"
     [myControl]="getControl('postalCode')">

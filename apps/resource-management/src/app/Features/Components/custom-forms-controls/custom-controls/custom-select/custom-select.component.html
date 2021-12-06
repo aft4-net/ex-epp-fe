@@ -14,7 +14,8 @@
     nzHasFeedback>
     <nz-select
     class="prefix employee-prefix"
-    [formControl]="myControl">
+    [formControl]="myControl"
+    (ngModelChange)="onChange()">
         <nz-option
             *ngFor="let choice of (list$ | async)"
             [nzValue]="choice.value" [nzLabel]="choice.label">

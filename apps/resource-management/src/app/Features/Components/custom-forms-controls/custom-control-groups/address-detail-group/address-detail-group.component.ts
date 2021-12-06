@@ -20,9 +20,11 @@ export class AddressDetailGroupComponent implements OnInit {
     cities$: Observable<SelectOptionModel[]>
     phonePrefices$: Observable<SelectOptionModel[]>
 
+    isEthiopia = false
+
     stateName = 'State/Province'
-    subcityName = 'Subcity/Zone'
-    weredaName = 'Wereda'
+    subcityName = 'Address Line 1'
+    weredaName = 'Address Line 2'
 
 
     constructor(
@@ -53,7 +55,18 @@ export class AddressDetailGroupComponent implements OnInit {
     }
 
     onCountrySelect() {
-
+        const control = this.getControl('country')
+        if(control.value === 'Ethiopia') {
+            this.stateName = 'Region'
+            this.subcityName = 'Subcity/Zone'
+            this.weredaName = 'Wereda'
+            this.isEthiopia = true
+        } else {
+            this.stateName = 'State/Province'
+            this.subcityName = 'Address Line 1'
+            this.weredaName = 'Address Line 2'
+            this.isEthiopia = false
+        }
     }
     
     onStateSelect() {

@@ -20,6 +20,9 @@ export class FamilyDetailGroupComponent implements OnInit {
     relationships$: Observable<SelectOptionModel[]> = of(relationships)
     genders$:  Observable<SelectOptionModel[]>
 
+    isChild = true
+    isOther = false
+
 
     constructor(
         private readonly _formGenerator: FormGenerator,
@@ -43,12 +46,18 @@ export class FamilyDetailGroupComponent implements OnInit {
         return this._formGenerator.getFormGroup(name, this.formGroup)
     }
 
-    onCountrySelect() {
-
-    }
-    
-    onStateSelect() {
-
+    onChange() {
+        const control = this.getControl('relationship')
+        if(control.value === 'Child') {
+            this.isChild = true
+            this.isOther = false
+        } else if (control.value === 'Other') {
+            this.isOther = true
+            this.isChild = false
+        } else {
+            this.isOther = false
+            this.isChild = false
+        } 
     }
 
     showData(event?: any) {
