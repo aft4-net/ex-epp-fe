@@ -1,5 +1,7 @@
+import { uuid } from "uuidv4";
+
 export interface IEmployeeViewModel {
-    EmployeeGuid: string;
+    EmployeeGUid: string;
     FullName: string;
     JobTitle: string;
     Location: string;

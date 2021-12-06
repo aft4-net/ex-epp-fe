@@ -1,22 +1,18 @@
-
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-import { NzTableFilterList } from 'ng-zorro-antd/table';
 
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-
 import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
-
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import { NzModalService } from 'ng-zorro-antd/modal';
-
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -28,9 +24,11 @@ export class EmployeeDetailComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
 
-  constructor(private _employeeService : EmployeeService) {}
+  constructor(private _employeeService : EmployeeService,
+    private _router: Router) {}
 
-
+    isdefault = true;
+    router="";
   checked = false;
   loading = false;
   indeterminate = false;
@@ -44,8 +42,6 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
-
-
   holdItJoinDate: listtToFilter[]=[];
 
   empListCountry : NzTableFilterList=[];
@@ -247,6 +243,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   onItemChecked(employeeGuid: string, checked: boolean): void {
+
     this.updateCheckedSet(employeeGuid, checked);
     this.refreshCheckedStatus();
   }
@@ -282,9 +279,11 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
 
-  Edit(employeeGuid : string)
+  Edit( employeeId:string):void
   {
-    this.isVisible = true;
+    console.log("Addis " + employeeId);
+   this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
+   this._router.navigate(['/employee/add-employee/personal-info']);
   }
 
   Delete(employeeGuid : string)
@@ -306,7 +305,6 @@ export class EmployeeDetailComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
-
 
   //
 }

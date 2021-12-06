@@ -3,10 +3,10 @@
   <div nz-col class="gutter-row" [nzSpan]="8">
 
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" >
-          <input type="text" #searchInput autocomplete="off" nz-input placeholder="Search" [(ngModel)]="fullname"/>
+          <input type="text" (change)="searchEmployees()" #searchInput autocomplete="off" nz-input placeholder="Search" [(ngModel)]="fullname"/>
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button nz-button  nzSearch (change)="searchEmployees()"><i nz-icon nzType="search"></i></button>
+          <button nz-button  nzSearch (click)="searchEmployees()" ><i nz-icon nzType="search"></i></button>
 
         </ng-template>
   </div>
@@ -46,19 +46,19 @@
       <tbody>
 
             <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
-              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'" [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
-                (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
-              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.FullName }} </td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'" [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)"
+                (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'" >{{ employeeView.FullName }} </td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.JoiningDate }}</td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.JobTitle }}</td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.Location }}</td>
               <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{ employeeView.Status }}</td>
-              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                  <a (click)="Edit(employeeView.EmployeeGuid)">
-                    <i nz-icon nzType="edit" nzTheme="outline"></i>
+              <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'" >
+                  <a (click)="Edit(employeeView.EmployeeGUid)">
+                    <i nz-icon nzType="edit" nzTheme="outline" ></i>
                   </a>
                   &nbsp; &nbsp;
-                  <a (click)="Delete(employeeView.EmployeeGuid)">
+                  <a (click)="Delete(employeeView.EmployeeGUid)">
                     <i nz-icon nzType="delete" nzTheme="outline"></i>
                   </a>
               </td>
