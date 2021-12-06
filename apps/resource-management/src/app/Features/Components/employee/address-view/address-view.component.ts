@@ -3,35 +3,27 @@ import { Component, OnInit } from '@angular/core';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { Address } from '../../../Models/address.model';
+
 
 @Component({
   selector: 'exec-epp-address-view',
   templateUrl: './address-view.component.html',
-  styleUrls: ['./address-view.component.scss']
+  styleUrls: ['./address-view.component.scss'],
 })
 export class AddressViewComponent implements OnInit {
-
   isVisible = false;
   isConfirmLoading = false;
-  checked = false;
-  loading = false;
-  footer = null;
-  indeterminate = false;
-  listOfData: readonly Data[] = [];
-  listOfCurrentPageData: readonly Data[] = [];
-  setOfCheckedId = new Set<number>();
-
-
-  i = 0;
+   
   editId: string | null = null;
-
-
-
-  constructor(private modalService: NzModalService) {}
-
+  listOfaddress: readonly Address[] = [];
+  constructor(
+    private modalService: NzModalService,
+    public form: FormGenerator
+  ) {}
 
   addaddress(): void {
-
     this.isVisible = true;
     // this.modalService.create({
     //   nzTitle: 'Add Addresses',
@@ -39,84 +31,11 @@ export class AddressViewComponent implements OnInit {
     // });
   }
 
-  handleOk(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
-    this.isConfirmLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isConfirmLoading = false;
-    }, 3000);
-
-  }
-  
-
   handleCancel(): void {
     this.isVisible = false;
   }
 
-
-
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-    } else {
-      this.setOfCheckedId.delete(id);
-    }
-  }
-
-  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
-    this.listOfCurrentPageData = listOfCurrentPageData;
-    this.refreshCheckedStatus();
-  }
-
-  refreshCheckedStatus(): void {
-    const listOfEnabledData = this.listOfCurrentPageData.filter(
-      ({ disabled }) => !disabled
-    );
-    this.checked = listOfEnabledData.every(({ id }) =>
-      this.setOfCheckedId.has(id)
-    );
-    this.indeterminate =
-      listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
-      !this.checked;
-  }
-
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-  onAllChecked(checked: boolean): void {
-    this.listOfCurrentPageData
-      .filter(({ disabled }) => !disabled)
-      .forEach(({ id }) => this.updateCheckedSet(id, checked));
-    this.refreshCheckedStatus();
-  }
-
-
-
-  ngOnInit(): void {
-    this.listOfData = new Array(0).fill(0).map((_, index) => ({
-      id: index,
-      name: `Edward King ${index}`,
-      age: 32,
-      address: `London, Park Lane no. ${index}`,
-      disabled: index % 2 === 0,
-    }));
-  }
-
-
-
-  startEdit(id: string): void {
+    startEdit(id: string): void {
     this.editId = id;
   }
 
@@ -124,54 +43,47 @@ export class AddressViewComponent implements OnInit {
     this.editId = null;
   }
 
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
+  handleOk(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+  }
+  exitModal() {
+    this.isVisible = false;
   }
 
-  deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+  showDeleteConfirm(id: string): void {
+
+    this.listOfaddress = this.listOfaddress.filter((d) => d.Guid !== id);
+    this.modalService.confirm({
+      nzTitle: 'Are you sure, you want to cancel this contact?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
   }
-//====================================
 
+ 
+  resetForm(): void {
+    this.form.addressForm.reset();
+  }
 
-exitModal() {
-  this.isVisible = false;
-}
-
-
-showDeleteConfirm(element: any): void {
-  this.modalService.confirm({
-    nzTitle: 'Are you sure, you want to cancel this contact?',
-    nzContent: '<b style="color: red;"></b>',
-    nzOkText: 'Yes',
-    nzOkType: 'primary',
-    nzOkDanger: true,
-    
-    nzCancelText: 'No',
-    nzOnCancel: () => console.log('Cancel'),
-  });
-}
-
-//===============================================
+  add(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 6000);
+  }
 
 
 
-
-
-
-
-
-
-
-
-
+  ngOnInit(): void {}
+ 
 }
