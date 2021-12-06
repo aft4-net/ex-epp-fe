@@ -3,8 +3,8 @@
     <div class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="8">
-          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-            <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname" />
+          <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
+            <input type="text" #searchInput nz-input placeholder="Search" [(ngModel)]="fullname" (change)="searchEmployees()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
             <button nz-button nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
@@ -35,8 +35,8 @@
 
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"
-                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
-                    (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
+                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)"
+                    (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.FullName }} </td>
                     <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
@@ -48,11 +48,11 @@
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.Status }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                    <a (click)="Edit(employeeView.EmployeeGuid)">
+                    <a (click)="Edit(employeeView.EmployeeGUid)">
                       <i nz-icon nzType="edit" nzTheme="outline"></i>
                     </a>
                     &nbsp; &nbsp;
-                    <a (click)="Delete(employeeView.EmployeeGuid)">
+                    <a (click)="Delete(employeeView.EmployeeGUid)">
                       <i nz-icon nzType="delete" nzTheme="outline"></i>
                     </a>
                     <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"

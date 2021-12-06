@@ -15,7 +15,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { map, throttleTime } from 'rxjs/operators';
 import { Result } from 'postcss';
-import { Data } from '@angular/router';
+import { Data, Router } from '@angular/router';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class EmployeeDetailComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
 
-  constructor(private _employeeService : EmployeeService) {}
+  constructor(private _employeeService : EmployeeService, private _router: Router) {}
 
 
   checked = false;
@@ -103,18 +103,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.FeatchAllEmployees();
     this.FillTheFilter();
 
-  }
-  ngAfterViewInit() {
-    fromEvent<any>(this.input.nativeElement,'keyup')
-     .pipe(
-       map(event => event.target.value),
-       startWith(''),
-       debounceTime(3000),
-       distinctUntilChanged(),
-       switchMap( async (search) => {this.fullname = search,
-        this.searchEmployees()
-       })
-     ).subscribe();
   }
 
   FillTheFilter(){
@@ -266,10 +254,13 @@ FeatchAllEmployees() {
   );
   this.searchStateFound=false; 
 }
-
 searchEmployees() {
+  if(this.fullname.length > 2 || this.fullname == ""){
     this.employeeParams.searchKey = this.fullname;
-    this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
+
+
+    this._employeeService.SearchEmployeeData(this.employeeParams)
+    .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
       this.pageIndex=response.pagination.PageIndex;
@@ -278,13 +269,17 @@ searchEmployees() {
       this.totalRows=response.pagination.TotalRows;
       this.beginingRow = 1;
       this.lastRow = this.totalRows;
+
+
+
     });
     this.searchStateFound=true; 
+  }
  }
 
 Edit(employeeGuid : string)
 {
-  this.isVisible = true;
+  console.log(employeeGuid);
 }
 
 Delete(employeeGuid : string)
@@ -305,6 +300,19 @@ handleOk(): void {
 
 handleCancel(): void {
   this.isVisible = false;
+}
+
+ngAfterViewInit() {
+  fromEvent<any>(this.input.nativeElement,'keyup')
+   .pipe(
+     map(event => event.target.value),
+     startWith(''),
+     debounceTime(3000),
+     distinctUntilChanged(),
+     switchMap( async (search) => {this.fullname = search,
+    this.searchEmployees()
+    })
+   ).subscribe();
 }
 
 PageIndexChange(index: any): void {

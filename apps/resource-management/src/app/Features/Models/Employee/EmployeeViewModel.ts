@@ -1,5 +1,5 @@
 export interface IEmployeeViewModel {
-    EmployeeGuid: string;
+    EmployeeGUid: string;
     FullName: string;
     JobTitle: string;
     Location: string;
