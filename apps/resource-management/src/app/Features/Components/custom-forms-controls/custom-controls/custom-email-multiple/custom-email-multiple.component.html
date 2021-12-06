@@ -1,24 +1,24 @@
 
-  <ng-container *ngFor="let control of myControls; let i = index">
+  <ng-container *ngFor="let control of formArray.controls; let i = index">
     <nz-form-item class="form-item">
         <nz-form-label class="form-label" [nzSm]="labelConfig.nzSm" [nzXs]="labelConfig.nzXs" [nzRequired]="required"
         [hidden]="i > 0">
           {{label}}
         </nz-form-label>
-        <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessage">
+        <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessages[i]"
+        nzHasFeedback>
       <nz-input-group [nzAddOnAfter]="suffixTemplate">
-        <input [formControl]="control" 
+        <input [formControl]="getControl(i)" 
         class="email-input-box"
-        nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange()" nz-input />
+        nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange(i)" nz-input />
         <ng-template #suffixTemplate>
-          <button nz-button
-          (click)="onAction(i)">
-              <ng-container *ngIf="i + 1 === myControls.length && i + 1 < maxAmount; else removeButton ">
-                + Add Move
-              </ng-container>
-              <ng-template #removeButton>
+            <button nz-button [hidden]="(i === 0 && formArray.length === 1)"
+                (click)="onRemove(i)">
                 - Remove
-            </ng-template>
+            </button>
+          <button nz-button [hidden]="!(i + 1 === formArray.length && formArray.length < maxAmount) || (maxAmount === 1)"
+            (click)="onAdd()">
+            + Add More
           </button>
         </ng-template>
       </nz-input-group>

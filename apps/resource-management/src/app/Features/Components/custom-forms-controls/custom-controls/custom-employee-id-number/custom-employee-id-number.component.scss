@@ -1,4 +1,12 @@
 
-::ng-deep .ant-form-item .ant-input-group .ant-cascader-picker, .ant-form-item .ant-input-group .ant-select, .ant-form-item .ant-picker-calendar-month-select, .ant-form-item .ant-picker-calendar-year-select, .ant-modal {
-    width: 90px;
+.employee-prefix {
+    width: 6rem !important;
+}
+
+::ng-deep .employeIdNumber-form-label {
+    width: fit-content !important;
+}
+
+.ant-col-sm-6 {
+    max-width: 100% !important;
 }

@@ -11,16 +11,17 @@ import { commonErrorMessage } from "../../../../Services/supporting-services/cus
   })
 export class CustomNationalityComponent implements OnInit {
 
-    list$: Observable<string[]> = of(['Ethiopian', 'American', 'Indian'])
-    label = 'Nationality(ies)'
-    maxAmount = 2
+    @Input() list$: Observable<string[]> = of([])
+    @Input() label = 'Nationality(ies)'
+    @Input() maxAmount = 2
     @Input() labelConfig = defaultFormLabellParameter
     @Input() controlConfig = defaultFormControlParameter
     @Input() myControl: FormControl = new FormControl()
     @Input() required = true
     errMessage = ''
 
-    constructor() {
+    constructor(
+    ) {
     }
 
     ngOnInit(): void {
