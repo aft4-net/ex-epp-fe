@@ -15,7 +15,6 @@ import { Employee } from '../models/employee';
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
 import { retry } from 'rxjs/operators';
 import { TimeEntryFormData } from '../models/timeEntryFormData';
-import { TimesheetValidationService } from './services/timesheet-validation.service';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -75,7 +74,7 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
-    public timesheetvalidation: TimesheetValidationService) {
+   ) {
   }
 
   ngOnInit(): void {
