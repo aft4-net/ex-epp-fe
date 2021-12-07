@@ -43,7 +43,7 @@ export class TimesheetValidationService {
 
   isValidForApproval(timeEntries: TimeEntry[], timesheetConfiguration: TimesheetConfiguration){
     let dates = [... new Set(timeEntries.map(te => te.Date))];
-    let weekdays = dates.map(date => date.toLocaleString("en-us", { weekday: "long" }));
+    let weekdays = dates.map(date => new Date(date).toLocaleString("en-us", { weekday: "long" }));
 
     for(const workingDay of timesheetConfiguration.WorkingDays){
       if(weekdays.filter(wd => wd.toUpperCase() === workingDay.toUpperCase()).length === 0){
@@ -58,15 +58,17 @@ export class TimesheetValidationService {
     }
 
     if (timesheetConfiguration.WorkingHour && timesheetConfiguration.WorkingHour > 0){
+      let totalHour = 0;
       for(const date of dates) {
-        let totalHour = timeEntries.filter(te => te.Date.valueOf() === date.valueOf())
+        totalHour = timeEntries.filter(te => te.Date.valueOf() === date.valueOf())
         .map(te => te.Hour)
         .reduce((prev, next) => prev + next, 0);
 
-        
+        if (totalHour < timesheetConfiguration.WorkingHour){
+          return false;
+        }      
       }
-    }
-    
+    }    
 
     return true;
   }

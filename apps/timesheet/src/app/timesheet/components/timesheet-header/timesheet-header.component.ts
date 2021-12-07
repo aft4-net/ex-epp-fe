@@ -11,34 +11,39 @@ import { TimesheetService } from '../../services/timesheet.service';
 export class TimesheetHeaderComponent implements OnInit {
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
+  @Input() weekFirstDate: Date | null = null;
+  @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
 
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
   ngOnInit(): void {
+    if (this.weekFirstDate && this.weekLastDate) {
+      this.timesheetValidationService.fromDate = this.weekFirstDate;
+      this.timesheetValidationService.toDate = this.weekLastDate;
+    }
   }
 
   onRequestForApproval() {
-    if (!this.timesheet) {
-      return;
-    }
-
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
       let timesheetConfig: TimesheetConfiguration = response ? response : {
         WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
         WorkingHour: 0
       };
 
+      if (!this.timesheet) {
+        return;
+      }
+
       if (!this.timeEntries || this.timeEntries.length === 0) {
         return;
       }
 
-      this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig);
-
+      if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
+        this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
+      }
     }, error => {
-
+      console.log(error);
     });
-
-    this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
   }
 }
