@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
+import { Address, Addresss } from "../../../../Models/address.model";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { ExternalCountryApiService, ExternalStateRegionApiService } from "../../../../Services/external-api.services/external-countries.api.service";
 import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
 import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
 import { FormGenerator } from "../../form-generator.model";
@@ -29,14 +32,21 @@ export class AddressDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: AddressDataStateService
+        private readonly _addressDetailStateService: AddressDataStateService,
+        private readonly _externalCountryApiService: ExternalCountryApiService,
+        private readonly _externalStateRegionApiService: ExternalStateRegionApiService
     ) {
-        this.countries$ = this._addressDetailStateService.countriesName$
-        this.stateRegions$ = this._addressDetailStateService.stateRegions$
+        this.countries$ = this._externalCountryApiService.get()
+        this.stateRegions$ = of([])
         this.cities$ = this._addressDetailStateService.cities$
         this.phonePrefices$ = this._addressDetailStateService.phonePrefices$
         
+        const address: Addresss = {
+            ...{} as Address,
+            Country: 'Ethiopia'
+        } as Address
 
+        this._formGenerator.generateAddressForm(address)
         this.formGroup
             = this._formGenerator.addressForm
 
@@ -55,6 +65,7 @@ export class AddressDetailGroupComponent implements OnInit {
     }
 
     onCountrySelect() {
+        console.log('AddressChanged')
         const control = this.getControl('country')
         if(control.value === 'Ethiopia') {
             this.stateName = 'Region'
@@ -67,9 +78,24 @@ export class AddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
+        const country: string = this.formGroup.value.country
+        this.stateRegions$ = this._externalStateRegionApiService.getByPost(country)
+        // .pipe(
+        //     map((response: any)=> {
+        //         console.log('AddressChanged')
+        //         return response.data.map((country: any)=>country.name)
+        //         // .states.map((state:any)=> state.name)
+        //         // return (response.data.map((country: any)=>country.name===this.getControl('country').value))[0]
+        //         // .states.map((state:any)=> state.name)
+        //     })
+        // )
     }
     
     onStateSelect() {
+
+    }
+
+    getStates() {
 
     }
 

@@ -13,6 +13,17 @@ export const commonErrorMessage = {
 // Validators
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+export function validateRequired(control: AbstractControl) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'Employee ID number']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        }
+    )
+}
+
 export function validateEmployeeIdNumber(
     control: AbstractControl
 ) {
@@ -24,11 +35,11 @@ export function validateEmployeeIdNumber(
             parameters: parameters
         },
         {
-            method: checkEmployeeIdNumberCharacter,
-            parameters: parameters
+            method: checkLength,
+            parameters: modifyParameters(parameters,{min:3,max:10})
         },
         {
-            method: checkEmployeeIdNumberLayout,
+            method: checkEmployeeIdNumberCharacter,
             parameters: parameters
         }
     )
@@ -44,7 +55,11 @@ export function validateFirstName(
 export function validateMiddleName(
     control: AbstractControl
 ) {
+    
     resetError(false)
+    if(!control.value) {
+        return null
+    }
     return validateName(control, commonErrorMessage, 'Middle name')
 }
 
@@ -133,15 +148,11 @@ export function validateEmailAddress(
             method: checkLength,
             parameters: modifyParameters(
                 parameters,
-                { min: 0, max: maxNumberofCharactersinEmail }
+                { min: 5, max: maxNumberofCharactersinEmail }
             )
         },
         {
             method: checkEmailCharacters,
-            parameters: parameters
-        },
-        {
-            method: checkEmailLayout,
             parameters: parameters
         }
     )
@@ -155,6 +166,14 @@ export function validatePhoneNumber(
     return checkMultiple(
         {
             method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkLength,
+            parameters: modifyParameters(parameters, {min: 9, max: 15})
+        },
+        {
+            method: checkPhoneNumber,
             parameters: parameters
         }
     )
@@ -206,12 +225,8 @@ function checkrequired(
     condition: null,
     controlName?: string
 ) {
-    controlName
-        = controlName ?
-            controlName[0].toLocaleUpperCase() + controlName.substring(1)
-            : 'Input'
     if (!control.value) {
-        errorLog.message = controlName + ' is required! Please provide a value.'
+        errorLog.message = 'Inout is required! Please provide a value.'
         return { required: true }
     }
     return null
@@ -226,14 +241,14 @@ function checkLength(
     if (condition.min) {
         if (control.value.length < condition.min) {
             errorLog.message
-                = 'Input should contain a minimum of ' + condition.min + 'characters!'
+                = 'Input should contain a minimum of ' + condition.min + ' characters!'
             return { minLength: true }
         }
     }
     if (condition.max) {
         if (control.value.length > condition.max) {
             errorLog.message
-                = 'Input can contain a maximum of ' + condition.min + 'characters!'
+                = 'Input can contain a maximum of ' + condition.max + ' characters!'
             return { maxLength: true }
         }
     }
@@ -306,7 +321,7 @@ function checkEmployeeIdNumberCharacter(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[0-9/]+$/).test(control.value)) {
+    if (!(/^[A-Za-z0-9/]+$/).test(control.value)) {
         errorLog.message = 'Input contains invalid character(s)!'
         return { invalidCharacter: true }
     }
@@ -350,8 +365,21 @@ function checkEmailCharacters(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[0-9A-Za-z_.@]+$/).test(control.value)) {
-        errorLog.message = 'Input contains invalid character(s)!'
+    if (!(RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$").test(control.value))) {
+        errorLog.message = 'Input is in an invalid format!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
+function checkPhoneNumber(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!(/[0-9\+\-\ ]/).test(control.value)) {
+        errorLog.message = 'Input is in an invalid format!'
         return { invalidCharacter: true }
     }
     return null

@@ -1,13 +1,16 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { CityDetail, CountryDetail, StateDetail } from "../../Models/supporting-models/country-detail.model";
+import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
 import { ReadonlySeedApiService } from "../seed.api-service/readonly-seed.api.service";
 import { citiesURL, countriesURL, statesURL } from "../supporting-services/basic-data.collection";
 
 @Injectable({
     providedIn: 'root'
 })
-export class ExternalCountryApiService extends ReadonlySeedApiService<CountryDetail> {
+export class ExternalCountryApiService extends ReadonlySeedApiService<SelectOptionModel> {
 
     protected _getParameters(country: string): HttpParams {
         throw new Error("Method not implemented.");
@@ -23,9 +26,9 @@ export class ExternalCountryApiService extends ReadonlySeedApiService<CountryDet
                     return response.data
                         .map((country: any) => {
                             return {
-                                name: country.name,
-                                nationality: country.nationality
-                            } as CountryDetail
+                                value: country.name,
+                                label: country.name
+                            } as SelectOptionModel
                         })
                 })
             }
@@ -37,7 +40,7 @@ export class ExternalCountryApiService extends ReadonlySeedApiService<CountryDet
 @Injectable({
     providedIn: 'root'
 })
-export class ExternalStateRegionApiService extends ReadonlySeedApiService<StateDetail> {
+export class ExternalStateRegionApiService extends ReadonlySeedApiService<SelectOptionModel> {
 
     protected _getParameters(country: string): unknown {
         return JSON.stringify({ country: country })
@@ -53,11 +56,31 @@ export class ExternalStateRegionApiService extends ReadonlySeedApiService<StateD
                     return response.data.states
                         .map((state: any) => {
                             return {
-                                name: state.name
-                            } as StateDetail
+                                value: state.name,
+                                label: state.name
+                            } as SelectOptionModel
                         })
                 })
             }
+        )
+    }
+
+    override getByPost(country: string): Observable<SelectOptionModel[]> {
+        return this._httpClient.post<any>(
+            this._url,
+            JSON.stringify({country: country})
+        )
+        .pipe(
+            map((response: any) => {
+                console.log(response)
+                return response.data.states
+                    .map((state: any) => {
+                        return {
+                            value: state.name,
+                            label: state.name
+                        } as SelectOptionModel
+                    })
+            })
         )
     }
 
