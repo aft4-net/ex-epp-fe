@@ -17,7 +17,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 
 import {
-  Address,
   EmergencyContact,
   EmergencyContacts,
   IEmergencyContact,
@@ -31,6 +30,7 @@ import { AddressNewComponent } from '../address-new/address-new.component';
 import { AttendanceService } from '../../../Services/address/attendance.service';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { Data, Router } from '@angular/router';
+import { Address } from '../../../Models/address.model';
 
 @Component({
   selector: 'exec-epp-add-emergencycontact',
@@ -153,33 +153,33 @@ export class AddEmergencycontactComponent implements OnInit {
       relationship: new FormControl(null, [Validators.required]),
       address: this.fb.array([this.createAddress()]),
     });
-    this.emc1 = {
-      guid: '2fa85f64-5717-4562-b3fc-2c963f66afa1',
-      isActive: true,
-      isDeleted: true,
-      createdDate: '2021-11-22T00:45:19.900Z',
-      createdbyUserGuid: '9fa85f64-5717-4562-b3fc-2c963f66afa1',
-      firstName: 'Simbo',
-      fatherName: 'Temesgen',
-      relationship: 'bro',
-      address: [
-        {
-          guid: '2fa85f64-5717-4562-b3fc-2c963f66afa1',
-          isActive: true,
-          isDeleted: true,
-          createdDate: '2021-11-22T00:45:19.900Z',
-          createdbyUserGuid: '6fa85f64-5717-4562-b3fc-2c963f66afa1',
-          phoneNumber: '',
-          country: '',
-          stateRegionProvice: '',
-          city: '',
-          subCityZone: '',
-          woreda: '',
-          houseNumber: '',
-          postalCode: 4455,
-        },
-      ],
-    };
+    // this.emc1 = {
+    //   guid: '2fa85f64-5717-4562-b3fc-2c963f66afa1',
+    //   isActive: true,
+    //   isDeleted: true,
+    //   createdDate: '2021-11-22T00:45:19.900Z',
+    //   createdbyUserGuid: '9fa85f64-5717-4562-b3fc-2c963f66afa1',
+    //   firstName: 'Simbo',
+    //   fatherName: 'Temesgen',
+    //   relationship: 'bro',
+    //   address: [
+    //     {
+    //       guid: '2fa85f64-5717-4562-b3fc-2c963f66afa1',
+    //       isActive: true,
+    //       isDeleted: true,
+    //       createdDate: '2021-11-22T00:45:19.900Z',
+    //       createdbyUserGuid: '6fa85f64-5717-4562-b3fc-2c963f66afa1',
+    //       phoneNumber: '',
+    //       country: '',
+    //       stateRegionProvice: '',
+    //       city: '',
+    //       subCityZone: '',
+    //       woreda: '',
+    //       houseNumber: '',
+    //       postalCode: 4455,
+    //     },
+    //   ],
+    // };
   }
 
   get Addresses(): FormArray {
@@ -257,14 +257,14 @@ export class AddEmergencycontactComponent implements OnInit {
       relationship: this.AddForm.value.relationship,
       address: [
         {
-          phoneNumber: this.AddForm.value.phoneNumber,
-          country: this.AddForm.value.country,
-          stateRegionProvice: this.AddForm.value.stateRegionPrice,
-          city: this.AddForm.value.cityProvice,
-          subCityZone: this.AddForm.value.subCityZone,
-          woreda: this.AddForm.value.Woreda,
-          houseNumber: this.AddForm.value.houseNumber,
-          postalCode: this.AddForm.value.postalCode,
+          // phoneNumber: this.AddForm.value.phoneNumber,
+          // country: this.AddForm.value.country,
+          // stateRegionProvice: this.AddForm.value.stateRegionPrice,
+          // city: this.AddForm.value.cityProvice,
+          // subCityZone: this.AddForm.value.subCityZone,
+          // woreda: this.AddForm.value.Woreda,
+          // houseNumber: this.AddForm.value.houseNumber,
+          // postalCode: this.AddForm.value.postalCode,
         },
       ],
     } as IEmergencyContact;

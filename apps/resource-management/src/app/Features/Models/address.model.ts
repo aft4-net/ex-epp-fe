@@ -22,7 +22,7 @@ export class Addresss implements Address {
         public SubCityZone: string,
         public Woreda: string,
         public HouseNumber: string,
-        public  PostalCode: string,
+        public PostalCode: string,
         public PhoneNumber: string,
         public IsActive: true,
         public IsDeleted: false,

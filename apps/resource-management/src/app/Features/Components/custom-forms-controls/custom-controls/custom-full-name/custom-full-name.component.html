@@ -1,6 +1,6 @@
-<exec-epp-custom-text-box [myControl]="firstNameControl" [label]="'First Name'">
+<exec-epp-custom-text-box [myControl]="getFirstNameControl()" [label]="'First Name'">
 </exec-epp-custom-text-box>
-<exec-epp-custom-text-box [myControl]="middleNameControl" [label]="'Middle Name'">
+<exec-epp-custom-text-box [myControl]="getMiddleNameControl()" [label]="'Middle Name'" [required]="false">
 </exec-epp-custom-text-box>
-<exec-epp-custom-text-box [myControl]="lastNameControl" [label]="'Last Name'">
+<exec-epp-custom-text-box [myControl]="getLastNameControl()" [label]="'Last Name'">
 </exec-epp-custom-text-box>
