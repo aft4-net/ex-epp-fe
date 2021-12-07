@@ -21,8 +21,8 @@ export class CustomDatepickerComponent implements OnInit {
     @Input() controlConfig = defaultFormControlParameter
     @Input() prefixControl: FormControl = new FormControl()
     @Input() myControl: FormControl = new FormControl()
-    @Input() startingDate?: Date
-    @Input() endingDate?: Date
+    @Input() startingDate: Date = new Date(1900, 1, 1)
+    @Input() endingDate: Date = new Date(Date.now())
     @Input() required = true
 
     @Output() formResponse = new EventEmitter()
@@ -40,10 +40,23 @@ export class CustomDatepickerComponent implements OnInit {
 
     disabledDate = (startValue: Date): boolean => {
         return (
-            (this.startingDate ? startValue.getTime() > this.startingDate.getTime() : true)
-            && (this.endingDate ? startValue.getTime() < this.endingDate.getTime() : true)
+            (startValue.getTime() < this.startingDate.getTime())
+            || (startValue.getTime() > this.endingDate.getTime())
         )
     }
+
+    disabledDate1 = (startValue: Date): boolean => {
+        return (
+            (startValue.getTime() > this.startingDate.getTime()
+            && (startValue.getTime() < this.endingDate.getTime()))
+        )
+    }
+
+    // disabledDate2 = (startValue: Date): boolean => {
+    //     return (
+    //        (startValue.getTime() > this.endingDate.getTime())
+    //     )
+    // }
 
     onChange() {
         this.errMessage = commonErrorMessage.message.substring(0)

@@ -1,22 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
-import { NzTableFilterList } from 'ng-zorro-antd/table';
+import { Observable, fromEvent, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-
-import {  from, fromEvent, Observable, of, pipe } from 'rxjs';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTableFilterList } from 'ng-zorro-antd/table';
+import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
-
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { PaginationResult } from '../../../Models/PaginationResult';
-import { map, throttleTime } from 'rxjs/operators';
-import { Result } from 'postcss';
 import { Data, Router } from '@angular/router';
-
+import { PaginationResult } from '../../../Models/PaginationResult';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -28,9 +25,11 @@ export class EmployeeDetailComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
 
-  constructor(private _employeeService : EmployeeService, private _router: Router) {}
+  constructor(private _employeeService : EmployeeService,
+    private _router: Router) {}
 
-
+    isdefault = true;
+    router="";
   checked = false;
   loading = false;
   indeterminate = false;
@@ -52,8 +51,6 @@ export class EmployeeDetailComponent implements OnInit {
   holdItCountry: listtToFilter[] = [];
   holdItJobTitle: listtToFilter[] = [];
   holdItStatus: listtToFilter[] = [];
-
-
   holdItJoinDate: listtToFilter[]=[];
 
   empListCountry : NzTableFilterList=[];
@@ -213,6 +210,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   onItemChecked(employeeGuid: string, checked: boolean): void {
+
     this.updateCheckedSet(employeeGuid, checked);
     this.refreshCheckedStatus();
   }
@@ -257,8 +255,6 @@ FeatchAllEmployees() {
 searchEmployees() {
   if(this.fullname.length > 2 || this.fullname == ""){
     this.employeeParams.searchKey = this.fullname;
-
-
     this._employeeService.SearchEmployeeData(this.employeeParams)
     .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
       this.employeeViewModels$=of(response.Data);
@@ -269,25 +265,17 @@ searchEmployees() {
       this.totalRows=response.pagination.TotalRows;
       this.beginingRow = 1;
       this.lastRow = this.totalRows;
-
-
-
     });
     this.searchStateFound=true; 
   }
- }
-
-Edit(employeeGuid : string)
-{
-  console.log(employeeGuid);
 }
 
-Delete(employeeGuid : string)
-{
-//not implemented
-}
-
-
+  Edit( employeeId:string):void
+  {
+    console.log("Addis " + employeeId);
+   this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
+   this._router.navigate(['/employee/add-employee/personal-info']);
+  }
   //added by simbo just you can delete
 
 handleOk(): void {
@@ -315,7 +303,7 @@ ngAfterViewInit() {
    ).subscribe();
 }
 
-PageIndexChange(index: any): void {
+  PageIndexChange(index: any): void {
     this.loading =true;
     this.employeeParams.pageIndex = index;
     this.employeeParams.searchKey = this.fullname ?? "";
@@ -364,5 +352,9 @@ PageIndexChange(index: any): void {
       });
       this.searchStateFound=false;
     }
+  }
+
+  Delete(employeeGuid : string) {
+
   }
 }

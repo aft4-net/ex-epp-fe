@@ -70,11 +70,6 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Address" [nzWidth]="'40%'" [nzFooter]="footer"
     (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-        <app-address-new></app-address-new>
-       
-            
-    
-     
+        <exec-epp-address-detail-group></exec-epp-address-detail-group>
     </ng-container>
-
 </nz-modal>

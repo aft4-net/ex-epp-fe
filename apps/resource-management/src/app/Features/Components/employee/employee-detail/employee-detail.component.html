@@ -84,7 +84,7 @@
             </nz-table>
         </div>
       </div>
-      <div nz-row nzJustify="end">
+      <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
         <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
         <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
           nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>

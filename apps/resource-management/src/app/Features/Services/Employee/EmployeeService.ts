@@ -90,6 +90,20 @@ export class EmployeeService {
      });
     }
 
+    updateEmployee(){
+      this.employee$.subscribe(x=>{
+        this.employee = x;
+      });
+     console.log("From The new Save Method "+ this.employee);
+     return this.http.put(this.baseUrl,this.employee)
+    .subscribe((response:ResponseDto<Employee> | any) => {
+      this.employeeSource.next(response.data),
+      console.log(response.message);
+    },error => {
+      console.log(error);
+    });
+   }
+
 
     getEmployeeOrganization() : EmployeeOrganization {
       const organization = this.employeeSource.getValue().EmployeeOrganization;
@@ -131,7 +145,16 @@ export class EmployeeService {
        )
     }
 
-    
+    getEmployeeData(employeeId:string) : Observable<Employee>{
+
+      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID' , {params:{
+        empId: employeeId
+      }}
+     ).pipe(
+        map(result =>  result.Data)
+      )
+    }
+
 
 }
 
