@@ -22,8 +22,7 @@
           (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
           (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">
         </app-project-name-palet>
-        <button (click)="deleteTimeEntry(timeEntry.Guid)">delete</button>
-      </div>
+       </div>
     </div>
     <div *ngIf="checkOverflow(col) && moreEntries.length >0" #btn
       class="more-btn w-full flex flex-col items-end pt-2 mt-0 mb-2 pb-2 w-full justify-between h-10 pt-2  text-left "
