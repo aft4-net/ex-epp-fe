@@ -24,8 +24,6 @@ export class TimesheetService {
 
   constructor(private http: HttpClient,) {
   }
-  contentType = 'Content-Type';
-  applicationType = 'application/json';
 
   //#region timesheet and timeEntry
 
