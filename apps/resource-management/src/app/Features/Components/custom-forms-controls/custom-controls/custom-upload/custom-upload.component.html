@@ -1,0 +1,22 @@
+<div class="clearfix">
+    <div>
+        <img class="profile-pic" [src]="filePath" alt="Profile Pic"
+        width="75" height="75">
+    </div>
+    <div class="profile-buttons-container">
+        <div class="profile-button-container">
+            <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+                <button class="profile-button-add">
+                  <i nz-icon nzType="upload"></i>
+                  Upload
+                </button>
+              </nz-upload>
+        </div>
+        <div class="profile-button-container">
+              <button class="profile-button-delete">
+                <i nz-icon nzType="delete"></i>
+                Delete
+              </button>
+        </div>
+    </div>
+  </div>

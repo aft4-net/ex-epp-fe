@@ -19,11 +19,13 @@ export class PageBreadcrumbComponent implements OnInit {
   ) {
     this._router.events.subscribe((url: any) => console.log(url));
     this.router = _router.url;
-    // console.log(this.router);
+    console.log('currentPath', this._router.url);
   }
 
   ngOnInit(): void {
-    this.reloadCurrentRoute();
+    // this._router.events.subscribe((url: any) => console.log(url));
+    // this.router = this._router.url;
+    //  console.log(this._router.url);
   }
 
   saveEmployee() {
@@ -32,16 +34,15 @@ export class PageBreadcrumbComponent implements OnInit {
 
   reloadCurrentRoute() {
     const currentUrl = this._router.url;
-    this._router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this._router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
       this._router.navigate([currentUrl]);
       console.log('current route is', currentUrl);
     });
   }
 
   addEmployee() {
-    this._router.navigate(['/employee/add-employee/personal-info']);
-    this._router.events.subscribe((url: any) => console.log(url));
-    this.router = this._router.url;
-    this.isdefault = false;
+     this._router.navigate(['/employee/add-employee/personal-info']);
+     this.isdefault = !this.isdefault;
+
   }
 }

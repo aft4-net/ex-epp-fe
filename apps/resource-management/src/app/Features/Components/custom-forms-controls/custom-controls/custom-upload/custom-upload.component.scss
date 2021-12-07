@@ -1,0 +1,32 @@
+.clearfix {
+    display: flex;
+    flex-direction: row !important;
+    max-width: 25rem !important;
+    vertical-align: middle !important;
+}
+
+.profile-pic {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    border: solid black;
+}
+
+.profile-button-add {
+    width: 100px !important;
+    height: 35px !important;
+    padding-right: 10px;
+}
+.profile-button-delete {
+    width: 100px !important;
+    height: 35px !important;
+}
+
+.profile-button-container {
+    padding: 1% !important;
+}
+
+.profile-buttons-container {
+ 
+    display: contents !important;
+}
