@@ -35,7 +35,6 @@ export class EmployeeService {
     this.setEmployee(employee);
   }
   setEmployee(employee:Employee){
-    console.log(employee);
     return this.http.post(this.baseUrl,employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
        this.employeeSource.next(response.data),
@@ -53,7 +52,6 @@ export class EmployeeService {
       ...employee
 
     });
-    console.log(this.employee$)
   }
     getPersonalAddresses(){
       const addresses = this.employeeSource.getValue().EmployeeAddress
@@ -130,7 +128,6 @@ export class EmployeeService {
         }
       }).pipe(
           map((result : any) => {
-            console.log(result)
             this.paginatedResult = {
               Data:result.Data,
               pagination:{
