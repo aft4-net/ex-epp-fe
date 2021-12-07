@@ -176,14 +176,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       return timesheetApprovals[0];
     }
   }
-  disableAddIcon():void{
-let today = new Date();
-console.log(today)
-    if(new Date()<this.date){
-      this.iconEL.nativeElement.style.display = 'none';
-    }
-  }
+
   deleteTimeEntry(Guid:string):void{
+    debugger;
     this.timesheetService.deleteTimeEntry(Guid).subscribe(data => {
       console.log(data);
     });

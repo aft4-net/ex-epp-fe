@@ -193,7 +193,7 @@ export class TimesheetService {
 
       params=params.set("timeEntryId",timeEntryId);
 
-      return this.http.delete(this.baseUrl+"DeleteTimeEntryByID",{params});
+      return this.http.delete(this.baseUrl+"DeleteTimeEntry/",{params});
   }
 
   //#endregion
