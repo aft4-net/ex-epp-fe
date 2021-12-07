@@ -24,8 +24,6 @@ export class TimesheetService {
 
   constructor(private http: HttpClient,) {
   }
-  contentType = 'Content-Type';
-  applicationType = 'application/json';
 
   //#region timesheet and timeEntry
 
@@ -186,7 +184,6 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
-
   deleteTimeEntry(timeEntryId: string):Observable<unknown> {
 
     let params = new HttpParams();
@@ -195,7 +192,6 @@ export class TimesheetService {
 
       return this.http.delete(this.baseUrl+"DeleteTimeEntry/",{params});
   }
-
   //#endregion
 
 }

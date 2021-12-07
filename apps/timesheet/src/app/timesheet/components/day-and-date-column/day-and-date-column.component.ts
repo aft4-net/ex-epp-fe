@@ -76,6 +76,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       else {
         this.dateColumnHighlightClass = "date-column-highlight"
       }
+      let today=new Date();
+      if(this.date>new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1))){
+        this.dateColumnHighlightClass ="date-column-no-display";
+      }
     }
   }
   overflowCalc() {
