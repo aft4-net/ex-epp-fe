@@ -12,6 +12,7 @@ import { AddressDetailGroupComponent } from "./custom-control-groups/address-det
 import { EmergencyContactDetailGroupComponent } from "./custom-control-groups/emergency-contact-detail-group/emergency-contact-detail-group.component";
 import { FamilyDetailGroupComponent } from "./custom-control-groups/family-detail-group/family-detail-group.component";
 import { OrganizationalDetailGroupComponent } from "./custom-control-groups/organizational-detail-group/organizational-detail-group.component";
+import { EmergencyAddressDetailGroupComponent } from "./custom-control-groups/emergency-address-detail-group/emergency-address-detail-group.component";
 import { PersonalDetailGroupComponent } from "./custom-control-groups/personal-details-group/personal-details-group.component";
 import { CustomDatepickerComponent } from "./custom-controls/custom-datepicker/custom-datepicker.component";
 import { CustomEmailMultipleComponent } from "./custom-controls/custom-email-multiple/custom-email-multiple.component";
@@ -25,7 +26,7 @@ import { CustomPhoneNumberComponent } from "./custom-controls/custom-phone/custo
 import { CustomSelectMultipleComponent } from "./custom-controls/custom-select-multiple/custom-select-multiple.component";
 import { CustomSelectComponent } from "./custom-controls/custom-select/custom-select.component";
 import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom-text-box.component";
-import { TestFormComponent } from "./test-form/test-form.component";
+
 
 registerLocaleData(en);
 
@@ -48,8 +49,8 @@ registerLocaleData(en);
         OrganizationalDetailGroupComponent,
         AddressDetailGroupComponent,
         EmergencyContactDetailGroupComponent,
-        FamilyDetailGroupComponent,
-        TestFormComponent
+        EmergencyAddressDetailGroupComponent,
+        FamilyDetailGroupComponent
     ],
     imports: [
         BrowserModule,
@@ -80,8 +81,8 @@ registerLocaleData(en);
         OrganizationalDetailGroupComponent,
         AddressDetailGroupComponent,
         EmergencyContactDetailGroupComponent,
+        EmergencyAddressDetailGroupComponent,
         FamilyDetailGroupComponent,
-        TestFormComponent
     ]
 })
 export class CustomFormsControlsModule { }
