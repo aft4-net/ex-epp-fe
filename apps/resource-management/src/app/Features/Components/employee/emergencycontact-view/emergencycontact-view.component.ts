@@ -22,7 +22,9 @@ export class EmergencycontactViewComponent implements OnInit {
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator
-  ) {}
+  ) {
+    
+  }
 
   addemergencycontact(): void {
     this.isVisible = true;
