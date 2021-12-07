@@ -1,42 +1,36 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Data } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { FamilyDetailComponent } from '../family-detail/family-detail.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
   templateUrl: './family-detail-view.component.html',
-  styleUrls: ['./family-detail-view.component.scss']
+  styleUrls: ['./family-detail-view.component.scss'],
 })
 export class FamilyDetailViewComponent implements OnInit {
-
-  
   isVisible = false;
   footer = null;
   isConfirmLoading = false;
   checked = false;
   loading = false;
   indeterminate = false;
-  listOfData: readonly Data[] = [];
-  listOfCurrentPageData: readonly Data[] = [];
-  setOfCheckedId = new Set<number>();
-
-
-  i = 0;
-  editId: string | null = null;
+  listOfFamilies: readonly FamilyDetail[] = [];
   
+  editId: string | null = null;
 
+  constructor(private modalService: NzModalService, public form: FormGenerator) {}
 
-  constructor(private modalService: NzModalService) {}
-
- 
   addfamilies(): void {
-    this.isVisible= true;
-    this.modalService.create({
-      nzTitle: 'Add Family Details',
-      nzFooter:null,
-      nzContent: FamilyDetailComponent
-    });
+    this.isVisible = true;
+    // this.modalService.create({
+    //   nzTitle: 'Add Family Details',
+    //   nzFooter:null,
+    //   nzContent: FamilyDetailComponent
+    // });
   }
 
   handleOk(): void {
@@ -47,61 +41,8 @@ export class FamilyDetailViewComponent implements OnInit {
     }, 3000);
   }
 
-  handleCancel(): void {
-    this.isVisible = false;
-  }
-
   
-
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-    } else {
-      this.setOfCheckedId.delete(id);
-    }
-  }
-
-  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
-    this.listOfCurrentPageData = listOfCurrentPageData;
-    this.refreshCheckedStatus();
-  }
-
-  refreshCheckedStatus(): void {
-    const listOfEnabledData = this.listOfCurrentPageData.filter(
-      ({ disabled }) => !disabled
-    );
-    this.checked = listOfEnabledData.every(({ id }) =>
-      this.setOfCheckedId.has(id)
-    );
-    this.indeterminate =
-      listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
-      !this.checked;
-  }
-
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-  onAllChecked(checked: boolean): void {
-    this.listOfCurrentPageData
-      .filter(({ disabled }) => !disabled)
-      .forEach(({ id }) => this.updateCheckedSet(id, checked));
-    this.refreshCheckedStatus();
-  }
-
-  
-
-  ngOnInit(): void {
-    this.listOfData = new Array(1).fill(0).map((_, index) => ({
-      id: index,
-      name: `Edward King `,
-      age: 32,
-      address: `London, Park Lane no. ${index}`,
-      disabled: index % 2 === 0,
-    }));
-  }
-
+ 
 
  
   startEdit(id: string): void {
@@ -113,44 +54,40 @@ export class FamilyDetailViewComponent implements OnInit {
     this.editId = null;
   }
 
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King `,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
-  }
-
-  deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
-  }
-
-
-
-
   
-  showModal(): void {
-    this.isVisible = true;
-  }
 
 
- 
-  showConfirm(): void {
+  showConfirm(guid: string): void {
+    this.listOfFamilies = this.listOfFamilies.filter((d) => d.Guid !== guid);
     this.modalService.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Bla bla ...',
+      nzContent: 'Are you sure you want to delete?',
       nzOkText: 'OK',
-      nzCancelText: 'Cancel'
+      nzCancelText: 'Cancel',
     });
   }
 
   exitModal() {
     this.isVisible = false;
   }
-  
+
+
+  resetForm(): void {
+    this.form.familyDetail.reset();
+  }
+
+  add(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 6000);
+  }
+
+
+
+  ngOnInit(): void {
+   
+  }
+
 }
