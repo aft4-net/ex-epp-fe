@@ -176,14 +176,4 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       return timesheetApprovals[0];
     }
   }
-
-  deleteTimeEntry(Guid:string):void{
-    debugger;
-    this.timesheetService.deleteTimeEntry(Guid).subscribe(data => {
-      console.log(data);
-    });
-
-  }
 }
-
-

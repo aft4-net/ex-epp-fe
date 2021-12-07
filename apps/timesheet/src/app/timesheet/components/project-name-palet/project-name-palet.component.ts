@@ -48,7 +48,7 @@ export class ProjectNamePaletComponent implements OnInit {
       this.paletEllipsisClicked.emit(timeEntryEvent);
       this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === 2 : true;
     }
-  } 
+  }
 
   onProjectNamePaletClicked() {
     let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry};
@@ -59,7 +59,7 @@ export class ProjectNamePaletComponent implements OnInit {
     }
 
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
-  }  
+  }
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.none) {
@@ -73,4 +73,10 @@ export class ProjectNamePaletComponent implements OnInit {
   closePopover() {
     this.popoverVisible = false;
   }
+  deleteTimeEntry(Guid:string):void{
+    this.timesheetService.deleteTimeEntry(Guid).subscribe(data => {
+        console.log(data);
+      });
+
+    }
 }
