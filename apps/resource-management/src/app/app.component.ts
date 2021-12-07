@@ -15,8 +15,10 @@ export class AppComponent {
 
  
   router: string;
+  isdefault= false;
 
   constructor(private _router: Router) {
     this.router = _router.url;
+
   }
 }

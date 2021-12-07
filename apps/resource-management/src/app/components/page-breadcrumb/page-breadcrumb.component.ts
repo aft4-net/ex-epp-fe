@@ -23,7 +23,8 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.reloadCurrentRoute();
+    this._router.events.subscribe((url: any) => console.log(url));
+    this.router = this._router.url;
   }
 
   saveEmployee() {
@@ -32,7 +33,7 @@ export class PageBreadcrumbComponent implements OnInit {
 
   reloadCurrentRoute() {
     const currentUrl = this._router.url;
-    this._router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this._router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
       this._router.navigate([currentUrl]);
       console.log('current route is', currentUrl);
     });

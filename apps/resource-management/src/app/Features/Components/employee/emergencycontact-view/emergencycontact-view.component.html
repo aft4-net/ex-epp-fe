@@ -25,7 +25,7 @@
       #rowSelectionTable
       nzShowSizeChanger
       [nzData]="listOfData"
-      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    
     >
       <thead>
         <tr class="tr">
@@ -38,10 +38,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rowSelectionTable.data">
-          <td>{{ data.name }}</td>
-          <td>{{ data.phone }}</td>
-          <td>{{ data.phone }}</td>
-          <td>{{ data.address }}</td>
+          <td>{{ data.firstName }}</td>
+          <td>{{ data.relationship }}</td>
+          <td>{{ data.phoneNumber }}</td>
+          <td>{{ data.country }}</td>
 
           <td>
             <div nz-row>
@@ -49,8 +49,8 @@
                 nz-col
                 nzSpan="2"
                 class="editable-cell"
-                [hidden]="editId === data.id"
-                (click)="startEdit(data.id)"
+                [hidden]="editId === data.guid"
+                (click)="startEdit(data.guid)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
@@ -59,7 +59,7 @@
                 <a
                   nz-popconfirm
                   nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="deleteRow(data.id)"
+                  (nzOnConfirm)="showDeleteConfirm(data.guid)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
@@ -74,7 +74,7 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   nzTitle="Add Address"
-  [nzWidth]="'40%'"
+  [nzWidth]="'52%'"
   [nzFooter]="footer"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"
@@ -153,7 +153,7 @@
         </div>
       </div>
       <button nz-button class="saveButton" (click)="handleOk()">Add</button> &nbsp;
-      <!-- <button nz-button class="cancelButton" (click)="handlereset()">Clear</button> -->
+      <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
     </div>
     
 
