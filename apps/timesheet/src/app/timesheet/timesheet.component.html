@@ -12,8 +12,6 @@
     (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
     (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
 
-  {{ firstday1 }} - {{ lastday1 }}
-
   <div class="lg:flex xl:flex ml-6 mr-6">
     <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
 
