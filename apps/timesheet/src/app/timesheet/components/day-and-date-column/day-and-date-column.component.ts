@@ -186,7 +186,4 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       return timesheetApprovals[0];
     }
   }
- 
 }
-
-

@@ -184,7 +184,14 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
+  deleteTimeEntry(timeEntryId: string):Observable<unknown> {
 
+    let params = new HttpParams();
+
+      params=params.set("timeEntryId",timeEntryId);
+
+      return this.http.delete(this.baseUrl+"DeleteTimeEntry/",{params});
+  }
   //#endregion
 
 }
