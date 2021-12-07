@@ -1,3 +1,4 @@
+import { Address } from "./address.model";
 
 
 export interface EmergencyContacts {
@@ -22,21 +23,21 @@ export interface EmergencyContacts {
 
 
 
-export interface Address {
-  guid: string;
-  isActive: boolean;
-  isDeleted: boolean;
-  createdDate: string;
-  createdbyUserGuid: string;
-  phoneNumber: string;
-  country: string;
-  stateRegionProvice: string;
-  city: string;
-  subCityZone: string;
-  woreda: string;
-  houseNumber: string;
-  postalCode: number;
-}
+// export interface Address {
+//   guid: string;
+//   isActive: boolean;
+//   isDeleted: boolean;
+//   createdDate: string;
+//   createdbyUserGuid: string;
+//   phoneNumber: string;
+//   country: string;
+//   stateRegionProvice: string;
+//   city: string;
+//   subCityZone: string;
+//   woreda: string;
+//   houseNumber: string;
+//   postalCode: number;
+// }
 
 export interface IEmergencyContact {
   guid?: string;
@@ -63,7 +64,7 @@ export class EmergencyContact implements IEmergencyContact {
     public firstName?: string,
     public fatherName?: string,
     public relationship?: string,
-    public address: [] = []
+    public address: Address[] = []
   ) {}
 
 

@@ -36,6 +36,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @ViewChildren('entries') entriesDiv!: QueryList<any>;
   @ViewChild('pt') pointerEl!: ElementRef;
   @ViewChild('col') colEl!: ElementRef;
+  @ViewChild ('addIcon') iconEL!:ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-highlight"
@@ -53,7 +54,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
   }
 
   ngOnChanges(): void {
@@ -74,6 +75,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       }
       else {
         this.dateColumnHighlightClass = "date-column-highlight"
+      }
+      let today=new Date();
+      if(this.date>new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1))){
+        this.dateColumnHighlightClass ="date-column-no-display";
       }
     }
   }
@@ -182,5 +187,3 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     }
   }
 }
-
-

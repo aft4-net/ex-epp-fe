@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { FormControlResponseModel } from "../../../../Models/supporting-models/form-control-response.model"
 
 @Component({
     selector: 'exec-epp-custom-datepicker',
@@ -20,9 +21,13 @@ export class CustomDatepickerComponent implements OnInit {
     @Input() controlConfig = defaultFormControlParameter
     @Input() prefixControl: FormControl = new FormControl()
     @Input() myControl: FormControl = new FormControl()
-    @Input() startingDate?: Date
-    @Input() endingDate?: Date
-    required = true
+    @Input() startingDate: Date = new Date(1900, 1, 1)
+    @Input() endingDate: Date = new Date(Date.now())
+    @Input() required = true
+
+    @Output() formResponse = new EventEmitter()
+
+    
     errMessage = ''
 
     prefices$ = of(defaultEmployeeIdNumberPrefices)
@@ -35,13 +40,27 @@ export class CustomDatepickerComponent implements OnInit {
 
     disabledDate = (startValue: Date): boolean => {
         return (
-            (this.startingDate ? startValue.getTime() > this.startingDate.getTime() : true)
-            && (this.endingDate ? startValue.getTime() < this.endingDate.getTime() : true)
+            (startValue.getTime() < this.startingDate.getTime())
+            || (startValue.getTime() > this.endingDate.getTime())
         )
     }
 
+    disabledDate1 = (startValue: Date): boolean => {
+        return (
+            (startValue.getTime() > this.startingDate.getTime()
+            && (startValue.getTime() < this.endingDate.getTime()))
+        )
+    }
+
+    // disabledDate2 = (startValue: Date): boolean => {
+    //     return (
+    //        (startValue.getTime() > this.endingDate.getTime())
+    //     )
+    // }
+
     onChange() {
         this.errMessage = commonErrorMessage.message.substring(0)
+        this.formResponse.emit()
     }
 
 }

@@ -1,6 +1,6 @@
 export class EmployeeParams
 {
-  pageIndex = 0;
-  pageSize = 10;
+  pageIndex = 1;
+  pageSize = 3;
   searchKey= "" ;
 }

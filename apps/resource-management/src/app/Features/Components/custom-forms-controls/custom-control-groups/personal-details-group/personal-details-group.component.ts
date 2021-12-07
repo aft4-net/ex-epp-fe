@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { of } from "rxjs";
-import { commonErrorMessage, validateFirstName } from "../../../../Services/supporting-services/custom.validators";
+import { Component, OnInit } from "@angular/core";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { Observable } from "rxjs";
+import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { maxEmployeeDateofBirth, minEmployeeDateofBirth } from "../../../../Services/supporting-services/basic-data.collection";
+import { PersonalDetailDataStateService } from "../../../../state-services/personal-detail-data.state-service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -11,31 +13,46 @@ import { FormGenerator } from "../../form-generator.model";
 })
 export class PersonalDetailGroupComponent implements OnInit {
 
-    @Input() personalDetailGroup?: FormGroup
     formGroup: FormGroup
-
+    employeeIdNumberPrefices$: Observable<SelectOptionModel[]>
+    genders$: Observable<SelectOptionModel[]>
+    phoenPrefices$: Observable<SelectOptionModel[]>
+    nationalities$: Observable<SelectOptionModel[]>
+    maxDateofBirth = maxEmployeeDateofBirth? maxEmployeeDateofBirth: new Date(Date.now())
+    maxEmailQty = 3
+    maxPhoneQty = 3
 
     constructor(
-        private readonly _formBuilder: FormBuilder,
-        private readonly _formGenerator: FormGenerator
+        private readonly _formGenerator: FormGenerator,
+        private readonly _personalDetailDataStateService: PersonalDetailDataStateService
     ) {
-        this.formGroup = this.personalDetailGroup? this.personalDetailGroup:this._formGenerator.getPersonalDetailsForm()
-        
+        this.employeeIdNumberPrefices$ = this._personalDetailDataStateService.employeeIdNumberPrefices$
+        this.genders$ = this._personalDetailDataStateService.genders$
+        this.phoenPrefices$ = this._personalDetailDataStateService.phonePrefices$
+        this.nationalities$ = this._personalDetailDataStateService.nationalities$
+        this.formGroup = this._formGenerator.personalDetailsForm
+
     }
 
     ngOnInit(): void {
+        this.showData()
     }
-
-
 
     getControl(name: string): FormControl {
-        return this.formGroup.get(name) as FormControl
+        return this._formGenerator.getFormControl(name, this.formGroup)
     }
 
-    showData() {
+    getFormArray(name: string): FormArray {
+        return this._formGenerator.getFormArray(name, this.formGroup)
+    }
+
+    getFormGroup(name: string): FormGroup {
+        return this._formGenerator.getFormGroup(name, this.formGroup)
+    }
+
+    showData(event?: any) {
         console.log(this.formGroup.value)
         console.log(this.formGroup.valid)
     }
-
 
 }

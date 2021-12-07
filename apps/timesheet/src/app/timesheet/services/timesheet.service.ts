@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
-import { map } from "rxjs/operators";
-
+import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   TimeEntriesResponse,
@@ -185,7 +185,14 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
+  deleteTimeEntry(timeEntryId: string):Observable<unknown> {
 
+    let params = new HttpParams();
+
+      params=params.set("timeEntryId",timeEntryId);
+
+      return this.http.delete(this.baseUrl+"DeleteTimeEntry/",{params});
+  }
   //#endregion
 
 }

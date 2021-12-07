@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { AbstractControl, FormControl } from "@angular/forms";
+import { Component, Input, OnInit, Output } from "@angular/core";
+import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormItemData, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { ValidatorResponse } from "../../../../Models/supporting-models/validator-response.model";
 import { commonErrorMessage, validateFirstName, validateLastName, validateMiddleName } from "../../../../Services/supporting-services/custom.validators";
+import { FormGenerator } from "../../form-generator.model";
 
 const errorMessageRequired: ValidatorResponse =
 {
@@ -23,14 +24,26 @@ const errorMessageOptional: ValidatorResponse =
   })
 export class CustomFullNameComponent implements OnInit {
 
-    @Input() firstNameControl: FormControl = new FormControl()
-    @Input() middleNameControl: FormControl = new FormControl()
-    @Input() lastNameControl: FormControl = new FormControl()
+    @Input() formGroup: FormGroup = new FormGroup({})
 
-    constructor() {
+    constructor(
+        private readonly _formGenerator: FormGenerator
+    ) {
     }
 
     ngOnInit(): void {
+    }
+
+    getFirstNameControl() {
+        return this._formGenerator.getFormControl('firstName', this.formGroup)
+    }
+
+    getMiddleNameControl() {
+        return this._formGenerator.getFormControl('middleName', this.formGroup)
+    }
+
+    getLastNameControl() {
+        return this._formGenerator.getFormControl('lastName', this.formGroup)
     }
 
 }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -27,7 +28,11 @@ export class AddressViewComponent implements OnInit {
 
 
 
-  constructor(private modalService: NzModalService) {}
+  constructor(private modalService: NzModalService,
+    private readonly _formGenerator: FormGenerator
+    ) {
+      this._formGenerator.addressForm
+    }
 
 
   addaddress(): void {
