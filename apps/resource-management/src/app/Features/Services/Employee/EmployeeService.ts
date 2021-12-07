@@ -17,6 +17,8 @@ import { Pagination } from "../../Models/Pagination";
   providedIn: 'root',
 })
 export class EmployeeService {
+
+
   baseUrl = 'http://localhost:14696/api/v1/Employee';
   constructor(private http: HttpClient) { }
 
