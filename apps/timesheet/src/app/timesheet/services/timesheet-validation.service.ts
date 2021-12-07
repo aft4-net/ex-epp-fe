@@ -9,17 +9,69 @@ import { TimesheetService } from './timesheet.service';
   providedIn: 'root'
 })
 export class TimesheetValidationService {
-  date: Date = new Date();
-  fromDate: Date | null = null;
-  toDate: Date | null = null;
+  date: Date;
+  fromDate: Date;
+  toDate: Date;
 
-  constructor() { }
+  constructor() { 
+    this.date = new Date();
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    this.fromDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - this.date.getDay() + 1);
+    this.toDate = new Date(this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate() + 6);
+  }
+
+  isValidForAdd(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfiguration: TimesheetConfiguration){
+    return this.isValidTimeEntry(timeEntry, timeEntries, timesheetApprovals, timesheetConfiguration);
+  }
+
+  isValidForUpdate(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfiguration: TimesheetConfiguration){
+    return this.isValidTimeEntry(timeEntry, timeEntries, timesheetApprovals, timesheetConfiguration);
+  }
+
+  isValidForDelete(timeEntry: TimeEntry, timesheetApprovals: TimesheetApproval[]){    
+
+    if ( this.isTimesheetRequestedForApproval(timeEntry, timesheetApprovals) ){
+      return false;
+    }
+
+    if( this.isDateNotWithInTheWeek(timeEntry, this.fromDate, this.toDate)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  isValidForApproval(timeEntries: TimeEntry[], timesheetConfiguration: TimesheetConfiguration){
+    let dates = [... new Set(timeEntries.map(te => te.Date))];
+    let weekdays = dates.map(date => date.toLocaleString("en-us", { weekday: "long" }));
+
+    for(const workingDay of timesheetConfiguration.WorkingDays){
+      if(weekdays.filter(wd => wd.toUpperCase() === workingDay.toUpperCase()).length === 0){
+        return false;
+      }
+    }
+
+    for(const timeEntry of timeEntries){
+      if(this.isDateNotWithInTheWeek(timeEntry, this.fromDate, this.toDate)){
+        return false;
+      }
+    }
+
+    if (timesheetConfiguration.WorkingHour && timesheetConfiguration.WorkingHour > 0){
+      for(const date of dates) {
+        let totalHour = timeEntries.filter(te => te.Date.valueOf() === date.valueOf())
+        .map(te => te.Hour)
+        .reduce((prev, next) => prev + next, 0);
+
+        
+      }
+    }
+    
+
+    return true;
+  }
 
   isValidTimeEntry(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfiguration: TimesheetConfiguration) {
-
-    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
-    let fromDate = this.fromDate ?? new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - this.date.getDay() + 1);
-    let toDate = this.toDate ?? new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate() + 6);
 
     // Future date validation
     if (this.isFutureDate(timeEntry)) {
@@ -32,7 +84,7 @@ export class TimesheetValidationService {
     }
 
     // 24 hr validation for a day
-    if (this.isTimeEntriesHourMoreThan24(timeEntry, timeEntries, fromDate, toDate)) {
+    if (this.isTimeEntriesHourMoreThan24(timeEntry, timeEntries, this.fromDate, this.toDate)) {
       return false;
     }
 
@@ -42,14 +94,11 @@ export class TimesheetValidationService {
     }
 
     // Displayed week's date validation
-    if (this.isDateNotWithInTheWeek(timeEntry, fromDate, toDate)) {
+    if (this.isDateNotWithInTheWeek(timeEntry, this.fromDate, this.toDate)) {
       return false;
     }
 
     // Working day validation
-    if (this.isDateNotWithInWorkingDay(timeEntry, timesheetConfiguration)){
-      return false;
-    }
 
     // Working hour validation
 
@@ -110,17 +159,5 @@ export class TimesheetValidationService {
 
     return false;
   }
-
-  private isDateNotWithInWorkingDay(timeEntry: TimeEntry, timesheetConfiguration: TimesheetConfiguration) {
-
-    let weekday = timeEntry.Date.toLocaleString("en-us", { weekday: "long" });
-
-    if (timesheetConfiguration.WorkingDays.filter(wk => wk.toUpperCase() === weekday.toUpperCase()).length === 0) {
-      return true;
-    }
-
-    return false;
-  }
-
 }
 

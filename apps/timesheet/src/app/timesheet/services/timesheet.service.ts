@@ -118,7 +118,6 @@ export class TimesheetService {
     let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, {"headers": headers, params: params});
 
     return response.pipe(map(r => r.Data));
-
   }
 
   //#endregion
@@ -126,7 +125,9 @@ export class TimesheetService {
   //#region Timesheet Configuration
 
   getTimeSheetConfiguration(){
-    return this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
+    let response = this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
+
+    return response.pipe(map(r => r.Data));
   }
 
   //#endregion

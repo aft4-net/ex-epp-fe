@@ -1,5 +1,6 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { Timesheet } from '../../../models/timesheetModels';
+import { Component, OnInit, Input } from '@angular/core';
+import { TimeEntry, Timesheet, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
@@ -9,20 +10,34 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class TimesheetHeaderComponent implements OnInit {
   @Input() timesheet: Timesheet | null = null;
+  @Input() timeEntries: TimeEntry[] | null = null;
   @Input() weeklyTotalHours: number = 0;
 
-  constructor(private timesheetService: TimesheetService) { }
+  constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
   ngOnInit(): void {
   }
 
   onRequestForApproval() {
-    if(!this.timesheet){
+    if (!this.timesheet) {
       return;
     }
-    
-    console.log("timesheet Approval");
-    console.log(this.timesheet);
+
+    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
+      let timesheetConfig: TimesheetConfiguration = response ? response : {
+        WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
+        WorkingHour: 0
+      };
+
+      if (!this.timeEntries || this.timeEntries.length === 0) {
+        return;
+      }
+
+      this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig);
+
+    }, error => {
+
+    });
 
     this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
   }
