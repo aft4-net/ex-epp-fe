@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { ExternalCountryApiService } from "../../../../Services/external-api.services/external-countries.api.service";
 import { maxEmployeeDateofBirth, minEmployeeDateofBirth } from "../../../../Services/supporting-services/basic-data.collection";
 import { PersonalDetailDataStateService } from "../../../../state-services/personal-detail-data.state-service";
 import { FormGenerator } from "../../form-generator.model";
@@ -24,13 +25,16 @@ export class PersonalDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _personalDetailDataStateService: PersonalDetailDataStateService
+        private readonly _personalDetailDataStateService: PersonalDetailDataStateService,
+        private readonly _externalCountryApiService: ExternalCountryApiService
     ) {
         this.employeeIdNumberPrefices$ = this._personalDetailDataStateService.employeeIdNumberPrefices$
         this.genders$ = this._personalDetailDataStateService.genders$
         this.phoenPrefices$ = this._personalDetailDataStateService.phonePrefices$
-        this.nationalities$ = this._personalDetailDataStateService.nationalities$
+        this.nationalities$ = this._externalCountryApiService.get()
         this.formGroup = this._formGenerator.personalDetailsForm
+        console.log('Set')
+        console.log(this._formGenerator.familyDetail.value)
 
     }
 

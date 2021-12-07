@@ -15,6 +15,7 @@
     <nz-select
     class="prefix employee-prefix"
     [formControl]="myControl"
+    nzShowSearch
     (ngModelChange)="onChange()">
         <nz-option
             *ngFor="let choice of (list$ | async)"
