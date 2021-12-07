@@ -1,13 +1,18 @@
 <div>
   <!--<nz-divider></nz-divider> -->
-  <app-timesheet-header [timesheet]="timesheet" [weeklyTotalHours]="weeklyTotalHours"
-    class="md:flex lg:flex xl:flex ml-8 "></app-timesheet-header>
+  <app-timesheet-header class="md:flex lg:flex xl:flex ml-8 "
+    [timesheet]="timesheet" 
+    [timeEntries]="timeEntries"
+    [weekFirstDate]="firstday1"
+    [weekLastDate]="lastday1"
+    [weeklyTotalHours]="weeklyTotalHours">
+  </app-timesheet-header>
   <nz-divider></nz-divider>
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'" class="flex  ml-8"
     (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
     (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
 
-
+  {{ firstday1 }} - {{ lastday1 }}
 
   <div class="lg:flex xl:flex ml-6 mr-6">
     <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
