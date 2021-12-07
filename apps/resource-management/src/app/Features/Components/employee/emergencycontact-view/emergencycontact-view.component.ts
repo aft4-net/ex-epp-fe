@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 import { Data } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { EmergencyContacts } from '../../../Models/emergencycontact';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-emergencycontact-view',
   templateUrl: './emergencycontact-view.component.html',
-  styleUrls: ['./emergencycontact-view.component.scss']
+  styleUrls: ['./emergencycontact-view.component.scss'],
 })
 export class EmergencycontactViewComponent implements OnInit {
   footer = null;
@@ -19,10 +19,10 @@ export class EmergencycontactViewComponent implements OnInit {
   i = 0;
   editId: string | null = null;
 
-
-
-  constructor(private modalService: NzModalService, public form: FormGenerator) { }
-
+  constructor(
+    private modalService: NzModalService,
+    public form: FormGenerator
+  ) {}
 
   addemergencycontact(): void {
     this.isVisible = true;
@@ -42,16 +42,19 @@ export class EmergencycontactViewComponent implements OnInit {
   }
 
 
-
-
+  add(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+  }
 
 
 
   startEdit(id: string): void {
     this.editId = id;
   }
-
-
 
   exitModal() {
     this.isVisible = false;
@@ -62,7 +65,6 @@ export class EmergencycontactViewComponent implements OnInit {
     this.form.emergencyContact.reset();
   }
   showDeleteConfirm(id: string): void {
-
     this.listOfData = this.listOfData.filter((d) => d.guid !== id);
     this.modalService.confirm({
       nzTitle: 'Are you sure, you want to cancel this contact?',
@@ -76,10 +78,5 @@ export class EmergencycontactViewComponent implements OnInit {
     });
   }
 
-
-
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 }

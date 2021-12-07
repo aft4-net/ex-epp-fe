@@ -25,7 +25,6 @@
       #rowSelectionTable
       nzShowSizeChanger
       [nzData]="listOfData"
-    
     >
       <thead>
         <tr class="tr">
@@ -80,7 +79,6 @@
   (nzOnOk)="handleOk()"
 >
   <ng-container *nzModalContent>
-   
     <div>
       <div style="border: 2px solid #d9d9d9; border-radius: 5px">
         <div
@@ -98,7 +96,7 @@
             <button nz-button class="saveButton">Save</button>
           </div>
         </div>
-    
+
         <div nz-col nzSpan="24">
           <nz-tabset class="p-2" [nzTabPosition]="'left'">
             <div>
@@ -152,10 +150,11 @@
           </nz-tabset>
         </div>
       </div>
-      <button nz-button class="saveButton" (click)="handleOk()">Add</button> &nbsp;
-      <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
+      <br />
+      <button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
+      <button nz-button class="cancelButton" (click)="resetForm()">
+        Clear
+      </button>
     </div>
-    
-
   </ng-container>
 </nz-modal>

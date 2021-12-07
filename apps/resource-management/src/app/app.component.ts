@@ -13,12 +13,14 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'resource-management';
 
- 
-  router: string;
+
+  
   isdefault= false;
 
   constructor(private _router: Router) {
-    this.router = _router.url;
+
+    // this._router.events.subscribe((url: any) => console.log(url));
+    // this.router = this._router.url;
 
   }
 }
