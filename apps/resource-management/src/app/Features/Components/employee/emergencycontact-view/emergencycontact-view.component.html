@@ -73,7 +73,7 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   nzTitle="Add Address"
-  [nzWidth]="'52%'"
+  [nzWidth]="'60%'"
   [nzFooter]="footer"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"
@@ -93,14 +93,14 @@
             <h2>Enter Details</h2>
           </div>
           <div nz-col nzSpan="4" style="justify-content: center">
-            <button nz-button class="saveButton">Save</button>
+            <button nz-button class="saveButton">Next</button>
           </div>
         </div>
 
         <div nz-col nzSpan="24">
           <nz-tabset class="p-2" [nzTabPosition]="'left'">
             <div>
-              <nz-tab [nzTitle]="basic">
+              <nz-tab [nzTitle]="basic" nzSelected>
                 <ng-template #basic>
                   <span>
                     <svg
@@ -119,12 +119,12 @@
                     Basic Details
                   </span>
                 </ng-template>
-                <div>
+                <div class="overflow-scroll">
                   <exec-epp-emergency-contact-detail-group></exec-epp-emergency-contact-detail-group>
                 </div>
               </nz-tab>
             </div>
-            <nz-tab [nzTitle]="address" nzSelected>
+            <nz-tab [nzTitle]="address">
               <ng-template #address>
                 <span>
                   <svg
@@ -143,7 +143,7 @@
                   Address
                 </span>
               </ng-template>
-              <div>
+              <div class="overflow-scroll">
                 <exec-epp-emergency-address-detail-group></exec-epp-emergency-address-detail-group>
               </div>
             </nz-tab>

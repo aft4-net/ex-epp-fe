@@ -16,8 +16,12 @@
       </div>
     </div>
 
-    <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfaddress"
-     >
+    <nz-table
+      class="table"
+      #rowSelectionTable
+      nzShowSizeChanger
+      [nzData]="listOfaddress"
+    >
       <thead>
         <tr class="tr">
           <th>Country</th>
@@ -32,13 +36,23 @@
 
           <td>
             <div nz-row>
-              <div nz-col nzSpan="2" class="editable-cell" [hidden]="editId === data.Guid" (click)="startEdit(data.Guid)">
+              <div
+                nz-col
+                nzSpan="2"
+                class="editable-cell"
+                [hidden]="editId === data.Guid"
+                (click)="startEdit(data.Guid)"
+              >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="showDeleteConfirm(data.Guid)"><i nz-icon
-                    nzType="delete" nzTheme="outline"></i></a>
+                <a
+                  nz-popconfirm
+                  nzPopconfirmTitle="Sure to delete?"
+                  (nzOnConfirm)="showDeleteConfirm(data.Guid)"
+                  ><i nz-icon nzType="delete" nzTheme="outline"></i
+                ></a>
               </div>
             </div>
           </td>
@@ -48,12 +62,18 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" [nzWidth]="'40%'" [nzFooter]="null" (nzOnCancel)="exitModal()"
-  (nzOnOk)="handleOk()">
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzWidth]="'40%'"
+  [nzFooter]="null"
+  (nzOnCancel)="exitModal()"
+  (nzOnOk)="handleOk()"
+>
   <ng-container *nzModalContent>
-    <exec-epp-address-detail-group></exec-epp-address-detail-group>
+    <div class="overflow-scroll">
+      <exec-epp-address-detail-group></exec-epp-address-detail-group>
+    </div>
     <button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
-
   </ng-container>
 </nz-modal>

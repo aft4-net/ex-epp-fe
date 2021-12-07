@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { Address } from '../../../Models/address.model';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
@@ -17,27 +18,34 @@ export class AddressViewComponent implements OnInit {
 
   editId: string | null = null;
   listOfaddress: Address[] = [];
+
+  @ViewChild('drawerTemplate')
+  drawerTemplate: TemplateRef<{
+      $implicit: { value: string; list: []; };
+      drawerRef: NzDrawerRef<any>;
+    }> | undefined;
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator
   ) {
-    this.form.addressForm
+    this.form.addressForm;
   }
 
   addaddress(): void {
-    this.form.generateAddressForm()
+    this.form.generateAddressForm();
     this.isVisible = true;
     // this.modalService.create({
     //   nzTitle: 'Add Addresses',
     //   nzContent: AddressNewComponent
     // });
+    
   }
 
   handleCancel(): void {
     this.isVisible = false;
   }
 
-    startEdit(id: string): void {
+  startEdit(id: string): void {
     this.editId = id;
   }
 
@@ -57,7 +65,6 @@ export class AddressViewComponent implements OnInit {
   }
 
   showDeleteConfirm(id: string): void {
-
     this.listOfaddress = this.listOfaddress.filter((d) => d.Guid !== id);
     this.modalService.confirm({
       nzTitle: 'Are you sure, you want to cancel this contact?',
@@ -70,7 +77,6 @@ export class AddressViewComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel'),
     });
   }
-
 
   resetForm(): void {
     this.form.addressForm.reset();
@@ -85,11 +91,5 @@ export class AddressViewComponent implements OnInit {
     console.log(this.listOfaddress);
   }
 
-
-
-  ngOnInit(): void {
-
-   
-  }
-
+  ngOnInit(): void {}
 }

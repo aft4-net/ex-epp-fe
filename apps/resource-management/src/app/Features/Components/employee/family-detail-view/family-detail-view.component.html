@@ -25,7 +25,7 @@
       #rowSelectionTable
       nzShowSizeChanger
       [nzData]="listOfFamilies"
-      
+
     >
       <thead>
         <tr class="tr">
@@ -65,7 +65,7 @@
       </tbody>
     </nz-table>
 
-    
+
   </div>
 </div>
 
@@ -77,7 +77,9 @@
   (nzOnOk)="handleOk()"
 >
   <ng-container *nzModalContent>
+  <div class="overflow-scroll">
 <exec-epp-family-detail-group></exec-epp-family-detail-group>
+</div>
 <button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
 <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
 
