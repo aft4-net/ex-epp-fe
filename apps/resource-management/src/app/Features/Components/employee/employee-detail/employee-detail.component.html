@@ -15,11 +15,11 @@
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="24">
             <nz-table [nzLoading]="loading" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
-              nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+              nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
-                  <th class="table_heading" style="width:30px" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
-                    (nzCheckedChange)="onAllChecked($event)"></th>
+                  <th class="table_heading" style="width:30px" [nzSelections]="listOfSelection" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                  (nzCheckedChange)="onAllChecked($event)"></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                     [nzSortDirections]="column.sortDirections">{{column.name}}</th>
@@ -32,11 +32,9 @@
                 </tr>
               </thead>
               <tbody>
-
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"
-                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)"
-                    (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.FullName }} </td>
                     <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{

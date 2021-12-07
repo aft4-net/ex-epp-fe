@@ -66,8 +66,14 @@ export class EmployeeDetailComponent implements OnInit {
   isConfirmLoading = false;
 
 
-  ///
-
+  listOfSelection = [
+    {
+      text: 'Select All Row',
+      onSelect: () => {
+        this.onAllChecked(true);
+      }
+    }
+  ]
 
   listOfColumnsFullName: ColumnItem[] = [
     {
@@ -107,8 +113,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.holdItJobTitle.length = 0;
     this.holdItStatus.length = 0;
     this.holdItCountry.length = 0;
-
-
     this.employeeViewModels$.subscribe(
        val => {this.employeeViewModel = val
 
@@ -182,11 +186,12 @@ export class EmployeeDetailComponent implements OnInit {
         ];
       },
     );
-}
+  }
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(employeeGuid);
+      console.log(employeeGuid);
     } else {
       this.setOfCheckedId.delete(employeeGuid);
     }
@@ -216,92 +221,83 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   onAllChecked(checked: boolean): void {
+    console.log(this.listOfCurrentPageData);
     this.listOfCurrentPageData
       .filter(({ disabled }) => !disabled)
-      .forEach(({ id }) => this.updateCheckedSet(id, checked));
+      .forEach(({ EmployeeGUid }) => this.updateCheckedSet(EmployeeGUid, checked));
     this.refreshCheckedStatus();
   }
 
-  sendRequest(): void {
+  FeatchAllEmployees() {
     this.loading = true;
-    const requestData = this.listOfData.filter((data) =>
-      this.setOfCheckedId.has(data.id)
-    );
-    console.log(requestData);
-    setTimeout(() => {
-      this.setOfCheckedId.clear();
-      this.refreshCheckedStatus();
-      this.loading = false;
-    }, 1000);
-  }
-
-FeatchAllEmployees() {
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
       this.employeeViewModels$=of(response.Data);
-      console.log(response.Data);
       this.employeeViewModel = response.Data;
+      this.listOfCurrentPageData = response.Data;
       this.pageIndex=response.pagination.PageIndex;
       this.pageSize=response.pagination.PageSize;
       this.totalRecord=response.pagination.TotalRecord
       this.totalRows=response.pagination.TotalRows;
       this.lastRow = this.totalRows;
       this.beginingRow = 1;
-      console.log(response.pagination);
       this.FillTheFilter();
-    }   
-  );
-  this.searchStateFound=false; 
-}
-searchEmployees() {
-  if(this.fullname.length > 2 || this.fullname == ""){
-    this.employeeParams.searchKey = this.fullname;
-    this._employeeService.SearchEmployeeData(this.employeeParams)
-    .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
-      this.employeeViewModels$=of(response.Data);
-      this.employeeViewModel = response.Data;
-      this.pageIndex=response.pagination.PageIndex;
-      this.pageSize=response.pagination.PageSize;
-      this.totalRecord=response.pagination.TotalRecord
-      this.totalRows=response.pagination.TotalRows;
-      this.beginingRow = 1;
-      this.lastRow = this.totalRows;
+      this.loading = false;
     });
-    this.searchStateFound=true; 
+    this.searchStateFound=false; 
   }
-}
+
+  searchEmployees() {
+    if(this.fullname.length > 2 || this.fullname == ""){
+      this.employeeParams.searchKey = this.fullname;
+      this._employeeService.SearchEmployeeData(this.employeeParams)
+      .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
+        this.employeeViewModels$=of(response.Data);
+        this.employeeViewModel = response.Data;
+        this.listOfCurrentPageData = response.Data;
+        this.pageIndex=response.pagination.PageIndex;
+        this.pageSize=response.pagination.PageSize;
+        this.totalRecord=response.pagination.TotalRecord
+        this.totalRows=response.pagination.TotalRows;
+        this.beginingRow = 1;
+        this.lastRow = this.totalRows;
+        this.loading = false;
+      });
+      this.searchStateFound=true; 
+    }
+  } 
 
   Edit( employeeId:string):void
   {
-    console.log("Addis " + employeeId);
    this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
    this._router.navigate(['/employee/add-employee/personal-info']);
   }
   //added by simbo just you can delete
 
-handleOk(): void {
-  this.isConfirmLoading = true;
-  setTimeout(() => {
+  handleOk(): void {
+    this.isConfirmLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isConfirmLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
     this.isVisible = false;
-    this.isConfirmLoading = false;
-  }, 3000);
-}
+  }
 
-handleCancel(): void {
-  this.isVisible = false;
-}
+  ngAfterViewInit() {
 
-ngAfterViewInit() {
-  fromEvent<any>(this.input.nativeElement,'keyup')
-   .pipe(
-     map(event => event.target.value),
-     startWith(''),
-     debounceTime(3000),
-     distinctUntilChanged(),
-     switchMap( async (search) => {this.fullname = search,
-    this.searchEmployees()
-    })
-   ).subscribe();
-}
+    fromEvent<any>(this.input.nativeElement,'keyup')
+    .pipe(
+      map(event => event.target.value),
+      startWith(''),
+      debounceTime(3000),
+      distinctUntilChanged(),
+      switchMap( async (search) => {this.fullname = search,
+      this.searchEmployees()
+      })
+    ).subscribe();
+  }
 
   PageIndexChange(index: any): void {
     this.loading =true;
@@ -311,7 +307,6 @@ ngAfterViewInit() {
     {
       this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
         (response:PaginationResult<IEmployeeViewModel[]>)=>{
-          console.log("Search key is "+ this.employeeParams.searchKey);
           this.employeeViewModels$= of(response.Data);
           this.employeeViewModel= response.Data;
           this.totalRows = response.pagination.TotalRows;
@@ -332,7 +327,6 @@ ngAfterViewInit() {
     }else {
       this._employeeService.SearchEmployeeData(this.employeeParams)
       .subscribe((response:PaginationResult<IEmployeeViewModel[]>)=>{
-        console.log("" + this.employeeParams.searchKey);
         this.employeeViewModels$=of(response.Data);
         this.employeeViewModel = response.Data;
         this.totalRows = response.pagination.TotalRows;
@@ -351,10 +345,10 @@ ngAfterViewInit() {
         this.FillTheFilter();
       });
       this.searchStateFound=false;
+      this.loading = false;
     }
   }
 
   Delete(employeeGuid : string) {
-
   }
 }
