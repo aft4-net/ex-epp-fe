@@ -139,8 +139,8 @@ export class EmployeeService {
                 TotalRecord:result.TotalRecord
               }
            };
-           return this.paginatedResult;      
-          })   
+           return this.paginatedResult;
+          })
        )
     }
 

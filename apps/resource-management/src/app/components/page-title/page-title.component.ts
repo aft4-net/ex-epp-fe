@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
 import { Router } from '@angular/router';
+import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-page-title',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class PageTitleComponent implements OnInit {
 
-  constructor(private _formBuilder: FormGenerator,private _router:Router) { }
+  constructor(private _formBuilder: FormGenerator,private _router:Router,private _employeeService: EmployeeService) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +30,14 @@ export class PageTitleComponent implements OnInit {
     else if(this._formBuilder.emergencyContact.valid && currentUrl === 'employee/add-employee/emergency-contact'){
       this._router.navigate(['employee/add-employee/Organization-Detail'])
     }
+
+    this._employeeService.setEmployeeData(this._formBuilder.personalDetailsForm.value);
+    this._employeeService.setEmployeeData(this._formBuilder.addressForm.value);
+    this._employeeService.setEmployeeData(this._formBuilder.familyDetail.value);
+    this._employeeService.setEmployeeData(this._formBuilder.emergencyContact.value);
+    this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
+
+    this._employeeService.saveEmployee();
   }
 
 }
