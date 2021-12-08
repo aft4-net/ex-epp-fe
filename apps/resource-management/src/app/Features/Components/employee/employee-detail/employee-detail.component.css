@@ -16,5 +16,5 @@ background-color: white !important;
 .inner-content {
     padding: 10px;
     background: #fff;
-    min-height: 360px;
+    min-height: auto;
 }
