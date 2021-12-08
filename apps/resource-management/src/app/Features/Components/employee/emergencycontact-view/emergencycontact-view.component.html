@@ -33,10 +33,10 @@
             <td>{{ data.relationship }}</td>
             <td>{{ data.phoneNumber }}</td>
             <td>{{ data.country }}</td>
-        
-         
 
-          
+
+
+
 
 
           <td>
@@ -55,7 +55,7 @@
         </tr>
       </tbody>
     </nz-table>
-    
+
   </div>
 </div>
 
@@ -73,7 +73,7 @@
             <h2>Enter Details</h2>
           </div>
           <div nz-col nzSpan="4" style="justify-content: center">
-            <button nz-button class="saveButton">Next</button>
+            <button nz-button class="saveButton" (click)="add()">Next</button>
           </div>
         </div>
 
@@ -117,10 +117,10 @@
         </div>
       </div>
       <br />
-      <button nz-button class="addeButton" (click)="add()">Add</button> &nbsp;
-      <button nz-button class="cancelButton" (click)="resetForm()">
+     <!-- <button nz-button class="addeButton" (click)="add()">Add</button> &nbsp;-->
+     <!-- <button nz-button class="cancelButton" (click)="resetForm()">
         Clear
-      </button>
+      </button>-->
     </div>
   </ng-container>
 </nz-modal>
