@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Data, Router } from '@angular/router';
 import { Observable, fromEvent, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
@@ -9,12 +10,16 @@ import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
+import { PaginationResult } from '../../../Models/PaginationResult';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+<<<<<<< HEAD
 import { Data, Router } from '@angular/router';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { Employee } from '../../../Models/Employee';
+=======
+>>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -270,6 +275,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   Edit( employeeId:string):void
   {
+<<<<<<< HEAD
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
       this._employeeService.setEmployeeDataForEdit(data);
 
@@ -279,6 +285,11 @@ export class EmployeeDetailComponent implements OnInit {
     this._employeeService.isEdit=true;
     this._employeeService.save="Update";
     this._router.navigate(['/employee/add-employee/personal-info']);
+=======
+    console.log("this is the guid "+ employeeId);
+   this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
+   this._router.navigate(['/employee/add-employee/personal-info']);
+>>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
   }
 }
   //added by simbo just you can delete

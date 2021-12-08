@@ -1,4 +1,7 @@
+import{ICountry} from '../../Models/EmployeeOrganization/Country'
+
 export interface EmployeeOrganization {
+    Country: ICountry;
     DutyStation: string;
     DutyBranch: string;
     CompaynEmail: string;

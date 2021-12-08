@@ -1,10 +1,8 @@
-
-
 import { Address } from "./address.model";
 import { EmployeeOrganization } from "./EmployeeOrganization/EmployeeOrganization";
+import { FamilyDetail } from "./FamilyDetail/FamilyDetailModel";
 import { IEmergencyContact } from "./emergencycontact";
 import { Nationality } from "./Nationality";
-import { FamilyDetail } from "./FamilyDetail/FamilyDetailModel";
 
 export interface Employee{
 

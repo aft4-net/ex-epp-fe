@@ -1,6 +1,5 @@
 import { Address } from "./address.model";
 
-
 export interface EmergencyContacts {
   guid: string
   isActive: boolean
@@ -10,8 +9,8 @@ export interface EmergencyContacts {
   firstName: string
   fatherName: string
   relationship: string
-  phoneNumber: string
-  country: string
+  phoneNumber?: string
+  country?: string
   stateRegionProvice: string
   city: string
   subCityZone: string

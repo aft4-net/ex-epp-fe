@@ -68,3 +68,23 @@
    </div>
 </div>
 
+<<<<<<< HEAD
+=======
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzWidth]="'40%'"
+  nzTitle="Add Family Details"
+  [nzFooter]="footer"
+  (nzOnCancel)="exitModal()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+  <div class="overflow-scroll">
+<exec-epp-family-detail-group></exec-epp-family-detail-group>
+</div>
+<button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
+<button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
+
+   </ng-container>
+</nz-modal>
+>>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f

@@ -98,7 +98,7 @@ export class EmployeeService {
        this.employee$.subscribe(x=>{
          this.employee = x;
        });
-      console.log("From The new Save Method "+ this.employee);
+      console.log("From The new Save Method "+ this.employee.Organization?.JobTitle);
       return this.http.post(this.baseUrl,this.employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
        this.employeeSource.next(response.data),
@@ -177,10 +177,16 @@ export class EmployeeService {
 
     getEmployeeData(employeeId:string) : Observable<Employee>{
 
+<<<<<<< HEAD
       return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID?employeeId=' + employeeId
      ).pipe(
         map(result =>  result.Data)
       )
+=======
+      return this.http.get<ResponseDTO<Employee>>(`http://localhost:14696/api/v1/Employee/GetEmployeeWithID/${employeeId}`).pipe(
+          map(result => result.Data)
+          )
+>>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
     }
 
 
