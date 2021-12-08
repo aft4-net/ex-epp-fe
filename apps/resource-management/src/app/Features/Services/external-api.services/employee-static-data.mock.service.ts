@@ -108,7 +108,7 @@ extends BasicSeedStateService<DutyStation, EmployeeStaticStateModel, CountryServ
     public readonly businessUnits$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(dummyBusinessUnits))
     public readonly departments$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(dummyDepartments))
     public readonly employementTypes$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(dummyEmployementTypes))
-    public readonly employementStatuses$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(dummyJobTitles))
+    public readonly employementStatuses$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(dummyEmployementStatuses))
     public readonly reportingManagers$: Observable<SelectOptionModel[]> = of(dummyReportingManagers)
 
     public readonly dutyStations$ = this._select<SelectOptionModel[]>(generateDutyStations)

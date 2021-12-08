@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
+import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -28,11 +28,13 @@ export class AddressDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressCountryStateService: AddressCountryStateService
+        private readonly _addressCountryStateService: CountriesMockService
     ) {
         this.country = ''
-        this.countries$ = this._addressCountryStateService.countries$
-        this.stateRegions$ = this._addressCountryStateService.stateRegions$
+        this.formGroup
+            = this._formGenerator.addressForm
+        this.countries$ = this._addressCountryStateService.getCountries()
+        this.stateRegions$ = this._addressCountryStateService.getStates(this.formGroup.value.country)
         
         // const address: Addresss = {
         //     ...{} as Address,
@@ -40,8 +42,7 @@ export class AddressDetailGroupComponent implements OnInit {
         // } as Address
 
         // this._formGenerator.generateAddressForm(address)
-        this.formGroup
-            = this._formGenerator.addressForm
+        
 
     }
 
@@ -59,8 +60,8 @@ export class AddressDetailGroupComponent implements OnInit {
 
     onCountrySelect() {
         console.log('Address Custom Component')
-        this.country = this.formGroup.value.country as string
-        if(this.country === 'Ethiopia') {
+        const country = this.formGroup.value.country as string
+        if(country === 'Ethiopia') {
             this.stateName = 'Region'
             this.subcityName = 'Subcity/Zone'
             this.weredaName = 'Woreda'
@@ -71,9 +72,7 @@ export class AddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
-        this._addressCountryStateService.country = this.country
-        console.log(this.country)
-        this.countries$.subscribe((response: any) => { console.log(response)})
+        this.stateRegions$ = this._addressCountryStateService.getStates(country)
     }
     
     onStateSelect() {}

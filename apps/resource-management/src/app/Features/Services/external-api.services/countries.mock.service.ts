@@ -143,6 +143,8 @@ export class CountriesMockService {
         )
             .pipe(
                 map((response: any) => {
+                    console.log('Phones')
+                    console.log(response)
                     return response.data.map((country: any) => {
                         return {
                             value: country.dial_code,
@@ -213,13 +215,33 @@ export class CountriesMockService {
 })
 export class AddressCountryStateService
 {
+    private _states: SelectOptionModel[] = []
+    private _$state = new BehaviorSubject<number>(1)
     country = 'Ethiopia'
     public readonly defaultPhonePrefix = '+251'
 
     public readonly countries$ = this._countriesMockService.getCountries()
     public readonly phonePrefices$ = of([])//this._select(getPhonePrefixSelectionOptions)
     public readonly nationalities$ = this._countriesMockService.getCountries()
-    public readonly stateRegions$ = this._countriesMockService.getStates(this.country)
+    public readonly stateRegions$ = this._select(this.getStates)
+
+        protected _select(mapFn: () => SelectOptionModel[]): Observable<SelectOptionModel[]> {
+        return this._$state.asObservable().pipe(
+            map((state: any) => mapFn()),
+            distinctUntilChanged()
+        );
+    }
+
+    set Country(value: string) {
+        this._countriesMockService.getStates(this.country)
+        .subscribe((response: SelectOptionModel[]) => {
+            this._states = response
+        })
+    }
+
+    getStates() {
+        return this._states
+    }
 
     // private readonly _$state = new BehaviorSubject<CountryStateModel>(
     //     {

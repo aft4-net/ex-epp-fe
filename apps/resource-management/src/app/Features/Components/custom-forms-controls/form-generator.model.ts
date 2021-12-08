@@ -246,7 +246,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createEmployeeIdNumberFormGroup() {
         return this._formBuilder.group({
-            prefix: [this._defaultEmployeeIdNumberPrefix],
+            prefix: ['EDC/DT'],
             idNumber: [null, [validateEmployeeIdNumber]],
         })
     }
