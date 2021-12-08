@@ -5,7 +5,7 @@ import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
 import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
-import {NzModalService} from "ng-zorro-antd/modal";
+import { NzModalService } from "ng-zorro-antd/modal";
 
 @Component({
   selector: 'app-project-name-palet',
@@ -26,7 +26,7 @@ export class ProjectNamePaletComponent implements OnInit {
   popoverVisible = false;
 
   constructor(private timesheetService: TimesheetService,
-              private modal: NzModalService) {
+    private modal: NzModalService) {
   }
 
   ngOnInit(): void {
@@ -44,8 +44,7 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   showPopover() {
-    debugger;
-    let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry};
+    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showPaletPopover;
@@ -55,7 +54,7 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   onProjectNamePaletClicked() {
-    let timeEntryEvent: TimeEntryEvent = {clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry};
+    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     if (this.clickEventType == ClickEventType.none) {
       this.clickEventType = ClickEventType.showFormDrawer;
@@ -78,27 +77,26 @@ export class ProjectNamePaletComponent implements OnInit {
     this.popoverVisible = false;
   }
 
-  showModal(): void {
+  showDeleteModal() {
+    this.closePopover();
     this.isVisible1 = true;
-
   }
 
-  handleOk(): void {
-    console.log('Button ok clicked!');
+  handleOk() {
+    this.deleteTimeEntry()
     this.isVisible1 = false;
   }
 
-  handleCancel(): void {
-    console.log('Button cancel clicked!');
+  handleCancel() {
     this.isVisible1 = false;
   }
 
-  deleteTimeEntry(Guid:string):void{
-    this.isVisible1 = true;
-    this.timesheetService.deleteTimeEntry(Guid).subscribe(data => {
+  deleteTimeEntry(): void {
+    if (this.timeEntry) {
+      this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(data => {
         console.log(data);
       });
-
     }
+  }
 
 }
