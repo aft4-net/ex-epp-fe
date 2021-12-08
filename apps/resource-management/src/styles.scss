@@ -201,6 +201,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     // margin: 10px  -117px;
 
   }
+  .main-content {
+    padding: 5px 24px;
+    min-height: 535px;
+  }
   /* Responsive Design */
   @media all and (max-width: 240px) {
     .toast-container .ngx-toastr.div {
