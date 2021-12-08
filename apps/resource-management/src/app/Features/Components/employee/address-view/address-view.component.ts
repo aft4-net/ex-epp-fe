@@ -88,6 +88,9 @@ export class AddressViewComponent implements OnInit {
       const address = this.form.addressForm.value;
       this.listOfaddress = [...this.listOfaddress, address];
     }
+    console.log("aaddddddddddddddddddddd")
+    console.log(this.form.addressForm.value);
+      alert("yes")
     console.log(this.listOfaddress);
   }
 
