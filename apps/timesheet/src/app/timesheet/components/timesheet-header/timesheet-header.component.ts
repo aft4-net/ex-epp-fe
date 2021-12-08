@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { TimeEntry, Timesheet, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
@@ -8,7 +8,7 @@ import { TimesheetService } from '../../services/timesheet.service';
   templateUrl: './timesheet-header.component.html',
   styleUrls: ['./timesheet-header.component.scss']
 })
-export class TimesheetHeaderComponent implements OnInit {
+export class TimesheetHeaderComponent implements OnInit,OnChanges {
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() weekFirstDate: Date | null = null;
@@ -18,12 +18,7 @@ export class TimesheetHeaderComponent implements OnInit {
   btnText:string ='';
   timeSheetStatus="not-submitted-class";
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
-
-  ngOnInit(): void {
-    if (this.weekFirstDate && this.weekLastDate) {
-      this.timesheetValidationService.fromDate = this.weekFirstDate;
-      this.timesheetValidationService.toDate = this.weekLastDate;
-    }
+  ngOnChanges(changes: SimpleChanges): void {
     if(this.isSubmitted==true) {
 
       this.btnText="Submitted";
@@ -34,6 +29,16 @@ export class TimesheetHeaderComponent implements OnInit {
       this.btnText="Request for Approval";
       this.timeSheetStatus="not-submitted-class";
     };
+  }
+ 
+
+  ngOnInit(): void {
+    console.log(this.isSubmitted)
+    if (this.weekFirstDate && this.weekLastDate) {
+      this.timesheetValidationService.fromDate = this.weekFirstDate;
+      this.timesheetValidationService.toDate = this.weekLastDate;
+    };
+   
   
    }
   
