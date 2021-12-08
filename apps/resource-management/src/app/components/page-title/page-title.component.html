@@ -6,11 +6,11 @@
     <div nz-col nzSpan="4">
       <div nz-row>
         <div nz-col nzSpan="2">
-          <button nz-button class="cancelButton">Cancel</button>
+          <button nz-button (click)="Cancel()" class="cancelButton">Cancel</button>
         </div>
         <div nz-col nzSpan="2">
 
-          <button nz-button class="saveButton" (click)="save()">Save</button>
+          <button nz-button (click)="saveNext()" class="saveButton">Save</button>
         </div>
       </div>
     </div>
