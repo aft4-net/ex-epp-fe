@@ -68,7 +68,7 @@ export class PageTitleComponent implements OnInit {
     Department: "engineering",
     BusinessUnit:"All",
     ReportingManager: "Nathan",
-    JobTitle: "Developer",
+    JobTitle: "Product Owner",
     Status: "Active"
     };
 
@@ -100,16 +100,16 @@ export class PageTitleComponent implements OnInit {
     //this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
 
     this._employeeService.setEmployeeData({
-      employeeNumber : "2333233/21",
-      FirstName: "ashubebe",
-      FatherName: "Abebe",
-      GrandFatherName:"Zewdn",
+      employeeNumber : "1254523/21",
+      FirstName: "Hussen",
+      FatherName: "Seid",
+      GrandFatherName:"Seid",
       MobilePhone: "0987834271",
       Phone1:"0934758938",
       Phone2:"0987333674",
-      PersonalEmail: "BB3iuiu3@gmail.com",
-      PersonalEmail2: "Bira22232@yahoo.com",
-      PersonalEmail3: "Biro3374@excel.com",
+      PersonalEmail: "Hussenn@gmail.com",
+      PersonalEmail2: "Hussenn2@yahoo.com",
+      PersonalEmail3: "Hussenn3@excel.com",
       Gender : "Male",
       DateofBirth:  this.dateofBirth,
       Nationality: this.selectednationality,
@@ -122,6 +122,7 @@ export class PageTitleComponent implements OnInit {
  // }
   }
   Cancel(){
+    this._employeeService.isdefault = true;
     this._router.navigate(['']);
   }
 

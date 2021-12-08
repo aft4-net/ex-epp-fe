@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./page-breadcrumb.component.scss'],
 })
 export class PageBreadcrumbComponent implements OnInit {
-  isdefault = true;
+  isdefault = this._employeeService.isdefault;
 
   router: string;
 
@@ -42,6 +42,7 @@ export class PageBreadcrumbComponent implements OnInit {
 
   addEmployee() {
      this._router.navigate(['/employee/add-employee/personal-info']);
+     this._employeeService.isdefault =!this.isdefault;
      this.isdefault = !this.isdefault;
 
   }
