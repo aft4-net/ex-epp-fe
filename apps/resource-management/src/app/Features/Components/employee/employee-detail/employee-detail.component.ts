@@ -272,10 +272,15 @@ export class EmployeeDetailComponent implements OnInit {
   {
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
       this._employeeService.setEmployeeDataForEdit(data);
-    });
 
-   this._router.navigate(['/employee/add-employee/personal-info']);
+    });
+   if(this._employeeService.employeeById)
+   {
+    this._employeeService.isEdit=true;
+    this._employeeService.save="Update";
+    this._router.navigate(['/employee/add-employee/personal-info']);
   }
+}
   //added by simbo just you can delete
 
   handleOk(): void {

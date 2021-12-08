@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
 import { Router } from '@angular/router';
+import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-page-title',
@@ -9,8 +10,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./page-title.component.scss']
 })
 export class PageTitleComponent implements OnInit {
+  save="Save";
 
-  constructor(private _formBuilder: FormGenerator,private _router:Router) { }
+  constructor(private _formBuilder: FormGenerator,private _router:Router,
+    private _employeeService:EmployeeService) {
+
+        this.save=this._employeeService.save
+
+     }
 
   ngOnInit(): void {
   }

@@ -33,7 +33,8 @@ export class EmployeeService {
 
    employee!:Employee;
    employeeById?:Employee;
-
+   isEdit!:boolean;
+   save="Save";
    setEmployeeDataForEdit(employee: Employee) {
     this.employeeById=employee;
 
@@ -50,6 +51,17 @@ export class EmployeeService {
      },error => {
        console.log(error);
      });
+     if(this.isEdit)
+     {
+      return this.http.put(this.baseUrl,employee)
+      .subscribe((response:ResponseDto<Employee> | any) => {
+        this.employeeSource.next(response.data),
+        console.log(response.message);
+      },error => {
+        console.log(error);
+      });
+
+     }
     }
   setEmployeeData(employee: Partial<Employee>) {
 
@@ -94,13 +106,26 @@ export class EmployeeService {
      },error => {
        console.log(error);
      });
+     if(this.isEdit)
+     {
+      this.employee$.subscribe(x=>{
+        this.employee = x;
+      });
+     return this.http.put(this.baseUrl,this.employee)
+    .subscribe((response:ResponseDto<Employee> | any) => {
+      this.employeeSource.next(response.data),
+      console.log(response.message);
+    },error => {
+      console.log(error);
+    });
+
+     }
     }
 
     updateEmployee(){
       this.employee$.subscribe(x=>{
         this.employee = x;
       });
-     console.log("From The new Save Method "+ this.employee);
      return this.http.put(this.baseUrl,this.employee)
     .subscribe((response:ResponseDto<Employee> | any) => {
       this.employeeSource.next(response.data),
@@ -152,9 +177,7 @@ export class EmployeeService {
 
     getEmployeeData(employeeId:string) : Observable<Employee>{
 
-      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID' , {params:{
-        empId: employeeId
-      }}
+      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID?employeeId=' + employeeId
      ).pipe(
         map(result =>  result.Data)
       )

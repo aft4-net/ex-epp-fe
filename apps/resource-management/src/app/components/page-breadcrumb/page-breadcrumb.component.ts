@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 import { Router } from '@angular/router';
+import { Employee } from '../../Features/Models/Employee';
 
 @Component({
   selector: 'exec-epp-page-breadcrumb',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class PageBreadcrumbComponent implements OnInit {
   isdefault = true;
-
+  emptyEmp!:Employee
   router: string;
 
   constructor(
@@ -41,6 +42,10 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   addEmployee() {
+
+    this._employeeService.isEdit=false;
+    this._employeeService.save="Save";
+    this._employeeService.employeeById=this.emptyEmp;
      this._router.navigate(['/employee/add-employee/personal-info']);
      this.isdefault = !this.isdefault;
 

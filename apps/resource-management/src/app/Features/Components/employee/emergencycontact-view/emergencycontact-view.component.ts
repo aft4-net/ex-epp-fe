@@ -29,6 +29,7 @@ export class EmergencycontactViewComponent implements OnInit {
       const data=_employeeService.employeeById.EmergencyContact
       this.listOfData.push(data);
 
+
       //_employeeService.employeeById.EmergencyContact:[];
   }
   }

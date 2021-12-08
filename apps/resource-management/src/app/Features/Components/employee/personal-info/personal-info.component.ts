@@ -84,7 +84,10 @@ export class PersonalInfoComponent implements OnInit {
      console.log('personla info details')
      console.log(     this.employeeService.employeeById
       )
-
+      if (!this.employeeService.employeeById)
+       {
+           this.employeeService.save="Save";
+       }
      }
 
   ngOnInit(): void {
