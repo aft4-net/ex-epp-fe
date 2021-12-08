@@ -1,12 +1,35 @@
-
-
 .total-hours-completed {
 
-    button {
-        color: #FFFFFF;
-        background-color: #00A551;
-       /// border-radius: 2px;
-        border-width: 1px;
-        border-color: #F5F5F5;
-    }
+  button {
+
+      height:38px;
+      radius:2px;
+      padding:8px, 16px, 8px, 16px;
+      font:SF Pro Display;
+      weight:500;
+
+  }
+
 }
+.submitted-class{
+
+  width:113px;
+  color:rgb(15, 97, 15);
+  background-color: white;
+  border-width: 0px;
+  border-color: #F5F5F5;
+  size:18px;
+  line-height:21.48px;
+
+}
+.submitted-class:hover{
+text-decoration:underline;
+  }
+.not-submitted-class{
+  width:177px;
+  height:38px;
+  top:-1px;
+  background-color:green;
+  color:white;
+}
+

@@ -15,7 +15,8 @@ export class TimesheetHeaderComponent implements OnInit {
   @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
   @Input() isSubmitted: boolean | undefined;
-
+  btnText:string ='';
+  timeSheetStatus="not-submitted-class";
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
   ngOnInit(): void {
@@ -23,8 +24,19 @@ export class TimesheetHeaderComponent implements OnInit {
       this.timesheetValidationService.fromDate = this.weekFirstDate;
       this.timesheetValidationService.toDate = this.weekLastDate;
     }
+    if(this.isSubmitted==true) {
 
-  }
+      this.btnText="Submitted";
+      this.timeSheetStatus="submitted-class";
+  
+    }
+    else{
+      this.btnText="Request for Approval";
+      this.timeSheetStatus="not-submitted-class";
+    };
+  
+   }
+  
   onRequestForApproval() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
       let timesheetConfig: TimesheetConfiguration = response ? response : {
@@ -40,9 +52,9 @@ export class TimesheetHeaderComponent implements OnInit {
         return;
       }
 
-      if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
-        this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
-        this.isSubmitted=true;
+       if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
+         this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
+         this.isSubmitted=true;
       }
     }, error => {
       console.log(error);
