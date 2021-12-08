@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
-import { map } from "rxjs/operators";
-
+import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   TimeEntriesResponse,
@@ -10,6 +10,7 @@ import {
   TimeEntryResponse,
   Timesheet,
   TimesheetApprovalResponse,
+  TimesheetConfigResponse,
   TimesheetResponse
 } from '../../models/timesheetModels';
 import { Project } from '../../models/project';
@@ -117,7 +118,16 @@ export class TimesheetService {
     let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, {"headers": headers, params: params});
 
     return response.pipe(map(r => r.Data));
+  }
 
+  //#endregion
+
+  //#region Timesheet Configuration
+
+  getTimeSheetConfiguration(){
+    let response = this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
+
+    return response.pipe(map(r => r.Data));
   }
 
   //#endregion
@@ -175,7 +185,14 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
+  deleteTimeEntry(timeEntryId: string):Observable<unknown> {
 
+    let params = new HttpParams();
+
+      params=params.set("timeEntryId",timeEntryId);
+
+      return this.http.delete(this.baseUrl+"DeleteTimeEntry/",{params});
+  }
   //#endregion
 
 }

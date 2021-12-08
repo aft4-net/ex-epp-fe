@@ -1,0 +1,18 @@
+::ng-deep .ant-btn, .ant-btn:active {
+    outline: 0;
+    border: none;
+    color: #00A551;
+}
+
+::ng-deep .ant-btn:hover, .ant-btn:focus {
+    color: #DCFFDC !important;
+}
+
+::ng-deep .ant-input-group-addon:last-child {
+    border: none !important;
+    background-color: none !important;
+}
+
+.email-input-box {
+    width: 28rem !important;
+}

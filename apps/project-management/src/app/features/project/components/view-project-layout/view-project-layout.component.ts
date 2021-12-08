@@ -14,9 +14,9 @@ import {PaginatedResult, Project, ProjectService } from '../../../../core';
 })
 export class ViewProjectLayoutComponent implements OnInit {
 
-  
+
 paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
-  projects:Project[]=[] 
+  projects:Project[]=[]
   searchProject=new FormControl();
   total = 10;
   loading = true;
@@ -45,7 +45,7 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
     this.loading =true;
     if(this.searchProject.value?.length>1 && this.searchStateFound==true)
     {
-     
+
 this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
    .subscribe((response:PaginatedResult<Project[]>)=>{
     this.projects=response.data;
@@ -58,7 +58,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
 
     this.projectService.getWithPagnationResut(index, 10)
     .subscribe((response:PaginatedResult<Project[]>)=>{
-  
+
      this.projects=response.data;
      this.pageIndex=response.pagination.pageIndex;
      this.pageSize=response.pagination.pageSize;
@@ -68,13 +68,13 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
   }
 
   }
- 
+
   constructor(private  projectService:ProjectService,private notification: NzNotificationService
     ) {}
 
   ngOnInit(): void {
 
-    this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{   
+    this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{
       this.projects=response.data;
       this.pageIndex=response.pagination.pageIndex;
       this.pageSize=response.pagination.pageSize;
@@ -85,7 +85,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
 
      });
 
-     this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{   
+     this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{
       this.projects=response.data;
       this.pageIndex=response.pagination.pageIndex;
       this.pageSize=response.pagination.pageSize;
@@ -95,7 +95,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
      });
 
 
- 
+
 
    this.searchProject.valueChanges.pipe(
      debounceTime(3000)
@@ -103,8 +103,8 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
       if(this.searchProject.value?.length>1)
           {
           this.loading=true;
-      this.projectService.getWithPagnationResut(1,10,this.searchProject.value).subscribe((response:PaginatedResult<Project[]>)=>{  
-        
+      this.projectService.getWithPagnationResut(1,10,this.searchProject.value).subscribe((response:PaginatedResult<Project[]>)=>{
+
         if(response?.data.length>0)
         {
           this.loading=false;
@@ -116,7 +116,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
           this.searchStateFound=true;
          }
          else{
-       
+
              this.loading=false;
           this.projects= [] as Project[];
           this.pageIndex= 0
@@ -129,14 +129,14 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
             '  Project not found',
             '', { nzPlacement:"bottomLeft" }
           )
-       
+
          }
 
-  
+
        })
-       
-           
-             
+
+
+
 
 
           }else{
@@ -145,11 +145,11 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
             this.pageSize= this.projectService.getFirsttPageValue().pagination.pageSize;
             this.total= this.projectService.getFirsttPageValue().pagination.totalRecord
             this.totalPage= this.projectService.getFirsttPageValue().pagination.totalPage;
-  
+
           }
    })
 
-   
+
 
 
   }

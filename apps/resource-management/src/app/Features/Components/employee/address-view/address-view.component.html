@@ -10,16 +10,13 @@
                 <h1>Addresses</h1>
             </div>
 
-            <div nz-col nzSpan="3" *ngIf="rowSelectionTable.data.length >0" >
-
+            <div nz-col nzSpan="3" *ngIf="rowSelectionTable.data.length >0">
 
                 <button class="addButton" nz-button (click)="addaddress()">
                     <span>Add Address</span>
                 </button>
             </div>
         </div>
-
-
 
         <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData"
             (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
@@ -59,6 +56,7 @@
 
             </tbody>
         </nz-table>
+
         <button *ngIf="rowSelectionTable.data.length === 0" class="addButtonwhenNodata" nz-button
             (click)="addaddress()">
             <span>Add Addresses</span>
@@ -66,3 +64,12 @@
         </button>
     </div>
 </div>
+
+
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Address" [nzWidth]="'40%'" [nzFooter]="footer"
+    (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <exec-epp-address-detail-group></exec-epp-address-detail-group>
+    </ng-container>
+</nz-modal>

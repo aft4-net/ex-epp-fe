@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {TimeEntryEvent} from '../../../models/clickEventEmitObjectType';
 import {ClickEventType} from '../../../models/clickEventType';
@@ -5,6 +6,14 @@ import {Project} from '../../../models/project';
 import {TimeEntry, TimesheetApproval} from '../../../models/timesheetModels';
 import {TimesheetService} from '../../services/timesheet.service';
 import {NzModalService} from "ng-zorro-antd/modal";
+=======
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
+import { ClickEventType } from '../../../models/clickEventType';
+import { Project } from '../../../models/project';
+import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
+import { TimesheetService } from '../../services/timesheet.service';
+>>>>>>> develop
 
 @Component({
   selector: 'app-project-name-palet',
@@ -35,7 +44,7 @@ export class ProjectNamePaletComponent implements OnInit {
       });
     }
 
-    if (this.timesheetApproval && this.timesheetApproval.Status != 2) {
+    if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
       this.projectNamePaletClass = "project-name-palet-approval";
     } else {
       this.projectNamePaletClass = "project-name-palet";
@@ -49,7 +58,7 @@ export class ProjectNamePaletComponent implements OnInit {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showPaletPopover;
       this.paletEllipsisClicked.emit(timeEntryEvent);
-      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === 2 : true;
+      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
     }
   }
 
@@ -76,6 +85,7 @@ export class ProjectNamePaletComponent implements OnInit {
   closePopover() {
     this.popoverVisible = false;
   }
+<<<<<<< HEAD
 
   showDeleteConfirm(): void {
     // // @ts-ignore
@@ -144,4 +154,12 @@ export class ProjectNamePaletComponent implements OnInit {
     console.log('Button cancel clicked!');
     this.isVisible1 = false;
   }
+=======
+  deleteTimeEntry(Guid:string):void{
+    this.timesheetService.deleteTimeEntry(Guid).subscribe(data => {
+        console.log(data);
+      });
+
+    }
+>>>>>>> develop
 }

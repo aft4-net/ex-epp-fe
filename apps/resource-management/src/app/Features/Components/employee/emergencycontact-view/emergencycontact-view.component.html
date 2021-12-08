@@ -62,4 +62,17 @@
         </button>
     </div>
 
+ 
+
 </div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Address" [nzWidth]="'40%'" [nzFooter]="footer"
+    (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <exec-epp-add-emergencycontact></exec-epp-add-emergencycontact>
+            
+    
+     
+    </ng-container>
+
+</nz-modal>

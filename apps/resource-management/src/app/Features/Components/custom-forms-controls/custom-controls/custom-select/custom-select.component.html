@@ -10,13 +10,15 @@
     <nz-form-control
     [nzSm]="controlConfig.nzSm" 
     [nzXs]="controlConfig.nzXs"
-    [nzErrorTip]="errMessage">
+    [nzErrorTip]="errMessage"
+    nzHasFeedback>
     <nz-select
     class="prefix employee-prefix"
-    [formControl]="myControl">
+    [formControl]="myControl"
+    (ngModelChange)="onChange()">
         <nz-option
             *ngFor="let choice of (list$ | async)"
-            [nzValue]="choice" [nzLabel]="choice">
+            [nzValue]="choice.value" [nzLabel]="choice.label">
         </nz-option>
     </nz-select>
     </nz-form-control>

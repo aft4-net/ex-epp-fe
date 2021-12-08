@@ -1,16 +1,43 @@
-<exec-epp-custom-employee-id-number
-[myControl]="getControl('employeeIdNumberPrefix')"
-[myControl]="getControl('employeeIdNumber')">
-</exec-epp-custom-employee-id-number>
-<exec-epp-custom-full-name
-    [firstNameControl]="getControl('firstName')"
-    [middleNameControl]="getControl('middleName')"
-    [lastNameControl]="getControl('lastName')">
-</exec-epp-custom-full-name>
-<exec-epp-custom-gender
-[myControl]="getControl('gender')">
-</exec-epp-custom-gender>
-<exec-epp-custom-employee-date-of-birth
-[myControl]="getControl('dateofBirth')">
-</exec-epp-custom-employee-date-of-birth>
-<button (click)="showData()">Test</button>
+<form nz-form class="form-group personal-detail-form-group"
+[nzLayout]="'vertical'">
+
+    <div>
+        <h2>
+            Personal Details
+        </h2>
+    </div>
+  <exec-epp-custom-employee-id-number
+    [formGroup]="getFormGroup('employeeIdNumber')"
+    [prefices$]="employeeIdNumberPrefices$">
+  </exec-epp-custom-employee-id-number>
+
+  <exec-epp-custom-full-name [formGroup]="getFormGroup('fullName')" >
+  </exec-epp-custom-full-name>
+  <exec-epp-custom-select
+    [label]="'Gender'"
+    [myControl]="getControl('gender')"
+    [required]="true"
+    [list$]="genders$">
+  </exec-epp-custom-select>
+  <exec-epp-custom-datepicker
+    [label]="'Date of Birth'"
+    [myControl]="getControl('dateofBirth')"
+    >
+  </exec-epp-custom-datepicker>
+
+  <exec-epp-custom-email-multiple
+    [formArray]="getFormArray('emailAddresses')"
+    [maxAmount]="maxEmailQty"
+    (reply)="showData()">
+  </exec-epp-custom-email-multiple>
+
+  <exec-epp-custom-phone-multiple
+    [formArray]="getFormArray('phoneNumbers')"
+    [maxAmount]="maxPhoneQty"
+    (reply)="showData()">
+  </exec-epp-custom-phone-multiple>
+  <exec-epp-custom-select-multiple
+    [myControl]="getControl('nationalities')"
+    [list$]="nationalities$">
+  </exec-epp-custom-select-multiple>
+</form>

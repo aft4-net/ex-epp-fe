@@ -1,0 +1,31 @@
+<ng-container *ngFor="let phoneControl of formArray.controls; let i = index;">
+  <nz-form-item class="form-item">
+    <nz-form-label class="form-label" [nzSm]="labelConfig.nzSm" [nzXs]="labelConfig.nzXs" [nzRequired]="required"
+      [hidden]="i > 0">
+      {{label}}
+    </nz-form-label>
+    <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessages[i]"
+      nzHasFeedback>
+      <nz-input-group [nzAddOnBefore]="prefixTemplate" [nzAddOnAfter]="suffixTemplate">
+        <input class="phone-input" [formControl]="getControl(i)" nzPlaceHolder="Smith" (ngModelChange)="onChange(i)"
+          nz-input />
+        <ng-template #prefixTemplate>
+          <nz-select class="prefix-phone-number" [formControl]="getPrefixControl(i)">
+            <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.code"
+              [nzLabel]="choice.code + ' ' + choice.country">
+            </nz-option>
+          </nz-select>
+        </ng-template>
+        <ng-template #suffixTemplate [hidden]="(maxAmount === 1)">
+          <button nz-button [hidden]="(i === 0 && formArray.length === 1)" (click)="onRemove(i)">
+            - Remove
+          </button>
+          <button nz-button [hidden]="!(i + 1 === formArray.length && formArray.length < maxAmount)"
+            (click)="onAdd()">
+            + Add More
+          </button>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</ng-container>

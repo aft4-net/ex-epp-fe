@@ -21,6 +21,7 @@ export class CustomPhoneNumberComponent implements OnInit {
     @Input() controlConfig = defaultFormControlParameter
     @Input() prefixControl: FormControl = new FormControl()
     @Input() myControl: FormControl = new FormControl()
+    
     required = true
     errMessage = ''
 

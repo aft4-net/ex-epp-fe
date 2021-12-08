@@ -8,6 +8,9 @@ import {map} from "rxjs/operators"
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 import { IEmployeeViewModel } from "../../Models/Employee/EmployeeViewModel";
 import { EmployeeParams } from "../../Models/Employee/EmployeeParams";
+import { PaginationResult } from "../../Models/PaginationResult";
+import { Result } from "postcss";
+import { Pagination } from "../../Models/Pagination";
 
 
 @Injectable({
@@ -22,6 +25,9 @@ export class EmployeeService {
 
    public employeeListSource = new BehaviorSubject<IEmployeeViewModel[]>({} as IEmployeeViewModel[]);
    employeeList$  : Observable<IEmployeeViewModel[]> = this.employeeListSource.asObservable();
+
+   public paginatedEmployeeListSource = new BehaviorSubject<PaginationResult<IEmployeeViewModel[]>>({} as PaginationResult<IEmployeeViewModel[]>);
+   paginatedEmployeeList$  : Observable<PaginationResult<IEmployeeViewModel[]>> = this.paginatedEmployeeListSource.asObservable();
 
    employee!:Employee;
 
@@ -84,6 +90,20 @@ export class EmployeeService {
      });
     }
 
+    updateEmployee(){
+      this.employee$.subscribe(x=>{
+        this.employee = x;
+      });
+     console.log("From The new Save Method "+ this.employee);
+     return this.http.put(this.baseUrl,this.employee)
+    .subscribe((response:ResponseDto<Employee> | any) => {
+      this.employeeSource.next(response.data),
+      console.log(response.message);
+    },error => {
+      console.log(error);
+    });
+   }
+
 
     getEmployeeOrganization() : EmployeeOrganization {
       const organization = this.employeeSource.getValue().EmployeeOrganization;
@@ -93,20 +113,48 @@ export class EmployeeService {
         return <EmployeeOrganization>{};
       }
     }
+    // eslint-disable-next-line @typescript-eslint/member-ordering
+    paginatedResult: PaginationResult<IEmployeeViewModel[]> = {
+      Data: [] as  IEmployeeViewModel[],
+      pagination: {} as Pagination
+   };
 
-    SearchEmployeeData(employeeParams: EmployeeParams) : Observable<IEmployeeViewModel[]>{
+    SearchEmployeeData(employeeParams: EmployeeParams) : Observable<PaginationResult<IEmployeeViewModel[]>>
+    {
+      return this.http.get<PaginationResult<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' ,
+      {
+        params: {
+          searhKey:employeeParams.searchKey,
+          pageIndex : employeeParams.pageIndex,
+          pageSize : employeeParams.pageSize
+        }
+      }).pipe(
+          map((result : any) => {
+            console.log(result)
+            this.paginatedResult = {
+              Data:result.Data,
+              pagination:{
+                PageIndex:result.PageIndex,
+                TotalRows:result.TotalPage,
+                PageSize:result.PageSize,
+                TotalRecord:result.TotalRecord
+              }
+           };
+           return this.paginatedResult;      
+          })   
+       )
+    }
 
-      return this.http.get<ResponseDTO<IEmployeeViewModel[]>>(this.baseUrl + '/GetAllEmployeeDashboard' ,
-      {params:{
-        searhKey:employeeParams.searchKey,
-        pageIndex:employeeParams.pageIndex,
-        pageSize:employeeParams.pageSize
+    getEmployeeData(employeeId:string) : Observable<Employee>{
 
-      }}).pipe(
+      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID' , {params:{
+        empId: employeeId
+      }}
+     ).pipe(
         map(result =>  result.Data)
       )
     }
-   
+
 
 }
 

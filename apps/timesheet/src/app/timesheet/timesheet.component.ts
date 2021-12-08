@@ -6,11 +6,10 @@ import { differenceInCalendarDays } from 'date-fns';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { ClickEventType } from '../models/clickEventType';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse } from '../models/timesheetModels';
+import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse } from '../models/timesheetModels';
 import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';
-import { TimesheetApiService } from './services/api/timesheet-api.service';
 import { Employee } from '../models/employee';
 
 import { NzNotificationPlacement } from "ng-zorro-antd/notification";
@@ -75,8 +74,7 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
-    private apiService: TimesheetApiService,
-    private timeSheetService: TimesheetService) {
+   ) {
   }
 
   ngOnInit(): void {
@@ -114,7 +112,10 @@ export class TimesheetComponent implements OnInit {
 
   getTimesheet(userId: string, date?: Date) {
     this.weeklyTotalHours = 0;
-
+    
+    this.timesheet = null;
+    this.timeEntries = null;
+    this.timesheetApprovals = null;
     this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
       this.timesheet = response ? response : null;
 
@@ -253,7 +254,7 @@ export class TimesheetComponent implements OnInit {
       if (this.dateColumnTotalHour < 24) {
         this.checkForApproalAndShowFormDrawer();
       } else {
-        this.createNotificationError("bottomRight", "Time already full 24");
+        this.createNotificationError("bottomRight", "Day is already filled up to 24 hours");
       }
     } else {
       this.createNotificationError('bottomRight', "Can't fill timesheet for the future.");
@@ -288,7 +289,7 @@ export class TimesheetComponent implements OnInit {
       return;
     }
 
-    this.timeSheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
+    this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
@@ -303,7 +304,7 @@ export class TimesheetComponent implements OnInit {
 
       let timesheetApproval = this.timesheetApprovals.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId);
 
-      if (timesheetApproval.length === 0 || timesheetApproval[0].Status != 2) {
+      if (timesheetApproval.length > 0 && timesheetApproval[0].Status != ApprovalStatus.Rejected) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
         this.clearFormData();
       }
@@ -367,8 +368,7 @@ export class TimesheetComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-
-    try {
+      try {
       let timeEntry: TimeEntry = {
         Guid: "00000000-0000-0000-0000-000000000000",
         Note: this.validateForm.value.note,
@@ -489,7 +489,6 @@ export class TimesheetComponent implements OnInit {
     this.notification.create(type, message, 'Timesheet');
   }
   disabledDates=(current: Date): boolean => {
-      return current.valueOf() > Date.now();
+    return  current.setDate(current.getDate()+1)<=this.dayAndDateService.firstday1 || current.setDate(current.getDate()-1) > this.lastday1 ;
   }
- 
 }
