@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { DeviceDetail } from '../../Models/device-detail/devicedetail';
 import { ResponseDto } from '../../Models/response-dto.model';
+import { Pagination } from '../../Models/device-detail/pagination';
 
 
 @Injectable({
@@ -15,8 +16,13 @@ export class DeviceDetailService {
 
   constructor(private http: HttpClient) { }
 
-  loadDeviceDetails() {
-    this.http.get(this.baseUrl + "DeviceDetails");
+  // getDeviceDetails(): Observable<DeviceDetail[]> {
+  //   return this.http.get<DeviceDetail[]>(this.baseUrl + "DeviceDetails");
+  // }
+
+  getDeviceDetails(index: number): Observable<Pagination> {
+    index = index ?? 1;
+    return this.http.get<Pagination>(this.baseUrl + "DeviceDetails?pageindex="+index);
   }
 
   addDeviceDetail(deviceDetail: DeviceDetail): Observable<ResponseDto<DeviceDetail>> {

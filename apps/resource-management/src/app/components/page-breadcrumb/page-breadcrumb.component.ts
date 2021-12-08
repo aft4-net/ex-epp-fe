@@ -23,7 +23,7 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.reloadCurrentRoute();
+    // this.reloadCurrentRoute();
   }
 
   saveEmployee() {
