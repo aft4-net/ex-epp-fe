@@ -62,10 +62,11 @@ export class AddDeviceDetailComponent implements OnInit {
   }
 
   submitForm() {
-    console.log(this.deviceDetail);
-    this.deviceDetailService.addDeviceDetail(this.deviceDetail).subscribe((response)=>{
-      console.log(response);
-    });
+    if (this.deviceDetailForm.valid) {
+      this.deviceDetailService.addDeviceDetail(this.deviceDetailForm.value).subscribe((response)=>{
+        console.log(response);
+      });
+    }
   }
 
 }
