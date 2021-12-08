@@ -6,7 +6,7 @@
       radius:2px;
       padding:8px, 16px, 8px, 16px;
       font:SF Pro Display;
-      weight:500;
+     
 
   }
 
@@ -14,13 +14,13 @@
 .submitted-class{
 
   width:113px;
-  color:rgb(15, 97, 15);
+  color:rgb(36, 207, 36);
   background-color: white;
   border-width: 0px;
   border-color: #F5F5F5;
-  size:18px;
+  font-size:20px;
   line-height:21.48px;
-
+  font-weight:500;
 }
 .submitted-class:hover{
 text-decoration:underline;
@@ -31,5 +31,9 @@ text-decoration:underline;
   top:-1px;
   background-color:green;
   color:white;
+  font-weight:500;
+  font-size:20px;
+  line-height:21.48px;
+  font-weight:700;
 }
 
