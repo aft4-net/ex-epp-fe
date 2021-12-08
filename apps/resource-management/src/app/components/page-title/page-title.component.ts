@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe, formatDate } from '@angular/common';
 import { EmergencyContact, IEmergencyContact } from '../../Features/Models/emergencycontact';
 
+import { Address } from '../../Features/Models/address.model';
 import { Employee } from '../../Features/Models/Employee';
 import { EmployeeOrganization } from '../../Features/Models/EmployeeOrganization/EmployeeOrganization';
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
@@ -37,6 +38,10 @@ export class PageTitleComponent implements OnInit {
     if (this._formGenerator.personalDetailsForm.valid) {
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
+      employee.FamilyDetail =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
+      employee.PersonalAddress = this._formGenerator.getModelAddressDetails() as Address[]
+      //employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails as IEmergencyContact[]
+
       this._employeeService.setEmployeeData(employee)
       this._employeeService.saveEmployee()
       console.log('Employee Success')
