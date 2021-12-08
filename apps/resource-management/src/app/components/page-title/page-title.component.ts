@@ -101,15 +101,15 @@ export class PageTitleComponent implements OnInit {
 
     this._employeeService.setEmployeeData({
       employeeNumber : "1254523/21",
-      FirstName: "Hussen",
+      FirstName: "Husen",
       FatherName: "Seid",
-      GrandFatherName:"Seid",
-      MobilePhone: "0987834271",
+      GrandFatherName:"Ahmed",
+      MobilePhone: "0911254875",
       Phone1:"0934758938",
       Phone2:"0987333674",
-      PersonalEmail: "Hussenn@gmail.com",
-      PersonalEmail2: "Hussenn2@yahoo.com",
-      PersonalEmail3: "Hussenn3@excel.com",
+      PersonalEmail: "Husen123@gmail.com",
+      PersonalEmail2: "Husen1234@yahoo.com",
+      PersonalEmail3: "Husen12345@excel.com",
       Gender : "Male",
       DateofBirth:  this.dateofBirth,
       Nationality: this.selectednationality,
@@ -119,6 +119,8 @@ export class PageTitleComponent implements OnInit {
     });
 
     this._employeeService.saveEmployee();
+    alert("Employee Saved");
+
  // }
   }
   Cancel(){
