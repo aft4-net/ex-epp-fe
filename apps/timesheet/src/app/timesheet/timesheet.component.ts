@@ -64,6 +64,7 @@ export class TimesheetComponent implements OnInit {
   lastWeeks = null;
   startValue: Date | null = null;
   endValue: Date | null = null;
+  isSubmitted:boolean|undefined;
   timesheetApprovals: TimesheetApproval[] | null = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
@@ -131,7 +132,7 @@ export class TimesheetComponent implements OnInit {
 
         this.timesheetService.getTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
           this.timesheetApprovals = response ? response : null;
-
+          (response!==null && response!.length>0)?this.isSubmitted=true:this.isSubmitted=false;
           this.checkForCurrentWeek();
         });
       }
@@ -256,6 +257,7 @@ export class TimesheetComponent implements OnInit {
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnContainerClass = "";
+      this.isSubmitted=true;
     }
     else if (this.lastday1.valueOf() >= date.valueOf()) {
       this.dateColumnContainerClass = "";
@@ -353,6 +355,7 @@ export class TimesheetComponent implements OnInit {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
+        this.isSubmitted=true;
         return;
       }
 
