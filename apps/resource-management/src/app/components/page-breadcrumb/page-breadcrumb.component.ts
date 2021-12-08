@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 import { Router } from '@angular/router';
+import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
 import { Employee } from '../../Features/Models/Employee';
 
 @Component({
@@ -16,7 +17,8 @@ export class PageBreadcrumbComponent implements OnInit {
 
   constructor(
     private _employeeService: EmployeeService,
-    private _router: Router
+    private _router: Router,
+    private _formGenerator: FormGenerator
   ) {
     this._router.events.subscribe((url: any) => console.log(url));
     this.router = _router.url;
@@ -30,7 +32,10 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   saveEmployee() {
-    this._employeeService.saveEmployee();
+
+    const employee = this._formGenerator.getModelPersonalDetails() as Employee
+    this._employeeService.setEmployeeData(employee)
+    this._employeeService.saveEmployee()
   }
 
   reloadCurrentRoute() {

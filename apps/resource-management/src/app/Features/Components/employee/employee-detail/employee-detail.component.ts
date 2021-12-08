@@ -235,16 +235,25 @@ export class EmployeeDetailComponent implements OnInit {
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
-      this.listOfCurrentPageData = response.Data;
-      this.pageIndex=response.pagination.PageIndex;
-      this.pageSize=response.pagination.PageSize;
-      this.totalRecord=response.pagination.TotalRecord
-      this.totalRows=response.pagination.TotalRows;
-      this.lastRow = this.totalRows;
-      this.beginingRow = 1;
-      this.FillTheFilter();
+      if(this.employeeViewModel.length > 0) {
+        this.listOfCurrentPageData = response.Data;
+        this.pageIndex=response.pagination.PageIndex;
+        this.pageSize=response.pagination.PageSize;
+        this.totalRecord=response.pagination.TotalRecord
+        this.totalRows=response.pagination.TotalRows;
+        this.lastRow = this.totalRows;
+        this.beginingRow = 1;
+        this.FillTheFilter();
+        this.loading = false;
+      }
+      else
+      {
+        this.loading = false;
+      }
+
+    },error => {
       this.loading = false;
-    });
+     });
     this.searchStateFound=false;
   }
 
@@ -255,20 +264,30 @@ export class EmployeeDetailComponent implements OnInit {
       .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
         this.employeeViewModels$=of(response.Data);
         this.employeeViewModel = response.Data;
-        this.listOfCurrentPageData = response.Data;
-        this.pageIndex=response.pagination.PageIndex;
-        this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
-        this.totalRows=response.pagination.TotalRows;
-        this.beginingRow = 1;
-        this.lastRow = this.totalRows;
+        if(this.employeeViewModel.length > 0) {
+          this.listOfCurrentPageData = response.Data;
+          this.pageIndex=response.pagination.PageIndex;
+          this.pageSize=response.pagination.PageSize;
+          this.totalRecord=response.pagination.TotalRecord
+          this.totalRows=response.pagination.TotalRows;
+          this.lastRow = this.totalRows;
+          this.beginingRow = 1;
+          this.FillTheFilter();
+          this.loading = false;
+        }
+        else
+        {
+          this.loading = false;
+        }
+      },error => {
         this.loading = false;
-      });
+       }
+      );
       this.searchStateFound=true;
     }
   }
 
-  Edit( employeeId:string):void
+  Edit(employeeId:string):void
   {
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
       this._employeeService.setEmployeeDataForEdit(data);

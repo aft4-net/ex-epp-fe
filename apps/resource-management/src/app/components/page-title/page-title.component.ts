@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DatePipe, formatDate } from '@angular/common';
 import { EmergencyContact, IEmergencyContact } from '../../Features/Models/emergencycontact';
 
@@ -9,7 +10,6 @@ import { FamilyDetail } from '../../Features/Models/FamilyDetail/FamilyDetailMod
 import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
 import { ICountry } from '../../Features/Models/EmployeeOrganization/Country';
 import { Nationality } from '../../Features/Models/Nationality';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-page-title',
@@ -125,6 +125,7 @@ export class PageTitleComponent implements OnInit {
     });
 
     this._employeeService.saveEmployee();
+
  // }
   }
   Cancel(){

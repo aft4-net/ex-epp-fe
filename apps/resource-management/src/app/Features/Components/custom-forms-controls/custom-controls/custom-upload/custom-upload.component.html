@@ -1,6 +1,6 @@
 <div class="clearfix">
     <div>
-        <img class="profile-pic" [src]="filePath" alt="Profile Pic"
+        <img class="profile-pic" [src]="fileList[0].url" alt="Profile Pic"
         width="75" height="75">
     </div>
     <div class="profile-buttons-container">
@@ -12,6 +12,9 @@
                 </button>
               </nz-upload>
         </div>
+        <!-- <div *ngFor="let item of  fileList;let i=index">
+          {{ fileList[i].url}}
+        </div> -->
         <div class="profile-button-container">
               <button class="profile-button-delete">
                 <i nz-icon nzType="delete"></i>

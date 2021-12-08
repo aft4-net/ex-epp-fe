@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Data } from '@angular/router';
-import { FamilyDetailComponent } from '../family-detail/family-detail.component';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FamilyDetails } from '../../../Models/FamilyDetails';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
   templateUrl: './family-detail-view.component.html',
   styleUrls: ['./family-detail-view.component.scss'],
 })
-export class FamilyDetailViewComponent implements OnInit {
+export class FamilyDetailViewComponent {
   isVisible = false;
   footer = null;
   isConfirmLoading = false;
@@ -104,23 +103,21 @@ export class FamilyDetailViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-
   resetForm(): void {
     this.form.familyDetail.reset();
   }
 
   add(): void {
-    this.isConfirmLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isConfirmLoading = false;
-    }, 6000);
+    const families = this.form.familyDetail.value;
+    this.listOfFamilies = [...this.listOfFamilies, families];
+    console.log('list:', this.listOfFamilies);
+
+    // this.isConfirmLoading = true;
+    // setTimeout(() => {
+    //   this.isVisible = false;
+    //   this.isConfirmLoading = false;
+    // }, 6000);
   }
 
-
-
-  ngOnInit(): void {
-
-  }
 
 }
