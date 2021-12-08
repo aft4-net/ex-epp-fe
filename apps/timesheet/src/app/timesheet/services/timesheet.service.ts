@@ -94,6 +94,14 @@ export class TimesheetService {
     return this.http.put<TimeEntryResponse>(this.baseUrl + "timeentries", timeEntry, { "headers": headers });
   }
 
+  deleteTimeEntry(timeEntryId: string): Observable<unknown> {
+    let params = new HttpParams();
+
+    params = params.set("timeEntryId", timeEntryId);
+
+    return this.http.delete(this.baseUrl + "DeleteTimeEntry", { params });
+  }
+
   //#endregion
 
   //#region Time sheet approval
@@ -115,7 +123,7 @@ export class TimesheetService {
 
     params = params.append("timesheetGuid", timeSheetId)
 
-    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, {"headers": headers, params: params});
+    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, { "headers": headers, params: params });
 
     return response.pipe(map(r => r.Data));
   }
@@ -124,7 +132,7 @@ export class TimesheetService {
 
   //#region Timesheet Configuration
 
-  getTimeSheetConfiguration(){
+  getTimeSheetConfiguration() {
     let response = this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
 
     return response.pipe(map(r => r.Data));
@@ -184,14 +192,6 @@ export class TimesheetService {
     let response = this.http.get<Project[]>("http://localhost:3000/projects", { observe: "response", params: params });
 
     return response.pipe(map(r => r.body));
-  }
-  deleteTimeEntry(timeEntryId: string):Observable<unknown> {
-
-    let params = new HttpParams();
-
-      params=params.set("timeEntryId",timeEntryId);
-
-      return this.http.delete(this.baseUrl+"DeleteTimeEntry/",{params});
   }
   //#endregion
 

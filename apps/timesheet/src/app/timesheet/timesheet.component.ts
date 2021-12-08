@@ -558,6 +558,6 @@ export class TimesheetComponent implements OnInit {
     let fromDate = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate());
     let toDate = new Date(this.lastday1.getFullYear(), this.lastday1.getMonth(), this.lastday1.getDate());
 
-    return date.valueOf() < fromDate.valueOf() || date.valueOf() > toDate.valueOf();
+    return date.valueOf() < fromDate.valueOf() || date.valueOf() > toDate.valueOf() || date.valueOf() > new Date().valueOf();
   }
 }
