@@ -5,7 +5,8 @@
     [timeEntries]="timeEntries"
     [weekFirstDate]="firstday1"
     [weekLastDate]="lastday1"
-    [weeklyTotalHours]="weeklyTotalHours">
+    [weeklyTotalHours]="weeklyTotalHours"
+    [isSubmitted]="isSubmitted">
   </app-timesheet-header>
   <nz-divider class="hidden sm:flex"></nz-divider>
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'" class="sm:flex  sm:ml-8"

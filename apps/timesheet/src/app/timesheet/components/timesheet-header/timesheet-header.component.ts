@@ -14,6 +14,7 @@ export class TimesheetHeaderComponent implements OnInit {
   @Input() weekFirstDate: Date | null = null;
   @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
+  @Input() isSubmitted: boolean | undefined;
 
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
@@ -22,8 +23,8 @@ export class TimesheetHeaderComponent implements OnInit {
       this.timesheetValidationService.fromDate = this.weekFirstDate;
       this.timesheetValidationService.toDate = this.weekLastDate;
     }
-  }
 
+  }
   onRequestForApproval() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
       let timesheetConfig: TimesheetConfiguration = response ? response : {
@@ -41,6 +42,7 @@ export class TimesheetHeaderComponent implements OnInit {
 
       if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
         this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
+        this.isSubmitted=true;
       }
     }, error => {
       console.log(error);

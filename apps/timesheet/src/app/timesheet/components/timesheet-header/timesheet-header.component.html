@@ -9,7 +9,6 @@
                 <b class="sm:hidden ml-2 mr-2">/</b><b class="sm:text-xl">Manage my Timesheet</b>
             </nz-breadcrumb-item>
         </nz-breadcrumb>
-    </div>
     
 
     <div class="flex flex-row justify-end sm:gap-2 sm:w-4/6 sm:w-3/4" >
@@ -17,7 +16,8 @@
             <h5 class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total Hours Completed: {{ weeklyTotalHours }}</h5>
         </div>
         <div class="total-hours-completed">
-            <button class="mr-2 sm:w-52 h-10 rounded" nz-button (click)="onRequestForApproval()">Request for Approval</button>
+            <button class="mr-2 sm:w-52 h-10 rounded" nz-button (click)="onRequestForApproval()">Request for Approval</button>{{"issub"+isSubmitted}}
+          </div>
         </div>
       </div>
     
