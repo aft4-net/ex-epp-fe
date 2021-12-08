@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Employee } from "../../Models/Employee";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
-import { AddressCountryStateService } from "../../Services/external-api.services/countries.mock.service";
+import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "./form-generator.model";
 
@@ -18,7 +18,7 @@ export class FormGeneratorAssistant {
 
     constructor(
         private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
-        private readonly _addressCountryStateService: AddressCountryStateService
+        private readonly _addressCountryStateService: CountriesMockService
     ) {
         this._employeeStaticDataMockService.employeeIdNumberPrefices$
             .subscribe((response: SelectOptionModel[]) => {
@@ -26,7 +26,7 @@ export class FormGeneratorAssistant {
                     response.map(option => option.value as string)
                 )
             });
-        this._addressCountryStateService.phonePrefices$
+        this._addressCountryStateService.getCountriesPhonePrefices()
             .subscribe((response: SelectOptionModel[]) => {
                 this._phonePrefices.concat(
                     response.map(option => option.value as string)
@@ -60,7 +60,7 @@ export class FormGeneratorAssistant {
 
     protected _extractPhoneNumber(phoneNumber?: string | null): ExtractedData {
         const result = {
-            prefix: this._addressCountryStateService.defaultPhonePrefix,
+            prefix: '+251',
             value: null,
             suffix: null
         } as ExtractedData
@@ -74,8 +74,7 @@ export class FormGeneratorAssistant {
                     noofMatches = this._phonePrefices[i].length
                 }
             }
-            result.prefix = index === -1 ?
-                this._addressCountryStateService.defaultPhonePrefix
+            result.prefix = index === -1 ?'+251'
                 : this._employeeIdNumberPrefices[index];
             result.value = phoneNumber.substring(noofMatches);
         }
