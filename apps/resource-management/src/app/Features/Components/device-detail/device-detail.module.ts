@@ -4,8 +4,7 @@ import { DeviceDetailComponent } from './device-detail.component';
 import { AddEditDeviceDetailComponent } from './add-edit-device-detail/add-edit-device-detail.component';
 import { DeviceDetailRoutingModule } from './device-detail-routing.module';
 import { DemoNgZorroAntdModule } from '../../../ng-zorro-antd.module';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,6 +13,8 @@ import { DemoNgZorroAntdModule } from '../../../ng-zorro-antd.module';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     DeviceDetailRoutingModule,
     DemoNgZorroAntdModule
   ]
