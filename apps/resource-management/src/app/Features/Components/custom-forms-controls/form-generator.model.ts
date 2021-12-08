@@ -8,7 +8,7 @@ import { EmployeeOrganization } from "../../Models/EmployeeOrganization/Employee
 import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
-import { AddressCountryStateService } from "../../Services/external-api.services/countries.mock.service";
+import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
 import { FormGeneratorAssistant } from "./form-generator-assistant.service";
@@ -66,7 +66,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     constructor(
         private readonly _formBuilder: FormBuilder,
         employeeStaticDataMockService: EmployeeStaticDataMockService,
-        addressCountryStateService: AddressCountryStateService
+        addressCountryStateService: CountriesMockService
     ) {
         super(
             employeeStaticDataMockService,
