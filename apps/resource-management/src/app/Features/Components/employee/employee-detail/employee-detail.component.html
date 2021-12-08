@@ -14,7 +14,7 @@
       <br />
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="24">
-            <nz-table [nzLoading]="loading" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+            <nz-table [nzLoading]="loading" nzSize="small" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
@@ -82,7 +82,7 @@
             </nz-table>
         </div>
       </div>
-      <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
+      <div  nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
         <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
         <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
           nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
