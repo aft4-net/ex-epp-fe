@@ -18,6 +18,7 @@ import { Pagination } from "../../Models/Pagination";
 })
 export class EmployeeService {
 
+  public isdefault = true;
 
   baseUrl = 'http://localhost:14696/api/v1/Employee';
   constructor(private http: HttpClient) { }
