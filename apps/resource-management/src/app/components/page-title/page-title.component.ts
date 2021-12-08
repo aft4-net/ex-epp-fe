@@ -43,7 +43,7 @@ export class PageTitleComponent implements OnInit {
     else if(this._formBuilder.emergencyContact.valid && currentUrl === 'employee/add-employee/emergency-contact'){
       this._router.navigate(['employee/add-employee/Organization-Detail'])
     }
-
+    else if(currentUrl === 'employee/add-employee/Organization-Detail'){
     this.selectednationality = [{
       Name :  "Ethiopian"
     }];
@@ -94,10 +94,12 @@ export class PageTitleComponent implements OnInit {
 
     this._employeeService.saveEmployee();
   }
+  }
+  Cancel(){
+    this._router.navigate(['']);
+  }
 
 
 }
-function moment(dateString: any, arg1: string) {
-  throw new Error('Function not implemented.');
-}
+
 

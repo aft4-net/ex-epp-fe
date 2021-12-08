@@ -146,12 +146,9 @@ export class EmployeeService {
 
     getEmployeeData(employeeId:string) : Observable<Employee>{
 
-      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID' , {params:{
-        empId: employeeId
-      }}
-     ).pipe(
-        map(result =>  result.Data)
-      )
+      return this.http.get<ResponseDTO<Employee>>(`http://localhost:14696/api/v1/Employee/GetEmployeeWithID/${employeeId}`).pipe(
+          map(result => result.Data)
+          )
     }
 
 
