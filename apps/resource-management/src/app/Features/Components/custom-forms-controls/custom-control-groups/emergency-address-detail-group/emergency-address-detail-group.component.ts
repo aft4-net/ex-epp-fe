@@ -2,8 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
+import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -17,8 +16,6 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
 
     countries$: Observable<SelectOptionModel[]>
     stateRegions$: Observable<SelectOptionModel[]>
-    cities$: Observable<SelectOptionModel[]>
-    phonePrefices$: Observable<SelectOptionModel[]>
 
     isEthiopia = false
 
@@ -29,13 +26,11 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: AddressDataStateService
+        private readonly _addressCountryStateService: AddressCountryStateService
     ) {
-        this.countries$ = this._addressDetailStateService.countriesName$
-        this.stateRegions$ = this._addressDetailStateService.stateRegions$
-        this.cities$ = this._addressDetailStateService.cities$
-        this.phonePrefices$ = this._addressDetailStateService.phonePrefices$
-        
+        // this._addressCountryStateService.reset()
+        this.countries$ = this._addressCountryStateService.countries$
+        this.stateRegions$ = this._addressCountryStateService.stateRegions$        
 
         this.formGroup
             = this._formGenerator.emergencyAddress

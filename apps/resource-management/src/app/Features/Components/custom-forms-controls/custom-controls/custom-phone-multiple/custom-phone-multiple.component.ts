@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
+import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
@@ -29,18 +30,16 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
 
 
     constructor(
-        private readonly _formGenerator: FormGenerator
+        private readonly _formGenerator: FormGenerator,
+        private readonly _addressCountryStateService: AddressCountryStateService
     ) {
+        this.prefices$ = this._addressCountryStateService.phonePrefices$
     }
 
     ngOnInit(): void {
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
         }
-    }
-
-    getFormgroup(index: number) {
-        return this.formArray.at(index) as FormGroup
     }
 
     getPrefixControl(index: number): FormControl {

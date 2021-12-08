@@ -1,12 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
-import { Address, Addresss } from "../../../../Models/address.model";
+import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { ExternalCountryApiService, ExternalStateRegionApiService } from "../../../../Services/external-api.services/external-countries.api.service";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
+import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -20,33 +16,30 @@ export class AddressDetailGroupComponent implements OnInit {
 
     countries$: Observable<SelectOptionModel[]>
     stateRegions$: Observable<SelectOptionModel[]>
-    cities$: Observable<SelectOptionModel[]>
-    phonePrefices$: Observable<SelectOptionModel[]>
 
     isEthiopia = false
+    country: string | null | undefined
 
     stateName = 'State/Province'
     subcityName = 'Address Line 1'
     weredaName = 'Address Line 2'
+    postalCodeName = 'Postal/Zip Code'
 
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: AddressDataStateService,
-        private readonly _externalCountryApiService: ExternalCountryApiService,
-        private readonly _externalStateRegionApiService: ExternalStateRegionApiService
+        private readonly _addressCountryStateService: AddressCountryStateService
     ) {
-        this.countries$ = this._externalCountryApiService.get()
-        this.stateRegions$ = of([])
-        this.cities$ = this._addressDetailStateService.cities$
-        this.phonePrefices$ = this._addressDetailStateService.phonePrefices$
+        this.country = ''
+        this.countries$ = this._addressCountryStateService.countries$
+        this.stateRegions$ = this._addressCountryStateService.stateRegions$
         
-        const address: Addresss = {
-            ...{} as Address,
-            Country: 'Ethiopia'
-        } as Address
+        // const address: Addresss = {
+        //     ...{} as Address,
+        //     Country: 'Ethiopia'
+        // } as Address
 
-        this._formGenerator.generateAddressForm(address)
+        // this._formGenerator.generateAddressForm(address)
         this.formGroup
             = this._formGenerator.addressForm
 
@@ -65,12 +58,12 @@ export class AddressDetailGroupComponent implements OnInit {
     }
 
     onCountrySelect() {
-        console.log('AddressChanged')
-        const control = this.getControl('country')
-        if(control.value === 'Ethiopia') {
+        console.log('Address Custom Component')
+        this.country = this.formGroup.value.country as string
+        if(this.country === 'Ethiopia') {
             this.stateName = 'Region'
             this.subcityName = 'Subcity/Zone'
-            this.weredaName = 'Wereda'
+            this.weredaName = 'Woreda'
             this.isEthiopia = true
         } else {
             this.stateName = 'State/Province'
@@ -78,26 +71,12 @@ export class AddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
-        const country: string = this.formGroup.value.country
-        this.stateRegions$ = this._externalStateRegionApiService.getByPost(country)
-        // .pipe(
-        //     map((response: any)=> {
-        //         console.log('AddressChanged')
-        //         return response.data.map((country: any)=>country.name)
-        //         // .states.map((state:any)=> state.name)
-        //         // return (response.data.map((country: any)=>country.name===this.getControl('country').value))[0]
-        //         // .states.map((state:any)=> state.name)
-        //     })
-        // )
+        this._addressCountryStateService.country = this.country
+        console.log(this.country)
+        this.countries$.subscribe((response: any) => { console.log(response)})
     }
     
-    onStateSelect() {
-
-    }
-
-    getStates() {
-
-    }
+    onStateSelect() {}
 
     showData(event?: any) {
         console.log(this.formGroup.value)

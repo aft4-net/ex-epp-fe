@@ -1,25 +1,18 @@
-import { Directive, Injectable } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Injectable } from "@angular/core";
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { Address, Addresss } from "../../Models/address.model";
-import { EmployeeDetail } from "../../Models/core-models/employee-detail.model";
-import { PersonalDetail } from "../../Models/core-models/personal-detailsmodel";
 import { EmergencyContact } from "../../Models/emergencycontact";
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
-import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
-import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
+import { AddressCountryStateService } from "../../Services/external-api.services/countries.mock.service";
+import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
-import { PersonalDetailDataStateService } from "../../state-services/personal-detail-data.state-service";
+import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 
-type ExtractedData = {
-    prefix: any,
-    value: any,
-    suffix: any
-}
 
 export type FormNaming = {
     name: string
@@ -53,11 +46,10 @@ export const formGroups = {
 @Injectable({
     providedIn: 'root'
 })
-export class FormGenerator {
+export class FormGenerator extends FormGeneratorAssistant {
 
     private _defaultEmployeeIdNumberPrefix: any
     private _defaultPhonePrefix: any
-    private readonly _phonePrefices: string[] = []
 
     public readonly countriesData$: Observable<string[]> = of(['+1', '+251'])
 
@@ -73,18 +65,13 @@ export class FormGenerator {
 
     constructor(
         private readonly _formBuilder: FormBuilder,
-        private readonly _personalDetailStateService: PersonalDetailDataStateService
+        employeeStaticDataMockService: EmployeeStaticDataMockService,
+        addressCountryStateService: AddressCountryStateService
     ) {
-
-        this._personalDetailStateService.defaultEmployeeIdNumberPrefix$
-            .subscribe((response: SelectOptionModel) => {
-                this._defaultEmployeeIdNumberPrefix = response.value
-            })
-        this._personalDetailStateService.defaulPhonePrefix$
-            .subscribe((response: SelectOptionModel) => {
-                this._defaultPhonePrefix = response.value
-            })
-
+        super(
+            employeeStaticDataMockService,
+            addressCountryStateService
+        )
         this.personalDetailsForm = this._createPersonalDetailsForm()
         this.organizationalForm = this._createOrganizationalnalDetailsForm()
         this.addressForm = this._createAddressDetailsForm()
@@ -280,9 +267,10 @@ export class FormGenerator {
     }
 
     createPhoneNumberFormGroup() {
+        const segments = this._extractPhoneNumber()
         return this._formBuilder.group({
-            prefix: [this._defaultPhonePrefix],
-            phone: [null, [validatePhoneNumber]],
+            prefix: [segments.prefix],
+            phone: [segments.value, [validatePhoneNumber]],
         })
     }
 
@@ -647,64 +635,6 @@ export class FormGenerator {
 
     triggerValidation(control: FormControl | FormArray | FormGroup) {
 
-    }
-
-    private _extractEmployeeIdNumber(employeeIdNumber?: string): ExtractedData {
-        const result = {
-            prefix: this._defaultEmployeeIdNumberPrefix,
-            value: null,
-            suffix: null
-        } as ExtractedData
-        if (employeeIdNumber) {
-            this._personalDetailStateService.employeeIdNumberPrefices$
-                .subscribe((options: SelectOptionModel[]) => {
-                    let index = -1
-                    let noofMatches = 0
-                    for (let i = 0; i < options.length; i++) {
-                        if (employeeIdNumber.indexOf(options[i].label) === 0
-                            && options[i].label.length > noofMatches) {
-                            index = i
-                            noofMatches = options[i].label.length
-                        }
-                    }
-                    if (index === -1) {
-                        window.alert('Incoming employee id number is corrupted!')
-                    } else {
-                        result.prefix = options[index].value,
-                            result.value = employeeIdNumber.substring(noofMatches)
-                    }
-                })
-        }
-        return result
-    }
-
-    private _extractPhoneNumber(phoneNumber?: string): ExtractedData {
-        const result = {
-            prefix: this._defaultPhonePrefix,
-            value: null,
-            suffix: null
-        } as ExtractedData
-        if (phoneNumber) {
-            this._personalDetailStateService.phonePrefices$
-                .subscribe((options: SelectOptionModel[]) => {
-                    let index = -1
-                    let noofMatches = 0
-                    for (let i = 0; i < options.length; i++) {
-                        if (phoneNumber.indexOf(options[i].label) === 0
-                            && options[i].label.length > noofMatches) {
-                            index = i
-                            noofMatches = options[i].label.length
-                        }
-                    }
-                    if (index === -1) {
-                        window.alert('Incoming phone number is corrupted!')
-                    } else {
-                        result.prefix = options[index].value,
-                            result.value = phoneNumber.substring(noofMatches)
-                    }
-                })
-        }
-        return result
     }
 
 }
