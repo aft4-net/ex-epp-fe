@@ -80,7 +80,6 @@ export class PersonalInfoComponent implements OnInit {
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
-<<<<<<< HEAD
      this._form.generateForms(this.employeeService.employeeById);
      console.log('personla info details')
      console.log(     this.employeeService.employeeById
@@ -89,9 +88,7 @@ export class PersonalInfoComponent implements OnInit {
        {
            this.employeeService.save="Save";
        }
-=======
       this.employeeService.setEmployeeData(this._form.personalDetailsForm.value)
->>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
      }
 
   ngOnInit(): void {
@@ -210,7 +207,8 @@ else{
     }
     else if(this.personalEmail3 === this.personalEmail2){
       this.personalEmail2 = "";
-      alert("Duplicate  email address detected, will be ignored !");
+      alert("Duplicate  email address detected, will be i
+      gnored !");
     }
 */
 

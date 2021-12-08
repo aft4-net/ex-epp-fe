@@ -10,7 +10,6 @@ import { FormGenerator } from '../../Features/Components/custom-forms-controls/f
 import { ICountry } from '../../Features/Models/EmployeeOrganization/Country';
 import { Nationality } from '../../Features/Models/Nationality';
 import { Router } from '@angular/router';
-import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-page-title',
@@ -20,14 +19,12 @@ import { EmployeeService } from '../../Features/Services/Employee/EmployeeServic
 export class PageTitleComponent implements OnInit {
   save="Save";
 
-<<<<<<< HEAD
   constructor(private _formBuilder: FormGenerator,private _router:Router,
     private _employeeService:EmployeeService) {
 
         this.save=this._employeeService.save
 
      }
-=======
   employee !: Employee;
   selectednationality: Nationality [] = [] ;
   organization!: EmployeeOrganization;
@@ -37,9 +34,7 @@ export class PageTitleComponent implements OnInit {
 
  dateofBirth = new Date("2021-11-17 14:29:03.107");
 
-  constructor(private _formBuilder: FormGenerator,private _router:Router,private _employeeService: EmployeeService
-    ) { }
->>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
+
 
   ngOnInit(): void {
   }
@@ -125,7 +120,7 @@ export class PageTitleComponent implements OnInit {
       DateofBirth:  this.dateofBirth,
       Nationality: this.selectednationality,
       EmployeeOrganization : this.organization,
-      FamilyDetail : this.familyDetail,
+      FamilyDetails : this.familyDetail,
       EmergencyContact: this.emergencyContacts,
     });
 

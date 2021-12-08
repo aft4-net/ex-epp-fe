@@ -1,6 +1,5 @@
 <exec-epp-page-title></exec-epp-page-title>
 <div nz-row>
-<<<<<<< HEAD
     <div nz-col nzSpan="4">
         <exec-epp-side-bar> </exec-epp-side-bar>
     </div>
@@ -59,70 +58,10 @@
             (click)="addemergencycontact()">
             <span>Add Emergency Contacts</span>
 
-=======
-  <div nz-col nzSpan="4">
-    <exec-epp-side-bar> </exec-epp-side-bar>
-  </div>
-  <div nz-col nzSpan="20" class="inner-content">
-    <div nz-row>
-      <div nz-col nzSpan="20">
-        <h1>Emergency Contacts</h1>
-      </div>
-      <div nz-col nzSpan="4">
-        <button class="addButton" nz-button nzType="primary" (click)="addemergencycontact()">
-          <span>Add Emergency Contacts</span>
->>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
         </button>
       </div>
     </div>
 
-<<<<<<< HEAD
-
-=======
-    <nz-table class="table"  #rowSelectionTable nzShowSizeChanger [nzData]="listOfData">
-      <thead>
-        <tr class="tr">
-          <th>Full Name</th>
-          <th>Relationship with Employee</th>
-          <th>Contact Numbber</th>
-          <th>Location</th>
-          <th>Actions</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
-          <!-- <Span *ngIf="rowSelectionTable.data.length>0; else button"> -->
-            <td>{{ data.firstName}}</td>
-            <td>{{ data.relationship }}</td>
-            <td>{{ data.phoneNumber }}</td>
-            <td>{{ data.country }}</td>
-
-
-
-
-
-
-          <td>
-            <div nz-row>
-              <div nz-col nzSpan="2" class="editable-cell" [hidden]="editId === data.guid"
-                (click)="startEdit(data.guid)">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </div>
-              &nbsp; &nbsp;
-              <div nz-col nzSpan="2">
-                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="showDeleteConfirm(data.guid)"><i
-                    nz-icon nzType="delete" nzTheme="outline"></i></a>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-
-  </div>
-</div>
->>>>>>> 26cfd8e6441dd8f0571db4fbfd83d6b81f15de5f
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Emergency Contacts" [nzWidth]="'60%'" [nzFooter]="footer"
   (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">

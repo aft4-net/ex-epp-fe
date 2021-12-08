@@ -6,6 +6,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { FamilyDetails } from '../../../Models/FamilyDetails';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -22,7 +23,7 @@ export class FamilyDetailViewComponent implements OnInit {
   listOfFamilies: readonly FamilyDetail[] = [];
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
-
+  familyDetail!:FamilyDetails;
   editId: string | null = null;
 
   constructor(
@@ -78,10 +79,12 @@ export class FamilyDetailViewComponent implements OnInit {
   startEdit(id: string): void {
     this.editId = id;
     this.isVisible = true;
+
+  //this.form.generateFamilyDetailForm();
+
   }
 
   stopEdit(): void {
-    this.editId = null;
   }
 
 
