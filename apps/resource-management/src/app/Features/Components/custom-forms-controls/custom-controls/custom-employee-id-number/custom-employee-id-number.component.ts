@@ -1,15 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
-import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { FormControlResponseModel } from "../../../../Models/supporting-models/form-control-response.model";
-import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
+import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
-import { commonErrorMessage, resetError } from "../../../../Services/supporting-services/custom.validators";
-import { PersonalDetailDataStateService } from "../../../../state-services/personal-detail-data.state-service";
+import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
-import { FormControlName, FormControlType } from "../../../../Models/supporting-models/form-control-name-type.enum"
+import { FormControlType } from "../../../../Models/supporting-models/form-control-name-type.enum"
+import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 
 @Component({
     selector: 'exec-epp-custom-employee-id-number',
@@ -25,17 +23,18 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
     @Input() formGroup: FormGroup = new FormGroup({})
     @Input() required = true
     @Input() formDescription: FormControlResponseModel = {} as FormControlResponseModel
-    @Input() prefices$: Observable<SelectOptionModel[]> = of([])
 
-    @Output() formResponse = new EventEmitter<FormControlResponseModel>()
+    @Output() formResponse = new EventEmitter()
 
-    typeofPrefix = FormControlType.Prefix
-    typeofInput = FormControlType.Input
+    prefices$: Observable<SelectOptionModel[]> = of([])
     errMessage = ''
 
     constructor(
+      private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
       private readonly _formGenerator: FormGenerator
-    ) {}
+    ) {
+      this.prefices$ = this._employeeStaticDataMockService.employeeIdNumberPrefices$
+    }
 
     ngOnInit(): void {
     }
@@ -43,14 +42,17 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
     getPrefix() {
       return this._formGenerator.getFormControl('prefix', this.formGroup)
     }
-    geIdNumber() {
+    getIdNumber() {
       return this._formGenerator.getFormControl('idNumber', this.formGroup)
     }
 
-    onChange(type: FormControlType) {
+    onPrefixSelect() {
+
+    }
+
+    onChange() {
       this.errMessage = commonErrorMessage.message.substring(0)
-      this.formDescription.type = type
-      this.formResponse.emit(this.formDescription)
+      this.formResponse.emit()
     }
 
 }

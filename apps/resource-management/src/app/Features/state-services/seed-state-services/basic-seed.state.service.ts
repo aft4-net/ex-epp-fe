@@ -6,7 +6,8 @@ import { BasicSeedApiService } from "../../Services/seed.api-service/basic-seed.
 
 export abstract class BasicSeedStateService<
     TModel,
-    TStateModel extends BasicSeedState<TModel>
+    TStateModel extends BasicSeedState<TModel>,
+    TApiService
     >
 {
 
@@ -27,7 +28,7 @@ export abstract class BasicSeedStateService<
         )
     }
 
-    protected _select<TFilter>(mapFn: (state: TStateModel) => TFilter): Observable<TFilter> {
+    protected _select<TFilter>(mapFn: (state: TStateModel, apiService?: TApiService) => TFilter): Observable<TFilter> {
         return this._$state.asObservable().pipe(
             map((state: TStateModel) => mapFn(state)),
             distinctUntilChanged()

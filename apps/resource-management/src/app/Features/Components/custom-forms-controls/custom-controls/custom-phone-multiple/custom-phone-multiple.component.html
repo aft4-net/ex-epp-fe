@@ -10,9 +10,10 @@
         <input class="phone-input" [formControl]="getControl(i)" nzPlaceHolder="Smith" (ngModelChange)="onChange(i)"
           nz-input />
         <ng-template #prefixTemplate>
-          <nz-select class="prefix-phone-number" [formControl]="getPrefixControl(i)">
-            <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.code"
-              [nzLabel]="choice.code + ' ' + choice.country">
+          <nz-select class="prefix-phone-number" [formControl]="getPrefixControl(i)"
+          nzShowSearch >
+            <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.value"
+              [nzLabel]="choice.label">
             </nz-option>
           </nz-select>
         </ng-template>
