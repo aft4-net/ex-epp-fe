@@ -85,13 +85,11 @@ export class AddressViewComponent implements OnInit {
   add(): void {
     if (this.form.addressForm.valid) {
       // this.isVisible = false
-      const address = this.form.addressForm.value;
+      const address =this.form.getModelAddressDetails() as Address;
       this.listOfaddress = [...this.listOfaddress, address];
+      this.isVisible=false
     }
-    console.log("aaddddddddddddddddddddd")
-    console.log(this.form.addressForm.value);
-      alert("yes")
-    console.log(this.listOfaddress);
+  
   }
 
   ngOnInit(): void {}
