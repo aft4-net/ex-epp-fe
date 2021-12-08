@@ -1,87 +1,70 @@
 <exec-epp-page-title></exec-epp-page-title>
 <div nz-row>
-  <div nz-col nzSpan="4">
-    <exec-epp-side-bar> </exec-epp-side-bar>
-  </div>
-  <div nz-col nzSpan="20" class="inner-content">
-    <div nz-row>
-      <div nz-col nzSpan="20" class="page-title">
-        <h1>Family Details</h1>
-      </div>
-      <div nz-col nzSpan="4" >
-        <button
-          class="addButton"
-          nz-button
-          nzType="primary"
-          (click)="addfamilies()"
-        >
-          <span>Add Family Details</span>
-        </button>
-      </div>
+    <div nz-col nzSpan="4">
+        <exec-epp-side-bar> </exec-epp-side-bar>
     </div>
-
-    <nz-table
-      class="table"
-      #rowSelectionTable
-      nzShowSizeChanger
-      [nzData]="listOfFamilies"
-
-    >
-      <thead>
-        <tr class="tr">
-          <th>Full Name</th>
-          <th>Relationship with Employee</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
-          <td>{{ data.FullName }}</td>
-          <td>{{ data.RelationshipId }}</td>
-
-          <td>
-            <div nz-row>
-              <div
-                nz-col
-                nzSpan="2"
-                class="editable-cell"
-                [hidden]="editId === data.Guid"
-                (click)="startEdit(data.Guid)"
-              >
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </div>
-              &nbsp; &nbsp;
-              <div nz-col nzSpan="2">
-                <a
-                  nz-popconfirm
-                  nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="showConfirm(data.Guid)"
-                  ><i nz-icon nzType="delete" nzTheme="outline"></i
-                ></a>
-              </div>
+    <div nz-col nzSpan="20" class="inner-content">
+        <div nz-row>
+            <div nz-col nzSpan="20" class="page-title">
+                <h1>Family Details</h1>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+            <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length >0">
+                <button class="addButton" nz-button nzType="primary" (click)="addfamilies()">
+                    <span>Add Family Details</span>
+                </button>
+            </div>
+        </div>
 
 
-  </div>
+        <nz-table class="table" #rowSelectionTable nzShowSizeChanger [nzData]="listOfFamilies"
+            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+
+            <thead>
+                <tr class="tr">
+
+                    <th>Full Name</th>
+                    <th>Relationship with Employee</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of rowSelectionTable.data">
+
+
+                    <td>{{ data.FullName }}</td>
+                    <td>{{ data.RelationshipId }}</td>
+
+                    <td>
+                        <div nz-row>
+
+                            <div nz-col nzSpan="2" class="editable-cell" [hidden]="editId === data.Guid"
+                                (click)="startEdit(data.Guid)">
+                                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                            </div>
+                            &nbsp; &nbsp;
+                            <div nz-col nzSpan="2">
+                                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                                    (nzOnConfirm)="deleteRow(data.Guid)"><i nz-icon nzType="delete"
+                                        nzTheme="outline"></i></a>
+                            </div>
+                        </div>
+
+
+
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </nz-table>
+
+        <button *ngIf="rowSelectionTable.data.length === 0" class="addButtonwhenNodata" nz-button
+            (click)="addfamilies()">
+            <span>Add Family Details</span>
+
+        </button>
+
+   </div>
 </div>
 
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzWidth]="'40%'"
-  [nzFooter]="footer"
-  (nzOnCancel)="exitModal()"
-  (nzOnOk)="handleOk()"
->
-  <ng-container *nzModalContent>
-  <div class="overflow-scroll">
-<exec-epp-family-detail-group></exec-epp-family-detail-group>
-</div>
-<button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
-<button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
-
-   </ng-container>
-</nz-modal>

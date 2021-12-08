@@ -1,33 +1,26 @@
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 
 import { AddMultiComponent } from './add-multi/add-multi.component';
-import { Employee } from '../../../Models/Employee';
-import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { Employee } from '../../Models/Employee';
+import { EmployeeService } from '../../Services/Employee/EmployeeService';
 import { HttpClient } from '@angular/common/http';
-import { LocationPhoneService } from '../../../Services/address/location-phone.service';
-import { Nationality } from '../../../Models/Nationality';
+import { LocationPhoneService } from '../../Services/address/location-phone.service';
+import { Nationality } from '../../Models/Nationality';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { ValueTransformer } from '@angular/compiler/src/util';
+import { FormGenerator } from '../custom-forms-controls/form-generator.model';
+import { convertStringsToSelectOptions } from '../../Services/supporting-services/basic-data.collection';
 
 @Component({
   selector: 'exec-epp-personal-info',
   templateUrl: './personal-info.component.html',
-  styleUrls: ['./personal-info.component.scss'],
+  styleUrls: ['./personal-info.component.scss']
 })
 export class PersonalInfoComponent implements OnInit {
 
@@ -53,7 +46,7 @@ export class PersonalInfoComponent implements OnInit {
   dateofBirth = new Date("2021-11-17 14:29:03.107");
   gender = "";
   nationality: string [] =[];
-  selectednationality: Nationality [] = [] ;
+  selectednationality?: Nationality [] = [] ;
 
   currentemployee !: Employee ;
   currentdate = new Date();
@@ -77,13 +70,11 @@ export class PersonalInfoComponent implements OnInit {
     }
 };
 
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService,
+    constructor(private fb: FormBuilder,
     private readonly _form: FormGenerator,
+    private employeeService:EmployeeService,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
-     this._form.generateForms(this.employeeService.employeeById);
-     console.log('personla info details')
-     console.log(     this.employeeService.employeeById
-      )
+      this._form.generateForms(this.employeeService.employeeById);
 
      }
 
@@ -112,8 +103,6 @@ export class PersonalInfoComponent implements OnInit {
     })
     this.currentemployee = this.employeeService.getPersonalInfo();
     this.fillCurrentEmployee(this.currentemployee);
-
-
   }
 
   fillCurrentEmployee(employee: Employee){
@@ -128,10 +117,8 @@ export class PersonalInfoComponent implements OnInit {
     this.phoneNumber2=employee.Phone1,
     this.phoneNumber3=employee.Phone2,
     this.dateofBirth=employee.DateofBirth,
-    this.gender=employee.Gender
-    if(employee.Nationality){
-      this.selectednationality=employee.Nationality;
-    }
+    this.gender=employee.Gender,
+    this.selectednationality=employee.Nationality;
 
   }
 

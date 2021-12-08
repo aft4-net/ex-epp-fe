@@ -32,7 +32,13 @@ export class EmployeeService {
    paginatedEmployeeList$  : Observable<PaginationResult<IEmployeeViewModel[]>> = this.paginatedEmployeeListSource.asObservable();
 
    employee!:Employee;
+   employeeById?:Employee;
 
+   setEmployeeDataForEdit(employee: Employee) {
+    this.employeeById=employee;
+
+
+  }
   addEmployee(employee: Employee) {
     this.setEmployee(employee);
   }
@@ -139,8 +145,8 @@ export class EmployeeService {
                 TotalRecord:result.TotalRecord
               }
            };
-           return this.paginatedResult;      
-          })   
+           return this.paginatedResult;
+          })
        )
     }
 

@@ -14,6 +14,7 @@ import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
 import { Data, Router } from '@angular/router';
 import { PaginationResult } from '../../../Models/PaginationResult';
+import { Employee } from '../../../Models/Employee';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -24,6 +25,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
+  employeeByID!: Employee;
 
   constructor(private _employeeService : EmployeeService,
     private _router: Router) {}
@@ -117,7 +119,7 @@ export class EmployeeDetailComponent implements OnInit {
        val => {this.employeeViewModel = val
 
         for(let i=0; i < this.employeeViewModel.length;i++){
-     
+
           if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location.trim()) === -1 ){
           this.holdItCountry.push(
           {
@@ -125,7 +127,7 @@ export class EmployeeDetailComponent implements OnInit {
             value:this.employeeViewModel.map(country=>country.Location)[i]
           }
              )
-          
+
         }
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
@@ -137,7 +139,7 @@ export class EmployeeDetailComponent implements OnInit {
           }
         )
           }
-        
+
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
         if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status.trim()) === -1){
@@ -147,10 +149,10 @@ export class EmployeeDetailComponent implements OnInit {
             value:this.employeeViewModel.map(status=>status.Status)[i]
           }
         )
-        
+
       }
         }
-        
+
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
@@ -243,7 +245,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.FillTheFilter();
       this.loading = false;
     });
-    this.searchStateFound=false; 
+    this.searchStateFound=false;
   }
 
   searchEmployees() {
@@ -262,13 +264,16 @@ export class EmployeeDetailComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.loading = false;
       });
-      this.searchStateFound=true; 
+      this.searchStateFound=true;
     }
-  } 
+  }
 
   Edit( employeeId:string):void
   {
-   this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
+    this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
+      this._employeeService.setEmployeeDataForEdit(data);
+    });
+
    this._router.navigate(['/employee/add-employee/personal-info']);
   }
   //added by simbo just you can delete
@@ -319,7 +324,7 @@ export class EmployeeDetailComponent implements OnInit {
           else if((this.totalRows < this.pageSize))
           {
             this.lastRow = this.totalRecord;
-            this.beginingRow = (this.totalRecord - this.totalRows) + 1;  
+            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
           }
           this.loading =false;
           this.FillTheFilter();
@@ -339,7 +344,7 @@ export class EmployeeDetailComponent implements OnInit {
         else if((this.totalRows < this.pageSize))
         {
           this.lastRow = this.totalRecord;
-          this.beginingRow = (this.totalRecord - this.totalRows) + 1;  
+          this.beginingRow = (this.totalRecord - this.totalRows) + 1;
         }
         this.loading =false;
         this.FillTheFilter();
