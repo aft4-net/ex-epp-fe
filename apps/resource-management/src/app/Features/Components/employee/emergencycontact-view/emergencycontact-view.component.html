@@ -28,16 +28,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rowSelectionTable.data">
-          <!-- <Span *ngIf="rowSelectionTable.data.length>0; else button"> -->
-            <td>{{ data.firstName}}</td>
-            <td>{{ data.relationship }}</td>
-            <td>{{ data.phoneNumber }}</td>
-            <td>{{ data.country }}</td>
-
-
-
-
-
+            <td>{{ data.FirstName+ " " + data.MiddleName+ " "+ data.LastName}}</td>
+            <td>{{ data.Relationship }}</td>
+            <td>{{ data.PhoneNumber }}</td>
+            <td>{{data.Country}}</td>
 
           <td>
             <div nz-row>

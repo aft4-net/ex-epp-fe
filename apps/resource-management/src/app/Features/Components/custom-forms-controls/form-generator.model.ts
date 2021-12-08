@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { Address, Addresss } from "../../Models/address.model";
-import { EmergencyContact } from "../../Models/emergencycontact";
+import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 import { FamilyDetails } from "../../Models/FamilyDetails";
@@ -149,11 +149,16 @@ export class FormGenerator extends FormGeneratorAssistant {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
         return {
-            FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
-            Relationship: {Name: value.relationship } as Relationship,
+           
+            FirstName: value.fullName.firstName,
+            MiddleName:value.fullName.middleName ,
+            LastName:value.fullName.lastName,
+            Relationship:value.relationship ,
             Gender: value.gender,
-            DoB: value.dateofBirth
-        } as Partial<FamilyDetails>
+            DoB: value.dateofBirth,
+            PhoneNumber:value.phoneNumber,
+            Country:value.country
+        } as Partial<EmergencyContacts>
 
     }
 
