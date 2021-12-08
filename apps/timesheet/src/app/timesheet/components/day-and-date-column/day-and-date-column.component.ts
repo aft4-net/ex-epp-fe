@@ -69,16 +69,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
         }
       });
       this.overflowCalc();
+      
+      let today=new Date();
 
-      if (this.timesheetApprovals && this.timesheetApprovals.length > 0){
-        this.dateColumnHighlightClass = "date-column-no-highlight";
+      if(this.date>new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1))){
+        this.dateColumnHighlightClass ="date-column-with-no-highlight";
+      }
+      else if (this.timesheetApprovals && this.timesheetApprovals.length > 0){
+        this.dateColumnHighlightClass = "date-column-with-no-highlight";
       }
       else {
-        this.dateColumnHighlightClass = "date-column-highlight"
-      }
-      let today=new Date();
-      if(this.date>new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1))){
-        this.dateColumnHighlightClass ="date-column-no-display";
+        this.dateColumnHighlightClass = "date-column-with-highlight";
       }
     }
   }
