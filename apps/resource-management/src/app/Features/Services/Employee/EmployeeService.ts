@@ -80,7 +80,7 @@ export class EmployeeService {
        this.employee$.subscribe(x=>{
          this.employee = x;
        });
-      console.log("From The new Save Method "+ this.employee);
+      console.log("From The new Save Method "+ this.employee.Organization?.JobTitle);
       return this.http.post(this.baseUrl,this.employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
        this.employeeSource.next(response.data),
