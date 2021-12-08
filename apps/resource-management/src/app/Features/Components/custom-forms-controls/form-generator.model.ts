@@ -108,7 +108,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelOrganizationDetails() {
         const value = this.organizationalForm.value
         return {
-            DutyStation: value.country,
+            Country: value.country,
             DutyBranch: value.dutyStation,
             CompaynEmail:  value.companyEmail[0],
             PhoneNumber: value.phoneNumber[0].prefix + value.phoneNumber[0].phone,

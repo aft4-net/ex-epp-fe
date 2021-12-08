@@ -47,7 +47,7 @@ export class AddressDetailGroupComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.showData()
+    
     }
 
     getControl(name: string): FormControl {
@@ -73,13 +73,6 @@ export class AddressDetailGroupComponent implements OnInit {
             this.isEthiopia = false
         }
         this.stateRegions$ = this._addressCountryStateService.getStates(country)
-    }
-    
-    onStateSelect() {}
-
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
     }
 
 }

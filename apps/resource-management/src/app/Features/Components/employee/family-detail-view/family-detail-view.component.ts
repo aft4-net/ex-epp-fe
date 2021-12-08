@@ -5,6 +5,7 @@ import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
 import { FamilyDetailComponent } from '../family-detail/family-detail.component';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { FamilyDetails } from '../../../Models/FamilyDetails';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -18,9 +19,9 @@ export class FamilyDetailViewComponent implements OnInit {
   checked = false;
   loading = false;
   indeterminate = false;
-  listOfFamilies: FamilyDetail[] = [];
+  listOfFamilies: FamilyDetails[] = [];
 
-  editId: string | null = null;
+  editId: number | null = null;
 
   constructor(
     private modalService: NzModalService,
@@ -44,7 +45,7 @@ export class FamilyDetailViewComponent implements OnInit {
     }, 3000);
   }
 
-  startEdit(id: string): void {
+  startEdit(id: number): void {
     this.editId = id;
     this.isVisible = true;
   }
@@ -53,14 +54,14 @@ export class FamilyDetailViewComponent implements OnInit {
     this.editId = null;
   }
 
-  showConfirm(guid: string): void {
-    this.listOfFamilies = this.listOfFamilies.filter((d) => d.Guid !== guid);
-    this.modalService.confirm({
-      nzTitle: 'Confirm',
-      nzContent: 'Are you sure you want to delete?',
-      nzOkText: 'OK',
-      nzCancelText: 'Cancel',
-    });
+  showConfirm(guid: number): void {
+    // this.listOfFamilies = this.listOfFamilies.filter((d) => d.FullName !== guid);
+    // this.modalService.confirm({
+    //   nzTitle: 'Confirm',
+    //   nzContent: 'Are you sure you want to delete?',
+    //   nzOkText: 'OK',
+    //   nzCancelText: 'Cancel',
+    // });
   }
 
   exitModal() {
@@ -72,15 +73,10 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
   add(): void {
-    const families = this.form.familyDetail.value;
+    const families = this.form.getModelFamilyDetails() as FamilyDetails;
     this.listOfFamilies = [...this.listOfFamilies, families];
     console.log('list:', this.listOfFamilies);
-
-    // this.isConfirmLoading = true;
-    // setTimeout(() => {
-    //   this.isVisible = false;
-    //   this.isConfirmLoading = false;
-    // }, 6000);
+   this.isVisible=false;
   }
 
   ngOnInit(): void {
