@@ -80,7 +80,7 @@ export class PersonalInfoComponent implements OnInit {
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
-      this._form.personalDetailsForm
+      this.employeeService.setEmployeeData(this._form.personalDetailsForm.value)
      }
 
   ngOnInit(): void {

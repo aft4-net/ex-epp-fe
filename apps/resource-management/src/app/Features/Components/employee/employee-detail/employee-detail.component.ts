@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Data, Router } from '@angular/router';
 import { Observable, fromEvent, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
@@ -9,11 +10,10 @@ import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
+import { PaginationResult } from '../../../Models/PaginationResult';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
-import { Data, Router } from '@angular/router';
-import { PaginationResult } from '../../../Models/PaginationResult';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -117,7 +117,7 @@ export class EmployeeDetailComponent implements OnInit {
        val => {this.employeeViewModel = val
 
         for(let i=0; i < this.employeeViewModel.length;i++){
-     
+
           if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location.trim()) === -1 ){
           this.holdItCountry.push(
           {
@@ -125,7 +125,7 @@ export class EmployeeDetailComponent implements OnInit {
             value:this.employeeViewModel.map(country=>country.Location)[i]
           }
              )
-          
+
         }
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
@@ -137,7 +137,7 @@ export class EmployeeDetailComponent implements OnInit {
           }
         )
           }
-        
+
         }
         for(let i=0; i < this.employeeViewModel.length;i++){
         if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status.trim()) === -1){
@@ -147,10 +147,10 @@ export class EmployeeDetailComponent implements OnInit {
             value:this.employeeViewModel.map(status=>status.Status)[i]
           }
         )
-        
+
       }
         }
-        
+
         this.empListCountry= this.holdItCountry,
         this.empListStatus=this.holdItStatus,
         this.empListJobType=this.holdItJobTitle,
@@ -243,7 +243,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.FillTheFilter();
       this.loading = false;
     });
-    this.searchStateFound=false; 
+    this.searchStateFound=false;
   }
 
   searchEmployees() {
@@ -262,12 +262,13 @@ export class EmployeeDetailComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.loading = false;
       });
-      this.searchStateFound=true; 
+      this.searchStateFound=true;
     }
-  } 
+  }
 
   Edit( employeeId:string):void
   {
+    console.log("this is the guid "+ employeeId);
    this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
    this._router.navigate(['/employee/add-employee/personal-info']);
   }
@@ -319,7 +320,7 @@ export class EmployeeDetailComponent implements OnInit {
           else if((this.totalRows < this.pageSize))
           {
             this.lastRow = this.totalRecord;
-            this.beginingRow = (this.totalRecord - this.totalRows) + 1;  
+            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
           }
           this.loading =false;
           this.FillTheFilter();
@@ -339,7 +340,7 @@ export class EmployeeDetailComponent implements OnInit {
         else if((this.totalRows < this.pageSize))
         {
           this.lastRow = this.totalRecord;
-          this.beginingRow = (this.totalRecord - this.totalRows) + 1;  
+          this.beginingRow = (this.totalRecord - this.totalRows) + 1;
         }
         this.loading =false;
         this.FillTheFilter();
