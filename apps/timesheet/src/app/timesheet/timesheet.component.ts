@@ -250,8 +250,10 @@ export class TimesheetComponent implements OnInit {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
     this.setDateColumnTotalHour();
 
+    
     if (this.date <= new Date()) {
       if (this.dateColumnTotalHour < 24) {
+        this.scrollPageToTop();
         this.checkForApproalAndShowFormDrawer();
       } else {
         this.createNotificationError("bottomRight", "Day is already filled up to 24 hours");
@@ -259,6 +261,18 @@ export class TimesheetComponent implements OnInit {
     } else {
       this.createNotificationError('bottomRight', "Can't fill timesheet for the future.");
     }
+    
+   
+  }
+
+ 
+
+  scrollPageToTop(){
+    window.scroll({
+      top: 0, 
+      left: 0, 
+     // behavior: 'smooth'
+     });
   }
 
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
