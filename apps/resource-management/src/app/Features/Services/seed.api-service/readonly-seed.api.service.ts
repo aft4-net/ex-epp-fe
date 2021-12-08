@@ -23,7 +23,10 @@ export abstract class ReadonlySeedApiService<TModel>
             this._httpOption
         )
         .pipe(
-            map((response: any) => this._extractGetMultipleDataResponse(response))
+            map((response: any) => {
+                console.log(response)
+                return this._extractGetMultipleDataResponse(response)
+            })
         )
     }
 

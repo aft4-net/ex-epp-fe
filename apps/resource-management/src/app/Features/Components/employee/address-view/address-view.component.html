@@ -59,12 +59,18 @@
         </tr>
       </tbody>
     </nz-table>
+    <div nz-col nzSpan="3">
+      <button class="addButtonwhenNodata" nz-button (click)="addaddress()">
+        <span>Add Address</span>
+      </button>
+    </div>
   </div>
 </div>
 
 <nz-modal
   [(nzVisible)]="isVisible"
   [nzWidth]="'40%'"
+  nzTitle="Add Address"
   [nzFooter]="null"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"

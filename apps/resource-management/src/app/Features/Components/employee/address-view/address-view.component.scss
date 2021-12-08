@@ -14,10 +14,12 @@
   color: white;
   height: 40px;
   display: flex;
-  margin-left: 550px;
+  float: right;
+  margin-right: 534px;
   margin-top: -45px;
   width: 130px;
   justify-content: center;
+  text-align: center;
 }
 
 .editable-cell {
@@ -79,6 +81,6 @@
 
 
 .overflow-scroll {
-  max-height: 500px;
+  max-height: 450px;
   overflow-y: scroll;
 }

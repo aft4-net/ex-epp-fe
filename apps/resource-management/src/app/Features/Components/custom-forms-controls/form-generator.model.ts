@@ -10,8 +10,9 @@ import { EmployeeOrganization } from "../../Models/EmployeeOrganization/Employee
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
+import { Relationship } from "../../Models/Relationship";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
-import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber } from "../../Services/supporting-services/custom.validators";
+import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
 import { PersonalDetailDataStateService } from "../../state-services/personal-detail-data.state-service";
 
 type ExtractedData = {
@@ -90,14 +91,91 @@ export class FormGenerator {
         this.emergencyContact = this._createEmergencyContactDetailsForm()
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         this.familyDetail = this._createFamilyDetailsForm()
+       
+    }
+
+    getModelPersonalDetails() {
+        const value = this.personalDetailsForm.value
+        return {
+            employeeNumber: value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber,
+            FirstName: value.fullName.firstName,
+            FatherName: value.fullName.middleName,
+            GrandFatherName: value.fullName.lastName,
+            Gender: value.gender,
+            PersonalEmail: value.emailAddresses[0],
+            PersonalEmail2: value.emailAddresses.lenght > 1? value.emailAddresses[1]: undefined,
+            PersonalEmail3: value.emailAddresses.lenght > 2? value.emailAddresses[2]: undefined,
+            MobilePhone: value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
+            Phone1: value.phoneNumbers.lenght > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1]: undefined,
+            Phone2: value.phoneNumbers.lenght > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2]: undefined,
+            Nationality: value.nationalities.map((nationality: string)=>{
+                return {
+                    ...{} as Nationality,
+                    ...{
+                        Name: nationality
+                    } as Partial<Nationality>
+                }
+            })
+        } as Partial<Employee>
+    }
+    getModelOrganizationDetails() {
+        const value = this.organizationalForm.value
+        return {
+            DutyStation: value.country,
+            DutyBranch: value.dutyStation,
+            CompaynEmail:  value.companyEmail[0],
+            PhoneNumber: value.phoneNumber[0].prefix + value.phoneNumber[0].phone,
+            JobTitle: value.jobTitle,
+            BusinessUnit: value.businessUnit,
+            Department: value.department,
+            ReportingManager: value.reportingManager,
+            EmploymentType: value.employeementType,
+            JoiningDate: value.JoiningDate,
+            TerminationDate: value.terminationDate,
+            Status: value.status
+        } as Partial<EmployeeOrganization>
+    }
+    getModelAddressDetails() {
+        const value = this.addressForm.value
+        return {
+            Country: value.country,
+            StateRegionProvice: value.state,
+            City: value.city,
+            SubCityZone: value.subCityZone,
+            Woreda: value.woreda,
+            HouseNumber: value.houseNumber,
+            PostalCode: value.postalCode,
+            PhoneNumber: value.phoneNumber[0].prefix + value.phoneNumber[0].phone
+        } as Partial<Address>
+    }
+    getModelFamilyDetails() {
+        const value = this.familyDetail.value
+        return {
+            FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
+            Relationship: {Name: value.relationship } as Relationship,
+            Gender: value.gender,
+            DoB: value.dateofBirth
+        } as Partial<FamilyDetails>
+
+    }
+    getModelEmergencyContactDetails() {
+        const value = this.emergencyContact.value
+        const valueAddress = this.emergencyAddress.valid
+        return {
+            FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
+            Relationship: {Name: value.relationship } as Relationship,
+            Gender: value.gender,
+            DoB: value.dateofBirth
+        } as Partial<FamilyDetails>
+
     }
 
     private _createPersonalDetailsForm() {
         return this._formBuilder.group({
             employeeIdNumber: this._createEmployeeIdNumberFormGroup(),
             fullName: this._createFullNameFormGroup(),
-            gender: [null],
-            dateofBirth: [null],
+            gender: [null, validateRequired],
+            dateofBirth: [null, validateRequired],
             emailAddresses: this._formBuilder.array([
                 this.createEmailControl()
             ]),
@@ -110,31 +188,31 @@ export class FormGenerator {
 
     private _createOrganizationalnalDetailsForm() {
         return this._formBuilder.group({
-            country: [null],
-            dutyStation: [null],
+            country: [null, validateRequired],
+            dutyStation: [null, validateRequired],
             companyEmail: this._formBuilder.array([
                 this.createEmailControl()
             ]),
             phoneNumber: this._formBuilder.array([
                 this.createPhoneNumberFormGroup()
             ]),
-            jobTitle: [null],
-            businessUnit: [null],
-            department: [null],
-            reportingManager: [null],
-            employeementType: [null],
-            joiningDate: [null],
+            jobTitle: [null, validateRequired],
+            businessUnit: [null, validateRequired],
+            department: [null, validateRequired],
+            reportingManager: [null, validateRequired],
+            employeementType: [null, validateRequired],
+            joiningDate: [null, validateRequired],
             terminationDate: [null],
-            status: [null]
+            status: ['Active', validateRequired]
         });
     }
 
     private _createAddressDetailsForm() {
         return this._formBuilder.group({
-            country: [null],
+            country: [null, validateRequired],
             state: [null],
-            city: [null],
-            subCityZone: [null],
+            city: [null, validateRequired],
+            subCityZone: [null, validateRequired],
             woreda: [null],
             houseNumber: [null],
             postalCode: [null],
@@ -146,8 +224,7 @@ export class FormGenerator {
 
     private _createFamilyDetailsForm() {
         return this._formBuilder.group({
-            maritalStatus: [null],
-            relationship: [null],
+            relationship: [null, validateRequired],
             fullName: this._createFullNameFormGroup(),
             gender: [null],
             dateofBirth: [null]
@@ -157,7 +234,7 @@ export class FormGenerator {
     private _createEmergencyContactDetailsForm() {
         return this._formBuilder.group({
             fullName: this._createFullNameFormGroup(),
-            relationship: [],
+            relationship: [null, validateRequired],
             emailAddresses: this._formBuilder.array([
                 this.createEmailControl()
             ]),
@@ -169,10 +246,10 @@ export class FormGenerator {
 
     private _createEmergencyAddressDetailsForm() {
         return this._formBuilder.group({
-            country: [null],
+            country: [null, validateRequired],
             state: [null],
-            city: [null],
-            subCityZone: [null],
+            city: [null, validateRequired],
+            subCityZone: [null, validateRequired],
             woreda: [null],
             houseNumber: [null],
             postalCode: [null],
@@ -343,7 +420,7 @@ export class FormGenerator {
         )
         
         this._setControlValue(
-            employee.Nationality,
+            employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
         )
     }
