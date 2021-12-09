@@ -126,17 +126,8 @@ export class TimesheetComponent implements OnInit {
       this.timesheet = response ? response : null;
 
       if (this.timesheet) {
-        this.timesheetService.getTimeEntries(this.timesheet.Guid).subscribe(response => {
-          this.timeEntries = response ? response : null;
-        }, error => {
-          console.log(error);
-        });
-
-        this.timesheetService.getTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
-          this.timesheetApprovals = response ? response : null;
-          this.isSubmitted = response ? true : false;
-          this.checkForCurrentWeek();
-        });
+        this.getTimeEntries(this.timesheet.Guid);        
+        this.getTimeSheetApproval(this.timesheet.Guid);
       }
       else {
         this.checkForCurrentWeek();
@@ -144,6 +135,25 @@ export class TimesheetComponent implements OnInit {
 
     }, error => {
       console.log(error);
+    });
+  }
+  
+  getTimeEntries(guid: string){
+    this.timesheetService.getTimeEntries(guid).subscribe(response => {
+      this.timeEntries = response ? response : null;
+      if(this.timeEntries){
+        this.calculateWeeklyTotalHours();
+      }
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  getTimeSheetApproval(guid: string) {
+    this.timesheetService.getTimeSheetApproval(guid).subscribe(response => {
+      this.timesheetApprovals = response ? response : null;
+      this.isSubmitted = response ? true : false;
+      this.checkForCurrentWeek();
     });
   }
 
@@ -285,7 +295,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  calculateWeeklyTotalHours(dailyTotalHours: number) {
+  calculateWeeklyTotalHours() {
     if (this.timeEntries) {
       this.weeklyTotalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
     }
@@ -444,7 +454,6 @@ export class TimesheetComponent implements OnInit {
         ProjectId: this.validateForm.value.project,
         TimeSheetId: "00000000-0000-0000-0000-000000000000"
       }
-
       if (this.timeEntry) {
         timeEntry.Guid = this.timeEntry.Guid;
         timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
@@ -466,7 +475,7 @@ export class TimesheetComponent implements OnInit {
             this.timeEntry = null;
           }
           else {
-            this.addTimeEntry(timeEntry);
+            this.addTimeEntry(timeEntry, this.timesheet?.Guid);
           }
         })
       }
@@ -480,9 +489,13 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  addTimeEntry(timeEntry: TimeEntry) {
+  addTimeEntry(timeEntry: TimeEntry, timeSheetId?: string) {
     if (!this.userId) {
       return;
+    }
+
+    if(timeSheetId){
+      timeEntry.TimeSheetId = timeSheetId;
     }
 
     this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
