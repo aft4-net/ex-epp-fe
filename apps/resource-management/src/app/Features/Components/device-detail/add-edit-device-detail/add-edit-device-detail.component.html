@@ -5,7 +5,7 @@
         <li nz-menu-item routerLink="/">
           <i nz-icon [nzType]="'user'" [nzTheme]="'outline'"></i> Employees
         </li>
-        <li nz-menu-item nzSelected>
+        <li nz-menu-item nzSelected routerLink="/device-detail">
           <i nz-icon [nzType]="'laptop'" [nzTheme]="'outline'"></i> Devices
         </li>
       </ul>
@@ -15,9 +15,15 @@
 <h2>Add Device Detail</h2>
 <form nz-form (ngSubmit)="submitForm()" [nzLayout]="'vertical'" [formGroup]="deviceDetailForm">
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="DeviceName" nzRequired>Device Name</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Device Name!">
+        <input nz-input id="DeviceName" placeholder="Device Name" formControlName="DeviceName" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="category">Category</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="please select category">
-        <nz-select nzPlaceHolder="Select category" formControlName="CategoryGuid">
+        <nz-select nzPlaceHolder="Select category" formControlName="CategoryGuid" (ngModelChange)="onCategoryChange($event)">
           <nz-option *ngFor="let category of categories" nzLabel="{{category.Name}}" nzValue="{{category.Guid}}"></nz-option>
         </nz-select>
       </nz-form-control>
@@ -39,32 +45,27 @@
         <input nz-input id="CompanyDeviceCode" placeholder="Company Device Code" formControlName="CompanyDeviceCode" required />
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="DeviceName" nzRequired>Device Name</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Device Name!">
-        <input nz-input id="DeviceName" placeholder="Device Name" formControlName="DeviceName" />
-      </nz-form-control>
-    </nz-form-item>
+    
 
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Business Unit" nzRequired>Business Unit</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="BusinessUnit" nzRequired>Business Unit</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input business unit!">
             <input nz-input id="BusinessUnit" placeholder="Business Unit" formControlName="BusinessUnit" />
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Is Working" nzRequired>Is Working</nz-form-label>
-        <nz-form-control [nzSpan]="14">
-          <nz-radio-group>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="IsWorking" nzRequired>Is Working</nz-form-label>
+        <nz-form-control [nzSpan]="14" [nzXs]="24" nzErrorTip="Please select is working!">
+          <nz-radio-group id="IsWorking" formControlName="IsWorking" (ngModelChange)="onIsWorkingModelChange($event)">
             <label nz-radio nzValue="Yes">Yes</label>
             <label nz-radio nzValue="No">No</label>
           </nz-radio-group>
         </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Allocate To" nzRequired>Allocate To</nz-form-label>
+    <nz-form-item *ngIf="this.isWorking">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Allocate To">Allocate To</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Allocate To!">
-        <input nz-input id="Allocate To" placeholder="Allocate To" formContrDeviceolName="AllocateTo" />
+        <input nz-input id="Allocate To" placeholder="Allocate To" formControlName="AllocateTo" />
       </nz-form-control>
     </nz-form-item>
 
@@ -72,7 +73,7 @@
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="DeviceClassificationGuid" nzRequired>Device Classification</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="please select device classification">
         <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select device classification" formControlName="DeviceClassificationGuid">
-          <nz-option *ngFor="let deviceClassification of deviceClassifications" nzLabel="{{deviceClassification.Name}}" nzValue="{{deviceClassification.Name}}"></nz-option>
+          <nz-option *ngFor="let deviceClassification of deviceClassifications" nzLabel="{{deviceClassification.Name}}" nzValue="{{deviceClassification.Guid}}"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
@@ -85,15 +86,15 @@
     </nz-form-item>
 
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Purchaser" nzRequired>Purchaser</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Purchaser!">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Purchaser">Purchaser</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
           <input nz-input id="Purchaser" formControlName="Purchaser"/>
         </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="InvoiceNumber" nzRequired>InvoiceNumber</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input InvoiceNumber!">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="InvoiceNumber">InvoiceNumber</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
           <input nz-input id="InvoiceNumber" formControlName="InvoiceNumber"/>
         </nz-form-control>
     </nz-form-item>
@@ -113,15 +114,18 @@
     </nz-form-item>
 
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Warranty" nzRequired>Warranty</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input Warranty!">
-          <input nz-input id="Warranty" formControlName="Warranty"/>
-        </nz-form-control>
-    </nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="Warranty" nzRequired>Warranty</nz-form-label>
+      <nz-form-control [nzSpan]="14" [nzXs]="24" nzErrorTip="Please select Warranty!">
+        <nz-radio-group id="Warranty" formControlName="Warranty" (ngModelChange)="onWarrantyModelChange($event)">
+          <label nz-radio nzValue="Yes">Yes</label>
+          <label nz-radio nzValue="No">No</label>
+        </nz-radio-group>
+      </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="WarrantyEndDate" nzRequired>Warranty EndDate</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input WarrantyEndDate!">
+    <nz-form-item *ngIf="this.warranty">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="WarrantyEndDate">Warranty EndDate</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
           <nz-date-picker id="WarrantyEndDate" formControlName="WarrantyEndDate"></nz-date-picker>
         </nz-form-control>
     </nz-form-item>
@@ -133,9 +137,10 @@
         </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item nz-row class="register-area">
+    <nz-form-item nz-row>
       <nz-form-control [nzSpan]="14">
         <button nz-button nzType="primary" type="submit">Save</button>
+        <button nz-button nzType="default" style="margin-left: 24px;" (click)="resetForm()">Reset</button>
       </nz-form-control>
     </nz-form-item>
     <hr/>
