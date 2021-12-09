@@ -4,19 +4,19 @@
       <nz-table #basicTable [nzData]="listOfDeviceDetails" [nzShowPagination]="false">
         <thead>
           <tr>
+            <th>Device Name</th>
             <th>Business Unit</th>
             <th>Created Date</th>
             <th>Invoice Number</th>
-            <th>Device Name</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.DeviceName }}</td>
             <td>{{ data.BusinessUnit }}</td>
             <td>{{ data.CreatedDate }}</td>
             <td>{{ data.InvoiceNumber }}</td>
-            <td>{{ data.DeviceName }}</td>
             <td>
               <i nz-icon nzType="edit" nzTheme="outline"></i>
               <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline"></i>

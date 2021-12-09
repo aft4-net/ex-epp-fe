@@ -37,9 +37,9 @@ export class AddEditDeviceDetailComponent implements OnInit {
     this.categoryService.loadCategories().subscribe((categories: Category[]) => {
       this.categories = categories;
     });
-    this.subCategoryService.loadSubCategories().subscribe((subCategories: SubCategory[]) => {
-      this.subCategories = subCategories;
-    });
+    // this.subCategoryService.loadSubCategories().subscribe((subCategories: SubCategory[]) => {
+    //   this.subCategories = subCategories;
+    // });
     this.deviceClassificationService.loadDeviceClassifications().subscribe((deviceClassifications: DeviceClassification[]) => {
       this.deviceClassifications = deviceClassifications;
     });
@@ -72,6 +72,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
     if (this.deviceDetailForm.valid) {
       this.deviceDetailService.addDeviceDetail(this.deviceDetailForm.value).subscribe((response)=>{
         console.log(response);
+        this.deviceDetailForm.reset();
         this.toastr.success("Successfully Added", "Device Detail")
       });
     } else {
@@ -85,8 +86,12 @@ export class AddEditDeviceDetailComponent implements OnInit {
     }
   }
 
-  onCategoryChange(event: any) {
-    console.log(event);
+  onCategoryChange(value: string) {
+    console.log(value);
+    this.subCategoryService.getByCategory(value).subscribe((subCategoires: SubCategory[]) => {
+      console.log("sub categories: ", subCategoires);
+      this.subCategories = subCategoires;
+    })
   }
 
   onIsWorkingModelChange(value: string) {
@@ -109,7 +114,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
 
   resetForm() {
     console.log("reset form called");
-    this.deviceDetailForm.reset;
+    this.deviceDetailForm.reset();
   }
 
 }

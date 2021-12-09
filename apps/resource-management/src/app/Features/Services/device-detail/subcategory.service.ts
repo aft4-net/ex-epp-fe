@@ -16,4 +16,8 @@ export class SubcategoryService {
   loadSubCategories(): Observable<SubCategory[]> {
     return this.http.get<SubCategory[]>(this.baseUrl + 'SubCategory')
   }
+
+  getByCategory(id: string): Observable<SubCategory[]> {
+    return this.http.get<SubCategory[]>(this.baseUrl + "SubCategory?id="+id);
+  }
 }
