@@ -54,7 +54,7 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
   startEdit(id: string): void {
-     this.editId = id;
+    this.editId = id;
     const familyDetail=this.employeeService.employeeById?.FamilyDetails?.filter(a=>a.Guid===id)
      if(familyDetail)
      {

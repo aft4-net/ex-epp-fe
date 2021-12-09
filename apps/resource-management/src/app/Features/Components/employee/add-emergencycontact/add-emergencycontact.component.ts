@@ -62,9 +62,9 @@ export class AddEmergencycontactComponent implements OnInit {
   listOfStates: string[] = [];
 
   isEthiopia = false;
-  emc!: IEmergencyContact;
-  emc1!: IEmergencyContact;
-  list: IEmergencyContact[] = [];
+  emc!: EmergencyContacts;
+  emc1!: EmergencyContacts;
+  list: EmergencyContacts[] = [];
 
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() result: EventEmitter<{ type: string; addresses: Address[] }> =
@@ -252,22 +252,23 @@ export class AddEmergencycontactComponent implements OnInit {
   submitFormall(event: string): void {
 
     const getvalue = {
-      firstName: this.AddForm.value.firstName,
-      fatherName: this.AddForm.value.fatherName,
-      relationship: this.AddForm.value.relationship,
-      address: [
-        {
-          // phoneNumber: this.AddForm.value.phoneNumber,
-          // country: this.AddForm.value.country,
-          // stateRegionProvice: this.AddForm.value.stateRegionPrice,
-          // city: this.AddForm.value.cityProvice,
-          // subCityZone: this.AddForm.value.subCityZone,
-          // woreda: this.AddForm.value.Woreda,
-          // houseNumber: this.AddForm.value.houseNumber,
-          // postalCode: this.AddForm.value.postalCode,
-        },
-      ],
-    } as IEmergencyContact;
+      FirstName: this.AddForm.value.firstName,
+      MiddleName: this.AddForm.value.fatherName,
+      Relationship: this.AddForm.value.relationship,
+
+      // address: [
+      //   {
+      //     // phoneNumber: this.AddForm.value.phoneNumber,
+      //     // country: this.AddForm.value.country,
+      //     // stateRegionProvice: this.AddForm.value.stateRegionPrice,
+      //     // city: this.AddForm.value.cityProvice,
+      //     // subCityZone: this.AddForm.value.subCityZone,
+      //     // woreda: this.AddForm.value.Woreda,
+      //     // houseNumber: this.AddForm.value.houseNumber,
+      //     // postalCode: this.AddForm.value.postalCode,
+      //   },
+      // ],
+    } as EmergencyContacts;
     // const getvalueForm = this.AddForm.value;
     if (this.AddForm.valid) {
       console.log('submit', this.AddForm.value);

@@ -1,7 +1,7 @@
 import { Address } from "./address.model";
 import { EmployeeOrganization } from "./EmployeeOrganization/EmployeeOrganization";
 import { FamilyDetail } from "./FamilyDetail/FamilyDetailModel";
-import { IEmergencyContact } from "./emergencycontact";
+import { EmergencyContact, EmergencyContacts, IEmergencyContact } from "./emergencycontact";
 import { Nationality } from "./Nationality";
 
 export interface Employee{
@@ -24,6 +24,6 @@ export interface Employee{
   FamilyDetails?: FamilyDetail[],
   EmployeeOrganization?: EmployeeOrganization,
   EmployeeAddress?: Address[],
-  EmergencyContact?: IEmergencyContact[]
+  EmergencyContact?: EmergencyContacts[]
 
 }
