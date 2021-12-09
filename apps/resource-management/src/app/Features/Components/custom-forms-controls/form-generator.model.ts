@@ -5,6 +5,7 @@ import { Address, Addresss } from "../../Models/address.model";
 import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
+import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
@@ -149,7 +150,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
         return {
-           
+
             FirstName: value.fullName.firstName,
             MiddleName:value.fullName.middleName ,
             LastName:value.fullName.lastName,
@@ -568,7 +569,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         )
     }
 
-    private _setFamilyDetail(familyDetail: FamilyDetails) {
+    private _setFamilyDetail(familyDetail: FamilyDetail) {
         const names = familyDetail.FullName.split(' ')
         this._setNames(
             names[0],
@@ -585,7 +586,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormControl('gender', this.familyDetail)
         )
         this._setControlValue(
-            familyDetail.DoB,
+            familyDetail.DateofBirth,
             this.getFormControl('dateofBirth', this.familyDetail)
         )
     }
@@ -625,7 +626,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         }
     }
 
-    generateFamilyDetailForm(familyDetail?: FamilyDetails) {
+    generateFamilyDetailForm(familyDetail?: FamilyDetail) {
         this.familyDetail = this._createFamilyDetailsForm()
         if(familyDetail) {
             this._setFamilyDetail(familyDetail)
