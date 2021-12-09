@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Observable, of } from "rxjs";
 import { Address, Addresss } from "../../Models/address.model";
+import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
+import { Observable, of } from "rxjs";
+import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
+
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
+import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FamilyDetails } from "../../Models/FamilyDetails";
+import { FormGeneratorAssistant } from "./form-generator-assistant.service";
+import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
-import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
-import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
-import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
-import { FormGeneratorAssistant } from "./form-generator-assistant.service";
-
 
 export type FormNaming = {
     name: string
@@ -138,28 +138,27 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
     getModelFamilyDetails() {
         const value = this.familyDetail.value
-        return {
+        return [{
             FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
             Relationship: {Name: value.relationship } as Relationship,
             Gender: value.gender,
             DoB: value.dateofBirth
-        } as Partial<FamilyDetails>
+        }] as Partial<FamilyDetails>
 
     }
     getModelEmergencyContactDetails() {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
-        return {
+        return [{
 
             FirstName: value.fullName.firstName,
-            MiddleName:value.fullName.middleName ,
-            LastName:value.fullName.lastName,
+            FatherName:value.fullName.middleName ,
             Relationship:value.relationship ,
             Gender: value.gender,
             DoB: value.dateofBirth,
             PhoneNumber:value.phoneNumber,
             Country:value.country
-        } as Partial<EmergencyContacts>
+        }] as Partial<EmergencyContacts>
 
     }
 
