@@ -35,7 +35,19 @@ export class PageTitleComponent implements OnInit {
   }
 
   saveNext(){
-    if (this._formGenerator.personalDetailsForm.valid) {
+    if (!(this._formGenerator.personalDetailsForm.valid)) {
+      alert('Personal detail contains an error!')
+      this._formGenerator.errorMessageforPersonalDetails(
+        this._formGenerator.personalDetailsForm
+      )
+      this._router.navigate(['employee/add-employee/personal-info'])
+    } else if (!(this._formGenerator.organizationalForm.valid)) {
+      alert('Organizational detail contains an error!')
+      this._formGenerator.errorMessageforOrganizationDetails(
+        this._formGenerator.organizationalForm
+      )
+      this._router.navigate(['employee/add-employee/Organization-Detail'])
+    } else {
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
       employee.FamilyDetail =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
@@ -46,9 +58,7 @@ export class PageTitleComponent implements OnInit {
       this._employeeService.saveEmployee()
       console.log('Employee Success')
       console.log(employee)
-    } else {
-      console.log('Employee Failure')
-      alert('Personal detail contains an error!')
+      this._router.navigate([''])
     }
   //   const currentUrl = this._router.url;
   //   if(this._formBuilder.personalDetailsForm.valid && currentUrl === 'employee/add-employee/personal-info'){
