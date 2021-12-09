@@ -88,6 +88,16 @@ export class TimesheetService {
     return this.http.post<any>(this.baseUrl + "timeentries", timeEntry, { "headers": headers, params: params });
   }
 
+  addTimeEntryForRangeOfDates(employeeId: string, timeEntries: TimeEntry[]) {
+    const headers = { "content-type": "application/json" };
+
+    let params = new HttpParams();
+
+    params = params.append("employeeId", employeeId);
+
+    return this.http.post<any>(this.baseUrl + "TimeEntriesForRange", timeEntries, { "headers": headers, params: params });
+  }
+
   updateTimeEntry(timeEntry: TimeEntry) {
     const headers = { "content-type": "application/json" };
 

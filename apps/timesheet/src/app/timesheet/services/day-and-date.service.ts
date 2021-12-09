@@ -17,6 +17,17 @@ export class DayAndDateService {
   constructor(private http: HttpClient) {
   }
 
+  getRangeOfDates(fromDate: Date, toDate: Date) {
+    let dates = [];
+    let startDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+    let endDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
+    while (startDate <= endDate) {
+      dates.push(startDate);
+      startDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1);
+    }
+    return dates;
+  }
+
   nextWeekDates(cuur1: any, increamt: any): any[] {
     this.clearData();
     this.computeFirstDay(cuur1);
