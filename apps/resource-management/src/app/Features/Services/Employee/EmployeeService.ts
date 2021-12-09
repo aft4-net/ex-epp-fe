@@ -95,7 +95,7 @@ export class EmployeeService {
       this.employee$.subscribe(x=>{
         this.employee = x;
       });
-     console.log("From The new Save Method "+ this.employee);
+     console.log("From The new Save Method "+ this.employee.FirstName);
      return this.http.put(this.baseUrl,this.employee)
     .subscribe((response:ResponseDto<Employee> | any) => {
       this.employeeSource.next(response.data),

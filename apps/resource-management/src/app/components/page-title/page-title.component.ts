@@ -50,20 +50,7 @@ export class PageTitleComponent implements OnInit {
       console.log('Employee Failure')
       alert('Personal detail contains an error!')
     }
-  //   const currentUrl = this._router.url;
-  //   if(this._formBuilder.personalDetailsForm.valid && currentUrl === 'employee/add-employee/personal-info'){
-  //     this._router.navigate(['employee/add-employee/personal-address'])
-  //   }
-  //   else if(this._formBuilder.addressForm.valid && currentUrl === 'employee/add-employee/personal-address'){
-  //     this._router.navigate(['employee/add-employee/family-detail'])
-  //   }
-  //   else if(this._formBuilder.familyDetail.valid && currentUrl === 'employee/add-employee/family-detail'){
-  //     this._router.navigate(['employee/add-employee/emergency-contact'])
-  //   }
-  //   else if(this._formBuilder.emergencyContact.valid && currentUrl === 'employee/add-employee/emergency-contact'){
-  //     this._router.navigate(['employee/add-employee/Organization-Detail'])
-  //   }
-  //  // else if(currentUrl === 'employee/add-employee/Organization-Detail'){
+
   //   this.selectednationality = [{
   //     Name :  "Ethiopian"
   //   }];
@@ -73,7 +60,7 @@ export class PageTitleComponent implements OnInit {
   //   };
 
   //   this.organization = {
-  //   Country:this.country,
+  //   Country:"Ethiopia",
   //   DutyStation: "Addis",
   //   DutyBranch: "a4d463e6-057e-409d-a97e-ef5bad93ba59",
   //   CompaynEmail: "aaa@excel.com",
@@ -109,21 +96,22 @@ export class PageTitleComponent implements OnInit {
   //     fatherName: "abel",
   //     relationship: "bro"
   //   }]
-  //  // this._employeeService.setEmployeeData(this._formBuilder.personalDetailsForm.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.addressForm.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.familyDetail.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.emergencyContact.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
+  // //  // this._employeeService.setEmployeeData(this._formBuilder.personalDetailsForm.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.addressForm.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.familyDetail.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.emergencyContact.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
 
   //   this._employeeService.setEmployeeData({
+  //     guid: "77f94782-b511-4426-b6d2-358506bc2fdc",
   //     employeeNumber : "1254523/21",
-  //     FirstName: "Husen",
-  //     FatherName: "Seid",
-  //     GrandFatherName:"Ahmed",
+  //     FirstName: "newNathan",
+  //     FatherName: "hosan",
+  //     GrandFatherName:"abel",
   //     MobilePhone: "0911254875",
   //     Phone1:"0934758938",
   //     Phone2:"0987333674",
-  //     PersonalEmail: "Husen123@gmail.com",
+  //     PersonalEmail: "arif@gmail.com",
   //     PersonalEmail2: "Husen1234@yahoo.com",
   //     PersonalEmail3: "Husen12345@excel.com",
   //     Gender : "Male",
@@ -134,8 +122,8 @@ export class PageTitleComponent implements OnInit {
   //     EmergencyContact: this.emergencyContacts,
   //   });
 
-  //   this._employeeService.saveEmployee();
-  //   alert("Employee Saved");
+  //    this._employeeService.updateEmployee();
+  //    alert("Employee Updated");
 
  // }
   }
