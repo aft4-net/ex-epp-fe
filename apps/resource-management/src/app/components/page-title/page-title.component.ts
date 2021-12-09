@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, formatDate } from '@angular/common';
-import { EmergencyContact, IEmergencyContact } from '../../Features/Models/emergencycontact';
+import { EmergencyContact, EmergencyContacts, IEmergencyContact } from '../../Features/Models/emergencycontact';
 
 import { Address } from '../../Features/Models/address.model';
 import { Employee } from '../../Features/Models/Employee';
@@ -45,7 +45,7 @@ export class PageTitleComponent implements OnInit {
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
       employee.FamilyDetails =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
       employee.PersonalAddress = this._formGenerator.getModelAddressDetails() as Address[]
-      //employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails as IEmergencyContact[]
+      employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails() as EmergencyContacts[]
 
       this._employeeService.setEmployeeData(employee)
       this._employeeService.saveEmployee()
