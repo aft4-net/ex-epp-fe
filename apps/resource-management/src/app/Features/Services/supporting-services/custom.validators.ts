@@ -56,7 +56,7 @@ export function validateMiddleName(
     control: AbstractControl
 ) {
     
-    resetError(false)
+    resetError(true)
     if(!control.value) {
         return null
     }
@@ -192,7 +192,7 @@ export function validateNationality(
     )
 }
 
-export function validateCity(
+export function validateAddressRequired(
     control: AbstractControl
 ) {
     resetError(true)
@@ -200,6 +200,30 @@ export function validateCity(
     return checkMultiple(
         {
             method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkAddresses,
+            parameters: parameters
+        }
+    )
+}
+
+export function validateAddressNonRequired(
+    control: AbstractControl
+) {
+    if(!control.value) {
+        return null
+    }
+    resetError(false)
+    const parameters = [control, commonErrorMessage, null, 'City']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkAddresses,
             parameters: parameters
         }
     )
@@ -301,6 +325,19 @@ function checkNumerals(
     controlName: string
 ) {
     if (!(/^[0-9]+$/).test(control.value)) {
+        errorLog.message = 'Input contains invalid character(s)!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
+function checkAddresses(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!(/^[A-Za-z. /0-9]+$/).test(control.value)) {
         errorLog.message = 'Input contains invalid character(s)!'
         return { invalidCharacter: true }
     }

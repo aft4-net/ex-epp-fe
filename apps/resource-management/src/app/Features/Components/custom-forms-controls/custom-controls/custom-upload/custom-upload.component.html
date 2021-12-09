@@ -1,7 +1,8 @@
 <div class="clearfix">
     <div>
-        <img class="profile-pic" [src]="fileList[0].url" alt="Profile Pic"
-        width="75" height="75">
+      <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="fileList[fileList.length-1].url"></nz-avatar>
+        <!-- <img class="profile-pic" [src]="fileList[0].url" alt="Profile Pic"
+        width="75" height="75"> -->
     </div>
     <div class="profile-buttons-container">
         <div class="profile-button-container">
