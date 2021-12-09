@@ -1,7 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
-import { AddEmergencycontactComponent } from './add-emergencycontact/add-emergencycontact.component';
 import { AddressNewComponent } from './address-new/address-new.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,7 +33,6 @@ import { CustomFormsControlsModule } from '../custom-forms-controls/custom-forms
 @NgModule({
   declarations: [
     EmployeeComponent,
-    AddEmergencycontactComponent,
     OrganizationDetailComponent,
     AddressNewComponent,
     PersonalInfoComponent,
@@ -46,9 +44,9 @@ import { CustomFormsControlsModule } from '../custom-forms-controls/custom-forms
     AddressViewComponent,
     FamilyDetailViewComponent,
     EmergencycontactViewComponent,
-    
-    
-    
+
+
+
   ],
   imports: [
     CommonModule,

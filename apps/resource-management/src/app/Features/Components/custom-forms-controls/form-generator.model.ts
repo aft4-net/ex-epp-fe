@@ -514,10 +514,10 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setEmergencyContactDetail(emergencyContact: EmergencyContacts) {
-        if(emergencyContact.FirstName && emergencyContact.MiddleName) {
+        if(emergencyContact.FirstName && emergencyContact.FatherName) {
             this._setNames(
                 emergencyContact.FirstName,
-                emergencyContact.MiddleName,
+                emergencyContact.FatherName,
                 'X',
                 this.getFormGroup('fullName', this.emergencyContact)
             )

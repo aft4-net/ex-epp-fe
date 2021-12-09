@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 import { Data } from '@angular/router';
 import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
