@@ -15,6 +15,7 @@ import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { Employee } from '../../../Models/Employee';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -27,8 +28,11 @@ export class EmployeeDetailComponent implements OnInit {
   input!: ElementRef;
   employeeByID!: Employee;
 
-  constructor(private _employeeService : EmployeeService,
-    private _router: Router) {}
+  constructor(
+    private _employeeService : EmployeeService,
+    private _form: FormGenerator,
+    private _router: Router
+    ) {}
 
     isdefault = true;
     router="";
@@ -284,7 +288,7 @@ export class EmployeeDetailComponent implements OnInit {
   {
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
       this._employeeService.setEmployeeDataForEdit(data);
-
+      this._form.generateForms(this._employeeService.employeeById)
     });
    if(this._employeeService.employeeById)
    {

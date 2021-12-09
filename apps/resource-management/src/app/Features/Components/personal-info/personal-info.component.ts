@@ -74,8 +74,6 @@ export class PersonalInfoComponent implements OnInit {
     private readonly _form: FormGenerator,
     private employeeService:EmployeeService,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
-      this._form.generateForms(this.employeeService.employeeById);
-
      }
 
   ngOnInit(): void {
