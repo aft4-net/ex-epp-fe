@@ -66,8 +66,9 @@ export class EmergencycontactViewComponent implements OnInit {
       // this.isVisible = false
       const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts;
       this.listOfData = [...this.listOfData, emergencyContact];
-      console.log("listOfData")
-      console.log(this.listOfData)
+      
+      this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact]
+
       this.isVisible=false
    // }
   }

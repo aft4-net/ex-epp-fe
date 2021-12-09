@@ -102,6 +102,7 @@ export class AddressViewComponent implements OnInit {
       const address =this.form.getModelAddressDetails() as Address;
       this.listOfaddress = [...this.listOfaddress, address];
       this.isVisible=false
+      this._formGenerator.allAddresses=[...this._formGenerator.allAddresses,address]
     }
 
   }
