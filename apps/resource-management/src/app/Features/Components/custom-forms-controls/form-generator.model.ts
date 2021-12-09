@@ -66,6 +66,12 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     public readonly address: Address[] = []
 
+    private _isEdit = false
+
+    get IsEdit(): boolean {
+        return this._isEdit
+    }
+
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -607,11 +613,22 @@ export class FormGenerator extends FormGeneratorAssistant {
 
         this._regenerateForm()
         if(employee) {
-
+            this._isEdit = true
             this._setPresonalDetail(employee)
             if(employee.EmployeeOrganization) {
                 this._setOrganizationalDetail(employee.EmployeeOrganization)
             }
+            if(employee.PersonalAddress) {
+                this.allAddresses = employee.PersonalAddress
+            }
+            if(employee.FamilyDetails) {
+                this.allFamilyDetails = employee.FamilyDetails
+            }
+            if(employee.EmergencyContact) {
+                this.allEmergencyContacts = employee.EmergencyContact
+            }
+        } else {
+            this._isEdit = false
         }
     }
 
