@@ -46,6 +46,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   moreEntries: any[] = [];
   overflowPt?: number = 0;
   of: any;
+  isSubmitted:boolean|undefined;
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
   ngAfterViewInit(): void {
     this.checkOverflow(this.colEl.nativeElement);
@@ -55,6 +56,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
+    if(this.timesheet){
+      this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(res => {
+        res!=null && res.length>0? this.isSubmitted=true:this.isSubmitted=false;
+    })
+  }
+  console.log(this.isSubmitted)
   }
 
   ngOnChanges(): void {
@@ -69,16 +76,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
         }
       });
       this.overflowCalc();
+      
+      let today=new Date();
 
-      if (this.timesheetApprovals && this.timesheetApprovals.length > 0){
-        this.dateColumnHighlightClass = "date-column-no-highlight";
+      if(this.date>new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1))){
+        this.dateColumnHighlightClass ="date-column-with-no-highlight";
+      }
+      else if (this.timesheetApprovals && this.timesheetApprovals.length > 0){
+        this.dateColumnHighlightClass = "date-column-with-no-highlight";
       }
       else {
-        this.dateColumnHighlightClass = "date-column-highlight"
-      }
-      let today=new Date();
-      if(this.date>new Date(today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+1))){
-        this.dateColumnHighlightClass ="date-column-no-display";
+        this.dateColumnHighlightClass = "date-column-with-highlight";
       }
     }
   }

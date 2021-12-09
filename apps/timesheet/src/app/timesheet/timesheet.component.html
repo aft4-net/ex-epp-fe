@@ -5,16 +5,17 @@
     [timeEntries]="timeEntries"
     [weekFirstDate]="firstday1"
     [weekLastDate]="lastday1"
-    [weeklyTotalHours]="weeklyTotalHours">
+    [weeklyTotalHours]="weeklyTotalHours"
+    [isSubmitted]="isSubmitted">
   </app-timesheet-header>
   <nz-divider class="hidden sm:flex"></nz-divider>
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'" class="sm:flex  sm:ml-8"
     (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
     (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
 
-  <div class="lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
+  
+  <div class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
     <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
-
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' " [date]="myD"
         [timesheet]="timesheet" [timesheetApprovals]="timesheetApprovals"
         (dateColumnClicked)="onDateColumnClicked($event, myD)"
