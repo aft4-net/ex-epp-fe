@@ -108,8 +108,8 @@ export class TimesheetValidationService {
   }
 
   private isFutureDate(timeEntry: TimeEntry) {
-
-    if (timeEntry.Date.valueOf() > this.date.valueOf()) {
+    const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    if (timeEntry.Date.valueOf() > date.valueOf()) {
       return true;
     }
 
@@ -126,6 +126,8 @@ export class TimesheetValidationService {
   }
 
   private isTimeEntriesHourMoreThan24(timeEntry: TimeEntry, timeEntries: TimeEntry[], fromDate: Date, toDate: Date) {
+    fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+    toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
     let totalHour = timeEntries
       .filter(te => te.Guid != timeEntry?.Guid && te.Date >= fromDate && te.Date <= toDate)
       .map(te => te.Hour)
@@ -154,7 +156,8 @@ export class TimesheetValidationService {
   }
 
   private isDateNotWithInTheWeek(timeEntry: TimeEntry, fromDate: Date, toDate: Date) {
-
+    fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+    toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
     if (timeEntry.Date < fromDate || timeEntry.Date > toDate) {
       return true;
     }
