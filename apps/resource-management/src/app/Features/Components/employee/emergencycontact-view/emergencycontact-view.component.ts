@@ -45,6 +45,13 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   add(): void {
+    if(!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid) {
+      this.form.errorMessageforEmergencyContactDetails(
+        this.form.emergencyContact,
+        this.form.emergencyAddress
+      )
+      return
+    }
     this.isConfirmLoading = true;
     setTimeout(() => {
       this.isVisible = false;

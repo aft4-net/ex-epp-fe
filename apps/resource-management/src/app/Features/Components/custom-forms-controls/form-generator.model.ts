@@ -250,8 +250,11 @@ export class FormGenerator extends FormGeneratorAssistant {
 
 
     private _createEmployeeIdNumberFormGroup() {
+        const segments = this._extractEmployeeIdNumber()
+        console.log('Id Number')
+        console.log(segments)
         return this._formBuilder.group({
-            prefix: ['EDC/DT'],
+            prefix: [segments.prefix],
             idNumber: [null, [validateEmployeeIdNumber]],
         })
     }

@@ -37,7 +37,7 @@ export class FormGeneratorAssistant {
 
     protected _extractEmployeeIdNumber(employeeIdNumber?: string | null): ExtractedData {
         const result = {
-            prefix: 'EDC/DT',
+            prefix: this._employeeIdNumberPrefices[0],
             value: null,
             suffix: null
         } as ExtractedData
@@ -52,7 +52,7 @@ export class FormGeneratorAssistant {
                 }
             }
             result.prefix = index === -1 ?
-                'EDC/DT'
+            this._employeeIdNumberPrefices[0]
                 : this._employeeIdNumberPrefices[index];
             result.value = employeeIdNumber.substring(noofMatches);
         }
