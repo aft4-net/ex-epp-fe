@@ -22,7 +22,7 @@ export class FamilyDetailViewComponent implements OnInit {
   indeterminate = false;
   listOfFamilies: FamilyDetail[] = [];
 
-  editId: number | null = null;
+  editId: string | null = null;
 
   constructor(
     private modalService: NzModalService,
@@ -53,16 +53,21 @@ export class FamilyDetailViewComponent implements OnInit {
     }, 3000);
   }
 
-  startEdit(id: number): void {
+  startEdit(id: string): void {
     this.editId = id;
-    this.isVisible = true;
+    const familyDetail=this.employeeService.employeeById?.FamilyDetails?.filter(a=>a.Guid===id)
+     if(familyDetail)
+     {
+      this.form.generateFamilyDetailForm(familyDetail[0]);
+      this.isVisible=true;
+    }
   }
 
   stopEdit(): void {
     this.editId = null;
   }
 
-  showConfirm(guid: number): void {
+  showConfirm(guid: string): void {
     // this.listOfFamilies = this.listOfFamilies.filter((d) => d.FullName !== guid);
     // this.modalService.confirm({
     //   nzTitle: 'Confirm',

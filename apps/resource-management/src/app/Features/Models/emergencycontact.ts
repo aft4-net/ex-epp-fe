@@ -4,8 +4,7 @@ import { Relationship } from "./FamilyDetail/RelationshipModel";
 export interface EmergencyContacts {
   guid: string
   FirstName: string
-  MiddleName: string
-  LastName: string
+  FatherName: string
   Relationship: string
   PhoneNumber?: string
   phoneNumber2?: string

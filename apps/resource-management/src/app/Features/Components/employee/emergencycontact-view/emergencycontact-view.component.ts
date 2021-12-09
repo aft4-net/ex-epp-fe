@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 import { Data } from '@angular/router';
 import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
@@ -52,6 +50,13 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   add(): void {
+    if(!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid) {
+      this.form.errorMessageforEmergencyContactDetails(
+        this.form.emergencyContact,
+        this.form.emergencyAddress
+      )
+      return
+    }
     this.isConfirmLoading = true;
     setTimeout(() => {
       this.isVisible = false;
@@ -76,6 +81,13 @@ export class EmergencycontactViewComponent implements OnInit {
 
   startEdit(id: string): void {
     this.editId = id;
+    this.editId = id;
+    const emergencyContact=this._employeeService.employeeById?.EmergencyContact?.filter(a=>a.guid===id)
+     if(emergencyContact)
+     {
+      this.form.generateEmergencyContactForm(emergencyContact[0]);
+      this.isVisible=true;
+    }
   }
 
   exitModal() {

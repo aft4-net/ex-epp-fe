@@ -113,7 +113,7 @@ extends BasicSeedStateService<DutyStation, EmployeeStaticStateModel, CountryServ
 
     public readonly dutyStations$ = this._select<SelectOptionModel[]>(generateDutyStations)
 
-    public readonly defaultEmployeeIdNumberPrefix = 'EDC/DT'
+    public readonly defaultEmployeeIdNumberPrefix = generatePrefices()[0].value
     public readonly defaultEmployementStatus = dummyEmployementStatuses[0]
 
     set Country(value: string) {
