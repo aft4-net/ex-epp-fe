@@ -9,7 +9,6 @@ import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
-import { FamilyDetails } from "../../Models/FamilyDetails";
 import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
@@ -60,6 +59,10 @@ export class FormGenerator extends FormGeneratorAssistant {
     public emergencyContact: FormGroup
     public emergencyAddress: FormGroup
     public familyDetail: FormGroup
+
+    public allAddresses: Address[] = []
+    public allFamilyDetails: FamilyDetail[] = []
+    public allEmergencyContacts: EmergencyContacts[] = []
 
     public readonly address: Address[] = []
 
@@ -143,14 +146,13 @@ export class FormGenerator extends FormGeneratorAssistant {
             Relationship: {Name: value.relationship } as Relationship,
             Gender: value.gender,
             DoB: value.dateofBirth
-        }] as Partial<FamilyDetails>
+        }] as Partial<FamilyDetail>
 
     }
     getModelEmergencyContactDetails() {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
         return [{
-
             FirstName: value.fullName.firstName,
             FatherName:value.fullName.middleName ,
             Relationship:value.relationship ,

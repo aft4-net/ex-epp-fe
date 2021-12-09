@@ -55,7 +55,7 @@ export class PageTitleComponent implements OnInit {
     } else {
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
-      employee.FamilyDetails =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
+      employee.FamilyDetails =   this._formGenerator.getModelFamilyDetails() as FamilyDetail[]
       employee.PersonalAddress = this._formGenerator.getModelAddressDetails() as Address[]
       employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails() as EmergencyContacts[]
 
