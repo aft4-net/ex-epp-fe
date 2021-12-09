@@ -76,6 +76,13 @@ export class EmergencycontactViewComponent implements OnInit {
 
   startEdit(id: string): void {
     this.editId = id;
+    this.editId = id;
+    const emergencyContact=this._employeeService.employeeById?.EmergencyContact?.filter(a=>a.guid===id)
+     if(emergencyContact)
+     {
+      this.form.generateEmergencyContactForm(emergencyContact[0]);
+      this.isVisible=true;
+    }
   }
 
   exitModal() {

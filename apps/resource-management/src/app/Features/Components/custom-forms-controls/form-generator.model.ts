@@ -514,17 +514,17 @@ export class FormGenerator extends FormGeneratorAssistant {
         )
     }
 
-    private _setEmergencyContactDetail(emergencyContact: EmergencyContact) {
-        if(emergencyContact.firstName && emergencyContact.fatherName) {
+    private _setEmergencyContactDetail(emergencyContact: EmergencyContacts) {
+        if(emergencyContact.FirstName && emergencyContact.MiddleName) {
             this._setNames(
-                emergencyContact.firstName,
-                emergencyContact.fatherName,
+                emergencyContact.FirstName,
+                emergencyContact.MiddleName,
                 'X',
                 this.getFormGroup('fullName', this.emergencyContact)
             )
         }
         this._setControlValue(
-            emergencyContact.relationship,
+            emergencyContact.Relationship,
             this.getFormControl('relationship', this.emergencyContact)
         )
         this._setEmailArray(
@@ -540,31 +540,31 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormArray('phoneNumbers', this.emergencyContact)
         )
         this._setControlValue(
-            emergencyContact.address[0].Country,
+            emergencyContact.Country,
             this.getFormControl('country', this.emergencyAddress)
         )
         this._setControlValue(
-            emergencyContact.address[0].StateRegionProvice,
+            emergencyContact.stateRegionProvice,
             this.getFormControl('state', this.emergencyAddress)
         )
         this._setControlValue(
-            emergencyContact.address[0].City,
+            emergencyContact.city,
             this.getFormControl('city', this.emergencyAddress)
         )
         this._setControlValue(
-            emergencyContact.address[0].SubCityZone,
+            emergencyContact.subCityZone,
             this.getFormControl('subCityZone', this.emergencyAddress)
         )
         this._setControlValue(
-            emergencyContact.address[0].Woreda,
+            emergencyContact.woreda,
             this.getFormControl('woreda', this.emergencyAddress)
         )
         this._setControlValue(
-            emergencyContact.address[0].HouseNumber,
+            emergencyContact.houseNumber,
             this.getFormControl('houseNumber', this.emergencyAddress)
         )
         this._setControlValue(
-            emergencyContact.address[0].PostalCode,
+            emergencyContact.postalCode,
             this.getFormControl('postalCode', this.emergencyAddress)
         )
     }
@@ -618,7 +618,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         }
     }
 
-    generateEmergencyContactForm(emergencyContact?: EmergencyContact) {
+    generateEmergencyContactForm(emergencyContact?: EmergencyContacts) {
         this.emergencyContact = this._createEmergencyContactDetailsForm()
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         if(emergencyContact) {
