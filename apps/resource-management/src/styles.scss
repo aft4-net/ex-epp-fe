@@ -228,4 +228,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       width: 25em;
     }
   }
+  .ant-btn-primary {
+    background-color: #52c41a;
+  }
 
+  .ant-btn-link {
+    color: #52c41a;
+  }
+
+  .anticon-filter   {
+    color: #52c41a;
+  }
+
+   
+  .anticon.active {
+    color: #52c41a;
+  }
+
+  ::ng-deep.ant-checkbox-inner {
+    background-color: #52c41a !important;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #52c41a;
+    border-color: #52c41a;
+  }
