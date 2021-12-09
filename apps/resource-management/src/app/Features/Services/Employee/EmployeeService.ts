@@ -18,6 +18,7 @@ import { Pagination } from "../../Models/Pagination";
 })
 export class EmployeeService {
 
+  public isdefault = true;
 
   baseUrl = 'http://localhost:14696/api/v1/Employee';
   constructor(private http: HttpClient) { }
@@ -32,7 +33,14 @@ export class EmployeeService {
    paginatedEmployeeList$  : Observable<PaginationResult<IEmployeeViewModel[]>> = this.paginatedEmployeeListSource.asObservable();
 
    employee!:Employee;
+   employeeById?:Employee;
+   isEdit!:boolean;
+   save="Save";
+   setEmployeeDataForEdit(employee: Employee) {
+    this.employeeById=employee;
 
+
+  }
   addEmployee(employee: Employee) {
     this.setEmployee(employee);
   }
@@ -44,6 +52,17 @@ export class EmployeeService {
      },error => {
        console.log(error);
      });
+     if(this.isEdit)
+     {
+      return this.http.put(this.baseUrl,employee)
+      .subscribe((response:ResponseDto<Employee> | any) => {
+        this.employeeSource.next(response.data),
+        console.log(response.message);
+      },error => {
+        console.log(error);
+      });
+
+     }
     }
   setEmployeeData(employee: Partial<Employee>) {
 
@@ -88,13 +107,26 @@ export class EmployeeService {
      },error => {
        console.log(error);
      });
+     if(this.isEdit)
+     {
+      this.employee$.subscribe(x=>{
+        this.employee = x;
+      });
+     return this.http.put(this.baseUrl,this.employee)
+    .subscribe((response:ResponseDto<Employee> | any) => {
+      this.employeeSource.next(response.data),
+      console.log(response.message);
+    },error => {
+      console.log(error);
+    });
+
+     }
     }
 
     updateEmployee(){
       this.employee$.subscribe(x=>{
         this.employee = x;
       });
-     console.log("From The new Save Method "+ this.employee);
      return this.http.put(this.baseUrl,this.employee)
     .subscribe((response:ResponseDto<Employee> | any) => {
       this.employeeSource.next(response.data),
@@ -146,9 +178,10 @@ export class EmployeeService {
 
     getEmployeeData(employeeId:string) : Observable<Employee>{
 
-      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID/'+ employeeId).pipe(
-          map(result => result.Data)
-          )
+      return this.http.get<ResponseDTO<Employee>>(this.baseUrl + '/GetEmployeeWithID?employeeId=' + employeeId
+     ).pipe(
+        map(result =>  result.Data)
+      )
     }
 
 

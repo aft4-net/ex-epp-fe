@@ -1,12 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
-import { PersonalDetailDataStateService } from "../../../../state-services/personal-detail-data.state-service";
+import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
-import { relationships } from "../emergency-contact-detail-group/emergency-contact-detail-group.component";
 
 @Component({
     selector: 'exec-epp-family-detail-group',
@@ -17,7 +14,7 @@ export class FamilyDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
 
-    relationships$: Observable<SelectOptionModel[]> = of(relationships)
+    relationships$: Observable<SelectOptionModel[]>
     genders$:  Observable<SelectOptionModel[]>
 
     isChild = true
@@ -26,9 +23,10 @@ export class FamilyDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: PersonalDetailDataStateService
+        private readonly _employeeStaticDataervice: EmployeeStaticDataMockService
     ) {
-        this.genders$=this._addressDetailStateService.genders$
+        this.genders$=this._employeeStaticDataervice.genders$
+        this.relationships$=this._employeeStaticDataervice.relationships$
         this.formGroup
             = this._formGenerator.familyDetail
 

@@ -35,9 +35,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
+        <tr *ngFor="let data of rowSelectionTable.data;let i =index">
           <td>{{ data.FullName }}</td>
-          <td>{{ data.RelationshipId }}</td>
+          <td>{{ data.Relationship?.Name }}</td>
 
           <td>
             <div nz-row>
@@ -45,8 +45,8 @@
                 nz-col
                 nzSpan="2"
                 class="editable-cell"
-                [hidden]="editId === data.Guid"
-                (click)="startEdit(data.Guid)"
+                [hidden]="editId === i"
+                (click)="startEdit(i)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
@@ -55,7 +55,7 @@
                 <a
                   nz-popconfirm
                   nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="showConfirm(data.Guid)"
+                  (nzOnConfirm)="showConfirm(i)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>

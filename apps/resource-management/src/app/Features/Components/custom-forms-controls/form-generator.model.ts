@@ -1,25 +1,19 @@
-import { Directive, Injectable } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Injectable } from "@angular/core";
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { Address, Addresss } from "../../Models/address.model";
-import { EmployeeDetail } from "../../Models/core-models/employee-detail.model";
-import { PersonalDetail } from "../../Models/core-models/personal-detailsmodel";
-import { EmergencyContact } from "../../Models/emergencycontact";
+import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
-import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
+import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
+import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { commonErrorMessage, resetError, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
-import { PersonalDetailDataStateService } from "../../state-services/personal-detail-data.state-service";
+import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 
-type ExtractedData = {
-    prefix: any,
-    value: any,
-    suffix: any
-}
 
 export type FormNaming = {
     name: string
@@ -53,11 +47,10 @@ export const formGroups = {
 @Injectable({
     providedIn: 'root'
 })
-export class FormGenerator {
+export class FormGenerator extends FormGeneratorAssistant {
 
     private _defaultEmployeeIdNumberPrefix: any
     private _defaultPhonePrefix: any
-    private readonly _phonePrefices: string[] = []
 
     public readonly countriesData$: Observable<string[]> = of(['+1', '+251'])
 
@@ -73,25 +66,20 @@ export class FormGenerator {
 
     constructor(
         private readonly _formBuilder: FormBuilder,
-        private readonly _personalDetailStateService: PersonalDetailDataStateService
+        employeeStaticDataMockService: EmployeeStaticDataMockService,
+        addressCountryStateService: CountriesMockService
     ) {
-
-        this._personalDetailStateService.defaultEmployeeIdNumberPrefix$
-            .subscribe((response: SelectOptionModel) => {
-                this._defaultEmployeeIdNumberPrefix = response.value
-            })
-        this._personalDetailStateService.defaulPhonePrefix$
-            .subscribe((response: SelectOptionModel) => {
-                this._defaultPhonePrefix = response.value
-            })
-
+        super(
+            employeeStaticDataMockService,
+            addressCountryStateService
+        )
         this.personalDetailsForm = this._createPersonalDetailsForm()
         this.organizationalForm = this._createOrganizationalnalDetailsForm()
         this.addressForm = this._createAddressDetailsForm()
         this.emergencyContact = this._createEmergencyContactDetailsForm()
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         this.familyDetail = this._createFamilyDetailsForm()
-       
+
     }
 
     getModelPersonalDetails() {
@@ -121,7 +109,7 @@ export class FormGenerator {
     getModelOrganizationDetails() {
         const value = this.organizationalForm.value
         return {
-            DutyStation: value.country,
+            Country: value.country,
             DutyBranch: value.dutyStation,
             CompaynEmail:  value.companyEmail[0],
             PhoneNumber: value.phoneNumber[0].prefix + value.phoneNumber[0].phone,
@@ -162,11 +150,16 @@ export class FormGenerator {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
         return {
-            FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
-            Relationship: {Name: value.relationship } as Relationship,
+
+            FirstName: value.fullName.firstName,
+            MiddleName:value.fullName.middleName ,
+            LastName:value.fullName.lastName,
+            Relationship:value.relationship ,
             Gender: value.gender,
-            DoB: value.dateofBirth
-        } as Partial<FamilyDetails>
+            DoB: value.dateofBirth,
+            PhoneNumber:value.phoneNumber,
+            Country:value.country
+        } as Partial<EmergencyContacts>
 
     }
 
@@ -259,7 +252,7 @@ export class FormGenerator {
 
     private _createEmployeeIdNumberFormGroup() {
         return this._formBuilder.group({
-            prefix: [this._defaultEmployeeIdNumberPrefix],
+            prefix: ['EDC/DT'],
             idNumber: [null, [validateEmployeeIdNumber]],
         })
     }
@@ -280,9 +273,10 @@ export class FormGenerator {
     }
 
     createPhoneNumberFormGroup() {
+        const segments = this._extractPhoneNumber()
         return this._formBuilder.group({
-            prefix: [this._defaultPhonePrefix],
-            phone: [null, [validatePhoneNumber]],
+            prefix: [segments.prefix],
+            phone: [segments.value, [validatePhoneNumber]],
         })
     }
 
@@ -339,7 +333,7 @@ export class FormGenerator {
             this._setControlValue(segemets.value, this.getFormControl('phone', formGroup))
         }
     }
-    
+
     private _setEmailArray(emails: string[] | null, formArray: FormArray) {
         if(emails !== null && emails.length > 0) {
             for (let i = 0; i < emails.length; i++) {
@@ -375,8 +369,8 @@ export class FormGenerator {
                 this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
             )
         }
-        
-        if(employee.FirstName && employee.FatherName && employee.GrandFatherName) {
+
+        if(employee.FirstName && employee.FatherName) {
             this._setNames(
                 employee.FirstName,
                 employee.FatherName,
@@ -396,7 +390,7 @@ export class FormGenerator {
             this._setControlValue(
                 employee.DateofBirth,
                 this.getFormControl('dateofBirth', this.personalDetailsForm)
-            )        
+            )
         }
 
         this._setEmailArray(
@@ -418,7 +412,7 @@ export class FormGenerator {
             ],
             this.getFormArray('phoneNumbers', this.personalDetailsForm)
         )
-        
+
         this._setControlValue(
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
@@ -455,7 +449,7 @@ export class FormGenerator {
             organizationalDetail.BusinessUnit,
             this.getFormControl('businessUnit', this.organizationalForm)
         )
-        
+
         this._setControlValue(
             organizationalDetail.Department,
             this.getFormControl('department', this.organizationalForm)
@@ -476,7 +470,7 @@ export class FormGenerator {
             organizationalDetail.TerminationDate,
             this.getFormControl('terminationDate', this.organizationalForm)
         )
-        
+
         this._setControlValue(
             organizationalDetail.Status,
             this.getFormControl('status', this.organizationalForm)
@@ -535,7 +529,7 @@ export class FormGenerator {
         )
         this._setEmailArray(
             [
-                
+
             ],
             this.getFormArray('emailAddresses', this.emergencyContact)
         )
@@ -575,7 +569,7 @@ export class FormGenerator {
         )
     }
 
-    private _setFamilyDetail(familyDetail: FamilyDetails) {
+    private _setFamilyDetail(familyDetail: FamilyDetail) {
         const names = familyDetail.FullName.split(' ')
         this._setNames(
             names[0],
@@ -592,7 +586,7 @@ export class FormGenerator {
             this.getFormControl('gender', this.familyDetail)
         )
         this._setControlValue(
-            familyDetail.DoB,
+            familyDetail.DateofBirth,
             this.getFormControl('dateofBirth', this.familyDetail)
         )
     }
@@ -606,11 +600,13 @@ export class FormGenerator {
     }
 
     generateForms(employee?: Employee) {
+
         this._regenerateForm()
         if(employee) {
+
             this._setPresonalDetail(employee)
-            if(employee.Organization) {
-                this._setOrganizationalDetail(employee.Organization)
+            if(employee.EmployeeOrganization) {
+                this._setOrganizationalDetail(employee.EmployeeOrganization)
             }
         }
     }
@@ -630,13 +626,13 @@ export class FormGenerator {
         }
     }
 
-    generateFamilyDetailForm(familyDetail?: FamilyDetails) {
+    generateFamilyDetailForm(familyDetail?: FamilyDetail) {
         this.familyDetail = this._createFamilyDetailsForm()
         if(familyDetail) {
             this._setFamilyDetail(familyDetail)
         }
     }
-    
+
     triggerControlValidation(control: AbstractControl, required: boolean) {
         resetError(required)
         const value = control.value
@@ -647,64 +643,6 @@ export class FormGenerator {
 
     triggerValidation(control: FormControl | FormArray | FormGroup) {
 
-    }
-
-    private _extractEmployeeIdNumber(employeeIdNumber?: string): ExtractedData {
-        const result = {
-            prefix: this._defaultEmployeeIdNumberPrefix,
-            value: null,
-            suffix: null
-        } as ExtractedData
-        if (employeeIdNumber) {
-            this._personalDetailStateService.employeeIdNumberPrefices$
-                .subscribe((options: SelectOptionModel[]) => {
-                    let index = -1
-                    let noofMatches = 0
-                    for (let i = 0; i < options.length; i++) {
-                        if (employeeIdNumber.indexOf(options[i].label) === 0
-                            && options[i].label.length > noofMatches) {
-                            index = i
-                            noofMatches = options[i].label.length
-                        }
-                    }
-                    if (index === -1) {
-                        window.alert('Incoming employee id number is corrupted!')
-                    } else {
-                        result.prefix = options[index].value,
-                            result.value = employeeIdNumber.substring(noofMatches)
-                    }
-                })
-        }
-        return result
-    }
-
-    private _extractPhoneNumber(phoneNumber?: string): ExtractedData {
-        const result = {
-            prefix: this._defaultPhonePrefix,
-            value: null,
-            suffix: null
-        } as ExtractedData
-        if (phoneNumber) {
-            this._personalDetailStateService.phonePrefices$
-                .subscribe((options: SelectOptionModel[]) => {
-                    let index = -1
-                    let noofMatches = 0
-                    for (let i = 0; i < options.length; i++) {
-                        if (phoneNumber.indexOf(options[i].label) === 0
-                            && options[i].label.length > noofMatches) {
-                            index = i
-                            noofMatches = options[i].label.length
-                        }
-                    }
-                    if (index === -1) {
-                        window.alert('Incoming phone number is corrupted!')
-                    } else {
-                        result.prefix = options[index].value,
-                            result.value = phoneNumber.substring(noofMatches)
-                    }
-                })
-        }
-        return result
     }
 
 }

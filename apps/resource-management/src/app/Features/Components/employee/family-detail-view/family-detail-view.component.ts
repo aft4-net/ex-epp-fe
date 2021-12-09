@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Data } from '@angular/router';
-import { FamilyDetailComponent } from '../family-detail/family-detail.component';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
+import { FamilyDetailComponent } from '../family-detail/family-detail.component';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { FamilyDetails } from '../../../Models/FamilyDetails';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -18,11 +20,21 @@ export class FamilyDetailViewComponent implements OnInit {
   checked = false;
   loading = false;
   indeterminate = false;
-  listOfFamilies: readonly FamilyDetail[] = [];
-  
-  editId: string | null = null;
+  listOfFamilies: FamilyDetail[] = [];
 
-  constructor(private modalService: NzModalService, public form: FormGenerator) {}
+  editId: number | null = null;
+
+  constructor(
+    private modalService: NzModalService,
+    public form: FormGenerator,
+    private employeeService:EmployeeService
+  ) {
+    this.form.addressForm;
+    if(employeeService.employeeById){
+
+      this.listOfFamilies=employeeService.employeeById.FamilyDetails?
+      employeeService.employeeById.FamilyDetails:[];
+  }  }
 
   addfamilies(): void {
     this.isVisible = true;
@@ -41,11 +53,7 @@ export class FamilyDetailViewComponent implements OnInit {
     }, 3000);
   }
 
-  
- 
-
- 
-  startEdit(id: string): void {
+  startEdit(id: number): void {
     this.editId = id;
     this.isVisible = true;
   }
@@ -54,40 +62,33 @@ export class FamilyDetailViewComponent implements OnInit {
     this.editId = null;
   }
 
-  
-
-
-  showConfirm(guid: string): void {
-    this.listOfFamilies = this.listOfFamilies.filter((d) => d.Guid !== guid);
-    this.modalService.confirm({
-      nzTitle: 'Confirm',
-      nzContent: 'Are you sure you want to delete?',
-      nzOkText: 'OK',
-      nzCancelText: 'Cancel',
-    });
+  showConfirm(guid: number): void {
+    // this.listOfFamilies = this.listOfFamilies.filter((d) => d.FullName !== guid);
+    // this.modalService.confirm({
+    //   nzTitle: 'Confirm',
+    //   nzContent: 'Are you sure you want to delete?',
+    //   nzOkText: 'OK',
+    //   nzCancelText: 'Cancel',
+    // });
   }
 
   exitModal() {
     this.isVisible = false;
   }
 
-
   resetForm(): void {
     this.form.familyDetail.reset();
   }
 
   add(): void {
-    this.isConfirmLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isConfirmLoading = false;
-    }, 6000);
+    const families = this.form.getModelFamilyDetails() as FamilyDetail;
+    this.listOfFamilies = [...this.listOfFamilies, families];
+    console.log('list:', this.listOfFamilies);
+   this.isVisible=false;
   }
-
-
 
   ngOnInit(): void {
-   
-  }
 
+    this.listOfFamilies;
+  }
 }

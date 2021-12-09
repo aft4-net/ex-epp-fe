@@ -90,8 +90,8 @@ export function validateName(
             parameters: modifyParameters(
                 parameters,
                 {
-                    min: minNumberofCharactersinName,
-                    max: maxNumberofCharactersinName
+                    min: 2,
+                    max: 25
                 })
         }
     )
@@ -184,6 +184,19 @@ export function validateNationality(
 ) {
     resetError(true)
     const parameters = [control, commonErrorMessage, null, 'Phone Number']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        }
+    )
+}
+
+export function validateCity(
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'City']
     return checkMultiple(
         {
             method: checkrequired,

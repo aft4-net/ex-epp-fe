@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 import { Router } from '@angular/router';
+import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
+import { Employee } from '../../Features/Models/Employee';
 
 @Component({
   selector: 'exec-epp-page-breadcrumb',
@@ -9,13 +11,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./page-breadcrumb.component.scss'],
 })
 export class PageBreadcrumbComponent implements OnInit {
-  isdefault = true;
+  //isdefault = true;
+  emptyEmp!:Employee
+  isdefault = this._employeeService.isdefault;
 
   router: string;
 
   constructor(
     private _employeeService: EmployeeService,
-    private _router: Router
+    private _router: Router,
+    private _formGenerator: FormGenerator
   ) {
     this._router.events.subscribe((url: any) => console.log(url));
     this.router = _router.url;
@@ -29,7 +34,10 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   saveEmployee() {
-    this._employeeService.saveEmployee();
+
+    const employee = this._formGenerator.getModelPersonalDetails() as Employee
+    this._employeeService.setEmployeeData(employee)
+    this._employeeService.saveEmployee()
   }
 
   reloadCurrentRoute() {
@@ -41,7 +49,12 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   addEmployee() {
+
+    this._employeeService.isEdit=false;
+    this._employeeService.save="Save";
+    this._employeeService.employeeById=this.emptyEmp;
      this._router.navigate(['/employee/add-employee/personal-info']);
+     this._employeeService.isdefault =!this.isdefault;
      this.isdefault = !this.isdefault;
 
   }

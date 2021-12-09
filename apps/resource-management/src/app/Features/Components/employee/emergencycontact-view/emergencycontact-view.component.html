@@ -28,16 +28,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rowSelectionTable.data">
-          <!-- <Span *ngIf="rowSelectionTable.data.length>0; else button"> -->
-            <td>{{ data.firstName}}</td>
-            <td>{{ data.relationship }}</td>
-            <td>{{ data.phoneNumber }}</td>
-            <td>{{ data.country }}</td>
-
-
-
-
-
+            <td>{{ data.FirstName+ " " + data.FatherName+ " "+ data.  GrandFatherName
+            }}</td>
+            <td>{{ data.Relationship }}</td>
+            <td>{{ data.PhoneNumber }}</td>
+            <td>{{data.Country}}</td>
 
           <td>
             <div nz-row>
@@ -72,9 +67,9 @@
           <div nz-col nzSpan="20">
             <h2>Enter Details</h2>
           </div>
-          <div nz-col nzSpan="4" style="justify-content: center">
+         <!-- <div nz-col nzSpan="4" style="justify-content: center">
             <button nz-button class="saveButton" (click)="add()">Next</button>
-          </div>
+          </div>-->
         </div>
 
         <div nz-col nzSpan="24">
@@ -117,10 +112,10 @@
         </div>
       </div>
       <br />
-     <!-- <button nz-button class="addeButton" (click)="add()">Add</button> &nbsp;-->
-     <!-- <button nz-button class="cancelButton" (click)="resetForm()">
+     <button nz-button class="addeButton" (click)="add()">Add</button> &nbsp;
+    <button nz-button class="cancelButton" (click)="resetForm()">
         Clear
-      </button>-->
+      </button>
     </div>
   </ng-container>
 </nz-modal>
