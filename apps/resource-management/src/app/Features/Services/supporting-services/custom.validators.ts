@@ -169,12 +169,12 @@ export function validatePhoneNumber(
             parameters: parameters
         },
         {
-            method: checkLength,
-            parameters: modifyParameters(parameters, {min: 9, max: 15})
-        },
-        {
             method: checkPhoneNumber,
             parameters: parameters
+        },
+        {
+            method: checkLength,
+            parameters: modifyParameters(parameters, {min: 9, max: 15})
         }
     )
 }
@@ -428,8 +428,8 @@ function checkPhoneNumber(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/[0-9\+\-\ ]/).test(control.value)) {
-        errorLog.message = 'Input is in an invalid format!'
+    if (!(/[0-9-+()]+$/).test(control.value)) {
+        errorLog.message = 'Input contains an invalid character(s)!'
         return { invalidCharacter: true }
     }
     return null
