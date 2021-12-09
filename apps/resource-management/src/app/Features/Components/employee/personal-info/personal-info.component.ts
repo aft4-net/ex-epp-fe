@@ -73,7 +73,7 @@ export class PersonalInfoComponent implements OnInit {
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
-     this._form.generateForms(this.employeeService.employeeById);
+    //  this._form.generateForms(this.employeeService.employeeById);
      console.log('personla info details')
      console.log(     this.employeeService.employeeById
       )

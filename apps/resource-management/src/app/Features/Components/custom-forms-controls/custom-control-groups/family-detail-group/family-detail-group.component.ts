@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
@@ -25,6 +26,21 @@ export class FamilyDetailGroupComponent implements OnInit {
     ) {
         this.genders$=this._employeeStaticDataervice.genders$
         this.relationships$=this._employeeStaticDataervice.relationships$
+        .pipe(
+            map(response=> {
+                return response.filter(option => {
+                    if(option.value as string === 'Child' || option.value as string === 'Other') {
+                        return true
+                    }
+                    for (let i = 0; i < this._formGenerator.allFamilyDetails.length; i++) {
+                        if(option.value as string === this._formGenerator.allFamilyDetails[i].Relationship?.Name) {
+                            return false
+                        }
+                    }
+                    return true
+                })
+            })
+        )
         this.formGroup
             = this._formGenerator.familyDetail
 
