@@ -3,10 +3,53 @@
     <div nz-col nzSpan="4">
         <exec-epp-side-bar> </exec-epp-side-bar>
     </div>
+<<<<<<< HEAD
     <div nz-col nzSpan="20" class="inner-content">
         <div nz-row>
             <div nz-col nzSpan="20" class="page-title">
                 <h1>Family Details</h1>
+=======
+
+    <nz-table
+      class="table"
+      #rowSelectionTable
+      nzShowSizeChanger
+      [nzData]="listOfFamilies"
+
+    >
+      <thead>
+        <tr class="tr">
+          <th>Full Name</th>
+          <th>Relationship with Employee</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data;let i =index">
+          <td>{{ data.FullName }}</td>
+          <td>{{ data.Relationship.Name }}</td>
+
+          <td>
+            <div nz-row>
+              <div
+                nz-col
+                nzSpan="2"
+                class="editable-cell"
+                [hidden]="editId === i"
+                (click)="startEdit(i)"
+              >
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </div>
+              &nbsp; &nbsp;
+              <div nz-col nzSpan="2">
+                <a
+                  nz-popconfirm
+                  nzPopconfirmTitle="Sure to delete?"
+                  (nzOnConfirm)="showConfirm(i)"
+                  ><i nz-icon nzType="delete" nzTheme="outline"></i
+                ></a>
+              </div>
+>>>>>>> resource-management
             </div>
             <div nz-col nzSpan="4" *ngIf="rowSelectionTable.data.length >0">
                 <button class="addButton" nz-button nzType="primary" (click)="addfamilies()">

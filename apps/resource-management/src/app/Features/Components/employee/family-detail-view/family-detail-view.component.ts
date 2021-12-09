@@ -5,7 +5,11 @@ import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FamilyDetails } from '../../../Models/FamilyDetails';
 import { NzModalService } from 'ng-zorro-antd/modal';
+<<<<<<< HEAD
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+=======
+import { FamilyDetails } from '../../../Models/FamilyDetails';
+>>>>>>> resource-management
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -19,11 +23,17 @@ export class FamilyDetailViewComponent {
   checked = false;
   loading = false;
   indeterminate = false;
+<<<<<<< HEAD
   listOfFamilies: readonly FamilyDetail[] = [];
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<number>();
   familyDetail!:FamilyDetails;
   editId: string | null = null;
+=======
+  listOfFamilies: FamilyDetails[] = [];
+
+  editId: number | null = null;
+>>>>>>> resource-management
 
   constructor(
     private modalService: NzModalService,
@@ -71,11 +81,15 @@ export class FamilyDetailViewComponent {
     }, 3000);
   }
 
+<<<<<<< HEAD
 
 
 
 
   startEdit(id: string): void {
+=======
+  startEdit(id: number): void {
+>>>>>>> resource-management
     this.editId = id;
     this.isVisible = true;
 
@@ -86,6 +100,7 @@ export class FamilyDetailViewComponent {
   stopEdit(): void {
   }
 
+<<<<<<< HEAD
 
 
 
@@ -97,6 +112,16 @@ export class FamilyDetailViewComponent {
       nzOkText: 'OK',
       nzCancelText: 'Cancel',
     });
+=======
+  showConfirm(guid: number): void {
+    // this.listOfFamilies = this.listOfFamilies.filter((d) => d.FullName !== guid);
+    // this.modalService.confirm({
+    //   nzTitle: 'Confirm',
+    //   nzContent: 'Are you sure you want to delete?',
+    //   nzOkText: 'OK',
+    //   nzCancelText: 'Cancel',
+    // });
+>>>>>>> resource-management
   }
 
   exitModal() {
@@ -108,15 +133,10 @@ export class FamilyDetailViewComponent {
   }
 
   add(): void {
-    const families = this.form.familyDetail.value;
+    const families = this.form.getModelFamilyDetails() as FamilyDetails;
     this.listOfFamilies = [...this.listOfFamilies, families];
     console.log('list:', this.listOfFamilies);
-
-    // this.isConfirmLoading = true;
-    // setTimeout(() => {
-    //   this.isVisible = false;
-    //   this.isConfirmLoading = false;
-    // }, 6000);
+   this.isVisible=false;
   }
 
 

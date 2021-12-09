@@ -57,6 +57,14 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isVisible = false;
       this.isConfirmLoading = false;
     }, 3000);
+    //if (this.form.addressForm.valid) {
+      // this.isVisible = false
+      const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts;
+      this.listOfData = [...this.listOfData, emergencyContact];
+      console.log("listOfData")
+      console.log(this.listOfData)
+      this.isVisible=false
+   // }
   }
   onCurrentPageDataChange(event:any){
 ;

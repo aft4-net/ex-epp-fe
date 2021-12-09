@@ -11,8 +11,13 @@ import { Employee } from '../../Features/Models/Employee';
   styleUrls: ['./page-breadcrumb.component.scss'],
 })
 export class PageBreadcrumbComponent implements OnInit {
+<<<<<<< HEAD
   isdefault = true;
   emptyEmp!:Employee
+=======
+  isdefault = this._employeeService.isdefault;
+
+>>>>>>> resource-management
   router: string;
 
   constructor(
@@ -52,6 +57,7 @@ export class PageBreadcrumbComponent implements OnInit {
     this._employeeService.save="Save";
     this._employeeService.employeeById=this.emptyEmp;
      this._router.navigate(['/employee/add-employee/personal-info']);
+     this._employeeService.isdefault =!this.isdefault;
      this.isdefault = !this.isdefault;
 
   }

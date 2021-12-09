@@ -62,6 +62,46 @@
       </div>
     </div>
 
+<<<<<<< HEAD
+=======
+    <nz-table class="table"  #rowSelectionTable nzShowSizeChanger [nzData]="listOfData">
+      <thead>
+        <tr class="tr">
+          <th>Full Name</th>
+          <th>Relationship with Employee</th>
+          <th>Contact Numbber</th>
+          <th>Location</th>
+          <th>Actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data">
+            <td>{{ data.FirstName+ " " + data.MiddleName+ " "+ data.LastName}}</td>
+            <td>{{ data.Relationship }}</td>
+            <td>{{ data.PhoneNumber }}</td>
+            <td>{{data.Country}}</td>
+
+          <td>
+            <div nz-row>
+              <div nz-col nzSpan="2" class="editable-cell" [hidden]="editId === data.guid"
+                (click)="startEdit(data.guid)">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </div>
+              &nbsp; &nbsp;
+              <div nz-col nzSpan="2">
+                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="showDeleteConfirm(data.guid)"><i
+                    nz-icon nzType="delete" nzTheme="outline"></i></a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+</div>
+>>>>>>> resource-management
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Emergency Contacts" [nzWidth]="'60%'" [nzFooter]="footer"
   (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
