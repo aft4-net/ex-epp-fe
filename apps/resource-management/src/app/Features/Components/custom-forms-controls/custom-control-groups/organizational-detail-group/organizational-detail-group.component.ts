@@ -24,6 +24,8 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     employementTypes$: Observable<SelectOptionModel[]>
     employementStatuses$: Observable<SelectOptionModel[]>
 
+    joinigStartDate = new Date(Date.now())
+    terminationStartDate = new Date(Date.now())
 
     constructor(
         private readonly _formGenerator: FormGenerator,
