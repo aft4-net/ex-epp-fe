@@ -57,7 +57,7 @@ export class AddressViewComponent implements OnInit {
     this.editId = id;
     const address=this.employeeService.employeeById?.EmployeeAddress?.filter(a=>a.Guid===id)
      if(address)
-     { 
+     {
       this._formGenerator.generateAddressForm(address[0]);
       this.isVisible=true;
     }
