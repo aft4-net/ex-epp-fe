@@ -428,7 +428,7 @@ function checkPhoneNumber(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/[0-9-+()]+$/).test(control.value)) {
+    if (!(/^((\\+91-?)|0)?[0-9]$/).test(control.value)) {
         errorLog.message = 'Input contains an invalid character(s)!'
         return { invalidCharacter: true }
     }
