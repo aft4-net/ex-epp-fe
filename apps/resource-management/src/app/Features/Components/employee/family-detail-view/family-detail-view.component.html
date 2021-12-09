@@ -71,7 +71,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  [nzWidth]="'40%'"
+  [nzWidth]="'30%'"
   nzTitle="Add Family Details"
   [nzFooter]="footer"
   (nzOnCancel)="exitModal()"
@@ -81,7 +81,7 @@
   <div class="overflow-scroll">
 <exec-epp-family-detail-group></exec-epp-family-detail-group>
 </div>
-<button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
+<button nz-button class="saveButton" (click)="add()" [disabled]="!form.familyDetail.valid">Add</button> &nbsp;
 <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
 
    </ng-container>

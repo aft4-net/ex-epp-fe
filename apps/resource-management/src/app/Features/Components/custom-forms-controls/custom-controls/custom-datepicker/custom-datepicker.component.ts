@@ -22,7 +22,7 @@ export class CustomDatepickerComponent implements OnInit {
     @Input() prefixControl: FormControl = new FormControl()
     @Input() myControl: FormControl = new FormControl()
     @Input() startingDate: Date = new Date(1900, 1, 1)
-    @Input() endingDate: Date = new Date(Date.now())
+    @Input() endingDate: Date = new Date(2100, 1, 1)
     @Input() required = true
 
     @Output() formResponse = new EventEmitter()

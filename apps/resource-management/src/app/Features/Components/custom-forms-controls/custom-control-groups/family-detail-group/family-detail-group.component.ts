@@ -17,7 +17,7 @@ export class FamilyDetailGroupComponent implements OnInit {
     relationships$: Observable<SelectOptionModel[]>
     genders$:  Observable<SelectOptionModel[]>
 
-    isChild = true
+    isChild = false
 
     constructor(
         private readonly _formGenerator: FormGenerator,

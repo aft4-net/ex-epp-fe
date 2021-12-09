@@ -112,7 +112,9 @@
         </div>
       </div>
       <br />
-     <button nz-button class="addeButton" (click)="add()">Add</button> &nbsp;
+     <button nz-button class="addeButton" (click)="add()"
+      [disabled]="!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid"
+      >Add</button> &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">
         Clear
       </button>
