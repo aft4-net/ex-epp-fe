@@ -16,7 +16,8 @@ import { SubcategoryService } from '../../../Services/device-detail/subcategory.
   styleUrls: ['./add-edit-device-detail.component.scss']
 })
 export class AddEditDeviceDetailComponent implements OnInit {
-
+  isWorking!: boolean;
+  warranty!: boolean;
   deviceDetailForm!: FormGroup;
   deviceDetail: DeviceDetail = {} as DeviceDetail;
   categories: Category[] = [];
@@ -51,19 +52,23 @@ export class AddEditDeviceDetailComponent implements OnInit {
       CompanyDeviceCode: [null, Validators.required],
       DeviceName: [null, Validators.required],
       BusinessUnit: [null, Validators.required],
+      IsWorking: [null, Validators.required],
+      AllocateTo: [null],
       DeviceClassificationGuid: [null, Validators.required],
       PurchaseDate: [null, Validators.required],
-      Purchaser: [null, Validators.required],
-      InvoiceNumber: [null, Validators.required],
+      Purchaser: [null],
+      InvoiceNumber: [null],
       Manufacturer: [null, Validators.required],
       SerialNumber: [null, Validators.required],
       Warranty: [null, Validators.required],
-      WarrantyEndDate: [null, Validators.required],
+      WarrantyEndDate: [null],
       Notes: [null, Validators.required]
     })
   }
 
   submitForm() {
+    console.log("submit form called");
+    console.log(this.deviceDetailForm.value);
     if (this.deviceDetailForm.valid) {
       this.deviceDetailService.addDeviceDetail(this.deviceDetailForm.value).subscribe((response)=>{
         console.log(response);
@@ -78,6 +83,33 @@ export class AddEditDeviceDetailComponent implements OnInit {
       });
       this.toastr.error("Error", "Form is not valid");
     }
+  }
+
+  onCategoryChange(event: any) {
+    console.log(event);
+  }
+
+  onIsWorkingModelChange(value: string) {
+    if(value === "Yes") {
+      this.isWorking = true;
+    } else {
+      this.isWorking = false;
+      this.deviceDetailForm.patchValue({AllocateTo: null});
+    }
+  }
+
+  onWarrantyModelChange(value: string) {
+    if (value === "Yes") {
+      this.warranty = true;
+    } else {
+      this.warranty = false;
+      this.deviceDetailForm.patchValue({WarrantyEndDate: null});
+    }
+  }
+
+  resetForm() {
+    console.log("reset form called");
+    this.deviceDetailForm.reset;
   }
 
 }
