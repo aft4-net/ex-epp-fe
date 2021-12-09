@@ -13,7 +13,7 @@
     (formResponse)="onChange()">
     </exec-epp-custom-select>
 
-    <ng-container *ngIf="isChild || isOther">
+    <ng-container *ngIf="isChild">
     <exec-epp-custom-select [label]="'Gender'" [myControl]="getControl('gender')" [required]="true"
       [list$]="genders$">
     </exec-epp-custom-select>

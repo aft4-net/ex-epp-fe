@@ -14,8 +14,8 @@ export type ExtractedData = {
 
 export class FormGeneratorAssistant {
 
-    private readonly _employeeIdNumberPrefices: string[] = []
-    private readonly _phonePrefices: string[] = []
+    private _employeeIdNumberPrefices: string[] = []
+    private _phonePrefices: string[] = []
 
     constructor(
         private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
@@ -23,15 +23,11 @@ export class FormGeneratorAssistant {
     ) {
         this._employeeStaticDataMockService.employeeIdNumberPrefices$
             .subscribe((response: SelectOptionModel[]) => {
-                this._employeeIdNumberPrefices.concat(
-                    response.map(option => option.value as string)
-                )
+                this._employeeIdNumberPrefices = response.map(option => option.value as string)
             });
         this._addressCountryStateService.getCountriesPhonePrefices()
             .subscribe((response: SelectOptionModel[]) => {
-                this._phonePrefices.concat(
-                    response.map(option => option.value as string)
-                )
+                this._phonePrefices = response.map(option => option.value as string)
             })
     }
 

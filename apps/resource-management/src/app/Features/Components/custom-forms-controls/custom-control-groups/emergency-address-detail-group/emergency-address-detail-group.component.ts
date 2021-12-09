@@ -50,8 +50,8 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
     }
 
     onCountrySelect() {
-        const control = this.getControl('country')
-        if(control.value === 'Ethiopia') {
+        const control = this.getControl('country').value as string
+        if(control === 'Ethiopia') {
             this.stateName = 'Region'
             this.subcityName = 'Subcity/Zone'
             this.weredaName = 'Wereda'
@@ -62,7 +62,7 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
-        this.stateRegions$ = this._addressCountryStateService.getStates()
+        this.stateRegions$ = this._addressCountryStateService.getStates(control)
     }
     
     onStateSelect() {
