@@ -39,8 +39,7 @@ function convertToSelectionOptions(values: string[]) {
 }
 
 function generatePrefices(): SelectOptionModel[] {
-    const samplePrefices = ['DT', 'QA', 'SD', 'UI/UX', 'CS', 'HR', 'FD', 'LT']
-    const names = [
+    const samplePrefices = [
         ['DT', 'Developer'],
         ['QA', 'Quality Assurance'],
         ['SD', 'Software Architect'],

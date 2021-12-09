@@ -18,8 +18,6 @@ export class FamilyDetailGroupComponent implements OnInit {
     genders$:  Observable<SelectOptionModel[]>
 
     isChild = true
-    isOther = false
-
 
     constructor(
         private readonly _formGenerator: FormGenerator,
@@ -32,9 +30,7 @@ export class FamilyDetailGroupComponent implements OnInit {
 
     }
 
-    ngOnInit(): void {
-        this.showData()
-    }
+    ngOnInit(): void {}
 
     getControl(name: string): FormControl {
         return this._formGenerator.getFormControl(name, this.formGroup)
@@ -48,19 +44,9 @@ export class FamilyDetailGroupComponent implements OnInit {
         const control = this.getControl('relationship')
         if(control.value === 'Child') {
             this.isChild = true
-            this.isOther = false
-        } else if (control.value === 'Other') {
-            this.isOther = true
-            this.isChild = false
         } else {
-            this.isOther = false
             this.isChild = false
         } 
-    }
-
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
     }
 
 }
