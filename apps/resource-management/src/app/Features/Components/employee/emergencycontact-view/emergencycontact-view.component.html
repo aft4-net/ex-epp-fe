@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <nz-table class="table"  #rowSelectionTable nzShowSizeChanger [nzData]="listOfData">
+    <nz-table class="table"  #rowSelectionTable nzShowSizeChanger [nzData]="form.allEmergencyContacts">
       <thead>
         <tr class="tr">
           <th>Full Name</th>
@@ -27,8 +27,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
-            <td>{{ data.FirstName+ " " + data.FatherName+ " "+ data.  GrandFatherName
+        <tr *ngFor="let data of form.allEmergencyContacts;let i=index">
+            <td>{{ data.FirstName+ " " + data.FatherName
             }}</td>
             <td>{{ data.Relationship }}</td>
             <td>{{ data.PhoneNumber }}</td>
@@ -37,12 +37,12 @@
           <td>
             <div nz-row>
               <div nz-col nzSpan="2" class="editable-cell" [hidden]="editId === data.guid"
-                (click)="startEdit(data.guid)">
+                (click)="startEdit(i)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="showDeleteConfirm(data.guid)"><i
+                <a nz-popconfirm  (click)="showConfirm(i)"><i
                     nz-icon nzType="delete" nzTheme="outline"></i></a>
               </div>
             </div>
