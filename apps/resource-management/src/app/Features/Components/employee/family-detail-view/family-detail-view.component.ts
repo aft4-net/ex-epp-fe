@@ -88,8 +88,8 @@ export class FamilyDetailViewComponent implements OnInit {
   add(): void {
     const families = this.form.getModelFamilyDetails() as FamilyDetail;
     this.listOfFamilies = [...this.listOfFamilies, families];
-    console.log('list:', this.listOfFamilies);
    this.isVisible=false;
+   this.form.allFamilyDetails=[...this.form.allFamilyDetails ,families]
   }
 
   ngOnInit(): void {
