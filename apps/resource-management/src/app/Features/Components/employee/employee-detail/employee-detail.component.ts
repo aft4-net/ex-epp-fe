@@ -10,10 +10,11 @@ import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { PaginationResult } from '../../../Models/PaginationResult';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+import { PaginationResult } from '../../../Models/PaginationResult';
+import { Employee } from '../../../Models/Employee';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -24,6 +25,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
+  employeeByID!: Employee;
 
   constructor(private _employeeService : EmployeeService,
     private _router: Router) {}
@@ -66,14 +68,7 @@ export class EmployeeDetailComponent implements OnInit {
   isConfirmLoading = false;
 
 
-  listOfSelection = [
-    {
-      text: 'Select All Row',
-      onSelect: () => {
-        this.onAllChecked(true);
-      }
-    }
-  ]
+  
 
   listOfColumnsFullName: ColumnItem[] = [
     {
@@ -88,7 +83,7 @@ export class EmployeeDetailComponent implements OnInit {
       filterFn: null
     },
     {
-      name: 'JoiningDate',
+      name: 'Joining Date',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
@@ -244,11 +239,11 @@ export class EmployeeDetailComponent implements OnInit {
         this.FillTheFilter();
         this.loading = false;
       }
-      else 
+      else
       {
         this.loading = false;
       }
-      
+
     },error => {
       this.loading = false;
      });
@@ -273,7 +268,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.FillTheFilter();
           this.loading = false;
         }
-        else 
+        else
         {
           this.loading = false;
         }
@@ -287,10 +282,17 @@ export class EmployeeDetailComponent implements OnInit {
 
   Edit(employeeId:string):void
   {
-   console.log("this is the guid "+ employeeId);
-   this._employeeService.employee$ = this._employeeService.getEmployeeData(employeeId);
-   this._router.navigate(['/employee/add-employee/personal-info']);
+    this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
+      this._employeeService.setEmployeeDataForEdit(data);
+
+    });
+   if(this._employeeService.employeeById)
+   {
+    this._employeeService.isEdit=true;
+    this._employeeService.save="Update";
+    this._router.navigate(['/employee/add-employee/personal-info']);
   }
+}
   //added by simbo just you can delete
 
   handleOk(): void {

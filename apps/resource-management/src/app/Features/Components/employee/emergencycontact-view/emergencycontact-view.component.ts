@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AddEmergencycontactComponent } from '../add-emergencycontact/add-emergencycontact.component';
 import { Data } from '@angular/router';
-import { EmergencyContacts } from '../../../Models/emergencycontact';
+import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-emergencycontact-view',
@@ -15,17 +14,23 @@ export class EmergencycontactViewComponent implements OnInit {
   footer = null;
   isVisible = false;
   isConfirmLoading = false;
-  listOfData: readonly EmergencyContacts[] = [];
+  listOfData: any[] = [];
   i = 0;
   editId: string | null = null;
 
   constructor(
     private modalService: NzModalService,
-    public form: FormGenerator
+    public form: FormGenerator,
+    private _employeeService:EmployeeService
   ) {
-    
-  }
+    if(_employeeService.employeeById){
+      this.listOfData=_employeeService.employeeById.EmergencyContact?
+      _employeeService.employeeById.EmergencyContact:[];
 
+
+
+  }
+  }
   addemergencycontact(): void {
     this.isVisible = true;
 
@@ -66,11 +71,23 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isVisible=false
    // }
   }
+  onCurrentPageDataChange(event:any){
+;
+  }
+  deleteRow(guid:string){
 
+  }
 
 
   startEdit(id: string): void {
     this.editId = id;
+    this.editId = id;
+    const emergencyContact=this._employeeService.employeeById?.EmergencyContact?.filter(a=>a.guid===id)
+     if(emergencyContact)
+     {
+      this.form.generateEmergencyContactForm(emergencyContact[0]);
+      this.isVisible=true;
+    }
   }
 
   exitModal() {
@@ -82,7 +99,8 @@ export class EmergencycontactViewComponent implements OnInit {
     this.form.emergencyContact.reset();
   }
   showDeleteConfirm(id: string): void {
-    this.listOfData = this.listOfData.filter((d) => d.guid !== id);
+    //this.listOfData = this.listOfData.filter((d) => d.guid !== id);
+
     this.modalService.confirm({
       nzTitle: 'Are you sure, you want to cancel this contact?',
       nzContent: '<b style="color: red;"></b>',

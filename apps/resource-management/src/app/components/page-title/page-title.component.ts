@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, formatDate } from '@angular/common';
-import { EmergencyContact, IEmergencyContact } from '../../Features/Models/emergencycontact';
+import { EmergencyContact, EmergencyContacts, IEmergencyContact } from '../../Features/Models/emergencycontact';
 
 import { Address } from '../../Features/Models/address.model';
 import { Employee } from '../../Features/Models/Employee';
@@ -18,7 +18,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./page-title.component.scss']
 })
 export class PageTitleComponent implements OnInit {
+  save="Save";
 
+  constructor(private _formGenerator: FormGenerator,private _router:Router,
+    private _employeeService:EmployeeService) {
+
+        this.save=this._employeeService.save
+
+     }
   employee !: Employee;
   selectednationality: Nationality [] = [] ;
   organization!: EmployeeOrganization;
@@ -28,8 +35,6 @@ export class PageTitleComponent implements OnInit {
 
  dateofBirth = new Date("2021-11-17 14:29:03.107");
 
-  constructor(private _formGenerator: FormGenerator,private _router:Router,private _employeeService: EmployeeService,
-    ) { }
 
   ngOnInit(): void {
   }
@@ -50,9 +55,9 @@ export class PageTitleComponent implements OnInit {
     } else {
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
-      employee.FamilyDetail =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
+      employee.FamilyDetails =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
       employee.PersonalAddress = this._formGenerator.getModelAddressDetails() as Address[]
-      //employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails as IEmergencyContact[]
+      employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails() as EmergencyContacts[]
 
       this._employeeService.setEmployeeData(employee)
       this._employeeService.saveEmployee()
@@ -60,20 +65,7 @@ export class PageTitleComponent implements OnInit {
       console.log(employee)
       this._router.navigate([''])
     }
-  //   const currentUrl = this._router.url;
-  //   if(this._formBuilder.personalDetailsForm.valid && currentUrl === 'employee/add-employee/personal-info'){
-  //     this._router.navigate(['employee/add-employee/personal-address'])
-  //   }
-  //   else if(this._formBuilder.addressForm.valid && currentUrl === 'employee/add-employee/personal-address'){
-  //     this._router.navigate(['employee/add-employee/family-detail'])
-  //   }
-  //   else if(this._formBuilder.familyDetail.valid && currentUrl === 'employee/add-employee/family-detail'){
-  //     this._router.navigate(['employee/add-employee/emergency-contact'])
-  //   }
-  //   else if(this._formBuilder.emergencyContact.valid && currentUrl === 'employee/add-employee/emergency-contact'){
-  //     this._router.navigate(['employee/add-employee/Organization-Detail'])
-  //   }
-  //  // else if(currentUrl === 'employee/add-employee/Organization-Detail'){
+
   //   this.selectednationality = [{
   //     Name :  "Ethiopian"
   //   }];
@@ -83,7 +75,7 @@ export class PageTitleComponent implements OnInit {
   //   };
 
   //   this.organization = {
-  //   Country:this.country,
+  //   Country:"Ethiopia",
   //   DutyStation: "Addis",
   //   DutyBranch: "a4d463e6-057e-409d-a97e-ef5bad93ba59",
   //   CompaynEmail: "aaa@excel.com",
@@ -119,21 +111,22 @@ export class PageTitleComponent implements OnInit {
   //     fatherName: "abel",
   //     relationship: "bro"
   //   }]
-  //  // this._employeeService.setEmployeeData(this._formBuilder.personalDetailsForm.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.addressForm.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.familyDetail.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.emergencyContact.value);
-  //   //this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
+  // //  // this._employeeService.setEmployeeData(this._formBuilder.personalDetailsForm.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.addressForm.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.familyDetail.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.emergencyContact.value);
+  // //   //this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
 
   //   this._employeeService.setEmployeeData({
+  //     guid: "77f94782-b511-4426-b6d2-358506bc2fdc",
   //     employeeNumber : "1254523/21",
-  //     FirstName: "Husen",
-  //     FatherName: "Seid",
-  //     GrandFatherName:"Ahmed",
+  //     FirstName: "newNathan",
+  //     FatherName: "hosan",
+  //     GrandFatherName:"abel",
   //     MobilePhone: "0911254875",
   //     Phone1:"0934758938",
   //     Phone2:"0987333674",
-  //     PersonalEmail: "Husen123@gmail.com",
+  //     PersonalEmail: "arif@gmail.com",
   //     PersonalEmail2: "Husen1234@yahoo.com",
   //     PersonalEmail3: "Husen12345@excel.com",
   //     Gender : "Male",
@@ -144,8 +137,8 @@ export class PageTitleComponent implements OnInit {
   //     EmergencyContact: this.emergencyContacts,
   //   });
 
-  //   this._employeeService.saveEmployee();
-  //   alert("Employee Saved");
+  //    this._employeeService.updateEmployee();
+  //    alert("Employee Updated");
 
  // }
   }

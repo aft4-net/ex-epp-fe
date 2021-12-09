@@ -26,7 +26,7 @@ export class EmployeeDetailComponent implements OnInit {
   setOfCheckedId = new Set<number>();
   employeeViewModels$ !: Observable<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
-  
+
 
   ngOnInit(): void {
     this.FeatchAllEmployees();
@@ -82,7 +82,6 @@ export class EmployeeDetailComponent implements OnInit {
     }, 1000);
   }
 
-<<<<<<< HEAD
   ngOnInit(): void {
     this.listOfData = new Array(20).fill(0).map((_, index) => ({
       id: index,
@@ -91,12 +90,6 @@ export class EmployeeDetailComponent implements OnInit {
       address: `London, Park Lane no. ${index}`,
       disabled: index % 2 === 0,
     }));
-=======
-  
-  FeatchAllEmployees() {
-    this.employeeViewModels$ = this._employeeService.SearchEmployeeData(this.employeeParams);
-   
->>>>>>> develop
   }
 }
 
