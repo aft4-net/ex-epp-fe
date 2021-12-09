@@ -23,6 +23,7 @@
     [label]="'Date of Birth'"
     [myControl]="getControl('dateofBirth')"
     [required]="true"
+    [endingDate]="birthEndDate"
     >
   </exec-epp-custom-datepicker>
 
@@ -37,6 +38,8 @@
   </exec-epp-custom-phone-multiple>
   <exec-epp-custom-select-multiple
     [myControl]="getControl('nationalities')"
-    [list$]="nationalities$">
+    [list$]="nationalities$"
+    [maxChoices]="maxNationality"
+    >
   </exec-epp-custom-select-multiple>
 </form>

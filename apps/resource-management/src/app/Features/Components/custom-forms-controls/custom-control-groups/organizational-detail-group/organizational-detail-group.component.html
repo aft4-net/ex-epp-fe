@@ -58,11 +58,15 @@
   </exec-epp-custom-select>
   <exec-epp-custom-datepicker
     [label]="'Joining Date'"
-    [myControl]="getControl('joiningDate')">
+    [myControl]="getControl('joiningDate')"
+    [endingDate]="joinigStartDate"
+    >
   </exec-epp-custom-datepicker>
   <exec-epp-custom-datepicker
     [label]="'Termination Date'"
-    [myControl]="getControl('terminationDate')">
+    [myControl]="getControl('terminationDate')"
+    [startingDate]="terminationStartDate"
+    >
   </exec-epp-custom-datepicker>
   <exec-epp-custom-select
     label="Current Status"

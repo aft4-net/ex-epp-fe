@@ -79,7 +79,7 @@
     <div class="overflow-scroll">
       <exec-epp-address-detail-group></exec-epp-address-detail-group>
     </div>
-    <button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
+    <button nz-button class="saveButton" (click)="add()" [disabled]="!(form.addressForm.valid)">Add</button> &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
   </ng-container>
 </nz-modal>

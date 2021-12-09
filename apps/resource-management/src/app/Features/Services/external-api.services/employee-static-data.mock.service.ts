@@ -39,8 +39,7 @@ function convertToSelectionOptions(values: string[]) {
 }
 
 function generatePrefices(): SelectOptionModel[] {
-    const samplePrefices = ['DT', 'QA', 'SD', 'UI/UX', 'CS', 'HR', 'FD', 'LT']
-    const names = [
+    const samplePrefices = [
         ['DT', 'Developer'],
         ['QA', 'Quality Assurance'],
         ['SD', 'Software Architect'],
@@ -113,7 +112,7 @@ extends BasicSeedStateService<DutyStation, EmployeeStaticStateModel, CountryServ
 
     public readonly dutyStations$ = this._select<SelectOptionModel[]>(generateDutyStations)
 
-    public readonly defaultEmployeeIdNumberPrefix = 'EDC/DT'
+    public readonly defaultEmployeeIdNumberPrefix = generatePrefices()[0].value
     public readonly defaultEmployementStatus = dummyEmployementStatuses[0]
 
     set Country(value: string) {

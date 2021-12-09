@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
@@ -17,9 +18,7 @@ export class FamilyDetailGroupComponent implements OnInit {
     relationships$: Observable<SelectOptionModel[]>
     genders$:  Observable<SelectOptionModel[]>
 
-    isChild = true
-    isOther = false
-
+    isChild = false
 
     constructor(
         private readonly _formGenerator: FormGenerator,
@@ -27,14 +26,27 @@ export class FamilyDetailGroupComponent implements OnInit {
     ) {
         this.genders$=this._employeeStaticDataervice.genders$
         this.relationships$=this._employeeStaticDataervice.relationships$
+        .pipe(
+            map(response=> {
+                return response.filter(option => {
+                    if(option.value as string === 'Child' || option.value as string === 'Other') {
+                        return true
+                    }
+                    for (let i = 0; i < this._formGenerator.allFamilyDetails.length; i++) {
+                        if(option.value as string === this._formGenerator.allFamilyDetails[i].Relationship?.Name) {
+                            return false
+                        }
+                    }
+                    return true
+                })
+            })
+        )
         this.formGroup
             = this._formGenerator.familyDetail
 
     }
 
-    ngOnInit(): void {
-        this.showData()
-    }
+    ngOnInit(): void {}
 
     getControl(name: string): FormControl {
         return this._formGenerator.getFormControl(name, this.formGroup)
@@ -48,19 +60,9 @@ export class FamilyDetailGroupComponent implements OnInit {
         const control = this.getControl('relationship')
         if(control.value === 'Child') {
             this.isChild = true
-            this.isOther = false
-        } else if (control.value === 'Other') {
-            this.isOther = true
-            this.isChild = false
         } else {
-            this.isOther = false
             this.isChild = false
         } 
-    }
-
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
     }
 
 }

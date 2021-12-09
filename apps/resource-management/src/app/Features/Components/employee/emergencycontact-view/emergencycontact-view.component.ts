@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Data } from '@angular/router';
 import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
@@ -51,6 +50,13 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   add(): void {
+    if(!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid) {
+      this.form.errorMessageforEmergencyContactDetails(
+        this.form.emergencyContact,
+        this.form.emergencyAddress
+      )
+      return
+    }
     this.isConfirmLoading = true;
     setTimeout(() => {
       this.isVisible = false;
@@ -60,8 +66,9 @@ export class EmergencycontactViewComponent implements OnInit {
       // this.isVisible = false
       const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts;
       this.listOfData = [...this.listOfData, emergencyContact];
-      console.log("listOfData")
-      console.log(this.listOfData)
+
+      this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact]
+
       this.isVisible=false
    // }
   }
