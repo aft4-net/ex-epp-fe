@@ -111,21 +111,3 @@ tr.ant-table-row.ng-star-inserted {
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
-
-.ant-btn-primary ::after {
-  color: #fff;
-  background: #52c41a !important;
-  border-color: rgb(0 0 0 / 85%);
-  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
-  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
-}
-
-.ant-checkbox-inner{
-  border-color: black !important;
-}
-
-.ant-checkbox-checked .ant-checkbox-inner ::before
-{
-    background-color: green !important;
-    border-color: black !important;
-}

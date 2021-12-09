@@ -21,6 +21,7 @@ export class PersonalDetailGroupComponent implements OnInit {
     maxDateofBirth = maxEmployeeDateofBirth? maxEmployeeDateofBirth: new Date(Date.now())
     maxEmailQty = 3
     maxPhoneQty = 3
+    maxNationality = 3
     
 
     constructor(
