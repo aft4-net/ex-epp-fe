@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class PageTitleComponent implements OnInit {
   save="Save";
 
-  constructor(private _formBuilder: FormGenerator,private _router:Router,
+  constructor(private _formGenerator: FormGenerator,private _router:Router,
     private _employeeService:EmployeeService) {
 
         this.save=this._employeeService.save
@@ -35,12 +35,6 @@ export class PageTitleComponent implements OnInit {
 
  dateofBirth = new Date("2021-11-17 14:29:03.107");
 
-<<<<<<< HEAD
-
-=======
-  constructor(private _formGenerator: FormGenerator,private _router:Router,private _employeeService: EmployeeService,
-    ) { }
->>>>>>> resource-management
 
   ngOnInit(): void {
   }
@@ -49,7 +43,7 @@ export class PageTitleComponent implements OnInit {
     if (this._formGenerator.personalDetailsForm.valid) {
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
-      employee.FamilyDetail =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
+      employee.FamilyDetails =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
       employee.PersonalAddress = this._formGenerator.getModelAddressDetails() as Address[]
       //employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails as IEmergencyContact[]
 
@@ -126,29 +120,6 @@ export class PageTitleComponent implements OnInit {
   //   //this._employeeService.setEmployeeData(this._formBuilder.emergencyContact.value);
   //   //this._employeeService.setEmployeeData(this._formBuilder.organizationalForm.value);
 
-<<<<<<< HEAD
-    this._employeeService.setEmployeeData({
-      employeeNumber : "2333233/21",
-      FirstName: "ashubebe",
-      FatherName: "Abebe",
-      GrandFatherName:"Zewdn",
-      MobilePhone: "0987834271",
-      Phone1:"0934758938",
-      Phone2:"0987333674",
-      PersonalEmail: "BB3iuiu3@gmail.com",
-      PersonalEmail2: "Bira22232@yahoo.com",
-      PersonalEmail3: "Biro3374@excel.com",
-      Gender : "Male",
-      DateofBirth:  this.dateofBirth,
-      Nationality: this.selectednationality,
-      EmployeeOrganization : this.organization,
-      FamilyDetails : this.familyDetail,
-      EmergencyContact: this.emergencyContacts,
-    });
-
-    this._employeeService.saveEmployee();
-
-=======
   //   this._employeeService.setEmployeeData({
   //     employeeNumber : "1254523/21",
   //     FirstName: "Husen",
@@ -171,7 +142,6 @@ export class PageTitleComponent implements OnInit {
   //   this._employeeService.saveEmployee();
   //   alert("Employee Saved");
 
->>>>>>> resource-management
  // }
   }
   Cancel(){
