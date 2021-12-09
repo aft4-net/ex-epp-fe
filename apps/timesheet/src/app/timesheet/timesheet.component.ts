@@ -29,6 +29,8 @@ export class TimesheetComponent implements OnInit {
   validateForm!: FormGroup;
 
   // Used for disabling client and project list when selected for edit.
+  disableFromDate = false;
+  disableToDate = false;
   disableClient = false;
   disableProject = false;
   timesheet: Timesheet | null = null;
@@ -64,7 +66,7 @@ export class TimesheetComponent implements OnInit {
   lastWeeks = null;
   startValue: Date | null = null;
   endValue: Date | null = null;
-  isSubmitted:boolean|undefined;
+  isSubmitted: boolean = false;
   timesheetApprovals: TimesheetApproval[] | null = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
@@ -132,7 +134,7 @@ export class TimesheetComponent implements OnInit {
 
         this.timesheetService.getTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
           this.timesheetApprovals = response ? response : null;
-          (response!==null && response!.length>0)?this.isSubmitted=true:this.isSubmitted=false;
+          this.isSubmitted = response ? true : false;
           this.checkForCurrentWeek();
         });
       }
@@ -257,7 +259,6 @@ export class TimesheetComponent implements OnInit {
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnContainerClass = "";
-      this.isSubmitted=true;
     }
     else if (this.lastday1.valueOf() >= date.valueOf()) {
       this.dateColumnContainerClass = "";
@@ -355,7 +356,6 @@ export class TimesheetComponent implements OnInit {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
         this.showFormDrawer();
-        this.isSubmitted=true;
         return;
       }
 
@@ -389,6 +389,8 @@ export class TimesheetComponent implements OnInit {
         this.formData.hours = this.timeEntry.Hour;
         this.formData.note = this.timeEntry.Note;
 
+        this.disableFromDate = true;
+        this.disableToDate = true;
         this.disableClient = true;
         this.disableProject = true;
       }
@@ -431,6 +433,7 @@ export class TimesheetComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
+
     try {
       let timeEntry: TimeEntry = {
         Guid: "00000000-0000-0000-0000-000000000000",
@@ -497,7 +500,7 @@ export class TimesheetComponent implements OnInit {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);
       }
-      this.createNotification('success', "Your Timesheet Added Successfully.");
+      this.createNotification('success', "Your Timesheet Updated Successfully.");
     }, error => {
       this.createNotification('error', "Error on adding Timesheet.");
       console.log(error);
@@ -516,6 +519,8 @@ export class TimesheetComponent implements OnInit {
 
   clearFormData() {
     this.timeEntry = null;
+    this.disableFromDate = false;
+    this.disableToDate = false;
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
@@ -529,6 +534,31 @@ export class TimesheetComponent implements OnInit {
     let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
     this.dateColumnTotalHour = totalHour ? totalHour : 0;
     this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
+  }
+
+  onFormFromDateChange(){
+    if (this.disableFromDate){
+      return;
+    }
+
+    if (this.formData.fromDate){
+      this.formData.toDate = this.formData.fromDate;
+      this.disableToDate = false;
+    }
+    else{
+      this.formData.toDate = null;
+      this.disableToDate = true;
+    }
+  }
+
+  onFormToDateChange() {
+    if(!this.formData.toDate || !this.formData.fromDate){
+      return;
+    }
+
+    if(this.formData.toDate < this.formData.fromDate){
+      this.formData.fromDate = this.formData.toDate;
+    }
   }
 
   createNotification(type: string, message: string, position?: NzNotificationPlacement) {
