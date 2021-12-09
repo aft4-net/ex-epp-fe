@@ -68,14 +68,7 @@ export class EmployeeDetailComponent implements OnInit {
   isConfirmLoading = false;
 
 
-  listOfSelection = [
-    {
-      text: 'Select All Row',
-      onSelect: () => {
-        this.onAllChecked(true);
-      }
-    }
-  ]
+  
 
   listOfColumnsFullName: ColumnItem[] = [
     {
@@ -90,7 +83,7 @@ export class EmployeeDetailComponent implements OnInit {
       filterFn: null
     },
     {
-      name: 'JoiningDate',
+      name: 'Joining Date',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
