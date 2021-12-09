@@ -18,7 +18,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./page-title.component.scss']
 })
 export class PageTitleComponent implements OnInit {
+  save="Save";
 
+  constructor(private _formGenerator: FormGenerator,private _router:Router,
+    private _employeeService:EmployeeService) {
+
+        this.save=this._employeeService.save
+
+     }
   employee !: Employee;
   selectednationality: Nationality [] = [] ;
   organization!: EmployeeOrganization;
@@ -28,8 +35,6 @@ export class PageTitleComponent implements OnInit {
 
  dateofBirth = new Date("2021-11-17 14:29:03.107");
 
-  constructor(private _formGenerator: FormGenerator,private _router:Router,private _employeeService: EmployeeService,
-    ) { }
 
   ngOnInit(): void {
   }
@@ -38,7 +43,7 @@ export class PageTitleComponent implements OnInit {
     if (this._formGenerator.personalDetailsForm.valid) {
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
-      employee.FamilyDetail =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
+      employee.FamilyDetails =   this._formGenerator.getModelFamilyDetails() as FamilyDetail []
       employee.PersonalAddress = this._formGenerator.getModelAddressDetails() as Address[]
       //employee.EmergencyContact = this._formGenerator.getModelEmergencyContactDetails as IEmergencyContact[]
 

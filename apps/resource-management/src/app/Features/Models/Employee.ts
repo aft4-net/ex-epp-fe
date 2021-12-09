@@ -21,7 +21,7 @@ export interface Employee{
   Nationality?: Nationality[],
   Organization?: EmployeeOrganization,
   PersonalAddress?: Address[],
-  FamilyDetail?: FamilyDetail[],
+  FamilyDetails?: FamilyDetail[],
   EmployeeOrganization?: EmployeeOrganization,
   EmployeeAddress?: Address[],
   EmergencyContact?: IEmergencyContact[]

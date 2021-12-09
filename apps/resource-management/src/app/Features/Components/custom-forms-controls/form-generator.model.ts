@@ -2,9 +2,10 @@ import { Injectable } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { Address, Addresss } from "../../Models/address.model";
-import { EmergencyContact } from "../../Models/emergencycontact";
+import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
+import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FamilyDetails } from "../../Models/FamilyDetails";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
@@ -78,7 +79,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         this.emergencyContact = this._createEmergencyContactDetailsForm()
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         this.familyDetail = this._createFamilyDetailsForm()
-       
+
     }
 
     getModelPersonalDetails() {
@@ -149,11 +150,16 @@ export class FormGenerator extends FormGeneratorAssistant {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
         return {
-            FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
-            Relationship: {Name: value.relationship } as Relationship,
+
+            FirstName: value.fullName.firstName,
+            MiddleName:value.fullName.middleName ,
+            LastName:value.fullName.lastName,
+            Relationship:value.relationship ,
             Gender: value.gender,
-            DoB: value.dateofBirth
-        } as Partial<FamilyDetails>
+            DoB: value.dateofBirth,
+            PhoneNumber:value.phoneNumber,
+            Country:value.country
+        } as Partial<EmergencyContacts>
 
     }
 
@@ -327,7 +333,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setControlValue(segemets.value, this.getFormControl('phone', formGroup))
         }
     }
-    
+
     private _setEmailArray(emails: string[] | null, formArray: FormArray) {
         if(emails !== null && emails.length > 0) {
             for (let i = 0; i < emails.length; i++) {
@@ -363,8 +369,8 @@ export class FormGenerator extends FormGeneratorAssistant {
                 this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
             )
         }
-        
-        if(employee.FirstName && employee.FatherName && employee.GrandFatherName) {
+
+        if(employee.FirstName && employee.FatherName) {
             this._setNames(
                 employee.FirstName,
                 employee.FatherName,
@@ -384,7 +390,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setControlValue(
                 employee.DateofBirth,
                 this.getFormControl('dateofBirth', this.personalDetailsForm)
-            )        
+            )
         }
 
         this._setEmailArray(
@@ -406,7 +412,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('phoneNumbers', this.personalDetailsForm)
         )
-        
+
         this._setControlValue(
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
@@ -443,7 +449,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.BusinessUnit,
             this.getFormControl('businessUnit', this.organizationalForm)
         )
-        
+
         this._setControlValue(
             organizationalDetail.Department,
             this.getFormControl('department', this.organizationalForm)
@@ -464,7 +470,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.TerminationDate,
             this.getFormControl('terminationDate', this.organizationalForm)
         )
-        
+
         this._setControlValue(
             organizationalDetail.Status,
             this.getFormControl('status', this.organizationalForm)
@@ -523,7 +529,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         )
         this._setEmailArray(
             [
-                
+
             ],
             this.getFormArray('emailAddresses', this.emergencyContact)
         )
@@ -563,7 +569,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         )
     }
 
-    private _setFamilyDetail(familyDetail: FamilyDetails) {
+    private _setFamilyDetail(familyDetail: FamilyDetail) {
         const names = familyDetail.FullName.split(' ')
         this._setNames(
             names[0],
@@ -580,7 +586,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormControl('gender', this.familyDetail)
         )
         this._setControlValue(
-            familyDetail.DoB,
+            familyDetail.DateofBirth,
             this.getFormControl('dateofBirth', this.familyDetail)
         )
     }
@@ -594,11 +600,13 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
+
         this._regenerateForm()
         if(employee) {
+
             this._setPresonalDetail(employee)
-            if(employee.Organization) {
-                this._setOrganizationalDetail(employee.Organization)
+            if(employee.EmployeeOrganization) {
+                this._setOrganizationalDetail(employee.EmployeeOrganization)
             }
         }
     }
@@ -618,13 +626,13 @@ export class FormGenerator extends FormGeneratorAssistant {
         }
     }
 
-    generateFamilyDetailForm(familyDetail?: FamilyDetails) {
+    generateFamilyDetailForm(familyDetail?: FamilyDetail) {
         this.familyDetail = this._createFamilyDetailsForm()
         if(familyDetail) {
             this._setFamilyDetail(familyDetail)
         }
     }
-    
+
     triggerControlValidation(control: AbstractControl, required: boolean) {
         resetError(required)
         const value = control.value

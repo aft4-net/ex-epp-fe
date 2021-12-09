@@ -6,6 +6,7 @@ import { FamilyDetailComponent } from '../family-detail/family-detail.component'
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FamilyDetails } from '../../../Models/FamilyDetails';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -19,14 +20,21 @@ export class FamilyDetailViewComponent implements OnInit {
   checked = false;
   loading = false;
   indeterminate = false;
-  listOfFamilies: FamilyDetails[] = [];
+  listOfFamilies: FamilyDetail[] = [];
 
   editId: number | null = null;
 
   constructor(
     private modalService: NzModalService,
-    public form: FormGenerator
-  ) {}
+    public form: FormGenerator,
+    private employeeService:EmployeeService
+  ) {
+    this.form.addressForm;
+    if(employeeService.employeeById){
+
+      this.listOfFamilies=employeeService.employeeById.FamilyDetails?
+      employeeService.employeeById.FamilyDetails:[];
+  }  }
 
   addfamilies(): void {
     this.isVisible = true;
@@ -73,7 +81,7 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
   add(): void {
-    const families = this.form.getModelFamilyDetails() as FamilyDetails;
+    const families = this.form.getModelFamilyDetails() as FamilyDetail;
     this.listOfFamilies = [...this.listOfFamilies, families];
     console.log('list:', this.listOfFamilies);
    this.isVisible=false;

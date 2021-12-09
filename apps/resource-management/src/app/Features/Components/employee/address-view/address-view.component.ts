@@ -6,6 +6,7 @@ import { Data } from '@angular/router';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -18,6 +19,7 @@ export class AddressViewComponent implements OnInit {
 
   editId: string | null = null;
   listOfaddress: Address[] = [];
+  employeeAddress?:Address
 
   @ViewChild('drawerTemplate')
   drawerTemplate: TemplateRef<{
@@ -26,11 +28,17 @@ export class AddressViewComponent implements OnInit {
     }> | undefined;
   constructor(
     private modalService: NzModalService,
-    public form: FormGenerator
+    public form: FormGenerator,
+    private readonly _formGenerator: FormGenerator,
+    private employeeService:EmployeeService
   ) {
     this.form.addressForm;
-  }
+    if(employeeService.employeeById){
 
+      this.listOfaddress=employeeService.employeeById.EmployeeAddress?
+      employeeService.employeeById.EmployeeAddress:[];
+  }
+}
   addaddress(): void {
     this.form.generateAddressForm();
     this.isVisible = true;
@@ -38,7 +46,7 @@ export class AddressViewComponent implements OnInit {
     //   nzTitle: 'Add Addresses',
     //   nzContent: AddressNewComponent
     // });
-    
+
   }
 
   handleCancel(): void {
@@ -47,6 +55,12 @@ export class AddressViewComponent implements OnInit {
 
   startEdit(id: string): void {
     this.editId = id;
+    const address=this.employeeService.employeeById?.EmployeeAddress?.filter(a=>a.Guid===id)
+     if(address)
+     { 
+      this._formGenerator.generateAddressForm(address[0]);
+      this.isVisible=true;
+    }
   }
 
   stopEdit(): void {
@@ -89,7 +103,7 @@ export class AddressViewComponent implements OnInit {
       this.listOfaddress = [...this.listOfaddress, address];
       this.isVisible=false
     }
-  
+
   }
 
   ngOnInit(): void {}
