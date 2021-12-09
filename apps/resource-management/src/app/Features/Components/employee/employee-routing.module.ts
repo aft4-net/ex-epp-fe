@@ -1,6 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-
-import { AddEmergencycontactComponent } from './add-emergencycontact/add-emergencycontact.component';
 import { EmployeeComponent } from './employee.component';
 import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { NgModule } from '@angular/core';
@@ -32,11 +30,6 @@ const routes: Routes = [
     component: OrganizationDetailComponent,
   },
 
-  {
-    path: 'employee/add-employee/emergency-contact',
-    component: AddEmergencycontactComponent,
-   
-  },
 
   {path: 'employee/add-employee/address-view',
   component: AddressViewComponent,
