@@ -1,6 +1,7 @@
 <nz-layout>
   <nz-content>
-    <div class="inner-content">
+    <nz-divider nzType="horizontal"></nz-divider>
+    <div style="margin-top: -40px;" class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="8">
           <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
@@ -11,7 +12,6 @@
           </ng-template>
         </div>
       </div>
-      <br />
       <div  nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
         <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
         <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
@@ -21,7 +21,7 @@
       <div nz-row style="margin-top:-20px">
         <div nz-col class="gutter-row" [nzSpan]="24">
             <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
-              nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
+              nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
                   <th class="table_heading" style="width:30px"   [nzChecked]="checked" [nzIndeterminate]="indeterminate"
@@ -39,8 +39,8 @@
               </thead>
               <tbody>
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"
-                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"                     
+                  [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.FullName }} </td>
                     <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
