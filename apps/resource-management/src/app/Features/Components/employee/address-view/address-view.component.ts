@@ -19,6 +19,7 @@ export class AddressViewComponent implements OnInit {
 
   editId: string | null = null;
   listOfaddress: Address[] = [];
+  employeeAddress?:Address
 
   @ViewChild('drawerTemplate')
   drawerTemplate: TemplateRef<{
@@ -54,6 +55,12 @@ export class AddressViewComponent implements OnInit {
 
   startEdit(id: string): void {
     this.editId = id;
+    const address=this.employeeService.employeeById?.EmployeeAddress?.filter(a=>a.Guid===id)
+     if(address)
+     { 
+      this._formGenerator.generateAddressForm(address[0]);
+      this.isVisible=true;
+    }
   }
 
   stopEdit(): void {
@@ -96,7 +103,7 @@ export class AddressViewComponent implements OnInit {
       this.listOfaddress = [...this.listOfaddress, address];
       this.isVisible=false
     }
-  
+
   }
 
   ngOnInit(): void {}
