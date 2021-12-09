@@ -78,7 +78,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         this.emergencyContact = this._createEmergencyContactDetailsForm()
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         this.familyDetail = this._createFamilyDetailsForm()
-       
+
     }
 
     getModelPersonalDetails() {
@@ -332,7 +332,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setControlValue(segemets.value, this.getFormControl('phone', formGroup))
         }
     }
-    
+
     private _setEmailArray(emails: string[] | null, formArray: FormArray) {
         if(emails !== null && emails.length > 0) {
             for (let i = 0; i < emails.length; i++) {
@@ -368,8 +368,8 @@ export class FormGenerator extends FormGeneratorAssistant {
                 this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
             )
         }
-        
-        if(employee.FirstName && employee.FatherName && employee.GrandFatherName) {
+
+        if(employee.FirstName && employee.FatherName) {
             this._setNames(
                 employee.FirstName,
                 employee.FatherName,
@@ -389,7 +389,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setControlValue(
                 employee.DateofBirth,
                 this.getFormControl('dateofBirth', this.personalDetailsForm)
-            )        
+            )
         }
 
         this._setEmailArray(
@@ -411,7 +411,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('phoneNumbers', this.personalDetailsForm)
         )
-        
+
         this._setControlValue(
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
@@ -448,7 +448,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.BusinessUnit,
             this.getFormControl('businessUnit', this.organizationalForm)
         )
-        
+
         this._setControlValue(
             organizationalDetail.Department,
             this.getFormControl('department', this.organizationalForm)
@@ -469,7 +469,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.TerminationDate,
             this.getFormControl('terminationDate', this.organizationalForm)
         )
-        
+
         this._setControlValue(
             organizationalDetail.Status,
             this.getFormControl('status', this.organizationalForm)
@@ -528,7 +528,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         )
         this._setEmailArray(
             [
-                
+
             ],
             this.getFormArray('emailAddresses', this.emergencyContact)
         )
@@ -599,11 +599,13 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
+
         this._regenerateForm()
         if(employee) {
+
             this._setPresonalDetail(employee)
-            if(employee.Organization) {
-                this._setOrganizationalDetail(employee.Organization)
+            if(employee.EmployeeOrganization) {
+                this._setOrganizationalDetail(employee.EmployeeOrganization)
             }
         }
     }
@@ -629,7 +631,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setFamilyDetail(familyDetail)
         }
     }
-    
+
     triggerControlValidation(control: AbstractControl, required: boolean) {
         resetError(required)
         const value = control.value
