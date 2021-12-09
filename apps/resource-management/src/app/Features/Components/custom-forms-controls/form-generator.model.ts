@@ -394,24 +394,27 @@ export class FormGenerator extends FormGeneratorAssistant {
                 this.getFormControl('dateofBirth', this.personalDetailsForm)
             )
         }
-
+        const emailArray: string[] = [employee.PersonalEmail]
+        if(employee.PersonalEmail2 && employee.PersonalEmail2 !== null && employee.PersonalEmail2 !== '') {
+          emailArray.push(employee.PersonalEmail2)
+        }
+        if(employee.PersonalEmail3 && employee.PersonalEmail3 !== null && employee.PersonalEmail3 !== '') {
+          emailArray.push(employee.PersonalEmail3)
+        }
         this._setEmailArray(
-            [
-                employee.PersonalEmail,
-                employee.PersonalEmail2,
-                employee.PersonalEmail3
-
-            ],
+            emailArray,
             this.getFormArray('emailAddresses', this.personalDetailsForm)
         )
 
+        const phoneArray: string[] = [employee.MobilePhone]
+        if(employee.Phone1 && employee.Phone1 !== null && employee.Phone1 !== '') {
+          phoneArray.push(employee.Phone1)
+        }
+        if(employee.Phone2 && employee.Phone2 !== null && employee.Phone2 !== '') {
+          phoneArray.push(employee.Phone2)
+        }
         this._setPhoneArray(
-            [
-                employee.Phone1,
-                employee.Phone2,
-                employee.MobilePhone
-
-            ],
+          phoneArray,
             this.getFormArray('phoneNumbers', this.personalDetailsForm)
         )
 

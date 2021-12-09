@@ -74,6 +74,9 @@ export class PersonalInfoComponent implements OnInit {
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
      this._form.generateForms(this.employeeService.employeeById);
+     this._form.errorMessageforPersonalDetails(
+      this._form.personalDetailsForm
+    )
      console.log('personla info details')
      console.log(     this.employeeService.employeeById
       )
