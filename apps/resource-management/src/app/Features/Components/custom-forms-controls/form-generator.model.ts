@@ -172,8 +172,8 @@ export class FormGenerator extends FormGeneratorAssistant {
             Country:valueAddress.country,
             stateRegionProvice: valueAddress.state,
             city: valueAddress.city,
-            subCityZone: valueAddress.subcity,
-            woreda: value.woreda,
+            subCityZone: valueAddress.subCityZone,
+            woreda: valueAddress.woreda,
             houseNumber: valueAddress.houseNumber,
             postalCode: valueAddress.postalCode
         } as Partial<EmergencyContacts>
@@ -441,6 +441,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
         )
+        this.errorMessageforPersonalDetails(
+          this.personalDetailsForm
+        )
     }
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
@@ -499,6 +502,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.Status,
             this.getFormControl('status', this.organizationalForm)
         )
+        this.errorMessageforOrganizationDetails(
+          this.organizationalForm
+        )
     }
 
     private _setAddressDetail(address: Address) {
@@ -535,6 +541,9 @@ export class FormGenerator extends FormGeneratorAssistant {
                 address.PhoneNumber
             ],
             this.getFormArray('phoneNumber', this.addressForm)
+        )
+        this.errorMessageforAddressDetails(
+          this.addressForm
         )
     }
 
@@ -602,6 +611,10 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.postalCode,
             this.getFormControl('postalCode', this.emergencyAddress)
         )
+        this.errorMessageforEmergencyContactDetails(
+          this.emergencyContact,
+          this.emergencyAddress
+        )
     }
 
     private _setFamilyDetail(familyDetail: FamilyDetail) {
@@ -623,6 +636,9 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._setControlValue(
             familyDetail.DateofBirth,
             this.getFormControl('dateofBirth', this.familyDetail)
+        )
+        this.errorMessageforFamilyDetails(
+          this.familyDetail
         )
     }
 
