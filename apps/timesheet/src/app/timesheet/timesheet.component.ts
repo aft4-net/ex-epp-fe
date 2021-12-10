@@ -126,7 +126,7 @@ export class TimesheetComponent implements OnInit {
       this.timesheet = response ? response : null;
 
       if (this.timesheet) {
-        this.getTimeEntries(this.timesheet.Guid);        
+        this.getTimeEntries(this.timesheet.Guid);
         this.getTimeSheetApproval(this.timesheet.Guid);
       }
       else {
@@ -137,11 +137,11 @@ export class TimesheetComponent implements OnInit {
       console.log(error);
     });
   }
-  
-  getTimeEntries(guid: string){
+
+  getTimeEntries(guid: string) {
     this.timesheetService.getTimeEntries(guid).subscribe(response => {
       this.timeEntries = response ? response : null;
-      if(this.timeEntries){
+      if (this.timeEntries) {
         this.calculateWeeklyTotalHours();
       }
     }, error => {
@@ -286,7 +286,7 @@ export class TimesheetComponent implements OnInit {
         if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
           this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
         }
-        else{
+        else {
           this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
         }
       }, error => {
@@ -309,7 +309,7 @@ export class TimesheetComponent implements OnInit {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
     this.setDateColumnTotalHour();
 
-    
+
     if (this.date <= new Date()) {
       if (this.dateColumnTotalHour < 24) {
         this.scrollPageToTop();
@@ -320,18 +320,18 @@ export class TimesheetComponent implements OnInit {
     } else {
       this.createNotification("error", "Can't fill timesheet for the future.", "bottomRight")
     }
-    
-   
+
+
   }
 
- 
 
-  scrollPageToTop(){
+
+  scrollPageToTop() {
     window.scroll({
-      top: 0, 
-      left: 0, 
-     // behavior: 'smooth'
-     });
+      top: 0,
+      left: 0,
+      // behavior: 'smooth'
+    });
   }
 
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent, date: Date) {
@@ -454,14 +454,12 @@ export class TimesheetComponent implements OnInit {
         ProjectId: this.validateForm.value.project,
         TimeSheetId: "00000000-0000-0000-0000-000000000000"
       }
-   
-     /////
-      if(this.formData.fromDate === this.formData.toDate){
-      this.addTimeEnteryForOneDay(timeEntry);
-     }else{
-       this.addTimeEntryForDateRange(timeEntry);
-     }
-      /////
+
+      if (this.formData.fromDate === this.formData.toDate) {
+        this.addTimeEnteryForOneDay(timeEntry);
+      } else {
+        this.addTimeEntryForDateRange(timeEntry);
+      }
 
       this.closeFormDrawer();
     } catch (err) {
@@ -469,7 +467,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  addTimeEnteryForOneDay(timeEntry: TimeEntry){
+  addTimeEnteryForOneDay(timeEntry: TimeEntry) {
     if (this.timeEntry) {
       timeEntry.Guid = this.timeEntry.Guid;
       timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
@@ -477,6 +475,7 @@ export class TimesheetComponent implements OnInit {
       this.updateTimeEntry(timeEntry);
     }
     else if (this.timesheet) {
+      timeEntry.TimeSheetId = this.timesheet.Guid;
       this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date, timeEntry.ProjectId).subscribe(response => {
         this.timeEntry = response ? response[0] : null;
 
@@ -484,7 +483,6 @@ export class TimesheetComponent implements OnInit {
           timeEntry.Guid = this.timeEntry.Guid;
           timeEntry.Hour = this.timeEntry.Hour + timeEntry.Hour;
           timeEntry.Note = this.timeEntry.Note + "\n" + timeEntry.Note;
-          timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
           this.updateTimeEntry(timeEntry);
 
@@ -500,17 +498,15 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  addTimeEntryForDateRange(timeEntry: TimeEntry){
-    console.log('************');
-    console.log(timeEntry);
-    if(!this.formData.fromDate || !this.formData.toDate){
+  addTimeEntryForDateRange(timeEntry: TimeEntry) {
+    if (!this.formData.fromDate || !this.formData.toDate) {
       return;
     }
-     //
-     let timeEntries: TimeEntry[]=[];
-     let tmpTimeEntry: TimeEntry | null;
-     let dates = this.dayAndDateService.getRangeOfDates(this.formData.fromDate, this.formData.toDate); 
-     let timesheetConfig: TimesheetConfiguration = {
+    //
+    let timeEntries: TimeEntry[] = [];
+    let tmpTimeEntry: TimeEntry | null;
+    let dates = this.dayAndDateService.getRangeOfDates(this.formData.fromDate, this.formData.toDate);
+    let timesheetConfig: TimesheetConfiguration = {
       WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
       WorkingHour: 0
     };
@@ -521,64 +517,53 @@ export class TimesheetComponent implements OnInit {
     this.timesheetValidationService.fromDate = fromDate;
     this.timesheetValidationService.toDate = toDate;
 
-     if (this.timesheet){
-       
-        for(let i = 0; i < dates.length; i++){
-          timeEntry.Date = new Date(dates[i]);
-          tmpTimeEntry = this.timeEntries?.filter(te => te.Date === timeEntry.Date && te.ProjectId === timeEntry.ProjectId)[0] ?? null;
-          if (tmpTimeEntry){
-            timeEntry.Guid = tmpTimeEntry.Guid;
-            timeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
-            timeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
-            timeEntry.TimeSheetId = tmpTimeEntry.TimeSheetId;
-          }
+    if (this.timesheet) {
 
-          timeEntry.Date = new Date(dates[i]);
-          console.log('-----'+i);
-          console.log(new Date(dates[i]));
-
-          let timeEntryClone = {... timeEntry};
-
-          if(this.timesheetValidationService.isValidForAdd(timeEntry,this.timeEntries??[],this.timesheetApprovals?? [],timesheetConfig)){
-            timeEntries.push(timeEntryClone);
-            console.log(timeEntries);
-          }
-        }
-        console.log("aaaaaaaaaaaa");
-        console.log(timeEntries); 
-     }
-     else{
-      
-
-      for (let i = 0; i < dates.length; i++){
+      for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
-        console.log('-----'+i);
-        console.log(new Date(dates[i]));
+        timeEntry.TimeSheetId = this.timesheet.Guid;
+        tmpTimeEntry = this.timeEntries?.filter(te => te.Date === timeEntry.Date && te.ProjectId === timeEntry.ProjectId)[0] ?? null;
+        if (tmpTimeEntry) {
+          timeEntry.Guid = tmpTimeEntry.Guid;
+          timeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
+          timeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
+        }
 
-        let timeEntryClone = {... timeEntry};
+        timeEntry.Date = new Date(dates[i]);
 
-        if(this.timesheetValidationService.isValidForAdd(timeEntry,this.timeEntries??[],this.timesheetApprovals?? [],timesheetConfig)){
+        let timeEntryClone = { ...timeEntry };
+
+        if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
           timeEntries.push(timeEntryClone);
-          console.log(timeEntries);
         }
       }
-      console.log("bbbbbbbbbbbbbb");
-      console.log(timeEntries);
-     }
+    }
+    else {
 
-     if(timeEntries && timeEntries.length > 0){
-       this.addTimeEntryForRangeOfDates(timeEntries);
-     }
+
+      for (let i = 0; i < dates.length; i++) {
+        timeEntry.Date = new Date(dates[i]);
+
+        let timeEntryClone = { ...timeEntry };
+
+        if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
+          timeEntries.push(timeEntryClone);
+        }
+      }
+    }
+
+    if (timeEntries && timeEntries.length > 0) {
+      this.addTimeEntryForRangeOfDates(timeEntries);
+    }
   }
 
-  addTimeEntry(timeEntry: TimeEntry, timeSheetId?: string) {
+  addTimeEntry(timeEntry: TimeEntry) {
     if (!this.userId) {
       return;
     }
 
-    if(timeSheetId){
-      timeEntry.TimeSheetId = timeSheetId;
-    }
+    let date = new Date(timeEntry.Date);
+    timeEntry.Date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
 
     this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
       if (this.userId) {
@@ -595,13 +580,18 @@ export class TimesheetComponent implements OnInit {
       return;
     }
 
+    for (let timeEntry of timeEntries) {
+      let date = timeEntry.Date;
+      timeEntry.Date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+    }
+
     this.timesheetService.addTimeEntryForRangeOfDates(this.userId, timeEntries).subscribe(response => {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);
       }
-      this.createNotification("success","");
+      this.createNotification("success", "Time entry for a range added successfully");
     }, error => {
-      this.createNotification("warning","");
+      this.createNotification("error", "Error on adding time entry for a range");
     });
   }
 
@@ -641,34 +631,64 @@ export class TimesheetComponent implements OnInit {
   }
 
   setDateColumnTotalHour() {
+    let fromDate = this.formData.fromDate;
+    let toDate = this.formData.toDate;
     let totalHour = this.timeEntries?.filter(timeEntry => new Date(timeEntry.Date).getTime() === this.date.getTime()).map(timeEntry => timeEntry.Hour).reduce((prev, curr) => prev + curr, 0);
-    this.dateColumnTotalHour = totalHour ? totalHour : 0;
-    this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
+
+    if (this.timeEntry) {
+      this.dateColumnTotalHour = totalHour ? totalHour : 0;
+      this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
+    }
+    else if (fromDate && toDate) {
+      fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+      toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
+
+      if (fromDate.valueOf() === toDate.valueOf()) {
+        this.dateColumnTotalHour = totalHour ? totalHour : 0;
+      }
+      else {
+        this.dateColumnTotalHour = 0;
+      }
+    }
+    else {
+      this.dateColumnTotalHour = 0;
+    }
   }
 
-  onFormFromDateChange(){
-    if (this.disableFromDate){
+  onFormFromDateChange() {
+    if (this.disableFromDate) {
       return;
     }
 
-    if (this.formData.fromDate){
+    if (this.formData.fromDate) {
       this.formData.toDate = this.formData.fromDate;
       this.disableToDate = false;
+      this.setColumnDate(this.formData.fromDate);
     }
-    else{
+    else {
       this.formData.toDate = null;
       this.disableToDate = true;
     }
+
+    this.setDateColumnTotalHour();
   }
 
   onFormToDateChange() {
-    if(!this.formData.toDate || !this.formData.fromDate){
+    if (!this.formData.toDate || !this.formData.fromDate) {
       return;
     }
 
-    if(this.formData.toDate < this.formData.fromDate){
+    if (this.formData.toDate < this.formData.fromDate) {
       this.formData.fromDate = this.formData.toDate;
+
+      this.setColumnDate(this.formData.fromDate);
     }
+
+    this.setDateColumnTotalHour();
+  }
+
+  setColumnDate(date: Date) {
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
   createNotification(type: string, message: string, position?: NzNotificationPlacement) {
