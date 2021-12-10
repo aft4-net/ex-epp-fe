@@ -95,6 +95,7 @@ export class ProjectNamePaletComponent implements OnInit {
     if (this.timeEntry) {
       this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(data => {
         console.log(data);
+        window.location.reload();
       });
     }
   }
