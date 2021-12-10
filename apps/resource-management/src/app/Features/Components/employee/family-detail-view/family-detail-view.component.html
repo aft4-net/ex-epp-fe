@@ -8,7 +8,7 @@
       <div nz-col nzSpan="20" class="page-title">
         <h1>Family Details</h1>
       </div>
-      <div nz-col nzSpan="4" >
+      <div nz-col nzSpan="4">
         <button
           class="addButton"
           nz-button
@@ -25,7 +25,6 @@
       #rowSelectionTable
       nzShowSizeChanger
       [nzData]="form.allFamilyDetails"
-
     >
       <thead>
         <tr class="tr">
@@ -35,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of form.allFamilyDetails;let i =index">
+        <tr *ngFor="let data of form.allFamilyDetails; let i = index">
           <td>{{ data.FullName }}</td>
           <td>{{ data.Relationship?.Name }}</td>
 
@@ -52,9 +51,7 @@
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a
-                  nz-popconfirm
-                  (click)="showConfirm(i)"
+                <a nz-popconfirm (click)="showConfirm(i)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
@@ -63,25 +60,30 @@
         </tr>
       </tbody>
     </nz-table>
-
-
   </div>
 </div>
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  [nzWidth]="'30%'"
+  [nzWidth]="'36%'"
   nzTitle="Add Family Details"
   [nzFooter]="footer"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"
 >
   <ng-container *nzModalContent>
-  <div class="overflow-scroll">
-<exec-epp-family-detail-group></exec-epp-family-detail-group>
-</div>
-<button nz-button class="saveButton" (click)="add()" [disabled]="!form.familyDetail.valid">Add</button> &nbsp;
-<button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
-
-   </ng-container>
+    <div class="overflow-scroll">
+      <exec-epp-family-detail-group></exec-epp-family-detail-group>
+    </div>
+    <button
+      nz-button
+      class="saveButton"
+      (click)="add()"
+      [disabled]="!form.familyDetail.valid"
+    >
+      Add
+    </button>
+    &nbsp;
+    <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
+  </ng-container>
 </nz-modal>
