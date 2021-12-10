@@ -72,12 +72,6 @@ export class EmergencyContact implements IEmergencyContact {
     public relationship?: string,
     public address: Address[] = []
   ) {}
-
-
-
-
-
-
 }
 
 
