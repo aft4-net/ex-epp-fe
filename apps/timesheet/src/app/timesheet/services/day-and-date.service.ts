@@ -17,6 +17,36 @@ export class DayAndDateService {
   constructor(private http: HttpClient) {
   }
 
+  //Returns Monday's date for the week
+  //Assumming Monday is the first date and Sunday is the last date
+  getWeeksFirstDate(date: Date){
+    let firstDate;
+
+    if (date.getDay() === 0){
+      firstDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 6);
+    }
+    else{
+      date.setDate(date.getDate() - date.getDay() + 1);
+      firstDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    return firstDate;
+  }
+
+  //Returns Sunday's date for the week
+  //Assumming Monday is the first date and Sunday is the last date
+  getWeeksLastDate(date: Date){
+    let lastDate;
+
+    if(date.getDay() === 0){
+      lastDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+    else{
+      date.setDate(date.getDate() - date.getDay() + 1);
+      lastDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 6);
+    }
+  }
+
   getRangeOfDates(fromDate: Date, toDate: Date) {
     let dates = [];
     let startDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
@@ -82,7 +112,6 @@ export class DayAndDateService {
     return this.firstday1;
   }
 
-
   clearData() {
     this.weekDays = [];
     this.lastday = '';
@@ -123,5 +152,4 @@ export class DayAndDateService {
     this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
     this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
   }
-
 }
