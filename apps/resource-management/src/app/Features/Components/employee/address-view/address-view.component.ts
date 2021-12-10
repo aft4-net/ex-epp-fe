@@ -5,7 +5,7 @@ import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
@@ -16,11 +16,13 @@ import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 export class AddressViewComponent implements OnInit {
   isVisible = false;
   isConfirmLoading = false;
-
+  confirmModal?: NzModalRef;
   editId: string | null = null;
   listOfaddress: Address[] = [];
+  IsEdit=false;
+  editAt=-10;
   employeeAddress?:Address
-
+  emptyData=[];
   @ViewChild('drawerTemplate')
   drawerTemplate: TemplateRef<{
       $implicit: { value: string; list: []; };
@@ -35,7 +37,7 @@ export class AddressViewComponent implements OnInit {
     this.form.addressForm;
     if(employeeService.employeeById){
 
-      this.listOfaddress=employeeService.employeeById.EmployeeAddress?
+      this.form.allAddresses=employeeService.employeeById.EmployeeAddress?
       employeeService.employeeById.EmployeeAddress:[];
   }
 }
@@ -53,13 +55,12 @@ export class AddressViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  startEdit(id: string): void {
-    this.editId = id;
-    const address=this.employeeService.employeeById?.EmployeeAddress?.filter(a=>a.Guid===id)
-     if(address)
-     {
-      this._formGenerator.generateAddressForm(address[0]);
-      this.isVisible=true;
+  startEdit(index: number): void {
+    if(index>=0){
+      this.IsEdit=true;
+      this.editAt=index;
+      this.isVisible = true;
+      this._formGenerator.generateAddressForm(this.form.allAddresses[index]);
     }
   }
 
@@ -78,17 +79,25 @@ export class AddressViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  showDeleteConfirm(id: string): void {
-    this.listOfaddress = this.listOfaddress.filter((d) => d.Guid !== id);
-    this.modalService.confirm({
-      nzTitle: 'Are you sure, you want to cancel this contact?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+  showConfirm(index:number): void {
+      
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Do you want to delete this item?',
+      nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
-      nzOkDanger: true,
-
+      nzOkText: 'Yes',
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel'),
+      nzOkDanger: true,
+      nzOnOk: () =>
+        new Promise((resolve, reject) => {
+          if (index > -1) {
+            this.form.allAddresses.splice(index, 1);
+            if(this.form.allAddresses.length<1){
+              this.form.allAddresses= this.emptyData;
+            }
+           }
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+        }).catch(() => console.log('Error.'))
     });
   }
 
@@ -98,13 +107,22 @@ export class AddressViewComponent implements OnInit {
 
   add(): void {
     if (this.form.addressForm.valid) {
-      // this.isVisible = false
-      const address =this.form.getModelAddressDetails() as Address;
-      this.listOfaddress = [...this.listOfaddress, address];
-      this.isVisible=false
-      this._formGenerator.allAddresses=[...this._formGenerator.allAddresses,address]
+         
+    const address =this.form.getModelAddressDetails() as Address[]; 
+    if(!this.IsEdit){
+     this.form.allAddresses=[...this.form.allAddresses ,address[0]]
+     
+      
     }
-
+    else{
+     this.form.allAddresses[this.editAt]=address[0];
+     this.editAt=-10
+     this.IsEdit=false;
+    }
+    if(this.form.familyDetail.valid){
+     this.isVisible=false;
+     this.form.familyDetail.reset();
+   }}
   }
 
   ngOnInit(): void {}

@@ -52,9 +52,7 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
   startEdit(index: number): void {
-    
-   // for(let count=0;count<this.form.allFamilyDetails.length;count++){
-     
+
       if(index>=0){
         this.IsEdit=true;
         this.editAt=index;

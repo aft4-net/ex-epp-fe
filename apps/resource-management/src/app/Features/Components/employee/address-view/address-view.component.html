@@ -20,7 +20,7 @@
       class="table"
       #rowSelectionTable
       nzShowSizeChanger
-      [nzData]="listOfaddress"
+      [nzData]="form.allAddresses"
     >
       <thead>
         <tr class="tr">
@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
+        <tr *ngFor="let data of form.allAddresses;let i = index">
           <td>{{ data.Country }}</td>
           <td>{{ data.City }}</td>
 
@@ -41,7 +41,7 @@
                 nzSpan="2"
                 class="editable-cell"
                 [hidden]="editId === data.Guid"
-                (click)="startEdit(data.Guid)"
+                (click)="startEdit(i)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
@@ -49,8 +49,8 @@
               <div nz-col nzSpan="2">
                 <a
                   nz-popconfirm
-                  nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="showDeleteConfirm(data.Guid)"
+                
+                  (nzOnConfirm)="showConfirm(i)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
