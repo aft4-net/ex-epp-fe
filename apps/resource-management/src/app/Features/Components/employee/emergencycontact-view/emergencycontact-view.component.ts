@@ -65,11 +65,11 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isVisible = false;
       this.isConfirmLoading = false;
     }, 3000);
-  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts[]; 
+  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts[];
    if(!this.IsEdit){
     this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact[0]]
-    
-     
+
+
    }
    else{
     this.form.allEmergencyContacts[this.editAt]=emergencyContact[0];
@@ -90,7 +90,7 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   startEdit(index: number): void {
-    
+
     if(index>=0){
       this.IsEdit=true;
       this.editAt=index;
@@ -108,7 +108,7 @@ export class EmergencycontactViewComponent implements OnInit {
     this.form.emergencyContact.reset();
   }
   showConfirm(index:number): void {
-      
+
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Do you want to delete this item?',
       nzContent: 'The action is not recoverable. ',
