@@ -68,7 +68,7 @@ export class OrganizationDetailComponent implements OnInit {
       reportingmanager : [employeeOrganization.ReportingManager,[Validators.required , Validators.pattern('^([a-zA-z\\s]{4,32})$')]],
       employmentType: [employeeOrganization.EmploymentType, [Validators.required]],
       joiningdate: [employeeOrganization.JoiningDate,[Validators.required,ValidateFutureDate()]],
-      terminationdate: [employeeOrganization.TerminationDate,[ValidateFutureDate()]],
+      terminationdate: [new Date(),[ValidateFutureDate()]],
       status:[employeeOrganization.Status, [Validators.required]]
     });
   }

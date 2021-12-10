@@ -11,6 +11,7 @@ import { FormGenerator } from '../../Features/Components/custom-forms-controls/f
 import { ICountry } from '../../Features/Models/EmployeeOrganization/Country';
 import { Nationality } from '../../Features/Models/Nationality';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-page-title',
@@ -21,7 +22,7 @@ export class PageTitleComponent implements OnInit {
   save="Save";
 
   constructor(private _formGenerator: FormGenerator,private _router:Router,
-    private _employeeService:EmployeeService) {
+    private _employeeService:EmployeeService,private notification: NzNotificationService) {
 
         this.save=this._employeeService.save
 
@@ -69,6 +70,7 @@ export class PageTitleComponent implements OnInit {
       employee.EmergencyContact = this._formGenerator.allEmergencyContacts
 
       this._employeeService.setEmployeeData(employee)
+      this._employeeService.employee$.subscribe()
       if(this._employeeService.isEdit){
        this._employeeService.updateEmployee();
        this._employeeService.isEdit=false;
@@ -76,9 +78,12 @@ export class PageTitleComponent implements OnInit {
       else{
         this._employeeService.saveEmployee()
       }
-      
-      
-     
+      this._employeeService.responseDto$.subscribe((response)=> {
+        if(response)
+        {
+          this.notification.create(response.responseStatus,'', response.message);
+        }
+      })     
       console.log('Employee Success')
       console.log(employee)
       this._router.navigate([''])
