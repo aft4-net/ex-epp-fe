@@ -59,6 +59,9 @@ export class PageTitleComponent implements OnInit {
       )
       this._router.navigate(['employee/add-employee/Organization-Detail'])
     } else {
+      if(this._employeeService.isEdit){
+
+      }
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
       employee.FamilyDetails =   this._formGenerator.allFamilyDetails
@@ -66,7 +69,14 @@ export class PageTitleComponent implements OnInit {
       employee.EmergencyContact = this._formGenerator.allEmergencyContacts
 
       this._employeeService.setEmployeeData(employee)
-      this._employeeService.saveEmployee()
+      if(this._employeeService.isEdit){
+       this._employeeService.updateEmployee();
+       this._employeeService.isEdit=false;
+      }
+      else{
+        this._employeeService.saveEmployee()
+      }
+     
       console.log('Employee Success')
       console.log(employee)
       this._router.navigate([''])
