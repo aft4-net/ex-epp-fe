@@ -65,20 +65,24 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isVisible = false;
       this.isConfirmLoading = false;
     }, 3000);
-  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts[];
-   if(!this.IsEdit){
-    this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact[0]]
+  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts; 
+  console.log("llllllllllllllllll")
+  console.log(emergencyContact)
+  console.log("llllllllllllllllll")
 
-
+  if(!this.IsEdit){
+    this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact]
+    
+     
    }
    else{
-    this.form.allEmergencyContacts[this.editAt]=emergencyContact[0];
+    this.form.allEmergencyContacts[this.editAt]=emergencyContact;
     this.editAt=-10
     this.IsEdit=false;
    }
-   if(this.form.familyDetail.valid){
+   if(this.form.emergencyContact.valid){
     this.isVisible=false;
-    this.form.familyDetail.reset();
+    this.form.generateEmergencyContactForm();
   }
   }
   onCurrentPageDataChange(event:any){

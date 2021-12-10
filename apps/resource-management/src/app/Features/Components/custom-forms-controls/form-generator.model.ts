@@ -158,15 +158,15 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelEmergencyContactDetails() {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
-        return [{
+        return {
             FirstName: value.fullName.firstName,
             FatherName:value.fullName.middleName ,
-            Relationship:value.relationship ,
+            Relationship:value.relationship.Name ,
             Gender: value.gender,
             DoB: value.dateofBirth,
-            PhoneNumber:value.phoneNumber,
+            PhoneNumber:value.PhoneNumber,
             Country:value.country
-        }] as Partial<EmergencyContacts>
+        } as Partial<EmergencyContacts>
 
     }
 
