@@ -94,7 +94,7 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   startEdit(index: number): void {
-    
+
     if(index>=0){
       this.IsEdit=true;
       this.editAt=index;
@@ -112,7 +112,7 @@ export class EmergencycontactViewComponent implements OnInit {
     this.form.emergencyContact.reset();
   }
   showConfirm(index:number): void {
-      
+
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Do you want to delete this item?',
       nzContent: 'The action is not recoverable. ',
