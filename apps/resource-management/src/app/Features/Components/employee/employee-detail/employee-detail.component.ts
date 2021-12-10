@@ -102,10 +102,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.employeeViewModel as IEmployeeViewModel[];
-    console.log("test " + this.employeeViewModel);
     this.FeatchAllEmployees();
-    this.FillTheFilter();
-
   }
 
   FillTheFilter() {
@@ -114,9 +111,9 @@ export class EmployeeDetailComponent implements OnInit {
     this.holdItCountry.length = 0;
     this.employeeViewModels$.subscribe(
        val => {
-           
+         console.log("val length"+ val.length);
+           if(val.length > 0){
           this.employeeViewModel = val
-        
           for(let i=0; i < this.employeeViewModel.length;i++){
             if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location.trim()) === -1 ){
                 this.holdItCountry.push(
@@ -184,40 +181,41 @@ export class EmployeeDetailComponent implements OnInit {
               }
             ];
           }
-          else {
-            this.listOfColumns = [
-              {
-                name: 'Job Title',
-                sortOrder: null,
-                sortDirections: ['ascend', 'descend', null],
-                sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
-                filterMultiple: true,
-                listOfFilter: [],
-                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
-              },
-              {
-                name: 'Location',
-                sortOrder: null,
-                sortDirections: ['ascend', 'descend', null],
-                sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
-                filterMultiple: true,
-                listOfFilter: [],
-                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
-              },
-              {
-                name: 'Status',
-                sortOrder: null,
-                sortDirections: ['ascend', 'descend', null],
-                sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
-                filterMultiple: true,
-                listOfFilter: [],
-                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
-              }
-            ];
-          }
         }
-      );
-    }
+        else{
+        this.listOfColumns = [
+          {
+            name: 'Job Title',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+            filterMultiple: true,
+            listOfFilter: [],
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          },
+          {
+            name: 'Location',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+            filterMultiple: true,
+            listOfFilter: [],
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+          },
+          {
+            name: 'Status',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+            filterMultiple: true,
+            listOfFilter: [],
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+          }
+        ];
+      }
+      console.log("test" + this.listOfColumns);
+    });
+  }
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
@@ -279,6 +277,7 @@ export class EmployeeDetailComponent implements OnInit {
       {
         this.loading = false;
         this.employeeViewModel = [];
+        this.employeeViewModels$=of([]);
         this.FillTheFilter();
       }
 
@@ -311,6 +310,7 @@ export class EmployeeDetailComponent implements OnInit {
         {
           this.loading = false;
           this.employeeViewModel = [];
+          this.employeeViewModels$=of([]);
           this.FillTheFilter();
         }
       },error => {
