@@ -169,7 +169,11 @@ export function validatePhoneNumber(
             parameters: parameters
         },
         {
-            method: checkPhoneNumber,
+            method: checkPhoneNumberCharacters,
+            parameters: parameters
+        },
+        {
+            method: checkPhoneNumberLayout,
             parameters: parameters
         },
         {
@@ -263,7 +267,7 @@ function checkrequired(
     controlName?: string
 ) {
     if (!control.value) {
-        errorLog.message = 'Inout is required! Please provide a value.'
+        errorLog.message = 'Input is required! Please provide a value.'
         return { required: true }
     }
     return null
@@ -422,17 +426,29 @@ function checkEmailCharacters(
     return null
 }
 
-
-function checkPhoneNumber(
+function checkPhoneNumberCharacters(
     control: AbstractControl,
     errorLog: { message: string },
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^((\\+91-?)|0)?[0-9]$/).test(control.value)) {
+    if (!(/^[()0-9 +-]+$/).test(control.value)) {
         errorLog.message = 'Input contains an invalid character(s)!'
         return { invalidCharacter: true }
     }
+    return null
+}
+
+function checkPhoneNumberLayout(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    // if (!(/^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$/).test(control.value)) {
+    //     errorLog.message = 'Input is an invalid format!'
+    //     return { invalidCharacter: true }
+    // }
     return null
 }
 

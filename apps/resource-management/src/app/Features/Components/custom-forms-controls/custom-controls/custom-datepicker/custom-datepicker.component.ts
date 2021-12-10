@@ -45,19 +45,6 @@ export class CustomDatepickerComponent implements OnInit {
         )
     }
 
-    disabledDate1 = (startValue: Date): boolean => {
-        return (
-            (startValue.getTime() > this.startingDate.getTime()
-            && (startValue.getTime() < this.endingDate.getTime()))
-        )
-    }
-
-    // disabledDate2 = (startValue: Date): boolean => {
-    //     return (
-    //        (startValue.getTime() > this.endingDate.getTime())
-    //     )
-    // }
-
     onChange() {
         this.errMessage = commonErrorMessage.message.substring(0)
         this.formResponse.emit()
