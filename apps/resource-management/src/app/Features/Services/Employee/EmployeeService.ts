@@ -26,6 +26,9 @@ export class EmployeeService {
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
    employee$ = this.employeeSource.asObservable();
 
+   private responseDtoSource = new BehaviorSubject<ResponseDto<Employee>>({} as ResponseDto<Employee>);
+   responseDto$ = this.responseDtoSource.asObservable();
+
    public employeeListSource = new BehaviorSubject<IEmployeeViewModel[]>({} as IEmployeeViewModel[]);
    employeeList$  : Observable<IEmployeeViewModel[]> = this.employeeListSource.asObservable();
 
@@ -102,6 +105,7 @@ export class EmployeeService {
       console.log("From The new Save Method "+ this.employee.Organization?.JobTitle);
       return this.http.post(this.baseUrl,this.employee)
      .subscribe((response:ResponseDto<Employee> | any) => {
+       this.responseDtoSource.next(response),
        this.employeeSource.next(response.data),
        console.log(response.message);
      },error => {
