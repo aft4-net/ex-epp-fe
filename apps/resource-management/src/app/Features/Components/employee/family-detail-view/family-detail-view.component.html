@@ -24,7 +24,7 @@
       class="table"
       #rowSelectionTable
       nzShowSizeChanger
-      [nzData]="listOfFamilies"
+      [nzData]="form.allFamilyDetails"
 
     >
       <thead>
@@ -35,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data;let i =index">
+        <tr *ngFor="let data of form.allFamilyDetails;let i =index">
           <td>{{ data.FullName }}</td>
           <td>{{ data.Relationship?.Name }}</td>
 
@@ -46,7 +46,7 @@
                 nzSpan="2"
                 class="editable-cell"
                 [hidden]="editId === data.Guid"
-                (click)="startEdit(data.Guid)"
+                (click)="startEdit(i)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
@@ -54,8 +54,7 @@
               <div nz-col nzSpan="2">
                 <a
                   nz-popconfirm
-                  nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="showConfirm(data.Guid)"
+                  (click)="showConfirm(i)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
