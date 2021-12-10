@@ -106,22 +106,22 @@ export class AddressViewComponent implements OnInit {
   }
 
   add(): void {
+   
     if (this.form.addressForm.valid) {
-         
-    const address =this.form.getModelAddressDetails() as Address[]; 
+    const address =this.form.getModelAddressDetails() as Address; 
     if(!this.IsEdit){
-     this.form.allAddresses=[...this.form.allAddresses ,address[0]]
+     this.form.allAddresses=[...this.form.allAddresses ,address]
      
       
     }
     else{
-     this.form.allAddresses[this.editAt]=address[0];
+     this.form.allAddresses[this.editAt]=address;
      this.editAt=-10
      this.IsEdit=false;
     }
-    if(this.form.familyDetail.valid){
+    if(this.form.addressForm.valid){
      this.isVisible=false;
-     this.form.familyDetail.reset();
+     this.form.generateAddressForm();
    }}
   }
 

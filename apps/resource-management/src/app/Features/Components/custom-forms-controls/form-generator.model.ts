@@ -158,15 +158,25 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelEmergencyContactDetails() {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.valid
-        return [{
+        return {
             FirstName: value.fullName.firstName,
             FatherName:value.fullName.middleName ,
-            Relationship:value.relationship ,
-            Gender: value.gender,
-            DoB: value.dateofBirth,
-            PhoneNumber:value.phoneNumber,
-            Country:value.country
-        }] as Partial<EmergencyContacts>
+            GrandFatherName: value.fullName.lastName,
+            Relationship:value.relationship,
+            PhoneNumber:value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
+            phoneNumber2: value.phoneNumbers.length > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1].phone: undefined,
+            phoneNumber3: value.phoneNumbers.length > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2].phone: undefined,
+            email:value.emailAddresses[0],
+            email2: value.emailAddresses.length > 1? value.emailAddresses[1]: undefined,
+            email3: value.emailAddresses.length > 2? value.emailAddresses[2] : undefined,
+            Country:value.country,
+            stateRegionProvice: value.state,
+            city: value.city,
+            subCityZone: value.subcity,
+            woreda: value.woreda,
+            houseNumber: value.houseNumber,
+            postalCode: value.postalCode
+        } as Partial<EmergencyContacts>
 
     }
 
@@ -431,6 +441,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
         )
+        this.errorMessageforPersonalDetails(
+          this.personalDetailsForm
+        )
     }
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
@@ -489,6 +502,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.Status,
             this.getFormControl('status', this.organizationalForm)
         )
+        this.errorMessageforOrganizationDetails(
+          this.organizationalForm
+        )
     }
 
     private _setAddressDetail(address: Address) {
@@ -526,6 +542,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('phoneNumber', this.addressForm)
         )
+        this.errorMessageforAddressDetails(
+          this.addressForm
+        )
     }
 
     private _setEmergencyContactDetail(emergencyContact: EmergencyContacts) {
@@ -533,7 +552,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setNames(
                 emergencyContact.FirstName,
                 emergencyContact.FatherName,
-                'X',
+                emergencyContact.GrandFatherName,
                 this.getFormGroup('fullName', this.emergencyContact)
             )
         }
@@ -541,16 +560,27 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.Relationship,
             this.getFormControl('relationship', this.emergencyContact)
         )
+        const emailArray: string[] = [ emergencyContact.email ]
+        if (emergencyContact.email2 && emergencyContact.email2 !== null && emergencyContact.email2 !== '') {
+            emailArray.push(emergencyContact.email2)
+        }
+        if (emergencyContact.email3 && emergencyContact.email3 !== null && emergencyContact.email3 !== '') {
+            emailArray.push(emergencyContact.email3)
+        }
         this._setEmailArray(
-            [
-
-            ],
+            emailArray,
             this.getFormArray('emailAddresses', this.emergencyContact)
         )
 
+        const phonerray: string[] = [ emergencyContact.PhoneNumber ]
+        if (emergencyContact.phoneNumber2 && emergencyContact.phoneNumber2 !== null && emergencyContact.phoneNumber2 !== '') {
+            phonerray.push(emergencyContact.phoneNumber2)
+        }
+        if (emergencyContact.phoneNumber3 && emergencyContact.phoneNumber3 !== null && emergencyContact.phoneNumber3 !== '') {
+            phonerray.push(emergencyContact.phoneNumber3)
+        }
         this._setPhoneArray(
-            [
-            ],
+            phonerray,
             this.getFormArray('phoneNumbers', this.emergencyContact)
         )
         this._setControlValue(
@@ -581,6 +611,10 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.postalCode,
             this.getFormControl('postalCode', this.emergencyAddress)
         )
+        this.errorMessageforEmergencyContactDetails(
+          this.emergencyContact,
+          this.emergencyAddress
+        )
     }
 
     private _setFamilyDetail(familyDetail: FamilyDetail) {
@@ -602,6 +636,9 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._setControlValue(
             familyDetail.DateofBirth,
             this.getFormControl('dateofBirth', this.familyDetail)
+        )
+        this.errorMessageforFamilyDetails(
+          this.familyDetail
         )
     }
 

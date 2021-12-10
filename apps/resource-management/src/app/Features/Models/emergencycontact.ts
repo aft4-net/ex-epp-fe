@@ -5,11 +5,12 @@ export interface EmergencyContacts {
   guid: string
   FirstName: string
   FatherName: string
+  GrandFatherName: string
   Relationship: string
-  PhoneNumber?: string
+  PhoneNumber: string
   phoneNumber2?: string
-  phoneNumbe3?: string
-  email?: string
+  phoneNumber3?: string
+  email: string
   email2?: string
   email3?: string
   Country?: string
