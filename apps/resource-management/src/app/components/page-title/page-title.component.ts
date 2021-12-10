@@ -76,6 +76,8 @@ export class PageTitleComponent implements OnInit {
       else{
         this._employeeService.saveEmployee()
       }
+      
+      
      
       console.log('Employee Success')
       console.log(employee)
