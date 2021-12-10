@@ -30,7 +30,6 @@ const routes: Routes = [
     component: OrganizationDetailComponent,
   },
 
-
   {path: 'employee/add-employee/address-view',
   component: AddressViewComponent,
 },

@@ -50,6 +50,7 @@ export class PageBreadcrumbComponent implements OnInit {
 
   addEmployee() {
 
+    this._formGenerator.generateForms()
     this._employeeService.isEdit=false;
     this._employeeService.save="Save";
     this._employeeService.employeeById=this.emptyEmp;

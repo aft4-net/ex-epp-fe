@@ -14,8 +14,8 @@ export type ExtractedData = {
 
 export class FormGeneratorAssistant {
 
-    private readonly _employeeIdNumberPrefices: string[] = []
-    private readonly _phonePrefices: string[] = []
+    private _employeeIdNumberPrefices: string[] = []
+    private _phonePrefices: string[] = []
 
     constructor(
         private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
@@ -23,16 +23,16 @@ export class FormGeneratorAssistant {
     ) {
         this._employeeStaticDataMockService.employeeIdNumberPrefices$
             .subscribe((response: SelectOptionModel[]) => {
-                this._employeeIdNumberPrefices.concat(
-                    response.map(option => option.value as string)
-                )
+                this._employeeIdNumberPrefices = response.map(option => option.value as string)
             });
         this._addressCountryStateService.getCountriesPhonePrefices()
             .subscribe((response: SelectOptionModel[]) => {
-                this._phonePrefices.concat(
-                    response.map(option => option.value as string)
-                )
+                this._phonePrefices = response.map(option => option.value as string)
             })
+
+        const segments = this._extractPhoneNumber('+151983351881')
+        console.log('Phone Number Extraction')
+        console.log(segments)
     }
 
     protected _extractEmployeeIdNumber(employeeIdNumber?: string | null): ExtractedData {
@@ -66,11 +66,15 @@ export class FormGeneratorAssistant {
             suffix: null
         } as ExtractedData
         if (phoneNumber && phoneNumber !== null && phoneNumber !== '') {
+            // console.log('Phone extraction function!', this._phonePrefices.length)
             let index = -1
             let noofMatches = 0
-            for (let i = 0; i < this._employeeIdNumberPrefices.length; i++) {
-                if (phoneNumber.indexOf(this._phonePrefices[i]) === 0
-                    && this._phonePrefices[i].length > noofMatches) {
+            for (let i = 0; i < this._phonePrefices.length; i++) {
+                // console.log(this._phonePrefices[i])
+                const prefix = phoneNumber.substring(0, this._phonePrefices[i].length)
+                if (this._phonePrefices[i] === prefix
+                    && prefix.length > noofMatches) {
+                        // console.log('Phone prefix found!')
                     index = i
                     noofMatches = this._phonePrefices[i].length
                 }

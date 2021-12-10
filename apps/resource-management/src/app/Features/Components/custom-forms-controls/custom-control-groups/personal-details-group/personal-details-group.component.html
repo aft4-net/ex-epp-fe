@@ -1,11 +1,5 @@
 <form nz-form class="form-group personal-detail-form-group"
 [nzLayout]="'vertical'">
-
-    <div>
-        <h2>
-            Personal Details
-        </h2>
-    </div>
   <exec-epp-custom-upload></exec-epp-custom-upload>
   <exec-epp-custom-employee-id-number
     [formGroup]="getFormGroup('employeeIdNumber')">
@@ -23,6 +17,7 @@
     [label]="'Date of Birth'"
     [myControl]="getControl('dateofBirth')"
     [required]="true"
+    [endingDate]="birthEndDate"
     >
   </exec-epp-custom-datepicker>
 
@@ -38,7 +33,7 @@
   <exec-epp-custom-select-multiple
     [myControl]="getControl('nationalities')"
     [list$]="nationalities$"
-    [maxChoices]="3"
+    [maxChoices]="maxNationality"
     >
   </exec-epp-custom-select-multiple>
 </form>

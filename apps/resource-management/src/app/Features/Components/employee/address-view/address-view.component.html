@@ -20,7 +20,7 @@
       class="table"
       #rowSelectionTable
       nzShowSizeChanger
-      [nzData]="listOfaddress"
+      [nzData]="form.allAddresses"
     >
       <thead>
         <tr class="tr">
@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
+        <tr *ngFor="let data of form.allAddresses; let i = index">
           <td>{{ data.Country }}</td>
           <td>{{ data.City }}</td>
 
@@ -41,16 +41,13 @@
                 nzSpan="2"
                 class="editable-cell"
                 [hidden]="editId === data.Guid"
-                (click)="startEdit(data.Guid)"
+                (click)="startEdit(i)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a
-                  nz-popconfirm
-                  nzPopconfirmTitle="Sure to delete?"
-                  (nzOnConfirm)="showDeleteConfirm(data.Guid)"
+                <a nz-popconfirm (click)="showConfirm(i)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
@@ -69,7 +66,7 @@
 
 <nz-modal
   [(nzVisible)]="isVisible"
-  [nzWidth]="'40%'"
+  [nzWidth]="'36%'"
   nzTitle="Add Address"
   [nzFooter]="null"
   (nzOnCancel)="exitModal()"
@@ -79,7 +76,15 @@
     <div class="overflow-scroll">
       <exec-epp-address-detail-group></exec-epp-address-detail-group>
     </div>
-    <button nz-button class="saveButton" (click)="add()">Add</button> &nbsp;
+    <button
+      nz-button
+      class="saveButton"
+      (click)="add()"
+      [disabled]="!form.addressForm.valid"
+    >
+      Add
+    </button>
+    &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
   </ng-container>
 </nz-modal>

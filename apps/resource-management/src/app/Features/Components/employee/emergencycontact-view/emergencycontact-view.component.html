@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <nz-table class="table"  #rowSelectionTable nzShowSizeChanger [nzData]="listOfData">
+    <nz-table class="table"  #rowSelectionTable nzShowSizeChanger [nzData]="form.allEmergencyContacts">
       <thead>
         <tr class="tr">
           <th>Full Name</th>
@@ -27,9 +27,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
-            <td>{{ data.FirstName+ " " + data.FatherName+ " "+ data.  GrandFatherName
-            }}</td>
+        <tr *ngFor="let data of form.allEmergencyContacts;let i=index">
+            <td>{{ data.FirstName+ " " + data.FatherName + " "+ data.GrandFatherName}}</td>
             <td>{{ data.Relationship }}</td>
             <td>{{ data.PhoneNumber }}</td>
             <td>{{data.Country}}</td>
@@ -37,12 +36,12 @@
           <td>
             <div nz-row>
               <div nz-col nzSpan="2" class="editable-cell" [hidden]="editId === data.guid"
-                (click)="startEdit(data.guid)">
+                (click)="startEdit(i)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="showDeleteConfirm(data.guid)"><i
+                <a nz-popconfirm  (click)="showConfirm(i)"><i
                     nz-icon nzType="delete" nzTheme="outline"></i></a>
               </div>
             </div>
@@ -59,19 +58,6 @@
   <ng-container *nzModalContent>
     <div>
       <div style="border: 2px solid #d9d9d9; border-radius: 5px">
-        <div nz-row style="
-            border-bottom: 1px solid #d9d9d9;
-            height: 50px;
-            justify-content: center;
-          ">
-          <div nz-col nzSpan="20">
-            <h2>Enter Details</h2>
-          </div>
-         <!-- <div nz-col nzSpan="4" style="justify-content: center">
-            <button nz-button class="saveButton" (click)="add()">Next</button>
-          </div>-->
-        </div>
-
         <div nz-col nzSpan="24">
           <nz-tabset class="p-2" [nzTabPosition]="'left'">
             <div>
@@ -112,7 +98,9 @@
         </div>
       </div>
       <br />
-     <button nz-button class="addeButton" (click)="add()">Add</button> &nbsp;
+     <button nz-button class="addeButton" (click)="add()"
+      [disabled]="!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid"
+      >Add</button> &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">
         Clear
       </button>
