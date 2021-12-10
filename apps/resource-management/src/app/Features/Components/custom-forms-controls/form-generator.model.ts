@@ -161,11 +161,21 @@ export class FormGenerator extends FormGeneratorAssistant {
         return {
             FirstName: value.fullName.firstName,
             FatherName:value.fullName.middleName ,
-            Relationship:value.relationship.Name ,
-            Gender: value.gender,
-            DoB: value.dateofBirth,
-            PhoneNumber:value.PhoneNumber,
-            Country:value.country
+            GrandFatherName: value.fullName.lastName,
+            Relationship:value.relationship,
+            PhoneNumber:value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
+            phoneNumber2: value.phoneNumbers.length > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1].phone: undefined,
+            phoneNumber3: value.phoneNumbers.length > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2].phone: undefined,
+            email:value.emailAddresses[0],
+            email2: value.emailAddresses.length > 1? value.emailAddresses[1]: undefined,
+            email3: value.emailAddresses.length > 2? value.emailAddresses[2] : undefined,
+            Country:value.country,
+            stateRegionProvice: value.state,
+            city: value.city,
+            subCityZone: value.subcity,
+            woreda: value.woreda,
+            houseNumber: value.houseNumber,
+            postalCode: value.postalCode
         } as Partial<EmergencyContacts>
 
     }
@@ -533,7 +543,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._setNames(
                 emergencyContact.FirstName,
                 emergencyContact.FatherName,
-                'X',
+                emergencyContact.GrandFatherName,
                 this.getFormGroup('fullName', this.emergencyContact)
             )
         }
@@ -541,16 +551,27 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.Relationship,
             this.getFormControl('relationship', this.emergencyContact)
         )
+        const emailArray: string[] = [ emergencyContact.email ]
+        if (emergencyContact.email2 && emergencyContact.email2 !== null && emergencyContact.email2 !== '') {
+            emailArray.push(emergencyContact.email2)
+        }
+        if (emergencyContact.email3 && emergencyContact.email3 !== null && emergencyContact.email3 !== '') {
+            emailArray.push(emergencyContact.email3)
+        }
         this._setEmailArray(
-            [
-
-            ],
+            emailArray,
             this.getFormArray('emailAddresses', this.emergencyContact)
         )
 
+        const phonerray: string[] = [ emergencyContact.PhoneNumber ]
+        if (emergencyContact.phoneNumber2 && emergencyContact.phoneNumber2 !== null && emergencyContact.phoneNumber2 !== '') {
+            phonerray.push(emergencyContact.phoneNumber2)
+        }
+        if (emergencyContact.phoneNumber3 && emergencyContact.phoneNumber3 !== null && emergencyContact.phoneNumber3 !== '') {
+            phonerray.push(emergencyContact.phoneNumber3)
+        }
         this._setPhoneArray(
-            [
-            ],
+            phonerray,
             this.getFormArray('phoneNumbers', this.emergencyContact)
         )
         this._setControlValue(

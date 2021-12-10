@@ -100,6 +100,7 @@ export class EmergencycontactViewComponent implements OnInit {
       this.editAt=index;
       this.isVisible = true;
       this.form.generateEmergencyContactForm(this.form.allEmergencyContacts[index]);
+    
     }
   }
 
