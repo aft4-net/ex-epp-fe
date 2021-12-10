@@ -60,19 +60,30 @@ export class PageTitleComponent implements OnInit {
       )
       this._router.navigate(['employee/add-employee/Organization-Detail'])
     } else {
+      if(this._employeeService.isEdit){
+
+      }
       const employee = this._formGenerator.getModelPersonalDetails()
       employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
       employee.FamilyDetails =   this._formGenerator.allFamilyDetails
-      employee.PersonalAddress = this._formGenerator.allAddresses
+      employee.EmployeeAddress = this._formGenerator.allAddresses
       employee.EmergencyContact = this._formGenerator.allEmergencyContacts
 
       this._employeeService.setEmployeeData(employee)
-      this._employeeService.saveEmployee()
-      this._employeeService.responseDto$.subscribe((response)=> {
-          this.notification.create(response.responseStatus,'', response.message);
-          //this.notification.create('success','notification', "employee saved successfully");
-      })
       this._employeeService.employee$.subscribe()
+      if(this._employeeService.isEdit){
+       this._employeeService.updateEmployee();
+       this._employeeService.isEdit=false;
+      }
+      else{
+        this._employeeService.saveEmployee()
+      }
+      this._employeeService.responseDto$.subscribe((response)=> {
+        if(response)
+        {
+          this.notification.create(response.responseStatus,'', response.message);
+        }
+      })     
       console.log('Employee Success')
       console.log(employee)
       this._router.navigate([''])

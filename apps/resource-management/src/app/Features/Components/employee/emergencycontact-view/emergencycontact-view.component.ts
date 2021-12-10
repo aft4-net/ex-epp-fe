@@ -66,9 +66,6 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isConfirmLoading = false;
     }, 3000);
   const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts; 
-  console.log("llllllllllllllllll")
-  console.log(emergencyContact)
-  console.log("llllllllllllllllll")
 
   if(!this.IsEdit){
     this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact]
@@ -100,7 +97,9 @@ export class EmergencycontactViewComponent implements OnInit {
       this.editAt=index;
       this.isVisible = true;
       this.form.generateEmergencyContactForm(this.form.allEmergencyContacts[index]);
-    
+    console.log("this.form.allEmergencyContacts[index]")
+    console.log(this.form.allEmergencyContacts[index])
+    console.log("this.form.allEmergencyContacts[index]")
     }
   }
 

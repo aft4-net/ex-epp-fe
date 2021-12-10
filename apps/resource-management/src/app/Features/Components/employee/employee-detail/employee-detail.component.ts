@@ -111,7 +111,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.holdItCountry.length = 0;
     this.employeeViewModels$.subscribe(
        val => {
-         console.log("val length"+ val.length);
            if(val.length > 0){
           this.employeeViewModel = val
           for(let i=0; i < this.employeeViewModel.length;i++){
@@ -213,14 +212,12 @@ export class EmployeeDetailComponent implements OnInit {
           }
         ];
       }
-      console.log("test" + this.listOfColumns);
     });
   }
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(employeeGuid);
-      console.log(employeeGuid);
     } else {
       this.setOfCheckedId.delete(employeeGuid);
     }
@@ -250,7 +247,6 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   onAllChecked(checked: boolean): void {
-    console.log(this.listOfCurrentPageData);
     this.listOfCurrentPageData
       .filter(({ disabled }) => !disabled)
       .forEach(({ EmployeeGUid }) => this.updateCheckedSet(EmployeeGUid, checked));

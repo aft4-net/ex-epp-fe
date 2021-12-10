@@ -659,8 +659,8 @@ export class FormGenerator extends FormGeneratorAssistant {
             if(employee.EmployeeOrganization) {
                 this._setOrganizationalDetail(employee.EmployeeOrganization)
             }
-            if(employee.PersonalAddress) {
-                this.allAddresses = employee.PersonalAddress
+            if(employee.EmployeeAddress) {
+                this.allAddresses = employee.EmployeeAddress
             }
             if(employee.FamilyDetails) {
                 this.allFamilyDetails = employee.FamilyDetails
