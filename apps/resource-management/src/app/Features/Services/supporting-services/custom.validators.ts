@@ -422,6 +422,7 @@ function checkEmailCharacters(
     return null
 }
 
+
 function checkPhoneNumber(
     control: AbstractControl,
     errorLog: { message: string },
