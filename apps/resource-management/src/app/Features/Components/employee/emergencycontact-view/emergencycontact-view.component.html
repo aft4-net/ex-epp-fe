@@ -28,8 +28,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of form.allEmergencyContacts;let i=index">
-            <td>{{ data.FirstName+ " " + data.FatherName
-            }}</td>
+            <td>{{ data.FirstName+ " " + data.FatherName + " "+ data.GrandFatherName}}</td>
             <td>{{ data.Relationship }}</td>
             <td>{{ data.PhoneNumber }}</td>
             <td>{{data.Country}}</td>
