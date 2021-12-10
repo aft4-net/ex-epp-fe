@@ -157,7 +157,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
     getModelEmergencyContactDetails() {
         const value = this.emergencyContact.value
-        const valueAddress = this.emergencyAddress.valid
+        const valueAddress = this.emergencyAddress.value
         return {
             FirstName: value.fullName.firstName,
             FatherName:value.fullName.middleName ,
@@ -169,13 +169,13 @@ export class FormGenerator extends FormGeneratorAssistant {
             email:value.emailAddresses[0],
             email2: value.emailAddresses.length > 1? value.emailAddresses[1]: undefined,
             email3: value.emailAddresses.length > 2? value.emailAddresses[2] : undefined,
-            Country:value.country,
-            stateRegionProvice: value.state,
-            city: value.city,
-            subCityZone: value.subcity,
-            woreda: value.woreda,
-            houseNumber: value.houseNumber,
-            postalCode: value.postalCode
+            Country:valueAddress.country,
+            stateRegionProvice: valueAddress.state,
+            city: valueAddress.city,
+            subCityZone: valueAddress.subCityZone,
+            woreda: valueAddress.woreda,
+            houseNumber: valueAddress.houseNumber,
+            postalCode: valueAddress.postalCode
         } as Partial<EmergencyContacts>
 
     }
