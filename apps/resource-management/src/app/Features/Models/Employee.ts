@@ -19,8 +19,6 @@ export interface Employee{
   DateofBirth : Date,
   Gender : string,
   Nationality?: Nationality[],
-  Organization?: EmployeeOrganization,
-  PersonalAddress?: Address[],
   FamilyDetails?: FamilyDetail[],
   EmployeeOrganization?: EmployeeOrganization,
   EmployeeAddress?: Address[],
