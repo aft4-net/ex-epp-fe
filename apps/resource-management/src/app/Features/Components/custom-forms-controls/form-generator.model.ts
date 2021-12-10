@@ -66,6 +66,12 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     public readonly address: Address[] = []
 
+    private _isEdit = false
+
+    get IsEdit(): boolean {
+        return this._isEdit
+    }
+
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -397,23 +403,27 @@ export class FormGenerator extends FormGeneratorAssistant {
             )
         }
 
+        const emailArray: string[] = [ employee.PersonalEmail ]
+        if (employee.PersonalEmail2 && employee.PersonalEmail2 !== null && employee.PersonalEmail2 !== '') {
+            emailArray.push(employee.PersonalEmail2)
+        }
+        if (employee.PersonalEmail3 && employee.PersonalEmail3 !== null && employee.PersonalEmail3 !== '') {
+            emailArray.push(employee.PersonalEmail3)
+        }
         this._setEmailArray(
-            [
-                employee.PersonalEmail,
-                employee.PersonalEmail2,
-                employee.PersonalEmail3
-
-            ],
+            emailArray,
             this.getFormArray('emailAddresses', this.personalDetailsForm)
         )
 
+        const phonerray: string[] = [ employee.MobilePhone ]
+        if (employee.Phone1 && employee.Phone1 !== null && employee.Phone1 !== '') {
+            phonerray.push(employee.Phone1)
+        }
+        if (employee.Phone2 && employee.Phone2 !== null && employee.Phone2 !== '') {
+            phonerray.push(employee.Phone2)
+        }
         this._setPhoneArray(
-            [
-                employee.Phone1,
-                employee.Phone2,
-                employee.MobilePhone
-
-            ],
+            phonerray,
             this.getFormArray('phoneNumbers', this.personalDetailsForm)
         )
 
@@ -607,11 +617,22 @@ export class FormGenerator extends FormGeneratorAssistant {
 
         this._regenerateForm()
         if(employee) {
-
+            this._isEdit = true
             this._setPresonalDetail(employee)
             if(employee.EmployeeOrganization) {
                 this._setOrganizationalDetail(employee.EmployeeOrganization)
             }
+            if(employee.PersonalAddress) {
+                this.allAddresses = employee.PersonalAddress
+            }
+            if(employee.FamilyDetails) {
+                this.allFamilyDetails = employee.FamilyDetails
+            }
+            if(employee.EmergencyContact) {
+                this.allEmergencyContacts = employee.EmergencyContact
+            }
+        } else {
+            this._isEdit = false
         }
     }
 
