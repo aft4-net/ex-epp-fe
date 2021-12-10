@@ -41,8 +41,8 @@ import { PageTitleComponent } from '../../../components/page-title/page-title.co
     FamilyDetailViewComponent,
     EmergencycontactViewComponent,
     PageTitleComponent
-    
-    
+
+
   ],
   imports: [
     CommonModule,
@@ -56,7 +56,7 @@ import { PageTitleComponent } from '../../../components/page-title/page-title.co
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
     CustomFormsControlsModule,
-    
+
   ],
 
   exports: [EmployeeComponent,SideBarComponent],

@@ -8,7 +8,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 })
 export class EmergencycontactEditComponent implements OnInit {
 
- 
+
 
   isVisible = false;
   isConfirmLoading = false;
@@ -28,7 +28,7 @@ export class EmergencycontactEditComponent implements OnInit {
   constructor(private modalService: NzModalService) {}
 
 
- 
+
   handleOk(): void {
     this.isConfirmLoading = true;
     setTimeout(() => {

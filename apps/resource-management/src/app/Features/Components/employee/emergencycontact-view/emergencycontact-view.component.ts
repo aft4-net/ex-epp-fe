@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
@@ -15,16 +15,19 @@ export class EmergencycontactViewComponent implements OnInit {
   isVisible = false;
   isConfirmLoading = false;
   listOfData: any[] = [];
+  confirmModal?: NzModalRef;
   i = 0;
   editId: string | null = null;
-
+  IsEdit=false;
+  editAt=-10;
+  emptyData=[];
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator,
     private _employeeService:EmployeeService
   ) {
     if(_employeeService.employeeById){
-      this.listOfData=_employeeService.employeeById.EmergencyContact?
+      this.form.allEmergencyContacts=_employeeService.employeeById.EmergencyContact?
       _employeeService.employeeById.EmergencyContact:[];
 
 
@@ -62,14 +65,21 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isVisible = false;
       this.isConfirmLoading = false;
     }, 3000);
-    //if (this.form.addressForm.valid) {
-      // this.isVisible = false
-      const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts;
-      this.listOfData = [...this.listOfData, emergencyContact];
-      console.log("listOfData")
-      console.log(this.listOfData)
-      this.isVisible=false
-   // }
+  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts[]; 
+   if(!this.IsEdit){
+    this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact[0]]
+    
+     
+   }
+   else{
+    this.form.allEmergencyContacts[this.editAt]=emergencyContact[0];
+    this.editAt=-10
+    this.IsEdit=false;
+   }
+   if(this.form.familyDetail.valid){
+    this.isVisible=false;
+    this.form.familyDetail.reset();
+  }
   }
   onCurrentPageDataChange(event:any){
 ;
@@ -79,14 +89,13 @@ export class EmergencycontactViewComponent implements OnInit {
   }
 
 
-  startEdit(id: string): void {
-    this.editId = id;
-    this.editId = id;
-    const emergencyContact=this._employeeService.employeeById?.EmergencyContact?.filter(a=>a.guid===id)
-     if(emergencyContact)
-     {
-      this.form.generateEmergencyContactForm(emergencyContact[0]);
-      this.isVisible=true;
+  startEdit(index: number): void {
+    
+    if(index>=0){
+      this.IsEdit=true;
+      this.editAt=index;
+      this.isVisible = true;
+      this.form.generateEmergencyContactForm(this.form.allEmergencyContacts[index]);
     }
   }
 
@@ -98,20 +107,28 @@ export class EmergencycontactViewComponent implements OnInit {
     this.form.addressForm.reset();
     this.form.emergencyContact.reset();
   }
-  showDeleteConfirm(id: string): void {
-    //this.listOfData = this.listOfData.filter((d) => d.guid !== id);
-
-    this.modalService.confirm({
-      nzTitle: 'Are you sure, you want to cancel this contact?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+  showConfirm(index:number): void {
+      
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Do you want to delete this item?',
+      nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
-      nzOkDanger: true,
-
+      nzOkText: 'Yes',
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel'),
+      nzOkDanger: true,
+      nzOnOk: () =>
+        new Promise((resolve, reject) => {
+          if (index > -1) {
+            this.form.allEmergencyContacts.splice(index, 1);
+            if(this.form.allEmergencyContacts.length<1){
+              this.form.allEmergencyContacts= this.emptyData;
+            }
+           }
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+        }).catch(() => console.log('Error.'))
     });
   }
+
 
   ngOnInit(): void {}
 }
