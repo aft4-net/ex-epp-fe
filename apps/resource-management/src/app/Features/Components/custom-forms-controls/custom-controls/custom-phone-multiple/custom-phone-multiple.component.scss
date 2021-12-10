@@ -4,3 +4,7 @@
 .phone-input {
     width: 22rem;
 }
+
+::ng-deep .ant-select-dropdown {
+    min-width: 20vw !important;
+}

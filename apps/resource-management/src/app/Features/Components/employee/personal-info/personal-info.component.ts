@@ -69,6 +69,7 @@ export class PersonalInfoComponent implements OnInit {
       sizeLimit: 'Size Limit'
     }
 };
+isEdit = false
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private readonly _form: FormGenerator,
@@ -77,7 +78,11 @@ export class PersonalInfoComponent implements OnInit {
      this._form.errorMessageforPersonalDetails(
       this._form.personalDetailsForm
     )
-     
+
+      this.isEdit = this._form.IsEdit
+     console.log('personla info details')
+     console.log(     this.employeeService.employeeById
+      )
       if (!this.employeeService.employeeById)
        {
            this.employeeService.save="Save";

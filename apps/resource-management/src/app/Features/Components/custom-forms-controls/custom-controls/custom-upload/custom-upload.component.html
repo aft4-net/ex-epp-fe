@@ -1,26 +1,22 @@
 <div class="clearfix">
-    <div>
-      <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="fileList[fileList.length-1].url"></nz-avatar>
-        <!-- <img class="profile-pic" [src]="fileList[0].url" alt="Profile Pic"
-        width="75" height="75"> -->
+  <div>
+    <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="fileList[fileList.length-1].url">
+    </nz-avatar>
+  </div>
+  <div class="profile-buttons-container">
+    <div class="profile-button-container">
+      <nz-upload nzAction="http://localhost:14696/api/v1/EmployeePhoto">
+        <button class="profile-button-add">
+          <i nz-icon nzType="upload"></i>
+          Upload
+        </button>
+      </nz-upload>
     </div>
-    <div class="profile-buttons-container">
-        <div class="profile-button-container">
-            <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-                <button class="profile-button-add">
-                  <i nz-icon nzType="upload"></i>
-                  Upload
-                </button>
-              </nz-upload>
-        </div>
-        <!-- <div *ngFor="let item of  fileList;let i=index">
-          {{ fileList[i].url}}
-        </div> -->
-        <div class="profile-button-container">
-              <button class="profile-button-delete">
-                <i nz-icon nzType="delete"></i>
-                Delete
-              </button>
-        </div>
+    <div class="profile-button-container">
+      <button class="profile-button-delete">
+        <i nz-icon nzType="delete"></i>
+        Delete
+      </button>
     </div>
   </div>
+</div>
