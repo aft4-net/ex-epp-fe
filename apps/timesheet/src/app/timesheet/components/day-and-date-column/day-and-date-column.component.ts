@@ -39,7 +39,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @ViewChild ('addIcon') iconEL!:ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
-  dateColumnHighlightClass: string = "date-column-highlight"
+  dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
   index: number = 0;
   overflow = false;
