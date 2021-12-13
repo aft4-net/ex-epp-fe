@@ -31,7 +31,6 @@ export class CustomSelectComponent implements OnInit {
     }
 
     onChange() {
-      console.log('Relationship')
       this.errMessage = commonErrorMessage.message.substring(0)
       this.formResponse.emit()
     }

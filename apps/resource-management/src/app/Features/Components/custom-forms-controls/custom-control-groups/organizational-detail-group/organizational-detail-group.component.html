@@ -48,7 +48,8 @@
     label="Employement Type"
     [myControl]="getControl('employeementType')"
     [list$]="employementTypes$"
-    [required]="true">
+    [required]="true"
+    (formResponse)="onEmployementTypeChange()">
   </exec-epp-custom-select>
   <exec-epp-custom-datepicker
     [label]="'Joining Date'"
@@ -56,12 +57,14 @@
     [endingDate]="joinigStartDate"
     >
   </exec-epp-custom-datepicker>
-  <exec-epp-custom-datepicker
+  <ng-container *ngIf="isContract">
+    <exec-epp-custom-datepicker
     [label]="'Termination Date'"
     [myControl]="getControl('terminationDate')"
     [startingDate]="terminationStartDate"
     >
   </exec-epp-custom-datepicker>
+  </ng-container>
   <exec-epp-custom-select
     label="Current Status"
     [myControl]="getControl('status')"
