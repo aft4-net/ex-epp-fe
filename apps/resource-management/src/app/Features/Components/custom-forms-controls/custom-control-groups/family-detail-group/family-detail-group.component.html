@@ -13,6 +13,7 @@
     <ng-container *ngIf="isChild">
       <exec-epp-custom-datepicker
       [label]="'Date of Birth'"
+      [endingDate]="endingDate"
       [myControl]="getControl('dateofBirth')">
     </exec-epp-custom-datepicker>
     </ng-container>
