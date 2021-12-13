@@ -628,6 +628,9 @@ export class TimesheetComponent implements OnInit {
   }
 
   updateTimeEntry(timeEntry: TimeEntry) {
+    let date = timeEntry.Date;
+    timeEntry.Date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+    
     this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);

@@ -78,7 +78,7 @@ export class TimesheetService {
     return response.pipe(map(r => r.body?.Data));
   }
 
-  addTimeEntry(employeeId: string, timeEntry: TimeEntry) {
+  addTimeEntry(employeeId: string, timeEntry: TimeEntry) {debugger;
     const headers = { "content-type": "application/json" };
 
     let params = new HttpParams();
