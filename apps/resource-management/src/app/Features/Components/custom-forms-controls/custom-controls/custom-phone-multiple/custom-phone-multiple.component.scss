@@ -1,10 +1,2 @@
-::ng-deep .ant-form-item .ant-input-group .ant-select, .ant-form-item .ant-picker-calendar-month-select, .ant-form-item .ant-picker-calendar-year-select, .ant-modal {
-    width: 6rem;
-}
-.phone-input {
-    width: 22rem;
-}
 
-::ng-deep .ant-select-dropdown {
-    min-width: 20vw !important;
-}
+@import url('../../excel-styles/excel-single-control.style.scss');

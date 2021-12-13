@@ -1,19 +1,2 @@
-::ng-deep .ant-btn, .ant-btn:active {
-    outline: 0;
-    border: none;
-    color: #00A551;
-}
-
-::ng-deep .ant-btn:hover, .ant-btn:focus {
-    color: rgb(0,255,0) !important;
-}
-
-::ng-deep .ant-input-group-addon:last-child {
-    border: none !important;
-    background-color: white !important;
-}
-
-.email-input-box {
-    width: 28rem !important;
-}
+@import url('../../excel-styles/excel-single-control.style.scss');
 

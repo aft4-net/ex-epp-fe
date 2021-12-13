@@ -98,6 +98,10 @@ export class EmployeeService {
       return employeeList;
      }
 
+     add(employee: Employee){
+      return this.http.post(this.baseUrl,employee)
+     }
+
     saveEmployee(){
        this.employee$.subscribe(x=>{
          this.employee = x;
