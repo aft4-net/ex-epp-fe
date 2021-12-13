@@ -43,7 +43,7 @@ export class TimesheetComponent implements OnInit {
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
-  envalidEntries: {Date: Date, Message: string}[] | null = null;
+  envalidEntries: { Date: Date, Message: string }[] | null = null;
 
   clients: Client[] | null = null;
   clientsFiltered: Client[] | null = null;
@@ -124,9 +124,9 @@ export class TimesheetComponent implements OnInit {
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   }
 
-  getTimesheetConfiguration(){
+  getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      if (response){
+      if (response) {
         this.timesheetConfig = response;
       }
     }, error => {
@@ -328,16 +328,18 @@ export class TimesheetComponent implements OnInit {
     this.setDateColumnTotalHour();
 
 
-    if (this.date <= new Date()) {
-      if (this.dateColumnTotalHour < 24) {
-        this.scrollPageToTop();
-        this.checkForApproalAndShowFormDrawer();
-      } else {
-        this.createNotification("error", "Day is already filled up to 24 hours", "bottomRight");
-      }
-    } else {
-      this.createNotification("error", "Can't fill timesheet for the future.", "bottomRight")
+    if (this.date > new Date()) {
+      this.createNotification("error", "Can't fill timesheet for the future.", "bottomRight");
+      return;
     }
+
+    if (this.dateColumnTotalHour < 24) {
+      this.scrollPageToTop();
+      this.checkForApproalAndShowFormDrawer();
+    } else {
+      this.createNotification("error", "Day is already filled up to 24 hours", "bottomRight");
+    }
+
   }
 
   scrollPageToTop() {
@@ -533,7 +535,8 @@ export class TimesheetComponent implements OnInit {
     this.timesheetValidationService.fromDate = fromDate;
     this.timesheetValidationService.toDate = toDate;
 
-    if (this.timesheet) {debugger;
+    if (this.timesheet) {
+      debugger;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -551,7 +554,7 @@ export class TimesheetComponent implements OnInit {
         if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
-        else{
+        else {
           this.envalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
@@ -559,7 +562,8 @@ export class TimesheetComponent implements OnInit {
         }
       }
     }
-    else {debugger;
+    else {
+      debugger;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
@@ -568,7 +572,7 @@ export class TimesheetComponent implements OnInit {
         if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
-        else{
+        else {
           this.envalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
@@ -577,7 +581,7 @@ export class TimesheetComponent implements OnInit {
       }
     }
 
-    if (this.envalidEntries && this.envalidEntries.length > 0){
+    if (this.envalidEntries && this.envalidEntries.length > 0) {
       this.modalVisible = true;
     }
 
@@ -586,7 +590,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  handleOk(){
+  handleOk() {
     this.modalVisible = false;
   }
 
@@ -631,7 +635,7 @@ export class TimesheetComponent implements OnInit {
   updateTimeEntry(timeEntry: TimeEntry) {
     let date = timeEntry.Date;
     timeEntry.Date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-    
+
     this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
       if (this.userId) {
         this.getTimesheet(this.userId, this.date);
@@ -686,8 +690,8 @@ export class TimesheetComponent implements OnInit {
         this.dateColumnTotalHour = 0;
       }
     }
-    else {
-      this.dateColumnTotalHour = 0;
+    else{
+      this.dateColumnTotalHour = totalHour ?? 0;
     }
   }
 
