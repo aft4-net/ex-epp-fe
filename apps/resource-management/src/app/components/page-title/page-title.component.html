@@ -1,16 +1,16 @@
 <div class="page-title">
   <div nz-row>
     <div nz-col nzSpan="20">
-      <h2>Enter employee details</h2>
+      <h2>Enter Employee Details</h2>
     </div>
     <div nz-col nzSpan="4">
       <div nz-row>
         <div nz-col nzSpan="2">
-          <button nz-button class="cancelButton">Cancel</button>
+          <button nz-button (click)="Cancel()" class="cancelButton">Cancel</button>
         </div>
         <div nz-col nzSpan="2">
 
-          <button nz-button class="saveButton">Save</button>
+          <button nz-button (click)="saveNext()" class="saveButton">{{save}}</button>
         </div>
       </div>
     </div>

@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
+import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
+import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -23,19 +24,24 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     employementTypes$: Observable<SelectOptionModel[]>
     employementStatuses$: Observable<SelectOptionModel[]>
 
+    joinigStartDate = new Date(Date.now())
+    terminationStartDate = new Date(Date.now())
+
+    isContract = false
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _organizationDetailStateService: OrganizationDetailStateService
+        private readonly _addressCountryStateService: AddressCountryStateService,
+        private readonly _employeeStaticDataService: EmployeeStaticDataMockService
     ) {
-        this.countries$ = this._organizationDetailStateService.countriesName$
-        this.dutyStations$ = this._organizationDetailStateService.dutyStations$
-        this.jobTitles$ = this._organizationDetailStateService.jobTitles$
-        this.businessUnits$ = this._organizationDetailStateService.businessUnits$
-        this.departments$ = this._organizationDetailStateService.departments$
-        this.employementTypes$ = this._organizationDetailStateService.employementTypes$
-        this.reportingManagers$ = this._organizationDetailStateService.reportingManagers$
-        this.employementStatuses$ = this._organizationDetailStateService.employementStatuses$
+        this.countries$ = this._addressCountryStateService.countries$
+        this.dutyStations$ = this._employeeStaticDataService.dutyStations$
+        this.jobTitles$ = this._employeeStaticDataService.jobTitles$
+        this.businessUnits$ = this._employeeStaticDataService.businessUnits$
+        this.departments$ = this._employeeStaticDataService.departments$
+        this.employementTypes$ = this._employeeStaticDataService.employementTypes$
+        this.reportingManagers$ = this._employeeStaticDataService.reportingManagers$
+        this.employementStatuses$ = this._employeeStaticDataService.employementStatuses$
         
 
         this.formGroup
@@ -43,9 +49,7 @@ export class OrganizationalDetailGroupComponent implements OnInit {
 
     }
 
-    ngOnInit(): void {
-        this.showData()
-    }
+    ngOnInit(): void {}
 
     getControl(name: string): FormControl {
         return this._formGenerator.getFormControl(name, this.formGroup)
@@ -55,9 +59,13 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         return this._formGenerator.getFormArray(name, this.formGroup)
     }
 
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
+    onEmployementTypeChange() {
+        const value: string = this.getControl('employeementType').value
+        if(value.search('Permanent') < 0){
+            this.isContract = true
+        } else {
+            this.isContract = false
+        }
     }
 
 }

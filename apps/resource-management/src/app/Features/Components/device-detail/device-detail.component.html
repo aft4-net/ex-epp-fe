@@ -1,34 +1,24 @@
 <div class="main-content">
   <div nz-row>
-    <div nz-col nzSpan="5">
-      <ul nz-menu nzMode="inline">
-        <li nz-menu-item routerLink="/">
-          <i nz-icon [nzType]="'user'" [nzTheme]="'outline'"></i> Employees
-        </li>
-        <li nz-menu-item nzSelected>
-          <i nz-icon [nzType]="'laptop'" [nzTheme]="'outline'"></i> Devices
-        </li>
-      </ul>
-    </div>
-    <div nz-col nzSpan="19">
+    <div nz-col nzSpan="24">
       <nz-table #basicTable [nzData]="listOfDeviceDetails" [nzShowPagination]="false">
         <thead>
           <tr>
-            <th>BusinessUnit</th>
-            <th>CreatedDate</th>
-            <th>InvoiceNumber</th>
-            <th>DeviceName</th>
+            <th>Device Name</th>
+            <th>Business Unit</th>
+            <th>Created Date</th>
+            <th>Invoice Number</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of basicTable.data">
-            <td>{{ data.BusinessUnit }}</td>
-            <td>{{ data.CreatedDate }}</td>
-            <td>{{ data.InvoiceNumber }}</td>
             <td>{{ data.DeviceName }}</td>
+            <td>{{ data.BusinessUnit }}</td>
+            <td>{{ data.CreatedDate | date:"MM-dd-YYYY" }}</td>
+            <td>{{ data.InvoiceNumber }}</td>
             <td>
-              <i nz-icon nzType="edit" nzTheme="outline"></i>
+              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/device-detail/edit/{{data.Guid}}"></i>
               <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline"></i>
             </td>
           </tr>

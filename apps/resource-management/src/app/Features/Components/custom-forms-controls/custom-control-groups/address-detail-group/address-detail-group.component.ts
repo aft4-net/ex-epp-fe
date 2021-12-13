@@ -2,8 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
+import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -17,33 +16,38 @@ export class AddressDetailGroupComponent implements OnInit {
 
     countries$: Observable<SelectOptionModel[]>
     stateRegions$: Observable<SelectOptionModel[]>
-    cities$: Observable<SelectOptionModel[]>
-    phonePrefices$: Observable<SelectOptionModel[]>
 
     isEthiopia = false
+    country: string | null | undefined
 
     stateName = 'State/Province'
     subcityName = 'Address Line 1'
     weredaName = 'Address Line 2'
+    postalCodeName = 'Postal/Zip Code'
 
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: AddressDataStateService
+        private readonly _addressCountryStateService: CountriesMockService
     ) {
-        this.countries$ = this._addressDetailStateService.countriesName$
-        this.stateRegions$ = this._addressDetailStateService.stateRegions$
-        this.cities$ = this._addressDetailStateService.cities$
-        this.phonePrefices$ = this._addressDetailStateService.phonePrefices$
-        
-
+        this.country = ''
         this.formGroup
             = this._formGenerator.addressForm
+        this.countries$ = this._addressCountryStateService.getCountries()
+        this.stateRegions$ = this._addressCountryStateService.getStates(this.formGroup.value.country)
+        
+        // const address: Addresss = {
+        //     ...{} as Address,
+        //     Country: 'Ethiopia'
+        // } as Address
+
+        // this._formGenerator.generateAddressForm(address)
+        
 
     }
 
     ngOnInit(): void {
-        this.showData()
+    
     }
 
     getControl(name: string): FormControl {
@@ -55,11 +59,12 @@ export class AddressDetailGroupComponent implements OnInit {
     }
 
     onCountrySelect() {
-        const control = this.getControl('country')
-        if(control.value === 'Ethiopia') {
+        console.log('Address Custom Component')
+        const country = this.formGroup.value.country as string
+        if(country === 'Ethiopia') {
             this.stateName = 'Region'
             this.subcityName = 'Subcity/Zone'
-            this.weredaName = 'Wereda'
+            this.weredaName = 'Woreda'
             this.isEthiopia = true
         } else {
             this.stateName = 'State/Province'
@@ -67,15 +72,7 @@ export class AddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
-    }
-    
-    onStateSelect() {
-
-    }
-
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
+        this.stateRegions$ = this._addressCountryStateService.getStates(country)
     }
 
 }

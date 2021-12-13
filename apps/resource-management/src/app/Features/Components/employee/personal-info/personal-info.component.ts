@@ -1,25 +1,26 @@
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
-
-import { AddMultiComponent } from './add-multi/add-multi.component';
 import { Employee } from '../../../Models/Employee';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
-import { HttpClient } from '@angular/common/http';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { LocationPhoneService } from '../../../Services/address/location-phone.service';
 import { Nationality } from '../../../Models/Nationality';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { ValueTransformer } from '@angular/compiler/src/util';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+
 
 @Component({
   selector: 'exec-epp-personal-info',
   templateUrl: './personal-info.component.html',
-  styleUrls: ['./personal-info.component.scss']
+  styleUrls: ['./personal-info.component.scss'],
 })
 export class PersonalInfoComponent implements OnInit {
 
@@ -68,11 +69,21 @@ export class PersonalInfoComponent implements OnInit {
       sizeLimit: 'Size Limit'
     }
 };
+isEdit = false
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
-      this._form.personalDetailsForm
+
+      this.isEdit = this._form.IsEdit
+     console.log('personla info details')
+     console.log(     this.employeeService.employeeById
+      )
+      if (!this.employeeService.employeeById)
+       {
+           this.employeeService.save="Save";
+       }
+      this.employeeService.setEmployeeData(this._form.personalDetailsForm.value)
      }
 
   ngOnInit(): void {
@@ -191,7 +202,8 @@ else{
     }
     else if(this.personalEmail3 === this.personalEmail2){
       this.personalEmail2 = "";
-      alert("Duplicate  email address detected, will be ignored !");
+      alert("Duplicate  email address detected, will be i
+      gnored !");
     }
 */
 

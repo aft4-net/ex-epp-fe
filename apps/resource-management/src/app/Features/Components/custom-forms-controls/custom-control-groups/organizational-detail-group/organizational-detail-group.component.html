@@ -1,11 +1,5 @@
 <form nz-form class="form-group organizational-detail-form-group"
 [nzLayout]="'vertical'">
-
-    <div>
-        <h2>
-            Organizational Details
-        </h2>
-    </div>
   <exec-epp-custom-select
     label="Country"
     [myControl]="getControl('country')"
@@ -52,18 +46,25 @@
   </exec-epp-custom-select>
   <exec-epp-custom-select
     label="Employement Type"
-    [myControl]="getControl('employementType')"
+    [myControl]="getControl('employeementType')"
     [list$]="employementTypes$"
-    [required]="true">
+    [required]="true"
+    (formResponse)="onEmployementTypeChange()">
   </exec-epp-custom-select>
   <exec-epp-custom-datepicker
     [label]="'Joining Date'"
-    [myControl]="getControl('joiningDate')">
+    [myControl]="getControl('joiningDate')"
+    [endingDate]="joinigStartDate"
+    >
   </exec-epp-custom-datepicker>
-  <exec-epp-custom-datepicker
+  <ng-container *ngIf="isContract">
+    <exec-epp-custom-datepicker
     [label]="'Termination Date'"
-    [myControl]="getControl('terminationDate')">
+    [myControl]="getControl('terminationDate')"
+    [startingDate]="terminationStartDate"
+    >
   </exec-epp-custom-datepicker>
+  </ng-container>
   <exec-epp-custom-select
     label="Current Status"
     [myControl]="getControl('status')"

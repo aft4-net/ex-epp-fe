@@ -63,7 +63,7 @@ export const phonePreficesURL = 'https://countriesnow.space/api/v0.1/countries/c
 export const employeeIdNumberPreficesURL = ''
 
 
-export const dummyGendersData = ['Female', 'Male', 'Other']
+export const dummyGendersData = ['Female', 'Male']
 export const dummyCountriesData = ['Ethiopia', 'India', 'United States']
 export const dummyPhonePreficesData: SelectOptionModel[] = [
     {

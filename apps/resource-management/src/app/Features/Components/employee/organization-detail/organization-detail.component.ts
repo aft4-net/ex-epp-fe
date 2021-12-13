@@ -12,6 +12,7 @@ import { IDutyBranch } from '../../../Models/EmployeeOrganization/DutyBranch';
 import { LocationPhoneService } from '../../../Services/address/location-phone.service';
 import { Router } from '@angular/router';
 import { ValidateFutureDate } from '../../../Validators/ValidateFutureDate';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 
 @Component({
   selector: 'exec-epp-organization-detail',
@@ -34,9 +35,13 @@ export class OrganizationDetailComponent implements OnInit {
   isLoading = false;
   defaultTerminationDate = new Date();
   OrganizationSource !: EmployeeOrganization;
+  isEdit = false
   constructor(private countryService: CountryService,private fb: FormBuilder,
               private router: Router, private _locationPhoneService:LocationPhoneService,
-              private employeeService: EmployeeService) {
+              private employeeService: EmployeeService,
+              private readonly _formGenerator: FormGenerator
+              ) {
+                this.isEdit = this._formGenerator.IsEdit
   }
 
   ngOnInit() {
