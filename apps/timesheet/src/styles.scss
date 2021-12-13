@@ -6,32 +6,40 @@
 
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 
-/* Container */
-.container {
-  ///display: flex;
-  ///flex-direction: column;
-  /// align-items: center;
-  /// width: 100%;
-  ///min-width: 1440px;
-  ///height: 100%;
-  //background-color: #E5E5E5;
-  /// background-color: #f11e1e;
-  ///align-self: center;
-}
-
-
+/* For Very small screen size. eg. Mobile*/
 .ant-drawer-content-wrapper {
-  //margin-top: 127px;
-  margin-top: 8rem;
-  ///min-height: 900px;
+  width: 400px!important;
+  margin-top: 3.8rem;
   border-top-left-radius: 15px;
-  background-color: #FFFFFF;
+  width: inherit!important;
 
   .ant-drawer-body {
     margin: 0;
     padding: 0;
   }
 }
+
+/* For medium and big screen sizes like Tab and Desktop*/
+@media screen and (min-width: 640px) {
+	.ant-drawer-content-wrapper {
+    margin-top: 9.5rem;
+    border-top-left-radius: 15px;
+    background-color: #FFFFFF;
+    
+    width: 400px!important;
+  
+    .ant-drawer-body {
+      margin: 0;
+      padding: 0;
+    }
+  }
+	
+}
+/* For Tab and Desktop
+@media screen and (min-width: 960px) {
+
+  
+}*/
 
 .ant-drawer-content {
   border-top-left-radius: 15px;

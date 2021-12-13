@@ -8,7 +8,7 @@
     [weeklyTotalHours]="weeklyTotalHours"
     [isSubmitted]="isSubmitted">
   </app-timesheet-header>
-  <nz-divider class="hidden sm:flex"></nz-divider>
+  <nz-divider class="hidden sm:flex sm:m-2"></nz-divider>
   <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'" class="sm:flex  sm:ml-8"
     (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
     (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false" [nzWidth]="400">
+<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false" >
   <div *nzDrawerContent>
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">
