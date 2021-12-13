@@ -233,6 +233,27 @@ export function validateAddressNonRequired(
     )
 }
 
+export function validateCity(
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'City']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkCity,
+            parameters: parameters
+        },
+        {
+            method: checkLength,
+            parameters: modifyParameters(parameters, {min:2,max:30})
+        }
+    )
+}
+
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Checking Functions
@@ -342,6 +363,19 @@ function checkAddresses(
     controlName: string
 ) {
     if (!(/^[A-Za-z. /0-9]+$/).test(control.value)) {
+        errorLog.message = 'Input contains invalid character(s)!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
+function checkCity(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!(/^[A-Za-z. /]+$/).test(control.value)) {
         errorLog.message = 'Input contains invalid character(s)!'
         return { invalidCharacter: true }
     }

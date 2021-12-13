@@ -3,7 +3,7 @@ import { Address, Addresss } from "../../Models/address.model";
 import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
 import { Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
@@ -238,7 +238,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         return this._formBuilder.group({
             country: [null, validateRequired],
             state: [null],
-            city: [null, validateAddressRequired],
+            city: [null, validateCity],
             subCityZone: [null, validateAddressRequired],
             woreda: [null, validateAddressNonRequired],
             houseNumber: [null, validateAddressNonRequired],
@@ -275,7 +275,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         return this._formBuilder.group({
             country: [null, validateRequired],
             state: [null],
-            city: [null, validateAddressRequired],
+            city: [null, validateCity],
             subCityZone: [null, validateAddressRequired],
             woreda: [null, validateAddressNonRequired],
             houseNumber: [null, validateAddressNonRequired],
