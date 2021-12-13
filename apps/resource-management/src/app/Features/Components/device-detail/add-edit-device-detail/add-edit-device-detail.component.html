@@ -12,7 +12,8 @@
     </div>
     <div nz-col nzSpan="19">
       <div class="content">
-<h2>Add Device</h2>
+<h2 *ngIf="this.isEdit">Edit Device</h2>
+<h2 *ngIf="!this.isEdit">Add Device</h2>
 <form nz-form (ngSubmit)="submitForm()" [nzLayout]="'vertical'" [formGroup]="deviceDetailForm">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="DeviceName" nzRequired>Device Name</nz-form-label>
@@ -139,7 +140,8 @@
 
     <nz-form-item nz-row>
       <nz-form-control [nzSpan]="14">
-        <button nz-button nzType="primary" type="submit">Save</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="isEdit">Update</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="!isEdit">Save</button>
         <button nz-button nzType="default" style="margin-left: 24px;" (click)="resetForm()">Reset</button>
       </nz-form-control>
     </nz-form-item>

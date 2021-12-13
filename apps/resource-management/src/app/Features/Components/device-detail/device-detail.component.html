@@ -15,10 +15,10 @@
           <tr *ngFor="let data of basicTable.data">
             <td>{{ data.DeviceName }}</td>
             <td>{{ data.BusinessUnit }}</td>
-            <td>{{ data.CreatedDate }}</td>
+            <td>{{ data.CreatedDate | date:"MM-dd-YYYY" }}</td>
             <td>{{ data.InvoiceNumber }}</td>
             <td>
-              <i nz-icon nzType="edit" nzTheme="outline"></i>
+              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/device-detail/edit/{{data.Guid}}"></i>
               <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline"></i>
             </td>
           </tr>
