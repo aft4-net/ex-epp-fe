@@ -28,10 +28,7 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this._router.events.subscribe((url: any) => console.log(url));
-    // this.router = this._router.url;
-    //  console.log(this._router.url);
-  }
+ }
 
   saveEmployee() {
 

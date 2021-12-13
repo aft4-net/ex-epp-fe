@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { AddDeviceDetailComponent } from './Features/Components/add-device-detail/add-device-detail.component';
+//import { AddDeviceDetailComponent } from './Features/Components/add-device-detail/add-device-detail.component';
 import { EmployeeDetailComponent } from './Features/Components/employee/employee-detail/employee-detail.component';
 import { NgModule } from '@angular/core';
 
