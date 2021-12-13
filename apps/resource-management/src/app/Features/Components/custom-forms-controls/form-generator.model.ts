@@ -122,6 +122,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             MobilePhone: value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
             Phone1: value.phoneNumbers.lenght > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1]: undefined,
             Phone2: value.phoneNumbers.lenght > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2]: undefined,
+            DateofBirth: value.dateofBirth,
             Nationality: value.nationalities.map((nationality: string)=>{
                 return {
                     ...{} as Nationality,
