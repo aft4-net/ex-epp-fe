@@ -37,7 +37,7 @@ export class ProjectNamePaletComponent implements OnInit {
     }
 
     if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
-      this.projectNamePaletClass = "project-name-palet-approval";
+      this.projectNamePaletClass = "project-name-palet-approved";
     } else {
       this.projectNamePaletClass = "project-name-palet";
     }

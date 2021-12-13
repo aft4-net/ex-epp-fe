@@ -1,8 +1,10 @@
 <div>
   <!--<nz-divider></nz-divider> -->
-  <app-timesheet-header class="md:flex lg:flex xl:flex ml-8 "
+  <app-timesheet-header class="md:flex lg:flex xl:flex ml-8"
+    [timesheetConfig]="timesheetConfig"
     [timesheet]="timesheet" 
     [timeEntries]="timeEntries"
+    [timesheetApprovals]="timesheetApprovals"
     [weekFirstDate]="firstday1"
     [weekLastDate]="lastday1"
     [weeklyTotalHours]="weeklyTotalHours"
@@ -33,13 +35,13 @@
       <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">
         <div class="from-date-to-date">
 
-          <label for="from-date" >From Date:</label>
+          <label for="from-date">From Date:</label>
           <nz-date-picker [(ngModel)]="formData.fromDate" formControlName="fromDate" [nzDisabled]="disableFromDate" (ngModelChange)="onFormFromDateChange()" nzFormat="MM-dd-YY" nzSuffixIcon="" [nzDisabledDate]="disabledDates"
-           class="w-20 ml-2 rounded-none border-0 border-t-0"
+           class="w-24 ml-2 text-center rounded-none border-0 border-t-0"
           ></nz-date-picker>
-          <label for="to-date"  class="ml-2">To Date:</label>
+          <label for="to-date" class="ml-2">To Date:</label>
           <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="disableToDate" (ngModelChange)="onFormToDateChange()" nzFormat="MM-dd-YY" nzSuffixIcon="" [nzDisabledDate]="disabledDates"
-           class="w-20  rounded-none border-0 border-t-0"
+           class="w-24 ml-2 text-center rounded-none border-0 border-t-0"
           ></nz-date-picker>
 
         </div>
@@ -114,3 +116,25 @@
     </form>
   </div>
 </nz-drawer>
+
+<nz-modal [(nzVisible)]="modalVisible" nzTitle="Envalid Time Entries" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false">
+  <ng-container *nzModalContent>
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th>Time Entry Date</th>
+          <th>Error Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let envalidEntry of envalidEntries">
+          <td>{{ envalidEntry.Date.toDateString() }}</td>
+          <td>{{ envalidEntry.Message }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="flex justify-center">
+      <button nz-button nzType="primary" class="yes-btn mr-8" (click)="handleOk()">OK</button>
+    </span>
+  </ng-container>
+</nz-modal>
