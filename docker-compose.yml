@@ -2,24 +2,23 @@ version: '3.4'
 
 services:
   applicant-tracking:
-    image: applicant-tracking
+    build: ./apps/applicant-tracking/
     ports: 
       - "4201:80"
   epp:
-    image: epp
+    build: ./apps/epp/
     ports: 
       - "4202:80"
   project-management:
-    image: project-management
+    build: ./apps/project-management/
     ports:
       - "4203:80"
   timesheet:
-    image: timesheet
+    build: ./apps/timesheet/Dockerfile
     ports:
       - "4204:80"
   resource-management:
-    image: resource-management
+    build: ./apps/resource-management/
     ports:
       - "4205:80" 
     
-   

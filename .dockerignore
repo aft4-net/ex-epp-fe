@@ -1,4 +1,4 @@
-# Ignore files not needed to build docker image
+# Ignore files not needed to build docker image .test
 .editorconfig
 .git*
 libs
