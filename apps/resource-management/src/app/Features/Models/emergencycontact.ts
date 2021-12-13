@@ -1,23 +1,29 @@
 import { Address } from "./address.model";
-
+import { Relationship } from "./FamilyDetail/RelationshipModel";
 
 export interface EmergencyContacts {
   guid: string
-  isActive: boolean
-  isDeleted: boolean
-  createdDate: string
-  createdbyUserGuid: string
-  firstName: string
-  fatherName: string
-  relationship: string
-  phoneNumber: string
-  country: string
+  FirstName: string
+  FatherName: string
+  GrandFatherName: string
+  Relationship: string
+  PhoneNumber: string
+  phoneNumber2?: string
+  phoneNumber3?: string
+  email: string
+  email2?: string
+  email3?: string
+  Country?: string
   stateRegionProvice: string
   city: string
   subCityZone: string
   woreda: string
   houseNumber: string
   postalCode: number
+  isActive: boolean
+  isDeleted: boolean
+  createdDate: string
+  createdbyUserGuid: string
 }
 
 
@@ -66,12 +72,6 @@ export class EmergencyContact implements IEmergencyContact {
     public relationship?: string,
     public address: Address[] = []
   ) {}
-
-
-
-
-
-
 }
 
 

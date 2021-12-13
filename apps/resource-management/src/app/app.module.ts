@@ -27,7 +27,6 @@ import { AddressEditComponent } from './Features/Components/employee/employee-ed
 import { EmergencycontactEditComponent } from './Features/Components/employee/employee-edit/emergencycontact-edit/emergencycontact-edit.component';
 import { FamilyDetailEditComponent } from './Features/Components/employee/employee-edit/family-detail-edit/family-detail-edit.component';
 import { PersonalInfoEditComponent } from './Features/Components/employee/employee-edit/personal-info-edit/personal-info-edit.component';
-
 registerLocaleData(en);
 
 @NgModule({
@@ -56,6 +55,7 @@ registerLocaleData(en);
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
     AppRoutingModule,
+    
 
     ToastrModule.forRoot(),
   ],

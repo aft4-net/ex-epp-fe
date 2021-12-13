@@ -1,33 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
+import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
-
-export const relationships: SelectOptionModel[] = [
-    {
-        value: 'Spouse',
-        label: 'Spouse'
-    },
-    {
-        value: 'Child',
-        label: 'Child'
-    },
-    {
-        value: 'Mother',
-        label: 'Mother'
-    },
-    {
-        value: 'Father',
-        label: 'Father'
-    },
-    {
-        value: 'Other',
-        label: 'Other'
-    }
-]
 
 @Component({
     selector: 'exec-epp-emergency-contact-detail-group',
@@ -40,13 +16,14 @@ export class EmergencyContactDetailGroupComponent implements OnInit {
     maxEmailQty = 3
     maxPhoneQty = 3
 
-    relationships$: Observable<SelectOptionModel[]> = of(relationships)
+    relationships$: Observable<SelectOptionModel[]>
 
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: AddressDataStateService
+        private readonly _employeeStaticDataService: EmployeeStaticDataMockService
     ) {
+        this.relationships$=this._employeeStaticDataService.relationships$
         this.formGroup
             = this._formGenerator.emergencyContact
 

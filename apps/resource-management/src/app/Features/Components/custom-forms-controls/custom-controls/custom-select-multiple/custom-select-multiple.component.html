@@ -13,9 +13,10 @@
     [nzErrorTip]="errMessage"
     nzHasFeedback>
     <nz-select
-    class="prefix employee-prefix"
+    class="excel-single-control"
     [formControl]="myControl"
-    [nzMode]="'tags'" [nzMaxMultipleCount]="maxChoices">
+    [nzMode]="'tags'"
+    [nzMaxMultipleCount]="maxChoices">
         <nz-option
             *ngFor="let choice of (list$ | async)"
             [nzValue]="choice.value" [nzLabel]="choice.label">

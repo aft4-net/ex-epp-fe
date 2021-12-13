@@ -2,8 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
+import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -17,8 +16,6 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
 
     countries$: Observable<SelectOptionModel[]>
     stateRegions$: Observable<SelectOptionModel[]>
-    cities$: Observable<SelectOptionModel[]>
-    phonePrefices$: Observable<SelectOptionModel[]>
 
     isEthiopia = false
 
@@ -29,13 +26,11 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: AddressDataStateService
+        private readonly _addressCountryStateService: CountriesMockService
     ) {
-        this.countries$ = this._addressDetailStateService.countriesName$
-        this.stateRegions$ = this._addressDetailStateService.stateRegions$
-        this.cities$ = this._addressDetailStateService.cities$
-        this.phonePrefices$ = this._addressDetailStateService.phonePrefices$
-        
+        // this._addressCountryStateService.reset()
+        this.countries$ = this._addressCountryStateService.getCountries()
+        this.stateRegions$ = this._addressCountryStateService.getStates()      
 
         this.formGroup
             = this._formGenerator.emergencyAddress
@@ -55,8 +50,8 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
     }
 
     onCountrySelect() {
-        const control = this.getControl('country')
-        if(control.value === 'Ethiopia') {
+        const control = this.getControl('country').value as string
+        if(control === 'Ethiopia') {
             this.stateName = 'Region'
             this.subcityName = 'Subcity/Zone'
             this.weredaName = 'Wereda'
@@ -67,6 +62,7 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
+        this.stateRegions$ = this._addressCountryStateService.getStates(control)
     }
     
     onStateSelect() {

@@ -13,13 +13,15 @@
     [nzErrorTip]="errMessage"
     nzHasFeedback>
     <nz-select
-    class="prefix employee-prefix"
+    class="excel-single-control"
     [formControl]="myControl"
+    nzShowSearch
     (ngModelChange)="onChange()">
+      <ng-container *ngFor="let choice of (list$ | async)">
         <nz-option
-            *ngFor="let choice of (list$ | async)"
-            [nzValue]="choice.value" [nzLabel]="choice.label">
-        </nz-option>
+        [nzValue]="choice.value" [nzLabel]="choice.label">
+    </nz-option>
+      </ng-container>
     </nz-select>
     </nz-form-control>
   </nz-form-item>

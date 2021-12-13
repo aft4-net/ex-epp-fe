@@ -1,12 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressDataStateService } from "../../../../state-services/address.detail.state.service";
-import { OrganizationDetailStateService } from "../../../../state-services/organization-details-data.state-service";
-import { PersonalDetailDataStateService } from "../../../../state-services/personal-detail-data.state-service";
+import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
-import { relationships } from "../emergency-contact-detail-group/emergency-contact-detail-group.component";
 
 @Component({
     selector: 'exec-epp-family-detail-group',
@@ -17,26 +15,40 @@ export class FamilyDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
 
-    relationships$: Observable<SelectOptionModel[]> = of(relationships)
+    relationships$: Observable<SelectOptionModel[]>
     genders$:  Observable<SelectOptionModel[]>
 
-    isChild = true
-    isOther = false
+    endingDate = new Date(Date.now())
 
+    isChild = false
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressDetailStateService: PersonalDetailDataStateService
+        private readonly _employeeStaticDataervice: EmployeeStaticDataMockService
     ) {
-        this.genders$=this._addressDetailStateService.genders$
+        this.genders$=this._employeeStaticDataervice.genders$
+        this.relationships$=this._employeeStaticDataervice.relationships$
+        .pipe(
+            map(response=> {
+                return response.filter(option => {
+                    if(option.value as string === 'Child' || option.value as string === 'Other') {
+                        return true
+                    }
+                    for (let i = 0; i < this._formGenerator.allFamilyDetails.length; i++) {
+                        if(option.value as string === this._formGenerator.allFamilyDetails[i].Relationship?.Name) {
+                            return false
+                        }
+                    }
+                    return true
+                })
+            })
+        )
         this.formGroup
             = this._formGenerator.familyDetail
 
     }
 
-    ngOnInit(): void {
-        this.showData()
-    }
+    ngOnInit(): void {}
 
     getControl(name: string): FormControl {
         return this._formGenerator.getFormControl(name, this.formGroup)
@@ -50,19 +62,9 @@ export class FamilyDetailGroupComponent implements OnInit {
         const control = this.getControl('relationship')
         if(control.value === 'Child') {
             this.isChild = true
-            this.isOther = false
-        } else if (control.value === 'Other') {
-            this.isOther = true
-            this.isChild = false
         } else {
-            this.isOther = false
             this.isChild = false
         } 
-    }
-
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
     }
 
 }

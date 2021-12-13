@@ -1,6 +1,7 @@
 <nz-layout>
   <nz-content>
-    <div class="inner-content">
+    <nz-divider nzType="horizontal"></nz-divider>
+    <div style="margin-top: -40px;" class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="8">
           <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
@@ -11,15 +12,20 @@
           </ng-template>
         </div>
       </div>
-      <br />
-      <div nz-row>
+      <div  nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
+        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+      </div>
+      <br/>
+      <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
-            <nz-table [nzLoading]="loading" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
-              nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+              nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
-                  <th class="table_heading" style="width:30px" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
-                    (nzCheckedChange)="onAllChecked($event)"></th>
+                  <th class="table_heading" style="width:30px"   [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                  (nzCheckedChange)="onAllChecked($event)" ></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                     [nzSortDirections]="column.sortDirections">{{column.name}}</th>
@@ -32,11 +38,9 @@
                 </tr>
               </thead>
               <tbody>
-
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"
-                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)"
-                    (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"                     
+                  [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.FullName }} </td>
                     <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
@@ -49,11 +53,11 @@
                     employeeView.Status }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <a (click)="Edit(employeeView.EmployeeGUid)">
-                      <i nz-icon nzType="edit" nzTheme="outline"></i>
+                      <i nz-icon nzType="edit" style="color:black;"></i>
                     </a>
                     &nbsp; &nbsp;
                     <a (click)="Delete(employeeView.EmployeeGUid)">
-                      <i nz-icon nzType="delete" nzTheme="outline"></i>
+                      <i nz-icon nzType="delete" style="color:black;"></i>
                     </a>
                     <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
@@ -84,11 +88,7 @@
             </nz-table>
         </div>
       </div>
-      <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
-        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
-        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
-      </div>
+      
     </div>
   </nz-content>
 </nz-layout>

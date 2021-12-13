@@ -13,6 +13,17 @@ export const commonErrorMessage = {
 // Validators
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+export function validateRequired(control: AbstractControl) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'Employee ID number']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        }
+    )
+}
+
 export function validateEmployeeIdNumber(
     control: AbstractControl
 ) {
@@ -24,11 +35,11 @@ export function validateEmployeeIdNumber(
             parameters: parameters
         },
         {
-            method: checkEmployeeIdNumberCharacter,
-            parameters: parameters
+            method: checkLength,
+            parameters: modifyParameters(parameters,{min:3,max:10})
         },
         {
-            method: checkEmployeeIdNumberLayout,
+            method: checkEmployeeIdNumberCharacter,
             parameters: parameters
         }
     )
@@ -44,7 +55,11 @@ export function validateFirstName(
 export function validateMiddleName(
     control: AbstractControl
 ) {
-    resetError(false)
+    
+    resetError(true)
+    if(!control.value) {
+        return null
+    }
     return validateName(control, commonErrorMessage, 'Middle name')
 }
 
@@ -75,8 +90,8 @@ export function validateName(
             parameters: modifyParameters(
                 parameters,
                 {
-                    min: minNumberofCharactersinName,
-                    max: maxNumberofCharactersinName
+                    min: 2,
+                    max: 25
                 })
         }
     )
@@ -133,15 +148,11 @@ export function validateEmailAddress(
             method: checkLength,
             parameters: modifyParameters(
                 parameters,
-                { min: 0, max: maxNumberofCharactersinEmail }
+                { min: 5, max: maxNumberofCharactersinEmail }
             )
         },
         {
             method: checkEmailCharacters,
-            parameters: parameters
-        },
-        {
-            method: checkEmailLayout,
             parameters: parameters
         }
     )
@@ -156,6 +167,18 @@ export function validatePhoneNumber(
         {
             method: checkrequired,
             parameters: parameters
+        },
+        {
+            method: checkPhoneNumberCharacters,
+            parameters: parameters
+        },
+        {
+            method: checkPhoneNumberLayout,
+            parameters: parameters
+        },
+        {
+            method: checkLength,
+            parameters: modifyParameters(parameters, {min: 9, max: 15})
         }
     )
 }
@@ -169,6 +192,64 @@ export function validateNationality(
         {
             method: checkrequired,
             parameters: parameters
+        }
+    )
+}
+
+export function validateAddressRequired(
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'City']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkAddresses,
+            parameters: parameters
+        }
+    )
+}
+
+export function validateAddressNonRequired(
+    control: AbstractControl
+) {
+    if(!control.value) {
+        return null
+    }
+    resetError(false)
+    const parameters = [control, commonErrorMessage, null, 'City']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkAddresses,
+            parameters: parameters
+        }
+    )
+}
+
+export function validateCity(
+    control: AbstractControl
+) {
+    resetError(true)
+    const parameters = [control, commonErrorMessage, null, 'City']
+    return checkMultiple(
+        {
+            method: checkrequired,
+            parameters: parameters
+        },
+        {
+            method: checkCity,
+            parameters: parameters
+        },
+        {
+            method: checkLength,
+            parameters: modifyParameters(parameters, {min:2,max:30})
         }
     )
 }
@@ -206,12 +287,8 @@ function checkrequired(
     condition: null,
     controlName?: string
 ) {
-    controlName
-        = controlName ?
-            controlName[0].toLocaleUpperCase() + controlName.substring(1)
-            : 'Input'
     if (!control.value) {
-        errorLog.message = controlName + ' is required! Please provide a value.'
+        errorLog.message = 'Input is required! Please provide a value.'
         return { required: true }
     }
     return null
@@ -226,14 +303,14 @@ function checkLength(
     if (condition.min) {
         if (control.value.length < condition.min) {
             errorLog.message
-                = 'Input should contain a minimum of ' + condition.min + 'characters!'
+                = 'Input should contain a minimum of ' + condition.min + ' characters!'
             return { minLength: true }
         }
     }
     if (condition.max) {
         if (control.value.length > condition.max) {
             errorLog.message
-                = 'Input can contain a maximum of ' + condition.min + 'characters!'
+                = 'Input can contain a maximum of ' + condition.max + ' characters!'
             return { maxLength: true }
         }
     }
@@ -279,6 +356,32 @@ function checkNumerals(
     return null
 }
 
+function checkAddresses(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!(/^[A-Za-z. /0-9]+$/).test(control.value)) {
+        errorLog.message = 'Input contains invalid character(s)!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
+function checkCity(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!(/^[A-Za-z. /]+$/).test(control.value)) {
+        errorLog.message = 'Input contains invalid character(s)!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
 function checkDateRange(
     control: AbstractControl,
     errorLog: { message: string },
@@ -306,7 +409,7 @@ function checkEmployeeIdNumberCharacter(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[0-9/]+$/).test(control.value)) {
+    if (!(/^[A-Za-z0-9/]+$/).test(control.value)) {
         errorLog.message = 'Input contains invalid character(s)!'
         return { invalidCharacter: true }
     }
@@ -350,10 +453,36 @@ function checkEmailCharacters(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[0-9A-Za-z_.@]+$/).test(control.value)) {
-        errorLog.message = 'Input contains invalid character(s)!'
+    if (!(RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$").test(control.value))) {
+        errorLog.message = 'Input is in an invalid format!'
         return { invalidCharacter: true }
     }
+    return null
+}
+
+function checkPhoneNumberCharacters(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!(/^[()0-9 +-]+$/).test(control.value)) {
+        errorLog.message = 'Input contains an invalid character(s)!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
+function checkPhoneNumberLayout(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    // if (!(/^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$/).test(control.value)) {
+    //     errorLog.message = 'Input is an invalid format!'
+    //     return { invalidCharacter: true }
+    // }
     return null
 }
 

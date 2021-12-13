@@ -25,12 +25,8 @@ nz-content {
   height: auto;
   float: left;
   padding: 0;
-<<<<<<< HEAD
-  margin: 10px -117px;
-=======
 
   // margin: 10px -117px;
->>>>>>> develop
 
 }
 

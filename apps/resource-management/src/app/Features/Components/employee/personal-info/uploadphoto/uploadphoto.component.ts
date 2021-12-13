@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EmpphotoService } from '../../../Services/Employee/empphoto.service';
+import { EmpphotoService } from '../../../Services';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

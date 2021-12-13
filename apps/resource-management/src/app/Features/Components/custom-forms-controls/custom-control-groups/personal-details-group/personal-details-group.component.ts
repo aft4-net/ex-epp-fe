@@ -2,8 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
+import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
+import { ExternalCountryApiService } from "../../../../Services/external-api.services/external-countries.api.service";
 import { maxEmployeeDateofBirth, minEmployeeDateofBirth } from "../../../../Services/supporting-services/basic-data.collection";
-import { PersonalDetailDataStateService } from "../../../../state-services/personal-detail-data.state-service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -14,24 +16,23 @@ import { FormGenerator } from "../../form-generator.model";
 export class PersonalDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
-    employeeIdNumberPrefices$: Observable<SelectOptionModel[]>
     genders$: Observable<SelectOptionModel[]>
-    phoenPrefices$: Observable<SelectOptionModel[]>
     nationalities$: Observable<SelectOptionModel[]>
     maxDateofBirth = maxEmployeeDateofBirth? maxEmployeeDateofBirth: new Date(Date.now())
     maxEmailQty = 3
     maxPhoneQty = 3
+    maxNationality = 3
+    birthEndDate = new Date(Date.now())
+    
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _personalDetailDataStateService: PersonalDetailDataStateService
+        private readonly _employeeStaticDataService: EmployeeStaticDataMockService,
+        private readonly _addressCountryStateService: AddressCountryStateService
     ) {
-        this.employeeIdNumberPrefices$ = this._personalDetailDataStateService.employeeIdNumberPrefices$
-        this.genders$ = this._personalDetailDataStateService.genders$
-        this.phoenPrefices$ = this._personalDetailDataStateService.phonePrefices$
-        this.nationalities$ = this._personalDetailDataStateService.nationalities$
+        this.genders$ = this._employeeStaticDataService.genders$
+        this.nationalities$ = this._addressCountryStateService.nationalities$
         this.formGroup = this._formGenerator.personalDetailsForm
-
     }
 
     ngOnInit(): void {
