@@ -8,6 +8,8 @@ import { AddressCountryStateService, CountriesMockService } from "../../../../Se
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
+import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
+import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
 
 @Component({
     selector: 'exec-epp-custom-phone-multiple',
@@ -58,7 +60,17 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
         return new FormControl()
     }
 
-    onAdd() {
+    onAddRemove(event: ExcelButtonResponse) {
+        if(event.action == ExcelControlResponseType.ExcelAdd) {
+            this.add()
+        } else if (event.action == ExcelControlResponseType.ExcelRemove) {
+            this.remove(event.data as number)
+        } else {
+            alert('Invalid action')
+        }
+    }
+
+    add() {
         if ((this.formArray.length === this.maxAmount)
             || this.maxAmount == 1) {
             window.alert('Exceeds the allowed number of phones!')
@@ -70,7 +82,7 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
         this.errMessages.push('')
     }
 
-    onRemove(index: number) {
+    remove(index: number) {
         if ((this.formArray.length === 1 && this.required)
             || this.maxAmount == 1) {
             window.alert('At least one phone is required!')

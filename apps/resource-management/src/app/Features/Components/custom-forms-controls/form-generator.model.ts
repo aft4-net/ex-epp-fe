@@ -13,6 +13,7 @@ import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
+import { EmployeeService } from "../../Services/Employee/EmployeeService";
 
 export type FormNaming = {
     name: string
@@ -75,6 +76,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     constructor(
         private readonly _formBuilder: FormBuilder,
+        private readonly _employeeService: EmployeeService,
         employeeStaticDataMockService: EmployeeStaticDataMockService,
         addressCountryStateService: CountriesMockService
     ) {
@@ -89,6 +91,21 @@ export class FormGenerator extends FormGeneratorAssistant {
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
         this.familyDetail = this._createFamilyDetailsForm()
 
+    }
+
+    save(){
+        let employee: Employee = {} as Employee
+        employee = {
+            ...employee,
+            ...this.getModelPersonalDetails(),
+            EmployeeOrganization: this.getModelOrganizationDetails(),
+            EmployeeAddress: this.allAddresses,
+            FamilyDetails: this.allFamilyDetails,
+            EmergencyContact: this.allEmergencyContacts
+        } as Employee
+
+        this._employeeService.add(employee)
+        .subscribe(()=>{})
     }
 
     getModelPersonalDetails() {
@@ -127,7 +144,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             Department: value.department,
             ReportingManager: value.reportingManager,
             EmploymentType: value.employeementType,
-            JoiningDate: value.JoiningDate,
+            JoiningDate: value.joiningDate,
             TerminationDate: value.terminationDate,
             Status: value.status
         } as Partial<EmployeeOrganization>
