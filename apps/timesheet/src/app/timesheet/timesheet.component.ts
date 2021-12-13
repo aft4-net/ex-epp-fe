@@ -34,6 +34,10 @@ export class TimesheetComponent implements OnInit {
   disableToDate = false;
   disableClient = false;
   disableProject = false;
+  timesheetConfig: TimesheetConfiguration = {
+    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    WorkingHour: 0
+  };
   timesheet: Timesheet | null = null;
   timeEntries: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
@@ -90,6 +94,7 @@ export class TimesheetComponent implements OnInit {
     this.userId = localStorage.getItem("userId");
 
     if (this.userId) {
+      this.getTimesheetConfiguration();
       this.getTimesheet(this.userId);
       this.getProjectsAndClients(this.userId);
     }
@@ -119,6 +124,16 @@ export class TimesheetComponent implements OnInit {
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   }
 
+  getTimesheetConfiguration(){
+    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
+      if (response){
+        this.timesheetConfig = response;
+      }
+    }, error => {
+      this.createNotification("error", "Error getting timesheet configuration.");
+    })
+  }
+
   getTimesheet(userId: string, date?: Date) {
     this.weeklyTotalHours = 0;
 
@@ -135,7 +150,6 @@ export class TimesheetComponent implements OnInit {
       else {
         this.checkForCurrentWeek();
       }
-
     }, error => {
       console.log(error);
     });

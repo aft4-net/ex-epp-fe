@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import { TimeEntry, Timesheet, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 
@@ -9,16 +9,24 @@ import { TimesheetService } from '../../services/timesheet.service';
   styleUrls: ['./timesheet-header.component.scss']
 })
 export class TimesheetHeaderComponent implements OnInit, OnChanges {
+  @Input() timesheetConfig: TimesheetConfiguration = {
+    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    WorkingHour: 0
+  };
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
+  @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Input() weekFirstDate: Date | null = null;
   @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
   @Input() isSubmitted: boolean | undefined;
-  btnText: string = '';
-  timeSheetStatus = "not-submitted-class";
+
+  validForApproal: boolean = false;
+  btnText: string = "Request for Approval";
+  timeSheetStatus = "not-submitted-enable";
+
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
-  
+
   ngOnInit(): void {
     if (this.weekFirstDate && this.weekLastDate) {
       this.timesheetValidationService.fromDate = this.weekFirstDate;
@@ -30,44 +38,47 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     this.checkForSubmittedForApproal();
   }
 
-  checkForSubmittedForApproal(){
-    if (this.isSubmitted === true) {
+  checkForSubmittedForApproal() {
+    if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
     }
     else {
+      this.checkIfValidForApproval();
+    }
+  }
+
+  checkIfValidForApproval() {debugger;
+    if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], this.timesheetConfig)) {
+      this.validForApproal = true;
       this.btnText = "Request for Approval";
-      this.timeSheetStatus = "not-submitted-class";
-    };
+      this.timeSheetStatus = "not-submitted-enable";
+    }
+    else {
+      this.validForApproal = false;
+      this.btnText = "Request for Approval";
+      this.timeSheetStatus = "not-submitted-disable";
+    }
   }
 
   onRequestForApproval() {
-    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      let timesheetConfig: TimesheetConfiguration = response ? response : {
-        WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
-        WorkingHour: 0
-      };
+    if (!this.timesheet) {
+      return;
+    }
 
-      if (!this.timesheet) {
-        return;
-      }
+    if (!this.timeEntries || this.timeEntries.length === 0) {
+      return;
+    }
 
-      if (!this.timeEntries || this.timeEntries.length === 0) {
-        return;
-      }
+    if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+      this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
+        if (response) {
+          this.isSubmitted = true;
+        }
+        this.checkForSubmittedForApproal();
+      }, error => {
 
-      if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
-        this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
-          if (response) {
-            this.isSubmitted = true;
-          }
-          this.checkForSubmittedForApproal();
-        }, error => {
-
-        });
-      }
-    }, error => {
-      console.log(error);
-    });
+      });
+    }
   }
 }
