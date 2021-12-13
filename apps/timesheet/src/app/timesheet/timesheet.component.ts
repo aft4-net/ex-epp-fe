@@ -26,6 +26,7 @@ export class TimesheetComponent implements OnInit {
   userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
+  modalVisible = false;
   validateForm!: FormGroup;
 
   // Used for disabling client and project list when selected for edit.
@@ -37,6 +38,8 @@ export class TimesheetComponent implements OnInit {
   timeEntries: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
+
+  envalidEntries: {Date: Date, Message: string}[] | null = null;
 
   clients: Client[] | null = null;
   clientsFiltered: Client[] | null = null;
@@ -320,11 +323,7 @@ export class TimesheetComponent implements OnInit {
     } else {
       this.createNotification("error", "Can't fill timesheet for the future.", "bottomRight")
     }
-
-
   }
-
-
 
   scrollPageToTop() {
     window.scroll({
@@ -499,10 +498,12 @@ export class TimesheetComponent implements OnInit {
   }
 
   addTimeEntryForDateRange(timeEntry: TimeEntry) {
+    this.envalidEntries = [];
+
     if (!this.formData.fromDate || !this.formData.toDate) {
       return;
     }
-    //
+
     let timeEntries: TimeEntry[] = [];
     let tmpTimeEntry: TimeEntry | null;
     let dates = this.dayAndDateService.getRangeOfDates(this.formData.fromDate, this.formData.toDate);
@@ -517,8 +518,7 @@ export class TimesheetComponent implements OnInit {
     this.timesheetValidationService.fromDate = fromDate;
     this.timesheetValidationService.toDate = toDate;
 
-    if (this.timesheet) {
-
+    if (this.timesheet) {debugger;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -536,11 +536,15 @@ export class TimesheetComponent implements OnInit {
         if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
+        else{
+          this.envalidEntries.push({
+            Date: timeEntry.Date,
+            Message: this.timesheetValidationService.message ?? ""
+          });
+        }
       }
     }
-    else {
-
-
+    else {debugger;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
@@ -549,12 +553,26 @@ export class TimesheetComponent implements OnInit {
         if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
+        else{
+          this.envalidEntries.push({
+            Date: timeEntry.Date,
+            Message: this.timesheetValidationService.message ?? ""
+          });
+        }
       }
+    }
+
+    if (this.envalidEntries && this.envalidEntries.length > 0){
+      this.modalVisible = true;
     }
 
     if (timeEntries && timeEntries.length > 0) {
       this.addTimeEntryForRangeOfDates(timeEntries);
     }
+  }
+
+  handleOk(){
+    this.modalVisible = false;
   }
 
   addTimeEntry(timeEntry: TimeEntry) {

@@ -12,6 +12,7 @@ export class TimesheetValidationService {
   date: Date;
   fromDate: Date;
   toDate: Date;
+  message: string | null = null;
 
   constructor() { 
     this.date = new Date();
@@ -21,14 +22,19 @@ export class TimesheetValidationService {
   }
 
   isValidForAdd(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfiguration: TimesheetConfiguration){
+    this.message = null;
+
     return this.isValidTimeEntry(timeEntry, timeEntries, timesheetApprovals, timesheetConfiguration);
   }
 
   isValidForUpdate(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfiguration: TimesheetConfiguration){
+    this.message = null;
+
     return this.isValidTimeEntry(timeEntry, timeEntries, timesheetApprovals, timesheetConfiguration);
   }
 
-  isValidForDelete(timeEntry: TimeEntry, timesheetApprovals: TimesheetApproval[]){    
+  isValidForDelete(timeEntry: TimeEntry, timesheetApprovals: TimesheetApproval[]){
+    this.message = null;
 
     if ( this.isTimesheetRequestedForApproval(timeEntry, timesheetApprovals) ){
       return false;
@@ -44,6 +50,8 @@ export class TimesheetValidationService {
   isValidForApproval(timeEntries: TimeEntry[], timesheetConfiguration: TimesheetConfiguration){
     let dates = [... new Set(timeEntries.map(te => te.Date))];
     let weekdays = dates.map(date => new Date(date).toLocaleString("en-us", { weekday: "long" }));
+
+    this.message = null;
 
     for(const workingDay of timesheetConfiguration.WorkingDays){
       if(weekdays.filter(wd => wd.toUpperCase() === workingDay.toUpperCase()).length === 0){
@@ -74,6 +82,7 @@ export class TimesheetValidationService {
   }
 
   isValidTimeEntry(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfiguration: TimesheetConfiguration) {
+    this.message = null;
 
     // Future date validation
     if (this.isFutureDate(timeEntry)) {
@@ -110,6 +119,7 @@ export class TimesheetValidationService {
   private isFutureDate(timeEntry: TimeEntry) {
     const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
     if (timeEntry.Date.valueOf() > date.valueOf()) {
+      this.message = "Can't fill timesheet for the future.";
       return true;
     }
 
@@ -119,21 +129,23 @@ export class TimesheetValidationService {
   private isTimeEntryHourMoreThan24(timeEntry: TimeEntry): boolean {
 
     if (timeEntry.Hour > 24) {
+      this.message = "Hours cannot exceed the maximum days limit.";
       return true;
     }
 
     return false;
   }
 
-  private isTimeEntriesHourMoreThan24(timeEntry: TimeEntry, timeEntries: TimeEntry[], fromDate: Date, toDate: Date) {
+  private isTimeEntriesHourMoreThan24(timeEntry: TimeEntry, timeEntries: TimeEntry[], fromDate: Date, toDate: Date) {debugger;
     fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
     toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
     let totalHour = timeEntries
-      .filter(te => te.Guid != timeEntry?.Guid && te.Date >= fromDate && te.Date <= toDate)
+      .filter(te => new Date(te.Date).valueOf() === timeEntry?.Date.valueOf() && new Date(te.Date).valueOf() >= fromDate.valueOf() && new Date(te.Date).valueOf() <= toDate.valueOf())
       .map(te => te.Hour)
       .reduce((prev, next) => prev + next, 0);
 
     if (totalHour + timeEntry.Hour > 24) {
+      this.message = "Hours cannot exceed the maximum days limit.";
       return true;
     }
 
@@ -149,6 +161,7 @@ export class TimesheetValidationService {
     let timesheetApproval = timesheetApprovals.filter(tsa => tsa.TimesheetId === timeEntry.TimeSheetId && tsa.ProjectId === timeEntry.ProjectId);
 
     if (timesheetApproval.length > 0 && timesheetApproval[0].Status != ApprovalStatus.Rejected) {
+      this.message = "Can't add or edit entries when the timesheet is approved or submitted for approval.";
       return true;
     }
 
@@ -158,7 +171,9 @@ export class TimesheetValidationService {
   private isDateNotWithInTheWeek(timeEntry: TimeEntry, fromDate: Date, toDate: Date) {
     fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
     toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
+    
     if (timeEntry.Date < fromDate || timeEntry.Date > toDate) {
+      this.message = "The Time entry date should be within the displayed week.";
       return true;
     }
 

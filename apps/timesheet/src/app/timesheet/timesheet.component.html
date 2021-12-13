@@ -114,3 +114,25 @@
     </form>
   </div>
 </nz-drawer>
+
+<nz-modal [(nzVisible)]="modalVisible" nzTitle="Envalid Time Entries" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false">
+  <ng-container *nzModalContent>
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th>Time Entry Date</th>
+          <th>Error Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let envalidEntry of envalidEntries">
+          <td>{{ envalidEntry.Date.toDateString() }}</td>
+          <td>{{ envalidEntry.Message }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="flex justify-center">
+      <button nz-button nzType="primary" class="yes-btn mr-8" (click)="handleOk()">OK</button>
+    </span>
+  </ng-container>
+</nz-modal>
