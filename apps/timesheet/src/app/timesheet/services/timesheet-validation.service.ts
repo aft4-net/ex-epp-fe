@@ -47,7 +47,7 @@ export class TimesheetValidationService {
     return true;
   }
 
-  isValidForApproval(timeEntries: TimeEntry[], timesheetConfiguration: TimesheetConfiguration) {debugger;
+  isValidForApproval(timeEntries: TimeEntry[], timesheetConfiguration: TimesheetConfiguration) {
     let dates = [... new Set(timeEntries.map(te => te.Date))];
     let weekdays = dates.map(date => new Date(date).toLocaleString("en-us", { weekday: "long" }));
 
@@ -149,7 +149,6 @@ export class TimesheetValidationService {
   }
 
   private isTimeEntriesHourMoreThan24(timeEntry: TimeEntry, timeEntries: TimeEntry[], fromDate: Date, toDate: Date) {
-    debugger;
     fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
     toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
     let totalHour = timeEntries

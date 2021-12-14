@@ -20,6 +20,7 @@ import {ProjectNamePaletComponent} from './components/project-name-palet/project
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzTableModule} from 'ng-zorro-antd/table';
 
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -54,7 +55,8 @@ import { TimesheetService } from './services/timesheet.service';
     NzFormModule,
     NzNotificationModule,
     NzDividerModule,
-    NzModalModule
+    NzModalModule,
+    NzTableModule
   ],
   providers: [TimesheetValidationService,TimesheetService],
 })
