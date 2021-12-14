@@ -1,7 +1,7 @@
 <exec-epp-page-title></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
-    <exec-epp-side-bar> </exec-epp-side-bar>
+    <exec-epp-side-bar [active]="2"> </exec-epp-side-bar>
   </div>
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
@@ -66,7 +66,7 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   [nzWidth]="'36%'"
-  nzTitle="Add Family Details"
+  [nzTitle]="addButton + ' Family Details'"
   [nzFooter]="footer"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"
@@ -80,8 +80,9 @@
       class="saveButton"
       (click)="add()"
       [disabled]="!form.familyDetail.valid"
+      [title]="form.familyDetail.invalid?'Enter valid family detail.':''"
     >
-      Add
+      {{addButton}}
     </button>
     &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>

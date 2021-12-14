@@ -21,6 +21,7 @@ export class EmergencycontactViewComponent implements OnInit {
   IsEdit=false;
   editAt=-10;
   emptyData=[];
+  addbutton="Add"
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator,
@@ -33,10 +34,11 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   }
+  this._employeeService.isdefault=false
   }
   addemergencycontact(): void {
     this.isVisible = true;
-
+ this.addbutton="Add"
     // this.modalService.create({
     //   nzTitle: 'Add Emergency Contacts',
     //   nzContent: AddEmergencycontactComponent
@@ -93,6 +95,7 @@ export class EmergencycontactViewComponent implements OnInit {
   startEdit(index: number): void {
 
     if(index>=0){
+      this.addbutton="Update"
       this.IsEdit=true;
       this.editAt=index;
       this.isVisible = true;
