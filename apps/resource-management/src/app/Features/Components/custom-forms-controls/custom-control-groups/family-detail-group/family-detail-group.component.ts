@@ -18,6 +18,8 @@ export class FamilyDetailGroupComponent implements OnInit {
     relationships$: Observable<SelectOptionModel[]>
     genders$:  Observable<SelectOptionModel[]>
 
+    endingDate = new Date(Date.now())
+
     isChild = false
 
     constructor(

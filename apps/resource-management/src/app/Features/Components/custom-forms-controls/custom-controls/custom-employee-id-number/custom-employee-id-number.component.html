@@ -1,7 +1,7 @@
 <nz-form-item
     class="form-item">
     <nz-form-label
-      class="form-label employeIdNumber-form-label"
+      class="excel-form-label"
       [nzSm]="labelConfig.nzSm" 
       [nzXs]="labelConfig.nzXs"
       [nzRequired]="required">
@@ -15,6 +15,7 @@
       <nz-input-group
         [nzAddOnBefore]="prefixTemplate">
         <input
+        class="excel-empmloyeeIdNumber-control"
         [formControl]="getIdNumber()" nzPlaceholder="'12345/21'"
         (ngModelChange)="onChange()" nz-input />
         <ng-template #prefixTemplate

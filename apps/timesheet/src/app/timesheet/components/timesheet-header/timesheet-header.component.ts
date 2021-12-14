@@ -1,5 +1,6 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { Timesheet } from '../../../models/timesheetModels';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { TimeEntry, Timesheet, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
@@ -7,23 +8,66 @@ import { TimesheetService } from '../../services/timesheet.service';
   templateUrl: './timesheet-header.component.html',
   styleUrls: ['./timesheet-header.component.scss']
 })
-export class TimesheetHeaderComponent implements OnInit {
+export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() timesheet: Timesheet | null = null;
+  @Input() timeEntries: TimeEntry[] | null = null;
+  @Input() weekFirstDate: Date | null = null;
+  @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
-
-  constructor(private timesheetService: TimesheetService) { }
-
+  @Input() isSubmitted: boolean | undefined;
+  btnText: string = '';
+  timeSheetStatus = "not-submitted-class";
+  constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
+  
   ngOnInit(): void {
+    if (this.weekFirstDate && this.weekLastDate) {
+      this.timesheetValidationService.fromDate = this.weekFirstDate;
+      this.timesheetValidationService.toDate = this.weekLastDate;
+    };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.checkForSubmittedForApproal();
+  }
+
+  checkForSubmittedForApproal(){
+    if (this.isSubmitted === true) {
+      this.btnText = "Submitted";
+      this.timeSheetStatus = "submitted-class";
+    }
+    else {
+      this.btnText = "Request for Approval";
+      this.timeSheetStatus = "not-submitted-class";
+    };
   }
 
   onRequestForApproval() {
-    if(!this.timesheet){
-      return;
-    }
-    
-    console.log("timesheet Approval");
-    console.log(this.timesheet);
+    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
+      let timesheetConfig: TimesheetConfiguration = response ? response : {
+        WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
+        WorkingHour: 0
+      };
 
-    this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe();
+      if (!this.timesheet) {
+        return;
+      }
+
+      if (!this.timeEntries || this.timeEntries.length === 0) {
+        return;
+      }
+
+      if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
+        this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
+          if (response) {
+            this.isSubmitted = true;
+          }
+          this.checkForSubmittedForApproal();
+        }, error => {
+
+        });
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 }

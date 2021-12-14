@@ -27,6 +27,8 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     joinigStartDate = new Date(Date.now())
     terminationStartDate = new Date(Date.now())
 
+    isContract = false
+
     constructor(
         private readonly _formGenerator: FormGenerator,
         private readonly _addressCountryStateService: AddressCountryStateService,
@@ -47,9 +49,7 @@ export class OrganizationalDetailGroupComponent implements OnInit {
 
     }
 
-    ngOnInit(): void {
-        this.showData()
-    }
+    ngOnInit(): void {}
 
     getControl(name: string): FormControl {
         return this._formGenerator.getFormControl(name, this.formGroup)
@@ -59,9 +59,13 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         return this._formGenerator.getFormArray(name, this.formGroup)
     }
 
-    showData(event?: any) {
-        console.log(this.formGroup.value)
-        console.log(this.formGroup.valid)
+    onEmployementTypeChange() {
+        const value: string = this.getControl('employeementType').value
+        if(value.search('Permanent') < 0){
+            this.isContract = true
+        } else {
+            this.isContract = false
+        }
     }
 
 }

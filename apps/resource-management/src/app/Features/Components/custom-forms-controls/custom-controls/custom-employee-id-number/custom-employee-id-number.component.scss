@@ -1,6 +1,11 @@
 
+@import url('../../excel-styles/excel-single-control.style.scss');
 .employee-prefix {
     width: 7rem !important;
+}
+
+.excel-empmloyeeIdNumber-control {
+    width: 21rem !important;
 }
 
 ::ng-deep .employeIdNumber-form-label {

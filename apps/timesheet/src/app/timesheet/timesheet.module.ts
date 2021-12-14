@@ -25,6 +25,8 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
+import { TimesheetValidationService } from './services/timesheet-validation.service';
+import { TimesheetService } from './services/timesheet.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import {NzModalModule} from "ng-zorro-antd/modal";
     NzNotificationModule,
     NzDividerModule,
     NzModalModule
-  ]
+  ],
+  providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {
 }

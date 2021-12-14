@@ -3,7 +3,7 @@ import { Address, Addresss } from "../../Models/address.model";
 import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
 import { Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
@@ -13,6 +13,7 @@ import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
+import { EmployeeService } from "../../Services/Employee/EmployeeService";
 
 export type FormNaming = {
     name: string
@@ -75,6 +76,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     constructor(
         private readonly _formBuilder: FormBuilder,
+        private readonly _employeeService: EmployeeService,
         employeeStaticDataMockService: EmployeeStaticDataMockService,
         addressCountryStateService: CountriesMockService
     ) {
@@ -91,6 +93,21 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     }
 
+    save(){
+        let employee: Employee = {} as Employee
+        employee = {
+            ...employee,
+            ...this.getModelPersonalDetails(),
+            EmployeeOrganization: this.getModelOrganizationDetails(),
+            EmployeeAddress: this.allAddresses,
+            FamilyDetails: this.allFamilyDetails,
+            EmergencyContact: this.allEmergencyContacts
+        } as Employee
+
+        this._employeeService.add(employee)
+        .subscribe(()=>{})
+    }
+
     getModelPersonalDetails() {
         const value = this.personalDetailsForm.value
         return {
@@ -105,6 +122,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             MobilePhone: value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
             Phone1: value.phoneNumbers.lenght > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1]: undefined,
             Phone2: value.phoneNumbers.lenght > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2]: undefined,
+            DateofBirth: value.dateofBirth,
             Nationality: value.nationalities.map((nationality: string)=>{
                 return {
                     ...{} as Nationality,
@@ -127,7 +145,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             Department: value.department,
             ReportingManager: value.reportingManager,
             EmploymentType: value.employeementType,
-            JoiningDate: value.JoiningDate,
+            JoiningDate: value.joiningDate,
             TerminationDate: value.terminationDate,
             Status: value.status
         } as Partial<EmployeeOrganization>
@@ -221,7 +239,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         return this._formBuilder.group({
             country: [null, validateRequired],
             state: [null],
-            city: [null, validateAddressRequired],
+            city: [null, validateCity],
             subCityZone: [null, validateAddressRequired],
             woreda: [null, validateAddressNonRequired],
             houseNumber: [null, validateAddressNonRequired],
@@ -258,7 +276,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         return this._formBuilder.group({
             country: [null, validateRequired],
             state: [null],
-            city: [null, validateAddressRequired],
+            city: [null, validateCity],
             subCityZone: [null, validateAddressRequired],
             woreda: [null, validateAddressNonRequired],
             houseNumber: [null, validateAddressNonRequired],
