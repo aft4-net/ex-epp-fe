@@ -36,7 +36,7 @@ export function validateEmployeeIdNumber(
         },
         {
             method: checkLength,
-            parameters: modifyParameters(parameters,{min:3,max:10})
+            parameters: modifyParameters(parameters,{min:1,max:10})
         },
         {
             method: checkEmployeeIdNumberCharacter,
@@ -148,7 +148,7 @@ export function validateEmailAddress(
             method: checkLength,
             parameters: modifyParameters(
                 parameters,
-                { min: 5, max: maxNumberofCharactersinEmail }
+                { min: 1, max: 255 }
             )
         },
         {
@@ -288,7 +288,7 @@ function checkrequired(
     controlName?: string
 ) {
     if (!control.value) {
-        errorLog.message = 'Input is required! Please provide a value.'
+        errorLog.message = 'Input is required! Please provide a valid input.'
         return { required: true }
     }
     return null
@@ -453,8 +453,8 @@ function checkEmailCharacters(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$").test(control.value))) {
-        errorLog.message = 'Input is in an invalid format!'
+    if (!(RegExp("^([A-Za-z0-9._%+-]?)+[A-Za-z]+([A-Za-z0-9._%+-]?)+@([a-z0-9.-]?)+[A-Za-z]+([a-z0-9.-]?)+\\.[A-Za-z]{2,4}$").test(control.value))) {
+        errorLog.message = 'Please provide a valid input!'
         return { invalidCharacter: true }
     }
     return null
