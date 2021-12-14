@@ -48,7 +48,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
   }
 
-  checkIfValidForApproval() {debugger;
+  checkIfValidForApproval() {
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], this.timesheetConfig)) {
       this.validForApproal = true;
       this.btnText = "Request for Approval";

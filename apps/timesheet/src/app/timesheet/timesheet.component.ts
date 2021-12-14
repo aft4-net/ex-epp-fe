@@ -43,7 +43,7 @@ export class TimesheetComponent implements OnInit {
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
-  envalidEntries: { Date: Date, Message: string }[] | null = null;
+  invalidEntries: { Date: Date, Message: string }[] | null = null;
 
   clients: Client[] | null = null;
   clientsFiltered: Client[] | null = null;
@@ -515,7 +515,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   addTimeEntryForDateRange(timeEntry: TimeEntry) {
-    this.envalidEntries = [];
+    this.invalidEntries = [];
 
     if (!this.formData.fromDate || !this.formData.toDate) {
       return;
@@ -536,26 +536,31 @@ export class TimesheetComponent implements OnInit {
     this.timesheetValidationService.toDate = toDate;
 
     if (this.timesheet) {
-      debugger;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
-        tmpTimeEntry = this.timeEntries?.filter(te => te.Date === timeEntry.Date && te.ProjectId === timeEntry.ProjectId)[0] ?? null;
+        tmpTimeEntry = this.timeEntries?.filter(te => new Date(te.Date).valueOf() === timeEntry.Date.valueOf() && te.ProjectId === timeEntry.ProjectId)[0] ?? null;
+        
+        let timeEntryClone;
+
         if (tmpTimeEntry) {
-          timeEntry.Guid = tmpTimeEntry.Guid;
-          timeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
-          timeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
+          tmpTimeEntry = { ...tmpTimeEntry };
+
+          tmpTimeEntry.Date = timeEntry.Date;
+          tmpTimeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
+          tmpTimeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
+          
+          timeEntryClone = { ...tmpTimeEntry };
+        }
+        else {
+          timeEntryClone = { ...timeEntry };
         }
 
-        timeEntry.Date = new Date(dates[i]);
-
-        let timeEntryClone = { ...timeEntry };
-
-        if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
+        if (this.timesheetValidationService.isValidForAdd(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
         else {
-          this.envalidEntries.push({
+          this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
           });
@@ -563,7 +568,6 @@ export class TimesheetComponent implements OnInit {
       }
     }
     else {
-      debugger;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
@@ -573,7 +577,7 @@ export class TimesheetComponent implements OnInit {
           timeEntries.push(timeEntryClone);
         }
         else {
-          this.envalidEntries.push({
+          this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
           });
@@ -581,7 +585,7 @@ export class TimesheetComponent implements OnInit {
       }
     }
 
-    if (this.envalidEntries && this.envalidEntries.length > 0) {
+    if (this.invalidEntries && this.invalidEntries.length > 0) {
       this.modalVisible = true;
     }
 
