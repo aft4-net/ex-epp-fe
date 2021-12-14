@@ -40,7 +40,9 @@ export class AddressViewComponent implements OnInit {
 
       this.form.allAddresses=employeeService.employeeById.EmployeeAddress?
       employeeService.employeeById.EmployeeAddress:[];
-  }
+      this.employeeService.isdefault=false
+    }
+ 
 }
   addaddress(): void {
     this.form.generateAddressForm();

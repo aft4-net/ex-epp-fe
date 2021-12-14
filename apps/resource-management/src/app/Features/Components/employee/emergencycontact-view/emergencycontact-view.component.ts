@@ -34,6 +34,7 @@ export class EmergencycontactViewComponent implements OnInit {
 
 
   }
+  this._employeeService.isdefault=false
   }
   addemergencycontact(): void {
     this.isVisible = true;

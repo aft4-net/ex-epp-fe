@@ -84,7 +84,8 @@ isEdit = false
            this.employeeService.save="Save";
        }
       this.employeeService.setEmployeeData(this._form.personalDetailsForm.value)
-     }
+      this.employeeService.isdefault=false
+    }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
