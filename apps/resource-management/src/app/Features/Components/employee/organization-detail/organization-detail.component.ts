@@ -42,6 +42,7 @@ export class OrganizationDetailComponent implements OnInit {
               private readonly _formGenerator: FormGenerator
               ) {
                 this.isEdit = this._formGenerator.IsEdit
+                this.employeeService.isdefault=false
   }
 
   ngOnInit() {

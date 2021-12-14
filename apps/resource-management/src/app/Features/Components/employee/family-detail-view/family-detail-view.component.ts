@@ -37,6 +37,7 @@ export class FamilyDetailViewComponent implements OnInit {
 
       this.form.allFamilyDetails=employeeService.employeeById.FamilyDetails?
       employeeService.employeeById.FamilyDetails:[];
+      this.employeeService.isdefault=false
   }  }
 
   addfamilies(): void {
