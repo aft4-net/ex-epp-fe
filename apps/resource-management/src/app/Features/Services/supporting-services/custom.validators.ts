@@ -173,10 +173,6 @@ export function validatePhoneNumber(
             parameters: parameters
         },
         {
-            method: checkPhoneNumberLayout,
-            parameters: parameters
-        },
-        {
             method: checkLength,
             parameters: modifyParameters(parameters, { min: 9, max: 15 })
         }
@@ -466,67 +462,13 @@ function checkPhoneNumberCharacters(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!((/^(?:\d{3}|\(\d{3}\))([- \/\.])\d{3,4}\1\d{4}$/).test(control.value)
-    ||(/^\d{9,11}$/).test(control.value))) {
-        errorLog.message = 'Input contains an invalid character(s)!'
+    if (!((/^(?:\d{3}|\(\d{3}\))([- \/\.])\d{3,4}\1\d{4}$/).test(control.value) || (/^\d{9,10}$/).test(control.value))) {
+        errorLog.message = 'Please provide a valid input!'
         return { invalidCharacter: true }
     }
     return null
 }
 
-function checkPhoneNumberCharactersEthiopia(
-    control: AbstractControl,
-    errorLog: { message: string },
-    condition: { min?: number, max?: number },
-    controlName: string
-) {
-    if (!((/^(?:\d{3}|\(\d{3}\))([- \/\.])\d{3}\1\d{4}$/).test(control.value)
-    ||(/^\d{9}$/).test(control.value))) {
-        errorLog.message = 'Input contains an invalid character(s)!'
-        return { invalidCharacter: true }
-    }
-    return null
-}
-
-// function checkPhoneNumberCharactersEthiopia(
-//     control: AbstractControl,
-//     errorLog: { message: string },
-//     condition: { min?: number, max?: number },
-//     controlName: string
-// ) {
-//     if (!(/^[(]+[0-9]{3}+[)]+[0-9]{3}+[- ]+[0-9]{4}$/).test(control.value)) {
-//         errorLog.message = 'Please provide a valid input!'
-//         return { invalidCharacter: true }
-//     }
-//     return null
-// }
-
-// function checkPhoneNumberCharactersOthers(
-//     control: AbstractControl,
-//     errorLog: { message: string },
-//     condition: { min?: number, max?: number },
-//     controlName: string
-// ) {
-//     if (!((/^[(]+[0-9]{3,4}+[)]+[0-9]{3,4}+[- ]{0,1}+[0-9]{4}+$/).test(control.value)
-//         || !(/^[0-9]{3}+[- ]{0,1}+[0-9]{3}+[- ]{0,1}+[0-9]{4}+$/).test(control.value))) {
-//         errorLog.message = 'Please provide a valid input!'
-//         return { invalidCharacter: true }
-//     }
-//     return null
-// }
-
-function checkPhoneNumberLayout(
-    control: AbstractControl,
-    errorLog: { message: string },
-    condition: { min?: number, max?: number },
-    controlName: string
-) {
-    // if (!(/^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$/).test(control.value)) {
-    //     errorLog.message = 'Input is an invalid format!'
-    //     return { invalidCharacter: true }
-    // }
-    return null
-}
 
 function checkEmailLayout(
     control: AbstractControl,
