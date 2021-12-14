@@ -293,22 +293,12 @@ export class TimesheetComponent implements OnInit {
     else {
       this.dateColumnContainerClass = "date-column-container";
 
-      this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-
-        let timesheetConfig = response ? response : {
-          WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-          WorkingHour: 0
-        };
-
-        if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
-          this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
-        }
-        else {
-          this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
-        }
-      }, error => {
-        this.createNotification("error", error.message);
-      });
+      if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+        this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
+      }
+      else {
+        this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
+      }
     }
   }
 
@@ -540,7 +530,7 @@ export class TimesheetComponent implements OnInit {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
         tmpTimeEntry = this.timeEntries?.filter(te => new Date(te.Date).valueOf() === timeEntry.Date.valueOf() && te.ProjectId === timeEntry.ProjectId)[0] ?? null;
-        
+
         let timeEntryClone;
 
         if (tmpTimeEntry) {
@@ -549,7 +539,7 @@ export class TimesheetComponent implements OnInit {
           tmpTimeEntry.Date = timeEntry.Date;
           tmpTimeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
           tmpTimeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
-          
+
           timeEntryClone = { ...tmpTimeEntry };
         }
         else {
@@ -694,7 +684,7 @@ export class TimesheetComponent implements OnInit {
         this.dateColumnTotalHour = 0;
       }
     }
-    else{
+    else {
       this.dateColumnTotalHour = totalHour ?? 0;
     }
   }
