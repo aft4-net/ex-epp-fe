@@ -255,3 +255,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .ant-checkbox-wrapper-checked.span  {
     color: black;
   }
+
+  .ant-table-filter-dropdown .ant-checkbox-wrapper+span, .ant-table-filter-dropdown-submenu .ant-checkbox-wrapper+span {
+    color: black;
+  }
