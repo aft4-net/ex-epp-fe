@@ -5,7 +5,7 @@
   </h2>
   <div class="elipses-and-hours w-16 flex flex-col items-end justify-between pt-2 mr-2">
     <i nz-icon nzType="ellipsis" nzTheme="outline" nz-popover nzPopoverPlacement="right"
-      [(nzPopoverVisible)]="popoverVisible" [nzPopoverTrigger]="null" (click)="showPopover()"
+      [(nzPopoverVisible)]="popoverVisible" nzPopoverTrigger="focus" (click)="showPopover()"
       [nzPopoverContent]="palet_popover"></i>
     <h2>{{ timeEntry?.Hour }} Hrs</h2>
   </div>
@@ -23,12 +23,12 @@
   </div>
 </ng-template>
 
-<nz-modal [(nzVisible)]="isVisible1" nzTitle="Delete?" nzFooter="null">
-  <ng-container *nzModalContent style="background: #03da6b">
+<nz-modal [(nzVisible)]="isVisible1" nzTitle="Delete?" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false">
+  <ng-container *nzModalContent>
     <p>Are you sure you want to delete this entry?</p>
     <p class="mb-6">you can not undo this action.</p>
     <span class="flex justify-end">
-      <button nz-button nzType="primary" class="yes-btn mr-8" (click)="handleOk()">Yes, Delete</button>
+      <button nz-button class="yes-delete-btn mr-8" (click)="handleOk()">Yes, Delete</button>
       <button nz-button class="cancel" (click)="handleCancel()">Cancel</button>
     </span>
   </ng-container>
