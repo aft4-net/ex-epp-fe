@@ -1,29 +1,31 @@
 
-
+<br/>
+<!--nzSelected ---->
 <ul nz-menu nzMode="inline" >
-  <li nz-menu-item nzSelected routerLink="/employee/add-employee/personal-info">
+  <li nz-menu-item  [nzSelected]="active===0" routerLink="/employee/add-employee/personal-info"
+  s>
     <i class="nz-icon" nz-icon [nzType]="'unordered-list'" [nzTheme]="'outline'"></i>
-    Personal details
+    Personal Detail
   </li>
-  <li nz-menu-item routerLink="/employee/add-employee/address-view">
+  <li nz-menu-item [nzSelected]="active===1"  routerLink="/employee/add-employee/address-view">
     <i
       class="nz-icon"
       nz-icon
       [nzType]="'environment'"
       [nzTheme]="'outline'"
     ></i
-    >Personal Address
+    >Personal Addresses
   </li>
-  <li nz-menu-item routerLink="/employee/add-employee/family-detail-view">
+  <li nz-menu-item [nzSelected]="active===2" routerLink="/employee/add-employee/family-detail-view">
     <i class="nz-icon" nz-icon [nzType]="'file-text'" [nzTheme]="'outline'"></i>
-    Family Detail
+    Family Details
   </li>
-  <li nz-menu-item routerLink="/employee/add-employee/emergencycontacts-view">
+  <li nz-menu-item [nzSelected]="active===3" routerLink="/employee/add-employee/emergencycontacts-view">
     <i class="nz-icon" nz-icon [nzType]="'contacts'" [nzTheme]="'outline'"></i>
-    Emergency Contact
+    Emergency Contacts
   </li>
-  <li nz-menu-item routerLink="/employee/add-employee/Organization-Detail">
+  <li nz-menu-item [nzSelected]="active===4" routerLink="/employee/add-employee/Organization-Detail">
     <i class="nz-icon" nz-icon [nzType]="'apartment'" [nzTheme]="'outline'"></i>
-    Organization details
+    Organizational detail
   </li>
 </ul>

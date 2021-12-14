@@ -10,8 +10,11 @@
     <nz-form-control
     [nzSm]="controlConfig.nzSm" 
     [nzXs]="controlConfig.nzXs"
-    [nzErrorTip]="errMessage">
+    [nzErrorTip]="errMessage"
+    nzHasFeedback>
       <input
-        [formControl]="myControl" nzPlaceHolder="Smith" (ngModelChange)="onChange()" nz-input />
+        class="excel-single-control"
+        [formControl]="myControl" nzPlaceHolder="Smith"
+         (ngModelChange)="onChange()" nz-input />
     </nz-form-control>
   </nz-form-item>

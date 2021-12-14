@@ -1,31 +1,34 @@
 <nz-layout>
   <nz-content>
-    <div class="inner-content">
+    <nz-divider nzType="horizontal"></nz-divider>
+    <div style="margin-top: -40px;" class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="8">
-
-          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-            <input type="text" nz-input placeholder="Search" [(ngModel)]="fullname" />
+          <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
+            <input type="text" #searchInput nz-input placeholder="Search" [(ngModel)]="fullname" (change)="searchEmployees()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
             <button nz-button nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
-
           </ng-template>
         </div>
       </div>
-      <br />
-      <div nz-row>
+      <div  nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
+        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+      </div>
+      <br/>
+      <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
-          <ng-container *ngIf="(employeeViewModels$ | async) as employeeList; else emptyEmployeeViewModels">
-            <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="employeeList"
-              nzTableLayout="fixed" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+              nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
-                  <th class="table_heading" style="width:30px" [nzChecked]="checked" [nzIndeterminate]="indeterminate"
-                    (nzCheckedChange)="onAllChecked($event)"></th>
+                  <th class="table_heading" style="width:30px"   [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                  (nzCheckedChange)="onAllChecked($event)" ></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                    [nzSortDirections]="column.sortDirections">Employee</th>
+                    [nzSortDirections]="column.sortDirections">{{column.name}}</th>
 
                   <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                     [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
@@ -35,30 +38,27 @@
                 </tr>
               </thead>
               <tbody>
-
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"
-                    [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGuid)"
-                    (nzCheckedChange)="onItemChecked(employeeView.EmployeeGuid, $event)"></td>
+                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"                     
+                  [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.FullName }} </td>
+                    <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
+                      employeeView.JoiningDate | date:'M/d/yyyy' }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.JobTitle }}</td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                    employeeView.JoiningDate | date:'M/d/yyyy' }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.Location }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
                     employeeView.Status }}</td>
                   <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                    <a (click)="Edit(employeeView.EmployeeGuid)">
-                      <i nz-icon nzType="edit" nzTheme="outline"></i>
+                    <a (click)="Edit(employeeView.EmployeeGUid)">
+                      <i nz-icon nzType="edit" style="color:black;"></i>
                     </a>
                     &nbsp; &nbsp;
-                    <a (click)="Delete(employeeView.EmployeeGuid)">
-                      <i nz-icon nzType="delete" nzTheme="outline"></i>
+                    <a (click)="Delete(employeeView.EmployeeGUid)">
+                      <i nz-icon nzType="delete" style="color:black;"></i>
                     </a>
-
                     <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
                       <ng-container *nzModalContent>
@@ -82,35 +82,13 @@
                         </nz-tabset>
                       </ng-container>
                     </nz-modal>
-
-
                   </td>
                 </tr>
               </tbody>
             </nz-table>
-          </ng-container>
-          <ng-template #emptyEmployeeViewModels>
-            <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="[]" nzTableLayout="fixed"
-              (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
-              <thead>
-                <tr>
-                  <th class="table_heading" style="width:30px"></th>
-                  <th class="table_heading">Employee</th>
-                  <th class="table_heading">Job Title</th>
-                  <th class="table_heading">Joining Date</th>
-                  <th class="table_heading">Location</th>
-                  <th class="table_heading">Status</th>
-
-                  <th class="table_heading">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- <nz-empty style="width: 100%;" nzNotFoundImage="simple"></nz-empty> -->
-              </tbody>
-            </nz-table>
-          </ng-template>
         </div>
       </div>
+      
     </div>
   </nz-content>
 </nz-layout>

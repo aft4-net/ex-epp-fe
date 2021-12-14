@@ -22,13 +22,11 @@ import { ToastrModule } from 'ngx-toastr';
 
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
-import { AddDeviceDetailComponent } from './Features/Components/add-device-detail/add-device-detail.component';
 import { OrganizationDetailEditComponent } from './Features/Components/employee/employee-edit/organization-detail-edit/organization-detail-edit.component';
 import { AddressEditComponent } from './Features/Components/employee/employee-edit/address-edit/address-edit.component';
 import { EmergencycontactEditComponent } from './Features/Components/employee/employee-edit/emergencycontact-edit/emergencycontact-edit.component';
 import { FamilyDetailEditComponent } from './Features/Components/employee/employee-edit/family-detail-edit/family-detail-edit.component';
 import { PersonalInfoEditComponent } from './Features/Components/employee/employee-edit/personal-info-edit/personal-info-edit.component';
-
 registerLocaleData(en);
 
 @NgModule({
@@ -39,7 +37,6 @@ registerLocaleData(en);
     PageBreadcrumbComponent,
     ProgressButtonsComponent,
     EmployeeDetailComponent,
-    AddDeviceDetailComponent,
     OrganizationDetailEditComponent,
     PersonalInfoEditComponent,
     EmergencycontactEditComponent,
@@ -58,6 +55,7 @@ registerLocaleData(en);
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
     AppRoutingModule,
+    
 
     ToastrModule.forRoot(),
   ],

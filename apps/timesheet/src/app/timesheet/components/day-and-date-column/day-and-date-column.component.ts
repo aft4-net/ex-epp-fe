@@ -36,14 +36,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @ViewChildren('entries') entriesDiv!: QueryList<any>;
   @ViewChild('pt') pointerEl!: ElementRef;
   @ViewChild('col') colEl!: ElementRef;
+  @ViewChild('addIcon') iconEL!: ElementRef;
   timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
+  dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
   index: number = 0;
   overflow = false;
   moreEntries: any[] = [];
   overflowPt?: number = 0;
   of: any;
+  isSubmitted: boolean | undefined;
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
   ngAfterViewInit(): void {
     this.checkOverflow(this.colEl.nativeElement);
@@ -52,7 +55,14 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if (this.timesheet) {
+      this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(res => {
+        res != null && res.length > 0 ? this.isSubmitted = true : this.isSubmitted = false;
+      })
+    }
+    console.log(this.isSubmitted)
+  }
 
   ngOnChanges(): void {
     if (this.timesheet) {
@@ -68,6 +78,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       this.overflowCalc();
     }
 
+    let today = new Date();
+
+    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1))) {
+      this.dateColumnHighlightClass = "date-column-with-no-highlight";
+    }
+    else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+      this.dateColumnHighlightClass = "date-column-with-no-highlight";
+    }
+    else {
+      this.dateColumnHighlightClass = "date-column-with-highlight";
+    }
   }
   overflowCalc() {
     this.entriesDiv?.changes.subscribe(() => {
@@ -150,7 +171,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
     if (this.timeEntrys !== null) {
       for (let i = index; i < this.timeEntrys.length; i++) {
-        for (let j = 0; j <= this.timeEntrys.length - index-1; j++) {
+        for (let j = 0; j <= this.timeEntrys.length - index - 1; j++) {
           this.moreEntries[j] = this.timeEntrys[i];
           i++;
         }
@@ -174,5 +195,3 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     }
   }
 }
-
-

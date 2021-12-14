@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Data } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { AddEmergencycontactComponent } from '../../add-emergencycontact/add-emergencycontact.component';
-
 @Component({
   selector: 'exec-epp-emergencycontact-edit',
   templateUrl: './emergencycontact-edit.component.html',
@@ -10,7 +8,7 @@ import { AddEmergencycontactComponent } from '../../add-emergencycontact/add-eme
 })
 export class EmergencycontactEditComponent implements OnInit {
 
- 
+
 
   isVisible = false;
   isConfirmLoading = false;
@@ -30,7 +28,7 @@ export class EmergencycontactEditComponent implements OnInit {
   constructor(private modalService: NzModalService) {}
 
 
- 
+
   handleOk(): void {
     this.isConfirmLoading = true;
     setTimeout(() => {

@@ -20,11 +20,14 @@ import {ProjectNamePaletComponent} from './components/project-name-palet/project
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzTableModule} from 'ng-zorro-antd/table';
 
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
+import { TimesheetValidationService } from './services/timesheet-validation.service';
+import { TimesheetService } from './services/timesheet.service';
 
 @NgModule({
   declarations: [
@@ -52,8 +55,10 @@ import {NzModalModule} from "ng-zorro-antd/modal";
     NzFormModule,
     NzNotificationModule,
     NzDividerModule,
-    NzModalModule
-  ]
+    NzModalModule,
+    NzTableModule
+  ],
+  providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {
 }
