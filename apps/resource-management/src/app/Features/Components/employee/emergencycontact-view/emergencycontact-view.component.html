@@ -53,7 +53,7 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Emergency Contacts" [nzWidth]="'60%'" [nzFooter]="footer"
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="addbutton +' Emergency Contacts'" [nzWidth]="'60%'" [nzFooter]="footer"
   (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <div>
@@ -100,7 +100,8 @@
       <br />
      <button nz-button class="addeButton" (click)="add()"
       [disabled]="!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid"
-      >Add</button> &nbsp;
+      [title]="form.emergencyContact.invalid?'Enter valid contact detail.':''? '':form.emergencyAddress.invalid?'Enter valid address detail.':''"
+      >{{addbutton}}</button> &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">
         Clear
       </button>

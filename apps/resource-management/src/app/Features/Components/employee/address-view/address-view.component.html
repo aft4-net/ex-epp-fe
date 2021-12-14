@@ -6,7 +6,7 @@
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
       <div nz-col nzSpan="21">
-        <h1>Addresses</h1>
+        <h1>Personal Addresses</h1>
       </div>
 
       <div nz-col nzSpan="3">
@@ -57,8 +57,8 @@
       </tbody>
     </nz-table>
     <div nz-col nzSpan="3">
-      <button class="addButtonwhenNodata" nz-button (click)="addaddress()">
-        <span>Add Address</span>
+      <button class="addButtonwhenNodata"  nz-button (click)="addaddress()">
+        <span> Add Address</span>
       </button>
     </div>
   </div>
@@ -67,7 +67,7 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   [nzWidth]="'36%'"
-  nzTitle="Add Address"
+  [nzTitle]="addButton +' Address'"
   [nzFooter]="null"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"
@@ -81,8 +81,9 @@
       class="saveButton"
       (click)="add()"
       [disabled]="!form.addressForm.valid"
+      [title]="form.addressForm.invalid?'Enter valid personal detail.':''"
     >
-      Add
+      {{addButton}}
     </button>
     &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>
