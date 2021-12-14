@@ -19,16 +19,25 @@
     }
 }
 
-.project-name-palet-approved{
-    background-color: #DCFFDC;
+.project-name-palet-approval{
+    background-color: #c9cdc9;
 
     .elipses-and-hours {
         i {
             transform: rotate(90deg);
             cursor: default;
-            opacity: 0;
         }
     }
 
 }
+.popup-confirmation{
+  background-color: #FFFFFF;
+  border: #00A551;
+  height: 194px;
+  width: 328px;
+  left: 532px;
+  top: 357px;
+  border-radius: 2px;
+  padding: 24px;
 
+}

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
-import { map } from "rxjs/operators";
-
+import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   TimeEntriesResponse,
@@ -15,6 +15,7 @@ import {
 } from '../../models/timesheetModels';
 import { Project } from '../../models/project';
 import { Client } from '../../models/client';
+import { DayAndDateService } from './day-and-date.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,22 +23,21 @@ import { Client } from '../../models/client';
 export class TimesheetService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient,) {
+  constructor(private http: HttpClient, private dayAndDateService: DayAndDateService) {
   }
 
   //#region timesheet and timeEntry
 
   getTimeSheet(userId: string, date?: Date) {
-    let fromDate = new Date();
+    let fromDate;
 
     if (date) {
-      date.setDate(date.getDate() - date.getDay() + 1);
-      fromDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
+      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
     }
     else {
-      fromDate.setDate(fromDate.getDate() - fromDate.getDay() + 1);
-      fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate(), 3, 0, 0, 0);
+      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
+    fromDate.setHours(3, 0, 0, 0);
 
     let params = new HttpParams();
 
@@ -78,7 +78,7 @@ export class TimesheetService {
     return response.pipe(map(r => r.body?.Data));
   }
 
-  addTimeEntry(employeeId: string, timeEntry: TimeEntry) {
+  addTimeEntry(employeeId: string, timeEntry: TimeEntry) {debugger;
     const headers = { "content-type": "application/json" };
 
     let params = new HttpParams();
@@ -88,10 +88,28 @@ export class TimesheetService {
     return this.http.post<any>(this.baseUrl + "timeentries", timeEntry, { "headers": headers, params: params });
   }
 
+  addTimeEntryForRangeOfDates(employeeId: string, timeEntries: TimeEntry[]) {
+    const headers = { "content-type": "application/json" };
+
+    let params = new HttpParams();
+
+    params = params.append("employeeId", employeeId);
+
+    return this.http.post<any>(this.baseUrl + "TimeEntriesForRange", timeEntries, { "headers": headers, params: params });
+  }
+
   updateTimeEntry(timeEntry: TimeEntry) {
     const headers = { "content-type": "application/json" };
 
     return this.http.put<TimeEntryResponse>(this.baseUrl + "timeentries", timeEntry, { "headers": headers });
+  }
+
+  deleteTimeEntry(timeEntryId: string): Observable<unknown> {
+    let params = new HttpParams();
+
+    params = params.set("timeEntryId", timeEntryId);
+
+    return this.http.delete(this.baseUrl + "DeleteTimeEntry", { params });
   }
 
   //#endregion
@@ -115,18 +133,19 @@ export class TimesheetService {
 
     params = params.append("timesheetGuid", timeSheetId)
 
-    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, {"headers": headers, params: params});
+    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, { "headers": headers, params: params });
 
     return response.pipe(map(r => r.Data));
-
   }
 
   //#endregion
 
   //#region Timesheet Configuration
 
-  getTimeSheetConfiguration(){
-    return this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
+  getTimeSheetConfiguration() {
+    let response = this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
+
+    return response.pipe(map(r => r.Data));
   }
 
   //#endregion
@@ -184,7 +203,6 @@ export class TimesheetService {
 
     return response.pipe(map(r => r.body));
   }
-
   //#endregion
 
 }

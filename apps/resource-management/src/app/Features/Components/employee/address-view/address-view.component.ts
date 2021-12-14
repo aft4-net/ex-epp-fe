@@ -21,6 +21,7 @@ export class AddressViewComponent implements OnInit {
   listOfaddress: Address[] = [];
   IsEdit=false;
   editAt=-10;
+  addButton='Add'
   employeeAddress?:Address
   emptyData=[];
   @ViewChild('drawerTemplate')
@@ -39,11 +40,14 @@ export class AddressViewComponent implements OnInit {
 
       this.form.allAddresses=employeeService.employeeById.EmployeeAddress?
       employeeService.employeeById.EmployeeAddress:[];
-  }
+      this.employeeService.isdefault=false
+    }
+ 
 }
   addaddress(): void {
     this.form.generateAddressForm();
     this.isVisible = true;
+    this.addButton="Add"
     // this.modalService.create({
     //   nzTitle: 'Add Addresses',
     //   nzContent: AddressNewComponent
@@ -60,6 +64,7 @@ export class AddressViewComponent implements OnInit {
       this.IsEdit=true;
       this.editAt=index;
       this.isVisible = true;
+      this.addButton="Update"
       this._formGenerator.generateAddressForm(this.form.allAddresses[index]);
     }
   }
@@ -118,6 +123,7 @@ export class AddressViewComponent implements OnInit {
      this.form.allAddresses[this.editAt]=address;
      this.editAt=-10
      this.IsEdit=false;
+     this.addButton="Add"
     }
     if(this.form.addressForm.valid){
      this.isVisible=false;

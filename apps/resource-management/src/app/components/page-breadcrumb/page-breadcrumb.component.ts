@@ -18,7 +18,7 @@ export class PageBreadcrumbComponent implements OnInit {
   router: string;
 
   constructor(
-    private _employeeService: EmployeeService,
+    public _employeeService: EmployeeService,
     private _router: Router,
     private _formGenerator: FormGenerator
   ) {
@@ -28,10 +28,7 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this._router.events.subscribe((url: any) => console.log(url));
-    // this.router = this._router.url;
-    //  console.log(this._router.url);
-  }
+ }
 
   saveEmployee() {
 
@@ -55,8 +52,8 @@ export class PageBreadcrumbComponent implements OnInit {
     this._employeeService.save="Save";
     this._employeeService.employeeById=this.emptyEmp;
      this._router.navigate(['/employee/add-employee/personal-info']);
-     this._employeeService.isdefault =!this.isdefault;
-     this.isdefault = !this.isdefault;
+      this._employeeService.isdefault =!this.isdefault;
+     // this.isdefault = false;
 
   }
 }
