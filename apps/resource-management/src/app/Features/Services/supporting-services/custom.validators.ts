@@ -36,7 +36,7 @@ export function validateEmployeeIdNumber(
         },
         {
             method: checkLength,
-            parameters: modifyParameters(parameters,{min:1,max:10})
+            parameters: modifyParameters(parameters, { min: 1, max: 10 })
         },
         {
             method: checkEmployeeIdNumberCharacter,
@@ -55,9 +55,9 @@ export function validateFirstName(
 export function validateMiddleName(
     control: AbstractControl
 ) {
-    
+
     resetError(true)
-    if(!control.value) {
+    if (!control.value) {
         return null
     }
     return validateName(control, commonErrorMessage, 'Middle name')
@@ -178,7 +178,7 @@ export function validatePhoneNumber(
         },
         {
             method: checkLength,
-            parameters: modifyParameters(parameters, {min: 9, max: 15})
+            parameters: modifyParameters(parameters, { min: 9, max: 15 })
         }
     )
 }
@@ -216,7 +216,7 @@ export function validateAddressRequired(
 export function validateAddressNonRequired(
     control: AbstractControl
 ) {
-    if(!control.value) {
+    if (!control.value) {
         return null
     }
     resetError(false)
@@ -249,7 +249,7 @@ export function validateCity(
         },
         {
             method: checkLength,
-            parameters: modifyParameters(parameters, {min:2,max:30})
+            parameters: modifyParameters(parameters, { min: 2, max: 30 })
         }
     )
 }
@@ -466,12 +466,54 @@ function checkPhoneNumberCharacters(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[()0-9 +-]+$/).test(control.value)) {
+    if (!((/^(?:\d{3}|\(\d{3}\))([- \/\.])\d{3,4}\1\d{4}$/).test(control.value)
+    ||(/^\d{9,11}$/).test(control.value))) {
         errorLog.message = 'Input contains an invalid character(s)!'
         return { invalidCharacter: true }
     }
     return null
 }
+
+function checkPhoneNumberCharactersEthiopia(
+    control: AbstractControl,
+    errorLog: { message: string },
+    condition: { min?: number, max?: number },
+    controlName: string
+) {
+    if (!((/^(?:\d{3}|\(\d{3}\))([- \/\.])\d{3}\1\d{4}$/).test(control.value)
+    ||(/^\d{9}$/).test(control.value))) {
+        errorLog.message = 'Input contains an invalid character(s)!'
+        return { invalidCharacter: true }
+    }
+    return null
+}
+
+// function checkPhoneNumberCharactersEthiopia(
+//     control: AbstractControl,
+//     errorLog: { message: string },
+//     condition: { min?: number, max?: number },
+//     controlName: string
+// ) {
+//     if (!(/^[(]+[0-9]{3}+[)]+[0-9]{3}+[- ]+[0-9]{4}$/).test(control.value)) {
+//         errorLog.message = 'Please provide a valid input!'
+//         return { invalidCharacter: true }
+//     }
+//     return null
+// }
+
+// function checkPhoneNumberCharactersOthers(
+//     control: AbstractControl,
+//     errorLog: { message: string },
+//     condition: { min?: number, max?: number },
+//     controlName: string
+// ) {
+//     if (!((/^[(]+[0-9]{3,4}+[)]+[0-9]{3,4}+[- ]{0,1}+[0-9]{4}+$/).test(control.value)
+//         || !(/^[0-9]{3}+[- ]{0,1}+[0-9]{3}+[- ]{0,1}+[0-9]{4}+$/).test(control.value))) {
+//         errorLog.message = 'Please provide a valid input!'
+//         return { invalidCharacter: true }
+//     }
+//     return null
+// }
 
 function checkPhoneNumberLayout(
     control: AbstractControl,
