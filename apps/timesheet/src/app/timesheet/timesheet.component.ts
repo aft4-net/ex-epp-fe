@@ -296,7 +296,7 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
 
         let timesheetConfig = response ? response : {
-          WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
+          WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
           WorkingHour: 0
         };
 
