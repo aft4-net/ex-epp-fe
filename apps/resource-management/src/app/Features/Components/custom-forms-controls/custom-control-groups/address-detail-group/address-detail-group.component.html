@@ -9,7 +9,8 @@
   <exec-epp-custom-select
   [label]="stateName"
   [myControl]="getControl('state')"
-  [list$]="stateRegions$">
+  [list$]="stateRegions$"
+  [required]="false">
   </exec-epp-custom-select>
   <exec-epp-custom-text-box
   [label]="'City'"
