@@ -52,7 +52,7 @@ export class FormGeneratorAssistant {
                 }
             }
             result.prefix = index === -1 ?
-            this._employeeIdNumberPrefices[0]
+                this._employeeIdNumberPrefices[0]
                 : this._employeeIdNumberPrefices[index];
             result.value = employeeIdNumber.substring(noofMatches);
         }
@@ -66,7 +66,7 @@ export class FormGeneratorAssistant {
             suffix: null
         } as ExtractedData
         if (phoneNumber && phoneNumber !== null && phoneNumber !== '') {
-            // console.log('Phone extraction function!', this._phonePrefices.length)
+            console.log('Phone extraction function!', this._phonePrefices.length)
             let index = -1
             let noofMatches = 0
             for (let i = 0; i < this._phonePrefices.length; i++) {
@@ -74,13 +74,12 @@ export class FormGeneratorAssistant {
                 const prefix = phoneNumber.substring(0, this._phonePrefices[i].length)
                 if (this._phonePrefices[i] === prefix
                     && prefix.length > noofMatches) {
-                        // console.log('Phone prefix found!')
-                    index = i
+                    console.log('Phone prefix found!')
+                    console.log(this._phonePrefices[i])
+                    result.prefix = this._phonePrefices[i]
                     noofMatches = this._phonePrefices[i].length
                 }
             }
-            result.prefix = index === -1 ?'+251'
-                : this._employeeIdNumberPrefices[index];
             result.value = phoneNumber.substring(noofMatches);
         }
         return result
@@ -99,7 +98,7 @@ export class FormGeneratorAssistant {
                 this.validateControl(control as FormControl)
             }
             i += 1
-          });
+        });
     }
 
     errorMessageforOrganizationDetails(formGroup: FormGroup) {
@@ -113,7 +112,7 @@ export class FormGeneratorAssistant {
                 this.validateControl(control as FormControl)
             }
             i += 1
-          });
+        });
     }
 
     errorMessageforAddressDetails(formGroup: FormGroup) {
@@ -125,7 +124,7 @@ export class FormGeneratorAssistant {
                 this.validateControl(control as FormControl)
             }
             i += 1
-          });
+        });
     }
 
     errorMessageforFamilyDetails(formGroup: FormGroup) {
@@ -137,7 +136,7 @@ export class FormGeneratorAssistant {
                 this.validateControl(control as FormControl)
             }
             i += 1
-          });
+        });
     }
 
     errorMessageforEmergencyContactDetails(emergencyGroup: FormGroup, addressGroup: FormGroup) {
@@ -153,9 +152,9 @@ export class FormGeneratorAssistant {
                 this.validateControl(control as FormControl)
             }
             i += 1
-          });
-          i = 0
-          Object.values(addressGroup.controls).forEach(control => {
+        });
+        i = 0
+        Object.values(addressGroup.controls).forEach(control => {
             this.validateControl(control as FormControl)
             //   if (i === 6) {
             //       this.errorMessageForPhone(control as FormArray)
@@ -163,26 +162,26 @@ export class FormGeneratorAssistant {
             //       this.validateControl(control as FormControl)
             //   }
             //   i += 1
-            });
-        
+        });
+
     }
 
     errorMessageForGroups(formGroup: FormGroup) {
         Object.values(formGroup.controls).forEach(control => {
             this.validateControl(control as FormControl)
-          });
+        });
     }
 
     errorMessageForEmail(formArray: FormArray) {
         Object.values(formArray.controls).forEach(control => {
             this.validateControl(control as FormControl)
-          });
+        });
     }
 
     errorMessageForPhone(formArray: FormArray) {
         Object.values(formArray.controls).forEach(control => {
             this.errorMessageForGroups(control as FormGroup)
-          });
+        });
     }
 
     validateControl(control: FormControl) {
@@ -192,7 +191,7 @@ export class FormGeneratorAssistant {
             control.setValue(value)
             control.markAsDirty();
             control.updateValueAndValidity({ onlySelf: true });
-          }
+        }
     }
 
 }
