@@ -10,6 +10,7 @@
     [label]="stateName"
     [myControl]="getControl('state')"
     [list$]="stateRegions$"
+    [required]="false"
     (formResponse)="onStateSelect()">
   </exec-epp-custom-select>
   <exec-epp-custom-text-box
