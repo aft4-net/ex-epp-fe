@@ -48,7 +48,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
   }
 
-  checkIfValidForApproval() {debugger;
+  checkIfValidForApproval() {
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], this.timesheetConfig)) {
       this.validForApproal = true;
       this.btnText = "Request for Approval";
@@ -70,7 +70,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+    if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {debugger;
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         this.timesheetApprovals = response ?? [];
         this.checkForSubmittedForApproal();
