@@ -404,9 +404,9 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setPresonalDetail(employee: Employee) {
-        if(employee.employeeNumber) {
+        if(employee.EmployeeNumber) {
             this._setEmployeeIdNumber(
-                employee.employeeNumber,
+                employee.EmployeeNumber,
                 this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
             )
         }
@@ -469,7 +469,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
         this._setControlValue(
-            organizationalDetail.DutyStation,
+            organizationalDetail.Country,
             this.getFormControl('country', this.organizationalForm)
         )
         this._setControlValue(
@@ -647,7 +647,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormGroup('fullName', this.familyDetail)
         )
         this._setControlValue(
-            familyDetail.Relationship,
+            familyDetail.Relationship?.Name,
             this.getFormControl('relationship', this.familyDetail)
         )
         this._setControlValue(

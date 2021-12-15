@@ -72,7 +72,7 @@ export class EmployeeDetailComponent implements OnInit {
   isConfirmLoading = false;
 
 
-  
+
 
   listOfColumnsFullName: ColumnItem[] = [
     {
@@ -119,7 +119,7 @@ export class EmployeeDetailComponent implements OnInit {
                 {
                   text: this.employeeViewModel.map(country=>country.Location)[i],
                   value:this.employeeViewModel.map(country=>country.Location)[i]
-                }) 
+                })
               }
           }
           for(let i=0; i < this.employeeViewModel.length;i++){
@@ -149,7 +149,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.empListJobType=this.holdItJobTitle,
           this.empJoinDate = this.holdItJoinDate
 
-          if(this.employeeViewModel.length > 0) {  
+          if(this.employeeViewModel.length > 0) {
             this.listOfColumns = [
               {
                 name: 'Job Title',
@@ -288,7 +288,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams)
       .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
-        
+
         if(response.Data) {
           this.employeeViewModels$=of(response.Data);
           this.employeeViewModel = response.Data;
