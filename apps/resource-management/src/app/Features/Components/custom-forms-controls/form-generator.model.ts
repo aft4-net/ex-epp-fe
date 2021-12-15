@@ -105,7 +105,10 @@ export class FormGenerator extends FormGeneratorAssistant {
         } as Employee
 
         this._employeeService.add(employee)
-        .subscribe(()=>{})
+        .subscribe(()=>{
+
+            this._employeeService.isdefault=true;
+        })
     }
 
     getModelPersonalDetails() {
