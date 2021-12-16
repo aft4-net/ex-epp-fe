@@ -3,6 +3,7 @@
     radius:2px;
     padding:8px, 16px, 8px, 16px;
     font:SF Pro Display;
+    transition: 0.3s;
     }
 }
 
@@ -29,6 +30,7 @@
   size:18px;
   line-height:21.48px;
   weight:500;
+  pointer-events: none;
 }
 
 button:hover{
