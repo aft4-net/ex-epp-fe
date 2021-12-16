@@ -22,16 +22,15 @@
 
 .submitted-class{
   width:113px;
-  color:rgb(15, 97, 15);
-  background-color: white;
-  border-width: 0px;
+  color:green;
+  background: transparent;
+  border:none;
   border-color: #F5F5F5;
   size:18px;
   line-height:21.48px;
   weight:500;
-
 }
 
-.submitted-class:hover{
-  text-decoration:underline;
+button:hover{
+  text-decoration:solid underline green;
 }
