@@ -59,6 +59,7 @@ export class TimesheetValidationService {
 
     for (const workingDay of timesheetConfiguration.WorkingDays) {
       if (weekdays.filter(wd => wd.toUpperCase() === workingDay.toUpperCase()).length === 0) {
+        this.message = `Pelase add time entry for ${workingDay} before requesting for approval.`;
         return false;
       }
     }
@@ -86,6 +87,7 @@ export class TimesheetValidationService {
         .reduce((prev, next) => prev + next, 0);
 
       if (totalHour < timesheetConfiguration.WorkingHour) {
+        this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${date.toDateString()} date to satisfy minimum working hours.`;
         return false;
       }
     }
@@ -121,10 +123,6 @@ export class TimesheetValidationService {
       return false;
     }
 
-    // Working day validation
-
-    // Working hour validation
-
     return true;
   }
 
@@ -141,7 +139,7 @@ export class TimesheetValidationService {
   private isTimeEntryHourMoreThan24(timeEntry: TimeEntry): boolean {
 
     if (timeEntry.Hour > 24) {
-      this.message = "Hours cannot exceed the maximum days limit.";
+      this.message = `Time entry should not have more than 24 hours. Please enter 24 hours or less for ${timeEntry.Date}`;
       return true;
     }
 
@@ -157,7 +155,7 @@ export class TimesheetValidationService {
       .reduce((prev, next) => prev + next, 0);
 
     if (totalHour + timeEntry.Hour > 24) {
-      this.message = "Hours cannot exceed the maximum days limit.";
+      this.message = `Time entries for a day should be more than 24 hours. Please enter ${24 - totalHour} hours or less for ${timeEntry.Date.toDateString()}`;
       return true;
     }
 
@@ -185,7 +183,7 @@ export class TimesheetValidationService {
     toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
 
     if (timeEntry.Date < fromDate || timeEntry.Date > toDate) {
-      this.message = "The Time entry date should be within the displayed week.";
+      this.message = `Time entry should be with in the week. please select or add time entrys between ${this.fromDate.toDateString()} and ${this.toDate.toDateString()}`;
       return true;
     }
 
