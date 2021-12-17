@@ -25,6 +25,7 @@ export class FamilyDetailViewComponent implements OnInit {
   editId: string | null = null;
   IsEdit=false;
   editAt=-10;
+  addButton="Add"
   emptyData=[];
   constructor(
     private modalService: NzModalService,
@@ -36,10 +37,12 @@ export class FamilyDetailViewComponent implements OnInit {
 
       this.form.allFamilyDetails=employeeService.employeeById.FamilyDetails?
       employeeService.employeeById.FamilyDetails:[];
+      this.employeeService.isdefault=false
   }  }
 
   addfamilies(): void {
     this.isVisible = true;
+    this.addButton="Add"
   
   }
 
@@ -54,6 +57,7 @@ export class FamilyDetailViewComponent implements OnInit {
   startEdit(index: number): void {
 
       if(index>=0){
+        this.addButton="Update"
         this.IsEdit=true;
         this.editAt=index;
         this.isVisible = true;

@@ -105,7 +105,10 @@ export class FormGenerator extends FormGeneratorAssistant {
         } as Employee
         console.log("This employee profile" + employee.EmergencyContact);
         this._employeeService.add(employee)
-        .subscribe(()=>{})
+        .subscribe(()=>{
+
+            this._employeeService.isdefault=true;
+        })
     }
 
     getModelPersonalDetails() {
@@ -117,11 +120,11 @@ export class FormGenerator extends FormGeneratorAssistant {
             GrandFatherName: value.fullName.lastName,
             Gender: value.gender,
             PersonalEmail: value.emailAddresses[0],
-            PersonalEmail2: value.emailAddresses.lenght > 1? value.emailAddresses[1]: undefined,
-            PersonalEmail3: value.emailAddresses.lenght > 2? value.emailAddresses[2]: undefined,
+            PersonalEmail2: value.emailAddresses.length > 1? value.emailAddresses[1]: undefined,
+            PersonalEmail3: value.emailAddresses.length > 2? value.emailAddresses[2]: undefined,
             MobilePhone: value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
-            Phone1: value.phoneNumbers.lenght > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1]: undefined,
-            Phone2: value.phoneNumbers.lenght > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2]: undefined,
+            Phone1: value.phoneNumbers.length > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1]: undefined,
+            Phone2: value.phoneNumbers.length > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2]: undefined,
             DateofBirth: value.dateofBirth,
             Nationality: value.nationalities.map((nationality: string)=>{
                 return {
@@ -401,9 +404,9 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setPresonalDetail(employee: Employee) {
-        if(employee.employeeNumber) {
+        if(employee.EmployeeNumber) {
             this._setEmployeeIdNumber(
-                employee.employeeNumber,
+                employee.EmployeeNumber,
                 this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
             )
         }
@@ -466,7 +469,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
         this._setControlValue(
-            organizationalDetail.DutyStation,
+            organizationalDetail.Country,
             this.getFormControl('country', this.organizationalForm)
         )
         this._setControlValue(
@@ -644,7 +647,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormGroup('fullName', this.familyDetail)
         )
         this._setControlValue(
-            familyDetail.Relationship,
+            familyDetail.Relationship?.Name,
             this.getFormControl('relationship', this.familyDetail)
         )
         this._setControlValue(

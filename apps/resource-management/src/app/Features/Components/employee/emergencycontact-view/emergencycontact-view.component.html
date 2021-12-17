@@ -1,7 +1,7 @@
 <exec-epp-page-title></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
-    <exec-epp-side-bar> </exec-epp-side-bar>
+    <exec-epp-side-bar [active]="3"> </exec-epp-side-bar>
   </div>
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
@@ -53,8 +53,8 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Add Emergency Contacts" [nzWidth]="'60%'" [nzFooter]="footer"
-  (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="addbutton +' Emergency Contacts'" [nzWidth]="'60%'" [nzFooter]="footer"
+  (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()" class="layer">
   <ng-container *nzModalContent>
     <div>
       <div style="border: 2px solid #d9d9d9; border-radius: 5px">
@@ -100,7 +100,8 @@
       <br />
      <button nz-button class="addeButton" (click)="add()"
       [disabled]="!this.form.emergencyContact.valid || !this.form.emergencyAddress.valid"
-      >Add</button> &nbsp;
+      [title]="form.emergencyContact.invalid?'Enter valid contact detail.':''? '':form.emergencyAddress.invalid?'Enter valid address detail.':''"
+      >{{addbutton}}</button> &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">
         Clear
       </button>

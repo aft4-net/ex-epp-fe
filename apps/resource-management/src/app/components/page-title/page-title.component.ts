@@ -42,7 +42,7 @@ export class PageTitleComponent implements OnInit {
 
   saveNext(){
     if (!(this._formGenerator.personalDetailsForm.valid)) {
-      alert('Personal detail contains an error!')
+      alert('Please enter a valid Personal detail!')
       this._formGenerator.errorMessageforPersonalDetails(
         this._formGenerator.personalDetailsForm
       )
@@ -54,7 +54,7 @@ export class PageTitleComponent implements OnInit {
       alert('A minimum of one emergency contact is required. Please enter your emergency contact(s)')
       this._router.navigate(['employee/add-employee/emergencycontacts-view'])
     } else if (!(this._formGenerator.organizationalForm.valid)) {
-      alert('Organizational detail contains an error!')
+      alert('Please enter a valid  Organizational detail')
       this._formGenerator.errorMessageforOrganizationDetails(
         this._formGenerator.organizationalForm
       )
@@ -64,29 +64,7 @@ export class PageTitleComponent implements OnInit {
 
       }
       this._formGenerator.save();
-      // const employee = this._formGenerator.getModelPersonalDetails()
-      // employee.EmployeeOrganization = this._formGenerator.getModelOrganizationDetails() as EmployeeOrganization
-      // employee.FamilyDetails =   this._formGenerator.allFamilyDetails
-      // employee.EmployeeAddress = this._formGenerator.allAddresses
-      // employee.EmergencyContact = this._formGenerator.allEmergencyContacts
-
-      // this._employeeService.setEmployeeData(employee)
-      // this._employeeService.employee$.subscribe()
-      // if(this._employeeService.isEdit){
-      //  this._employeeService.updateEmployee();
-      //  this._employeeService.isEdit=false;
-      // }
-      // else{
-      //   this._employeeService.saveEmployee()
-      // }
-      // this._employeeService.responseDto$.subscribe((response)=> {
-      //   if(response)
-      //   {
-      //     this.notification.create(response.responseStatus,'', response.message);
-      //   }
-      // })     
-      // console.log('Employee Success')
-      // console.log(employee)
+     
       this._router.navigate([''])
     }
   }
