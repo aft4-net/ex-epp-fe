@@ -18,7 +18,7 @@
         Hours Completed: {{ weeklyTotalHours }}</h5>
     </div>
     <div class="total-hours-completed">
-      <button [disabled]="!validForApproal" id="timesheetStatus" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg" nz-button
+      <button [disabled]="!validForApproal " id="timesheetStatus" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg" nz-button
         (click)="onRequestForApproval()">{{btnText}}</button>
     </div>
   </div>
