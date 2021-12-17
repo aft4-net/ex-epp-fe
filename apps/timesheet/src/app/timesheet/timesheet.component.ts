@@ -43,7 +43,7 @@ export class TimesheetComponent implements OnInit {
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
-  invalidEntries: { Date: Date, Message: string }[] | null = null;
+  invalidEntries: { Date: Date, Message: string }[] = [];
 
   clients: Client[] | null = null;
   clientsFiltered: Client[] | null = null;
@@ -443,6 +443,8 @@ export class TimesheetComponent implements OnInit {
   }
 
   submitForm(): void {
+    this.invalidEntries = [];
+    
     for (const i in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(i)) {
         this.validateForm.controls[i].markAsDirty();
@@ -467,7 +469,9 @@ export class TimesheetComponent implements OnInit {
         this.addTimeEntryForDateRange(timeEntry);
       }
 
-      this.closeFormDrawer();
+      if (!this.invalidEntries || this.invalidEntries.length == 0) {
+        this.closeFormDrawer();
+      }
     } catch (err) {
       console.error(err);
     }
@@ -505,8 +509,6 @@ export class TimesheetComponent implements OnInit {
   }
 
   addTimeEntryForDateRange(timeEntry: TimeEntry) {
-    this.invalidEntries = [];
-
     if (!this.formData.fromDate || !this.formData.toDate) {
       return;
     }
@@ -514,10 +516,6 @@ export class TimesheetComponent implements OnInit {
     let timeEntries: TimeEntry[] = [];
     let tmpTimeEntry: TimeEntry | null;
     let dates = this.dayAndDateService.getRangeOfDates(this.formData.fromDate, this.formData.toDate);
-    let timesheetConfig: TimesheetConfiguration = {
-      WorkingDays: ["Monday", "Thursday", "Wednesday", "Thursday", "Friday", "Starday", "Sunday"],
-      WorkingHour: 0
-    };
 
     const fromDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - this.date.getDay() + 1);
     const toDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate() + 6);
@@ -546,7 +544,7 @@ export class TimesheetComponent implements OnInit {
           timeEntryClone = { ...timeEntry };
         }
 
-        if (this.timesheetValidationService.isValidForAdd(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
+        if (this.timesheetValidationService.isValidForAdd(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
         else {
@@ -563,7 +561,7 @@ export class TimesheetComponent implements OnInit {
 
         let timeEntryClone = { ...timeEntry };
 
-        if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], timesheetConfig)) {
+        if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
         }
         else {
@@ -577,6 +575,7 @@ export class TimesheetComponent implements OnInit {
 
     if (this.invalidEntries && this.invalidEntries.length > 0) {
       this.modalVisible = true;
+      return;
     }
 
     if (timeEntries && timeEntries.length > 0) {
