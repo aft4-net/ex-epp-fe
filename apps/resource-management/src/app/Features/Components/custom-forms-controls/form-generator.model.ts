@@ -2,7 +2,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from 
 import { Address, Addresss } from "../../Models/address.model";
 import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
-import { Observable, of } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
 
 import { Employee } from "../../Models/Employee";
@@ -14,6 +14,8 @@ import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
+import { ResponseDto } from "../../Models/response-dto.model";
+import { NzNotificationService } from "ng-zorro-antd/notification";
 
 export type FormNaming = {
     name: string
@@ -73,12 +75,12 @@ export class FormGenerator extends FormGeneratorAssistant {
         return this._isEdit
     }
 
-
     constructor(
         private readonly _formBuilder: FormBuilder,
         private readonly _employeeService: EmployeeService,
         employeeStaticDataMockService: EmployeeStaticDataMockService,
-        addressCountryStateService: CountriesMockService
+        addressCountryStateService: CountriesMockService,
+        private notification: NzNotificationService
     ) {
         super(
             employeeStaticDataMockService,
@@ -103,12 +105,22 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
-
+        console.log("This employee profile" + employee.EmergencyContact);
         this._employeeService.add(employee)
-        .subscribe(()=>{
-
+        .subscribe( (response: any)=>{
             this._employeeService.isdefault=true;
-        })
+            this.notification.create(
+                response.ResponseStatus,"", response.Message
+            );
+               
+              },
+              (error) => {
+                console.log(error);
+              }
+           
+           
+        )
+        
     }
     updateOneEmployee(){
         let employee: Employee = {} as Employee

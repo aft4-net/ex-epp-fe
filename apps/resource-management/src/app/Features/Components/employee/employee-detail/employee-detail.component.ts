@@ -279,6 +279,35 @@ export class EmployeeDetailComponent implements OnInit {
 
     },error => {
       this.loading = false;
+      this.listOfColumns = [
+        {
+          name: 'Job Title',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+          filterMultiple: true,
+          listOfFilter:this.empListJobType,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+        },
+        {
+          name: 'Location',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+          filterMultiple: true,
+          listOfFilter: this.empListCountry,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+        },
+        {
+          name: 'Status',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+          filterMultiple: true,
+          listOfFilter: this.empListStatus,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+        }
+      ];
      });
     this.searchStateFound=false;
   }
@@ -288,7 +317,6 @@ export class EmployeeDetailComponent implements OnInit {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams)
       .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
-
         if(response.Data) {
           this.employeeViewModels$=of(response.Data);
           this.employeeViewModel = response.Data;
@@ -311,6 +339,35 @@ export class EmployeeDetailComponent implements OnInit {
         }
       },error => {
         this.loading = false;
+        this.listOfColumns = [
+          {
+            name: 'Job Title',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+            filterMultiple: true,
+            listOfFilter:this.empListJobType,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          },
+          {
+            name: 'Location',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+            filterMultiple: true,
+            listOfFilter: this.empListCountry,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+          },
+          {
+            name: 'Status',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+            filterMultiple: true,
+            listOfFilter: this.empListStatus,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+          }
+        ];
        }
       );
       this.searchStateFound=true;

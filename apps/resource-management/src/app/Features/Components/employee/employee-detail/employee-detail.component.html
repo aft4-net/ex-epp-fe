@@ -24,7 +24,7 @@
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
-                  <th class="table_heading" style="width:30px"   [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                  <th class="table_heading" style="width:30px"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                   (nzCheckedChange)="onAllChecked($event)" ></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
@@ -38,20 +38,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;">
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'"                     
-                  [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                    employeeView.FullName }} </td>
-                    <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                      employeeView.JoiningDate | date:'M/d/yyyy' }}</td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                    employeeView.JobTitle }}</td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                    employeeView.Location }}</td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">{{
-                    employeeView.Status }}</td>
-                  <td [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+                  <td>{{employeeView.FullName }} </td>
+                  <td>{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
+                  <td>{{employeeView.JobTitle }}</td>
+                  <td>{{employeeView.Location }}</td>
+                  <td>{{employeeView.Status }}</td>
+                  <td>
                     <a (click)="Edit(employeeView.EmployeeGUid)">
                       <i nz-icon nzType="edit" style="color:black;"></i>
                     </a>
