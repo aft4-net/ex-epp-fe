@@ -24,7 +24,7 @@
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
-                  <th class="table_heading" style="width:30px"   [nzChecked]="checked" [nzIndeterminate]="indeterminate"
+                  <th class="table_heading" style="width:30px"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                   (nzCheckedChange)="onAllChecked($event)" ></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
@@ -39,8 +39,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                  <td                  
-                  [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+                  <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
                   <td>{{employeeView.FullName }} </td>
                   <td>{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
                   <td>{{employeeView.JobTitle }}</td>

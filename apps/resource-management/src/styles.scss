@@ -236,7 +236,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #52c41a;
   }
 
+  .ant-btn-primary:hover {
+    background-color: #52c41a;
+  }
+
+
   .ant-btn-link {
+    color: #52c41a;
+  }
+
+  .ant-btn-link:hover {
     color: #52c41a;
   }
 
@@ -258,6 +267,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
   .ant-checkbox-wrapper-checked.span  {
     color: black;
+    border-color: black;
   }
 
   .ant-table-filter-dropdown .ant-checkbox-wrapper+span, .ant-table-filter-dropdown-submenu .ant-checkbox-wrapper+span {

@@ -103,7 +103,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
-
+        console.log("This employee profile" + employee.EmergencyContact);
         this._employeeService.add(employee)
         .subscribe(()=>{})
     }
