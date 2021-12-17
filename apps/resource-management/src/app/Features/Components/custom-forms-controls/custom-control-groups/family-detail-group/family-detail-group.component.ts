@@ -31,7 +31,8 @@ export class FamilyDetailGroupComponent implements OnInit {
         .pipe(
             map(response=> {
                 return response.filter(option => {
-                    if(option.value as string === 'Child' || option.value as string === 'Other') {
+                    if(option.value as string === 'Child' || option.value as string === 'Other'
+                    || option.value === this.getControl('relationship').value) {
                         return true
                     }
                     for (let i = 0; i < this._formGenerator.allFamilyDetails.length; i++) {

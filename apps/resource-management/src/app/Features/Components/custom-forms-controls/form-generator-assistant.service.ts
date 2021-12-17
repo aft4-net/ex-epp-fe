@@ -34,7 +34,7 @@ export class FormGeneratorAssistant {
             value: null,
             suffix: null
         } as ExtractedData
-       
+        
         if (employeeIdNumber && employeeIdNumber !== null && employeeIdNumber !== '') {
             let noofMatches = 0
             for (let i = 0; i < this._employeeIdNumberPrefices.length; i++) {
