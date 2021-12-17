@@ -24,6 +24,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
   timeSheetStatus = "not-submitted-enable";
+  notSubmittedTooltip = "";
 
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
@@ -53,11 +54,13 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       this.validForApproal = true;
       this.btnText = "Request for Approval";
       this.timeSheetStatus = "not-submitted-enable";
+      this.notSubmittedTooltip = "";
     }
     else {
       this.validForApproal = false;
       this.btnText = "Request for Approval";
       this.timeSheetStatus = "not-submitted-disable";
+      this.notSubmittedTooltip = `Please fill in your working days ${this.timesheetConfig.WorkingDays} with a minimum hour of ${this.timesheetConfig.WorkingHour}`;
     }
   }
 
