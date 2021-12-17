@@ -34,11 +34,11 @@ export class FormGeneratorAssistant {
             value: null,
             suffix: null
         } as ExtractedData
-        console.log('Employee Id Number function')
+       
         if (employeeIdNumber && employeeIdNumber !== null && employeeIdNumber !== '') {
             let noofMatches = 0
             for (let i = 0; i < this._employeeIdNumberPrefices.length; i++) {
-                console.log('Employee Id Number in loop')
+                
                 const prefix = employeeIdNumber.substring(0, this._employeeIdNumberPrefices[i].length)
                 console.log(this._employeeIdNumberPrefices[i] === prefix
                     && this._employeeIdNumberPrefices[i].length > noofMatches)
@@ -46,9 +46,7 @@ export class FormGeneratorAssistant {
                     && this._employeeIdNumberPrefices[i].length > noofMatches) {
                         result.prefix = this._employeeIdNumberPrefices[i]
                     noofMatches = this._employeeIdNumberPrefices[i].length
-                    console.log('Employee Id Number')
-                    console.log(this._employeeIdNumberPrefices[i], noofMatches)
-                    console.log('Employee Id Number')
+                   
                 }
             }
             result.value = employeeIdNumber.substring(noofMatches);
