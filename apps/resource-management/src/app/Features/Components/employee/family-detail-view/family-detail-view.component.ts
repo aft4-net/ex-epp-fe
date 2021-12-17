@@ -43,7 +43,8 @@ export class FamilyDetailViewComponent implements OnInit {
   addfamilies(): void {
     this.isVisible = true;
     this.addButton="Add"
-  
+    this.IsEdit=false;
+    this.editAt=-10;
   }
 
   handleOk(): void {

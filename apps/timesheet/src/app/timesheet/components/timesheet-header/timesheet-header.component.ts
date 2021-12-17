@@ -73,7 +73,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {debugger;
+    if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         this.timesheetApprovals = response ?? [];
         this.checkForSubmittedForApproal();

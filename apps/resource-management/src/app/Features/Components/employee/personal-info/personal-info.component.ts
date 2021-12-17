@@ -117,7 +117,7 @@ isEdit = false
   }
 
   fillCurrentEmployee(employee: Employee){
-    this.employeeNumber=employee.employeeNumber,
+    this.employeeNumber=employee.EmployeeNumber,
     this.personalEmail=employee.PersonalEmail,
     this.personalEmail2=employee.PersonalEmail2,
     this.personalEmail3=employee.PersonalEmail3,
@@ -223,7 +223,7 @@ this.phoneNumber = this.phoneNumber.toString();
 //this.dateofBirth = new Date("2021-11-17 14:29:03.107");
 
     this.employee = {
-      employeeNumber : this.employeeNumber,
+      EmployeeNumber : this.employeeNumber,
       FirstName: this.firstName,
       FatherName: this.fatherName,
       GrandFatherName: this.grandFatherName,

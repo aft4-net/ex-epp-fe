@@ -28,12 +28,12 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
         private readonly _formGenerator: FormGenerator,
         private readonly _addressCountryStateService: CountriesMockService
     ) {
-        // this._addressCountryStateService.reset()
-        this.countries$ = this._addressCountryStateService.getCountries()
-        this.stateRegions$ = this._addressCountryStateService.getStates()      
-
         this.formGroup
             = this._formGenerator.emergencyAddress
+        this.countries$ = this._addressCountryStateService.getCountries()
+        this.stateRegions$ = this._addressCountryStateService.getStates(this.formGroup.value.country)      
+
+        
 
     }
 
