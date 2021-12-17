@@ -39,10 +39,8 @@ export class EmergencycontactViewComponent implements OnInit {
   addemergencycontact(): void {
     this.isVisible = true;
  this.addbutton="Add"
-    // this.modalService.create({
-    //   nzTitle: 'Add Emergency Contacts',
-    //   nzContent: AddEmergencycontactComponent
-    // });
+ this.IsEdit=false;
+ this.editAt=-10;
   }
 
   handleOk(): void {
