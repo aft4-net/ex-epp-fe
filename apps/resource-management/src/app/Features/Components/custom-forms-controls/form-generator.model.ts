@@ -110,9 +110,8 @@ export class FormGenerator extends FormGeneratorAssistant {
         .subscribe( (response: any)=>{
             this._employeeService.isdefault=true;
             this.notification.create(
-                response.ResponseStatus,"", response.Message
+                response.ResponseStatus.toLowerCase() ,"", response.Message
             );
-               
               },
               (error) => {
                 console.log(error);
