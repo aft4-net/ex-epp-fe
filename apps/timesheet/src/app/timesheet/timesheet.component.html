@@ -117,7 +117,7 @@
   </div>
 </nz-drawer>
 
-<nz-modal [(nzVisible)]="modalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false" nzClassName="invalid time entry-modal">
+<nz-modal [(nzVisible)]="modalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false" nzClassName="invalid-time-entry-modal">
   <ng-container *nzModalContent>    
     <nz-table #invalidEntriesData [nzData]="invalidEntries??[]">
       <thead>
@@ -132,6 +132,11 @@
           <td>{{ invalidEntry.Message }}</td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2">Please enter valid time entries before saving time entry for a range.</th>
+        </tr>
+      </tfoot>
     </nz-table>
     <span class="flex justify-center">
       <button nz-button nzType="primary" (click)="handleOk()">OK</button>
