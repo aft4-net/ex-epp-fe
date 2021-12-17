@@ -48,10 +48,8 @@ export class AddressViewComponent implements OnInit {
     this.form.generateAddressForm();
     this.isVisible = true;
     this.addButton="Add"
-    // this.modalService.create({
-    //   nzTitle: 'Add Addresses',
-    //   nzContent: AddressNewComponent
-    // });
+    this.IsEdit=false;
+  this.editAt=-10;
 
   }
 

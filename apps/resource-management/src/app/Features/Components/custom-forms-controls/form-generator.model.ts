@@ -110,6 +110,27 @@ export class FormGenerator extends FormGeneratorAssistant {
             this._employeeService.isdefault=true;
         })
     }
+    updateOneEmployee(){
+        let employee: Employee = {} as Employee
+        employee = {
+            ...employee,
+            ...this.getModelPersonalDetails(),
+            EmployeeOrganization: this.getModelOrganizationDetails(),
+            EmployeeAddress: this.allAddresses,
+            FamilyDetails: this.allFamilyDetails,
+            EmergencyContact: this.allEmergencyContacts
+        } as Employee
+
+        this._employeeService.add(employee)
+        .subscribe(()=>{
+
+            this._employeeService.isdefault=true;
+        })
+
+        console.log('"""""""""""""""""""""""""')
+        console.log(employee)
+        console.log('"""""""""""""""""""""""""')
+    }
 
     getModelPersonalDetails() {
         const value = this.personalDetailsForm.value
@@ -725,7 +746,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     triggerValidation(control: FormControl | FormArray | FormGroup) {
-
+console.log()
     }
 
 }
