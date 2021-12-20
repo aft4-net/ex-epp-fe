@@ -72,7 +72,7 @@ export class EmployeeDetailComponent implements OnInit {
   isConfirmLoading = false;
 
 
-  
+
 
   listOfColumnsFullName: ColumnItem[] = [
     {
@@ -119,7 +119,7 @@ export class EmployeeDetailComponent implements OnInit {
                 {
                   text: this.employeeViewModel.map(country=>country.Location)[i],
                   value:this.employeeViewModel.map(country=>country.Location)[i]
-                }) 
+                })
               }
           }
           for(let i=0; i < this.employeeViewModel.length;i++){
@@ -149,7 +149,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.empListJobType=this.holdItJobTitle,
           this.empJoinDate = this.holdItJoinDate
 
-          if(this.employeeViewModel.length > 0) {  
+          if(this.employeeViewModel.length > 0) {
             this.listOfColumns = [
               {
                 name: 'Job Title',
@@ -279,6 +279,35 @@ export class EmployeeDetailComponent implements OnInit {
 
     },error => {
       this.loading = false;
+      this.listOfColumns = [
+        {
+          name: 'Job Title',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+          filterMultiple: true,
+          listOfFilter:this.empListJobType,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+        },
+        {
+          name: 'Location',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+          filterMultiple: true,
+          listOfFilter: this.empListCountry,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+        },
+        {
+          name: 'Status',
+          sortOrder: null,
+          sortDirections: ['ascend', 'descend', null],
+          sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+          filterMultiple: true,
+          listOfFilter: this.empListStatus,
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+        }
+      ];
      });
     this.searchStateFound=false;
   }
@@ -288,7 +317,6 @@ export class EmployeeDetailComponent implements OnInit {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams)
       .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
-        
         if(response.Data) {
           this.employeeViewModels$=of(response.Data);
           this.employeeViewModel = response.Data;
@@ -311,6 +339,35 @@ export class EmployeeDetailComponent implements OnInit {
         }
       },error => {
         this.loading = false;
+        this.listOfColumns = [
+          {
+            name: 'Job Title',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.length - b.JobTitle.length,
+            filterMultiple: true,
+            listOfFilter:this.empListJobType,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          },
+          {
+            name: 'Location',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.length - b.Location.length,
+            filterMultiple: true,
+            listOfFilter: this.empListCountry,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+          },
+          {
+            name: 'Status',
+            sortOrder: null,
+            sortDirections: ['ascend', 'descend', null],
+            sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.length - b.Status.length,
+            filterMultiple: true,
+            listOfFilter: this.empListStatus,
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+          }
+        ];
        }
       );
       this.searchStateFound=true;
@@ -319,16 +376,24 @@ export class EmployeeDetailComponent implements OnInit {
 
   Edit(employeeId:string):void
   {
+    this._form.employeId=employeeId;
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
       this._employeeService.setEmployeeDataForEdit(data);
-      this._form.generateForms(this._employeeService.employeeById)
-    });
-   if(this._employeeService.employeeById)
+    if(this._employeeService.employeeById)
    {
     this._employeeService.isEdit=true;
     this._employeeService.save="Update";
+    this._form.generateForms;
+    this._form.generateForms(this._employeeService.employeeById);
+    this._form.allAddresses=this._employeeService.employeeById?.EmployeeAddress?
+      this._employeeService.employeeById?.EmployeeAddress:[];
+      this._form.allFamilyDetails=this._employeeService.employeeById?.FamilyDetails?
+      this._employeeService.employeeById?.FamilyDetails:[];
+    this._employeeService.isdefault=false
     this._router.navigate(['/employee/add-employee/personal-info']);
   }
+    });
+
 }
   //added by simbo just you can delete
 

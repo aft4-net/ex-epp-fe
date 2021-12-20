@@ -20,5 +20,9 @@ services:
   resource-management:
     image: blens/rm:latest
     ports:
-      - "4205:80" 
+      - "4205:80"
+  client-management:
+    image: client-management
+    ports: 
+      - "4206:80"
     

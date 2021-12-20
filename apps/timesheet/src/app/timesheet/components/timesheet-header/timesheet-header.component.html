@@ -17,8 +17,8 @@
       <h5 class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
         Hours Completed: {{ weeklyTotalHours }}</h5>
     </div>
-    <div class="total-hours-completed">
-      <button [disabled]="!validForApproal" class="{{ timeSheetStatus }} mr-2 sm:w-52 h-10 rounded lg:text-lg" nz-button
+    <div class="total-hours-completed" nz-tooltip [nzTooltipTitle]="notSubmittedTooltip">
+      <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg" nz-button
         (click)="onRequestForApproval()">{{btnText}}</button>
     </div>
   </div>

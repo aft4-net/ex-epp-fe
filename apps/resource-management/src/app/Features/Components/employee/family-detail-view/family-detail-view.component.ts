@@ -32,18 +32,14 @@ export class FamilyDetailViewComponent implements OnInit {
     public form: FormGenerator,
     private employeeService:EmployeeService
   ) {
-    this.form.addressForm;
-    if(employeeService.employeeById){
-
-      this.form.allFamilyDetails=employeeService.employeeById.FamilyDetails?
-      employeeService.employeeById.FamilyDetails:[];
-      this.employeeService.isdefault=false
-  }  }
+   
+}
 
   addfamilies(): void {
     this.isVisible = true;
     this.addButton="Add"
-  
+    this.IsEdit=false;
+    this.editAt=-10;
   }
 
   handleOk(): void {
@@ -63,7 +59,7 @@ export class FamilyDetailViewComponent implements OnInit {
         this.isVisible = true;
         this.form.generateFamilyDetailForm(this.form.allFamilyDetails[index]);
       }
-    
+
   }
 
   stopEdit(): void {
@@ -71,10 +67,10 @@ export class FamilyDetailViewComponent implements OnInit {
 
   }
 
- 
+
 
     showConfirm(index:number): void {
-      
+
       this.confirmModal = this.modalService.confirm({
         nzTitle: 'Do you want to delete this item?',
         nzContent: 'The action is not recoverable. ',
@@ -95,7 +91,7 @@ export class FamilyDetailViewComponent implements OnInit {
           }).catch(() => console.log('Error.'))
       });
     }
-  
+
 
   exitModal() {
     this.isVisible = false;
@@ -109,8 +105,8 @@ export class FamilyDetailViewComponent implements OnInit {
     const families = this.form.getModelFamilyDetails() as FamilyDetail[];
    if(!this.IsEdit){
     this.form.allFamilyDetails=[...this.form.allFamilyDetails ,families[0]]
-    
-     
+
+
    }
    else{
     this.form.allFamilyDetails[this.editAt]=families[0];

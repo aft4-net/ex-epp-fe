@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { DeviceDetail } from '../../Models/device-detail/devicedetail';
 import { Pagination } from '../../Models/device-detail/pagination';
 import { DeviceDetailService } from '../../Services/device-detail/device-detail.service';
@@ -11,7 +12,7 @@ import { DeviceDetailService } from '../../Services/device-detail/device-detail.
 export class DeviceDetailComponent implements OnInit {
   listOfDeviceDetails: DeviceDetail[] = [];
   pagination!: Pagination;
-  constructor(private deviceDetailService: DeviceDetailService) { }
+  constructor(private deviceDetailService: DeviceDetailService, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.getDeviceDetails();
@@ -29,5 +30,12 @@ export class DeviceDetailComponent implements OnInit {
       this.pagination = response;
       this.listOfDeviceDetails=response.Data;
     });
+  }
+
+  deleteHandler(id: string) {
+    this.deviceDetailService.deleteDeviceDetail(id).subscribe((response) => {
+      this.toastrService.success(response.message, "Device Detail");
+      this.listOfDeviceDetails = this.listOfDeviceDetails.filter((d) => d.Guid !== id);
+    })
   }
 }
