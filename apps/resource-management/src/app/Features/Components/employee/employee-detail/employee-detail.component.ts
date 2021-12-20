@@ -376,16 +376,24 @@ export class EmployeeDetailComponent implements OnInit {
 
   Edit(employeeId:string):void
   {
+    this._form.employeId=employeeId;
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
       this._employeeService.setEmployeeDataForEdit(data);
-      this._form.generateForms(this._employeeService.employeeById)
-    });
-   if(this._employeeService.employeeById)
+    if(this._employeeService.employeeById)
    {
     this._employeeService.isEdit=true;
     this._employeeService.save="Update";
+    this._form.generateForms;
+    this._form.generateForms(this._employeeService.employeeById);
+    this._form.allAddresses=this._employeeService.employeeById?.EmployeeAddress?
+      this._employeeService.employeeById?.EmployeeAddress:[];
+      this._form.allFamilyDetails=this._employeeService.employeeById?.FamilyDetails?
+      this._employeeService.employeeById?.FamilyDetails:[];
+    this._employeeService.isdefault=false
     this._router.navigate(['/employee/add-employee/personal-info']);
   }
+    });
+
 }
   //added by simbo just you can delete
 

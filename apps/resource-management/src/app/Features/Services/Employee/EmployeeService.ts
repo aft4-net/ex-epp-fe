@@ -103,6 +103,9 @@ export class EmployeeService {
     return this.http.post(this.baseUrl, employee);
   }
 
+  update(employee: Employee) {
+    return this.http.put(this.baseUrl, employee);
+  }
   saveEmployee() {
     this.employee$.subscribe((x) => {
       this.employee = x;
@@ -134,11 +137,11 @@ export class EmployeeService {
   }
 
   updateEmployee() {
-    
+
     this.employee$.subscribe((x) => {
       this.employee = x;
     });
-    
+
     console.log('From The new Save Method ' + this.employee.FirstName);
 
     return this.http.put(this.baseUrl, this.employee).subscribe(

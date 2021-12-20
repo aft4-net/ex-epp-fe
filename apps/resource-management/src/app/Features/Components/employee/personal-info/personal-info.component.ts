@@ -75,15 +75,8 @@ isEdit = false
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
 
-      this.isEdit = this._form.IsEdit
-     console.log('personla info details')
-     console.log(     this.employeeService.employeeById
-      )
-      if (!this.employeeService.employeeById)
-       {
-           this.employeeService.save="Save";
-       }
-      this.employeeService.setEmployeeData(this._form.personalDetailsForm.value)
+     this.isEdit = this._form.IsEdit
+     
       this.employeeService.isdefault=false
     }
 
