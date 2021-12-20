@@ -44,13 +44,6 @@
     "core-model": {
       "tags": []
     },
-    "epp": {
-      "tags": []
-    },
-    "epp-e2e": {
-      "tags": [],
-      "implicitDependencies": ["epp"]
-    },
     "ng-zorro": {
       "tags": []
     },
