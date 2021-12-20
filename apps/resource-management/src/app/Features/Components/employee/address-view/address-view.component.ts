@@ -35,14 +35,8 @@ export class AddressViewComponent implements OnInit {
     private readonly _formGenerator: FormGenerator,
     private employeeService:EmployeeService
   ) {
-    this.form.addressForm;
-    if(employeeService.employeeById){
+   
 
-      this.form.allAddresses=employeeService.employeeById.EmployeeAddress?
-      employeeService.employeeById.EmployeeAddress:[];
-      this.employeeService.isdefault=false
-    }
- 
 }
   addaddress(): void {
     this.form.generateAddressForm();
@@ -83,7 +77,7 @@ export class AddressViewComponent implements OnInit {
   }
 
   showConfirm(index:number): void {
-      
+
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Do you want to delete this item?',
       nzContent: 'The action is not recoverable. ',
@@ -109,13 +103,13 @@ export class AddressViewComponent implements OnInit {
   }
 
   add(): void {
-   
+
     if (this.form.addressForm.valid) {
-    const address =this.form.getModelAddressDetails() as Address; 
+    const address =this.form.getModelAddressDetails() as Address;
     if(!this.IsEdit){
      this.form.allAddresses=[...this.form.allAddresses ,address]
-     
-      
+
+
     }
     else{
      this.form.allAddresses[this.editAt]=address;
