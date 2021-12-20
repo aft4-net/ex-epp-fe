@@ -1,13 +1,8 @@
 .page-title {
     background-color: #fff;
     padding: 16px 24px;
-<<<<<<< HEAD
-    margin: 10px -230px;
-
-=======
     // margin: 10px -230px;
-   
->>>>>>> develop
+
     height: 60px;
     box-shadow: inset 0px  0px #EAEAEA;
     font-family:-apple-system,

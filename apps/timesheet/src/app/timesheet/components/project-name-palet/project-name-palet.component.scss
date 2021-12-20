@@ -1,7 +1,7 @@
 
-.project-name-palet {    
+.project-name-palet {
     ///display: flex;
-    
+
     background-color: #DCFFDC;
     ///border-radius: 2px;
 
@@ -19,13 +19,16 @@
     }
 }
 
-.project-name-palet-approval{
-    background-color: #c9cdc9;
+.project-name-palet-approved{
+    background-color: #DCFFDC;
 
     .elipses-and-hours {
         i {
             transform: rotate(90deg);
             cursor: default;
+            opacity: 0;
         }
     }
+
 }
+

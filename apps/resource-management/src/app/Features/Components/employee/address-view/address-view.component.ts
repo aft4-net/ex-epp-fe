@@ -1,39 +1,76 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
+import { Address } from '../../../Models/address.model';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-address-view',
   templateUrl: './address-view.component.html',
-  styleUrls: ['./address-view.component.scss']
+  styleUrls: ['./address-view.component.scss'],
 })
 export class AddressViewComponent implements OnInit {
-
   isVisible = false;
   isConfirmLoading = false;
-  checked = false;
-  loading = false;
-  indeterminate = false;
-  listOfData: readonly Data[] = [];
-  listOfCurrentPageData: readonly Data[] = [];
-  setOfCheckedId = new Set<number>();
-
-
-  i = 0;
+  confirmModal?: NzModalRef;
   editId: string | null = null;
+  listOfaddress: Address[] = [];
+  IsEdit=false;
+  editAt=-10;
+  addButton='Add'
+  employeeAddress?:Address
+  emptyData=[];
+  @ViewChild('drawerTemplate')
+  drawerTemplate: TemplateRef<{
+      $implicit: { value: string; list: []; };
+      drawerRef: NzDrawerRef<any>;
+    }> | undefined;
+  constructor(
+    private modalService: NzModalService,
+    public form: FormGenerator,
+    private readonly _formGenerator: FormGenerator,
+    private employeeService:EmployeeService
+  ) {
+    this.form.addressForm;
+    if(employeeService.employeeById){
 
-
-
-  constructor(private modalService: NzModalService) {}
-
-
+      this.form.allAddresses=employeeService.employeeById.EmployeeAddress?
+      employeeService.employeeById.EmployeeAddress:[];
+      this.employeeService.isdefault=false
+    }
+ 
+}
   addaddress(): void {
-    this.modalService.create({
-      nzTitle: 'Add Addresses',
-      nzContent: AddressNewComponent
-    });
+    this.form.generateAddressForm();
+    this.isVisible = true;
+    this.addButton="Add"
+    // this.modalService.create({
+    //   nzTitle: 'Add Addresses',
+    //   nzContent: AddressNewComponent
+    // });
+
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  startEdit(index: number): void {
+    if(index>=0){
+      this.IsEdit=true;
+      this.editAt=index;
+      this.isVisible = true;
+      this.addButton="Update"
+      this._formGenerator.generateAddressForm(this.form.allAddresses[index]);
+    }
+  }
+
+  stopEdit(): void {
+    this.editId = null;
   }
 
   handleOk(): void {
@@ -43,86 +80,56 @@ export class AddressViewComponent implements OnInit {
       this.isConfirmLoading = false;
     }, 3000);
   }
-
-  handleCancel(): void {
+  exitModal() {
     this.isVisible = false;
   }
 
+  showConfirm(index:number): void {
+      
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Do you want to delete this item?',
+      nzContent: 'The action is not recoverable. ',
+      nzOkType: 'primary',
+      nzOkText: 'Yes',
+      nzCancelText: 'No',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        new Promise((resolve, reject) => {
+          if (index > -1) {
+            this.form.allAddresses.splice(index, 1);
+            if(this.form.allAddresses.length<1){
+              this.form.allAddresses= this.emptyData;
+            }
+           }
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+        }).catch(() => console.log('Error.'))
+    });
+  }
 
+  resetForm(): void {
+    this.form.addressForm.reset();
+  }
 
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-    } else {
-      this.setOfCheckedId.delete(id);
+  add(): void {
+   
+    if (this.form.addressForm.valid) {
+    const address =this.form.getModelAddressDetails() as Address; 
+    if(!this.IsEdit){
+     this.form.allAddresses=[...this.form.allAddresses ,address]
+     
+      
     }
+    else{
+     this.form.allAddresses[this.editAt]=address;
+     this.editAt=-10
+     this.IsEdit=false;
+     this.addButton="Add"
+    }
+    if(this.form.addressForm.valid){
+     this.isVisible=false;
+     this.form.generateAddressForm();
+   }}
   }
 
-  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
-    this.listOfCurrentPageData = listOfCurrentPageData;
-    this.refreshCheckedStatus();
-  }
-
-  refreshCheckedStatus(): void {
-    const listOfEnabledData = this.listOfCurrentPageData.filter(
-      ({ disabled }) => !disabled
-    );
-    this.checked = listOfEnabledData.every(({ id }) =>
-      this.setOfCheckedId.has(id)
-    );
-    this.indeterminate =
-      listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
-      !this.checked;
-  }
-
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-  onAllChecked(checked: boolean): void {
-    this.listOfCurrentPageData
-      .filter(({ disabled }) => !disabled)
-      .forEach(({ id }) => this.updateCheckedSet(id, checked));
-    this.refreshCheckedStatus();
-  }
-
-
-
-  ngOnInit(): void {
-    this.listOfData = new Array(0).fill(0).map((_, index) => ({
-      id: index,
-      name: `Edward King ${index}`,
-      age: 32,
-      address: `London, Park Lane no. ${index}`,
-      disabled: index % 2 === 0,
-    }));
-  }
-
-
-
-  startEdit(id: string): void {
-    this.editId = id;
-  }
-
-  stopEdit(): void {
-    this.editId = null;
-  }
-
-  addRow(): void {
-    this.listOfData = [
-      ...this.listOfData,
-      {
-        id: `${this.i}`,
-        name: `Edward King ${this.i}`,
-        age: '32',
-        address: `London, Park Lane no. ${this.i}`
-      }
-    ];
-    this.i++;
-  }
-
-  deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
-  }
+  ngOnInit(): void {}
 }

@@ -15,6 +15,13 @@
     }
 }
 
+.date-column-container{
+    border-width: 2px;
+    border-style: solid;
+    border-color: #F52121;
+    border-radius: 4px;
+}
+
 
 
 .timesheet-detail {
@@ -60,3 +67,11 @@
         }
     }
 }
+
+[nz-button] {
+    width: 25%;
+    background-color: #00A551;
+    color:#F5F5F5
+}
+
+

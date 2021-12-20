@@ -1,12 +1,36 @@
-
-
 .total-hours-completed {
+  button {
+      height:38px;
+      padding:8px, 16px, 8px, 16px;
+      font-family: SF Pro Display;
+  }
+}
 
-    button {
-        color: #FFFFFF;
-        background-color: #00A551;
-       /// border-radius: 2px;
-        border-width: 1px;
-        border-color: #F5F5F5;
-    }
+.not-submitted-enable {
+  background-color: #00A551;
+  color:white;
+  font-weight:500;
+  line-height:24px;
+}
+
+.not-submitted-disable {
+  background-color: #BFBFBF;
+  color:white;
+  font-weight:500;
+  line-height:24px;
+}
+
+.submitted-class{
+  color:rgb(36, 207, 36);
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #F5F5F5;
+  font-style: 500;
+  font-weight:500;
+  line-height:21x;
+}
+
+.submitted-class:hover{
+  text-decoration:underline;
 }
