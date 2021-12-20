@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, ObservableLike } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { DeviceDetail } from '../../Models/device-detail/devicedetail';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
@@ -36,5 +36,9 @@ export class DeviceDetailService {
   updateDeviceDetail(deviceDetail: DeviceDetail, id: string): Observable<ResponseDto<DeviceDetail>> {
     deviceDetail.Guid = id;
     return this.http.put<ResponseDto<DeviceDetail>>(this.baseUrl + "DeviceDetails", deviceDetail);
+  }
+
+  deleteDeviceDetail(id: string): Observable<ResponseDto<DeviceDetail>> {
+    return this.http.delete<ResponseDto<DeviceDetail>>(this.baseUrl + "DeviceDetails/?id="+ id);
   }
 }
