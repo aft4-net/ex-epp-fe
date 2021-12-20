@@ -66,7 +66,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     public allAddresses: Address[] = []
     public allFamilyDetails: FamilyDetail[] = []
     public allEmergencyContacts: EmergencyContacts[] = []
-
+    public employeId="";
     public readonly address: Address[] = []
 
     private _isEdit = false
@@ -116,10 +116,10 @@ export class FormGenerator extends FormGeneratorAssistant {
               (error) => {
                 console.log(error);
               }
-           
-           
+
+
         )
-        
+
     }
     updateOneEmployee(){
         let employee: Employee = {} as Employee
@@ -132,21 +132,19 @@ export class FormGenerator extends FormGeneratorAssistant {
             EmergencyContact: this.allEmergencyContacts
         } as Employee
 
-        this._employeeService.add(employee)
+        this._employeeService.update(employee)
         .subscribe(()=>{
 
             this._employeeService.isdefault=true;
         })
 
-        console.log('"""""""""""""""""""""""""')
-        console.log(employee)
-        console.log('"""""""""""""""""""""""""')
     }
 
     getModelPersonalDetails() {
         const value = this.personalDetailsForm.value
         return {
-            employeeNumber: value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber,
+           guid:this.employeId,
+            EmployeeNumber: value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber,
             FirstName: value.fullName.firstName,
             FatherName: value.fullName.middleName,
             GrandFatherName: value.fullName.lastName,

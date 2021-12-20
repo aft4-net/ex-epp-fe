@@ -50,7 +50,10 @@ export class PageBreadcrumbComponent implements OnInit {
     this._formGenerator.generateForms()
     this._employeeService.isEdit=false;
     this._employeeService.save="Save";
-    this._employeeService.employeeById=this.emptyEmp;
+    this._employeeService.employeeById=this.emptyEmp
+    this._formGenerator.allAddresses=[];
+    this._formGenerator.allEmergencyContacts=[];
+    this._formGenerator.allFamilyDetails=[];
      this._router.navigate(['/employee/add-employee/personal-info']);
       this._employeeService.isdefault =!this.isdefault;
      // this.isdefault = false;

@@ -67,7 +67,6 @@ export class PageTitleComponent implements OnInit {
       this._router.navigate(['employee/add-employee/Organization-Detail']);
     } else {
       if (this._employeeService.isEdit) {
-       
         this._formGenerator.updateOneEmployee();
       } else {
         this._formGenerator.save();
