@@ -1,6 +1,6 @@
 <div class="main-content">
   <div nz-row>
-    <div nz-col nzSpan="5">
+    <div nz-col nzSpan="5" class="sidebar">
       <ul nz-menu nzMode="inline">
         <li nz-menu-item routerLink="/">
           <i nz-icon [nzType]="'user'" [nzTheme]="'outline'"></i> Employees
@@ -73,7 +73,7 @@
     <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="DeviceClassificationGuid" nzRequired>Device Classification</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="please select device classification">
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select device classification" formControlName="DeviceClassificationGuid">
+        <nz-select nzPlaceHolder="Select device classification" formControlName="DeviceClassificationGuid">
           <nz-option *ngFor="let deviceClassification of deviceClassifications" nzLabel="{{deviceClassification.Name}}" nzValue="{{deviceClassification.Guid}}"></nz-option>
         </nz-select>
       </nz-form-control>
