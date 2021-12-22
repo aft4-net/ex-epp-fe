@@ -20,10 +20,10 @@ pipeline{
         }
         stage('npm run')
         {
-           when {
-                expression  {
-                    BRANCH_NAME == master
-                }
+          when {
+                
+                branch 'master'  
+            
             }
             steps{
               sh 'sudo npm run deploy'
@@ -33,9 +33,9 @@ pipeline{
         stage('Deploy to Staging')
         {
            when {
-                expression  {
-                    BRANCH_NAME == master
-                }
+                
+                branch 'master'  
+            
             }
             steps{
                 script {
