@@ -59,6 +59,7 @@ import { TimesheetService } from './services/timesheet.service';
     NzTableModule,
     NzToolTipModule
   ],
+  exports: [TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {
