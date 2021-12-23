@@ -2,7 +2,7 @@
   <!--<nz-divider></nz-divider> -->
   <app-timesheet-header class="md:flex lg:flex xl:flex ml-8"
     [timesheetConfig]="timesheetConfig"
-    [timesheet]="timesheet" 
+    [timesheet]="timesheet"
     [timeEntries]="timeEntries"
     [timesheetApprovals]="timesheetApprovals"
     [weekFirstDate]="firstday1"
@@ -15,7 +15,7 @@
     (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
     (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
 
-  
+
   <div class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
     <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
       <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' " [date]="myD"
@@ -118,7 +118,7 @@
 </nz-drawer>
 
 <nz-modal [(nzVisible)]="modalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false" nzClassName="invalid-time-entry-modal">
-  <ng-container *nzModalContent>    
+  <ng-container *nzModalContent>
     <nz-table #invalidEntriesData [nzData]="invalidEntries??[]">
       <thead>
         <tr>
