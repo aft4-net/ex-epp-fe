@@ -8,9 +8,7 @@
 
 
 ::ng-deep .ant-tabs-nav {
-  width: 266px !important;
-
-  font-size: 26px !important;
+  font-size: 26px;
 }
 
 ::ng-deep .ant-tabs-tab-btn {
@@ -21,11 +19,12 @@
   line-height: 24px;
 }
 
-::ng-deep .ant-form-item-label {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+.invalisForm {
+  position: relative;
+  padding: .5rem;
+  border: 1.5px solid red !important;
+  outline-color: red !important;
+
 }
 
 
@@ -52,74 +51,50 @@
 
 }
 
-nz-tab {
-  font-weight: 500;
-  font-size: 16px;
-}
-
-
-::ng-deep .ant-tabs-tab {
-  color: #262626 !important;
-
-}
 
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-  box-shadow: inset -2px 0px 0px #DADADA !important;
+  box-shadow: inset -2px 0px 0px #DADADA;
 }
 
 ::ng-deep .ant-tabs-nav-scroll {
-  display: flex !important;
-  justify-content: center !important;
+  display: flex;
+  justify-content: center;
 }
 
 
 ::ng-deep .ant-tabs-tab:hover {
-  color: #262626 !important;
+  color: #262626;
 }
 
 ::ng-deep ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC !important;
-}
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-
-  font-size: 16px !important;
-  font-weight: 500 !important;
-  ;
-
-  display: flex !important;
-  ;
-  align-items: center !important;
-  ;
-
-  color: #262626 !important;
-}
-
-::ng-deep .ant-tabs-ink-bar {
-
-  background: #00A551 !important;
-
+  background: #DCFFDC;
 }
 
 
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-  box-shadow: inset -2px 0px 0px #989898 !important;
+  box-shadow: inset -3px 0px 0px #EAEAEA;
 
 }
 
-
 ::ng-deep .ant-tabs-ink-bar {
-  color: black !important;
-  background-color: #000000 !important;
+  box-shadow: inset -3px 0px 0px #EAEAEA;
 }
 
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #262626 !important;
-  font-size: 16px !important;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  color: #262626;
+
 
 }
+
+
+
+::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
 ::ng-deep .ant-tabs-tab:hover {
   color: #262626;
@@ -142,10 +117,20 @@ header {
   font-weight: 500;
   font-size: 1rem;
   color: #FFFFFF;
-
 }
+
 
 ::ng-deep .ant-btn:not([disabled]):hover {
   background: #03da6b !important;
   color: white;
+
 }
+
+.clear-btn {
+  background: white;
+  color: #00A551;
+  margin-right: 10px;
+  border: 0.5px solid #00A551;
+}
+
+

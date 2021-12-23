@@ -10,7 +10,9 @@
     "test": "nx test",
     "postcss:build": "postcss apps/passport/src/styles.pcss -o apps/passport/src/styles.scss",
     "postcss:epp": "postcss apps/epp/src/styles.pcss -o apps/epp/src/styles.scss",
-    "prestart": "npm run postcss:build && npm run postcss:epp"
+    "prestart": "npm run postcss:build && npm run postcss:epp",
+    "build-all": "nx run-many --target=build --all ",
+    "deploy": "nx run-many --target=deploy --all "
   },
   "private": true,
   "dependencies": {
@@ -23,11 +25,14 @@
     "@angular/platform-browser": "^12.2.0",
     "@angular/platform-browser-dynamic": "^12.2.0",
     "@angular/router": "^12.2.0",
+    "@ant-design/icons": "^4.7.0",
     "@nrwl/angular": "12.9.0",
     "angular-file-uploader": "^7.1.1",
+    "antd": "^4.17.1",
     "autoprefixer": "^10.3.7",
     "ng-zorro-antd": "^12.0.1",
     "ngx-toastr": "^14.2.1",
+    "nx": "^13.2.3",
     "phone": "^3.1.8",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

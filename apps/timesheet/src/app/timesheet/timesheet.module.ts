@@ -9,6 +9,14 @@ import {NzDrawerModule} from "ng-zorro-antd/drawer"
 import {NzSelectModule} from "ng-zorro-antd/select"
 import {NzInputModule} from "ng-zorro-antd/input"
 import {NzPopoverModule} from "ng-zorro-antd/popover"
+import {NzLayoutModule} from 'ng-zorro-antd/layout';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzTableModule} from 'ng-zorro-antd/table';
+import {NzNotificationModule} from 'ng-zorro-antd/notification';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import {NzModalModule} from "ng-zorro-antd/modal";
+import { NzToolTipComponent, NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 import {TimesheetComponent} from "./timesheet.component"
 import {TimesheetRoutingModule} from './timesheet-routing.module';
@@ -17,14 +25,9 @@ import {DateSelectorComponent} from './components/date-selector/date-selector.co
 import {DayAndDateColumnComponent} from './components/day-and-date-column/day-and-date-column.component';
 import {ProjectNamePaletComponent} from './components/project-name-palet/project-name-palet.component';
 
-import {NzLayoutModule} from 'ng-zorro-antd/layout';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NzFormModule} from 'ng-zorro-antd/form';
-
-import {NzNotificationModule} from 'ng-zorro-antd/notification';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
-import {NzModalModule} from "ng-zorro-antd/modal";
+import { TimesheetValidationService } from './services/timesheet-validation.service';
+import { TimesheetService } from './services/timesheet.service';
 
 @NgModule({
   declarations: [
@@ -52,8 +55,12 @@ import {NzModalModule} from "ng-zorro-antd/modal";
     NzFormModule,
     NzNotificationModule,
     NzDividerModule,
-    NzModalModule
-  ]
+    NzModalModule,
+    NzTableModule,
+    NzToolTipModule
+  ],
+  exports: [TimesheetHeaderComponent],
+  providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {
 }

@@ -8,13 +8,13 @@ import { FooterComponent } from './footer/footer.component';
 import { FormTableComponent } from './form-table/form-table.component';
 import { ButtonComponent } from './button/button.component';
 import { HeaderLineComponent } from './header-line/header-line.component';
-import { PageTitleComponent } from './page-title/page-title.component';
+
 
 
 
 
 @NgModule({
-  declarations: [BreadCrumbComponent,HeaderComponent, FooterComponent, FormTableComponent, ButtonComponent, HeaderLineComponent, PageTitleComponent],
+  declarations: [BreadCrumbComponent,HeaderComponent, FooterComponent, FormTableComponent, ButtonComponent, HeaderLineComponent],
   imports: [
   RouterModule,
   NgZorroModule,

@@ -2,9 +2,7 @@ import { FamilyDetail } from "./FamilyDetailModel"
 
 export const FamilyDetails:FamilyDetail[]=[
   {
-    RelationshipId: ["3fa85f64-5717-4562-b3fc-2c963f6bafa6","3fa85f64-5717-4562-b3fc-2c963f6bafa8",
-    "3fa85f64-5717-4562-b3fc-2c963f6bafa9","3fa85f64-5717-4562-b3fc-2c963f6baf10",
-    ],
+    RelationshipId: "3fa85f64-5717-4562-b3fc-2c963f6bafa6",
     EmployeeId: "3fa85f64-5717-4562-b3fc-2c963f6baf10",
     FullName: "abebe bahru",
     Gender: "male",
@@ -17,7 +15,7 @@ export const FamilyDetails:FamilyDetail[]=[
     CreatedbyUserGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },
   {
-    RelationshipId: ["3fa85f64-5717-4562-b3fc-2c963f6bafa7"],
+    RelationshipId: "3fa85f64-5717-4562-b3fc-2c963f6bafa7",
     EmployeeId: "3fa85f64-5717-4562-b3fc-2c963f6bafa6",
     FullName: "takele mesfin",
     Gender: "string",
@@ -30,7 +28,7 @@ export const FamilyDetails:FamilyDetail[]=[
     CreatedbyUserGuid: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   },
   {
-    RelationshipId: ["3fa85f64-5717-4562-b3fc-2c963f6bafa6"],
+    RelationshipId: "3fa85f64-5717-4562-b3fc-2c963f6bafa6",
     EmployeeId: "3fa85f64-5717-4562-b3fc-2c963f6bafa7",
     FullName: "kassahun tareke",
     Gender: "string",

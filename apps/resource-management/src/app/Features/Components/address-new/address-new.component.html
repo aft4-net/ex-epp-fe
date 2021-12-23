@@ -1,9 +1,10 @@
 <br>
-<form nz-form id="myForm" [formGroup]="addressForm">
+<form nz-form id="myForm" [formGroup]="validateForm">
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="country">Country</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
-      <nz-select formControlName="country" nzShowSearch nzAllowClear (ngModelChange)="onSelectCountry()">
+      <nz-select formControlName="country" nzShowSearch nzAllowClear
+        (ngModelChange)="onSelectCountry()">
         <ng-container *ngFor="let country of countries">
           <nz-option nzValue="{{country}}" nzLabel="{{country}}"></nz-option>
         </ng-container>
@@ -11,13 +12,13 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="state">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="state">
       <ng-container *ngIf="isEthiopia;else state">Region</ng-container>
-      <ng-template #state>State/Provice</ng-template>
+      <ng-template #state>State</ng-template>
     </nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is required!">
-      <nz-select formControlName="state" nzShowSearch nzAllowClear nzPlaceHolder="Input the state/region/province"
-        [nzMaxMultipleCount]="1">
+      <nz-select formControlName="state"
+      nzShowSearch nzAllowClear nzPlaceHolder="Input the state/region/province" [nzMaxMultipleCount]="1">
         <ng-container *ngFor="let state of listOfStates">
           <nz-option nzValue="{{state}}" nzLabel="{{state}}"></nz-option>
         </ng-container>
@@ -65,22 +66,25 @@
       <input nz-input formControlName="postalCode" id="postalCode" />
     </nz-form-control>
   </nz-form-item>
+
+  
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="residencialPhoneNumber" nzRequired>Phone Number</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="addressForm.controls['residencialPhoneNumber']"
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['residencialPhoneNumber']"
       nzErrorTip="Please input your phone number!">
       <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>
-          <nz-select formControlName="phoneNumberPrefix" nzShowSearch class="phone-select">
+          <nz-select formControlName="phoneNumberPrefix" class="phone-select">
             <ng-container *ngFor="let code of listofCodes">
               <nz-option nzValue="{{code}}" nzLabel="{{code}}"></nz-option>
             </ng-container>
           </nz-select>
         </ng-template>
-        <input formControlName="residencialPhoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344"
-          nz-input />
+        <input formControlName="residencialPhoneNumber" id="'residencialPhoneNumber'" nzPlaceHolder="911223344" nz-input />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
+
+
 </form>
 <app-progress-buttons [isMultiple]="true" (actionType)="onAction($event)"></app-progress-buttons>

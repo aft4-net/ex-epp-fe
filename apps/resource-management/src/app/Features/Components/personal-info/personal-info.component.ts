@@ -14,6 +14,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { ValueTransformer } from '@angular/compiler/src/util';
+import { FormGenerator } from '../custom-forms-controls/form-generator.model';
+import { convertStringsToSelectOptions } from '../../Services/supporting-services/basic-data.collection';
 
 @Component({
   selector: 'exec-epp-personal-info',
@@ -44,7 +46,7 @@ export class PersonalInfoComponent implements OnInit {
   dateofBirth = new Date("2021-11-17 14:29:03.107");
   gender = "";
   nationality: string [] =[];
-  selectednationality: Nationality [] = [] ;
+  selectednationality?: Nationality [] = [] ;
 
   currentemployee !: Employee ;
   currentdate = new Date();
@@ -68,8 +70,11 @@ export class PersonalInfoComponent implements OnInit {
     }
 };
 
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService,
-    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) { }
+    constructor(private fb: FormBuilder,
+    private readonly _form: FormGenerator,
+    private employeeService:EmployeeService,
+    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
+     }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -110,10 +115,8 @@ export class PersonalInfoComponent implements OnInit {
     this.phoneNumber2=employee.Phone1,
     this.phoneNumber3=employee.Phone2,
     this.dateofBirth=employee.DateofBirth,
-    this.gender=employee.Gender
-    if(employee.Nationality){
-      this.selectednationality=employee.Nationality;
-    }
+    this.gender=employee.Gender,
+    this.selectednationality=employee.Nationality;
 
   }
 

@@ -165,6 +165,71 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #000000;
     opacity: 0.4;
   }
+
+  .ant-form-item-control {
+    max-width: 458px;
+  }
+
+  .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+    margin-right: 0px;
+    color: #ff4d4f;
+    font-size: 0px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: '';
+  }
+
+  .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::after {
+    display: inline-block;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: '*';
+  }
+  .ant-picker {
+    width: 458px;
+  }
+
+  .inner-content {
+    background: #fff;
+    // height: auto;
+    // float: left;
+    padding: 0;  
+    // margin: 10px  -117px;
+
+  }
+  .main-content {
+    padding: 5px 24px;
+    min-height: 535px;
+  }
+
+  .ant-table-footer, .ant-table-thead>tr>th {
+    background: #E8FFE8 !important;
+    color: #262626;
+  }
+  .ant-table {
+    box-shadow: 0px 0px 4px 0px #00A55166;
+  }
+
+  table>tbody>tr:nth-of-type(even)>* {
+    background-color: #F0F0F0;;
+  }
+
+  .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+    width: 0px;
+  }
+  .ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+    padding: 12px 16px;
+  }
+
+  .ant-table-thead {
+    height: 56px;
+
+  }
+
   /* Responsive Design */
   @media all and (max-width: 240px) {
     .toast-container .ngx-toastr.div {
@@ -192,4 +257,44 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       width: 25em;
     }
   }
+  .ant-btn-primary {
+    background-color: #52c41a;
+  }
 
+  .ant-btn-primary:hover {
+    background-color: #52c41a;
+  }
+
+
+  .ant-btn-link {
+    color: #52c41a;
+  }
+
+  .ant-btn-link:hover {
+    color: #52c41a;
+  }
+
+  .anticon-filter   {
+    color: #52c41a;
+  }
+
+   
+  .anticon.active {
+    color: #52c41a;
+  }
+
+  
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #52c41a;
+    border-color: black;
+    color: black;
+  }
+
+  .ant-checkbox-wrapper-checked.span  {
+    color: black;
+    border-color: black;
+  }
+
+  .ant-table-filter-dropdown .ant-checkbox-wrapper+span, .ant-table-filter-dropdown-submenu .ant-checkbox-wrapper+span {
+    color: black;
+  }
