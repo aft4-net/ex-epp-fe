@@ -20,64 +20,30 @@ section {
     padding: 0px 2%;
     }  
 
-.submited{
-/* Tag / Status */
-
-/* Auto Layout */
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 1px 8px;
-
-position: static;
-width: 140px;
-height: 26px;
-left: 801px;
-top: 11px;
-
-/* Calendula Gold / gold-1 */
-background: #FFFBE6;
-/* Calendula Gold / gold-3 */
-border: 1px solid #FFE58F;
-box-sizing: border-box;
-border-radius: 2px;
-
-/* Inside Auto Layout */
-flex: none;
-order: 3;
-flex-grow: 0;
-margin: 0px 0px;
-
-
-/* Warning */
-
-position: static;
-width: 70px;
-height: 24px;
-left: 35px;
-top: 1px;
-
-/* Body Text 1/Regular/16 */
-font-family: SF Pro Display;
+td{
+    font-family: -apple-system, system-ui, BlinkMacSystemFont;
 font-style: normal;
 font-weight: normal;
 font-size: 16px;
 line-height: 24px;
-/* identical to box height, or 150% */
-
-/* Calendula Gold / gold-6 */
-color: #FAAD14;
-
-
-/* Inside Auto Layout */
-flex: none;
-order: 0;
-flex-grow: 0;
-margin: 0px 4px;
-
-} 
-
-td{
-    font-family: -apple-system, system-ui, BlinkMacSystemFont;
 }
+
+.review{
+    background: #E6F7FF;
+    color: #1890FF;
+    border:1px solid #91D5FF;
+    text-align: center;
+  }
+  .submited {
+    background: #FFFBE6;
+    color: #FAAD14;
+    border:1px solid #FFE58F;
+    text-align: center;
+  }
+  
+  .approved {
+    background: #F6FFED;
+    color: #52C41A;
+    border:1px solid #B7EB8F;
+    text-align: center;
+  }
