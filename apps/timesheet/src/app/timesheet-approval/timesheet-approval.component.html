@@ -30,17 +30,51 @@
           </ng-template>
 
     </div>
-</div>
+    <br>
+    <div nz-col class="ml-1">
+        <nz-date-picker nzMode="week" ></nz-date-picker>
+    </div>
+</div> <br>
 <div class="tab">
-    <div >
-        <nz-tabset nzCentered>
+    <div > 
+        <nz-tabset>
+          
             <nz-tab nzTitle="All">All Timesheets</nz-tab>
+
             <nz-tab nzTitle="Awaiting Approval">Awaiting Approval Timesheets</nz-tab>
             <nz-tab nzTitle="Approved">Approved Timesheets</nz-tab>
             <nz-tab nzTitle="Request for review">Review Timesheets</nz-tab>
-
-        </nz-tabset>
+            
+            
+</nz-tabset>
+        <!-- <nz-tabset nzLinkRouter>
+            <nz-tab>
+                <div></div>
+              <a  *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'one' }" queryParamsHandling="merge">
+                Default
+              </a>
+              Default.
+            </nz-tab>
+            <nz-tab>
+              <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'two' }" queryParamsHandling="merge">
+                Two
+              </a>
+              Two.
+            </nz-tab>
+            <nz-tab>
+              <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'three' }" queryParamsHandling="merge">
+                Three
+              </a>
+              Three.
+            </nz-tab>
+            <nz-tab>
+              <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'four' }" queryParamsHandling="merge">
+                Four
+              </a>
+              Four.
+            </nz-tab>
+          </nz-tabset> -->
     </div>
 </div>
   
-<exec-epp-table class="mt-2"></exec-epp-table>
+<!-- <exec-epp-table class="mt-2"></exec-epp-table> -->
