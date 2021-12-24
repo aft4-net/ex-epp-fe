@@ -1,8 +1,8 @@
 
 .back {
-    display: flex; 
+    display: flex;
     padding-left: 35px;
-    
+    margin-bottom: 1rem;;
 }
 .controllers{
     padding-left: 35px;
@@ -10,7 +10,14 @@
 .tab {
 
     margin-top: -40px;
-    float: right;
+
     padding-right: 35px;
-    
+
 }
+
+ ::ng-deep .ant-tabs-nav-list {
+  margin-left: 70%;
+  margin-bottom: 1rem;
+}
+
+

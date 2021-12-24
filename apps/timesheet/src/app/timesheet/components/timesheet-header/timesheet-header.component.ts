@@ -20,7 +20,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
   @Input() isSubmitted: boolean | undefined;
-  @Input() isApproved: boolean | undefined;
+  @Input() isApproved= false;
 
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
