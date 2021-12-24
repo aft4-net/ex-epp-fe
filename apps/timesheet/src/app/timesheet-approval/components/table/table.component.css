@@ -21,3 +21,9 @@ div.is-green {
 ::ng-deep .nz-table-content {
   border:1px solid #FFE58F;
 }
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #00A551;
+}
+::ng-deep .ant-tabs-ink-bar {
+  background-color: #00A551 !important;
+}
