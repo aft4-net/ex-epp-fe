@@ -18,7 +18,12 @@
       <td>{{row.projectName}}</td>
       <td>{{row.clientName}}</td>
       <td>{{row.hours}}</td>
-      <td style="color: red;">{{row.status}}</td>
+      <td ><div [ngClass]="{
+        'is-white': row.status === 'S',
+        'is-blue': row.status === 'W',
+        'is-red': row.status === 'E',
+        'is-green': row.status === 'F'
+      }" style="width: auto; height: auto;">{{row.status}}</div></td>
     </tr>
   </tbody>
 </nz-table>

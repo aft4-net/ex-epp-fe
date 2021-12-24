@@ -1,0 +1,18 @@
+/*approved*/
+div.is-white {
+  background: #E6F7FF;
+  color: #1890FF;
+  border: #91D5FF;
+}
+div.is-blue {
+  background: #FFFBE6;
+  color: #FAAD14;
+}
+div.is-red {
+  background: #F6FFED;
+  color: #52C41A;
+  border-color: #B7EB8F;
+}
+div.is-green {
+  background: green;
+}
