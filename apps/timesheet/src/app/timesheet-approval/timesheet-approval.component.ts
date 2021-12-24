@@ -6,6 +6,8 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
+  isAll = true;
+  notAll= false;
   employees = [
     {
         id:1,
@@ -14,7 +16,7 @@ export class TimesheetApprovalComponent implements OnInit {
         projectName: 'HR Module',
         clientName: 'Connect+',
         hours: 8,
-        status: 'S'
+        status: 'Request for review'
     },
     {
       id:3,
@@ -23,7 +25,7 @@ export class TimesheetApprovalComponent implements OnInit {
       projectName: 'Finanace Module',
       clientName: 'Security Finance',
       hours: 12,
-      status: 'W'
+      status: 'Awaiting Approval'
     },
     {
       id: 9,
@@ -32,7 +34,7 @@ export class TimesheetApprovalComponent implements OnInit {
       projectName: 'Test',
       clientName: 'test',
       hours: 20,
-      status: 'E'
+      status: 'Approved'
     },
     {
       id: 5,
@@ -41,11 +43,11 @@ export class TimesheetApprovalComponent implements OnInit {
       projectName: 'test',
       clientName: 'test',
       hours: 10,
-      status: 'F'
+      status: 'Approved'
     }
 ];
 
-headings = [
+headingsForAll = [
     'Name',
     'Date Range',
     'Project Name',
@@ -54,14 +56,17 @@ headings = [
     'Stats'
 ];
 
-@ViewChild('id', { static: true }) id: TemplateRef<any>;
-@ViewChild('name', { static: true }) name: TemplateRef<any>;
-@ViewChild('des', { static: true }) des: TemplateRef<any>;
-@ViewChild('exp', { static: true }) exp: TemplateRef<any>;
+headingsForNotAll = [
+  'Name',
+  'Date Range',
+  'Project Name',
+  'Client Name',
+  'Hours'
+];
 
 cols: TemplateRef<any>[] = [];
 
 ngOnInit(): void {
-    this.cols.push(this.id, this.name, this.des, this.exp);
+
 }
 }

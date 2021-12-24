@@ -1,29 +1,30 @@
 <nz-table #basicTable>
   <thead>
     <tr>
-      <th
+      <th *ngIf="isAll"
             [nzSelections]="listOfSelection"
             [(nzChecked)]="checked"
             [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="onAllChecked($event)"
           ></th>
+
       <th *ngFor="let heading of headings">{{heading}}</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let row of rowData">
-      <td [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)"></td>
+      <td *ngIf="isAll" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)"></td>
       <td>{{row.name}}</td>
       <td>{{row.dateRange}}</td>
       <td>{{row.projectName}}</td>
       <td>{{row.clientName}}</td>
       <td>{{row.hours}}</td>
-      <td ><div [ngClass]="{
-        'is-white': row.status === 'S',
-        'is-blue': row.status === 'W',
-        'is-red': row.status === 'E',
-        'is-green': row.status === 'F'
-      }" style="width: auto; height: auto;">{{row.status}}</div></td>
+      <td *ngIf="isAll"><div [ngClass]="{
+        'is-blue': row.status === 'Request for review',
+        'is-yellow': row.status === 'Awaiting Approval',
+        'is-red': row.status === 'Approved',
+        'is-green': row.status === 'Approved'
+      }" style="width: 140px; height: auto;">{{row.status}}</div></td>
     </tr>
   </tbody>
 </nz-table>

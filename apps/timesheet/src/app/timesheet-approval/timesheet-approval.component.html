@@ -14,7 +14,7 @@
     </div>
     <span>Back</span>
 </div>
-
+<div>
 <div nz-row class="controllers">
     <div nz-col>
         <button nz-button nzType="default">Bulk Approval</button>
@@ -33,23 +33,22 @@
 </div>
 <div class="tab">
     <div >
-        <nz-tabset nzCentered>
+        <nz-tabset nzRight>
             <nz-tab nzRight nzTitle="All">
-              <div class="content mx-10">
-                <exec-epp-table [rowData]="employees" [colsTemplate]="[id,name,des,exp]" [headings]="headings" class="m-2"></exec-epp-table>
+              <div nzRight class="content mx-10">
+                <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"  class="m-2"></exec-epp-table>
               </div>>
             </nz-tab>
             <nz-tab nzTitle="Awaiting Approval">
-              <exec-epp-table [rowData]="employees" [colsTemplate]="[id,name,des,exp]" [headings]="headings" class="m-2"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
             </nz-tab>
             <nz-tab nzTitle="Approved">
-              <exec-epp-table [rowData]="employees" [colsTemplate]="[id,name,des,exp]" [headings]="headings" class="m-2"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
             </nz-tab>
             <nz-tab nzTitle="Request for review">
-              <exec-epp-table [rowData]="employees" [colsTemplate]="[id,name,des,exp]" [headings]="headings" class="m-2"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll" class="m-2"></exec-epp-table>
             </nz-tab>
 
         </nz-tabset>
     </div>
 </div>
-

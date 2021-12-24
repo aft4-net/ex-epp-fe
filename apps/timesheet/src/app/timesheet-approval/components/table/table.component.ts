@@ -20,6 +20,7 @@ export class TableComponent {
   @Input() rowData : any[] | undefined;
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
+  @Input() isAll: boolean | undefined;
 
   listOfSelection = [
     {
@@ -28,7 +29,7 @@ export class TableComponent {
         this.onAllChecked(true);
       }
     },
-    
+
   ];
   checked = false;
   indeterminate = false;
