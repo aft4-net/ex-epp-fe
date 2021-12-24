@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-view-submissions',
@@ -6,10 +7,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-submissions.component.scss']
 })
 export class ViewSubmissionsComponent implements OnInit {
+  total = 10;
+  loading = true;
+  pageSize = 10;
+  pageIndex = 1;
+  idParam='';
+  totalPage!:number;
+  searchKey='';
 
-  constructor() { }
+
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
 
-}
+  navaigateToTimeSheet(){
+    this.router.navigateByUrl('timesheet');
+  }
+
+
+  PageSizeChange(pageSize:Event){
+    console.log(pageSize)
+  //  this.pageSize=pageSize
+
+  }
+  PageIndexChange(index: any): void {
+    console.log(index);
+    this.pageIndex=index;
+    this.loading =true;
+   
+  }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
