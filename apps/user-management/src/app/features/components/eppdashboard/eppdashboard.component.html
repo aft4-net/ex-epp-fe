@@ -1,3 +1,107 @@
-<div _ngcontent-fhw-c206="" class="contain ng-star-inserted">
-  <div _ngcontent-fhw-c206="" class="w-full flex justify-between" style="margin-bottom: 24px;">
-    <p _ngcontent-fhw-c206="" class="employee-name">Welcome Nathan,</p><div _ngcontent-fhw-c206="" class="right-side-designation-time"><p _ngcontent-fhw-c206="" class="designation"> Developer III - </p><p _ngcontent-fhw-c206="" class="current-time"> 12/23/2021 </p></div></div><div _ngcontent-fhw-c206="" class="card-container flex flex-row flex-wrap"><div _ngcontent-fhw-c206="" class="feature-card onhover ng-star-inserted" tabindex="0"><img _ngcontent-fhw-c206="" src="assets/images/icons/employeeIcon.svg" alt="Employees Icon" class="feature-icon"><p _ngcontent-fhw-c206="" class="feature-text feature-text-layout">Employees</p><p _ngcontent-fhw-c206="" class="feature-description feature-description-layout">Add, Edit and View employee detail</p></div><!----><div _ngcontent-fhw-c206="" class="feature-card onhover ng-star-inserted" tabindex="0"><img _ngcontent-fhw-c206="" src="assets/images/icons/clientIcon.svg" alt="Clients Icon" class="feature-icon"><p _ngcontent-fhw-c206="" class="feature-text feature-text-layout">Clients</p><p _ngcontent-fhw-c206="" class="feature-description feature-description-layout">Add, Edit and View client detail</p></div><!----><div _ngcontent-fhw-c206="" class="feature-card onhover ng-star-inserted" tabindex="0"><img _ngcontent-fhw-c206="" src="assets/images/icons/projectIcon.svg" alt="Projects Icon" class="feature-icon"><p _ngcontent-fhw-c206="" class="feature-text feature-text-layout">Projects</p><p _ngcontent-fhw-c206="" class="feature-description feature-description-layout">Add, Edit and View project detail</p></div><!----><div _ngcontent-fhw-c206="" class="feature-card onhover ng-star-inserted" tabindex="0"><img _ngcontent-fhw-c206="" src="assets/images/icons/usermanagementIcon.svg" alt="User Management Icon" class="feature-icon"><p _ngcontent-fhw-c206="" class="feature-text feature-text-layout">User management</p><p _ngcontent-fhw-c206="" class="feature-description feature-description-layout">Add, Edit and View user management</p></div><!----><!----><!----><div _ngcontent-fhw-c206="" class="feature-card onhover ng-star-inserted" tabindex="0"><img _ngcontent-fhw-c206="" src="assets/images/icons/timesheetIcon.svg" alt="Timesheet Icon" class="feature-icon"><p _ngcontent-fhw-c206="" class="feature-text feature-text-layout">Timesheet</p><p _ngcontent-fhw-c206="" class="feature-description feature-description-layout">Manage timesheet</p></div><!----><!----></div></div>
+
+
+<div style="background: #f5f5f5;padding-left:8.5%; padding-top: 8%; height: 100%; width: 100%; ">
+
+  <div   style="margin-bottom: 24px;">
+    <p  class="employee-name">Welcome Nathan,</p>
+    </div>
+    <div  style="margin-bottom: 18px;">
+
+        <p  class="designation"> Developer III - </p>
+        <p class="current-time"> 12/24/2021 </p>
+
+      </div>
+
+  <div nz-row [nzGutter]="20" >
+    <div nz-col [nzSpan]="5" >
+      <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
+        <nz-card-meta
+        [nzTitle]="timesheetTextTemplate"
+        [nzAvatar]="timesheetTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #timesheetTemplate>
+        <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: green;  font-size: '19px';"></i>
+      </ng-template>
+      <ng-template #timesheetTextTemplate>
+        <p style="font-size:14px; ">Timesheet</p>
+      </ng-template>
+    </div>
+    <div nz-col [nzSpan]="5">
+      <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
+        <a href="http://localhost:60730/">
+        <nz-card-meta
+        [nzTitle]="avatarTextTemplate"
+        [nzAvatar]="avatarTemplate"
+      ></nz-card-meta>
+      </a>
+      </nz-card>
+      <ng-template #avatarTemplate>
+        <i nz-icon nzType="team" nzTheme="outline" style="color:green ;  font-size: '19px';"></i>
+      </ng-template>
+      <ng-template #avatarTextTemplate>
+        <p style="font-size:14px; ">Employee Information</p>
+      </ng-template>
+    </div>
+    <div nz-col [nzSpan]="5">
+      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+        <nz-card-meta
+        [nzTitle]="clientTextTemplate"
+        [nzAvatar]="clientTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #clientTemplate>
+        <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: green;  font-size: '19px';"></i>
+      </ng-template>
+      <ng-template #clientTextTemplate>
+        <p style="font-size:14px; ">Clients</p>
+      </ng-template>
+    </div>
+    <div nz-col [nzSpan]="5">
+      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+        <nz-card-meta
+        [nzTitle]="projectTextTemplate"
+        [nzAvatar]="projectTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #projectTemplate>
+        <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: green;  font-size: '19px';"></i>
+      </ng-template>
+      <ng-template #projectTextTemplate>
+        <p style="font-size:14px; ">Projects</p>
+      </ng-template>
+    </div>
+
+  </div>
+  <div nz-row [nzGutter]="25" style="padding-top: 2%;"  nzHoverable="true" >
+    <div nz-col [nzSpan]="5">
+      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+        <nz-card-meta
+        [nzTitle]="confTextTemplate"
+        [nzAvatar]="configurationTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #configurationTemplate>
+        <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: green;  font-size: '19px';"></i>
+      </ng-template>
+      <ng-template #confTextTemplate>
+        <p style="font-size:14px; ">Configuration</p>
+      </ng-template>
+    </div>
+    <div nz-col [nzSpan]="5">
+      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+        <nz-card-meta
+        [nzTitle]="userTextTemplate"
+        [nzAvatar]="userTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #userTemplate>
+        <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: green; font-size: '19px';"></i>
+      </ng-template>
+      <ng-template #userTextTemplate>
+        <p style="font-size:14px; ">User Management</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
+

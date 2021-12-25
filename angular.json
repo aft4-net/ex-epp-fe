@@ -722,9 +722,14 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/user-management/src/favicon.ico",
-              "apps/user-management/src/assets"
+              "apps/user-management/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
-            "styles": ["apps/user-management/src/styles.scss"],
+            "styles": ["apps/user-management/src/theme.less", "apps/user-management/src/styles.scss","node_modules/ng-zorro-antd/ng-zorro-antd.min.css"],
             "scripts": []
           },
           "configurations": {
