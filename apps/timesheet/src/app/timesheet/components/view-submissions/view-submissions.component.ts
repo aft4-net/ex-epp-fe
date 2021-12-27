@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaginatedResult } from '../../../models/PaginatedResult';
-import { TimesheetHistory } from '../../../models/timesheetHistory';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { TimesheetService } from '../../services/timesheet.service';
   styleUrls: ['./view-submissions.component.scss'],
 })
 export class ViewSubmissionsComponent implements OnInit {
-  timeSheetHistory!: TimesheetHistory[];
+  timeSheetHistory!:  TimesheetApproval[];
   total = 10;
   loading = true;
   pageSize = 10;
@@ -28,7 +28,7 @@ export class ViewSubmissionsComponent implements OnInit {
   ngOnInit(): void {
     this.timeSheetService
       .getTimesheetSubmissionHistory(1, 10)
-      .subscribe((response: PaginatedResult<TimesheetHistory[]>) => {
+      .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;
@@ -46,7 +46,7 @@ export class ViewSubmissionsComponent implements OnInit {
     this.loading = true;
     this.timeSheetService
       .getTimesheetSubmissionHistory(1, 10)
-      .subscribe((response: PaginatedResult<TimesheetHistory[]>) => {
+      .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;

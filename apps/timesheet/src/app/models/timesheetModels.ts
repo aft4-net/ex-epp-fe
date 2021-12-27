@@ -27,6 +27,12 @@ export interface TimesheetApproval {
     TimesheetId: string;
     ProjectId: string;
     Status: ApprovalStatus;
+    comment?:string;
+    employeeName:string;
+    startDate:Date;
+    endDate:Date;
+    createdDate:Date;
+    clientName:string;
 }
 
 export interface TimesheetConfiguration {
