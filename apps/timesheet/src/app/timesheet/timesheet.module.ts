@@ -65,6 +65,7 @@ import { SortPipe } from '../core/pipes/sort.pipe';
     NzToolTipModule,
     NzPaginationModule
   ],
+  exports: [TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {

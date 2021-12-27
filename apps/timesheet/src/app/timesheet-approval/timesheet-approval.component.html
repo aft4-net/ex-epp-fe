@@ -1,1 +1,54 @@
-<p>timesheet-approval works!</p>
+<app-timesheet-header class="md:flex lg:flex xl:flex ml-8" [isApproved]=true>
+</app-timesheet-header>
+<hr class="mb-4">
+<div class="back" >
+    <div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left mt-1"
+        viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+      </svg>
+
+
+    </div>
+    <span>Back</span>
+</div>
+<div>
+<div nz-row class="controllers">
+    <div nz-col>
+        <button nz-button nzType="default">Bulk Approval</button>
+        <br>
+    </div>
+
+    <div nz-col nzSpan="4" class="ml-1">
+        <nz-input-group [nzSuffix]="suffixIconSearch" >
+            <input type="text" nz-input placeholder="Search" />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+          </ng-template>
+
+    </div>
+</div>
+<div class="tab">
+    <div >
+        <nz-tabset nzRight>
+            <nz-tab nzRight nzTitle="All">
+              <div nzRight class="content mx-10">
+                <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"  class="m-2"></exec-epp-table>
+              </div>>
+            </nz-tab>
+            <nz-tab nzTitle="Awaiting Approval">
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
+            </nz-tab>
+            <nz-tab nzTitle="Approved">
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
+            </nz-tab>
+            <nz-tab nzTitle="Request for review">
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll" class="m-2"></exec-epp-table>
+            </nz-tab>
+
+        </nz-tabset>
+    </div>
+</div>
