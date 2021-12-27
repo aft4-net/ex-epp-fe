@@ -19,7 +19,7 @@ const routes: Routes = [
         canActivate: [AuthorizationCheck]
       },
       {
-        path: '/features/components/user-dashboard/exec-epp-user-dashboard',
+        path: '/apps/user-management/src/app/features/components/user-dashboard',
         component: UserDashboardComponent,
       }
     ],
