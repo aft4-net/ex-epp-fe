@@ -29,6 +29,7 @@ import {ProjectNamePaletComponent} from './components/project-name-palet/project
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { TimesheetService } from './services/timesheet.service';
+import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TimesheetService } from './services/timesheet.service';
     DateSelectorComponent,
     DayAndDateColumnComponent,
     ProjectNamePaletComponent,
-    MoreProjectsComponent
+    MoreProjectsComponent,
+    TimesheetDetailComponent
   ],
   imports: [
     CommonModule,
