@@ -17,6 +17,7 @@ import { CompanyContactService } from '../../../core/services/company-contact.se
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { extractPhoneNumber } from '../../../shared/phonePrefixExtractor/phone-prefix-extractor';
 import { getNames } from '../../../shared/Data/contacts';
 
 @Component({
@@ -106,7 +107,7 @@ clientalreadyExist=false;
         this.listData = [...this.listData, this.addContactForm.value];
         this.comapanyContacts.push({
           ContactPersonGuid: this.contactDetail.Guid,
-        }); 
+        });
         this.isVisible = false;
         this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
         this.addClientStateService.updateClientcomapanyContacts(this.listData);
@@ -172,12 +173,13 @@ clientalreadyExist=false;
 
   }
   patchValues(data: any) {
+    const phonePrefix=extractPhoneNumber(data.phoneNumberPrefix)
 
     this.addContactForm.patchValue({
       companyContactName: data.companyContactName,
-      phoneNumber: data.phoneNumber,
+      phoneNumber: phonePrefix.value,
       emailAdress: data.emailAdress,
-      phoneNumberPrefix: data.phoneNumberPrefix,
+      phoneNumberPrefix: phonePrefix.prefix,
 
 
     });
