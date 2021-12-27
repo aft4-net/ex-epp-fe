@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { SiderComponent } from './components/application/sider/sider.component';
 
 const routes: Routes = [
-  { path: '', component: SiderComponent, },
+  { path: '', component: EppdashboardComponent, },
 ];
 
 @NgModule({
