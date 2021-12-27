@@ -1,3 +1,5 @@
+import * as internal from "stream";
+
 export interface Timesheet {
     Guid: string;
     FromDate: Date;
@@ -27,12 +29,13 @@ export interface TimesheetApproval {
     TimesheetId: string;
     ProjectId: string;
     Status: ApprovalStatus;
-    comment?:string;
-    employeeName:string;
-    startDate:Date;
-    endDate:Date;
-    createdDate:Date;
-    clientName:string;
+    Comment?:string;
+    EmployeeName:string;
+    StartDate:Date;
+    EndDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
 }
 
 export interface TimesheetConfiguration {
