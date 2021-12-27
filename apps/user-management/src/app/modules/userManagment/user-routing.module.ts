@@ -5,6 +5,7 @@ import { AuthorizationCheck } from '../../services/autherization/authorizationCh
 import { aoiGuard } from '../../services/navigationGuard/userGuard';
 import { educationGuard } from '../../services/navigationGuard/groupGuard';
 import { SigninComponent } from '../../features/Account/signin/signin.component';
+import { UserDashboardComponent } from '../../features/components/user-dashboard/user-dashboard.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
         component: SigninComponent,
         canActivate: [AuthorizationCheck]
       },
+      {
+        path: '/features/components/user-dashboard/exec-epp-user-dashboard',
+        component: UserDashboardComponent,
+      }
     ],
   },
 ];
