@@ -1,0 +1,70 @@
+<nz-layout>
+    <nz-content>
+      <nz-divider nzType="horizontal"></nz-divider>
+      <div style="margin-top: -40px;" class="inner-content">
+        <div nz-row>
+          <div nz-col class="gutter-row" [nzSpan]="8">
+            <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
+              <input type="text" #searchInput nz-input placeholder="Search" [(ngModel)]="username" (change)="SearchUsersByUserName()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button nz-button nzSearch (click)="SearchUsersByUserName()"><i nz-icon nzType="search"></i></button>
+            </ng-template>
+          </div>
+        </div>
+        <div  nz-row nzJustify="end" *ngIf="userList.length > 0">
+          <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+          <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+            nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+        </div>
+        <br/>
+        <div nz-row style="margin-top:-10px">
+          <div nz-col class="gutter-row" [nzSpan]="24">
+              <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+                nzTableLayout="auto">
+                <thead>
+                  <tr>
+                    <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+                      [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                      [nzSortDirections]="column.sortDirections">{{column.name}}</th>
+  
+                    <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                      [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                      [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                      [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+                    <th class="table_heading">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                    <td>{{user.FullName }} </td>
+                    <td>{{user.JoiningDate | date:'MMM d, y' }}</td>
+                    <td>{{user.JobTitle }}</td>
+                    <td>{{user.Location }}</td>
+                    <td>{{user.Status }}</td>
+                    <td>
+                      <button class="text-orientation" nz-button nz-popover nzPopoverTitle=""
+                        [nzPopoverContent]="contentTemplate"
+                        nzPopoverPlacement="bottomRight">...
+                        </button>
+                    </td>
+                    <ng-template #contentTemplate>
+                      <div>
+                        <button (click)="AddToGroup(user.UserId)">
+                            Add to group
+                        </button>
+                        &nbsp; &nbsp;
+                        <button (click)="Remove(user.UserId)">
+                         Remove
+                        </button>
+                      </div>
+                    </ng-template>
+                  </tr>
+                </tbody>
+              </nz-table>
+          </div>
+        </div>
+      </div>
+    </nz-content>
+  </nz-layout>
+  
