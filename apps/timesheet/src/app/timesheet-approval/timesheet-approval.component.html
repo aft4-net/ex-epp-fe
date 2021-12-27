@@ -30,10 +30,16 @@
           </ng-template>
 
     </div>
-</div>
+    <br>
+    <div nz-col class="ml-1">
+      <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
+      
+    </div>
+</div> <br>
 <div class="tab">
+
     <div >
-        <nz-tabset nzRight>
+        <nz-tabset >
             <nz-tab nzRight nzTitle="All">
               <div nzRight class="content mx-10">
                 <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"  class="m-2"></exec-epp-table>
@@ -52,3 +58,5 @@
         </nz-tabset>
     </div>
 </div>
+
+
