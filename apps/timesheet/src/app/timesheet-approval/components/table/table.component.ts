@@ -16,13 +16,14 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
-  
+  total=10;
+  pageIndex = 1;
 
-  @Input() rowData : any[] | undefined;
+  @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() isAll: boolean | undefined;
-  
+
 
   listOfSelection = [
     {
@@ -38,7 +39,7 @@ export class TableComponent {
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-  
+
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -67,3 +68,5 @@ export class TableComponent {
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 }
+
+

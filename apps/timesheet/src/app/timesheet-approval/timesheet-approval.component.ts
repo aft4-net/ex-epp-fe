@@ -48,7 +48,43 @@ export class TimesheetApprovalComponent implements OnInit {
       clientName: 'test',
       hours: 10,
       status: 'Approved'
-    }
+    },
+    {
+      id:11,
+      name: 'yosef',
+      dateRange: Date.now().toString,
+      projectName: 'HR Module',
+      clientName: 'Connect+',
+      hours: 8,
+      status: 'Request for review'
+  },
+  {
+    id:13,
+    name: 'Daniel',
+    dateRange: Date.now().toString,
+    projectName: 'Finanace Module',
+    clientName: 'Security Finance',
+    hours: 12,
+    status: 'Awaiting Approval'
+  },
+  {
+    id: 19,
+    name: 'Abel',
+    dateRange: Date.now().toString,
+    projectName: 'Test',
+    clientName: 'test',
+    hours: 20,
+    status: 'Approved'
+  },
+  {
+    id: 15,
+    name: 'hana',
+    dateRange: Date.now(),
+    projectName: 'test',
+    clientName: 'test',
+    hours: 10,
+    status: 'Approved'
+  }
 ];
 
 headingsForAll = [

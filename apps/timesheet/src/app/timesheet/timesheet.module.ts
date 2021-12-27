@@ -32,6 +32,7 @@ import { TimesheetService } from './services/timesheet.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { SortPipe } from '../core/pipes/sort.pipe';
+import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { SortPipe } from '../core/pipes/sort.pipe';
     ProjectNamePaletComponent,
     MoreProjectsComponent,
     ViewSubmissionsComponent,
-    SortPipe
+    SortPipe,
+    TimesheetDetailComponent
   ],
   imports: [
     CommonModule,
