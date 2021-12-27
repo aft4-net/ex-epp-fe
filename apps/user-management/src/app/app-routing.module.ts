@@ -8,7 +8,8 @@ import { AddUserComponent } from './features/components/user/add-user/add-user.c
 
 const routes: Routes = [
   { path: '', component: SiderComponent, },
-  {path: 'add-user', component: AddUserComponent}
+  {path: 'add-user', component: AddUserComponent},
+ { path: 'ed', component: EppdashboardComponent, },
 ];
 
 @NgModule({

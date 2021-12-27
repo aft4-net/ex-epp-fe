@@ -7,14 +7,12 @@ import { EppdashboardComponent } from './features/components/eppdashboard/eppdas
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import en from '@angular/common/locales/en';
-import { registerLocaleData } from '@angular/common';
+import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import{SiderComponent} from './components/application/sider/sider.component'
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { SigninComponent } from './features/Account/signin/signin.component';
-registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -23,7 +21,8 @@ registerLocaleData(en);
     HeaderComponent,
     FooterComponent,
     SiderComponent,
-    SigninComponent
+    SigninComponent,
+    UserDashboardComponent
     ],
   imports: [
     BrowserModule,
