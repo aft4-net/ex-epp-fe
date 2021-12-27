@@ -29,6 +29,8 @@ import { MoreProjectsComponent } from './components/more-projects/more-projects.
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { TimesheetService } from './services/timesheet.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { SortPipe } from '../core/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
     DayAndDateColumnComponent,
     ProjectNamePaletComponent,
     MoreProjectsComponent,
-    ViewSubmissionsComponent
+    ViewSubmissionsComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,
@@ -59,7 +62,8 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
     NzDividerModule,
     NzModalModule,
     NzTableModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzPaginationModule
   ],
   providers: [TimesheetValidationService,TimesheetService],
 })

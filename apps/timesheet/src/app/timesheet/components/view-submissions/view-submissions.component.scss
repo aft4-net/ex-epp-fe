@@ -1,49 +1,68 @@
-.page-title {
-    font-family: -apple-system, system-ui, BlinkMacSystemFont;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 28px;
-    display: flex;
-    align-items: center;
-    color: #262626;
-  }
-  header {
-    padding: 0px 2%;
-  }
-     
-hr { display: block; height: 1px;
-   
-    border: 0; border-top: 1px solid #ccc;
-    margin: 1em 0; padding: 0; }
-section {
-    padding: 0px 2%;
-    }  
-
-td{
-    font-family: -apple-system, system-ui, BlinkMacSystemFont;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 24px;
+* {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
 }
 
-.review{
-    background: #E6F7FF;
-    color: #1890FF;
-    border:1px solid #91D5FF;
-    text-align: center;
-  }
-  .submited {
-    background: #FFFBE6;
-    color: #FAAD14;
-    border:1px solid #FFE58F;
-    text-align: center;
-  }
-  
-  .approved {
-    background: #F6FFED;
-    color: #52C41A;
-    border:1px solid #B7EB8F;
-    text-align: center;
-  }
+.page-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+
+header {
+  padding: 0px 2%;
+}
+
+hr {
+  display: block;
+  height: 1px;
+
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+section {
+  padding: 0px 2%;
+}
+
+td {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.review {
+  background: #E6F7FF;
+  color: #1890FF;
+  border: 1px solid #91D5FF;
+  text-align: center;
+}
+
+.submited {
+  background: #FFFBE6;
+  color: #FAAD14;
+  border: 1px solid #FFE58F;
+  text-align: center;
+}
+
+.approved {
+  background: #F6FFED;
+  color: #52C41A;
+  border: 1px solid #B7EB8F;
+  text-align: center;
+}
+
+.pagination {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #595959;
+}
