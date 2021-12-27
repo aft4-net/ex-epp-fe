@@ -9,18 +9,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
-
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import{SiderComponent} from './components/application/sider/sider.component'
+import { CustomFormModule } from './shared/modules/forms/custom-form.module';
+import { SigninComponent } from './features/Account/signin/signin.component';
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, EppdashboardComponent],
+  declarations: [
+    AppComponent,
+    EppdashboardComponent,
+    HeaderComponent,
+    FooterComponent,
+    SiderComponent,
+    SigninComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DemoNgZorroAntdModule
+    DemoNgZorroAntdModule,
+    CustomFormModule
   ],
   providers: [],
   bootstrap: [AppComponent],
