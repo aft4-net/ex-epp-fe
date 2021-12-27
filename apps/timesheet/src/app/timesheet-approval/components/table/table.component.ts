@@ -16,8 +16,10 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
+  total=10;
+  pageIndex = 1;
 
-  @Input() rowData : any[] | undefined;
+  @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() isAll: boolean | undefined;
@@ -65,3 +67,5 @@ export class TableComponent {
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 }
+
+
