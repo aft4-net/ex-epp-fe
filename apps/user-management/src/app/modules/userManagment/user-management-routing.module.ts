@@ -11,7 +11,7 @@ const routes: Routes = [
       {
         path: '',
         component: GroupsetComponent
-      },
+      }, 
       {
         path: 'groups',
         component: GroupsetComponent
