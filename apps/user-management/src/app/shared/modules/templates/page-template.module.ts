@@ -13,9 +13,9 @@ import { SiderComponent } from '../../../components/application/sider/sider.comp
   declarations: [
     HeaderComponent,
     FooterComponent,
-    SiderComponent,
+    SiderComponent, 
     PrimaryPageTemplateComponent,
-    SecondaryPageTemplateComponent,
+    SecondaryPageTemplateComponent, 
   ],
   imports: [BrowserModule, RouterModule, AntdFormModule, CustomFormModule],
   exports: [PrimaryPageTemplateComponent, SecondaryPageTemplateComponent],

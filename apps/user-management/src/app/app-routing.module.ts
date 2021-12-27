@@ -19,7 +19,7 @@ const routes: Routes = [
             import('./modules/userManagment/user-management.module').then((m) => m.UserManagementModule)
         },
       ], 
-    },
+    }, 
 ];
 
 @NgModule({

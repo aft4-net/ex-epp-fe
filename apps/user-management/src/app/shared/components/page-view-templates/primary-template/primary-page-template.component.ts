@@ -5,3 +5,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./primary-page-template.component.css'],
 })
 export class PrimaryPageTemplateComponent {}
+ 
