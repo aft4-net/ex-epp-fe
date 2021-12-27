@@ -4,12 +4,16 @@ import { Component, OnInit } from '@angular/core';
   selector: 'exec-epp-eppdashboard',
   templateUrl: './eppdashboard.component.html',
   styleUrls: ['./eppdashboard.component.scss']
+  
 })
-export class EppdashboardComponent implements OnInit {
+export class EppdashboardComponent  {
 
-  constructor() { }
+  constructor() {
+    //ok
+   }
 
-  ngOnInit(): void {
-  }
+
+
 
 }
+
