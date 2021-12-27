@@ -26,6 +26,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   btnText: string = "Request for Approval";
   timeSheetStatus = "not-submitted-enable";
   notSubmittedTooltip = "";
+  toolTipColor="red";
+  toolTipText="The time is passed total hour"
 
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 

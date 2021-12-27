@@ -16,11 +16,13 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
+  
 
   @Input() rowData : any[] | undefined;
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() isAll: boolean | undefined;
+  
 
   listOfSelection = [
     {
@@ -36,7 +38,7 @@ export class TableComponent {
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-
+  
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
