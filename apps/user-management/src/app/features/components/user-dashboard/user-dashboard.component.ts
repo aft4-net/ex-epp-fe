@@ -126,18 +126,18 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserList, b: IUserList) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserList, b: IUserList) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
-            listOfFilter: this.userListStatus,
+            listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserList) => list.some(name => item.Status.indexOf(name) !== -1)
           },
           {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserList, b: IUserList) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserList, b: IUserList) => a.Status.length - b.Status.length,
             filterMultiple: true,
-            listOfFilter: this.userListJobTitle,
+            listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserList) => list.some(name => item.Status.indexOf(name) !== -1)
           }
       ];

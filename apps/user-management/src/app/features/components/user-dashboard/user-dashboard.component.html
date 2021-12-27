@@ -5,7 +5,7 @@
         <div nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
             <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
-              <input type="text" #searchInput nz-input placeholder="Search" [(ngModel)]="username" (change)="SearchUsersByUserName()" />
+              <input type="text" #searchInput nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzSearch (click)="SearchUsersByUserName()"><i nz-icon nzType="search"></i></button>
@@ -38,9 +38,9 @@
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName }} </td>
-                    <td>{{user.JoiningDate | date:'MMM d, y' }}</td>
+                    <td>{{user.LastActivityDate | date:'MMM d, y' }}</td>
+                    <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
-                    <td>{{user.Location }}</td>
                     <td>{{user.Status }}</td>
                     <td>
                       <button class="text-orientation" nz-button nz-popover nzPopoverTitle=""

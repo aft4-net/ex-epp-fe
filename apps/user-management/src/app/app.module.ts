@@ -8,8 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
-import en from '@angular/common/locales/en';
-import { registerLocaleData } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import{SiderComponent} from './components/application/sider/sider.component'
@@ -23,7 +21,8 @@ import { SigninComponent } from './features/Account/signin/signin.component';
     HeaderComponent,
     FooterComponent,
     SiderComponent,
-    SigninComponent
+    SigninComponent,
+    UserDashboardComponent
     ],
   imports: [
     BrowserModule,
