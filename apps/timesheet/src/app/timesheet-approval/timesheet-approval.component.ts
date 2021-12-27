@@ -6,8 +6,12 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
+  date=null;
   isAll = true;
   notAll= false;
+  getweek(result:Date):void{
+    console.log('week: ');
+  }
   employees = [
     {
         id:1,
@@ -105,4 +109,5 @@ cols: TemplateRef<any>[] = [];
 ngOnInit(): void {
 
 }
+
 }

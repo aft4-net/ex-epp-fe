@@ -24,6 +24,7 @@ export class TableComponent {
   @Input() headings: string[] | undefined;
   @Input() isAll: boolean | undefined;
 
+
   listOfSelection = [
     {
       text: 'Select All Row',

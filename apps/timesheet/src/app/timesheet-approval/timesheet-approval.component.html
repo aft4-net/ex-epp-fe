@@ -30,8 +30,14 @@
           </ng-template>
 
     </div>
-</div>
+    <br>
+    <div nz-col class="ml-1">
+      <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
+
+    </div>
+</div> <br>
 <div class="tab">
+
     <div >
         <nz-tabset nzRight [nzSelectedIndex]=1>
             <nz-tab nzRight nzTitle="All">
@@ -52,3 +58,5 @@
         </nz-tabset>
     </div>
 </div>
+
+
