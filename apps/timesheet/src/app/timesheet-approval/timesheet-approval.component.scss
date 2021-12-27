@@ -1,31 +1,27 @@
-
 .back {
-    display: flex;
-    padding-left: 35px;
-    margin-bottom: 1rem;;
+  display: flex;
+  padding-left: 35px;
+  margin-bottom: 1rem;
 }
-.controllers{
-    padding-left: 35px;
+.controllers {
+  padding-left: 35px;
 }
 .tab {
+  margin-top: -72px;
 
-    margin-top: -72px;
-
-    padding-right: 35px;
-
-
+  padding-right: 35px;
 }
 
- ::ng-deep .ant-tabs-nav-list {
+::ng-deep .ant-tabs-nav-list {
   margin-left: 70%;
   margin-bottom: 1rem;
 }
+
+
 nz-date-picker {
-    margin: 0 8px 12px 0;
-  }
-
-
-.manager-table {
-  border:1px solid #FFE58F;
+  margin: 0 8px 12px 0;
 }
 
+.manager-table {
+  border: 1px solid #ffe58f;
+}
