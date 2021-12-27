@@ -12,7 +12,7 @@
 
 
     </div>
-    <span>Back</span>
+    <span class="ml-1">Back</span>
 </div>
 <div>
 <div nz-row class="controllers">
@@ -33,26 +33,26 @@
     <br>
     <div nz-col class="ml-1">
       <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
-      
+
     </div>
 </div> <br>
 <div class="tab">
 
     <div >
-        <nz-tabset >
+        <nz-tabset nzRight [nzSelectedIndex]=1>
             <nz-tab nzRight nzTitle="All">
-              <div nzRight class="content mx-10">
-                <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"  class="m-2"></exec-epp-table>
-              </div>>
+              <div nzRight class="content">
+                <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"></exec-epp-table>
+              </div>
             </nz-tab>
             <nz-tab nzTitle="Awaiting Approval">
-              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"></exec-epp-table>
             </nz-tab>
             <nz-tab nzTitle="Approved">
-              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"></exec-epp-table>
             </nz-tab>
             <nz-tab nzTitle="Request for review">
-              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll" class="m-2"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"></exec-epp-table>
             </nz-tab>
 
         </nz-tabset>

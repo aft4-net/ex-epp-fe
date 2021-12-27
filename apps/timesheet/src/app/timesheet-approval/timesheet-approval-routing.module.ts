@@ -5,9 +5,8 @@ import { TimesheetApprovalComponent } from './timesheet-approval.component';
 
 const routes: Routes = [
   {
-    path: "",
-    component: TimesheetApprovalComponent
-  }
+    path: "", component: TimesheetApprovalComponent},
+    {path: ':id', component: TimesheetApprovalComponent}
 ]
 
 @NgModule({
