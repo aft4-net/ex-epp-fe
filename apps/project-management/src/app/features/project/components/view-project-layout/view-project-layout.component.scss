@@ -1,4 +1,6 @@
 .table_heading
+
+
 {
 background-color: #E8FFE8 !important;
 }
@@ -17,11 +19,6 @@ a {
 nz-table.table-container.ant-table-wrapper {
   padding-top: 1%;
 }
-<<<<<<< HEAD
-// ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-//   background:none !important;
-// }
-=======
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
   background:none !important;
 }
@@ -72,7 +69,6 @@ tr.ant-table-row.ng-star-inserted {
 }
 
 
->>>>>>> develop
 
 tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
