@@ -8,11 +8,16 @@ import { TimesheetComponent } from './timesheet.component';
 const routes: Routes = [
   {
     path: "",
-    component: TimesheetComponent
-  },
-  {
-    path:"view-submissions",
-    component:ViewSubmissionsComponent
+    component: TimesheetComponent,
+    children: [
+      {
+        path: "",
+        component: TimesheetDetailComponent
+      },
+      {path:"view-submissions",
+      component:ViewSubmissionsComponent
+    }
+    ]
   }
 
 ]

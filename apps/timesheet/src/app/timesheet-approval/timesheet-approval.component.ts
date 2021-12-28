@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -7,16 +8,16 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 })
 export class TimesheetApprovalComponent implements OnInit {
   date=null;
-  isAll = true;
-  notAll= false;
-  getweek(result:Date):void{
-    console.log('week: ');
-  }
+  bulkCheck = true;
+  statusColumn = true;
+  cols: TemplateRef<any>[] = [];
+  currentNameSubject$ = new BehaviorSubject(true);
+
   employees = [
     {
         id:1,
         name: 'yosef',
-        dateRange: Date.now().toString,
+        dateRange: Date.now(),
         projectName: 'HR Module',
         clientName: 'Connect+',
         hours: 8,
@@ -24,8 +25,8 @@ export class TimesheetApprovalComponent implements OnInit {
     },
     {
       id:3,
-      name: 'Daniel',
-      dateRange: Date.now().toString,
+      name: 'Daniel James',
+      dateRange: Date.now(),
       projectName: 'Finanace Module',
       clientName: 'Security Finance',
       hours: 12,
@@ -34,7 +35,7 @@ export class TimesheetApprovalComponent implements OnInit {
     {
       id: 9,
       name: 'Abel',
-      dateRange: Date.now().toString,
+      dateRange: Date.now(),
       projectName: 'Test',
       clientName: 'test',
       hours: 20,
@@ -52,7 +53,7 @@ export class TimesheetApprovalComponent implements OnInit {
     {
       id:11,
       name: 'yosef',
-      dateRange: Date.now().toString,
+      dateRange: Date.now(),
       projectName: 'HR Module',
       clientName: 'Connect+',
       hours: 8,
@@ -61,7 +62,7 @@ export class TimesheetApprovalComponent implements OnInit {
   {
     id:13,
     name: 'Daniel',
-    dateRange: Date.now().toString,
+    dateRange: Date.now(),
     projectName: 'Finanace Module',
     clientName: 'Security Finance',
     hours: 12,
@@ -70,7 +71,7 @@ export class TimesheetApprovalComponent implements OnInit {
   {
     id: 19,
     name: 'Abel',
-    dateRange: Date.now().toString,
+    dateRange: Date.now(),
     projectName: 'Test',
     clientName: 'test',
     hours: 20,
@@ -87,27 +88,38 @@ export class TimesheetApprovalComponent implements OnInit {
   }
 ];
 
-headingsForAll = [
+headings = [
     'Name',
     'Date Range',
     'Project Name',
     'Client Name',
     'Hours',
-    'Stats'
 ];
 
-headingsForNotAll = [
+headingswithStatus = [
   'Name',
   'Date Range',
   'Project Name',
   'Client Name',
-  'Hours'
+  'Hours',
+  'Status'
 ];
 
-cols: TemplateRef<any>[] = [];
+getweek(result:Date):void{
+  console.log('week: ');
+}
 
 ngOnInit(): void {
 
+}
+onTabSelected(tab:any) {
+  console.log(tab);
+   if (tab === 1){
+   this.currentNameSubject$.next(true);
+   }
+   else {
+     this.currentNameSubject$.next(false);
+   }
 }
 
 }

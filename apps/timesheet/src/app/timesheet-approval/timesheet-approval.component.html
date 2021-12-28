@@ -1,7 +1,7 @@
 <app-timesheet-header class="md:flex lg:flex xl:flex ml-8" [isApproved]=true>
 </app-timesheet-header>
 <hr class="mb-4">
-<div class="back" >
+<div routerLink="/timesheet" class="back" >
     <div>
 
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left mt-1"
@@ -16,7 +16,7 @@
 </div>
 <div>
 <div nz-row class="controllers">
-    <div nz-col>
+    <div *ngIf="currentNameSubject$ | async" nz-col>
         <button nz-button nzType="default">Bulk Approval</button>
         <br>
     </div>
@@ -39,20 +39,20 @@
 <div class="tab">
 
     <div >
-        <nz-tabset nzRight [nzSelectedIndex]=1>
+        <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
             <nz-tab nzRight nzTitle="All">
               <div nzRight class="content">
-                <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"></exec-epp-table>
+                <exec-epp-table [rowData]="employees" [bulkCheck]="!bulkCheck" [status]="statusColumn" [headings]="headingswithStatus"></exec-epp-table>
               </div>
             </nz-tab>
             <nz-tab nzTitle="Awaiting Approval">
-              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [bulkCheck]="bulkCheck" [status]="!statusColumn" [headings]="headings"></exec-epp-table>
             </nz-tab>
             <nz-tab nzTitle="Approved">
-              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [bulkCheck]="!bulkCheck" [status]="!statusColumn" [headings]="headings"></exec-epp-table>
             </nz-tab>
             <nz-tab nzTitle="Request for review">
-              <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"></exec-epp-table>
+              <exec-epp-table [rowData]="employees" [bulkCheck]="!bulkCheck" [status]="!statusColumn" [headings]="headings"></exec-epp-table>
             </nz-tab>
 
         </nz-tabset>

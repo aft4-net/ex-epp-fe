@@ -24,13 +24,15 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import {TimesheetApprovalComponent} from "./timesheet-approval.component"
 import {TimesheetApprovalRoutingModule} from './timesheet-approval-routing.module';
 import { TimesheetModule } from '../timesheet/timesheet.module';
+import { SortPipe } from '../core/pipes/pipes/sort.pipe';
 
 
 
 @NgModule({
   declarations: [
     TableComponent,
-    TimesheetApprovalComponent
+    TimesheetApprovalComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,
