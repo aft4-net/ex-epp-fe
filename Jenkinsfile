@@ -18,17 +18,7 @@ pipeline{
         
             }
         }
-        stage('npm run')
-        {
-          when {
-                
-                branch 'master'  
-            
-            }
-            steps{
-              sh 'sudo npm run deploy'
-            }
-        }
+
    
         stage('Deploy to Staging')
         {
@@ -47,7 +37,7 @@ pipeline{
                             sh "docker tag resource-management:latest blens/rm"
                             sh "docker tag project-management:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
-                            sh "docker login -u blens -p 0934462336@Bs "
+                            
                             sh "docker push blens/eppfe"
                             sh "docker push blens/ts"
                             sh "docker push blens/rm"
