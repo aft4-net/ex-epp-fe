@@ -18,9 +18,20 @@ pipeline{
         
             }
         }
+    stage('npm run')
+     {
+        when {
+                
+            branch 'master'  
+            
+            }
+            steps{
+              sh 'npm run deploy'
+            }
+        }    
 
    
-        stage('Deploy to Staging')
+    stage('Deploy to Staging')
         {
            when {
                 
