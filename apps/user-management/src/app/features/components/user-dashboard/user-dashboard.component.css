@@ -138,6 +138,7 @@ button.userstatus:hover {
   color: #fff;
   background-color: #00a551;
   border-color: #00a551;
+  margin-left: 20px;
 }
 
 button span {
@@ -151,5 +152,15 @@ button span {
 button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   border:0px;
   color:black;
+}
+
+.PageHeader {
+  font-style: normal;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  color: #262626;
 }
 

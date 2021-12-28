@@ -211,8 +211,8 @@ export class UserDashboardComponent implements OnInit {
   }
 
   SearchUsersByUserName() {
-  if(this.userName.length > 2 || this.userName == ""){
-    this.userParams.userName = this.userName;
+    this.loading = true;
+    this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams)
     .subscribe((response: PaginationResult<IUserModel[]>) => {
       if(response.Data) {
@@ -240,18 +240,16 @@ export class UserDashboardComponent implements OnInit {
       this.loading = false;
       this.PopulateFilterColumns();
      });
-    }
   }
 
   ngAfterViewInit() {
-
     fromEvent<any>(this.input.nativeElement,'keyup')
     .pipe(
       map(event => event.target.value),
       startWith(''),
       debounceTime(3000),
       distinctUntilChanged(),
-      switchMap( async (search) => {this.userName = search,
+      switchMap( async (search) => {this.userDashboardForm.value.userName = search,
       this.SearchUsersByUserName()
       })
     ).subscribe();

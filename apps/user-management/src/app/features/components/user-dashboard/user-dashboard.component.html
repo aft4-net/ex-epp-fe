@@ -3,8 +3,12 @@
       <nz-divider nzType="horizontal"></nz-divider>
       <div style="margin-top: -40px;" class="inner-content">
         <div nz-row>       
-            <div nz-col nzSpan="14">Users</div>
-            <div nz-col nzSpan="2" nzOffset="8">
+            <div nz-col nzSpan="14" >
+              <h2 class="PageHeader">
+                Users
+              </h2>
+            </div>
+            <div nz-col nzSpan="2"  nzOffset="8">
               <button nz-button nzType="primary" class="adduser">
                 Add User
             </button>
@@ -12,11 +16,13 @@
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
-            <nz-input-group [nzAddOnBefore]="suffixIconButton" nzSearch>
-              <input type="text" formControlName="userName" #searchInput nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
+            <nz-input-group [nzPrefix]="suffixIconButton">
+              <input type="text" #searchInput formControlName="userName" nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzSearch (click)="SearchUsersByUserName()"><i nz-icon nzType="search"></i></button>
+              <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchUsersByUserName()">
+                <i nz-icon nzType="search"></i>
+              </button>
             </ng-template>
           </div>
         </div>
