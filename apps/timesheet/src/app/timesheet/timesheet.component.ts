@@ -35,7 +35,7 @@ export class TimesheetComponent implements OnInit {
   disableClient = false;
   disableProject = false;
   timesheetConfig: TimesheetConfiguration = {
-    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    WorkingDays: [],
     WorkingHour: 0
   };
   timesheet: Timesheet | null = null;
@@ -126,8 +126,9 @@ export class TimesheetComponent implements OnInit {
 
   getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      if (response) {
-        this.timesheetConfig = response;
+      this.timesheetConfig = response ?? {
+        WorkingDays: [],
+        WorkingHour: 0
       }
     }, error => {
       this.createNotification("error", "Error getting timesheet configuration.");
