@@ -124,3 +124,9 @@ tr.ant-table-row.ng-star-inserted {
   border-color: #00a551;
 }
 
+.verticalorientation{
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+

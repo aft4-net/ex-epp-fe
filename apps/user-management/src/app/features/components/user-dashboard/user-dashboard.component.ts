@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { Data, Router, RouterLink } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
@@ -316,6 +316,7 @@ export class UserDashboardComponent implements OnInit {
   }
   
   ShowDetail(userId: string) {
-
+    console.log(userId);
+    this._router.navigateByUrl('/user-detail');
   }
 }
