@@ -10,7 +10,7 @@ import { TimesheetService } from '../../services/timesheet.service';
 })
 export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() timesheetConfig: TimesheetConfiguration = {
-    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    WorkingDays: [],
     WorkingHour: 0
   };
   @Input() timesheet: Timesheet | null = null;
@@ -20,14 +20,15 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekLastDate: Date | null = null;
   @Input() weeklyTotalHours: number = 0;
   @Input() isSubmitted: boolean | undefined;
-  @Input() isApproved= false;
+  @Input() isApproved = false;
 
+  configWeeklyTotalHour: number = 0;
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
   timeSheetStatus = "not-submitted-enable";
   notSubmittedTooltip = "";
-  toolTipColor="red";
-  toolTipText="The time is passed total hour"
+  toolTipColor = "red";
+  toolTipText = "The time is passed total hour"
 
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
@@ -39,10 +40,12 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    debugger;
     this.checkForSubmittedForApproal();
   }
 
   checkForSubmittedForApproal() {
+    debugger;
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
@@ -84,5 +87,12 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
       });
     }
+  }
+
+  getConfigWeeklyTotalHours() {
+    const numberOfDays = this.timesheetConfig?.WorkingDays?.length ?? 0;
+    const workingHourPerDay = this.timesheetConfig?.WorkingHour ?? 0;
+
+    return numberOfDays * workingHourPerDay;
   }
 }

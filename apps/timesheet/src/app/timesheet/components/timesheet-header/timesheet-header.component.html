@@ -15,21 +15,22 @@
   <div *ngIf="!isApproved" class="flex flex-row justify-end sm:gap-2 sm:w-4/6 sm:w-3/4 lg:pt-6 items-center">
     <div class="lg:mr-6 mr-4 lg:mr-4">
 
-      <div *ngIf="this.weeklyTotalHours < (this.timesheetConfig.WorkingHour *this.timesheetConfig.WorkingDays.length) else otherTooltip">
-      <h5 class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
-        Hours Completed: {{ weeklyTotalHours }} </h5>
+      <div *ngIf="this.weeklyTotalHours < getConfigWeeklyTotalHours() else otherTooltip">
+        <h5 class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
+          Hours Completed: {{ weeklyTotalHours }} </h5>
       </div>
 
       <ng-template #otherTooltip>
-      <h5 nz-tooltip [nzTooltipTitle]="toolTipText" [nzTooltipColor]="toolTipColor" class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
-        Hours Completed: <span class="text-red-500">{{ weeklyTotalHours }} </span>
-      </h5>
+        <h5 nz-tooltip [nzTooltipTitle]="toolTipText" [nzTooltipColor]="toolTipColor"
+          class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
+          Hours Completed: <span class="text-red-500">{{ weeklyTotalHours }} </span>
+        </h5>
       </ng-template>
 
-      </div>
+    </div>
     <div class="total-hours-completed" nz-tooltip [nzTooltipTitle]="notSubmittedTooltip">
-      <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg" nz-button
-        (click)="onRequestForApproval()">{{btnText}}</button>
+      <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg"
+        nz-button (click)="onRequestForApproval()">{{btnText}}</button>
     </div>
   </div>
 </div>
