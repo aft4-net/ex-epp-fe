@@ -48,6 +48,9 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   showPopover() {
+    if(this.isOverThreeWeeks){
+      return
+    }
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
     if (this.clickEventType === ClickEventType.none) {
@@ -58,6 +61,9 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   onProjectNamePaletClicked() {
+    if(this.isOverThreeWeeks){
+      return
+    }
     if(!this.checkTimeOverThreeWeeks()) return;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 

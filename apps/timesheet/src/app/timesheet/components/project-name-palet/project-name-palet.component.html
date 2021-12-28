@@ -6,7 +6,7 @@
   <div class="elipses-and-hours w-16 flex flex-col items-end justify-between pt-2 mr-2">
     <i nz-icon nzType="ellipsis" nzTheme="outline" nz-popover nzPopoverPlacement="right"
       [(nzPopoverVisible)]="popoverVisible" nzPopoverTrigger="focus" (click)="showPopover()"
-      [nzPopoverContent]="palet_popover"></i>
+      [nzPopoverContent]="palet_popover" [hidden]="isOverThreeWeeks"></i>
     <h2>{{ timeEntry?.Hour }} Hrs</h2>
   </div>
 </div>
