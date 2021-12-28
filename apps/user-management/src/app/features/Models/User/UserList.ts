@@ -1,5 +1,5 @@
 
-export interface IUserList {
+export interface IUserModel {
    UserId:string  
    FullName:string 
    LastActivityDate:string
