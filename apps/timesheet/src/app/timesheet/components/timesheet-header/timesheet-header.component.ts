@@ -40,12 +40,10 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    debugger;
     this.checkForSubmittedForApproal();
   }
 
   checkForSubmittedForApproal() {
-    debugger;
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
