@@ -11,11 +11,25 @@ import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import{SiderComponent} from './components/application/sider/sider.component'
+import {SiderComponent} from './components/application/sider/sider.component'
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { SigninComponent } from './features/Account/signin/signin.component';
-registerLocaleData(en);
+import { MsalModule } from '@azure/msal-angular';
+import{MsalService} from '@azure/msal-angular';
+import{MSAL_INSTANCE} from '@azure/msal-angular';
+import{IPublicClientApplication , PublicClientApplication} from '@azure/msal-browser'
 
+
+export function MSALInstanceFactory(): IPublicClientApplication
+{
+  return new PublicClientApplication({
+    auth:{
+      clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
+      redirectUri: 'http://localhost:4200'
+    }
+  })
+
+}
 @NgModule({
   declarations: [
     AppComponent,
