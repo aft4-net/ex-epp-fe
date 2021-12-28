@@ -9,22 +9,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
-import { SiderComponent } from './components/application/sider/sider.component'
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { SigninComponent } from './features/Account/signin/signin.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
+import { UserManagementModule } from './modules/userManagment/user-management.module';
+import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 
 registerLocaleData(en);
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent, 
     EppdashboardComponent,
-    HeaderComponent,
-    FooterComponent,
-    SiderComponent,
     SigninComponent,
     UserDashboardComponent
     ],
@@ -37,6 +33,8 @@ registerLocaleData(en);
     DemoNgZorroAntdModule,
     CustomFormModule,
     ReactiveFormsModule,
+    UserManagementModule,
+    PageTemplateModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

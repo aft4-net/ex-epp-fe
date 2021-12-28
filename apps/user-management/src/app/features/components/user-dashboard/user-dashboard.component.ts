@@ -9,9 +9,7 @@ import { PaginationResult } from '../../Models/PaginationResult';
 import { IUserList } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../Services/user.service';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 
 @Component({
