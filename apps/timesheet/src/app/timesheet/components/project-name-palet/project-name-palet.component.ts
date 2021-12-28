@@ -6,6 +6,7 @@ import { Project } from '../../../models/project';
 import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { NzModalService } from "ng-zorro-antd/modal";
+import { DayAndDateService } from '../../services/day-and-date.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -24,12 +25,15 @@ export class ProjectNamePaletComponent implements OnInit {
   isVisible1 = false;
   clickEventType = ClickEventType.none;
   popoverVisible = false;
+  isOverThreeWeeks = false;
 
   constructor(private timesheetService: TimesheetService,
+    private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService) {
   }
 
   ngOnInit(): void {
+    this.isOverThreeWeeks = this.checkTimeOverThreeWeeks();
     if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
@@ -54,6 +58,7 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   onProjectNamePaletClicked() {
+    if(!this.checkTimeOverThreeWeeks()) return;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     if (this.clickEventType == ClickEventType.none) {
@@ -71,6 +76,19 @@ export class ProjectNamePaletComponent implements OnInit {
     }
 
     this.clickEventType = ClickEventType.none;
+  }
+
+  checkTimeOverThreeWeeks() {
+    const nowDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
+    let projectDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
+    if(this.timeEntry){
+      projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
+    }
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600
+    if(nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond){
+      return true;
+    }
+    return false;
   }
 
   closePopover() {

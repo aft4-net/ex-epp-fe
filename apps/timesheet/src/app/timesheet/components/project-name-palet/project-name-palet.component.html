@@ -14,11 +14,13 @@
 <ng-template #palet_popover>
   <div class="edit-delete w-20 mt-12">
     <button class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button (click)="showFormDrawer()"
-      id="edit">
+      id="edit"
+      [disabled]="isOverThreeWeeks">
       Edit
     </button>
     <button class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button id="delete"
-      (click)="showDeleteModal()">
+      (click)="showDeleteModal()"
+      [disabled]="isOverThreeWeeks">
       Delete
     </button>
   </div>
