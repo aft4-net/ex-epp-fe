@@ -8,13 +8,33 @@ import { EppdashboardComponent } from './features/components/eppdashboard/eppdas
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
-import { CustomFormModule } from './shared/modules/forms/custom-form.module';
-import { SigninComponent } from './features/Account/signin/signin.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import {SiderComponent} from './components/application/sider/sider.component'
+import { CustomFormModule } from './shared/modules/forms/custom-form.module';
+import { SigninComponent } from './features/Account/signin/signin.component';
+import { MsalModule } from '@azure/msal-angular';
+import{MsalService} from '@azure/msal-angular';
+import{MSAL_INSTANCE} from '@azure/msal-angular';
+import{IPublicClientApplication , PublicClientApplication} from '@azure/msal-browser'
+import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { PageTemplateModule } from './shared/modules/templates/page-template.module';
+
+
+
+export function MSALInstanceFactory(): IPublicClientApplication
+{
+  return new PublicClientApplication({
+    auth:{
+      clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
+      redirectUri: 'http://localhost:4200'
+    }
+  })
+
+}
 
 registerLocaleData(en);
 @NgModule({
