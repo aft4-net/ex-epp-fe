@@ -6,7 +6,7 @@
   <div class="elipses-and-hours w-16 flex flex-col items-end justify-between pt-2 mr-2">
     <i nz-icon nzType="ellipsis" nzTheme="outline" nz-popover nzPopoverPlacement="right"
       [(nzPopoverVisible)]="popoverVisible" nzPopoverTrigger="focus" (click)="showPopover()"
-      [nzPopoverContent]="palet_popover"></i>
+      [nzPopoverContent]="palet_popover" [hidden]="isOverThreeWeeks"></i>
     <h2>{{ timeEntry?.Hour }} Hrs</h2>
   </div>
 </div>
@@ -14,11 +14,13 @@
 <ng-template #palet_popover>
   <div class="edit-delete w-20 mt-12">
     <button class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button (click)="showFormDrawer()"
-      id="edit">
+      id="edit"
+      [disabled]="isOverThreeWeeks">
       Edit
     </button>
     <button class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button id="delete"
-      (click)="showDeleteModal()">
+      (click)="showDeleteModal()"
+      [disabled]="isOverThreeWeeks">
       Delete
     </button>
   </div>
