@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'apps/user-management/src/environments/environment';
+import { environment } from '../../../environments/environment'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Pagination } from '../Models/Pagination';
@@ -13,7 +13,7 @@ import { UserParams } from '../Models/User/UserParams';
 })
 export class UserService {
 
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl + '/user';
   constructor(private http: HttpClient) { }
 
   public userListSource = new BehaviorSubject<IUserList[]>(
@@ -26,21 +26,19 @@ export class UserService {
     pagination: {} as Pagination,
   };
 
-  SearchEmployeeData(
+  SearchUsers(
     userParams: UserParams
   ): Observable<PaginationResult<IUserList[]>> {
+    let params = new HttpParams(); 
+    if(userParams.userName)
+    {
+      params = params.append("userName", userParams.userName.toString());
+    }
+    params = params.append("pageIndex", userParams.pageIndex.toString());
+    params = params.append("pageSize", userParams.pageSize.toString())
+    console.log(params);
     return this.http
-      .get<PaginationResult<IUserList[]>>(
-        this.baseUrl + '/GetAllUsersDashboard',
-        {
-          params: {
-            userName: userParams.userName,
-            pageIndex: userParams.pageIndex,
-            pageSize: userParams.pageSize,
-          },
-        }
-      )
-      .pipe(
+      .get<PaginationResult<IUserList[]>>(this.baseUrl + '/GetUsersForDashboard',{ params }).pipe(
         map((result: any) => {
           this.paginatedResult = {
             Data: result.Data,
@@ -52,6 +50,7 @@ export class UserService {
             },
           };
           return this.paginatedResult;
+          console.log(this.paginatedResult);
         })
       );
   }

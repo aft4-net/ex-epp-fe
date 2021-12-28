@@ -10,6 +10,9 @@ import { IUserList } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../Services/user.service';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
+import { NzButtonSize } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -18,6 +21,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 })
 export class UserDashboardComponent implements OnInit {
  
+  size: NzButtonSize = 'small';
+  userDashboardForm !: FormGroup;
   loading = false;
   indeterminate = false;
   setOfCheckedId = new Set<string>();
@@ -71,18 +76,28 @@ export class UserDashboardComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
   
-  constructor(private userService : UserService,private _router: Router) {
+  constructor(private userService : UserService,private _router: Router,private fb: FormBuilder) {
 
   }
 
   ngOnInit(): void {
+    this.createUserDashboardControls();
     this.userList as IUserList[];
     this.FeatchAllUsers();
   }
 
+  createUserDashboardControls() {
+    this.userDashboardForm = this.fb.group({
+      userName: [''],
+      department: [''],
+      role: ['']
+    })
+  }
+
   FeatchAllUsers() {
     this.loading = true;
-    this.userService.SearchEmployeeData(this.userParams).subscribe((response:PaginationResult<IUserList[]>) => {
+    this.userParams.userName = this.userDashboardForm.value.userName;
+    this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserList[]>) => {
       if(response.Data) {
         this.userList$=of(response.Data);
         this.userList = response.Data;
@@ -123,7 +138,7 @@ export class UserDashboardComponent implements OnInit {
             filterFn: (list: string[], item: IUserList) => list.some(name => item.Department.indexOf(name) !== -1)
           },
           {
-            name: 'Status',
+            name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: IUserList, b: IUserList) => a.JobTitle.length - b.JobTitle.length,
@@ -200,7 +215,7 @@ export class UserDashboardComponent implements OnInit {
   SearchUsersByUserName() {
   if(this.userName.length > 2 || this.userName == ""){
     this.userParams.userName = this.userName;
-    this.userService.SearchEmployeeData(this.userParams)
+    this.userService.SearchUsers(this.userParams)
     .subscribe((response: PaginationResult<IUserList[]>) => {
       if(response.Data) {
         this.userList$=of(response.Data);
@@ -250,7 +265,7 @@ export class UserDashboardComponent implements OnInit {
     this.userParams.userName = this.userName ?? "";
     if(this.searchStateFound == true)
     {
-      this.userService.SearchEmployeeData(this.userParams).subscribe(
+      this.userService.SearchUsers(this.userParams).subscribe(
         (response:PaginationResult<IUserList[]>)=>{
           this.userList$ = of(response.Data);
           this.userList= response.Data;
@@ -270,7 +285,7 @@ export class UserDashboardComponent implements OnInit {
           this.FillTheFilter();
         });
     } else {
-      this.userService.SearchEmployeeData(this.userParams)
+      this.userService.SearchUsers(this.userParams)
       .subscribe((response:PaginationResult<IUserList[]>)=>{
         this.userList$=of(response.Data);
         this.userList = response.Data;
@@ -299,6 +314,10 @@ export class UserDashboardComponent implements OnInit {
   }
 
   Remove(userId: string) {
+
+  }
+  
+  ShowDetail(userId: string) {
 
   }
 }
