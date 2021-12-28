@@ -9,6 +9,7 @@ import {
   TimeEntry,
   TimeEntryResponse,
   Timesheet,
+  TimesheetApproval,
   TimesheetApprovalResponse,
   TimesheetConfigResponse,
   TimesheetResponse
@@ -16,6 +17,9 @@ import {
 import { Project } from '../../models/project';
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
+import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -204,5 +208,30 @@ export class TimesheetService {
     return response.pipe(map(r => r.body));
   }
   //#endregion
+
+  getTimesheetSubmissionHistory( pageindex:number,pageSize:number) :Observable<PaginatedResult< TimesheetApproval[]>> 
+  {  
+   const params = new HttpParams()
+   .set('pageindex', pageindex.toString())
+   .set('pageSize', pageSize.toString())
+
+   let paginatedResult: PaginatedResult< TimesheetApproval[]> = {
+     data: [] as  TimesheetApproval[],
+     pagination: {} as Pagination
+  };
+  return this.http.get(`${this.baseUrl}timesheetSubmissionHistory?` +params.toString())
+       .pipe(   
+         map((response:any) => { 
+           paginatedResult= {
+             data:response.Data,
+             pagination:{pageIndex:response.PageIndex,
+               totalPage:response.TotalPage,
+               pageSize:response.PageSize,
+               totalRecord:response.TotalRecord}
+          };
+          return paginatedResult;      
+         })
+       );
+  }
 
 }

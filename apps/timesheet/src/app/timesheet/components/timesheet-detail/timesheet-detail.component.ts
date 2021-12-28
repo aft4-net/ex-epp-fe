@@ -1,28 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DayAndDateService } from "./services/day-and-date.service";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TimesheetService } from './services/timesheet.service';
-import { differenceInCalendarDays } from 'date-fns';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { ClickEventType } from '../models/clickEventType';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from '../models/timesheetModels';
-import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
-import { Client } from '../models/client';
-import { Project } from '../models/project';
-import { Employee } from '../models/employee';
+import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
+import { differenceInCalendarDays } from 'date-fns';
 
-import { NzNotificationPlacement } from "ng-zorro-antd/notification";
-//import { retry } from 'rxjs/operators';
-import { TimeEntryFormData } from '../models/timeEntryFormData';
-import { TimesheetValidationService } from './services/timesheet-validation.service';
+import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
+import { ClickEventType } from '../../../models/clickEventType';
+import { Client } from '../../../models/client';
+import { Employee } from '../../../models/employee';
+import { Project } from '../../../models/project';
+import { TimeEntryFormData } from '../../../models/timeEntryFormData';
+import { TimesheetConfiguration, Timesheet, TimeEntry, TimesheetApproval, ApprovalStatus } from '../../../models/timesheetModels';
+import { DayAndDateService } from '../../services/day-and-date.service';
+import { TimesheetValidationService } from '../../services/timesheet-validation.service';
+import { TimesheetService } from '../../services/timesheet.service';
 
 @Component({
-  selector: 'exec-epp-app-timesheet',
-  templateUrl: './timesheet.component.html',
-  styleUrls: ['./timesheet.component.scss'],
+  selector: 'exec-epp-timesheet-detail',
+  templateUrl: './timesheet-detail.component.html',
+  styleUrls: ['./timesheet-detail.component.scss']
 })
-export class TimesheetComponent implements OnInit {
+export class TimesheetDetailComponent implements OnInit {
+
   userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
@@ -35,7 +34,7 @@ export class TimesheetComponent implements OnInit {
   disableClient = false;
   disableProject = false;
   timesheetConfig: TimesheetConfiguration = {
-    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    WorkingDays: [],
     WorkingHour: 0
   };
   timesheet: Timesheet | null = null;
@@ -753,4 +752,5 @@ export class TimesheetComponent implements OnInit {
 
     return date.valueOf() < fromDate.valueOf() || date.valueOf() > toDate.valueOf() || date.valueOf() > new Date().valueOf();
   }
+
 }
