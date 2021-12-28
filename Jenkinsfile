@@ -27,7 +27,6 @@ pipeline{
             }
             steps{
               sh 'npm install'
-              sh 'npm run build-all'
               sh 'npm run deploy'
             }
         }    
