@@ -29,7 +29,10 @@ import {ProjectNamePaletComponent} from './components/project-name-palet/project
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { TimesheetService } from './services/timesheet.service';
+import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { TimesheetDetailComponent } from './components/timesheet-detail/timeshee
     DayAndDateColumnComponent,
     ProjectNamePaletComponent,
     MoreProjectsComponent,
+    ViewSubmissionsComponent,
     TimesheetDetailComponent
   ],
   imports: [
@@ -60,7 +64,8 @@ import { TimesheetDetailComponent } from './components/timesheet-detail/timeshee
     NzDividerModule,
     NzModalModule,
     NzTableModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzPaginationModule
   ],
   exports: [TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],
