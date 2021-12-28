@@ -44,6 +44,13 @@
     "core-model": {
       "tags": []
     },
+    "epp-dashboard": {
+      "tags": []
+    },
+    "epp-dashboard-e2e": {
+      "tags": [],
+      "implicitDependencies": ["epp-dashboard"]
+    },
     "ng-zorro": {
       "tags": []
     },
@@ -74,6 +81,13 @@
     "user-management-e2e": {
       "tags": [],
       "implicitDependencies": ["user-management"]
+    },
+    "usermanagement": {
+      "tags": []
+    },
+    "usermanagement-e2e": {
+      "tags": [],
+      "implicitDependencies": ["usermanagement"]
     }
   }
 }
