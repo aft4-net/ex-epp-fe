@@ -48,7 +48,7 @@ clientalreadyExist=false;
   listOfStates: string[] = [];
 
   addContactForm!: FormGroup;
-  listData: any = [];
+  listData: any[] = [];
   comapanyContacts = [] as CompanyContactCreate[];
   isModalVisible = false;
   loading = false;
@@ -74,7 +74,7 @@ clientalreadyExist=false;
       this.employees = response;
     });
 
-    this.listData = this.addClientStateService.getClientcomapanyContacts;
+    this.listData = this.addClientStateService.getClientcomapanyContacts ;
     this.addContactForm = this.fb.group({
       companyContactName: ['', [Validators.required]],
       phoneNumber: ['', []],
@@ -177,7 +177,7 @@ clientalreadyExist=false;
 
     this.addContactForm.patchValue({
       companyContactName: data.companyContactName,
-      phoneNumber: phonePrefix.value,
+      phoneNumber: data.phoneNumber,
       emailAdress: data.emailAdress,
       phoneNumberPrefix: phonePrefix.prefix,
 
@@ -230,6 +230,8 @@ clientalreadyExist=false;
 
   getClientContact() {
     console.log(this.addContactForm.value.companyContactName);
+
+
     this.contactDetail = this.getClientDetails(
       this.addContactForm.value.companyContactName
     );
@@ -246,7 +248,7 @@ clientalreadyExist=false;
 
   getClientDetails(name: string) {
     for (let i = 0; i < this.employees.length; i++) {
-      if (this.employees[i].Name === name) {
+      if (this.employees[i].Name +'-'+this.employees[i].Role === name) {
         return this.employees[i];
       }
     }
