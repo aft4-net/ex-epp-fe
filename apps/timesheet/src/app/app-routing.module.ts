@@ -9,6 +9,11 @@ const routes: Routes = [
     loadChildren: () => import("./timesheet/timesheet.module").then(m => m.TimesheetModule),
     data: { breadcrumb: 'Timesheet'}
   },
+  {
+    path: "timesheet-approval",
+    loadChildren: () => import("./timesheet-approval/timesheet-approval.module").then(m => m.TimesheetApprovalModule),
+    data: { breadcrumb: 'Timesheet-approval'}
+  }
 ];
 
 @NgModule({
