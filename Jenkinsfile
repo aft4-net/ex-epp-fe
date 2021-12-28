@@ -14,7 +14,7 @@ pipeline{
         stage('Git checkout')
         {
             steps{
-              git credentialsId: 'omeseret-bitbucket', url: 'https://bitbucket.org/Excellerent_Solutions/excellerent-epp-fe'
+              git credentialsId: 'jenkins-bitbucket-omeseret', url: 'https://bitbucket.org/Excellerent_Solutions/excellerent-epp-fe'
         
             }
         }
