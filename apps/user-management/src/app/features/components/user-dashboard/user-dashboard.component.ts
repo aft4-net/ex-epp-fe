@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'r
 import { ColumnItem } from '../../Models/ColumnItem';
 import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
-import { IUserList } from '../../Models/User/UserList';
+import { IUserModel } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../Services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -24,11 +24,11 @@ export class UserDashboardComponent implements OnInit {
   loading = false;
   indeterminate = false;
   setOfCheckedId = new Set<string>();
-  userList$ : Observable<IUserList[]>= new Observable<IUserList[]>();
+  userList$ : Observable<IUserModel[]>= new Observable<IUserModel[]>();
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
-  userList : IUserList[] = [];
-  paginatedResult !: PaginationResult<IUserList[]>;
+  userList : IUserModel[] = [];
+  paginatedResult !: PaginationResult<IUserModel[]>;
   userParams = new UserParams();
   searchStateFound !: boolean;
   pageSize = 10;
@@ -48,14 +48,14 @@ export class UserDashboardComponent implements OnInit {
   userListLastActivityDate: NzTableFilterList=[];
   userListFullName : NzTableFilterList=[];
 
-  listOfColumns!: ColumnItem<IUserList>[];
+  listOfColumns!: ColumnItem<IUserModel>[];
 
-  listOfColumnsFullName: ColumnItem<IUserList>[] = [
+  listOfColumnsFullName: ColumnItem<IUserModel>[] = [
     {
       name: 'Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserList, b: IUserList) => a.FullName.length - b.FullName.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.length - b.FullName.length,
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
@@ -64,10 +64,10 @@ export class UserDashboardComponent implements OnInit {
       name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserList, b: IUserList) => a.LastActivityDate.length - b.LastActivityDate.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
       filterMultiple: true,
       listOfFilter:this.userListLastActivityDate,
-      filterFn: (list: string[], item: IUserList) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
+      filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
     }
   ]
 
@@ -80,7 +80,7 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.createUserDashboardControls();
-    this.userList as IUserList[];
+    this.userList as IUserModel[];
     this.FeatchAllUsers();
   }
 
@@ -95,7 +95,7 @@ export class UserDashboardComponent implements OnInit {
   FeatchAllUsers() {
     this.loading = true;
     this.userParams.userName = this.userDashboardForm.value.userName;
-    this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserList[]>) => {
+    this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
       if(response.Data) {
         this.userList$=of(response.Data);
         this.userList = response.Data;
@@ -124,34 +124,34 @@ export class UserDashboardComponent implements OnInit {
     this.searchStateFound=false;
   }
 
-  PopulateFilterColumns() : ColumnItem<IUserList>[] {
+  PopulateFilterColumns() : ColumnItem<IUserModel>[] {
     return this.listOfColumns = [
           {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserList, b: IUserList) => a.Department.length - b.Department.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
-            filterFn: (list: string[], item: IUserList) => list.some(name => item.Department.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
           },
           {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserList, b: IUserList) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
-            filterFn: (list: string[], item: IUserList) => list.some(name => item.Status.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
           },
           {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserList, b: IUserList) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
             filterMultiple: true,
             listOfFilter: this.userListStatus,
-            filterFn: (list: string[], item: IUserList) => list.some(name => item.Status.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
           }
       ];
   }
@@ -214,7 +214,7 @@ export class UserDashboardComponent implements OnInit {
   if(this.userName.length > 2 || this.userName == ""){
     this.userParams.userName = this.userName;
     this.userService.SearchUsers(this.userParams)
-    .subscribe((response: PaginationResult<IUserList[]>) => {
+    .subscribe((response: PaginationResult<IUserModel[]>) => {
       if(response.Data) {
         this.userList$=of(response.Data);
         this.userList = response.Data;
@@ -264,7 +264,7 @@ export class UserDashboardComponent implements OnInit {
     if(this.searchStateFound == true)
     {
       this.userService.SearchUsers(this.userParams).subscribe(
-        (response:PaginationResult<IUserList[]>)=>{
+        (response:PaginationResult<IUserModel[]>)=>{
           this.userList$ = of(response.Data);
           this.userList= response.Data;
           this.totalRows = response.pagination.TotalRows;
@@ -284,7 +284,7 @@ export class UserDashboardComponent implements OnInit {
         });
     } else {
       this.userService.SearchUsers(this.userParams)
-      .subscribe((response:PaginationResult<IUserList[]>)=>{
+      .subscribe((response:PaginationResult<IUserModel[]>)=>{
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.totalRows = response.pagination.TotalRows;
@@ -316,7 +316,6 @@ export class UserDashboardComponent implements OnInit {
   }
   
   ShowDetail(userId: string) {
-    console.log(userId);
     this._router.navigateByUrl('/user-detail');
   }
 }

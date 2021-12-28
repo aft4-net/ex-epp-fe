@@ -2,16 +2,18 @@
     <nz-content>
       <nz-divider nzType="horizontal"></nz-divider>
       <div style="margin-top: -40px;" class="inner-content">
-        <div nz-col nzSpan="12">Users</div>
-        <div nz-col nzSpan="12" nzOffset="22">
-          <button nz-button nzType="primary" class="adduser">
-            Add User
-        </button>
+        <div nz-row>       
+            <div nz-col nzSpan="14">Users</div>
+            <div nz-col nzSpan="2" nzOffset="8">
+              <button nz-button nzType="primary" class="adduser">
+                Add User
+            </button>
+            </div>
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
-            <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
-              <input type="text" formControlName="userName" #searchInput nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
+            <nz-input-group [nzAddOnBefore]="suffixIconButton" nzSearch>
+              <input type="text" formControlName="userName" #searchInput nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzSearch (click)="SearchUsersByUserName()"><i nz-icon nzType="search"></i></button>
@@ -25,7 +27,7 @@
         </div>
         <br/>
         <div nz-row style="margin-top:-10px">
-          <div nz-col class="gutter-row" [nzSpan]="24">
+          <div nz-col class="gutter-row" nzSpan="24">
               <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
                 <thead>
@@ -48,26 +50,26 @@
                     <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
                     <td>
-                        <button nz-button [nzSize]="size" disabled class = "userstatus">
+                        <button nz-button [nzSize]="size"  disabled class = "userstatus">
                           {{user.Status}}
                         </button>
                     </td>
                     <td>
-                      <button nz-button nzType="default" [nzSize]="size" style="transform: rotate(90deg)"  nz-popover nzPopoverTitle=""
+                      <button nz-button nzType="default" style="border:0px" nzType="link" [nzSize]="size"  nz-popover nzPopoverTitle=""
                         [nzPopoverContent]="contentTemplate"
-                        nzPopoverPlacement="bottom">...
+                        nzPopoverPlacement="bottom"><span>...</span>
                         </button>
                     </td>
                     <ng-template #contentTemplate>
                       <div>
                         <nz-space nzDirection="vertical">
-                        <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link"  nz-button nzType="default" (click)="ShowDetail(user.UserId)">
                           Show Detail
                         </button>
-                        <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link"  nz-button nzType="default" (click)="AddToGroup(user.UserId)">
                             Add to group
                         </button>
-                        <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="Remove(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link" nz-button nzType="default" (click)="Remove(user.UserId)">
                          Remove
                         </button>
                         </nz-space>

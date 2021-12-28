@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Pagination } from '../Models/Pagination';
 import { PaginationResult } from '../Models/PaginationResult';
-import { IUserList } from '../Models/User/UserList';
+import { IUserModel } from '../Models/User/UserList';
 import { UserParams } from '../Models/User/UserParams';
 
 @Injectable({
@@ -16,19 +16,19 @@ export class UserService {
   baseUrl = environment.apiUrl + '/user';
   constructor(private http: HttpClient) { }
 
-  public userListSource = new BehaviorSubject<IUserList[]>(
-    {} as IUserList[]
+  public userListSource = new BehaviorSubject<IUserModel[]>(
+    {} as IUserModel[]
   );
-  userList$: Observable<IUserList[]> =  this.userListSource.asObservable();
+  userList$: Observable<IUserModel[]> =  this.userListSource.asObservable();
 
-  paginatedResult: PaginationResult<IUserList[]> = {
-    Data: [] as IUserList[],
+  paginatedResult: PaginationResult<IUserModel[]> = {
+    Data: [] as IUserModel[],
     pagination: {} as Pagination,
   };
 
   SearchUsers(
     userParams: UserParams
-  ): Observable<PaginationResult<IUserList[]>> {
+  ): Observable<PaginationResult<IUserModel[]>> {
     let params = new HttpParams(); 
     if(userParams.userName)
     {
@@ -38,7 +38,7 @@ export class UserService {
     params = params.append("pageSize", userParams.pageSize.toString())
     console.log(params);
     return this.http
-      .get<PaginationResult<IUserList[]>>(this.baseUrl + '/GetUsersForDashboard',{ params }).pipe(
+      .get<PaginationResult<IUserModel[]>>(this.baseUrl + '/GetUsersForDashboard',{ params }).pipe(
         map((result: any) => {
           this.paginatedResult = {
             Data: result.Data,
@@ -50,7 +50,6 @@ export class UserService {
             },
           };
           return this.paginatedResult;
-          console.log(this.paginatedResult);
         })
       );
   }
