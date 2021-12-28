@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'apps/applicant-tracking/src/environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EducationModel } from '../../models/education/education.model';
 import { ResponseDTO } from '../../models/ResponseDTO';
@@ -15,6 +15,9 @@ export class EducationService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
   path = `${environment.apiUrl}/education`;
+
+  private dataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  data: Observable<boolean> = this.dataSource.asObservable();
   
   constructor(private http: HttpClient,
               private errHandler: ErrHandleService) {}
@@ -52,5 +55,9 @@ export class EducationService {
 
   log(data: any) {
     console.log(data);
+  }
+
+  hasData(value: boolean){
+    this.dataSource.next(value);
   }
 }

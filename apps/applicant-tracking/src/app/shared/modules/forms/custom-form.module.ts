@@ -9,6 +9,7 @@ import { UploaderComponent } from '../../components/forms/uploader/uploader.comp
 import { AvatarComponent } from '../../components/forms/avatar/avatar.component';
 import { SelectComponent } from '../../components/forms/select/select.component';
 import { CheckBoxComponent } from '../../components/forms/checkbox/checkbox.component';
+import { TabComponent } from '../../components/forms/tab/tab.component';
 import { AntdFormModule } from './antd-form.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
@@ -21,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UploaderComponent,
     AvatarComponent,
     SelectComponent,
-    CheckBoxComponent
+    CheckBoxComponent,
+    TabComponent
   ],
   imports: [CommonModule, AntdFormModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -33,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UploaderComponent,
     AvatarComponent,
     SelectComponent,
-    CheckBoxComponent
+    CheckBoxComponent,
+    TabComponent
   ],
 })
 export class CustomFormModule {}

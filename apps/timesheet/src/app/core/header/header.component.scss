@@ -1,8 +1,9 @@
-.header {
+.main-header {
   display: flex;
-  width: 1440px;
-  height: 50px;
+  /*width: 1440px;*/
+  height: 60px;
   background-color: #FFFFFF;
+  box-shadow: 0 1px 15px 0 rgb(0 0 0 / 12%), 0 10px 10px 0 rgb(0 0 0 / 1%);
 
   .nav-image {
     width: 34px;
@@ -20,7 +21,9 @@
 
     margin-top: 8px;
     margin-bottom: 8px;
-
+    a{
+      display: inline-flex;
+    }
     .logo {
       width: 65px;
       height: 22px;

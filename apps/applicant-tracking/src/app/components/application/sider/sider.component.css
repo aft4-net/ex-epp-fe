@@ -20,7 +20,7 @@
 
   border: 1px solid #d9d9d9;
   box-sizing: border-box;
-  border-radius: 32px;
+  border-radius: 25px;
 }
 
 .numberCircle span {
@@ -40,7 +40,7 @@
 
   border: 1px solid #1890ff;
   box-sizing: border-box;
-  border-radius: 32px;
+  border-radius: 25px;
 }
 .done span {
   display: inline-block;
@@ -49,31 +49,6 @@
   padding-bottom: 50%;
   margin-left: 8px;
   margin-right: 8px;
-}
-.ant-badge {
-  width: 22px;
-  height: 22px;
-  left: 1px;
-  top: 1px;
-  margin-right: 20px;
-  /* Regular / 14px | 22px */
-  font-family: SF Pro Text;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 22px;
-
-  /* identical to box height, or 157% */
-  text-align: center;
-
-  /* Gray / gray-1 */
-  color: #ffffff;
-
-  /* Inside Auto Layout */
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 10px 0px;
 }
 
 .ant-menu-item-selected .numberCircle span {
@@ -94,7 +69,7 @@
 
   border: 1px solid #1890ff;
   box-sizing: border-box;
-  border-radius: 32px;
+  border-radius: 25px;
 }
 
 .ant-menu-item-selected .ant-badge .ant-scroll-number-custom-component {
@@ -113,7 +88,6 @@
   background-color: #dcffdc !important;
   display: flex;
 }
-
 a {
   position: static;
   width: 163px;
@@ -122,10 +96,10 @@ a {
   top: 10px;
 
   /* Heading 5/Medium/16 */
-  font-family: SF Pro Display;
+  /* font-family: SF Pro Display; */
   font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 450;
+  font-size: 14px;
   line-height: 24px;
 
   /* or 150% */

@@ -1,3 +1,5 @@
+import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -16,6 +18,7 @@ import {
   selector: 'exec-epp-education',
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss'],
+  providers: [DatePipe],
 })
 export class EducationComponent implements OnInit {
   info = '';
@@ -27,8 +30,9 @@ export class EducationComponent implements OnInit {
   educationModel: EducationModel | null = null;
   loading = false;
   is_studying = false;
-
-  // databinding
+  disableFieldOfStudy = false;
+  enableEndDate = false
+    // databinding
   showConfirm = false;
   guid: any;
   fetchedEducationProgramme: [EducationProgramModel] | [] = [];
@@ -38,17 +42,19 @@ export class EducationComponent implements OnInit {
     private fieldOfStudyService: FieldOfStudyService,
     private educationService: EducationService,
     private notifier: NotifierService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    public datepipe: DatePipe,
+    private router: Router
   ) {}
 
   education = new FormGroup({
     institution: new FormControl('', [Validators.required]),
     yearFrom: new FormControl(null, [Validators.required]),
     yearTo: new FormControl(null, [Validators.required]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl(''),
     program: new FormControl('', [Validators.required]),
     fieldOfStudy: new FormControl('', [Validators.required]),
-    isStudying: new FormControl(false, [Validators.required]),
+    isStudying: new FormControl(false, []),
     otherFieldOfStudy: new FormControl(null),
   });
 
@@ -59,27 +65,45 @@ export class EducationComponent implements OnInit {
     this.isModalVisible = false;
   }
   openModal() {
+    this.education.controls.yearTo.disable();
     this.isModalVisible = true;
+  }
+
+  openModalForEdit() {
+    this.education.controls.yearTo.enable();
+    this.isModalVisible = true;
+  
   }
   onSaveRecord(): void {
     this.loading = true;
   }
+  onAddNewRecord()
+  {
+    this.isUpdateMode = false;
+    this.enableEndDate = false;
+    this.education.reset();
+    this.validation.controls.isMultitpleEntry.setValue(false);
+    this.openModal();
+  }
   onEditRecord(guid: string | null) {
     this.isUpdateMode = true;
-    this.openModal();
+    this.enableEndDate= true;
+    this.education.controls.yearTo.enabled;
+    this.openModalForEdit();
     const id: string = guid == null ? '' : guid;
     this.guid = id;
     this.educationService.getById(id).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         const row = res.Data[0];
+
         this.education.patchValue({
           institution: row.Institution,
           yearFrom: new Date(row.DateFrom),
-          yearTo: new Date(row.DateTo),
+          yearTo: row.DateTo,
           country: row.Country,
           program: row.EducationProgramme?.Guid,
           fieldOfStudy: row.FieldOfStudy?.Guid,
-          isStudying: row.IsCompleted,
+          //isStudying: row.IsCompleted,
           otherFieldOfStudy: row.OtherFieldOfStudy,
         });
       },
@@ -94,29 +118,30 @@ export class EducationComponent implements OnInit {
     this.educationService.delete(id).subscribe((_) => {
       this.notifier.notify(
         NotificationType.success,
-        'Record deleted successfully'
+        'Education Record deleted successfully'
       );
       this.bindRecord();
-  });
-
+      this.hasDataEntry(this.educations.length > 0 ? true:false);
+    });
   }
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.education.controls.yearTo.value) {
+      this.education.controls.yearTo.enable();
       return startValue.getTime() >= Date.now() - 3600 * 1000 * 24;
     }
     return (
-      startValue.getTime() > this.education.controls.yearTo.value.getTime() ||
-      startValue.getTime() >= Date.now() - 3600 * 1000 * 24
+      startValue.getTime() >=
+      this.education.controls.yearTo.value.getTime() - 3600 * 1000 * 24 
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.education.controls.yearFrom.value) {
-      return endValue.getTime() >= Date.now();
+    if (!endValue || !this.education.controls.yearFrom.value) { 
+      return false;
     }
     return (
-      endValue.getTime() <= this.education.controls.yearFrom.value.getTime() ||
-      endValue.getTime() >= Date.now()
+      endValue.getTime() <
+      this.education.controls.yearFrom.value.getTime()
     );
   };
 
@@ -126,14 +151,26 @@ export class EducationComponent implements OnInit {
   async onFormSubmit() {
     this.loading = true;
     const educationModel = this.getFormValue();
-    if (!this.isUpdateMode) await this.addItem(educationModel);
+    console.log(educationModel.FieldOfStudyId);
+    this.education.controls.yearTo.disable();
+    if (!this.isUpdateMode) await this.addItem(educationModel)
     else await this.updateItem(educationModel);
+  }
+  onSubmit()
+  {
+    this.isModalVisible = false;
+    this.loading = true;
+    this.router.navigate(['/application/work-experience']);
+    this.loading = false;
   }
   addItem(educationModel: EducationModel) {
     this.educationService.add(educationModel).subscribe(
       (_) => {
+        
         this.onSaveCompleted();
         this.bindRecord();
+        this.hasDataEntry(this.educations.length > 0 ? true:false);
+        this.education.controls.yearTo.disable();
       },
       (err) => this.onShowError(err)
     );
@@ -160,7 +197,9 @@ export class EducationComponent implements OnInit {
       FieldOfStudyId: this.education.get('fieldOfStudy')?.value,
       FieldOfStudy: null,
       OtherFieldOfStudy: this.education.get('otherFieldOfStudy')?.value,
-      IsCompleted: this.education.get('isStudying')?.value,
+      IsCompleted:
+        this.education.get('isStudying')?.value ??
+        new Date(this.education.get('yearTo')?.value) > new Date(),
     };
     return educationModel;
   }
@@ -171,23 +210,28 @@ export class EducationComponent implements OnInit {
       this.isRecordUpdated = true;
     }
     this.loading = false;
-    const msg = this.isUpdateMode? 'Record is successfully updated.':'Record is successfully added.'
-    this.notifier.notify(
-      NotificationType.success,
-      msg
-    );
+    const msg = this.isUpdateMode
+      ? 'Education is updated successfully .'
+      : 'Education added successfully .';
+    this.notifier.notify(NotificationType.success, msg);
     this.education.reset();
     this.guid = null;
-    this.loading = false;
-    this.closeModal();
+    if (!this.validation.controls.isMultitpleEntry.value) this.closeModal();
     this.isUpdateMode = false;
+  }
+
+  getFieldOfStudyWithId(Id: string) {
+    return (
+      this.fetchedFieldOfStudies.find((x) => x.Guid == Id)?.Name ?? 'Unknown'
+    );
   }
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(
       localStorage.getItem('loggedInUserInfo') ?? ''
     );
-    this.bindRecord();
+    
+    this.bindRecord();this.education.controls.yearTo.enable();
     this.education.controls.isStudying.valueChanges.subscribe((value) => {
       if (value) {
         this.education.controls.yearTo.setValidators([]);
@@ -196,6 +240,33 @@ export class EducationComponent implements OnInit {
         this.education.controls.yearTo.setValidators([Validators.required]);
       this.education.controls.yearTo.updateValueAndValidity();
     });
+    this.education.controls.yearFrom.valueChanges.subscribe((value) => {
+      if (value === null) {
+        this.education.controls.yearTo.setValue(null);
+        this.education.controls.yearTo.disable();
+      }
+      else{
+        this.education.controls.yearTo.enable();
+      }
+    });
+
+    this.education.controls.program.valueChanges.subscribe((value) => {
+      if (
+        this.fetchedEducationProgramme.find((obj) => obj.Guid === value)
+          ?.Name === 'High School'
+      ) {
+        this.education.controls.fieldOfStudy.setValidators([]);
+        this.education.controls.fieldOfStudy.setValue(null);
+        this.education.controls.fieldOfStudy.updateValueAndValidity();
+        this.disableFieldOfStudy = true;
+      } else {
+        this.education.controls.fieldOfStudy.setValidators([Validators.required]);
+        this.education.controls.fieldOfStudy.updateValueAndValidity();
+        this.disableFieldOfStudy = false;
+      }
+    });
+
+    
 
     //api-integration
     this.eduProgService.get().subscribe(
@@ -212,17 +283,23 @@ export class EducationComponent implements OnInit {
     );
   }
   bindRecord() {
+    this.loading = true;
     this.educationService.getByApplicantId(this.loggedInUser.Guid).subscribe(
       (res: ResponseDTO<[EducationModel]>) => {
         this.educations = res.Data;
+        this.hasDataEntry((this.educations.length > 0) ? true : false);
+        this.loading = false;
       },
-      (err) => this.onShowError(err)
+      (err) => {
+        this.loading = false;
+        this.onShowError(err);
+      }
     );
   }
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Do you want to delete this record?',
+      nzContent: 'Are you sure you want to delete this entry?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },
@@ -230,12 +307,13 @@ export class EducationComponent implements OnInit {
   }
   onShowError(err: any) {
     let errMsg = 'Some error occured. Please review your input and try again. ';
-    errMsg = err? (errMsg + `<br/><br/><hr/>${err}`):errMsg;
-    
-    this.notifier.notify(
-      NotificationType.error,
-     errMsg
-    );
+    errMsg = err ? errMsg + `<br/><br/><hr/>${err}` : errMsg;
+
+    this.notifier.notify(NotificationType.error, errMsg);
     this.loading = false;
+  }
+
+  hasDataEntry(value: boolean) {
+    this.educationService.hasData(value);
   }
 }

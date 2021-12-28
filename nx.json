@@ -34,25 +34,18 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
+    "client-management": {
+      "tags": []
+    },
+    "client-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["client-management"]
+    },
     "core-model": {
       "tags": []
     },
-    "epp": {
-      "tags": []
-    },
-    "epp-e2e": {
-      "tags": [],
-      "implicitDependencies": ["epp"]
-    },
     "ng-zorro": {
       "tags": []
-    },
-    "passport": {
-      "tags": []
-    },
-    "passport-e2e": {
-      "tags": [],
-      "implicitDependencies": ["passport"]
     },
     "project-management": {
       "tags": []

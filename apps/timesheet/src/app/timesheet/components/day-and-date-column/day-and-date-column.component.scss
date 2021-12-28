@@ -1,79 +1,8 @@
-.day {
-    width: 192px;
-    height: 24px;
-
-    margin-top: 24px;
-    margin-right: 8px;
-
-    font-family: sans-serif;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #595959;
-
-}
-
-.date-column {
-    position: relative;
-    width: 192px;
-    height: 582px;
-
-    margin-top: 8px;
-    margin-right: 8px;
-    margin-bottom: 78px;
-    
-    border-radius: 4px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #DADADA;
-
-    overflow: hidden;
-
-    .date-column-highlight {
-        position: absolute;
-        margin-top: 271px;
-        margin-left: 76px;
-
-        opacity: 0;
-    }
-
-    .date-column-timesheet {
-        width: 192px;
-        height: 582px;
-
-        .date-and-hour {
-            display: flex;
-            justify-content: space-between;
-    
-            .date {
-                width: 55px;
-                height: 28px;
-                margin-top: 6px;
-                margin-left: 8px;
-            
-                color: #595959;
-                font-family: sans-serif;
-                font-weight: 300;
-                font-style: normal;
-                font-size: 20px;
-                line-height: 28px;
-            }
-    
-            .hour {
-                width: 76px;
-                height: 28px;
-                margin-top: 8px;
-                margin-right: 8px;
-            
-                color: #595959;
-                font-family: sans-serif;
-                font-weight: 300;
-                font-style: normal;
-                font-size: 16px;
-                line-height: 24px;
-                text-align: right;
-            }
+.date-column-with-highlight {
+    @media screen and (min-width: 1024px) {
+        .date-column-timesheet {
+            min-height: 65vh;
+            height: auto;
         }
     }
 
@@ -82,9 +11,24 @@
         border-color: #00A551;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
     }
-
+  
     &:hover .date-column-highlight {
         opacity: 1;
     }
 }
 
+.date-column-with-no-highlight {
+    @media screen and (min-width: 1024px) {
+        .date-column-timesheet {
+            min-height: 65vh;
+            height: auto;
+        }
+    }
+}
+
+.more-txt{
+    margin: left 0px !important;
+    align-self:start !important;
+}
+  
+  
