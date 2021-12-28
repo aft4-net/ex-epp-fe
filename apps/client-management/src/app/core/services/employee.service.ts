@@ -8,13 +8,14 @@ import { ApiService } from '..';
 })
 export class EmployeeService extends ApiService<Employee> {
 
-  constructor(protected httpClient: HttpClient ) { 
+  constructor(protected httpClient: HttpClient ) {
     super(httpClient);
   }
 
   getResourceUrl(): string {
 
-    return 'Employees';
+    return 'Employee/GetEmployeeSelection';
+    //return 'Employee';
   }
 
 }
