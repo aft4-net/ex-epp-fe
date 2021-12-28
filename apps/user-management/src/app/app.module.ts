@@ -8,19 +8,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
-import{SiderComponent} from './components/application/sider/sider.component'
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { SigninComponent } from './features/Account/signin/signin.component';
+import { UserManagementModule } from './modules/userManagment/user-management.module';
+import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent, 
     EppdashboardComponent,
-    HeaderComponent,
-    FooterComponent,
-    SiderComponent,
     SigninComponent,
     UserDashboardComponent
     ],
@@ -31,7 +27,9 @@ import { SigninComponent } from './features/Account/signin/signin.component';
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
-    CustomFormModule
+    CustomFormModule,
+    UserManagementModule,
+    PageTemplateModule
   ],
   providers: [],
   bootstrap: [AppComponent],
