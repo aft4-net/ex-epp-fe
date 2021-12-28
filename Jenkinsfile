@@ -4,7 +4,7 @@ pipeline{
     
      environment {
         registry = "blens/epp"
-        registryCredential = 'dockerhubID'
+        registryCredential = 'dockerhubID-Blen'
       
         
         
@@ -14,7 +14,7 @@ pipeline{
         stage('Git checkout')
         {
             steps{
-              git credentialsId: 'bitbucketpw', url: 'https://bitbucket.org/Excellerent_Solutions/excellerent-epp-fe'
+              git credentialsId: 'omeseret-bitbucket', url: 'https://bitbucket.org/Excellerent_Solutions/excellerent-epp-fe'
         
             }
         }
@@ -39,7 +39,7 @@ pipeline{
             }
             steps{
                 script {
-                        withDockerRegistry([ credentialsId: "dockerhubID", url: "" ]) 
+                        withDockerRegistry([ credentialsId: "dockerhubID-Blen", url: "" ]) 
                         
                             {
                             sh "docker tag epp:latest blens/eppfe"
