@@ -23,35 +23,63 @@
       </svg>
     </a>
   </span>
-  <nz-table class="nzTable" [nzFrontPagination]="false" [nzData]="sampleData"
+  <nz-table #filterTable class="nzTable mt-2" [nzFrontPagination]="false" [nzData]="timeSheetHistory"
     (nzPageIndexChange)="PageIndexChange($event)">
     <thead>
       <tr>
-        <th class="table_heading" nzColumnKey="name" [nzSortFn]="true" (click)="sorter(1)">Date Range</th>
-        <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true"(click)="sorter(2)">Project Name</th>
-        <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true"(click)="sorter(3)"> Client Name</th>
-        <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(click)="sorter(4)">Status</th>
-        <th class="table_heading" nzColumnKey="email">Manager's Notes</th>
+
+
+        <th [nzSortOrder]="listOfColumns[0].sortOrder" [nzSortFn]="listOfColumns[0].sortFn"
+          [nzSortDirections]="listOfColumns[0].sortDirections">
+          {{listOfColumns[0].name }}
+        </th>
+
+        <th [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
+          [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+          [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
+          {{ listOfColumns[1].name }}
+        </th>
+
+
+        <th [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
+          [nzSortDirections]="listOfColumns[2].sortDirections" [nzFilterMultiple]="listOfColumns[2].filterMultiple"
+          [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
+          {{ listOfColumns[2].name }}
+        </th>
+
+        <th [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
+          [nzSortDirections]="listOfColumns[3].sortDirections" [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+          [nzFilters]="listOfColumns[3].listOfFilter" [nzFilterFn]="listOfColumns[3].filterFn">
+          {{ listOfColumns[3].name }}
+        </th>
+
+        <th>
+          {{listOfColumns[4].name }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of sampleData | sort:[sortByParam, sortDirection]">
-        <td>{{data.startDate}} - {{data.endDate}} </td>
-        <td>{{ data.projectName}} </td>
-        <td>{{  data.clientName}}</td>
+      <tr *ngFor="let data of   filterTable.data">
+        <td>{{data.FromDate | date:'MMM' }} {{data.FromDate | date:'L'}} - {{data.ToDate | date}} </td>
+        <td>{{ data.ProjectName}} </td>
+        <td>{{  data.ClientName}}</td>
         <td>
-          <div [ngClass]="statusCSSClass(data.status)">{{data.status}} </div>
+
+          <div *ngIf="data.Status===1" class="approved"> Approved </div>
+          <div *ngIf="data.Status===0" class="submited"> Request for review </div>
+          <div *ngIf="data.Status===2" class=" review"> Rejected </div>
+
         </td>
         <td>
-          <ng-template [ngIf]="!data.managerNote" [ngIfElse]="mangerNote"> N/A </ng-template>
-          <ng-template #mangerNote> {{ data.managerNote}} </ng-template>
+          <ng-template [ngIf]="data.Comment===''"> N/A </ng-template>
+          {{ data.Comment}}
         </td>
       </tr>
     </tbody>
   </nz-table>
   <span nz-row class="pagination  flex justify-end">
     Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-    <nz-pagination [nzPageIndex]="pageIndex" nzTotal="10" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
     </nz-pagination>
   </span>
 </section>

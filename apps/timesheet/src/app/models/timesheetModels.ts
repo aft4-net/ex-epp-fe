@@ -31,11 +31,12 @@ export interface TimesheetApproval {
     Status: ApprovalStatus;
     Comment?:string;
     EmployeeName:string;
-    StartDate:Date;
-    EndDate:Date;
+    FromDate:Date;
+    ToDate:Date;
     CreatedDate:Date;
     ClientName:string;
     TotalHours:number;
+    ProjectName:string;
 }
 
 export interface TimesheetConfiguration {
