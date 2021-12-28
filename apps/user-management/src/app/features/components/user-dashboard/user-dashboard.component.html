@@ -53,16 +53,16 @@
                         </button>
                     </td>
                     <td>
-                      <button nz-button nzType="default" class="text-orientation"  nz-popover nzPopoverTitle=""
+                      <button nz-button nzType="default" [nzSize]="size" style="transform: rotate(90deg)"  nz-popover nzPopoverTitle=""
                         [nzPopoverContent]="contentTemplate"
-                        nzPopoverPlacement="bottomRight">...
+                        nzPopoverPlacement="bottom">...
                         </button>
                     </td>
                     <ng-template #contentTemplate>
                       <div>
-                        <nz-space  nzDirection="vertical">
+                        <nz-space nzDirection="vertical">
                         <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)">
-                          Add to group
+                          Show Detail
                         </button>
                         <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId)">
                             Add to group
