@@ -304,7 +304,11 @@
               "apps/epp-dashboard/src/favicon.ico",
               "apps/epp-dashboard/src/assets"
             ],
-            "styles": ["apps/epp-dashboard/src/styles.scss"],
+            "styles": [
+              "apps/epp-dashboard/src/styles.scss",
+              "apps/epp-dashboard/src/theme.less",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+            ],
             "scripts": [],
             "customWebpackConfig": {
               "path": "apps/epp-dashboard/webpack.config.js"
@@ -984,7 +988,11 @@
               "apps/usermanagement/src/favicon.ico",
               "apps/usermanagement/src/assets"
             ],
-            "styles": ["apps/usermanagement/src/styles.scss"],
+            "styles": [
+              "apps/usermanagement/src/styles.scss",
+              "apps/usermanagement/src/theme.less",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+            ],
             "scripts": [],
             "customWebpackConfig": {
               "path": "apps/usermanagement/webpack.config.js"

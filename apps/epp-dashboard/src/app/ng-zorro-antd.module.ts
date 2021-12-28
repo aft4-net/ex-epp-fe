@@ -35,6 +35,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPipesModule } from 'ng-zorro-antd/pipes';
@@ -105,7 +106,7 @@ import { NzWaveModule } from 'ng-zorro-antd/core/wave';
     NzMessageModule,
     NzModalModule,
     NzNoAnimationModule,
-   
+    NzNotificationModule,
     NzPageHeaderModule,
     NzPaginationModule,
     NzPopconfirmModule,
@@ -140,7 +141,4 @@ import { NzWaveModule } from 'ng-zorro-antd/core/wave';
   ]
 })
 export class DemoNgZorroAntdModule {
-
-
 }
-
