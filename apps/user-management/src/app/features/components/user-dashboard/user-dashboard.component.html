@@ -1,11 +1,17 @@
-<nz-layout>
+<nz-layout >
     <nz-content>
       <nz-divider nzType="horizontal"></nz-divider>
       <div style="margin-top: -40px;" class="inner-content">
-        <div nz-row>
+        <div nz-col nzSpan="12">Users</div>
+        <div nz-col nzSpan="12" nzOffset="22">
+          <button nz-button nzType="primary" class="adduser">
+            Add User
+        </button>
+        </div>
+        <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
             <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
-              <input type="text" #searchInput nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
+              <input type="text" formControlName="userName" #searchInput nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzSearch (click)="SearchUsersByUserName()"><i nz-icon nzType="search"></i></button>
@@ -41,22 +47,30 @@
                     <td>{{user.LastActivityDate | date:'MMM d, y' }}</td>
                     <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
-                    <td>{{user.Status }}</td>
                     <td>
-                      <button class="text-orientation" nz-button nz-popover nzPopoverTitle=""
+                        <button nz-button [nzSize]="size" disabled class = "userstatus">
+                          {{user.Status}}
+                        </button>
+                    </td>
+                    <td>
+                      <button nz-button nzType="default" class="text-orientation"  nz-popover nzPopoverTitle=""
                         [nzPopoverContent]="contentTemplate"
                         nzPopoverPlacement="bottomRight">...
                         </button>
                     </td>
                     <ng-template #contentTemplate>
                       <div>
-                        <button (click)="AddToGroup(user.UserId)">
+                        <nz-space  nzDirection="vertical">
+                        <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)">
+                          Add to group
+                        </button>
+                        <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId)">
                             Add to group
                         </button>
-                        &nbsp; &nbsp;
-                        <button (click)="Remove(user.UserId)">
+                        <button *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="Remove(user.UserId)">
                          Remove
                         </button>
+                        </nz-space>
                       </div>
                     </ng-template>
                   </tr>

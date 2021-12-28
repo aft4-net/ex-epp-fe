@@ -1,5 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+.ant-btn-primary {
+    background-color: #52c41a;
+  }
 
-@import "~ng-zorro-antd/style/index.min.css"; /* Import base styles */
-@import "~ng-zorro-antd/button/style/index.min.css";  /* Import one component's styles */
+  .ant-btn-primary:hover {
+    background-color: #52c41a;
+  }
+
+
+  .ant-btn-link {
+    color: #52c41a;
+  }
+
+  .ant-btn-link:hover {
+    color: #52c41a;
+  }
+
+  .anticon-filter   {
+    color: #52c41a;
+  }
+
+   
+  .anticon.active {
+    color: #52c41a;
+  }
+
+  
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #52c41a;
+    border-color: black;
+    color: black;
+  }
+
+  .ant-checkbox-wrapper-checked.span  {
+    color: black;
+    border-color: black;
+  }
+
+  .ant-table-filter-dropdown .ant-checkbox-wrapper+span, .ant-table-filter-dropdown-submenu .ant-checkbox-wrapper+span {
+    color: black;
+  }
 

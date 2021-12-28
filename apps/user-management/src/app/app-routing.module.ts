@@ -10,7 +10,7 @@ import { PrimaryPageTemplateComponent } from './shared/components/page-view-temp
 const routes: Routes = [
   { path: '', component: EppdashboardComponent, },
   { path: 'sider', component: SiderComponent},
-  { path: 'udb', component: UserDashboardComponent},
+  { path: 'user-dashboard', component: UserDashboardComponent},
   { path: 'users', component: PrimaryPageTemplateComponent,
       children: [
         {
