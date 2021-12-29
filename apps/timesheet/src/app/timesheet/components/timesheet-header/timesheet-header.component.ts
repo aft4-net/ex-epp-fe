@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
@@ -22,6 +22,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weeklyTotalHours: number = 0;
   @Input() isSubmitted: boolean | undefined;
   @Input() isApproved= false;
+
 
   startingDateCriteria=startingDateCriteria
 
@@ -80,12 +81,29 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+      if (this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected)){
+        let cpy=this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected);
+        for(let i=0;i<cpy.length;i++){
+
+          const temp={
+            TimesheetId:this.timesheet.Guid,
+            ProjectId:cpy[i].ProjectId,
+            Status:ApprovalStatus.Requested
+        } as ApprovalEntity;
+
+        this.timesheetService.updateTimesheetApproval(temp).subscribe();
+        }
+
+
+      }
+      else{
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         this.timesheetApprovals = response ?? [];
         this.checkForSubmittedForApproal();
       }, error => {
 
-      });
+      }
+    )};
     }
   }
 }

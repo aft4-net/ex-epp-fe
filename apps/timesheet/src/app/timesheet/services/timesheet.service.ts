@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
+  ApprovalEntity,
   TimeEntriesResponse,
   TimeEntry,
   TimeEntryResponse,
@@ -286,7 +287,7 @@ export class TimesheetService {
     );
 
   }
-  updateTimesheetApproval( timesheetApproval:TimesheetApproval  ): Observable<any> {
+  updateTimesheetApproval( timesheetApproval:ApprovalEntity  ): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put( this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
