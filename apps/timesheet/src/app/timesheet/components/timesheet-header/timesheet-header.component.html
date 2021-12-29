@@ -29,6 +29,7 @@
       </div>
     <div class="total-hours-completed" nz-tooltip [nzTooltipTitle]="notSubmittedTooltip">
       <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg" nz-button
+        [hidden]="isButtonHidden"
         (click)="onRequestForApproval()">{{btnText}}</button>
     </div>
   </div>

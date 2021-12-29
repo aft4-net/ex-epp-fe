@@ -15,6 +15,10 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 
+export const startingDate = {} as {
+  startingDate: Date
+}
+
 @Component({
   selector: 'exec-epp-timesheet-detail',
   templateUrl: './timesheet-detail.component.html',
@@ -37,6 +41,7 @@ export class TimesheetDetailComponent implements OnInit {
     WorkingDays: [],
     WorkingHour: 0
   };
+  
   timesheet: Timesheet | null = null;
   timeEntries: TimeEntry[] | null = null;
   timeEntry: TimeEntry | null = null;

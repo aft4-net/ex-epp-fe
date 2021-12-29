@@ -34,6 +34,7 @@ export class ProjectNamePaletComponent implements OnInit {
 
   ngOnInit(): void {
     this.isOverThreeWeeks = this.checkTimeOverThreeWeeks();
+    console.log(this.isOverThreeWeeks)
     if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
@@ -90,7 +91,7 @@ export class ProjectNamePaletComponent implements OnInit {
     if(this.timeEntry){
       projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
     }
-    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
     if(nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond){
       return true;
     }

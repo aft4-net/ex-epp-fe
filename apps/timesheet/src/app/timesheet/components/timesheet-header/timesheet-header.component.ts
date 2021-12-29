@@ -28,6 +28,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   notSubmittedTooltip = "";
   toolTipColor="red";
   toolTipText="The time is passed total hour"
+  isButtonHidden=false
 
   constructor(private timesheetService: TimesheetService, private timesheetValidationService: TimesheetValidationService) { }
 
