@@ -303,6 +303,7 @@
             "assets": [
               "apps/epp-dashboard/src/favicon.ico",
               "apps/epp-dashboard/src/assets"
+
             ],
             "styles": [
               "apps/epp-dashboard/src/styles.scss",
