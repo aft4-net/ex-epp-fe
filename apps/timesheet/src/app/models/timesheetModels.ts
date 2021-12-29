@@ -1,3 +1,5 @@
+
+
 export interface Timesheet {
     Guid: string;
     FromDate: Date;
@@ -17,10 +19,29 @@ export interface TimeEntry {
     TimeSheetId: string;
 }
 
+export enum ApprovalStatus {
+    Requested,
+    Approved,
+    Rejected
+}
+
 export interface TimesheetApproval {
     TimesheetId: string;
     ProjectId: string;
-    Status: number;
+    Status: ApprovalStatus;
+    Comment?:string;
+    EmployeeName:string;
+    FromDate:Date;
+    ToDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
+    ProjectName:string;
+}
+
+export interface TimesheetConfiguration {
+    WorkingDays: string[];
+    WorkingHour: number;
 }
 
 interface Response {
@@ -49,3 +70,6 @@ export interface TimesheetApprovalResponse extends Response {
     Data: TimesheetApproval[] | null;
 }
 
+export interface TimesheetConfigResponse extends Response {
+    Data: TimesheetConfiguration;
+}

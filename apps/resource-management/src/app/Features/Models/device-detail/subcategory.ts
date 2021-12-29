@@ -4,6 +4,7 @@ export interface SubCategory {
     IsDeleted: boolean;
     CreatedDate: Date;
     CreatedbyUserGuid: string;
+    CategoryGuid: string;
     Name: string;
     Description: string;
 }

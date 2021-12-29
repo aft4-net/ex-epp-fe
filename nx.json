@@ -44,12 +44,8 @@
     "core-model": {
       "tags": []
     },
-    "epp": {
+    "core-services": {
       "tags": []
-    },
-    "epp-e2e": {
-      "tags": [],
-      "implicitDependencies": ["epp"]
     },
     "ng-zorro": {
       "tags": []
@@ -74,6 +70,13 @@
     "timesheet-e2e": {
       "tags": [],
       "implicitDependencies": ["timesheet"]
+    },
+    "user-management": {
+      "tags": []
+    },
+    "user-management-e2e": {
+      "tags": [],
+      "implicitDependencies": ["user-management"]
     }
   }
 }
