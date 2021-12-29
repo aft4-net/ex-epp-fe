@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
+import { PermissionComponent } from '../features/components/permission/permission.component';
 
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -14,6 +15,9 @@ import { RouterModule } from '@angular/router';
         path: '',
         component: AppComponent,
       },
+      {
+        path:'permission',component:PermissionComponent
+      }
     ]),
   ],
   providers: [],
