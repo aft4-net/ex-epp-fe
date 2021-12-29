@@ -277,6 +277,7 @@ export class PersonalInformationComponent implements OnInit {
           content: 'Personal information has been updated.',
           duration: 5000,
         });
+        this.hasDataEntry(true);
         this.applicantService.setRoutInfo('/application/area-of-interest');
         this.router.navigate(['/application/area-of-interest']);
       },
@@ -290,5 +291,8 @@ export class PersonalInformationComponent implements OnInit {
         console.log('error:' + err);
       }
     );
+  }
+  hasDataEntry(value: boolean) {
+    this.applicantService.hasData(value);
   }
 }
