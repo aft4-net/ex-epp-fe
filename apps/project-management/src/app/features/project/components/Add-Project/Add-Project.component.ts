@@ -91,6 +91,7 @@ export class AddProjectComponent implements OnInit {
           this.validateForm.controls.projectType.value;
         this.projectCreate.ProjectStatusGuid =
           this.validateForm.controls.status.value.Guid;
+          this.projectCreate.ClientGuid=this.validateForm.controls.client.value.Guid;
         this.projectCreate.Description =
           this.validateForm.controls.description.value;
 
@@ -135,8 +136,9 @@ export class AddProjectComponent implements OnInit {
       this.employees = response;
     });
 
-    this.clientService.getAll().subscribe((response) => {
-      this.clients = response;
+    this.clientService.getAll().subscribe((response:any) => {
+      this.clients = response.Data;
+
     });
 
     this.projectStatusService.getAll().subscribe((res) => {
@@ -204,7 +206,7 @@ export class AddProjectComponent implements OnInit {
           Validators.maxLength(70),
         ],
       ],
-      client: [this.currentNameSubject$.getValue(), [Validators.required]],
+      client: [null, [Validators.required]],
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],

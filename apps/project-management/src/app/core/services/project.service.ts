@@ -49,7 +49,7 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
   createProject(data:ProjectCreate)
    {
-
+ console.log(data)
 
      this.post(data).subscribe
          ((error)=>{
@@ -62,8 +62,8 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
 
         }               
-           ,()=>{
-     
+           ,(errr:any)=>{
+            console.log(errr)
               this.notification.error('Project Not saved','Please try again letter');
             }
            )
