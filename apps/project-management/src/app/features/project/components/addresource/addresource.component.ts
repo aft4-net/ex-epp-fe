@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder,  FormControl,  FormGroup,  Validators } from '@angular/forms';
-import { Employee, ProjectResource,ProjectService,EmployeeService, projectResourceType  } from '../../../../core';
+import { IEmployeeViewModel, ProjectResource,ProjectService,EmployeeService, projectResourceType  } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 
@@ -26,7 +26,7 @@ export class AddresourceComponent implements OnInit {
 
 
   resources: projectResourceType[]=[] as  projectResourceType[];
-  employees!:Employee[];;
+  employees!:IEmployeeViewModel[];;
   asignedResourseToEdit!:ProjectResource;
 
   projectResources:ProjectResource[]=[]; 
@@ -37,7 +37,7 @@ export class AddresourceComponent implements OnInit {
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
 
   ngOnInit(): void {
-    this.employeeService.getAll().subscribe((response:Employee[])=>{
+    this.employeeService.getAll().subscribe((response:IEmployeeViewModel[])=>{
       this.employees=response;
      
       this.sortEmployees();
@@ -107,7 +107,7 @@ this.resources.push({  employeeId:this.addResorceForm.controls.resource.value.Gu
 
 this.addProjectResourceEvent.emit(this.resources)
 this.sortEmployees();
-this.employees=this.employees.filter(s=>s.Guid!==this.addResorceForm.controls.resource.value.Guid);
+this.employees=this.employees.filter(s=>s.EmployeeGUid!==this.addResorceForm.controls.resource.value.EmployeeGUid);
 this.addResorceForm.reset();
     } else {
       Object.values(this.addResorceForm.controls).forEach(control => {
@@ -151,7 +151,7 @@ this.addResorceForm.reset();
   editResource(id:string)
   {
     this.addResorceForm.reset();
-    const projectResource=this.projectResources.find(s=>s.employee.Guid==id);
+    const projectResource=this.projectResources.find(s=>s.employee.EmployeeGUid==id);
     if(projectResource)
    {
    
@@ -168,17 +168,17 @@ this.addResorceForm.reset();
 
 if( this.editResorceForm.valid)
 {
-  if(this. asignedResourseToEdit.employee.Guid!=this.editResorceForm.controls.resource.value.Guid)
+  if(this. asignedResourseToEdit.employee.EmployeeGUid!=this.editResorceForm.controls.resource.value.Guid)
     { this.employees.push(this.asignedResourseToEdit.employee);
-      this.employees=this.employees.filter(s=>s.Guid!==this.editResorceForm.controls.resource.value.Guid);
+      this.employees=this.employees.filter(s=>s.EmployeeGUid!==this.editResorceForm.controls.resource.value.EmployeeGUid);
       this.sortEmployees();
     }
   this. asignedResourseToEdit.assignedDate= this.editResorceForm.controls.assignDate.value;
   this. asignedResourseToEdit.employee=this.editResorceForm.controls.resource.value;
 
-  this.projectResources.map(s=>s.employee.Guid=== this. asignedResourseToEdit.employee.Guid?s:this. asignedResourseToEdit)  
+  this.projectResources.map(s=>s.employee.  EmployeeGUid=== this. asignedResourseToEdit.employee.EmployeeGUid?s:this. asignedResourseToEdit)  
  
-  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.Guid?s:
+  this.resources.map(s=>s.employeeId==this. asignedResourseToEdit.employee.EmployeeGUid?s:
     {  employeeId: this.editResorceForm.controls.resource.value.Guid,
       assignedDate:this.editResorceForm.controls.assignDate.value,
       }
@@ -186,7 +186,7 @@ if( this.editResorceForm.valid)
 
       for(let i=0;i< this.resources.length;i++)
       {
-         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.Guid)
+         if(this.resources[i].employeeId==this. asignedResourseToEdit.employee.EmployeeGUid)
                 {  
                  this.resources[i]={  employeeId: this.editResorceForm.controls.resource.value.Guid,
                   assignedDate:this.editResorceForm.controls.assignDate.value};                
@@ -213,11 +213,11 @@ if( this.editResorceForm.valid)
 
   removeResource(id:string)
   {
-  const projectResourece=this.projectResources.find(s=>s.employee.Guid==id);
+  const projectResourece=this.projectResources.find(s=>s.employee.EmployeeGUid==id);
        if(projectResourece)
        this.employees.push(projectResourece.employee);
        this.sortEmployees();
-  this.projectResources=this.projectResources.filter(s=>s.employee.Guid!==id);
+  this.projectResources=this.projectResources.filter(s=>s.employee.EmployeeGUid!==id);
   this.resources=this.resources.filter(s=>s.employeeId!=id);
   this.addProjectResourceEvent.emit(this.resources);
 
@@ -225,7 +225,7 @@ if( this.editResorceForm.valid)
 
   sortEmployees()
 {
-  this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
+  this.employees.sort((a, b) => a.FullName.localeCompare(b.FullName))
 }
 
 

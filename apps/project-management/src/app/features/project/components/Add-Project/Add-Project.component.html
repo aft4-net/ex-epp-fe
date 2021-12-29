@@ -147,7 +147,7 @@ nz-form
      formControlName="supervisor"
      nzPlaceHolder="Select Supervisor Name"
    >
-   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Guid"></nz-option>
+   <nz-option *ngFor="let employee of employees"  nzLabel={{employee.FullName}}-{{employee.JobTitle}}  [nzValue]="employee.EmployeeGUid"></nz-option>
    </nz-select>
    <div class="error-block"
    *ngIf="supervisor.invalid && supervisor.touched">

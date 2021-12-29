@@ -1,21 +1,27 @@
+import { IEmployeeViewModel } from '.';
+import { BillingAddress } from './billing-address';
+import { ClientContact } from './client-contact';
+import { CompanyContact } from './company-contact';
+import { OperatingAddress } from './operating-address';
+
 export interface Client {
-
-  ClientName: string,
-
-  ClientStatus: string,
-
-  ManagerAssigned: string,
-
-  Description: string,
-
-  Guid: string,
-
-  IsActive: true,
-
-  IsDeleted: false,
-
-  CreatedDate: string,
-
-  CreatedbyUserGuid: string
+  SalesPerson: IEmployeeViewModel;
+  SalesPersonGuid: string;
+  ClientName: string;
+  ClientStatusName: string;
+  ClientStatusGuid: string;
+  Description: string;
+  ClientContacts: ClientContact[];
+  CompanyContacts: CompanyContact[];
+  OperatingAddress: OperatingAddress[];
+  BillingAddress: BillingAddress[];
+  Guid: string;
+  IsActive: boolean;
+  IsDeleted: boolean;
+  CreatedDate: Date;
+  CreatedbyUserGuid: string;
 }
+
+
+
 

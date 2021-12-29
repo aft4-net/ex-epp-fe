@@ -103,8 +103,6 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
      });
 
 
-
-
    this.searchProject.valueChanges.pipe(
      debounceTime(3000)
    ).subscribe(()=>{

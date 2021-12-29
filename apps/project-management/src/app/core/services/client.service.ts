@@ -1,7 +1,8 @@
 import { ApiService } from '../models/apiService';
-import { Client } from '..';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Client } from '..';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ClientService extends ApiService<Client> {
 
   getResourceUrl(): string {
 
-    return 'Client';
+    return 'ClientDetails';
   }
 
 }

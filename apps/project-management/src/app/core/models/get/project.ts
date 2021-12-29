@@ -1,4 +1,5 @@
-import { Client, Employee, ProjectStatus, } from './';
+import { IEmployeeViewModel } from '..';
+import { Client, ProjectStatus, } from './';
 
 
 
@@ -8,7 +9,7 @@ export interface Project{
   ProjectType: string,
   StartDate:Date,
   EndDate:Date,
-  Supervisor: Employee,
+  Supervisor: IEmployeeViewModel,
   Client:Client;
   ProjectStatus: ProjectStatus,
   SupervisorGuid:string,

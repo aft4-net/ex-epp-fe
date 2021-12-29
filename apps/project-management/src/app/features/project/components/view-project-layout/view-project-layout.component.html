@@ -1,7 +1,5 @@
-<div nz-row>
-
-
-    <div nz-col nzSpan="6" class="ml-1 search" style="width: 75%;">
+<div nz-row class="justify-between" > 
+    <div  class="ml-1 search" >
       <nz-input-group [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
         <input [formControl]="searchProject" type="text" nz-input placeholder="Search " />
       </nz-input-group>
@@ -11,8 +9,7 @@
 
       <ng-template>Try</ng-template>
     </div>
-
-    <div style="width: 25%;" class="manage-columns">
+    <div nz-col  class="manage-columns">
       <ng-template #contentTemplate>
         <div>
           <button nz-button>Reset</button><br>
@@ -27,21 +24,16 @@
         </div>
       </ng-template>
 
-      <a nz-button nz-popover [nzPopoverContent]="contentTemplate" nzPopoverTrigger="click"  nzType="link">Manage Column</a>
+      <a  nz-col nzSpan="6"  nz-button nz-popover [nzPopoverContent]="contentTemplate" nzPopoverTrigger="click"  nzType="link">Manage Column</a>
 
     </div>
-
-
-
 </div>
-
-
+<section class="projects" > 
 <nz-table class="mt-3" [nzData]="projects" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
   [nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
   [nzLoading]="loading">
   <thead>
     <tr>
-
       <th class="table_heading" nzColumnKey="name" [nzSortFn]="true">Projects</th>
       <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true">Clients</th>
       <th class="table_heading" nzColumnKey="email" [nzSortFn]="true">Status</th>
@@ -83,3 +75,4 @@
   nzShowSizeChanger nzShowQuickJumper>
 
 </nz-pagination>
+</section>
