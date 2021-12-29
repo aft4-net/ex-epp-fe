@@ -1,11 +1,11 @@
-import { IEmployeeViewModel } from '.';
+import { Employee } from '.';
 import { BillingAddress } from './billing-address';
 import { ClientContact } from './client-contact';
 import { CompanyContact } from './company-contact';
 import { OperatingAddress } from './operating-address';
 
 export interface Client {
-  SalesPerson: IEmployeeViewModel;
+  SalesPerson:Employee;
   SalesPersonGuid: string;
   ClientName: string;
   ClientStatusName: string;

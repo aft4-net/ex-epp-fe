@@ -1,9 +1,7 @@
-import { IEmployeeViewModel } from ".";
-
+import { Employee } from ".";
 
 export interface ProjectResource{
-    employee:IEmployeeViewModel,
+    employee:Employee ,
     assignedDate:Date;
- 
-}
+ }
 

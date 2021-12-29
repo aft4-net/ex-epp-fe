@@ -6,4 +6,4 @@ export * from './projectStatus';
 export * from './projectResource'
 export * from  './PaginatedResult';
 export * from './Pagination';
-export * from './EmployeeViewModel';
+export * from './employee';

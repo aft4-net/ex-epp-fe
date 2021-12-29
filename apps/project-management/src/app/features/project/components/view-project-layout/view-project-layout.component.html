@@ -9,24 +9,7 @@
 
       <ng-template>Try</ng-template>
     </div>
-    <div nz-col  class="manage-columns">
-      <ng-template #contentTemplate>
-        <div>
-          <button nz-button>Reset</button><br>
-          <label nz-checkbox >Default</label>
-          <br />
-          <label nz-checkbox >Column 2</label>
-          <br />
-          <label nz-checkbox >Column 3</label>
-          <br />
-          <label nz-checkbox >Column 4</label>
 
-        </div>
-      </ng-template>
-
-      <a  nz-col nzSpan="6"  nz-button nz-popover [nzPopoverContent]="contentTemplate" nzPopoverTrigger="click"  nzType="link">Manage Column</a>
-
-    </div>
 </div>
 <section class="projects" > 
 <nz-table class="mt-3" [nzData]="projects" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
@@ -47,7 +30,7 @@
       <td>{{ data.ProjectName }}</td>
       <td>{{ data.Client.ClientName }}</td>
       <td>{{ data.ProjectStatus.StatusName }}</td>
-      <td>{{ data.Supervisor?.Name }} </td>
+      <td>{{ data.Supervisor?.FullName }} </td>
 
 
       <td>

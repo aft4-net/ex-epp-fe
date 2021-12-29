@@ -1,13 +1,14 @@
-import { IEmployeeViewModel } from ".";
+import { Employee } from ".";
+
 
 
 export interface CompanyContact{
-  employee:IEmployeeViewModel;
+  employee:Employee;
 }
 
 
 export interface CompanyContact{
-  Employee:IEmployeeViewModel;
+  Employee:Employee;
 
   EmployeeGuid: string;
   Guid: string;

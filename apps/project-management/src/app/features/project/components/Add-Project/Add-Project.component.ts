@@ -10,8 +10,8 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import {
   Client,
   ClientService,
+  Employee,
   EmployeeService,
-  IEmployeeViewModel,
   Project,
   ProjectCreate,
   projectResourceType,
@@ -42,7 +42,7 @@ export class AddProjectComponent implements OnInit {
   currentDate = Date.now.toString();
   projectCreate: ProjectCreate = {} as ProjectCreate;
   clients = [] as Client[];
-  employees = [] as IEmployeeViewModel[];
+  employees = [] as Employee[];
   projects = [] as Project[];
   projectStatuses = [] as ProjectStatus[];
   projectNameExits = false;
@@ -131,7 +131,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   apiCalls() {
-    this.employeeService.getAll().subscribe((response: IEmployeeViewModel[]) => {
+    this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
 
