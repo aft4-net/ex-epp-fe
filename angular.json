@@ -284,6 +284,31 @@
         }
       }
     },
+    "core-services": {
+      "projectType": "library",
+      "root": "libs/core-services",
+      "sourceRoot": "libs/core-services/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-services"],
+          "options": {
+            "jestConfig": "libs/core-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-services/src/**/*.ts",
+              "libs/core-services/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ng-zorro": {
       "projectType": "library",
       "root": "libs/ng-zorro",
