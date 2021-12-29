@@ -27,6 +27,14 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
   searchKey='';
   Projects!:Project[];
   searchStateFound=false;
+  checker= false;
+
+  checkOptionsThree = [
+    { label: 'Apple', value: 'Apple', disabled: true, checked: true },
+    { label: 'Pear', value: 'Pear', disabled: true },
+    { label: 'Orange', value: 'Orange' }
+  ];
+
   PageSizeChange(pageSize){
     console.log(pageSize)
     this.pageSize=pageSize

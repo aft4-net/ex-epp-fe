@@ -73,7 +73,22 @@ nz-form
     <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
   </svg></nz-form-label
  >
+ <nz-form-control [nzSm]="14">
+   <nz-select
+     id="projectType"
+     formControlName="projectType"
+     nzPlaceHolder="Select Project Type"
+     [(ngModel)]="typed"
+   >
+      <nz-option nzValue="External" nzLabel="External"></nz-option>
+     <nz-option nzValue="Internal" nzLabel="Internal"></nz-option>
 
+   </nz-select>
+   <div class="error-block"
+   *ngIf="projectType.invalid && projectType.touched">
+     Please select Project Type
+   </div>
+ </nz-form-control>
 </nz-form-item>
 <nz-form-item *ngIf="projectType.value === 'External'">
  <nz-form-label [nzSm]="6" nzFor="clientName"
@@ -84,9 +99,12 @@ nz-form
  <nz-form-control [nzSm]="14" >
    <nz-select   nzShowSearch nzAllowClear
      id="clientName"
+     [(ngModel)]="typeSelected"
      formControlName="client"
      nzPlaceHolder="Select client Name">
-     <nz-option *ngFor="let  client of  clients"  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>
+     <ng-container *ngFor="let  client of  clients" >
+      <nz-option *ngIf='client.ClientName!=="Excellerent"'  nzLabel={{client.ClientName}}  [nzValue]="client.Guid"></nz-option>
+     </ng-container>
    </nz-select>
    <div class="error-block"
    *ngIf="clientName.invalid && clientName.touched">
@@ -95,6 +113,7 @@ nz-form
  </nz-form-control>
 </nz-form-item>
 
+<p>{{typeSelected}}</p>
 
 <nz-form-item>
  <nz-form-label  nzFor="status" >Status &nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-asterisk redAstrics" viewBox="0 0 16 16">
