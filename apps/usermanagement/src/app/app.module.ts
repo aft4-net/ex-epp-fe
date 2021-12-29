@@ -12,6 +12,7 @@ import { RemoteEntryModule } from './remote-entry/entry.module';
 import { RouterModule } from '@angular/router';
 import { SiderComponent } from './components/application/sider/sider.component';
 import { SigninComponent } from './features/Account/signin/signin.component';
+import { PermissionComponent } from './features/components/permission/permission.component';
 
 @NgModule({
   declarations: [
