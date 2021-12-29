@@ -16,13 +16,18 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
-  
+  total=10;
+  pageIndex = 1;
 
-  @Input() rowData : any[] | undefined;
+  sortByParam="";
+  sortDirection = "asc";
+
+  @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
-  @Input() isAll: boolean | undefined;
-  
+  @Input() bulkCheck: boolean | undefined;
+  @Input() status: boolean | undefined;
+
 
   listOfSelection = [
     {
@@ -38,7 +43,7 @@ export class TableComponent {
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-  
+
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -66,4 +71,32 @@ export class TableComponent {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
+
+  showModal(id: any) {
+
+  }
+
+  sorter(heading:string) {
+    if (heading === 'Name'){
+      this.sortByParam = "name";
+    } else if (heading === 'Date Range'){
+      this.sortByParam = "dateRange";
+    }else if (heading === 'Project Name') {
+      this.sortByParam = "projectName";
+    } else if (heading === 'Client Name') {
+      this.sortByParam = "clientName";
+    } else {
+      this.sortByParam = "";
+    }
+
+    if (this.sortDirection === 'desc') {
+      this.sortDirection = 'asc';
+    } else {
+      this.sortDirection = 'desc';
+    }
+  }
+
 }
+
+
+

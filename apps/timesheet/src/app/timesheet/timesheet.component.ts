@@ -1,12 +1,12 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DayAndDateService } from "./services/day-and-date.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TimesheetService } from './services/timesheet.service';
 import { differenceInCalendarDays } from 'date-fns';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { ClickEventType } from '../models/clickEventType';
-import { NzNotificationDataOptions, NzNotificationService } from 'ng-zorro-antd/notification';
-import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse, TimesheetConfiguration } from '../models/timesheetModels';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from '../models/timesheetModels';
 import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
 import { Client } from '../models/client';
 import { Project } from '../models/project';

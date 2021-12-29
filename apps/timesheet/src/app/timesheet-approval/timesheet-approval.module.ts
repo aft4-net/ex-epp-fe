@@ -19,17 +19,20 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 import {TimesheetApprovalComponent} from "./timesheet-approval.component"
 import {TimesheetApprovalRoutingModule} from './timesheet-approval-routing.module';
 import { TimesheetModule } from '../timesheet/timesheet.module';
+import { SortPipe } from '../core/pipes/pipes/sort.pipe';
 
 
 
 @NgModule({
   declarations: [
     TableComponent,
-    TimesheetApprovalComponent
+    TimesheetApprovalComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,
@@ -53,7 +56,8 @@ import { TimesheetModule } from '../timesheet/timesheet.module';
     NzModalModule,
     NzTableModule,
     NzToolTipModule,
-    NzTabsModule
+    NzTabsModule,
+    NzPaginationModule
   ]
 })
 export class TimesheetApprovalModule { }
