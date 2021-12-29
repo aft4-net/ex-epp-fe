@@ -1,7 +1,7 @@
-import { EmployeePostion } from "./employee";
+// import { EmployeePostion } from "./employee";
 
 export interface  ProjectResourceRequirement
 {
-employeePostion:EmployeePostion;   
+employeePostion:string;   
 requirement :number
 }

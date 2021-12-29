@@ -1,6 +1,4 @@
 .table_heading
-
-
 {
 background-color: #E8FFE8 !important;
 }
@@ -95,7 +93,7 @@ tr.ant-table-row.ng-star-inserted {
 
 
 ::ng-deep .ant-table-pagination.ant-pagination {
-  
+
    display: none !important;
 }
 .ant-pagination {
@@ -106,4 +104,13 @@ tr.ant-table-row.ng-star-inserted {
 
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.manage-columns {
+
+  padding-bottom: 10px;
+}
+
+.projects{
+  height: 95vh;
 }

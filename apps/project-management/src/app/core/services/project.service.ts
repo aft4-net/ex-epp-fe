@@ -11,56 +11,72 @@ import { PaginatedResult, Project, ProjectCreate } from '../models';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProjectService extends ApiService<Project> {
-  private fristPagantionProjectsSource = new BehaviorSubject<
-    PaginatedResult<Project[]>
-  >({} as PaginatedResult<Project[]>);
-  fristPagantionProjects$ = this.fristPagantionProjectsSource.asObservable();
 
-  constructor(
-    protected httpClient: HttpClient,
-    private notification: NzNotificationService,
-    private router: Router
-  ) {
+  
+private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
+fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
+
+
+  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) { 
     super(httpClient);
   }
 
-  getFirsttPageValue() {
-    return this.fristPagantionProjectsSource.value;
-  }
 
-  setFristPageOfProjects(data: PaginatedResult<Project[]>) {
-    this.fristPagantionProjectsSource.next(data);
-  }
+
+
+getFirsttPageValue()
+{   
+  return this.fristPagantionProjectsSource.value;
+}
+
+setFristPageOfProjects(data:PaginatedResult<Project[]>)
+{
+  this.fristPagantionProjectsSource.next(data);
+  
+}
+
+
 
   getResourceUrl(): string {
+
     return 'Project';
   }
 
-  createProject(data: ProjectCreate) {
-    this.post(data).subscribe(
-      (error) => {
-        this.notification.success('Project Added successfully', '');
 
-        this.getWithPagnationResut(1, 10).pipe(
-          map((response: PaginatedResult<Project[]>) => {
-            this.fristPagantionProjectsSource.next(response);
-          })
-        );
-      },
-      () => {
-        this.notification.error('Project Not saved', 'Please try again letter');
-      }
-    );
+
+  createProject(data:ProjectCreate)
+   {
+ console.log(data)
+
+     this.post(data).subscribe
+         ((error)=>{
+           
+           this.notification.success('Project Added successfully','');  
+           
+  this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
+    this.fristPagantionProjectsSource.next(response);
+   }))
+
+
+        }               
+           ,(errr:any)=>{
+            console.log(errr)
+              this.notification.error('Project Not saved','Please try again letter');
+            }
+           )
   }
 
-  getProjects() {
-    return this.httpClient.get(environment.baseApiUrl + 'Project/all').pipe(
-      map((response: any) => {
+  getProjects()
+  {
+  return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
+     
         return response.Data;
-      })
-    );
+        
+    }))
   }
+  
+
 }
