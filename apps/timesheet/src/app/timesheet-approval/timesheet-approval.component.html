@@ -1,6 +1,9 @@
 <app-timesheet-header class="md:flex lg:flex xl:flex ml-8" [isApproved]=true>
 </app-timesheet-header>
 <hr class="mb-4">
+<div>
+  
+</div>
 <div class="back" >
     <div>
 
@@ -12,30 +15,32 @@
 
 
     </div>
+    
     <span>Back</span>
 </div>
-<div>
+
 <div nz-row class="controllers">
     <div nz-col>
-        <button nz-button nzType="default">Bulk Approval</button>
+      
+        <button nz-button nzType="default" onclick="">Bulk Approval</button>
         <br>
     </div>
 
-    <div nz-col nzSpan="4" class="ml-1">
-        <nz-input-group [nzSuffix]="suffixIconSearch" >
-            <input type="text" nz-input placeholder="Search" />
-          </nz-input-group>
-          <ng-template #suffixIconSearch>
-            <i nz-icon nzType="search"></i>
-          </ng-template>
-
+    <div nz-col nzSpan="6" class="ml-1">
+      <nz-input-group [nzSuffix]="suffixIconSearch" >
+        <input  type="text" nz-input placeholder="Search" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
+  
     </div>
     <br>
     <div nz-col class="ml-1">
       <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
       
     </div>
-</div> <br>
+</div> 
 <div class="tab">
 
     <div >
@@ -43,7 +48,7 @@
             <nz-tab nzRight nzTitle="All">
               <div nzRight class="content mx-10">
                 <exec-epp-table [rowData]="employees" [isAll]="isAll" [headings]="headingsForAll"  class="m-2"></exec-epp-table>
-              </div>>
+              </div>
             </nz-tab>
             <nz-tab nzTitle="Awaiting Approval">
               <exec-epp-table [rowData]="employees" [isAll]="notAll" [headings]="headingsForNotAll"  class="m-2"></exec-epp-table>
@@ -57,6 +62,7 @@
 
         </nz-tabset>
     </div>
-</div>
+    
+
 
 
