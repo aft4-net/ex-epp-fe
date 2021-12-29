@@ -2,6 +2,7 @@ import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } fro
 import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Component({
   selector: 'app-timesheet-header',
@@ -21,6 +22,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weeklyTotalHours: number = 0;
   @Input() isSubmitted: boolean | undefined;
   @Input() isApproved= false;
+
+  startingDateCriteria=startingDateCriteria
 
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
