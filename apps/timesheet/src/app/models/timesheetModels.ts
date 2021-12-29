@@ -30,13 +30,13 @@ export interface TimesheetApproval {
     ProjectId: string;
     Status: ApprovalStatus;
     Comment?:string;
-    EmployeeName?:string;
-    FromDate?:Date;
-    ToDate?:Date;
-    CreatedDate?:Date;
-    ClientName?:string;
-    TotalHours?:number;
-    ProjectName?:string;
+    EmployeeName:string;
+    FromDate:Date;
+    ToDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
+    ProjectName:string;
 }
 
 export interface TimesheetConfiguration {
