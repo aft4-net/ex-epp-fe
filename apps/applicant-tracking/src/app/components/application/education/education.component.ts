@@ -30,6 +30,7 @@ export class EducationComponent implements OnInit {
   educationModel: EducationModel | null = null;
   loading = false;
   is_studying = false;
+  isFieldOfStudyRequired = true;
   disableFieldOfStudy = false;
   enableEndDate = false
     // databinding
@@ -140,8 +141,7 @@ export class EducationComponent implements OnInit {
       return false;
     }
     return (
-      endValue.getTime() <
-      this.education.controls.yearFrom.value.getTime()
+      endValue.getTime() < this.education.controls.yearFrom.value.getTime()
     );
   };
 
@@ -259,10 +259,12 @@ export class EducationComponent implements OnInit {
         this.education.controls.fieldOfStudy.setValue(null);
         this.education.controls.fieldOfStudy.updateValueAndValidity();
         this.disableFieldOfStudy = true;
+        this.isFieldOfStudyRequired = false;
       } else {
         this.education.controls.fieldOfStudy.setValidators([Validators.required]);
         this.education.controls.fieldOfStudy.updateValueAndValidity();
         this.disableFieldOfStudy = false;
+        this.isFieldOfStudyRequired = true;
       }
     });
 

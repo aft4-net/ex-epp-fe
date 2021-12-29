@@ -7,6 +7,7 @@ import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/ti
 import { TimesheetService } from '../../services/timesheet.service';
 import { NzModalService } from "ng-zorro-antd/modal";
 import { DayAndDateService } from '../../services/day-and-date.service';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -25,7 +26,7 @@ export class ProjectNamePaletComponent implements OnInit {
   isVisible1 = false;
   clickEventType = ClickEventType.none;
   popoverVisible = false;
-  isOverThreeWeeks = false;
+  startingDateCriteria = startingDateCriteria
 
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
@@ -33,7 +34,6 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isOverThreeWeeks = this.checkTimeOverThreeWeeks();
     if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
@@ -48,7 +48,7 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   showPopover() {
-    if(this.isOverThreeWeeks){
+    if(this.startingDateCriteria.isBeforeThreeWeeks){
       return
     }
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
@@ -61,7 +61,7 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   onProjectNamePaletClicked() {
-    if(this.isOverThreeWeeks){
+    if(this.startingDateCriteria.isBeforeThreeWeeks){
       return
     }
     if(!this.checkTimeOverThreeWeeks()) return;
@@ -90,7 +90,7 @@ export class ProjectNamePaletComponent implements OnInit {
     if(this.timeEntry){
       projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
     }
-    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
     if(nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond){
       return true;
     }
