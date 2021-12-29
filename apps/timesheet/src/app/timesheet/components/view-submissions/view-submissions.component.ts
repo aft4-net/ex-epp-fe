@@ -106,9 +106,9 @@ export class ViewSubmissionsComponent implements OnInit {
     this.setFliters();
   }
 
-  timesheetSubmissionPaginatin(i: number, j: number) {
+  timesheetSubmissionPaginatin(index: number, pageSize: number) {
     this.timeSheetService
-      .getTimesheetSubmissionHistory(i, j)
+      .getTimesheetSubmissionHistory(index, pageSize)
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
