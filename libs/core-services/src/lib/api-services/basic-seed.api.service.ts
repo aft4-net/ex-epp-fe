@@ -87,7 +87,17 @@ export abstract class BasicSeedApiService<TModel> {
 
     getByExtendedURL(url: string): Observable<TModel[]> {
         return this._httpClient.get<any>(
-            this._url,
+            this._url + '/' + url,
+            {...this._httpOption}
+        )
+        .pipe(
+            map((response: any) => this._extractGetMultipleDataResponse(response))
+        )
+    }
+
+    getByExtendedURLParameters(url: string, params: HttpParams): Observable<TModel[]> {
+        return this._httpClient.get<any>(
+            this._url + '/' + url,
             {...this._httpOption, ...params}
         )
         .pipe(
