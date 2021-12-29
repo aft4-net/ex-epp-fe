@@ -302,8 +302,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/epp-dashboard/src/favicon.ico",
-              "apps/epp-dashboard/src/assets"
-
+              "apps/epp-dashboard/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "apps/epp-dashboard/src/styles.scss",

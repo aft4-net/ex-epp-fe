@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -10,7 +11,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     DemoNgZorroAntdModule,
-
+    HttpClientModule,
     RouterModule.forRoot(
       [
 {
