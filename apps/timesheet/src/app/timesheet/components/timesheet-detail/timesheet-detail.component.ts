@@ -15,7 +15,8 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 
-export const startingDate = {} as {
+export const startingDateCriteria = {} as {
+  isBeforeThreeWeeks: boolean,
   startingDate: Date
 }
 
@@ -159,6 +160,16 @@ export class TimesheetDetailComponent implements OnInit {
     });
   }
 
+  checkTimeOverThreeWeeks(date: Date): void {
+    const nowDate: Date = this.dayAndDateService.getWeeksFirstDate(new Date());
+    const projectDate: Date = date;
+    startingDateCriteria.startingDate = projectDate
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
+    startingDateCriteria.isBeforeThreeWeeks = 
+    (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond)?
+      true: false;
+  }
+
   getTimeEntries(guid: string) {
     this.timesheetService.getTimeEntries(guid).subscribe(response => {
       this.timeEntries = response ? response : null;
@@ -240,6 +251,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(count);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+      this.checkTimeOverThreeWeeks(this.firstday1);
 
       if (this.userId) {
         this.getTimesheet(this.userId, this.weekDays[0]);
@@ -261,6 +273,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.checkTimeOverThreeWeeks(this.firstday1);
 
     if (this.userId) {
       this.getTimesheet(this.userId, this.weekDays[0])
@@ -273,6 +286,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.checkTimeOverThreeWeeks(this.firstday1);
 
     if (this.userId) {
       this.getTimesheet(this.userId, this.weekDays[0])
