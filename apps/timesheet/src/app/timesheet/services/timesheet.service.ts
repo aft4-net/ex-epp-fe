@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
@@ -12,23 +12,23 @@ import {
   TimesheetApproval,
   TimesheetApprovalResponse,
   TimesheetConfigResponse,
-  TimesheetResponse
+  TimesheetResponse,
 } from '../../models/timesheetModels';
 import { Project } from '../../models/project';
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TimesheetService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private dayAndDateService: DayAndDateService) {
-  }
+  constructor(
+    private http: HttpClient,
+    private dayAndDateService: DayAndDateService
+  ) {}
 
   //#region timesheet and timeEntry
 
@@ -37,83 +37,110 @@ export class TimesheetService {
 
     if (date) {
       fromDate = this.dayAndDateService.getWeeksFirstDate(date);
-    }
-    else {
+    } else {
       fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
 
     let params = new HttpParams();
 
-    params = params.append("employeeId", userId);
-    params = params.append("date", fromDate.toISOString());
+    params = params.append('employeeId', userId);
+    params = params.append('date', fromDate.toISOString());
 
-    let response = this.http.get<TimesheetResponse>(this.baseUrl + "Timesheets", { observe: "response", params: params });
+    let response = this.http.get<TimesheetResponse>(
+      this.baseUrl + 'Timesheets',
+      { observe: 'response', params: params }
+    );
 
-    return response.pipe(map(r => r.body?.Data));
+    return response.pipe(map((r) => r.body?.Data));
   }
 
   getTimeEntry(timeEntryId: string) {
     let params = new HttpParams();
 
-    params = params.append("id", timeEntryId);
+    params = params.append('id', timeEntryId);
 
-    let response = this.http.get<TimeEntryResponse>(this.baseUrl + "timeentries", { observe: "response", params: params });
+    let response = this.http.get<TimeEntryResponse>(
+      this.baseUrl + 'timeentries',
+      { observe: 'response', params: params }
+    );
 
-    return response.pipe(map(r => r.body?.Data));
+    return response.pipe(map((r) => r.body?.Data));
   }
 
   getTimeEntries(timesheetId: string, date?: Date, projectId?: string) {
     let params = new HttpParams();
 
-    params = params.append("timesheetId", timesheetId);
+    params = params.append('timesheetId', timesheetId);
 
     if (date) {
-      date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 3, 0, 0, 0);
-      params = params.append("date", date.toISOString());
+      date = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        3,
+        0,
+        0,
+        0
+      );
+      params = params.append('date', date.toISOString());
     }
 
     if (projectId) {
-      params = params.append("projectId", projectId);
+      params = params.append('projectId', projectId);
     }
 
-    let response = this.http.get<TimeEntriesResponse>(this.baseUrl + "timeentries", { observe: "response", params: params })
+    let response = this.http.get<TimeEntriesResponse>(
+      this.baseUrl + 'timeentries',
+      { observe: 'response', params: params }
+    );
 
-    return response.pipe(map(r => r.body?.Data));
+    return response.pipe(map((r) => r.body?.Data));
   }
 
   addTimeEntry(employeeId: string, timeEntry: TimeEntry) {
-    const headers = { "content-type": "application/json" };
+    const headers = { 'content-type': 'application/json' };
 
     let params = new HttpParams();
 
-    params = params.append("employeeId", employeeId);
+    params = params.append('employeeId', employeeId);
 
-    return this.http.post<any>(this.baseUrl + "timeentries", timeEntry, { "headers": headers, params: params });
+    return this.http.post<any>(this.baseUrl + 'timeentries', timeEntry, {
+      headers: headers,
+      params: params,
+    });
   }
 
   addTimeEntryForRangeOfDates(employeeId: string, timeEntries: TimeEntry[]) {
-    const headers = { "content-type": "application/json" };
+    const headers = { 'content-type': 'application/json' };
 
     let params = new HttpParams();
 
-    params = params.append("employeeId", employeeId);
+    params = params.append('employeeId', employeeId);
 
-    return this.http.post<any>(this.baseUrl + "TimeEntriesForRange", timeEntries, { "headers": headers, params: params });
+    return this.http.post<any>(
+      this.baseUrl + 'TimeEntriesForRange',
+      timeEntries,
+      { headers: headers, params: params }
+    );
   }
 
   updateTimeEntry(timeEntry: TimeEntry) {
-    const headers = { "content-type": "application/json" };
+    const headers = { 'content-type': 'application/json' };
 
-    return this.http.put<TimeEntryResponse>(this.baseUrl + "timeentries", timeEntry, { "headers": headers });
+    return this.http.put<TimeEntryResponse>(
+      this.baseUrl + 'timeentries',
+      timeEntry,
+      { headers: headers }
+    );
   }
 
   deleteTimeEntry(timeEntryId: string): Observable<unknown> {
     let params = new HttpParams();
 
-    params = params.set("timeEntryId", timeEntryId);
+    params = params.set('timeEntryId', timeEntryId);
 
-    return this.http.delete(this.baseUrl + "DeleteTimeEntry", { params });
+    return this.http.delete(this.baseUrl + 'DeleteTimeEntry', { params });
   }
 
   //#endregion
@@ -123,23 +150,30 @@ export class TimesheetService {
   getTimeSheetApproval(timeSheetId: string) {
     let params = new HttpParams();
 
-    params = params.append("timesheetGuid", timeSheetId);
+    params = params.append('timesheetGuid', timeSheetId);
 
-    let response = this.http.get<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", { observe: "response", params: params });
+    let response = this.http.get<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetAproval',
+      { observe: 'response', params: params }
+    );
 
-    return response.pipe(map(r => r.body?.Data));
+    return response.pipe(map((r) => r.body?.Data));
   }
 
   addTimeSheetApproval(timeSheetId: string) {
-    const headers = { "content-type": "application/json" }
+    const headers = { 'content-type': 'application/json' };
 
     let params = new HttpParams();
 
-    params = params.append("timesheetGuid", timeSheetId)
+    params = params.append('timesheetGuid', timeSheetId);
 
-    let response = this.http.post<TimesheetApprovalResponse>(this.baseUrl + "TimesheetAproval", null, { "headers": headers, params: params });
+    let response = this.http.post<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetAproval',
+      null,
+      { headers: headers, params: params }
+    );
 
-    return response.pipe(map(r => r.Data));
+    return response.pipe(map((r) => r.Data));
   }
 
   //#endregion
@@ -147,13 +181,14 @@ export class TimesheetService {
   //#region Timesheet Configuration
 
   getTimeSheetConfiguration() {
-    let response = this.http.get<TimesheetConfigResponse>(this.baseUrl + "TimeSheetConfig");
+    let response = this.http.get<TimesheetConfigResponse>(
+      this.baseUrl + 'TimeSheetConfig'
+    );
 
-    return response.pipe(map(r => r.Data));
+    return response.pipe(map((r) => r.Data));
   }
 
   //#endregion
-
 
   //#region client and poject from mock server
 
@@ -162,76 +197,93 @@ export class TimesheetService {
       let params = new HttpParams();
 
       for (const index in clientIds) {
-        params = params.append("id", clientIds[index]);
+        params = params.append('id', clientIds[index]);
       }
 
-      let response = this.http.get<Client[]>("http://localhost:3000/clients", { observe: "response", params: params });
+      let response = this.http.get<Client[]>('http://localhost:3000/clients', {
+        observe: 'response',
+        params: params,
+      });
 
-      return response.pipe(map(r => r.body));
-    }
-    else {
-      return this.http.get<Client[]>("http://localhost:3000/clients");
+      return response.pipe(map((r) => r.body));
+    } else {
+      return this.http.get<Client[]>('http://localhost:3000/clients');
     }
   }
 
   getClient(clientId: string) {
     let params = new HttpParams();
 
-    params = params.append("id", clientId);
+    params = params.append('id', clientId);
 
-    let response = this.http.get<Client[]>("http://localhost:3000/clients", { observe: "response", params: params });
+    let response = this.http.get<Client[]>('http://localhost:3000/clients', {
+      observe: 'response',
+      params: params,
+    });
 
-    return response.pipe(map(r => r.body));
+    return response.pipe(map((r) => r.body));
   }
 
   getProjects(userId: string, clientId?: string) {
     let params = new HttpParams();
 
-    params = params.append("employeeId", userId);
+    params = params.append('employeeId', userId);
 
     if (clientId) {
-      params = params.append("clientId", clientId);
+      params = params.append('clientId', clientId);
     }
 
-    let response = this.http.get<Project[]>("http://localhost:3000/projects", { observe: "response", params: params });
+    let response = this.http.get<Project[]>('http://localhost:3000/projects', {
+      observe: 'response',
+      params: params,
+    });
 
-    return response.pipe(map(r => r.body));
+    return response.pipe(map((r) => r.body));
   }
 
   getProject(projectId: string) {
     let params = new HttpParams();
 
-    params = params.append("id", projectId);
+    params = params.append('id', projectId);
 
-    let response = this.http.get<Project[]>("http://localhost:3000/projects", { observe: "response", params: params });
+    let response = this.http.get<Project[]>('http://localhost:3000/projects', {
+      observe: 'response',
+      params: params,
+    });
 
-    return response.pipe(map(r => r.body));
+    return response.pipe(map((r) => r.body));
   }
   //#endregion
 
-  getTimesheetSubmissionHistory( pageindex:number,pageSize:number ) :Observable<PaginatedResult< TimesheetApproval[]>> 
-  {  
-   const params = new HttpParams()
-   .set('pageindex', pageindex.toString())
-   .set('pageSize', pageSize.toString())
+  getTimesheetApprovalPagination(
+    pageindex: number,
+    pageSize: number,
+    searchKey?: string,
+    status?:string
+  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+    const params = new HttpParams()
+      .set('pageindex', pageindex.toString())
+      .set('pageSize', pageSize.toString())
+      .set('searchKey', searchKey ? searchKey : '');
 
-   let paginatedResult: PaginatedResult< TimesheetApproval[]> = {
-     data: [] as  TimesheetApproval[],
-     pagination: {} as Pagination
-  };
-  return this.http.get(`${this.baseUrl}timesheetSubmissionHistory?` +params.toString())
-       .pipe(   
-         map((response:any) => { 
-           paginatedResult= {
-             data:response.Data,
-             pagination:{pageIndex:response.PageIndex,
-               totalPage:response.TotalPage,
-               pageSize:response.PageSize,
-               totalRecord:response.TotalRecord}
-          };
-          return paginatedResult;      
-         })
-       );
+    let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
+      data: [] as TimesheetApproval[],
+      pagination: {} as Pagination,
+    };
+    return this.http.get(`${this.baseUrl}approve?`+ params.toString()).pipe(
+      map((response: any) => {
+        paginatedResult = {
+          data: response.Data,
+          pagination: {
+            pageIndex: response.PageIndex,
+            totalPage: response.TotalPage,
+            pageSize: response.PageSize,
+            totalRecord: response.TotalRecord,
+          },
+        };
+        return paginatedResult;
+      })
+    );
+
   }
-
 }

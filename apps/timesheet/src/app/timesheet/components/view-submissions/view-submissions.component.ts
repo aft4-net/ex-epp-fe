@@ -108,7 +108,7 @@ export class ViewSubmissionsComponent implements OnInit {
 
   timesheetSubmissionPaginatin(index: number, pageSize: number) {
     this.timeSheetService
-      .getTimesheetSubmissionHistory(index, pageSize)
+      .getTimesheetApprovalPagination(index, pageSize)
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
