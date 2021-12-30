@@ -15,24 +15,24 @@
 {
   width:150px;
   height:48px;
-  margin-top: 80px;
+  margin-top: 50px;
   margin-bottom:159px;
-  margin-left: 200px;
+  margin-left: 150px;
 }
 
 .excellerent-logo
 { 
-   margin-top:-218px;
+   margin-top:-212px;
    margin-bottom:159px;
-   margin-left: 335px;
+   margin-left: 250px;
    margin-right: 0px;
 }
 .login-welcome-text{
   width:500px;
   height:64px;
-  margin-top:-150px;
-  margin-bottom:159px;
-  margin-left: 230px;
+  margin-top:-140px;
+  margin-bottom:39px;
+  margin-left: 170px;
   font:SF Pro Display Semibold;
   font-style:normal;
   font-weight:600;
@@ -69,6 +69,11 @@
   border-radius:5px;
 }
 
+.container{
+
+  width:fit-content;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -97,8 +102,8 @@
 }
 .excellernt-main-logo
 {
-  margin-top: 220px;
-  margin-left: 300px;
+  margin-top: 300px;
+  margin-left: 240px;
 }
 
 .sidebar-iframe

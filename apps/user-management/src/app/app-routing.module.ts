@@ -10,10 +10,17 @@ import { UserdetailsComponent } from './features/components/userdetails/userdeta
 import { MicrosoftLoginGuard } from './features/Account/signin/microsoft-login.guard';
 
 const routes: Routes = [
-  { path: '', component: EppdashboardComponent, canActivate: [MicrosoftLoginGuard]},
+  { path: '', component: PrimaryPageTemplateComponent, canActivate: [MicrosoftLoginGuard],
+  children: [
+    {
+      path: '',component: EppdashboardComponent
+    },
+  ], 
+}, 
   { path: 'sider', component: SiderComponent},
   { path: 'user-dashboard', component: UserDashboardComponent},
   { path: 'user-detail', component: UserdetailsComponent },
+
   { path: 'users', component: PrimaryPageTemplateComponent,
       children: [
         {
