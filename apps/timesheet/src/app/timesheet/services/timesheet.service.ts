@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
+  ApprovalEntity,
   TimeEntriesResponse,
   TimeEntry,
   TimeEntryResponse,
