@@ -13,6 +13,8 @@ export class TimesheetApprovalComponent implements OnInit {
   cols: TemplateRef<any>[] = [];
   currentNameSubject$ = new BehaviorSubject(true);
 
+  resources: any;
+
   employees = [
     {
         id:1,
@@ -120,6 +122,11 @@ onTabSelected(tab:any) {
    else {
      this.currentNameSubject$.next(false);
    }
+}
+
+updateProjectResourseList(resources: any) {
+  this.resources = resources;
+  console.log(this.resources);
 }
 
 }
