@@ -102,15 +102,20 @@ export class ViewSubmissionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.timesheetSubmissionPaginatin(1,this.pageSize);
+    this.timesheetSubmissionPaginatin(1,this.pageSize,null,[]);
     this.timeSheetHistory = this.sampleData;
     this.total = this.sampleData.length;
     this.setFliters();
   }
 
-  timesheetSubmissionPaginatin(index: number, pageSize: number) {
+  navaigateToTimeSheet() {
+    this.router.navigateByUrl('timesheet');
+  }
+
+  timesheetSubmissionPaginatin(pageIndex:number, sortField:any, sortOrder:any, filter:any) {
+    this.loading=true;
     this.timeSheetService
-      .getTimesheetSubmissions(index, pageSize,null,null,[])
+      .getTimesheetSubmissions(pageIndex, this.pageSize,sortField,sortOrder,filter)
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
@@ -123,23 +128,14 @@ export class ViewSubmissionsComponent implements OnInit {
 
   getWeek($event:Date)
   {
-    this.loading=true;
+    console.log($event)
     const { pageSize, pageIndex, sort, filter } =this.params;
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
     filter.push({key:"FromDate",value:$event})
-    this.timeSheetService.getTimesheetSubmissions(pageIndex, pageSize, sortField, sortOrder, filter)
-    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-      this.timeSheetHistory = response.data;
-      this.pageIndex = response.pagination.pageIndex;
-      this.pageSize = response.pagination.pageSize;
-      this.total = response.pagination.totalRecord;
-      this.totalPage = response.pagination.totalPage;
-      this.loading=false;
-    });
-
-  }
+    this.timesheetSubmissionPaginatin(pageIndex, sortField, sortOrder, filter);
+ }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     console.log(params);
@@ -149,16 +145,19 @@ export class ViewSubmissionsComponent implements OnInit {
     const currentSort = sort.find(item => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
-    this.timeSheetService.getTimesheetSubmissions(pageIndex, pageSize, sortField, sortOrder, filter)
-    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-      this.timeSheetHistory = response.data;
-      this.pageIndex = response.pagination.pageIndex;
-      this.pageSize = response.pagination.pageSize;
-      this.total = response.pagination.totalRecord;
-      this.totalPage = response.pagination.totalPage;
-      this.loading=false;
-    });
+    this.timesheetSubmissionPaginatin(pageIndex, sortField, sortOrder, filter);
   }
+   
+  PageIndexChange(index: number): void {
+    this.pageIndex = index;
+    const { pageSize, pageIndex, sort, filter } = this.params;
+    const currentSort = sort.find(item => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;
+    this.timesheetSubmissionPaginatin(index, sortField, sortOrder, filter);
+    this.loading = false;
+  }
+
 
   setFliters() {
     const clientNameList: string[] = [];
@@ -189,17 +188,7 @@ export class ViewSubmissionsComponent implements OnInit {
     console.log(this.statusFilter);
   }
 
-  navaigateToTimeSheet() {
-    this.router.navigateByUrl('timesheet');
-  }
-
-  PageIndexChange(index: any): void {
-    this.pageIndex = index;
-    this.loading = true;
-    this.timesheetSubmissionPaginatin(index, 10);
-    this.loading = false;
-  }
-
+ 
   getUniqeValue(value: any[]) {
     return value
       .map((item) => item)
