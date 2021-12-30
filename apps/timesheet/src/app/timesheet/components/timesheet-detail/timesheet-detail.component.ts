@@ -19,6 +19,11 @@ import { map } from 'rxjs/operators'
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 
+export const startingDateCriteria = {} as {
+  isBeforeThreeWeeks: boolean,
+  startingDate: Date
+}
+
 @Component({
   selector: 'exec-epp-timesheet-detail',
   templateUrl: './timesheet-detail.component.html',
@@ -139,6 +144,54 @@ export class TimesheetDetailComponent implements OnInit {
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   }
 
+  getTimesheetConfiguration() {
+    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
+      if (response) {
+        this.timesheetConfig = response;
+      }
+    }, error => {
+      this.createNotification("error", "Error getting timesheet configuration.");
+    })
+  }
+
+  getTimesheet(userId: string, date?: Date) {
+    this.weeklyTotalHours = 0;
+
+    this.timesheet = null;
+    this.timeEntries = null;
+    this.timesheetApprovals = null;
+    this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
+      this.timesheet = response ? response : null;
+
+      if (this.timesheet) {
+        this.getTimeSheetApproval(this.timesheet.Guid);
+      }
+      else {
+        this.checkForCurrentWeek();
+      }
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  checkTimeOverThreeWeeks(date: Date): void {
+    const nowDate: Date = this.dayAndDateService.getWeeksFirstDate(new Date());
+    const projectDate: Date = date;
+    startingDateCriteria.startingDate = projectDate
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
+    startingDateCriteria.isBeforeThreeWeeks = 
+    (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond)?
+      true: false;
+  }
+
+  getTimeSheetApproval(guid: string) {
+    this.timesheetService.getTimeSheetApproval(guid).subscribe(response => {
+      this.timesheetApprovals = response ? response : null;
+      this.isSubmitted = response ? true : false;
+      this.checkForCurrentWeek();
+    });
+  }
+
   getProjectsAndClients(userId: string) {
     this.timesheetService.getProjects(userId).subscribe(response => {
       this.projects = response;
@@ -201,6 +254,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(count);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+      this.checkTimeOverThreeWeeks(this.firstday1);
 
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
@@ -222,6 +276,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.checkTimeOverThreeWeeks(this.firstday1);
 
     if (this.userId) {
       this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
@@ -236,6 +291,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.checkTimeOverThreeWeeks(this.firstday1);
 
     if (this.userId) {
       this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);

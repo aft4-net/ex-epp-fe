@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
-import { throwIfEmpty } from 'rxjs/operators';
-import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Component({
   selector: 'app-timesheet-header',
@@ -23,9 +22,10 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekLastDate: Date | null = null;
   @Input() isApproved = false;
 
-
   weeklyTotalHours: number = 0;
   configWeeklyTotalHour: number = 0;
+  startingDateCriteria=startingDateCriteria
+
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
   timeSheetStatus = "not-submitted-enable";
