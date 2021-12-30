@@ -23,33 +23,38 @@
       </svg>
     </a>
   </span>
-  <nz-table #filterTable class="nzTable mt-2" [nzFrontPagination]="false" [nzData]="timeSheetHistory"
-    (nzPageIndexChange)="PageIndexChange($event)">
+ 
+  <nz-date-picker class="mt-3 mb-3" nzMode="week" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
+ <nz-table  #filterTable
+  nzSize="small"
+ [nzOuterBordered]="true"
+  [nzFrontPagination]="false"
+  [nzData]="timeSheetHistory"
+  (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
       <tr>
-
-
         <th [nzSortOrder]="listOfColumns[0].sortOrder" [nzSortFn]="listOfColumns[0].sortFn"
           [nzSortDirections]="listOfColumns[0].sortDirections">
           {{listOfColumns[0].name }}
         </th>
 
-        <th [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
+        <th nzColumnKey="ProjectName" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
           [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
           [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
           {{ listOfColumns[1].name }}
         </th>
 
 
-        <th [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
+        <th nzColumnKey="ClientName" [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
           [nzSortDirections]="listOfColumns[2].sortDirections" [nzFilterMultiple]="listOfColumns[2].filterMultiple"
           [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
           {{ listOfColumns[2].name }}
         </th>
 
-        <th [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
-          [nzSortDirections]="listOfColumns[3].sortDirections" [nzFilterMultiple]="listOfColumns[3].filterMultiple"
-          [nzFilters]="listOfColumns[3].listOfFilter" [nzFilterFn]="listOfColumns[3].filterFn">
+        <th nzColumnKey="status" [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
+          [nzSortDirections]="listOfColumns[3].sortDirections" 
+          [nzFilters]="listOfColumns[3].listOfFilter" 
+          >
           {{ listOfColumns[3].name }}
         </th>
 
@@ -58,7 +63,7 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody style="margin-bottom: 0px !important; padding-bottom: 0px;!important " >
       <tr *ngFor="let data of   filterTable.data">
         <td>{{data.FromDate | date:'MMM' }} {{data.FromDate | date:'L'}} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
@@ -78,7 +83,7 @@
     </tbody>
   </nz-table>
   <span nz-row class="pagination  flex justify-end">
-    Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
+    Showing {{ pageSize}} of {{total}} entries
     <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
     </nz-pagination>
   </span>

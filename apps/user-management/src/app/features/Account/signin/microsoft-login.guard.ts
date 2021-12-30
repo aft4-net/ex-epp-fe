@@ -21,6 +21,7 @@ export class MicrosoftLoginGuard implements CanActivate {
       return false;
     }
     else{
+      
       console.log('logged in');
     }
 

@@ -53,8 +53,16 @@ export class TimesheetValidationService {
 
     this.message = null;
 
-    if(timeEntries.length === 0){
+    if (timeEntries.length === 0) {
       return false;
+    }
+
+    if (!timesheetConfiguration?.WorkingDays) {
+      timesheetConfiguration.WorkingDays = [];
+    }
+
+    if (!timesheetConfiguration?.WorkingHour) {
+      timesheetConfiguration.WorkingHour = 0;
     }
 
     for (const workingDay of timesheetConfiguration.WorkingDays) {

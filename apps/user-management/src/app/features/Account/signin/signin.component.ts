@@ -33,11 +33,13 @@ export class SigninComponent implements OnInit {
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
         this.authService.instance.setActiveAccount(response.account);
+        window.location.reload();
       });
   }
 
   logout() {
-    this.authService.logout()
+    this.authService.logout();
+    window.location.reload();
   }
 }
 

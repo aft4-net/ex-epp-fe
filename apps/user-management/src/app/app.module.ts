@@ -6,21 +6,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module'
 import { EppdashboardComponent } from './features/components/eppdashboard/eppdashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { ApplicationModule, NgModule } from '@angular/core';
-import en from '@angular/common/locales/en';
-import { registerLocaleData } from '@angular/common';
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { SigninComponent } from './features/Account/signin/signin.component';
-import {Configuration, IPublicClientApplication , PublicClientApplication} from '@azure/msal-browser'
+import {IPublicClientApplication , PublicClientApplication} from '@azure/msal-browser'
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { PageTemplateModule } from './shared/modules/templates/page-template.module';
-import {  MsalModule, MsalService, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG } from '@azure/msal-angular';
-import {  MSAL_GUARD_CONFIG} from '@azure/msal-angular';
-
-
-//import {MsalConfModule} from './authconfig';
+import {  MsalModule, MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 
 
 export function MSALInstanceFactory(): IPublicClientApplication 
