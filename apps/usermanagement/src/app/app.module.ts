@@ -14,6 +14,7 @@ import { SiderComponent } from './components/application/sider/sider.component';
 import { SigninComponent } from './features/Account/signin/signin.component';
 import { PermissionComponent } from './features/components/permission/permission.component';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
+import { GroupsetComponent } from './features/components/groupset/groupset.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UserDashboardComponent } from './features/components/user-dashboard/use
     SiderComponent,
     SigninComponent,
     PermissionComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    GroupsetComponent
   ],
   imports: [
     BrowserModule,

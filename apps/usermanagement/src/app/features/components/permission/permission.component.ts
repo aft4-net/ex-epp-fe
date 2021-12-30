@@ -9,7 +9,7 @@ import { PermissionService } from '../../services/permission/permission.service'
 })
 export class PermissionComponent implements OnInit {
 permissionResponse?:IPermissionResponseModel;
-permissionData?:IPermissionModel[];
+permissionData?:any;
 panels = [
   {
     active: true,
@@ -35,6 +35,9 @@ this._permissionService.getPermission().subscribe((reponse:any)=>{
   this.permissionData=this.permissionResponse?.Data;
   console.log(this.permissionData);
 })
+  }
+  parentSelected(code:string){
+    alert(code)
   }
 
 }

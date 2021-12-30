@@ -9,6 +9,7 @@ import { UserDashboardComponent } from '../features/components/user-dashboard/us
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GroupsetComponent } from '../features/components/groupset/groupset.component';
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
@@ -28,6 +29,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       },
       {
         path:'user-dashboard',component:UserDashboardComponent
+      },
+      {
+        path:'group',component:GroupsetComponent
       }
     ]),
   ],

@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class PermissionService {
 
-  baseUrl = environment.apiUrl + '/Permission';
+  baseUrl = environment.apiUrl + '/Permission/zeroLevel';
   constructor(private http: HttpClient) { }
 
   getPermission(){
