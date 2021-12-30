@@ -96,7 +96,7 @@ export class GroupsetComponent implements OnInit {
           content: 'Group added successfully',
           duration: 5000,
         });
-        this.FeatchAllgroups();
+        this.FeatchAllgroups();        
         this.isVisible = false;
       },
       (err: any) => {
