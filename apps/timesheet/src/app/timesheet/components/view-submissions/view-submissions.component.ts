@@ -75,7 +75,7 @@ export class ViewSubmissionsComponent implements OnInit {
         list.some((name) => item.Status.toLocaleString().indexOf(name) !== -1),
     },
     {
-      name: "Manager's Note",
+      name: "Manager's Notes",
       sortOrder: null,
       sortFn: null,
       sortDirections: [null],
