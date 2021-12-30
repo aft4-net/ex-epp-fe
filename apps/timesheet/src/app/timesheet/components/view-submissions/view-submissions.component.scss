@@ -93,7 +93,7 @@ font-weight: 500;
 font-size: 16px;
 }
 
-::ng-deep .ant-btn {
+ .ant-btn {
     background-color: #00A551;
     font-family: -apple-system, system-ui, BlinkMacSystemFont;
     font-style: normal;
@@ -102,7 +102,7 @@ font-size: 16px;
     line-height: 24px;
     color: #FFFFFF;
   }
-  ::ng-deep .ant-btn:not([disabled]):hover {
+ .ant-btn:not([disabled]):hover {
     background: #03da6b !important;
     color: white;
   }
