@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ApplicationRoutingModule } from './user-routing.module';
+
 import { SiderComponent } from '../../components/application/sider/sider.component';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,16 +20,15 @@ export function MSALInstanceFactory(): IPublicClientApplication
 
 }
 @NgModule({
-  declarations: [SiderComponent,],
+  declarations: [SiderComponent],
   imports: [
-    ApplicationRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,         
     SharedModule,
     MsalModule
-  ],
+  ],   
   providers:[ 
-    {
+    {    
     provide: MSAL_INSTANCE,
     useFactory: MSALInstanceFactory
   },
