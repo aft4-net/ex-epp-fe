@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, AfterViewInit, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
-import { findIndex } from 'rxjs/operators';
+import { findIndex, throwIfEmpty } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
@@ -55,12 +55,15 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void {
+  ngOnInit(): void {debugger;
     
   }
 
   ngOnChanges(): void {
-    if (this.timesheet) {
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    this.timeEntries = this.timeEntries?.filter(te => new Date(te.Date).valueOf() === this.date.valueOf()) ?? null;
+
+    if (this.timeEntries) {
       let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
       

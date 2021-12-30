@@ -392,7 +392,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.showFormDrawer();
       return;
     }
-
+    
     this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
@@ -778,11 +778,4 @@ export class TimesheetDetailComponent implements OnInit {
 
     return date.valueOf() < fromDate.valueOf() || date.valueOf() > toDate.valueOf() || date.valueOf() > new Date().valueOf();
   }
-
-  getTimeEntries(date: Date) {
-    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-    return this.timeEntries$.pipe(map(timeEntries => timeEntries?.filter(te => new Date(te.Date).valueOf() === date.valueOf()) ?? null ));
-  }
-
 }

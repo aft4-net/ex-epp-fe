@@ -7,7 +7,7 @@
         <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
             <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' " [date]="myD"
                 [timesheet]="(timesheet$ | async)"
-                [timeEntries]="(getTimeEntries(myD) | async)"
+                [timeEntries]="(timeEntries$ | async)"
                 [timesheetApprovals]="(timesheetApprovals$ | async)"
                 (dateColumnClicked)="onDateColumnClicked($event, myD)"
                 (projectNamePaletClicked)="onProjectNamePaletClicked($event, myD)"

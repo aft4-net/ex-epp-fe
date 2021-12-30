@@ -8,6 +8,7 @@ import { TimesheetService } from '../../services/timesheet.service';
 import { NzModalService } from "ng-zorro-antd/modal";
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
+import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -30,13 +31,14 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
 
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
-    private modal: NzModalService) {
-  }
+    private modal: NzModalService,
+    private timesheetStateService: TimesheetStateService
+  ) { }
 
   ngOnInit(): void {
-        
+
   }
-  
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
@@ -52,38 +54,53 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   }
 
   showPopover() {
-    if(this.startingDateCriteria.isBeforeThreeWeeks){
-      return
+    if (this.clickEventType !== ClickEventType.none) {
+      return;
     }
+
+    this.clickEventType = ClickEventType.showPaletPopover;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
-    if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = ClickEventType.showPaletPopover;
-      this.paletEllipsisClicked.emit(timeEntryEvent);
-      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
+      return;
     }
+
+    this.paletEllipsisClicked.emit(timeEntryEvent);
+    this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
   }
 
   onProjectNamePaletClicked() {
-    if(this.startingDateCriteria.isBeforeThreeWeeks){
-      return
+    if (this.clickEventType !== ClickEventType.none) {
+      this.clickEventType = ClickEventType.none;
+      return;
     }
-    if(!this.checkTimeOverThreeWeeks()) return;
+
+    this.clickEventType = ClickEventType.showFormDrawer;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
-    if (this.clickEventType == ClickEventType.none) {
-      this.clickEventType = ClickEventType.showFormDrawer;
-      this.projectNamePaletClicked.emit(timeEntryEvent);
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
+      this.clickEventType = ClickEventType.none;
+      return;
     }
+    /*
+    if (!this.checkTimeOverThreeWeeks()) {
+      this.clickEventType = ClickEventType.none;
+      return;
+    }
+    //*/
 
+    this.projectNamePaletClicked.emit(timeEntryEvent);
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
   }
 
   showFormDrawer() {
-    if (this.clickEventType === ClickEventType.none) {
-      this.editClicked.emit(ClickEventType.showFormDrawer);
-      this.popoverVisible = false;
+    if (this.clickEventType !== ClickEventType.none) {
+      this.clickEventType = ClickEventType.none;
+      return;
     }
+
+    this.editClicked.emit(ClickEventType.showFormDrawer);
+    this.popoverVisible = false;
 
     this.clickEventType = ClickEventType.none;
   }
@@ -91,11 +108,11 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   checkTimeOverThreeWeeks() {
     const nowDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
     let projectDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
-    if(this.timeEntry){
+    if (this.timeEntry) {
       projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
     }
     const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
-    if(nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond){
+    if (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond) {
       return true;
     }
     return false;
@@ -122,8 +139,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   deleteTimeEntry(): void {
     if (this.timeEntry) {
       this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(data => {
-        console.log(data);
-        window.location.reload();
+        //TODO: remove deleted time-entry from the time entry list
       });
     }
   }
