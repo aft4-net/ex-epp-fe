@@ -35,14 +35,14 @@ export class ClientProjectComponent implements OnInit  {
 
   clientTab()
   {
-    this.clientSelected=true;
-    this.activeTabService.setFristPage(0);
+    this.clientSelected=false;
+ 
   }
 
   projectTab()
 {
   this.clientSelected=false;
-  this.activeTabService.setFristPage(1);
+
 }
 
 addProjectPage()

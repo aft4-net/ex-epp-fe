@@ -6,6 +6,8 @@ import { Project } from '../../../models/project';
 import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { NzModalService } from "ng-zorro-antd/modal";
+import { DayAndDateService } from '../../services/day-and-date.service';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -24,8 +26,10 @@ export class ProjectNamePaletComponent implements OnInit {
   isVisible1 = false;
   clickEventType = ClickEventType.none;
   popoverVisible = false;
+  startingDateCriteria = startingDateCriteria
 
   constructor(private timesheetService: TimesheetService,
+    private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService) {
   }
 
@@ -44,6 +48,9 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   showPopover() {
+    if(this.startingDateCriteria.isBeforeThreeWeeks){
+      return
+    }
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
     if (this.clickEventType === ClickEventType.none) {
@@ -54,6 +61,10 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   onProjectNamePaletClicked() {
+    if(this.startingDateCriteria.isBeforeThreeWeeks){
+      return
+    }
+    if(!this.checkTimeOverThreeWeeks()) return;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     if (this.clickEventType == ClickEventType.none) {
@@ -71,6 +82,19 @@ export class ProjectNamePaletComponent implements OnInit {
     }
 
     this.clickEventType = ClickEventType.none;
+  }
+
+  checkTimeOverThreeWeeks() {
+    const nowDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
+    let projectDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
+    if(this.timeEntry){
+      projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
+    }
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
+    if(nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond){
+      return true;
+    }
+    return false;
   }
 
   closePopover() {

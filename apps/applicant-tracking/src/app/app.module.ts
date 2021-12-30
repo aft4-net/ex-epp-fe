@@ -13,6 +13,7 @@ import { SharedModule } from './shared/modules/shared.module';
 import { ApplicationRoutingModule } from './app-routing.module';
 import { httpInterceptor } from './interceptor/httpInterceptor';
 import { errorInterceptor } from './interceptor/errorInterceptor';
+import { UserManagementModule } from './modules/userManagment/user-management.module';
 
 registerLocaleData(en);
 
@@ -26,6 +27,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
+    UserManagementModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US },
     { provide: HTTP_INTERCEPTORS, useClass: httpInterceptor, multi: true },
