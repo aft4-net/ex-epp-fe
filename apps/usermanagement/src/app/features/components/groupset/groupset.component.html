@@ -84,11 +84,11 @@
       </div>
       <div [formGroup]="groupDashboardForm" nz-row >
         <div nz-col class="gutter-row" [nzSpan]="8" >
-          <nz-input-group [nzSize]="'small'"  [nzPrefix]="suffixIconButton">
-            <input type="text"  #searchInput formControlName="groupName" nz-input placeholder="Search here" (change)="SearchgroupsByName()" />
+          <nz-input-group nzSearch [nzSize]="'small'"  [nzPrefix]="suffixIconButton">
+            <input type="text" style="border: 0ch;"  #searchInput formControlName="groupName" nz-input placeholder="Search here" (change)="SearchgroupsByName()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchgroupsByName()">
+            <button nz-button style="border: 0ch;" nzSearch   (click)="SearchgroupsByName()">
               <i nz-icon nzType="search"></i>
             </button>
           </ng-template>
