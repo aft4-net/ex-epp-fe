@@ -23,6 +23,8 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
+  timesheetDetail:any;
+  isModalVisible=false;
   date=null;
   bulkCheck = true;
   statusColumn = true;
@@ -191,7 +193,9 @@ export class TimesheetApprovalComponent implements OnInit {
 constructor(
   private router: Router,
   private timeSheetService: TimesheetService
-) {}
+) {
+
+}
 
 ngOnInit(): void {
   this.timesheetApprovalPaginationAll(1,10);
@@ -199,56 +203,57 @@ ngOnInit(): void {
 }
 
 timesheetApprovalPaginationAll(index: number, pageSize: number) {
-  this.timeSheetService
-    .getTimesheetApprovalPagination(index, pageSize)
-    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-      this.timeSheetApprovalAll = response.data;
-      this.pageIndexAll = response.pagination.pageIndex;
-      this.pageSizeAll = response.pagination.pageSize;
-      this.totalAll = response.pagination.totalRecord;
-      this.totalPageAll = response.pagination.totalPage;
-    });
+  // this.timeSheetService
+  //   .getTimesheetApprovalPagination(index, pageSize)
+  //   .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
+  //     this.timeSheetApprovalAll = response.data;
+  //     this.pageIndexAll = response.pagination.pageIndex;
+  //     this.pageSizeAll = response.pagination.pageSize;
+  //     this.totalAll = response.pagination.totalRecord;
+  //     this.totalPageAll = response.pagination.totalPage;
+  //   });
 }
 
 timesheetSubmissionPaginationAwaiting(index: number, pageSize: number) {
-  this.timeSheetService
-    .getTimesheetApprovalPagination(index, pageSize)
-    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-      this.timeSheetApprovalAwaiting = response.data;
-      this.pageIndexAwaiting = response.pagination.pageIndex;
-      this.pageSizeAwaiting = response.pagination.pageSize;
-      this.totalAwaiting = response.pagination.totalRecord;
-      this.totalPageAwaiting = response.pagination.totalPage;
-    });
+  // this.timeSheetService
+  //   .getTimesheetApprovalPagination(index, pageSize)
+  //   .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
+  //     this.timeSheetApprovalAwaiting = response.data;
+  //     this.pageIndexAwaiting = response.pagination.pageIndex;
+  //     this.pageSizeAwaiting = response.pagination.pageSize;
+  //     this.totalAwaiting = response.pagination.totalRecord;
+  //     this.totalPageAwaiting = response.pagination.totalPage;
+  //   });
 }
 
 timesheetSubmissionPaginationApproved(index: number, pageSize: number) {
-  this.timeSheetService
-    .getTimesheetApprovalPagination(index, pageSize)
-    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-      this.timeSheetApprovalApproved = response.data;
-      this.pageIndexApproved = response.pagination.pageIndex;
-      this.pageSizeApproved = response.pagination.pageSize;
-      this.totalApproved = response.pagination.totalRecord;
-      this.totalPageApproved = response.pagination.totalPage;
-    });
+  // this.timeSheetService
+  //   .getTimesheetApprovalPagination(index, pageSize)
+  //   .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
+  //     this.timeSheetApprovalApproved = response.data;
+  //     this.pageIndexApproved = response.pagination.pageIndex;
+  //     this.pageSizeApproved = response.pagination.pageSize;
+  //     this.totalApproved = response.pagination.totalRecord;
+  //     this.totalPageApproved = response.pagination.totalPage;
+  //   });
 }
 
 timesheetSubmissionPaginationReview(index: number, pageSize: number) {
-  this.timeSheetService
-    .getTimesheetApprovalPagination(index, pageSize)
-    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-      this.timeSheetApprovalReview = response.data;
-      this.pageIndexReview = response.pagination.pageIndex;
-      this.pageSizeReview = response.pagination.pageSize;
-      this.totalReview = response.pagination.totalRecord;
-      this.totalPageReview = response.pagination.totalPage;
-    });
+  // this.timeSheetService
+  //   .getTimesheetApprovalPagination(index, pageSize)
+  //   .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
+  //     this.timeSheetApprovalReview = response.data;
+  //     this.pageIndexReview = response.pagination.pageIndex;
+  //     this.pageSizeReview = response.pagination.pageSize;
+  //     this.totalReview = response.pagination.totalRecord;
+  //     this.totalPageReview = response.pagination.totalPage;
+  //   });
 }
 
 
 getweek(result:Date):void{
   console.log('week: ');
+
 }
 
 
@@ -306,8 +311,13 @@ refreshCheckedStatus(): void {
   this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
   this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
 }
-showModal(id: any) {
+showModal(row: any) {
+  this.isModalVisible=true;
+  this.timesheetDetail=row;
 
+}
+timesheetDetailClose(event: boolean){
+  this.isModalVisible=false;
 }
 
 sorter(heading:string) {

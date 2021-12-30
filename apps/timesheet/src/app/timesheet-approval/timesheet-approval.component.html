@@ -60,7 +60,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-                (click)="showModal(row.id)">
+                (click)="showModal(row)">
                 <td>{{row.name}}</td>
                 <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
                 <td>{{row.projectName}}</td>
@@ -101,7 +101,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row.id)">
+              (click)="showModal(row)">
               <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)"
                 (nzCheckedChange)="onItemChecked(row.id, $event)">
               </td>
@@ -133,7 +133,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row.id)">
+              (click)="showModal(row)">
               <td>{{row.name}}</td>
               <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
               <td>{{row.projectName}}</td>
@@ -163,7 +163,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of timeSheetApprovalReview | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row.id)">
+              (click)="showModal(row)">
               <td>{{row.name}}</td>
               <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
               <td>{{row.projectName}}</td>
@@ -179,7 +179,12 @@
           </nz-pagination>
         </span>
       </nz-tab>
-
-
     </nz-tabset>
   </div>
+  <div>
+    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
+    (modalStatus)="timesheetDetailClose($event)"
+    ></exec-epp-timesheet-detail-view>
+  </div>
+
+
