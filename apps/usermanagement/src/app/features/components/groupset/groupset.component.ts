@@ -25,7 +25,7 @@ export class GroupsetComponent implements OnInit {
   isVisible = false;
   groupSet = new FormGroup({
     Name: new FormControl('', [Validators.required, Validators.minLength(2),
-      Validators.pattern('^[a-zA-Z][a-zA-Z0-9-_ ]+$')]),
+                              Validators.pattern('^[a-zA-Z][a-zA-Z0-9-_ ]+$')]),
     Description: new FormControl('')
   });
 
@@ -48,7 +48,7 @@ export class GroupsetComponent implements OnInit {
   beginingRow !: number;
   lastRow !: number;
   groupName!: string;
-  
+
   listOfColumns!: ColumnItem<GroupSetModel>[];
 
   listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
@@ -86,20 +86,9 @@ export class GroupsetComponent implements OnInit {
     this.isVisible = false;
   }
 
-
   onSaveGroup(): void{
     const dataToPost = this.groupSet.value;
-    if(!this.groupSet.valid){
-      Object.values(this.groupSet.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-      this.groupSet.controls.Name.markAsTouched();
-      this.groupSet.controls.Name.updateValueAndValidity();
-    }
-    else{
+
     this.groupSetService.createGroup(dataToPost).subscribe(
       () => {
         this.notification.showNotification({
@@ -107,6 +96,8 @@ export class GroupsetComponent implements OnInit {
           content: 'Group added successfully',
           duration: 5000,
         });
+        this.FeatchAllgroups();        
+        this.isVisible = false;
       },
       (err: any) => {
         this.notification.showNotification({
@@ -117,8 +108,7 @@ export class GroupsetComponent implements OnInit {
         console.log('error:' + err);
       }
     );
-    }
-
+     
     this.groupSet.reset();
   }
   ngOnInit(): void {
@@ -138,6 +128,7 @@ export class GroupsetComponent implements OnInit {
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
     this.groupSetService.SearchUsers(this.groupParams).subscribe((response:PaginationResult<GroupSetModel[]>) => {
       if(response.Data) {
+
         this.groupList$=of(response.Data);
         this.groupList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -147,30 +138,30 @@ export class GroupsetComponent implements OnInit {
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
-        this.loading = false;
+        this.loading = false;    
       }
       else
       {
-        this.loading = false;
+        this.loading = false;  
         this.groupList = [];
         this.groupList$=of([]);
-       
+
       }
 
     },error => {
       this.loading = false;
-      
+
      });
     this.searchStateFound=false;
   }
 
   SearchgroupsByName() {
-    console.log("was in search groups by name method in the componenet");
-    this.loading = true;
+
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
     this.groupSetService.SearchUsers(this.groupParams)
     .subscribe((response: PaginationResult<GroupSetModel[]>) => {
       if(response.Data) {
+        this.loading = true;
         this.groupList$=of(response.Data);
         this.groupList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -196,7 +187,6 @@ export class GroupsetComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log("was in ng after");
     fromEvent<any>(this.input.nativeElement,'keyup')
     .pipe(
       map(event => event.target.value),
@@ -208,15 +198,16 @@ export class GroupsetComponent implements OnInit {
       })
     ).subscribe();
   }
-  
+
   PageIndexChange(index: any): void {
-    this.loading =true;
+
     this.groupParams.pageIndex = index;
     this.groupParams.searchKey = this.groupName ?? "";
     if(this.searchStateFound == true)
     {
       this.groupSetService.SearchUsers(this.groupParams).subscribe(
         (response:PaginationResult<GroupSetModel[]>)=>{
+          this.loading =true;
           this.groupList$ = of(response.Data);
           this.groupList= response.Data;
           this.totalRows = response.pagination.TotalRows;
@@ -256,7 +247,7 @@ export class GroupsetComponent implements OnInit {
       this.loading = false;
     }
   }
-  
+
   AddToGroup(userId: string) {
  // to do
   }
@@ -264,9 +255,9 @@ export class GroupsetComponent implements OnInit {
   Remove(userId: string) {
 // to do
   }
-  
+
   ShowDetail(userId: string) {
-    //this._router.navigateByUrl('/user-detail'); to do
+    //to do
   }
 
 }

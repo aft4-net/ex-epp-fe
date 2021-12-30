@@ -28,13 +28,13 @@
                 <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
                     class="text-danger-error">
                   <div *ngIf="(groupSet.get('Name')?.errors?.['required'])">
-                    Group's name is required.
+                      Group's name is required. 
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
-                    Group's name must be at least 2 characters long.
+                      Group's name must be at least 2 characters long.
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['pattern'] && !(groupSet.get('Name')?.errors?.['minlength'])">
-                    Invalid Group's name.
+                      Invalid Group's name.
                   </div>
                 </div>
 
@@ -72,7 +72,7 @@
   <nz-content>
     <nz-divider nzType="horizontal"></nz-divider>
     <div style="margin-top: -20px;" class="inner-content">
-      <div nz-row>       
+      <div nz-row>
           <div nz-col nzSpan="14" >
             <h2 class="PageHeader">
               Groups
@@ -83,12 +83,12 @@
           </div>
       </div>
       <div [formGroup]="groupDashboardForm" nz-row >
-        <div nz-col class="gutter-row" [nzSpan]="8" style="height: 3px;">
-          <nz-input-group [nzSize]="'small'"  [nzPrefix]="suffixIconButton">
-            <input type="text"  #searchInput formControlName="groupName" nz-input placeholder="Search here" (change)="SearchgroupsByName()" />
+        <div nz-col class="gutter-row" [nzSpan]="8" >
+          <nz-input-group nzSearch [nzSize]="'small'"  [nzPrefix]="suffixIconButton">
+            <input type="text" style="border: 0ch;"  #searchInput formControlName="groupName" nz-input placeholder="Search here" (change)="SearchgroupsByName()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchgroupsByName()">
+            <button nz-button style="border: 0ch;" nzSearch   (click)="SearchgroupsByName()">
               <i nz-icon nzType="search"></i>
             </button>
           </ng-template>
@@ -120,14 +120,14 @@
               <tbody>
                 <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                   <td>{{user.Name }} </td>
-               
+
                   <td>
                     <button nz-button nzType="default" style="border:0px; color: green;" nzType="link" [nzSize]="size"  nz-popover nzPopoverTitle=""
-                    
+
                       nzPopoverPlacement="bottom"> Show Detail
                       </button>
                   </td>
-                 
+
                 </tr>
               </tbody>
             </nz-table>
