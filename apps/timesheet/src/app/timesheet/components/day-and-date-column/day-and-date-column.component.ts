@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, AfterViewInit, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
 import { findIndex } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
@@ -19,7 +19,7 @@ export class DayAndDateDirective {
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewInit {
+export class DayAndDateColumnComponent implements OnInit, OnChanges{
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
@@ -48,10 +48,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   of: any;
   isSubmitted: boolean | undefined;
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
-  ngAfterViewInit(): void {
-    this.checkOverflow(this.colEl.nativeElement);
-    this.overflowCalc();
-  }
 
   clickEventType = ClickEventType.none;
 
@@ -75,7 +71,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
           this.totalHoursCalculated.emit(totalHours);
         }
       });
-      this.overflowCalc();
+     /// this.overflowCalc();
     }
 
     let today = new Date();
@@ -90,26 +86,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
   }
-  overflowCalc() {
-    this.entriesDiv?.changes.subscribe(() => {
-      this.entriesDiv.toArray().forEach(el => {
-        if (this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom < this.pointerEl.nativeElement.getBoundingClientRect().top) {
-          this.overflowPt = this.index + 1;
 
-        }
-        this.index!++;
-      });
-      if (this.overflowPt! > 0) {
-        if (this.checkOverflow(this.colEl.nativeElement)) {
-          this.overflow = true;
-          this.colEl.nativeElement.style.overflow = "hidden";
-          this.columnOverflow.emit(this.overflow);
-          this.split(this.overflowPt!);
-          console.log(this.checkOverflow(this.colEl.nativeElement))
-        }
-      }
-    });
-  }
+
+  
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
@@ -159,26 +138,31 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     this.morePopover = true;
   }
 
-  checkOverflow(el: HTMLElement, index?: number) {
-    if (el.offsetHeight < el.scrollHeight) {
-      this.index ? index : null;
-      this.overflow = true;
+  scrollTimeEntriesUp(el:any){
+    const myElement = document.getElementById(el);
+    myElement?.scrollIntoView();
+    console.log('++++++++++++++++++++++++');
+    console.log("item");
+  }
+ 
+  checkOverflow(divId:any){
+    const elem = document.getElementById(divId)
+
+    const isOverflowing = elem!.clientHeight < elem!.scrollHeight;
+
+    if(isOverflowing){
+      console.log('**********   ************* ************* ******** **************');
+      elem!.classList.remove("entries-overflow");
+      elem!.classList.add("show-scroll-bar");
     }
-    return el.offsetHeight < el.scrollHeight;
+
+
+    console.log('-----------------');
+    console.log(elem!.clientHeight);
+    console.log(elem!.scrollHeight);
+    console.log(elem);
   }
 
-  split(index: number) {
-
-    if (this.timeEntrys !== null) {
-      for (let i = index; i < this.timeEntrys.length; i++) {
-        for (let j = 0; j <= this.timeEntrys.length - index - 1; j++) {
-          this.moreEntries[j] = this.timeEntrys[i];
-          i++;
-        }
-      }
-    }
-    return this.moreEntries;
-  }
 
   timesheetApprovalForaProject(projectId: string) {
     if (!this.timesheetApprovals) {
