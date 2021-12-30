@@ -48,7 +48,7 @@ export class GroupsetComponent implements OnInit {
   beginingRow !: number;
   lastRow !: number;
   groupName!: string;
-  
+
   listOfColumns!: ColumnItem<GroupSetModel>[];
 
   listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
@@ -124,7 +124,7 @@ export class GroupsetComponent implements OnInit {
   }
 
   FeatchAllgroups() {
-    this.loading = true;
+   // this.loading = true;
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
     this.groupSetService.SearchUsers(this.groupParams).subscribe((response:PaginationResult<GroupSetModel[]>) => {
       if(response.Data) {
@@ -144,19 +144,19 @@ export class GroupsetComponent implements OnInit {
         this.loading = false;  
         this.groupList = [];
         this.groupList$=of([]);
-       
+
       }
 
     },error => {
       this.loading = false;
-      
+
      });
     this.searchStateFound=false;
   }
 
   SearchgroupsByName() {
     console.log("was in search groups by name method in the componenet");
-    this.loading = true;
+   // this.loading = true;
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
     this.groupSetService.SearchUsers(this.groupParams)
     .subscribe((response: PaginationResult<GroupSetModel[]>) => {
@@ -198,9 +198,9 @@ export class GroupsetComponent implements OnInit {
       })
     ).subscribe();
   }
-  
+
   PageIndexChange(index: any): void {
-    this.loading =true;
+   // this.loading =true;
     this.groupParams.pageIndex = index;
     this.groupParams.searchKey = this.groupName ?? "";
     if(this.searchStateFound == true)
@@ -246,7 +246,7 @@ export class GroupsetComponent implements OnInit {
       this.loading = false;
     }
   }
-  
+
   AddToGroup(userId: string) {
  // to do
   }
@@ -254,7 +254,7 @@ export class GroupsetComponent implements OnInit {
   Remove(userId: string) {
 // to do
   }
-  
+
   ShowDetail(userId: string) {
     //this._router.navigateByUrl('/user-detail'); to do
   }
