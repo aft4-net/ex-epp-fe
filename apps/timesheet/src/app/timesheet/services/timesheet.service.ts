@@ -287,9 +287,4 @@ export class TimesheetService {
     );
 
   }
-  updateTimesheetApproval( timesheetApproval:ApprovalEntity  ): Observable<any> {
-    const headers = { "content-type": "application/json" };
-
-    return this.http.put( this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
-  }
 }

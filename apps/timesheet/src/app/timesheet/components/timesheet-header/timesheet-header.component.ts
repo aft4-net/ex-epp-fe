@@ -48,15 +48,10 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
   checkForSubmittedForApproal() {
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-     if(this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected)){
-      this.btnText = "Resubmit";
-      this.timeSheetStatus = "not-submitted-enable";
-           }
-     else{
-      this.btnText = "Submitted";
+         this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
     }
-  }
+  
     else {
       this.checkIfValidForApproval();
     }
@@ -87,22 +82,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
-      if (this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected)){
-        let cpy=this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected);
-        for(let i=0;i<cpy.length;i++){
 
-          const temp={
-            TimesheetId:this.timesheet.Guid,
-            ProjectId:cpy[i].ProjectId,
-            Status:ApprovalStatus.Requested
-        } as ApprovalEntity;
-
-        this.timesheetService.updateTimesheetApproval(temp).subscribe();
-        }
-
-
-      }
-      else{
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         this.timesheetApprovals = response ?? [];
         this.checkForSubmittedForApproal();
@@ -112,4 +92,4 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     )};
     }
   }
-}
+
