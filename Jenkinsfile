@@ -44,7 +44,7 @@ pipeline{
                         withDockerRegistry([ credentialsId: "dockerhubID-Blen", url: "" ]) 
                         
                             {
-                            sh "docker tag epp:latest blens/eppfe"
+                            sh "docker tag customer-management:latest blens/eppfe"
                             sh "docker tag timesheet:latest blens/ts"
                             sh "docker tag resource-management:latest blens/rm"
                             sh "docker tag project-management:latest blens/pm"
