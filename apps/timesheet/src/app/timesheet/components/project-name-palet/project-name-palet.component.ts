@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
@@ -13,7 +13,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
   templateUrl: './project-name-palet.component.html',
   styleUrls: ['./project-name-palet.component.scss']
 })
-export class ProjectNamePaletComponent implements OnInit {
+export class ProjectNamePaletComponent implements OnInit, OnChanges {
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>()
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editClicked = new EventEmitter<ClickEventType>()
@@ -33,6 +33,10 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
     this.isOverThreeWeeks = this.checkTimeOverThreeWeeks();
     if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {

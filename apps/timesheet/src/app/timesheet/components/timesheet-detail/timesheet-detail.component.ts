@@ -14,6 +14,10 @@ import { TimesheetConfiguration, Timesheet, TimeEntry, TimesheetApproval, Approv
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'
+import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 
 @Component({
   selector: 'exec-epp-timesheet-detail',
@@ -21,7 +25,6 @@ import { TimesheetService } from '../../services/timesheet.service';
   styleUrls: ['./timesheet-detail.component.scss']
 })
 export class TimesheetDetailComponent implements OnInit {
-
   userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
@@ -37,8 +40,13 @@ export class TimesheetDetailComponent implements OnInit {
     WorkingDays: [],
     WorkingHour: 0
   };
+  timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
   timesheet: Timesheet | null = null;
+  timesheet$: Observable<Timesheet | null> = new Observable();
   timeEntries: TimeEntry[] | null = null;
+  timeEntries$: Observable<TimeEntry[] | null> = new Observable();
+  timesheetApprovals: TimesheetApproval[] | null = [];
+  timesheetApprovals$: Observable<TimesheetApproval[] | null> = new Observable();
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
@@ -73,7 +81,6 @@ export class TimesheetDetailComponent implements OnInit {
   startValue: Date | null = null;
   endValue: Date | null = null;
   isSubmitted: boolean = false;
-  timesheetApprovals: TimesheetApproval[] | null = [];
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   disabledDate = (current: Date): boolean =>
@@ -85,18 +92,27 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private dayAndDateService: DayAndDateService,
-    private timesheetValidationService: TimesheetValidationService
+    private timesheetValidationService: TimesheetValidationService,
+    private timesheetConfigurationStateService: TimesheetConfigurationStateService,
+    private timesheetStateService: TimesheetStateService
   ) {
   }
 
   ngOnInit(): void {
     this.userId = localStorage.getItem("userId");
+    this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
+    this.timesheet$ = this.timesheetStateService.timesheet$;
+    this.timeEntries$ = this.timesheetStateService.timeEntries$;
+    this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
 
     if (this.userId) {
-      this.getTimesheetConfiguration();
-      this.getTimesheet(this.userId);
       this.getProjectsAndClients(this.userId);
+
+      this.timesheetStateService.getTimesheet(this.userId);
     }
+
+    this.checkForCurrentWeek();
+    this.calculateWeeklyTotalHours();
 
     this.validateForm = this.fb.group({
       fromDate: [null, [Validators.required]],
@@ -121,56 +137,6 @@ export class TimesheetDetailComponent implements OnInit {
 
     // To calculate the no. of days between two dates
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-  }
-
-  getTimesheetConfiguration() {
-    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      if (response) {
-        this.timesheetConfig = response;
-      }
-    }, error => {
-      this.createNotification("error", "Error getting timesheet configuration.");
-    })
-  }
-
-  getTimesheet(userId: string, date?: Date) {
-    this.weeklyTotalHours = 0;
-
-    this.timesheet = null;
-    this.timeEntries = null;
-    this.timesheetApprovals = null;
-    this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
-      this.timesheet = response ? response : null;
-
-      if (this.timesheet) {
-        this.getTimeEntries(this.timesheet.Guid);
-        this.getTimeSheetApproval(this.timesheet.Guid);
-      }
-      else {
-        this.checkForCurrentWeek();
-      }
-    }, error => {
-      console.log(error);
-    });
-  }
-
-  getTimeEntries(guid: string) {
-    this.timesheetService.getTimeEntries(guid).subscribe(response => {
-      this.timeEntries = response ? response : null;
-      if (this.timeEntries) {
-        this.calculateWeeklyTotalHours();
-      }
-    }, error => {
-      console.log(error);
-    });
-  }
-
-  getTimeSheetApproval(guid: string) {
-    this.timesheetService.getTimeSheetApproval(guid).subscribe(response => {
-      this.timesheetApprovals = response ? response : null;
-      this.isSubmitted = response ? true : false;
-      this.checkForCurrentWeek();
-    });
   }
 
   getProjectsAndClients(userId: string) {
@@ -237,7 +203,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
       if (this.userId) {
-        this.getTimesheet(this.userId, this.weekDays[0]);
+        this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
       }
     }
   }
@@ -258,8 +224,10 @@ export class TimesheetDetailComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
     if (this.userId) {
-      this.getTimesheet(this.userId, this.weekDays[0])
+      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
     }
+
+    this.checkForCurrentWeek();
   }
 
   lastastWeek(count: any) {
@@ -270,8 +238,10 @@ export class TimesheetDetailComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
     if (this.userId) {
-      this.getTimesheet(this.userId, this.weekDays[0])
+      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
     }
+
+    this.checkForCurrentWeek();
   }
 
   /* checkForCurrentWeek()
@@ -596,7 +566,7 @@ export class TimesheetDetailComponent implements OnInit {
 
     this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(response => {
       if (this.userId) {
-        this.getTimesheet(this.userId, this.date);
+        this.timesheetStateService.getTimesheet(this.userId, this.date);
       }
       this.createNotification("success", "Your Timesheet Added Successfully.");
     }, error => {
@@ -616,7 +586,7 @@ export class TimesheetDetailComponent implements OnInit {
 
     this.timesheetService.addTimeEntryForRangeOfDates(this.userId, timeEntries).subscribe(response => {
       if (this.userId) {
-        this.getTimesheet(this.userId, this.date);
+        this.timesheetStateService.getTimesheet(this.userId, this.date);
       }
       this.createNotification("success", "Time entry for a range added successfully");
     }, error => {
@@ -630,7 +600,7 @@ export class TimesheetDetailComponent implements OnInit {
 
     this.timesheetService.updateTimeEntry(timeEntry).subscribe(response => {
       if (this.userId) {
-        this.getTimesheet(this.userId, this.date);
+        this.timesheetStateService.getTimesheet(this.userId, this.date);
       }
       this.createNotification('success', "Your Timesheet Updated Successfully.");
     }, error => {
@@ -751,6 +721,12 @@ export class TimesheetDetailComponent implements OnInit {
     let toDate = new Date(this.lastday1.getFullYear(), this.lastday1.getMonth(), this.lastday1.getDate());
 
     return date.valueOf() < fromDate.valueOf() || date.valueOf() > toDate.valueOf() || date.valueOf() > new Date().valueOf();
+  }
+
+  getTimeEntries(date: Date) {
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    return this.timeEntries$.pipe(map(timeEntries => timeEntries?.filter(te => new Date(te.Date).valueOf() === date.valueOf()) ?? null ));
   }
 
 }
