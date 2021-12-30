@@ -22,17 +22,22 @@ import { GroupsetComponent } from '../features/components/groupset/groupset.comp
     RouterModule.forChild([
       {
         path: '',
-        component: AppComponent,
+        component: AppComponent, 
+        children : [
+          {
+            path:'',component:UserDashboardComponent
+           
+          },
+          {
+            path:'group',component:GroupsetComponent,
+           
+          }
+        ] 
       },
       {
         path:'permission',component:PermissionComponent
       },
-      {
-        path:'user-dashboard',component:UserDashboardComponent
-      },
-      {
-        path:'group',component:GroupsetComponent
-      }
+     
     ]),
   ],
   providers: [],
