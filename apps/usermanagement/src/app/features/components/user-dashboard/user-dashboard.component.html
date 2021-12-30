@@ -9,7 +9,7 @@
               </h2>
             </div>
             <div nz-col nzSpan="2"  nzOffset="8">
-              <button nz-button nzType="primary" class="adduser">
+              <button nz-button nzType="primary" class="adduser" (click)="addUser()">
                 Add User
             </button>
             </div>
@@ -89,4 +89,8 @@
       </div>
     </nz-content>
   </nz-layout>
-  
+  <nz-modal [(nzVisible)]="isVisible" [nzFooter]="null" nzTitle="Add User" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+     <exec-epp-add-user></exec-epp-add-user>
+    </ng-container>
+  </nz-modal>

@@ -17,7 +17,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
- 
+  isVisible=false;
   size: NzButtonSize = 'small';
   userDashboardForm !: FormGroup;
   loading = false;
@@ -314,5 +314,17 @@ export class UserDashboardComponent implements OnInit {
   
   ShowDetail(userId: string) {
     this._router.navigateByUrl('/user-detail');
+  }
+  addUser(){
+    this.isVisible=true;
+  }
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }
