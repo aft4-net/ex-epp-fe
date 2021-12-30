@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import{MsalService} from '@azure/msal-angular';
-import{AuthenticationResult} from '@azure/msal-browser'
+
+import { AccountService } from '../../../services/user/account.service';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { FormValidator } from '../../../utils/validator';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,14 +12,16 @@ import{AuthenticationResult} from '@azure/msal-browser'
   styleUrls: ['./signin.component.scss'],
 
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent  {
 
-constructor() {}
+constructor(
+  private accountService: AccountService,
+  private router: Router,
+  private notification: NotificationBar,
+  private validator: FormValidator
+) {}
   
-ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
+//
 
 }
 
