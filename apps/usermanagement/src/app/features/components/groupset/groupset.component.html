@@ -28,13 +28,13 @@
                 <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
                     class="text-danger-error">
                   <div *ngIf="(groupSet.get('Name')?.errors?.['required'])">
-                    Group's name is required.
+                      Group's name is required. 
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
-                    Group's name must be at least 2 characters long.
+                      Group's name must be at least 2 characters long.
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['pattern'] && !(groupSet.get('Name')?.errors?.['minlength'])">
-                    Invalid Group's name.
+                      Invalid Group's name.
                   </div>
                 </div>
 

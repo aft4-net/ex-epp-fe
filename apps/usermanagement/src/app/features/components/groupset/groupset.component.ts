@@ -86,7 +86,6 @@ export class GroupsetComponent implements OnInit {
     this.isVisible = false;
   }
 
-
   onSaveGroup(): void{
     const dataToPost = this.groupSet.value;
 
