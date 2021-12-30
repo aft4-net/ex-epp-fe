@@ -134,10 +134,11 @@ export class GroupsetComponent implements OnInit {
   }
 
   FeatchAllgroups() {
-   // this.loading = true;
+    this.loading = true;
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
     this.groupSetService.SearchUsers(this.groupParams).subscribe((response:PaginationResult<GroupSetModel[]>) => {
       if(response.Data) {
+
         this.groupList$=of(response.Data);
         this.groupList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -165,12 +166,12 @@ export class GroupsetComponent implements OnInit {
   }
 
   SearchgroupsByName() {
-    console.log("was in search groups by name method in the componenet");
-   // this.loading = true;
+
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
     this.groupSetService.SearchUsers(this.groupParams)
     .subscribe((response: PaginationResult<GroupSetModel[]>) => {
       if(response.Data) {
+        this.loading = true;
         this.groupList$=of(response.Data);
         this.groupList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -196,7 +197,6 @@ export class GroupsetComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log("was in ng after");
     fromEvent<any>(this.input.nativeElement,'keyup')
     .pipe(
       map(event => event.target.value),
@@ -210,13 +210,14 @@ export class GroupsetComponent implements OnInit {
   }
 
   PageIndexChange(index: any): void {
-   // this.loading =true;
+
     this.groupParams.pageIndex = index;
     this.groupParams.searchKey = this.groupName ?? "";
     if(this.searchStateFound == true)
     {
       this.groupSetService.SearchUsers(this.groupParams).subscribe(
         (response:PaginationResult<GroupSetModel[]>)=>{
+          this.loading =true;
           this.groupList$ = of(response.Data);
           this.groupList= response.Data;
           this.totalRows = response.pagination.TotalRows;
@@ -266,7 +267,7 @@ export class GroupsetComponent implements OnInit {
   }
 
   ShowDetail(userId: string) {
-    //this._router.navigateByUrl('/user-detail'); to do
+    //to do
   }
 
 }
