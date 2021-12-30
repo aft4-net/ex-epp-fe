@@ -16,6 +16,7 @@ import { PermissionComponent } from './features/components/permission/permission
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { GroupsetComponent } from './features/components/groupset/groupset.component';
 import { AddUserComponent } from './features/components/user/add-user/add-user.component';
+import { UserToGroupComponent } from './features/components/user/user-to-group/user-to-group.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AddUserComponent } from './features/components/user/add-user/add-user.c
     PermissionComponent,
     UserDashboardComponent,
     GroupsetComponent,
-    AddUserComponent
+    AddUserComponent,
+    UserToGroupComponent
   ],
   imports: [
     BrowserModule,

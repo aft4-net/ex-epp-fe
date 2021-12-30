@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ResponseDTO } from "apps/user-management/src/app/models/ResponseDTO";
-import { AddUserService } from "apps/user-management/src/app/services/add-user.service";
-import { NotificationType, NotifierService } from "apps/user-management/src/app/shared/services/notifier.service";
+import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
+
 import { GroupSetModel } from "../../../Models/group-set.model";
+import { ResponseDTO } from "../../../Models/ResponseDTO";
+import { AddUserService } from "../../../services/add-user.service";
 
 @Component({
     selector: 'exec-epp-add-group',
