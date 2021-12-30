@@ -6,23 +6,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module'
 import { EppdashboardComponent } from './features/components/eppdashboard/eppdashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApplicationModule, NgModule } from '@angular/core';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
-import {SiderComponent} from './components/application/sider/sider.component'
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { SigninComponent } from './features/Account/signin/signin.component';
-import { MsalModule } from '@azure/msal-angular';
-import{MsalService} from '@azure/msal-angular';
-import{MSAL_INSTANCE} from '@azure/msal-angular';
-import{IPublicClientApplication , PublicClientApplication} from '@azure/msal-browser'
+import {Configuration, IPublicClientApplication , PublicClientApplication} from '@azure/msal-browser'
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { PageTemplateModule } from './shared/modules/templates/page-template.module';
+import {  MsalModule, MSAL_INTERCEPTOR_CONFIG } from '@azure/msal-angular';
+import {  MSAL_GUARD_CONFIG} from '@azure/msal-angular';
 
+
+//import {MsalConfModule} from './authconfig';
 
 
 export function MSALInstanceFactory(): IPublicClientApplication
@@ -36,6 +34,18 @@ export function MSALInstanceFactory(): IPublicClientApplication
 
 }
 
+export function MSALConfigFactory(): Configuration {
+  return {
+   auth: {
+    clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
+    redirectUri: 'http://localhost:4200',
+    postLogoutRedirectUri: 'http://localhost:4200',
+   },
+   cache: {
+    cacheLocation: 'localStorage'
+   },
+  }
+ };
 registerLocaleData(en);
 @NgModule({
   declarations: [
@@ -54,9 +64,14 @@ registerLocaleData(en);
     CustomFormModule,
     ReactiveFormsModule,
     UserManagementModule,
-    PageTemplateModule
-  ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+    PageTemplateModule,
+    MsalModule,
+    ApplicationModule,
+     ],
+  providers: [{ provide: NZ_I18N, useValue: en_US,  },{
+    provide: MSAL_INTERCEPTOR_CONFIG,
+    useFactory: MSALConfigFactory
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

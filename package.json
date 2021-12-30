@@ -33,6 +33,7 @@
     "antd": "^4.17.1",
     "autoprefixer": "^10.3.7",
     "msal": "^1.4.15",
+    "msalx": "^0.1.2",
     "ng-zorro-antd": "^12.1.1",
     "ngx-toastr": "^14.2.1",
     "nx": "^13.2.3",
