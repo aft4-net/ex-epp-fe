@@ -41,9 +41,9 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       this.timesheetValidationService.toDate = this.weekLastDate;
     };
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.checkForSubmittedForApproal();
-debugger;
   }
 
   checkForSubmittedForApproal() {
@@ -88,12 +88,12 @@ debugger;
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
       if (this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected)){
-        let res=this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected);
-        for(let i=0;i<res.length;i++){
+        let cpy=this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected);
+        for(let i=0;i<cpy.length;i++){
 
           const temp={
             TimesheetId:this.timesheet.Guid,
-            ProjectId:res[i].ProjectId,
+            ProjectId:cpy[i].ProjectId,
             Status:ApprovalStatus.Requested
         } as ApprovalEntity;
 
@@ -113,4 +113,3 @@ debugger;
     }
   }
 }
-
