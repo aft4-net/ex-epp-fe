@@ -64,7 +64,6 @@ export class ProjectNamePaletComponent implements OnInit {
     if(this.startingDateCriteria.isBeforeThreeWeeks){
       return
     }
-    if(!this.checkTimeOverThreeWeeks()) return;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     if (this.clickEventType == ClickEventType.none) {
