@@ -43,7 +43,6 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.checkForSubmittedForApproal();
-debugger;
   }
 
   checkForSubmittedForApproal() {
@@ -51,7 +50,7 @@ debugger;
      if(this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected)){
       this.btnText = "Resubmit";
       this.timeSheetStatus = "not-submitted-enable";
-           }
+    }
      else{
       this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
@@ -89,9 +88,10 @@ debugger;
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
       if (this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected)){
         let res=this.timesheetApprovals?.filter(x=>x.Status==ApprovalStatus.Rejected);
+
         for(let i=0;i<res.length;i++){
 
-          const temp={
+        const temp={
             TimesheetId:this.timesheet.Guid,
             ProjectId:res[i].ProjectId,
             Status:ApprovalStatus.Requested
@@ -99,16 +99,13 @@ debugger;
 
         this.timesheetService.updateTimesheetApproval(temp).subscribe();
         }
-
-
       }
+
       else{
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         this.timesheetApprovals = response ?? [];
         this.checkForSubmittedForApproal();
-      }, error => {
-
-      }
+      }, error => {}
     )};
     }
   }
