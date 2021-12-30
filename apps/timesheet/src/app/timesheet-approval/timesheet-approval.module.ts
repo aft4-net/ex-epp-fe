@@ -1,7 +1,7 @@
+import { SortPipe } from './../../../../client-management/src/app/core/pipes/sort.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
-
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
@@ -24,7 +24,6 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import {TimesheetApprovalComponent} from "./timesheet-approval.component"
 import {TimesheetApprovalRoutingModule} from './timesheet-approval-routing.module';
 import { TimesheetModule } from '../timesheet/timesheet.module';
-import { SortPipe } from '../core/pipes/sort.pipe';
 
 
 

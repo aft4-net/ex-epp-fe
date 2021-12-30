@@ -1,5 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { TimesheetService } from '../timesheet/services/timesheet.service';
+
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -104,6 +107,10 @@ headingswithStatus = [
   'Hours',
   'Status'
 ];
+constructor(
+  private router: Router,
+  private timeSheetService: TimesheetService
+) {}
 
 getweek(result:Date):void{
   console.log('week: ');
