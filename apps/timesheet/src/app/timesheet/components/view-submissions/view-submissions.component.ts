@@ -9,6 +9,7 @@ import { TimesheetService } from '../../services/timesheet.service';
 import {
   NzTableFilterFn,
   NzTableFilterList,
+  NzTableQueryParams,
   NzTableSortFn,
   NzTableSortOrder,
 } from 'ng-zorro-antd/table';
@@ -28,6 +29,7 @@ interface ColumnItem {
   styleUrls: ['./view-submissions.component.scss'],
 })
 export class ViewSubmissionsComponent implements OnInit {
+  date = null;
   listOfColumns: ColumnItem[] = [
     {
       name: 'Date Range',
@@ -86,21 +88,21 @@ export class ViewSubmissionsComponent implements OnInit {
   timeSheetHistory!: TimesheetApproval[];
   total = 10;
   loading = true;
-  pageSize = 10;
+  pageSize = 9;
   pageIndex = 1;
   idParam = '';
   totalPage!: number;
   clientNameFliter!: { text: string; value: string }[];
   projectNameFliter!: { text: string; value: string }[];
   statusFilter!: { text: string; value: string }[];
-
+  params!: NzTableQueryParams;
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService
   ) {}
 
   ngOnInit(): void {
-    this.timesheetSubmissionPaginatin(1, 10);
+    this.timesheetSubmissionPaginatin(1,this.pageSize);
     this.timeSheetHistory = this.sampleData;
     this.total = this.sampleData.length;
     this.setFliters();
@@ -108,15 +110,54 @@ export class ViewSubmissionsComponent implements OnInit {
 
   timesheetSubmissionPaginatin(index: number, pageSize: number) {
     this.timeSheetService
-      .getTimesheetSubmissionHistory(index, pageSize)
+      .getTimesheetSubmissions(index, pageSize,null,null,[])
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;
         this.total = response.pagination.totalRecord;
         this.totalPage = response.pagination.totalPage;
-        this.setFliters();
+        this.loading=false;
       });
+  }
+
+  getWeek($event:Date)
+  {
+    this.loading=true;
+    const { pageSize, pageIndex, sort, filter } =this.params;
+    const currentSort = sort.find(item => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;
+    filter.push({key:"FromDate",value:$event})
+    this.timeSheetService.getTimesheetSubmissions(pageIndex, pageSize, sortField, sortOrder, filter)
+    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
+      this.timeSheetHistory = response.data;
+      this.pageIndex = response.pagination.pageIndex;
+      this.pageSize = response.pagination.pageSize;
+      this.total = response.pagination.totalRecord;
+      this.totalPage = response.pagination.totalPage;
+      this.loading=false;
+    });
+
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log(params);
+    this.loading=true;
+    this.params=params
+    const { pageSize, pageIndex, sort, filter } = params;
+    const currentSort = sort.find(item => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;
+    this.timeSheetService.getTimesheetSubmissions(pageIndex, pageSize, sortField, sortOrder, filter)
+    .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
+      this.timeSheetHistory = response.data;
+      this.pageIndex = response.pagination.pageIndex;
+      this.pageSize = response.pagination.pageSize;
+      this.total = response.pagination.totalRecord;
+      this.totalPage = response.pagination.totalPage;
+      this.loading=false;
+    });
   }
 
   setFliters() {
@@ -145,6 +186,7 @@ export class ViewSubmissionsComponent implements OnInit {
     this.listOfColumns[1].listOfFilter = this.projectNameFliter;
     this.listOfColumns[2].listOfFilter = this.clientNameFliter;
     this.listOfColumns[3].listOfFilter = this.statusFilter;
+    console.log(this.statusFilter);
   }
 
   navaigateToTimeSheet() {
@@ -166,19 +208,7 @@ export class ViewSubmissionsComponent implements OnInit {
 
   get sampleData(): TimesheetApproval[] {
     return [
-      {
-        ProjectName: 'Stream',
-        ClientName: 'Coca Cola',
-        Status: ApprovalStatus.Requested,
-        TimesheetId: '23456-23545-253252-2dfg34t',
-        ProjectId: '23456-23545-253252-2dfg34t',
-        Comment: '',
-        EmployeeName: 'Danail',
-        FromDate: new Date(2021, 2, 21),
-        ToDate: new Date(2021, 2, 2),
-        CreatedDate: new Date(),
-        TotalHours: 1231,
-      },
+ 
       {
         ProjectName: 'Fizer',
         ClientName: 'Security finance Coperation',
@@ -202,19 +232,6 @@ export class ViewSubmissionsComponent implements OnInit {
         EmployeeName: 'Danail',
         FromDate: new Date(2021, 2, 4),
         ToDate: new Date(2021, 2, 10),
-        CreatedDate: new Date(),
-        TotalHours: 1231,
-      },
-      {
-        ProjectName: 'Email App',
-        ClientName: 'Coca Cola',
-        Status: ApprovalStatus.Approved,
-        TimesheetId: '23456-23545-253252-2dfg34t',
-        ProjectId: '23456-23545-253252-2dfg34t',
-        Comment: '',
-        EmployeeName: 'Danail',
-        FromDate: new Date(2021, 2, 11),
-        ToDate: new Date(2021, 2, 17),
         CreatedDate: new Date(),
         TotalHours: 1231,
       },
@@ -244,19 +261,7 @@ export class ViewSubmissionsComponent implements OnInit {
         CreatedDate: new Date(),
         TotalHours: 1231,
       },
-      {
-        ProjectName: 'Fizer',
-        ClientName: 'Security finance Coperation',
-        Status: ApprovalStatus.Requested,
-        TimesheetId: '23456-23545-253252-2dfg34t',
-        ProjectId: '23456-23545-253252-2dfg34t',
-        Comment: '',
-        EmployeeName: 'Danail',
-        FromDate: new Date(2021, 3, 1),
-        ToDate: new Date(2021, 3, 6),
-        CreatedDate: new Date(),
-        TotalHours: 1231,
-      },
+  
       {
         ProjectName: 'EPP',
         ClientName: 'Excellerent',
@@ -296,6 +301,33 @@ export class ViewSubmissionsComponent implements OnInit {
         CreatedDate: new Date(),
         TotalHours: 1231,
       },
+      {
+        ProjectName: 'Presence',
+        ClientName: 'AOB LLC ',
+        Status: ApprovalStatus.Requested,
+        TimesheetId: '23456-23545-253252-2dfg34t',
+        ProjectId: '23456-23545-253252-2dfg34t',
+        Comment: 'fix the date date order',
+        EmployeeName: 'Danail',
+        FromDate: new Date(2021, 4, 9),
+        ToDate: new Date(2021, 4, 15),
+        CreatedDate: new Date(),
+        TotalHours: 1231,
+      },
+
+      {
+        ProjectName: 'Presence',
+        ClientName: 'AOB LLC ',
+        Status: ApprovalStatus.Approved,
+        TimesheetId: '23456-23545-253252-2dfg34t',
+        ProjectId: '23456-23545-253252-2dfg34t',
+        Comment: 'fix the date date order',
+        EmployeeName: 'Danail',
+        FromDate: new Date(2021, 4, 17),
+        ToDate: new Date(2021, 4, 25),
+        CreatedDate: new Date(),
+        TotalHours: 1231,
+      }
     ];
   }
 }

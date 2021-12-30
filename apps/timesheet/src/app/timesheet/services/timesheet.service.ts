@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Observable } from "rxjs";
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   TimeEntriesResponse,
@@ -209,17 +209,34 @@ export class TimesheetService {
   }
   //#endregion
 
-  getTimesheetSubmissionHistory( pageindex:number,pageSize:number ) :Observable<PaginatedResult< TimesheetApproval[]>> 
-  {  
-   const params = new HttpParams()
-   .set('pageindex', pageindex.toString())
-   .set('pageSize', pageSize.toString())
 
+
+
+
+getTimesheetSubmissions(
+  pageIndex: number,
+  pageSize: number,
+  sortField: string | null,
+  sortOrder: string | null,
+  filters: Array<{ key: string; value: string[] }>,
+  search?:string
+):Observable<PaginatedResult< TimesheetApproval[]>>  {
+  let params = new HttpParams()
+    .append('pageIndex', `${pageIndex}`)
+    .append('pageSize', `${pageSize}`)
+    .append('sortField', `${sortField}`)
+    .append('sortOrder', `${sortOrder}`)
+    .append('search',`${search}`);
+  filters.forEach(filter => {
+    filter.value.forEach(value => {
+      params = params.append(filter.key, value);
+    });
+  });
    let paginatedResult: PaginatedResult< TimesheetApproval[]> = {
      data: [] as  TimesheetApproval[],
      pagination: {} as Pagination
   };
-  return this.http.get(`${this.baseUrl}timesheetSubmissionHistory?` +params.toString())
+  return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
        .pipe(   
          map((response:any) => { 
            paginatedResult= {
@@ -232,6 +249,5 @@ export class TimesheetService {
           return paginatedResult;      
          })
        );
-  }
-
+}
 }
