@@ -56,7 +56,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void {debugger;
+  ngOnInit(): void {
     
   }
 

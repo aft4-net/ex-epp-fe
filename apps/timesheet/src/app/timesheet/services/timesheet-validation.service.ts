@@ -163,7 +163,7 @@ export class TimesheetValidationService {
       .reduce((prev, next) => prev + next, 0);
 
     if (totalHour + timeEntry.Hour > 24) {
-      this.message = `Time entries for a day should be more than 24 hours. Please enter ${24 - totalHour} hours or less for ${timeEntry.Date.toDateString()}`;
+      this.message = `Time entries for a day should not be more than 24 hours. Please enter ${24 - totalHour} hours or less for ${timeEntry.Date.toDateString()}`;
       return true;
     }
 
