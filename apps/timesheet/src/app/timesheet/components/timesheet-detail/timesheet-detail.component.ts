@@ -265,6 +265,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.weekDays = this.dayAndDateService.getWeekByDate(count);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+      this.checkForCurrentWeek();
       this.checkTimeOverThreeWeeks(this.firstday1);
 
       if (this.userId) {
