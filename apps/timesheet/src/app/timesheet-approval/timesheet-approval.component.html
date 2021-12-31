@@ -78,8 +78,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-                (click)="showModal(row.id)">
+              <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
                 <td>{{row.name}}</td>
                 <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
                 <td>{{row.projectName}}</td>
@@ -97,8 +96,8 @@
             </tbody>
           </nz-table>
           <span nz-row class="pagination  flex justify-end">
-            Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+            Showing {{pageIndexAll}} - {{ totalAll/pageSizeAll}} of {{totalAll}} entries
+            <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)"
               nzSimple>
             </nz-pagination>
           </span>
@@ -133,8 +132,8 @@
           </tbody>
         </nz-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-          <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexAwaiting}} - {{ totalAwaiting/pageSizeAwaiting}} of {{totalAwaiting}} entries
+          <nz-pagination [nzPageIndex]="pageIndexAwaiting" [nzTotal]="totalAwaiting" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
@@ -162,8 +161,8 @@
           </tbody>
         </nz-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-          <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexApproved}} - {{ totalApproved/pageSizeApproved}} of {{totalApproved}} entries
+          <nz-pagination [nzPageIndex]="pageIndexApproved" [nzTotal]="totalApproved" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
@@ -192,8 +191,8 @@
           </tbody>
         </nz-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-          <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
+          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
@@ -202,4 +201,15 @@
 
     </nz-tabset>
   </div>
+
+
+  <nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Modal Title"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <p *nzModalContent>Modal Content</p>
+</nz-modal>
 

@@ -74,12 +74,12 @@ export class TimesheetDetailComponent implements OnInit {
 
   dateColumnContainerClass: string = "";
   dateColumnTotalHour: number = 0;
-  date = new Date();
+  date: Date;
+  curr: Date;
+  firstday1: Date;
+  lastday1: Date;
   futereDate: any;
   public weekDays: any[] = [];
-  curr = new Date();
-  firstday1: Date = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
-  lastday1: Date = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate() + 6);
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
@@ -101,6 +101,10 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService
   ) {
+    this.date = this.timesheetStateService.date;
+    this.curr = this.timesheetStateService.date;
+    this.firstday1 = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
+    this.lastday1 = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate() + 6);
   }
 
   ngOnInit(): void {
