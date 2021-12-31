@@ -36,7 +36,11 @@ export class TableComponent {
   @Input() bulkCheck: boolean | undefined;
   @Input() status: boolean | undefined;
 
-  @Output() checkedListId = new EventEmitter<Set<number>>();
+  qtyofItemsChecked = 0
+
+  @Output() itemsSelected = new EventEmitter<number>();
+
+
 
 
 
@@ -53,7 +57,7 @@ export class TableComponent {
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
-      this.checkedListId.emit(this.setOfCheckedId);
+      //this.checkedListId.emit(this.setOfCheckedId);
       console.log(this.setOfCheckedId);
     } else {
       this.setOfCheckedId.delete(id);
@@ -62,8 +66,10 @@ export class TableComponent {
   }
 
   onItemChecked(id: number, checked: boolean): void {
+    this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onAllChecked(value: boolean): void {
