@@ -118,7 +118,7 @@ export class GroupsetComponent implements OnInit {
     console.log(this.notification.showNotification({
       type: 'success',
       content: 'Groups loaded successfully',
-      duration: 5000,
+      duration: 1,
     }));
   }
   creategroupDashboardControls() {
