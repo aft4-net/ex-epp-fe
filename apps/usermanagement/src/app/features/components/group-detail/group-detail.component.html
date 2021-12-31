@@ -1,0 +1,106 @@
+<nz-content>
+    <nz-divider nzType="horizontal"></nz-divider>
+    <div style="margin-top: -40px;" class="inner-content">
+      <div nz-row>  
+        <div nz-col nzSpan="12">
+            <h2 class="PageHeader">
+                Pm admin page
+            </h2>
+        </div>
+        <div nz-col nzSpan="12" style="text-align: right;">
+            <nz-space>
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" >
+                    Edit Descriptions
+                </button>
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" >
+                    Delete Group
+                </button>
+            </nz-space>
+        </div>     
+      </div>
+      <div nz-row>  
+        <div nz-col nzSpan="12">
+            dvcxvzcxvzcxvzxcvzcxvcvzvzcvzccx    
+        </div>
+      </div>
+      <br/>
+      <!-- <br/>
+      <div nz-row>
+        <div nz-col nzSpan="16">
+            <div nz-row>
+                <div nz-col nzSpan="20">
+                    <nz-form-label [nzSpan]="14">Group members - Automatic assignments</nz-form-label>
+                    <label>11</label>    
+                </div>
+            </div>
+            <br />
+            <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" 
+                nzTableLayout="auto">
+                <thead>
+                  <tr>
+                    <th class="table_heading">User</th>
+                    <th class="table_heading">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>user</td>
+                    <td>
+                        <button nz-button [nzSize]="size" nzType="link" >
+                          Remove
+                        </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </div>
+        <div nz-col nzSpan="8"></div>
+      </div> -->
+      <br/>
+      <div nz-row>
+        <div nz-col nzSpan="16">
+            <div nz-row>
+                <div nz-col nzSpan="20">
+                    <nz-form-label [nzSpan]="14">Group members - Manual assignments</nz-form-label>
+                    <label>11</label>    
+                </div>
+                <div  nz-col style="text-align: right;"  nzSpan="4">
+                    <button class="defaultButton" nz-button nzType="default" >
+                        Add Members
+                    </button>
+                </div>
+            </div>
+            <br />
+            <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" 
+                nzTableLayout="auto">
+                <thead>
+                  <tr>
+                    <th class="table_heading">User</th>
+                    <th class="table_heading">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>user</td>
+                    <td>
+                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" >
+                          Remove
+                        </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </div>
+        <div nz-col nzSpan="8" >
+            <div class="permissionlist">
+                <div class="title-holder">
+                    <p class="TabTitleStyle">Group Permissions</p>
+                    <button class="editPermissionButton" nz-button [nzSize]="size" nzType="link">
+                    Edit group's access
+                      </button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</nz-content>

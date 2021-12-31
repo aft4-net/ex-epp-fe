@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { RouterModule } from '@angular/router';
 import { SiderComponent } from './components/application/sider/sider.component';
@@ -15,7 +16,11 @@ import { SigninComponent } from './features/Account/signin/signin.component';
 import { PermissionComponent } from './features/components/permission/permission.component';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { GroupsetComponent } from './features/components/groupset/groupset.component';
+import en from '@angular/common/locales/en';
+import { registerLocaleData } from '@angular/common';
+import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
 
+registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +31,8 @@ import { GroupsetComponent } from './features/components/groupset/groupset.compo
     SigninComponent,
     PermissionComponent,
     UserDashboardComponent,
-    GroupsetComponent
+    GroupsetComponent,
+    GroupDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,7 @@ import { GroupsetComponent } from './features/components/groupset/groupset.compo
 
     ], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

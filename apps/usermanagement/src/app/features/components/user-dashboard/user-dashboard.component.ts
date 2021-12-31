@@ -81,6 +81,7 @@ export class UserDashboardComponent implements OnInit {
     this.createUserDashboardControls();
     this.userList as IUserModel[];
     this.FeatchAllUsers();
+    console.log(this.loading)
   }
 
   createUserDashboardControls() {
@@ -106,19 +107,17 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
-        this.loading = false;
       }
       else
       {
-        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
-        this.FillTheFilter();
       }
-
-    },error => {
       this.loading = false;
-      this.PopulateFilterColumns();
+    },() => {
+      this.loading = false;
+      this.userList = [];
+      this.userList$=of([]);
      });
     this.searchStateFound=false;
   }
@@ -191,14 +190,11 @@ export class UserDashboardComponent implements OnInit {
                   value:this.userList.map(x=>x.Status)[i]
                 }
               )
-
             }
           }
-
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
-
           if(this.userList.length > 0) {
             this.PopulateFilterColumns();
           }
@@ -225,19 +221,18 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
-        this.loading = false;
       }
       else
       {
-        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
-        this.FillTheFilter();
       }
       this.searchStateFound=true;
+      this.loading = false;
     },error => {
       this.loading = false;
-      this.PopulateFilterColumns();
+      this.userList = [];
+      this.userList$=of([]);
      });
   }
 
