@@ -7,6 +7,8 @@ import { TimesheetService } from '../services/timesheet.service';
   providedIn: 'root'
 })
 export class TimesheetStateService {
+  date: Date = new Date();
+
   private timesheetSource = new BehaviorSubject<Timesheet | null>(null);
   timesheet$ = this.timesheetSource.asObservable();
 
@@ -19,10 +21,13 @@ export class TimesheetStateService {
   constructor(private timesheetService: TimesheetService) { }
 
   getTimesheet(userId: string, date?: Date) {
+    if(date){
+      this.date = date;
+    }
     this.timesheetSource.next(null);
     this.timeEntriesSource.next(null);
     this.timesheetApprovalsSource.next(null);
-    this.timesheetService.getTimeSheet(userId, date).subscribe(response => {
+    this.timesheetService.getTimeSheet(userId, this.date).subscribe(response => {
       this.timesheetSource.next(response ?? null);
 
       if (!response) {
