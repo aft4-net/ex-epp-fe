@@ -5,6 +5,7 @@ import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Directive({
   selector: '[entries]',
@@ -48,6 +49,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   overflowPt?: number = 0;
   of: any;
   isSubmitted: boolean | undefined;
+  startingDateCriteria = startingDateCriteria
+  
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
 
   clickEventType = ClickEventType.none;
@@ -148,6 +151,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     if(isOverflowing){
       elem!.classList.remove("entries-overflow");
       elem!.classList.add("show-scroll-bar");
+    }
+    else {
+      elem!.classList.add("entries-overflow");
+      elem!.classList.remove("show-scroll-bar");
     }
   }
 

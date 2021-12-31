@@ -88,6 +88,8 @@ export class TimesheetDetailComponent implements OnInit {
   isSubmitted: boolean = false;
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
+  startingDateCriteria = startingDateCriteria
+
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, this.date) > 0;
@@ -770,6 +772,9 @@ export class TimesheetDetailComponent implements OnInit {
 
   createNotification(type: string, message: string, position?: NzNotificationPlacement) {
 
+    if(this.startingDateCriteria.isBeforeThreeWeeks){
+      return;
+    }
     if (!position) {
       position = "topRight";
     }
