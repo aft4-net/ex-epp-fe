@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
 import { PermissionService } from '../../services/permission/permission.service';
 
@@ -27,13 +28,17 @@ panels = [
     name: 'This is panel header 3'
   }
 ];
-  constructor(private _permissionService:PermissionService) { }
+  constructor(private _permissionService:PermissionService,private notification: NotificationBar) { }
 
   ngOnInit(): void {
 this._permissionService.getPermission().subscribe((reponse:any)=>{
   this.permissionResponse=reponse;
   this.permissionData=this.permissionResponse?.Data;
-  console.log(this.permissionData);
+  this.notification.showNotification({
+    type: 'success',
+    content: 'Permissions loaded successfully',
+    duration: 1,
+  });
 })
   }
   parentSelected(code:string){
