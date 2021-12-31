@@ -179,9 +179,9 @@ export class TimesheetDetailComponent implements OnInit {
     const projectDate: Date = date;
     startingDateCriteria.startingDate = projectDate
     const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
-    startingDateCriteria.isBeforeThreeWeeks = 
-    (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond)?
-      true: false;
+    startingDateCriteria.isBeforeThreeWeeks =
+      (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond) ?
+        true : false;
   }
 
   getTimeSheetApproval(guid: string) {
@@ -392,7 +392,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.showFormDrawer();
       return;
     }
-    
+
     this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(objApprove => {
       this.timesheetApprovals = objApprove ? objApprove : null;
       if (!this.timesheetApprovals || this.timesheetApprovals.length === 0) {
@@ -469,7 +469,7 @@ export class TimesheetDetailComponent implements OnInit {
 
   submitForm(): void {
     this.invalidEntries = [];
-    
+
     for (const i in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(i)) {
         this.validateForm.controls[i].markAsDirty();
