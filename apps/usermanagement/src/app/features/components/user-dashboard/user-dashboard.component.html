@@ -2,17 +2,15 @@
     <nz-content>
       <nz-divider nzType="horizontal"></nz-divider>
       <div style="margin-top: -40px;" class="inner-content">
-        <div nz-row>       
-            <div nz-col nzSpan="14" >
-              <h2 class="PageHeader">
-                Users
-              </h2>
-            </div>
-            <div nz-col nzSpan="2"  nzOffset="8">
-              <button nz-button nzType="primary" class="adduser" (click)="addUser()">
-                Add User
+        <div nz-row>  
+          <div nz-col nzSpan="12"><h2 class="PageHeader">
+            Users
+          </h2></div>
+          <div nz-col nzSpan="12" style="text-align: right;">
+            <button nz-button nzType="primary" class="adduser" (click)="addUser()">
+              Add User
             </button>
-            </div>
+          </div>  
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
@@ -27,28 +25,42 @@
           </div>
         </div>
         <div  nz-row nzJustify="end" *ngIf="userList.length > 0">
-          <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+          <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
           <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
             nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
         </div>
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24">
-              <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
-                <thead>
-                  <tr>
-                    <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
-                      [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                      [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-  
-                    <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
-                      [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                      [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                      [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                    <th class="table_heading">Actions</th>
-                  </tr>
-                </thead>
+                <div *ngIf="userList.length > 0; else normalHeader">
+                  <thead>
+                    <tr>
+                      <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+                        [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                        [nzSortDirections]="column.sortDirections">{{column.name}}</th>
+    
+                      <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                        [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                        [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                        [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+                      <th class="table_heading">Actions</th>
+                    </tr>
+                  </thead>
+                </div>
+                <ng-template #normalHeader>
+                  <thead>
+                    <tr>
+                      <th class="table_heading">Name</th>
+                      <th class="table_heading">Last Activity</th>
+                      <th class="table_heading">Department</th>
+                      <th class="table_heading">Role</th>
+                      <th class="table_heading">Status</th>
+                      <th class="table_heading">Actions</th>
+                    </tr>
+                  </thead>
+                </ng-template>
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName }} </td>
