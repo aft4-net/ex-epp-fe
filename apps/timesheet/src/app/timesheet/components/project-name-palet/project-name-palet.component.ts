@@ -16,9 +16,10 @@ import { TimesheetStateService } from '../../state/timesheet-state.service';
   styleUrls: ['./project-name-palet.component.scss']
 })
 export class ProjectNamePaletComponent implements OnInit, OnChanges {
-  @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>()
+  @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
-  @Output() editClicked = new EventEmitter<ClickEventType>()
+  @Output() editClicked = new EventEmitter<ClickEventType>();
+  @Output() deleteClicked = new EventEmitter<ClickEventType>();
   @Input() timeEntry: TimeEntry | null = null;
   @Input() timesheetApproval: TimesheetApproval | null = null;
   project: Project | null = null;
@@ -137,9 +138,9 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   }
 
   deleteTimeEntry(): void {
-    if (this.timeEntry) {
-      this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(data => {
-        //TODO: remove deleted time-entry from the time entry list
+    if (this.timeEntry) {debugger;
+      this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(response => {
+        this.deleteClicked.emit(ClickEventType.deleteTimeEntry);
       });
     }
   }

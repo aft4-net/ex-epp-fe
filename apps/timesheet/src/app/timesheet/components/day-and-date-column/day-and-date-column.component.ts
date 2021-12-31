@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, AfterViewInit, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
-import { findIndex, throwIfEmpty } from 'rxjs/operators';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
+import { findIndex } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
@@ -19,12 +19,13 @@ export class DayAndDateDirective {
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewInit {
+export class DayAndDateColumnComponent implements OnInit, OnChanges{
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
+  @Output() deleteButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
   @Output() columnOverflow = new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
@@ -48,14 +49,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   of: any;
   isSubmitted: boolean | undefined;
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
-  ngAfterViewInit(): void {
-    this.checkOverflow(this.colEl.nativeElement);
-    this.overflowCalc();
-  }
 
   clickEventType = ClickEventType.none;
 
-  ngOnInit(): void {debugger;
+  ngOnInit(): void {
     
   }
 
@@ -67,7 +64,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
       let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
       
-      this.overflowCalc();
     }
 
     let today = new Date();
@@ -83,53 +79,39 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     }
   }
 
-  overflowCalc() {
-    this.entriesDiv?.changes.subscribe(() => {
-      this.entriesDiv.toArray().forEach(el => {
-        if (this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom < this.pointerEl.nativeElement.getBoundingClientRect().top) {
-          this.overflowPt = this.index + 1;
 
-        }
-        this.index!++;
-      });
-      if (this.overflowPt! > 0) {
-        if (this.checkOverflow(this.colEl.nativeElement)) {
-          this.overflow = true;
-          this.colEl.nativeElement.style.overflow = "hidden";
-          this.columnOverflow.emit(this.overflow);
-          this.split(this.overflowPt!);
-          console.log(this.checkOverflow(this.colEl.nativeElement))
-        }
-      }
-    });
-  }
   
-  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
       this.projectNamePaletClicked.emit(timeEntryEvent);
     }
 
-    if (this.morePopover) {
-      this.clickEventType = ClickEventType.none;
-    }
+    this.clickEventType = ClickEventType.none;
   }
 
-  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType;
       this.paletEllipsisClicked.emit(timeEntryEvent);
     }
 
-    if (this.morePopover) {
-      this.clickEventType = ClickEventType.none;
-    }
+    this.clickEventType = ClickEventType.none;
   }
 
-  onEditButtonClicked(clickEventType: ClickEventType) {
+  onEditButtonClicked(clickEventType: ClickEventType) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
+    }
+
+    this.clickEventType = ClickEventType.none;
+  }
+
+  onDeleteButtonClicked(clickEventType: ClickEventType) {debugger;
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+      this.deleteButtonClicked.emit(this.clickEventType);
     }
 
     this.clickEventType = ClickEventType.none;
@@ -153,26 +135,22 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     this.morePopover = true;
   }
 
-  checkOverflow(el: HTMLElement, index?: number) {
-    if (el.offsetHeight < el.scrollHeight) {
-      this.index ? index : null;
-      this.overflow = true;
+  scrollTimeEntriesUp(el:any){
+    const myElement = document.getElementById(el);
+    myElement?.scrollIntoView();
+  }
+ 
+  checkOverflow(divId:any){
+    const elem = document.getElementById(divId)
+
+    const isOverflowing = elem!.clientHeight < elem!.scrollHeight;
+
+    if(isOverflowing){
+      elem!.classList.remove("entries-overflow");
+      elem!.classList.add("show-scroll-bar");
     }
-    return el.offsetHeight < el.scrollHeight;
   }
 
-  split(index: number) {
-
-    if (this.timeEntries !== null) {
-      for (let i = index; i < this.timeEntries.length; i++) {
-        for (let j = 0; j <= this.timeEntries.length - index - 1; j++) {
-          this.moreEntries[j] = this.timeEntries[i];
-          i++;
-        }
-      }
-    }
-    return this.moreEntries;
-  }
 
   timesheetApprovalForaProject(projectId: string) {
     if (!this.timesheetApprovals) {

@@ -5,14 +5,15 @@
 
     <div class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
         <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
-            <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EEEE' " [date]="myD"
+            <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EE' " [date]="myD"
                 [timesheet]="(timesheet$ | async)"
                 [timeEntries]="(timeEntries$ | async)"
                 [timesheetApprovals]="(timesheetApprovals$ | async)"
                 (dateColumnClicked)="onDateColumnClicked($event, myD)"
                 (projectNamePaletClicked)="onProjectNamePaletClicked($event, myD)"
                 (paletEllipsisClicked)="onPaletEllipsisClicked($event, myD)"
-                (editButtonClicked)="onEditButtonClicked($event, myD)">
+                (editButtonClicked)="onEditButtonClicked($event, myD)"
+                (deleteButtonClicked)="onDeleteButtonClicked($event, myD)">
             </app-day-and-date-column>
         </div>
     </div>

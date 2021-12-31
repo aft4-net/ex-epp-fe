@@ -19,21 +19,24 @@
 
 <div nz-row class="controllers">
 
-  <div *ngIf="currentNameSubject$ | async" nz-col>
-    <button nz-button nzType="default">Bulk Approval</button>
+    <div *ngIf="currentNameSubject$ | async" nz-col>
+        <button nz-button nzType="default"
+        [disabled]="qtyofItemsSelected <= 0"
+        >Bulk Approval</button>
 
-    <br>
-  </div>
+        <br>
+    </div>
 
-  <div nz-col nzSpan="6" class="ml-1">
-    <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input type="text" nz-input placeholder="Search" />
-    </nz-input-group>
-    <ng-template #suffixIconSearch>
-      <i nz-icon nzType="search"></i>
-    </ng-template>
+    <div nz-col nzSpan="6" class="ml-1">
+      <nz-input-group [nzSuffix]="suffixIconSearch" >
+        <input  type="text" nz-input placeholder="Search" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
 
-  </div>
+    </div>
+
   <br>
   <div nz-col class="ml-1">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
@@ -41,6 +44,7 @@
   </div>
 </div>
 <div class="tab">
+
 
   <div class="mb-4">
     <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
@@ -59,8 +63,12 @@
               </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
               <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
                 (click)="showModal(row)">
+=======
+              <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
+>>>>>>> 3e8a838c4c4959b0fb3d6d810a9e67aea7244f0c
                 <td>{{row.name}}</td>
                 <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
                 <td>{{row.projectName}}</td>
@@ -78,8 +86,8 @@
             </tbody>
           </nz-table>
           <span nz-row class="pagination  flex justify-end">
-            Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+            Showing {{pageIndexAll}} - {{ totalAll/pageSizeAll}} of {{totalAll}} entries
+            <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)"
               nzSimple>
             </nz-pagination>
           </span>
@@ -87,7 +95,7 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval">
-        <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false>
+        <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false >
           <thead>
             <tr>
               <th *ngIf="bulkCheck" [nzSelections]="listOfSelection" [(nzChecked)]="checked"
@@ -103,7 +111,7 @@
             <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
               (click)="showModal(row)">
               <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)"
-                (nzCheckedChange)="onItemChecked(row.id, $event)">
+                (nzCheckedChange)="onItemChecked(row.id, $event)" >
               </td>
               <td>{{row.name}}</td>
               <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
@@ -114,8 +122,8 @@
           </tbody>
         </nz-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-          <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexAwaiting}} - {{ totalAwaiting/pageSizeAwaiting}} of {{totalAwaiting}} entries
+          <nz-pagination [nzPageIndex]="pageIndexAwaiting" [nzTotal]="totalAwaiting" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
@@ -143,8 +151,8 @@
           </tbody>
         </nz-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-          <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexApproved}} - {{ totalApproved/pageSizeApproved}} of {{totalApproved}} entries
+          <nz-pagination [nzPageIndex]="pageIndexApproved" [nzTotal]="totalApproved" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
@@ -173,18 +181,23 @@
           </tbody>
         </nz-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndex}} - {{ total/pageSize}} of {{total}} entries
-          <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
+          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
     </nz-tabset>
   </div>
-  <div>
-    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
-    (modalStatus)="timesheetDetailClose($event)"
-    ></exec-epp-timesheet-detail-view>
-  </div>
 
+
+  <nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Modal Title"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <p *nzModalContent>Modal Content</p>
+</nz-modal>
 
