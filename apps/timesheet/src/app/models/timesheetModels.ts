@@ -73,3 +73,9 @@ export interface TimesheetApprovalResponse extends Response {
 export interface TimesheetConfigResponse extends Response {
     Data: TimesheetConfiguration;
 }
+
+export interface ApprovalEntity extends Response{
+  TimesheetId: string;
+  ProjectId:string;
+  Status:ApprovalStatus;
+}

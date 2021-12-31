@@ -26,9 +26,15 @@
   color: white;
 }
 
+
+
+
+
 .createButton :hover{
 
   background-color:rgb(red, green, blue);
+
+
 }
 
 
@@ -49,7 +55,7 @@
 
 .tab-content {
   padding:0px 20px 25px;
-  height: 100vh;
+  height: 109vh;
 
 }
 *{
@@ -60,6 +66,13 @@ nz-tab {
   font-weight: 500;
   font-size: 16px;
 }
+
+
+
+
+
+
+ 
 
   ::ng-deep .ant-tabs-tab {
     color: #363636 !important;
