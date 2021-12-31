@@ -11,6 +11,7 @@ import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -74,13 +75,21 @@ export class UserDashboardComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
   
-  constructor(private userService : UserService,private _router: Router,private fb: FormBuilder) {
+  constructor(private userService : UserService,
+    private _router: Router,
+    private fb: FormBuilder,
+    private notification: NotificationBar) {
 
   }
 
   ngOnInit(): void {
     this.createUserDashboardControls();
     this.FeatchAllUsers();
+    console.log(this.notification.showNotification({
+      type: 'success',
+      content: 'Users loaded successfully',
+      duration: 1,
+    }));
   }
 
   createUserDashboardControls() {
