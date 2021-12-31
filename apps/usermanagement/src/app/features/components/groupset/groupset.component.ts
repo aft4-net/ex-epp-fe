@@ -24,7 +24,7 @@ export class GroupsetComponent implements OnInit {
 
   isVisible = false;
   groupSet = new FormGroup({
-    Name: new FormControl('', [Validators.required, Validators.minLength(2),
+    Name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(70),
                               Validators.pattern('^[a-zA-Z][a-zA-Z0-9-_ ]+$')]),
     Description: new FormControl('')
   });
