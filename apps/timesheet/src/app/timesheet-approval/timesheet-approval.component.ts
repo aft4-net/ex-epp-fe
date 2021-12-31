@@ -13,7 +13,7 @@ interface ItemData {
   projectName: number;
   clientName: string;
   hours: number,
-  stats: string
+  status: string
 }
 
 
@@ -321,6 +321,8 @@ export class TimesheetApprovalComponent implements OnInit {
       this.sortByParam = "projectName";
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
+    } else if (heading === "Status") {
+      this.sortByParam = "status";
     } else {
       this.sortByParam = "";
     }

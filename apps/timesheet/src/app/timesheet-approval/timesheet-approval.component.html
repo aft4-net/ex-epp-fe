@@ -55,7 +55,7 @@
                 <th [nzSortFn]="true" (click)="sorter('Project Name')">Project Came</th>
                 <th [nzSortFn]="true" (click)="sorter('Client Name')">Client name</th>
                 <th>Hours</th>
-                <th>Status</th>
+                <th [nzSortFn]="true" (click)="sorter('Status')">Status</th>
               </tr>
             </thead>
             <tbody>
