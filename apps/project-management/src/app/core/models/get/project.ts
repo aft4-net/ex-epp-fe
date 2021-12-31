@@ -1,4 +1,6 @@
-import { Client, Employee, ProjectStatus, } from './';
+
+import { Employee } from '..';
+import { Client, ProjectStatus, } from './';
 
 
 
