@@ -13,11 +13,13 @@
       <h1 class="date mt-2 ml-2 font-sans text-xl font-normal text-gray-500"> {{dates1}} </h1>
       <h3 class="hour mt-2 mr-2 font-sans text-base font-normal text-gray-500">{{ totalHours }} Hrs</h3>
     </div>
-    <div #entries *ngFor="let timeEntry of timeEntrys;let i=index" class="w-full">
+    <div #entries *ngFor="let timeEntry of timeEntries;let i=index" class="w-full">
       <app-project-name-palet [timeEntry]="timeEntry"
           [timesheetApproval]="timesheetApprovalForaProject(timeEntry.ProjectId)"
           (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
-          (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">
+          (paletEllipsisClicked)="onPaletEllipsisClicked($event)" 
+          (editClicked)="onEditButtonClicked($event)"
+          (deleteClicked)="onDeleteButtonClicked($event)" >
         </app-project-name-palet>
     </div>
 
