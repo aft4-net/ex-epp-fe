@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AccountService } from '../../../services/user/account.service';
-import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { FormValidator } from '../../../utils/validator';
-import { Router } from '@angular/router';
+import{MsalService} from '@azure/msal-angular';
+import{AuthenticationResult} from '@azure/msal-browser'
+import { MsalGuardConfiguration } from '@azure/msal-angular';
 
 
 @Component({
@@ -12,16 +10,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./signin.component.scss'],
 
 })
-export class SigninComponent  {
+export class SigninComponent implements OnInit {
 
-constructor(
-  private accountService: AccountService,
-  private router: Router,
-  private notification: NotificationBar,
-  private validator: FormValidator
-) {}
-  
-//
+  constructor(private authService: MsalService) {
 
+  }
+  ngOnInit(): void {
+    this.authService.instance.handleRedirectPromise().then( res => {
+      if (res != null && res.account != null) {
+        this.authService.instance.setActiveAccount(res.account)
+      }
+    })
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.instance.getActiveAccount() != null
+  }
+
+  login() {
+    // this.authService.loginRedirect();
+
+    this.authService.loginPopup()
+      .subscribe((response: AuthenticationResult) => {
+        this.authService.instance.setActiveAccount(response.account);
+        window.location.reload();
+      });
+  }
+
+  logout() {
+    this.authService.logout();
+    window.location.reload();
+  }
 }
 
