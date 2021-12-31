@@ -89,7 +89,7 @@ export class UserDashboardComponent implements OnInit {
     console.log(this.notification.showNotification({
       type: 'success',
       content: 'Users loaded successfully',
-      duration: 5000,
+      duration: 1,
     }));
   }
 
