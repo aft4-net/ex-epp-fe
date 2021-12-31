@@ -2,7 +2,6 @@
 .leftSide
 {
   margin-left: 0px;
-  width: auto;
   height: 90px;
 }
 .rightSide
@@ -67,6 +66,7 @@
   height:50px;
   background:#2d3748;
   border-radius:5px;
+  padding-top: 7px;
 }
 
 .container{
@@ -106,10 +106,6 @@
   margin-left: 240px;
 }
 
-.sidebar-iframe
-{
-  
-}
 
 @media only screen and (min-width: 600px) {
   /* For tablets: */
