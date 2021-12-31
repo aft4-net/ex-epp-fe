@@ -23,20 +23,26 @@ import { GroupDetailComponent } from '../features/components/group-detail/group-
     RouterModule.forChild([
       {
         path: '',
-        component: AppComponent,
+        component: AppComponent, 
+        children : [
+          {
+            path:'',component:UserDashboardComponent
+           
+          },
+          {
+            path:'permission',component:PermissionComponent
+          },
+          {
+            path:'user-dashboard',component:UserDashboardComponent
+          },
+          {
+            path:'group',component:GroupsetComponent
+          },
+          {
+            path:'group-detail',component:GroupDetailComponent
+          }
+        ] 
       },
-      {
-        path:'permission',component:PermissionComponent
-      },
-      {
-        path:'user-dashboard',component:UserDashboardComponent
-      },
-      {
-        path:'group',component:GroupsetComponent
-      },
-      {
-        path:'group-detail',component:GroupDetailComponent
-      }
     ]),
   ],
   providers: [],

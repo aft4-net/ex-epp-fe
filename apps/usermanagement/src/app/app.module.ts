@@ -19,6 +19,8 @@ import { GroupsetComponent } from './features/components/groupset/groupset.compo
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
+import { AddUserComponent } from './features/components/user/add-user/add-user.component';
+import { UserToGroupComponent } from './features/components/user/user-to-group/user-to-group.component';
 
 registerLocaleData(en);
 @NgModule({
@@ -32,7 +34,9 @@ registerLocaleData(en);
     PermissionComponent,
     UserDashboardComponent,
     GroupsetComponent,
-    GroupDetailComponent
+    GroupDetailComponent,
+    AddUserComponent,
+    UserToGroupComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +46,7 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
+    RemoteEntryModule,
     CustomFormModule,
     RouterModule.forRoot([
 

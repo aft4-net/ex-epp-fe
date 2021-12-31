@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router, RouterLink } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
@@ -11,13 +11,14 @@ import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
- 
+  isVisible=false;
   size: NzButtonSize = 'small';
   userDashboardForm !: FormGroup;
   loading = false;
@@ -54,7 +55,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.length - b.FullName.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
@@ -63,7 +64,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
       filterMultiple: true,
       listOfFilter:this.userListLastActivityDate,
       filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
@@ -79,9 +80,7 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.createUserDashboardControls();
-    this.userList as IUserModel[];
     this.FeatchAllUsers();
-    console.log(this.loading)
   }
 
   createUserDashboardControls() {
@@ -128,7 +127,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -137,7 +136,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -146,7 +145,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -309,5 +308,17 @@ export class UserDashboardComponent implements OnInit {
   
   ShowDetail(userId: string) {
     this._router.navigateByUrl('/user-detail');
+  }
+  addUser(){
+    this.isVisible=true;
+  }
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }

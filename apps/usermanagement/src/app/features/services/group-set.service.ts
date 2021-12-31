@@ -75,8 +75,8 @@ import { environment } from "../../../environments/environment";
         );
     }
 
-    LoadGroupDeatil(groupId : string) : Observable<ResponseDTO<any>> {
+    // LoadGroupDeatil(groupId : string) : Observable<ResponseDTO<any>> {
       
-    }
+    // }
     
 }

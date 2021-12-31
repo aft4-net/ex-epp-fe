@@ -23,7 +23,7 @@ panels = [
   },
   {
     active: false,
-    disabled: true,
+    disabled: false,
     name: 'This is panel header 3'
   }
 ];
