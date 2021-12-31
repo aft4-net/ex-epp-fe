@@ -12,20 +12,37 @@
   </div>
 <nz-collapse>
   <nz-collapse-panel
-  *ngFor="let permission of permissionData"
+  *ngFor="let permission of listOfPermistion"
   [nzHeader]="header"
   >
   <ng-template #header>
-    <label nz-checkbox (nzCheckedChange)="parentSelected(permission.Parent.PermissionCode)" >{{permission.Parent.KeyValue}}</label> 
+    <label nz-checkbox (nzCheckedChange)="parentSelected('permission.Parent.PermissionCode')" >{{permission.Parent.value}}</label> 
   </ng-template>
-  
-  <div style="padding-left: 10px;">
+ 
+    <div style="padding-left: 10px;">
     
-    <div *ngFor="let childData of permission.Childs">
-      <label nz-checkbox  >{{childData.KeyValue}}</label> 
+     
+      <nz-checkbox-group class="ant-checkbox-group-item" [(ngModel)]="permission.Childs" (ngModelChange)="log(permission.Childs)"></nz-checkbox-group>
+     
     </div>
-   
-  </div>
+
+ 
+
   </nz-collapse-panel>
 </nz-collapse>
 </div>
+<nz-checkbox-group [(ngModel)]="listCheckBox" (ngModelChange)="groupCheck($event)"></nz-checkbox-group>
+
+
+<div style="border-bottom: 1px solid rgb(233, 233, 233);">
+  <label
+    nz-checkbox
+    [(ngModel)]="allChecked"
+    (ngModelChange)="updateAllChecked()"
+    [nzIndeterminate]="indeterminate"
+  >
+    Check all
+  </label>
+</div>
+<br />
+<nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>

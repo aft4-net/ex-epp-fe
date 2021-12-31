@@ -3,13 +3,19 @@ export interface IPermissionModel{
            Guid :  string ,
            PermissionCode :  string ,
            Name :  string ,
-           KeyValue :  string ,
-           Level :  string ,
+           value :  string ,
+           label :  string ,
            ParentCode :  string 
+           checked:boolean
 } 
 export interface IPermissionResponseModel{
      ResponseStatus :  string ,
      Message :  string ,
      Ex : any,
      Data ?: IPermissionModel[],
+}
+
+export interface AllPermitionData{
+Parent:IPermissionModel,
+Childs:IPermissionModel[]
 }
