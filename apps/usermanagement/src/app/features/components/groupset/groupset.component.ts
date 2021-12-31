@@ -115,11 +115,11 @@ export class GroupsetComponent implements OnInit {
     this.creategroupDashboardControls();
     this.groupList as GroupSetModel[];
     this.FeatchAllgroups();
-    console.log(this.notification.showNotification({
+    this.notification.showNotification({
       type: 'success',
       content: 'Groups loaded successfully',
       duration: 1,
-    }));
+    });
   }
   creategroupDashboardControls() {
     this.groupDashboardForm = this.fb.group({

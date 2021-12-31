@@ -85,11 +85,11 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.createUserDashboardControls();
     this.FeatchAllUsers();
-    console.log(this.notification.showNotification({
+    this.notification.showNotification({
       type: 'success',
       content: 'Users loaded successfully',
       duration: 1,
-    }));
+    });
   }
 
   createUserDashboardControls() {
