@@ -25,15 +25,15 @@
     margin-top: 9.5rem;
     border-top-left-radius: 15px;
     background-color: #FFFFFF;
-    
+
     width: 400px!important;
-  
+
     .ant-drawer-body {
       margin: 0;
       padding: 0;
     }
   }
-	
+
 }
 
 .ant-drawer-content {
@@ -129,3 +129,13 @@
   }
 }
 
+body{
+  overflow-x: hidden;
+}
+
+.ant-table-column-sorters {
+  float: left;
+}
+.ant-table-column-title {
+  padding-right: 9.56px;
+}

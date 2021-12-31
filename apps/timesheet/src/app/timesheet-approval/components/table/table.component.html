@@ -1,17 +1,21 @@
 <nz-table class="manager-table" #basicTable [nzData]="rowData" [nzFrontPagination]=false
-[ngClass]="{
-  'notALlColumns': !bulkCheck}">
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
     <tr>
       <th *ngIf="bulkCheck" [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="onAllChecked($event)"></th>
-
-      <th *ngFor="let heading of headings" [nzSortFn]="true" (click)="sorter(heading)">{{heading}}</th>
+      <th [nzSortFn]="true" (click)="sorter('Name')">Name</th>
+      <th [nzSortFn]="true" (click)="sorter('Date Range')">Date range</th>
+      <th [nzSortFn]="true" (click)="sorter('Project Name')">Project Came</th>
+      <th [nzSortFn]="true" (click)="sorter('Client Name')">Client name</th>
+      <th>Hours</th>
+      <th *ngIf="status">Status</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
-      <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)"></td>
+    <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row)">
+      <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)">
+      </td>
       <td>{{row.name}}</td>
       <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
       <td>{{row.projectName}}</td>
@@ -28,9 +32,15 @@
     </tr>
   </tbody>
 </nz-table>
-<div class="pagination mb-8 mr-8" style="float: right;display: flex;">
-  <div>Showing 1-10 of 20 entires</div>
+<div class="pagination mb-2" style="float: right;margin-right: 2rem;display: flex;">
+  <div>Showing 1 - {{rowData.length}} of {{total}} entries</div>
   <div>
-    <nz-pagination [nzPageIndex]="2" [nzTotal]="50" nzSimple></nz-pagination>
+    <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total" nzSimple>
+    </nz-pagination>
   </div>
-</div>
+  <div>
+    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
+    (modalStatus)="timesheetDetailClose($event)"
+    ></exec-epp-timesheet-detail-view>
+  </div>
+

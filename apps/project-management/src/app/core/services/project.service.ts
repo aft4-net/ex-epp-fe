@@ -53,7 +53,6 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
      this.post(data).subscribe
          ((error)=>{
-           
            this.notification.success('Project Added successfully','');  
            
   this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
@@ -63,7 +62,7 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
         }               
            ,(errr:any)=>{
-            console.log(errr)
+          
               this.notification.error('Project Not saved','Please try again letter');
             }
            )
