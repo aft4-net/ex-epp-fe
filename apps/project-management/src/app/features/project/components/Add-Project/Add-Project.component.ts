@@ -64,7 +64,7 @@ export class AddProjectComponent implements OnInit {
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.createRegistrationForm();
@@ -72,7 +72,6 @@ export class AddProjectComponent implements OnInit {
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
-
   }
 
   projectMapper() {
@@ -91,7 +90,7 @@ export class AddProjectComponent implements OnInit {
           this.validateForm.controls.projectType.value;
         this.projectCreate.ProjectStatusGuid =
           this.validateForm.controls.status.value.Guid;
-          this.projectCreate.ClientGuid=this.validateForm.controls.client.value.Guid;
+        this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
         this.projectCreate.Description =
           this.validateForm.controls.description.value;
 
@@ -107,28 +106,20 @@ export class AddProjectComponent implements OnInit {
   }
 
   typeChanged() {
-
     this.validateForm.controls.projectType.valueChanges.subscribe(() => {
-
       if (this.validateForm.controls.projectType.value == 'Internal') {
-        this.currentNameSubject$.next('Excellerent');
-
-        this.currentNameSubject$.subscribe(val => {
-          console.log(this.currentNameSubject$.getValue());
-        });
-
+        for (let i = 0; i < this.clients.length; i++) {
+          if (
+            this.clients[i].ClientName.toLowerCase() ===
+            'Excellerent'.toString().toLowerCase()
+          ) {
+            this.projectCreate.ClientGuid = this.clients[i].Guid;
+          }
+        }
+      } else {
+        this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
       }
-      else {
-        const type = this.validateForm.controls.client.value;
-        this.currentNameSubject$.next('Another');
-
-        this.currentNameSubject$.subscribe(val => {
-          console.log(this.currentNameSubject$.getValue());
-        });
-      }
-
-    })
-
+    });
   }
 
   apiCalls() {
@@ -136,9 +127,8 @@ export class AddProjectComponent implements OnInit {
       this.employees = response;
     });
 
-    this.clientService.getAll().subscribe((response:any) => {
+    this.clientService.getAll().subscribe((response: any) => {
       this.clients = response.Data;
-
     });
 
     this.projectStatusService.getAll().subscribe((res) => {
@@ -148,11 +138,9 @@ export class AddProjectComponent implements OnInit {
     this.projectService.getProjects().subscribe((response: Project[]) => {
       this.projects = response;
     });
-
   }
 
   validateParojectNameWithClient() {
-
     this.validateForm.controls.client.valueChanges.subscribe(() => {
       let found = false;
 
@@ -164,9 +152,9 @@ export class AddProjectComponent implements OnInit {
           for (let i = 0; i < this.projects.length; i++) {
             if (
               this.validateForm.controls.client.value ==
-              this.projects[i].Client.Guid &&
+                this.projects[i].Client.Guid &&
               this.validateForm.controls.projectName.value.toLowerCase() ===
-              this.projects[i].ProjectName.toString().toLowerCase()
+                this.projects[i].ProjectName.toString().toLowerCase()
             ) {
               found = true;
 
@@ -186,15 +174,13 @@ export class AddProjectComponent implements OnInit {
         this.validateForm.controls.projectName.setErrors({ invalidName: true });
       } else {
         this.projectNameExits = false;
-        this.validateForm.controls.projectName.setErrors({ invalidName: false });
+        this.validateForm.controls.projectName.setErrors({
+          invalidName: false,
+        });
         this.validateForm.controls.projectName.updateValueAndValidity();
       }
-
     });
-
   }
-
-
 
   createRegistrationForm() {
     this.validateForm = this.fb.group({
@@ -216,32 +202,24 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-
-
   onSubmit() {
     if (this.validateForm.controls.endValue.value != null)
       this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
-    else
-      this.projectCreate.EndDate = "";
+    else this.projectCreate.EndDate = '';
 
     if (this.validateForm.controls.status.value.AllowResource == true)
       this.projectCreate.AssignResource = this.resources;
     else this.projectCreate.AssignResource = [] as projectResourceType[];
-
     this.projectService.createProject(this.projectCreate);
 
     this.router.navigateByUrl('');
   }
-
-
 
   onReset() {
     this.userSubmitted = false;
 
     this.router.navigateByUrl('');
   }
-
-
 
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.validateForm.controls.endValue.value) {
@@ -251,8 +229,6 @@ export class AddProjectComponent implements OnInit {
       startValue.getTime() > this.validateForm.controls.endValue.value.getTime()
     );
   };
-
-
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.validateForm.controls.startValue.value) {
@@ -264,16 +240,13 @@ export class AddProjectComponent implements OnInit {
     );
   };
 
-
   handleStartOpenChange(open: boolean): void {
     if (!open) {
       this.endDatePicker.open();
     }
   }
 
-
-
-  handleEndOpenChange(open: boolean): void { }
+  handleEndOpenChange(open: boolean): void {}
 
   //Getter methods
 
@@ -305,17 +278,13 @@ export class AddProjectComponent implements OnInit {
     return this.validateForm.controls.endValue as FormControl;
   }
 
-
-
   updateProjectResourseList(resources: projectResourceType[]) {
     this.resources = resources;
   }
 
-
   selectChangeHandler(event: any) {
     this.selectedStatus = event.target.value;
   }
-
 
   showDeleteConfirm(): void {
     this.modalService.confirm({

@@ -78,7 +78,7 @@ nz-form
      id="projectType"
      formControlName="projectType"
      nzPlaceHolder="Select Project Type"
-     [(ngModel)]="typed"
+
    >
       <nz-option nzValue="External" nzLabel="External"></nz-option>
      <nz-option nzValue="Internal" nzLabel="Internal"></nz-option>
@@ -99,7 +99,6 @@ nz-form
  <nz-form-control [nzSm]="14" >
    <nz-select   nzShowSearch nzAllowClear
      id="clientName"
-     [(ngModel)]="typeSelected"
      formControlName="client"
      nzPlaceHolder="Select client Name">
      <ng-container *ngFor="let  client of  clients" >
@@ -112,7 +111,6 @@ nz-form
    </div>
  </nz-form-control>
 </nz-form-item>
-
 
 
 <nz-form-item>
