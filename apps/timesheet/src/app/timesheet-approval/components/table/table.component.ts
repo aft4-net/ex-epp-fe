@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 interface ItemData {
   id: number,
@@ -28,6 +28,10 @@ export class TableComponent {
   @Input() bulkCheck: boolean | undefined;
   @Input() status: boolean | undefined;
 
+  qtyofItemsChecked = 0
+
+  @Output() itemsSelected = new EventEmitter<number>();
+
 
   listOfSelection = [
     {
@@ -53,8 +57,10 @@ export class TableComponent {
   }
 
   onItemChecked(id: number, checked: boolean): void {
+    this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onAllChecked(value: boolean): void {

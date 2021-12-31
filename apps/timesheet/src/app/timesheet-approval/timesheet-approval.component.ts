@@ -15,6 +15,7 @@ export class TimesheetApprovalComponent implements OnInit {
   statusColumn = true;
   cols: TemplateRef<any>[] = [];
   currentNameSubject$ = new BehaviorSubject(true);
+  qtyofItemsSelected = 0
 
   employees = [
     {
@@ -127,6 +128,10 @@ onTabSelected(tab:any) {
    else {
      this.currentNameSubject$.next(false);
    }
+}
+
+onItemCheckStatusChange(event: number){
+  this.qtyofItemsSelected = event;
 }
 
 }
