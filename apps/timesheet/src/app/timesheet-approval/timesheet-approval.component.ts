@@ -88,7 +88,7 @@ export class TimesheetApprovalComponent implements OnInit {
     {
       text: 'Select All Row',
       onSelect: () => {
-        //this.onAllChecked(true);
+        this.onAllChecked(true);
       }
     }
   ];
