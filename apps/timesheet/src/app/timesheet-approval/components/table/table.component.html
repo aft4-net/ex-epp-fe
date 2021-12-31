@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
+    <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row)">
       <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)">
       </td>
       <td>{{row.name}}</td>
@@ -38,4 +38,9 @@
     <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total" nzSimple>
     </nz-pagination>
   </div>
-  
+  <div>
+    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
+    (modalStatus)="timesheetDetailClose($event)"
+    ></exec-epp-timesheet-detail-view>
+  </div>
+
