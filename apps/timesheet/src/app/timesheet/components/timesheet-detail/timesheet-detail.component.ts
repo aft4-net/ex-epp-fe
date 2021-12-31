@@ -14,10 +14,10 @@ import { TimesheetConfiguration, Timesheet, TimeEntry, TimesheetApproval, Approv
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { concat, observable, Observable, queueScheduler, scheduled, Scheduler } from 'rxjs';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
+import { concatAll, mergeAll } from 'rxjs/operators';
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean,
@@ -109,6 +109,11 @@ export class TimesheetDetailComponent implements OnInit {
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
+
+    this.timesheetConfig$.subscribe(tsc => this.timesheetConfig = tsc ?? { WorkingDays: [], WorkingHour: 0 });
+    this.timesheet$.subscribe(ts => this.timesheet = ts ?? null);
+    this.timeEntries$.subscribe(te => this.timeEntries = te ?? null);
+    this.timesheetApprovals$.subscribe(tsa => this.timesheetApprovals = tsa ?? null);
 
     if (this.userId) {
       this.getProjectsAndClients(this.userId);
@@ -542,6 +547,7 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   addTimeEntryForDateRange(timeEntry: TimeEntry) {
+
     if (!this.formData.fromDate || !this.formData.toDate) {
       return;
     }
