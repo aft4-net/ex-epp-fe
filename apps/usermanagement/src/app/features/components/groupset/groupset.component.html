@@ -57,6 +57,11 @@
               >
               </textarea>
               <span class="groupSetSpan">A description will help you organize and manage your groups.</span>
+              <div *ngIf="groupSet.get('Description')?.invalid" class="text-danger-error">
+              <div *ngIf="groupSet.get('Description')?.errors?.['maxlength']">
+                Group's description must be no more than 250 characters long.
+              </div>
+              </div>
             </nz-form-control>
           </nz-form-item>
       </div>
