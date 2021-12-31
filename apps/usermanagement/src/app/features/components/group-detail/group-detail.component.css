@@ -112,45 +112,19 @@ tr.ant-table-row.ng-star-inserted {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.userstatus {
-  background-color: #deeede;
-  border-color: black;
+.removeButton {
   color: #00a551;
   text-align: center;
-  width: 90px;
 }
 
-button.userstatus:hover {
-  border-color: #e3fae3;
-  background-color: #e3fae3;
-  color: #00a551;
-}
-
-.userstatus {
-  border-color: #DCFFDC;
-  background-color: #DCFFDC;
-  color: #00a551;
-  text-align: center;
-  width: 90px;
-}
-
-.adduser {
-  color: #fff;
-  background-color: #00a551;
-  border-color: #00a551;
-}
-
-button span {
-  display: list-item;
-  text-orientation: sideways;
-  transform: rotate(-90deg);
-  font-weight: 900;
-  color: gray;
-}
-
-button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
-  border:0px;
-  color:black;
+.defaultButton {
+  background: #e8e8e8;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #595959;
 }
 
 .PageHeader {
@@ -163,3 +137,27 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: #262626;
 }
 
+.permissionlist {
+  border-style: solid;
+  margin-left: 20px;
+}
+
+.title-holder {
+  margin-top: 24px;
+  margin-left: 18.48px;
+}
+
+.TabTitleStyle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+
+.editPermissionButton {
+  color: #00a551;
+  padding: 0px !important;
+}

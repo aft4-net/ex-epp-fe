@@ -36,7 +36,6 @@ export class UserService {
     }
     params = params.append("pageIndex", userParams.pageIndex.toString());
     params = params.append("pageSize", userParams.pageSize.toString())
-    console.log(params);
     return this.http
       .get<PaginationResult<IUserModel[]>>(this.baseUrl + '/GetUsersForDashboard',{ params }).pipe(
         map((result: any) => {

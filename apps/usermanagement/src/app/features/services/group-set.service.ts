@@ -16,7 +16,7 @@ import { environment } from "../../../environments/environment";
   })
   export class GroupSetService {
 
-    baseUrl = environment.apiUrl + '/user';
+    baseUrl = environment.apiUrl + '/group';
     
     paginatedResult: PaginationResult<GroupSetModel[]> = {
       Data: [] as GroupSetModel[],
@@ -36,43 +36,47 @@ import { environment } from "../../../environments/environment";
         );
       }
       
-      SearchUsers(
-        groupParams: GroupParams
-      ): Observable<PaginationResult<GroupSetModel[]>> {
-        console.log("was in the service search ! "+  groupParams.searchKey.toString());
-        let params = new HttpParams(); 
-        if(groupParams.searchKey)
-        {
-          params = params.append("searchKey", /*groupParams.searchKey.toString()*/"Data");
-        }
-        params = params.append("pageIndex", groupParams.pageIndex);
-        params = params.append("pageSize", groupParams.pageSize);
-        console.log(params);
-        return this.http
-          .get<PaginationResult<GroupSetModel[]>>("http://localhost:14696/api/v1/GroupSet",{
-
-            
-              params: {
-                searhKey: groupParams.searchKey,
-                pageIndex: groupParams.pageIndex,
-                pageSize: groupParams.pageSize,
-              },
-            
-
-          }).pipe(
-            map((result: any) => {
-              this.paginatedResult = {
-                Data: result.Data,
-                pagination: {
-                  PageIndex: result.PageIndex,
-                  TotalRows: result.TotalPage,
-                  PageSize: result.PageSize,
-                  TotalRecord: result.TotalRecord,
-                },
-              };
-              return this.paginatedResult;
-            })
-          );
+    SearchUsers(
+      groupParams: GroupParams
+    ): Observable<PaginationResult<GroupSetModel[]>> {
+      console.log("was in the service search ! "+  groupParams.searchKey.toString());
+      let params = new HttpParams(); 
+      if(groupParams.searchKey)
+      {
+        params = params.append("searchKey", /*groupParams.searchKey.toString()*/"Data");
       }
+      params = params.append("pageIndex", groupParams.pageIndex);
+      params = params.append("pageSize", groupParams.pageSize);
+      console.log(params);
+      return this.http
+        .get<PaginationResult<GroupSetModel[]>>("http://localhost:14696/api/v1/GroupSet",{
+
+          
+            params: {
+              searhKey: groupParams.searchKey,
+              pageIndex: groupParams.pageIndex,
+              pageSize: groupParams.pageSize,
+            },
+          
+
+        }).pipe(
+          map((result: any) => {
+            this.paginatedResult = {
+              Data: result.Data,
+              pagination: {
+                PageIndex: result.PageIndex,
+                TotalRows: result.TotalPage,
+                PageSize: result.PageSize,
+                TotalRecord: result.TotalRecord,
+              },
+            };
+            return this.paginatedResult;
+          })
+        );
+    }
+
+    // LoadGroupDeatil(groupId : string) : Observable<ResponseDTO<any>> {
+      
+    // }
     
 }
