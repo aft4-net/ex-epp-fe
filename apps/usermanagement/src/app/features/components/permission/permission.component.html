@@ -1,14 +1,31 @@
 
-<div style="padding: 25px;">
-    <p>permission works!</p>
-<div *ngFor="let permission of permissionData">
-    <label nz-checkbox (nzCheckedChange)="parentSelected(permission.Parent.PermissionCode)" >{{permission.Parent.KeyValue}}</label> 
-    <div style="padding-left: 5px;">
-      
-      <div *ngFor="let childData of permission.Childs">
-        <label nz-checkbox  >{{childData.KeyValue}}</label> 
-      </div>
-     
+<div style="padding-right: 20px;">
+  <div style="padding-left: 10px; padding-top: 15px;">
+    <div style="float: right;">
+      <button nz-button class="cancel-button">Cancel</button>
+    <button nz-button class="button-style" >Update Permissions</button>
     </div>
-</div>
+    <div>
+      <h3>Ro - Permissions</h3>
+      <p>View and configure groups access.</p>
+    </div>
+  </div>
+<nz-collapse>
+  <nz-collapse-panel
+  *ngFor="let permission of permissionData"
+  [nzHeader]="header"
+  >
+  <ng-template #header>
+    <label nz-checkbox (nzCheckedChange)="parentSelected(permission.Parent.PermissionCode)" >{{permission.Parent.KeyValue}}</label> 
+  </ng-template>
+  
+  <div style="padding-left: 10px;">
+    
+    <div *ngFor="let childData of permission.Childs">
+      <label nz-checkbox  >{{childData.KeyValue}}</label> 
+    </div>
+   
+  </div>
+  </nz-collapse-panel>
+</nz-collapse>
 </div>

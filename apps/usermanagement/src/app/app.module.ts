@@ -40,6 +40,7 @@ import { UserToGroupComponent } from './features/components/user/user-to-group/u
     FormsModule,
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
+    RemoteEntryModule,
     CustomFormModule,
     RouterModule.forRoot([
 

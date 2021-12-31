@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router, RouterLink } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { fromEvent, Observable, of, pipe } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap, take } from 'rxjs/operators';
 import { ColumnItem } from '../../Models/ColumnItem';
 import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
@@ -11,6 +11,7 @@ import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -118,7 +119,7 @@ export class UserDashboardComponent implements OnInit {
 
     },error => {
       this.loading = false;
-      this.PopulateFilterColumns();
+      //this.PopulateFilterColumns();
      });
     this.searchStateFound=false;
   }
