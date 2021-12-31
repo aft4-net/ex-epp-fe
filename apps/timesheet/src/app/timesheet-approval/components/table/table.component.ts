@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 interface ItemData {
   id: number,
@@ -16,11 +16,29 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
+  total=10;
+  pageIndex = 1;
+  pageSize = 10;
 
-  @Input() rowData : any[] | undefined;
+  sortByParam="";
+  sortDirection = "asc";
+
+  checked = false;
+  indeterminate = false;
+  listOfCurrentPageData: readonly ItemData[] = [];
+  listOfData: readonly ItemData[] = [];
+  setOfCheckedId = new Set<number>();
+
+
+  @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
-  @Input() isAll: boolean | undefined;
+  @Input() bulkCheck: boolean | undefined;
+  @Input() status: boolean | undefined;
+
+  @Output() checkedListId = new EventEmitter<Set<number>>();
+
+
 
   listOfSelection = [
     {
@@ -28,20 +46,18 @@ export class TableComponent {
       onSelect: () => {
         this.onAllChecked(true);
       }
-    },
-
+    }
   ];
-  checked = false;
-  indeterminate = false;
-  listOfCurrentPageData: readonly ItemData[] = [];
-  listOfData: readonly ItemData[] = [];
-  setOfCheckedId = new Set<number>();
+
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
+      this.checkedListId.emit(this.setOfCheckedId);
+      console.log(this.setOfCheckedId);
     } else {
       this.setOfCheckedId.delete(id);
+      console.log(this.setOfCheckedId);
     }
   }
 
@@ -64,4 +80,93 @@ export class TableComponent {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
+  showModal(id: any) {
+
+  }
+
+  sorter(heading:string) {
+    if (heading === 'Name'){
+      this.sortByParam = "name";
+    } else if (heading === 'Date Range'){
+      this.sortByParam = "dateRange";
+    }else if (heading === 'Project Name') {
+      this.sortByParam = "projectName";
+    } else if (heading === 'Client Name') {
+      this.sortByParam = "clientName";
+    } else {
+      this.sortByParam = "";
+    }
+
+    if (this.sortDirection === 'desc') {
+      this.sortDirection = 'asc';
+    } else {
+      this.sortDirection = 'desc';
+    }
+  }
+
+  // PageSizeChange(pageSize: number) {
+  //   console.log(pageSize);
+  //   this.pageSize = pageSize;
+  //   this._clientservice
+  //     .getWithPagnationResut(this.pageIndex, pageSize, this.searchProject.value)
+  //     .subscribe((response: PaginatedResult<Client[]>) => {
+  //       this.clientsdata = response.data;
+  //       this.pageIndex = response.pagination.pageIndex;
+  //       this.pageSize = response.pagination.pageSize;
+  //       this.loading = false;
+
+  //     });
+  // }
+
+  // PageIndexChange(index: any): void {
+
+  //   if(this.isFilter){
+  //    this.clientsdata =this.totalData.slice((index-1)*10,index*10);
+
+  //   }
+  //   else{
+  //    this.pageIndex = index;
+  //    this.loading = true;
+  //    if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
+  //      this._clientservice
+  //        .getWithPagnationResut(index, 10, this.searchProject.value)
+  //        .subscribe((response: PaginatedResult<Client[]>) => {
+  //          this.clientsdata = response.data;
+  //          this.unfilteredData = response.data;
+  //          this.pageIndex = response.pagination.pageIndex;
+  //          this.total = response.pagination.totalRecord;
+
+  //          this.totalPage = response.pagination.totalPage;
+  //          this.pageSize = response.pagination.pageSize;
+  //          this.loading = false;
+  //        });
+
+
+  //    } else {
+  //      this._clientservice
+  //        .getWithPagnationResut(index, 10)
+  //        .subscribe((response: PaginatedResult<Client[]>) => {
+  //          this.clientsdata = response.data;
+  //          this.unfilteredData = response.data;
+  //          this.pageIndex = response.pagination.pageIndex;
+  //          this.pageSize = response.pagination.pageSize;
+  //          this.loading = false;
+  //          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+  //            this.search(
+  //              this.searchAddressList,
+  //              this.searchstatusList,
+  //              this.searchsalesPersonList
+  //            );
+
+  //          }
+
+
+  //        });
+  //      this.searchStateFound = false;
+  //    }}
+  //  }
+
 }
+
+
+

@@ -25,19 +25,20 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
+  @Output() deleteButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
   @Output() columnOverflow = new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
   @Input() dates1: any; // decorate the property with @Input()
   @Input() date: Date = new Date();
   @Input() timesheet: Timesheet | null = null;
+  @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
   @ViewChildren('entries') entriesDiv!: QueryList<any>;
   @ViewChild('pt') pointerEl!: ElementRef;
   @ViewChild('col') colEl!: ElementRef;
   @ViewChild('addIcon') iconEL!: ElementRef;
-  timeEntrys: TimeEntry[] | null = null;
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
@@ -52,26 +53,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
-    if (this.timesheet) {
-      this.timesheetService.getTimeSheetApproval(this.timesheet?.Guid).subscribe(res => {
-        res != null && res.length > 0 ? this.isSubmitted = true : this.isSubmitted = false;
-      })
-    }
-    console.log(this.isSubmitted)
+    
   }
 
   ngOnChanges(): void {
-    if (this.timesheet) {
-      this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date).subscribe(response => {
-        this.timeEntrys = response ? response : null;
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    this.timeEntries = this.timeEntries?.filter(te => new Date(te.Date).valueOf() === this.date.valueOf()) ?? null;
 
-        if (this.timesheet) {
-          let totalHours = this.timeEntrys?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
-          this.totalHours = totalHours ? totalHours : 0;
-          this.totalHoursCalculated.emit(totalHours);
-        }
-      });
-     /// this.overflowCalc();
+    if (this.timeEntries) {
+      let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
+      this.totalHours = totalHours ? totalHours : 0;
+      
     }
 
     let today = new Date();
@@ -115,6 +107,15 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
+    }
+
+    this.clickEventType = ClickEventType.none;
+  }
+
+  onDeleteButtonClicked(clickEventType: ClickEventType) {
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+      this.deleteButtonClicked.emit(this.clickEventType);
     }
 
     this.clickEventType = ClickEventType.none;

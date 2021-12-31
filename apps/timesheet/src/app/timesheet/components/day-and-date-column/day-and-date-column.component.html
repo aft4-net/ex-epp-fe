@@ -26,11 +26,13 @@
               </svg>
             </div>
             
-        <div #entries *ngFor="let timeEntry of timeEntrys;let i=index" class="w-full">
-           <app-project-name-palet [timeEntry]="timeEntry"
+        <div #entries *ngFor="let timeEntry of timeEntries;let i=index" class="w-full">
+            <app-project-name-palet [timeEntry]="timeEntry"
               [timesheetApproval]="timesheetApprovalForaProject(timeEntry.ProjectId)"
               (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
-              (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)">
+              (paletEllipsisClicked)="onPaletEllipsisClicked($event)" 
+              (editClicked)="onEditButtonClicked($event)"
+              (deleteClicked)="onDeleteButtonClicked($event)" >
             </app-project-name-palet>
             {{checkOverflow(item)}}
         </div>

@@ -1,3 +1,5 @@
+
+
 export interface Timesheet {
     Guid: string;
     FromDate: Date;
@@ -27,6 +29,14 @@ export interface TimesheetApproval {
     TimesheetId: string;
     ProjectId: string;
     Status: ApprovalStatus;
+    Comment?:string;
+    EmployeeName:string;
+    FromDate:Date;
+    ToDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
+    ProjectName:string;
 }
 
 export interface TimesheetConfiguration {
@@ -62,4 +72,10 @@ export interface TimesheetApprovalResponse extends Response {
 
 export interface TimesheetConfigResponse extends Response {
     Data: TimesheetConfiguration;
+}
+
+export interface ApprovalEntity extends Response{
+  TimesheetId: string;
+  ProjectId:string;
+  Status:ApprovalStatus;
 }

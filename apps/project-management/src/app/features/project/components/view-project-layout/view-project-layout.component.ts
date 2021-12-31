@@ -1,9 +1,8 @@
 import { Component,  OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import {PaginatedResult, Project, ProjectService } from '../../../../core';
 
 
@@ -27,6 +26,14 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
   searchKey='';
   Projects!:Project[];
   searchStateFound=false;
+  checker= false;
+
+  checkOptionsThree = [
+    { label: 'Apple', value: 'Apple', disabled: true, checked: true },
+    { label: 'Pear', value: 'Pear', disabled: true },
+    { label: 'Orange', value: 'Orange' }
+  ];
+
   PageSizeChange(pageSize){
     console.log(pageSize)
     this.pageSize=pageSize
@@ -82,7 +89,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
       this.totalPage=response.pagination.totalPage;
       this.loading =false;
       this.projectService.setFristPageOfProjects(response);
-
+   console.log(this.projects)
      });
 
      this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{
@@ -93,8 +100,6 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
       this.totalPage=response.pagination.totalPage;
       this.loading =false;
      });
-
-
 
 
    this.searchProject.valueChanges.pipe(
