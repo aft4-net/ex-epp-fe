@@ -189,15 +189,9 @@
       </nz-tab>
     </nz-tabset>
   </div>
+  <div>
+    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 
-
-  <nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="Modal Title"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
-  [nzOkLoading]="isOkLoading"
->
-  <p *nzModalContent>Modal Content</p>
-</nz-modal>
-
+    (modalStatus)="timesheetDetailClose($event)"
+    ></exec-epp-timesheet-detail-view>
+  </div>
