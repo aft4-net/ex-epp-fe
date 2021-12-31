@@ -1,5 +1,6 @@
 export enum ClickEventType {
     none,
     showFormDrawer,
-    showPaletPopover
+    showPaletPopover,
+    deleteTimeEntry
 }

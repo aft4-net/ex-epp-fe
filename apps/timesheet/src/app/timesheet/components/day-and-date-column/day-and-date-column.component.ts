@@ -25,6 +25,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editButtonClicked = new EventEmitter<ClickEventType>();
+  @Output() deleteButtonClicked = new EventEmitter<ClickEventType>();
   @Output() totalHoursCalculated = new EventEmitter<number>();
   @Output() columnOverflow = new EventEmitter<boolean>();
   @Input() item: any; // decorate the property with @Input()
@@ -130,6 +131,15 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
+    }
+
+    this.clickEventType = ClickEventType.none;
+  }
+
+  onDeleteButtonClicked(clickEventType: ClickEventType) {
+    if (this.clickEventType === ClickEventType.none) {
+      this.clickEventType = clickEventType;
+      this.deleteButtonClicked.emit(this.clickEventType);
     }
 
     this.clickEventType = ClickEventType.none;
