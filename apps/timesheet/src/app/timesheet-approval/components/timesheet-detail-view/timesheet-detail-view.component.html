@@ -53,13 +53,13 @@
                 nz-button
                 class="requestForReviewButton"
                 (click)="requestForReview()"
-                [disabled]="!submitting"
+                [disabled]="!submitting" *ngIf="timesheetDetail?.status==='Approved'"
                 [title]="
                   submitting ? 'Enter comment to request for review!.' : ''
                 "
                 [disabled]="!inputValue"
               >
-                Request for review
+              Request for review
               </button>
             </nz-form-item>
           </nz-comment-content>

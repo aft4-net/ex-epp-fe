@@ -350,6 +350,7 @@ onItemChecked(id: number, checked: boolean): void {
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
+    this.timeSheetService.timesheetDetail=row;
 
   }
   timesheetDetailClose(event: boolean){

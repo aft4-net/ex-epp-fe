@@ -25,7 +25,7 @@ import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
 })
 export class TimesheetService {
   baseUrl = environment.apiUrl;
-
+  timesheetDetail:any;
   constructor(
     private http: HttpClient,
     private dayAndDateService: DayAndDateService
@@ -42,6 +42,7 @@ export class TimesheetService {
       fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
+
 
     let params = new HttpParams();
 
@@ -280,8 +281,8 @@ getTimesheetSubmissions(
      pagination: {} as Pagination
   };
   return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
-       .pipe(   
-         map((response:any) => { 
+       .pipe(
+         map((response:any) => {
            paginatedResult= {
              data:response.Data,
              pagination:{pageIndex:response.PageIndex,
@@ -289,7 +290,7 @@ getTimesheetSubmissions(
                pageSize:response.PageSize,
                totalRecord:response.TotalRecord}
           };
-          return paginatedResult;      
+          return paginatedResult;
          })
        );
 
