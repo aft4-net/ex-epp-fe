@@ -318,24 +318,25 @@ export class TimesheetDetailComponent implements OnInit {
   */
   checkForCurrentWeek(): void {
     let date = new Date();
-    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      this.dateColumnContainerClass = "";
-    }
-    else if (this.lastday1.valueOf() >= date.valueOf()) {
-      this.dateColumnContainerClass = "";
-    }
-    else {
-      this.dateColumnContainerClass = "date-column-container";
-
-      if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
-        this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
+      if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+        this.dateColumnContainerClass = "";
+      }
+      else if ((this.lastday1.valueOf() >= date.valueOf()) || this.startingDateCriteria.isBeforeThreeWeeks) {
+        this.dateColumnContainerClass = "";
       }
       else {
-        this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
+        this.dateColumnContainerClass = "date-column-container";
+
+        if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+          this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
+        }
+        else {
+          this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
+        }
       }
-    }
+
   }
 
   calculateWeeklyTotalHours() {
@@ -771,7 +772,7 @@ export class TimesheetDetailComponent implements OnInit {
 
   createNotification(type: string, message: string, position?: NzNotificationPlacement) {
 
-    if(this.startingDateCriteria.isBeforeThreeWeeks){
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
       return;
     }
     if (!position) {
