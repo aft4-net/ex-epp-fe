@@ -121,23 +121,23 @@ reviewsubmissions(date:Date){
   }
    }
 
-reviewSubmission( Guid:string,project_id:string) :void
-  {
+// reviewSubmission( Guid:string,project_id:string) :void
+//   {
 
-    this.userId = localStorage.getItem("userId");
-    this.Guid =Guid;
-    this.project_id =project_id;
-    // this.state.timeEntries$ = of([]);
-    this.timeEntries$ = this.state.timeEntries$  ;
-      this._timesheetservice.getTimeEntriesByTimesheet_project(Guid,project_id).subscribe((data:any)=>{
-      this.timeEntries$ = data ? data : null;
-         if(data.length)
-   { this.router.navigate(['/timesheet']);
+//     this.userId = localStorage.getItem("userId");
+//     this.Guid =Guid;
+//     this.project_id =project_id;
+//     // this.state.timeEntries$ = of([]);
+//     this.timeEntries$ = this.state.timeEntries$  ;
+//       this._timesheetservice.getTimeEntriesByTimesheet_project(Guid,project_id).subscribe((data:any)=>{
+//       this.timeEntries$ = data ? data : null;
+//          if(data.length)
+//    { this.router.navigate(['/timesheet']);
      
-  }
-    });
+//   }
+//     });
 
-}
+// }
 
 
 
