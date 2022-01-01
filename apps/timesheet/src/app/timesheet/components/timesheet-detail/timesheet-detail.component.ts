@@ -14,10 +14,11 @@ import { TimesheetConfiguration, Timesheet, TimeEntry, TimesheetApproval, Approv
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
-import { concat, observable, Observable, queueScheduler, scheduled, Scheduler } from 'rxjs';
+import { concat, observable, Observable, of, queueScheduler, scheduled, Scheduler } from 'rxjs';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { concatAll, mergeAll } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean,
@@ -51,6 +52,7 @@ export class TimesheetDetailComponent implements OnInit {
   timeEntries: TimeEntry[] | null = null;
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   timesheetApprovals: TimesheetApproval[] | null = [];
+  timesheetReview: TimeEntry[] | null = [];
   timesheetApprovals$: Observable<TimesheetApproval[] | null> = new Observable();
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
@@ -83,6 +85,8 @@ export class TimesheetDetailComponent implements OnInit {
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
+  project_id:string;
+  timesheetId:string | undefined;
   startValue: Date | null = null;
   endValue: Date | null = null;
   isSubmitted: boolean = false;
@@ -99,8 +103,12 @@ export class TimesheetDetailComponent implements OnInit {
     private dayAndDateService: DayAndDateService,
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService
-  ) {
+    private timesheetStateService: TimesheetStateService,
+    private _route :ActivatedRoute
+    ) {
+      this.project_id = this._route.snapshot.params.id;
+           this.getTimeEntriesByproject(this.project_id);
+    
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
     this.firstday1 = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
@@ -152,6 +160,7 @@ export class TimesheetDetailComponent implements OnInit {
     // To calculate the no. of days between two dates
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   }
+ 
 
   getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
@@ -193,12 +202,33 @@ export class TimesheetDetailComponent implements OnInit {
         true : false;
   }
 
+  getTimeEntriesByproject(project_id:string)
+  { 
+    this.timesheet = null;
+    this.timeEntries = null;
+    this.timesheetApprovals = null;
+    this.timesheetReview =null
+    // this.timesheetStateService.timeEntries$ = of([]);
+      this.timesheetService.getTimeEntriesByproject(project_id).subscribe(response => {
+    this.timesheetReview = response ? response : null;
+    console.log("Review TimeEntris:",this.timesheetReview);
+    this.checkForCurrentWeek();
+  });
+  }
+
+
+
+  
+
   getTimeSheetApproval(guid: string) {
+    
     this.timesheetService.getTimeSheetApproval(guid).subscribe(response => {
       this.timesheetApprovals = response ? response : null;
       this.isSubmitted = response ? true : false;
       this.checkForCurrentWeek();
-    });
+     
+          });
+    
   }
 
   getProjectsAndClients(userId: string) {

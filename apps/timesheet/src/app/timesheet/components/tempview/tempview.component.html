@@ -1,0 +1,27 @@
+
+
+<nz-table
+  class="manager-table"
+  #basicTable
+  [nzData]="submission"
+  [ngClass]="{
+    notALlColumns: !isAll
+  }"
+>
+  <thead></thead>
+  <tbody>
+    <tr *ngFor="let row of submission" class="clickable" >
+      <td
+        *ngIf="isAll"
+     
+       
+      ></td>
+      <td (click)='onSelect(row)' >{{ row.name }}</td>
+      <td [routerLink]="['/timesheet', row.Guid]">{{ row.projectName }}</td>
+      <td  >{{ row.clientName }}</td>
+      <td (click)="reviewSubmission(row.Guid, row.projectName)">{{ row.hours }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+

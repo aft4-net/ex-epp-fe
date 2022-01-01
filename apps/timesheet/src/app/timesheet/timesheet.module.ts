@@ -32,6 +32,7 @@ import { TimesheetService } from './services/timesheet.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
+import { TempviewComponent } from './components/tempview/tempview.component';
 
 
 
@@ -44,7 +45,8 @@ import { TimesheetDetailComponent } from './components/timesheet-detail/timeshee
     ProjectNamePaletComponent,
     MoreProjectsComponent,
     ViewSubmissionsComponent,
-    TimesheetDetailComponent
+    TimesheetDetailComponent,
+    TempviewComponent
   ],
   imports: [
     CommonModule,

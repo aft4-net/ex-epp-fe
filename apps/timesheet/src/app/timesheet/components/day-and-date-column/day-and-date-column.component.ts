@@ -34,6 +34,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
+  @Input() timesheetreview: TimeEntry[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
   @ViewChildren('entries') entriesDiv!: QueryList<any>;
   @ViewChild('pt') pointerEl!: ElementRef;
