@@ -71,14 +71,24 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
   checkForSubmittedForApproal() {
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+      for(let i = 0; i < this.timesheetApprovals.length;i++){
+        if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
+          this.btnText="Resubmit Timesheet";
+          this.timeSheetStatus = "not-submitted-enable";
+          break;
+          }
+      else{
       this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
+      }
+      console.log(this.timesheetApprovals[i].Status)
+      console.log(ApprovalStatus.Rejected)
     }
-
+  }
     else {
       this.checkIfValidForApproval();
     }
-  }
+ }
 
   checkIfValidForApproval() {
     let timesheetConfig = this.timesheetConfig ?? {
