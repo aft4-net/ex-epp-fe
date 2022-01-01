@@ -11,8 +11,12 @@
   </div>
   </div>
   <div class="{{ projectNamePaletClass }} flex flex-row justify-between items-center w-full mt-0 mb-2 h-8">
-    <P class="ml-2">Review</P>
+    <P class="ml-2"><h2 *ngIf="timesheetApproval; else NotSubmitted">{{timesheetApproval.Status}}</h2> 
     <img class="bubble" src="./../../../../assets/images/speech-bubble.svg" style="width:20px;height:17.5px; margin-left:0px;">
+  
+    <ng-template #NotSubmitted >
+     <h2> Not Submitted </h2>
+    </ng-template>
   </div>
 <ng-template #palet_popover>
   <div class="edit-delete w-20 mt-12">

@@ -16,10 +16,10 @@
      
        
       ></td>
-      <td (click)='onSelect(row)' >{{ row.name }}</td>
-      <td [routerLink]="['/timesheet', row.Guid]">{{ row.projectName }}</td>
-      <td  >{{ row.clientName }}</td>
-      <td (click)="reviewSubmission(row.Guid, row.projectName)">{{ row.hours }}</td>
+      <td >{{ row.name }}</td>
+      <td (click)="reviewsubmissions(row.dateRange)">{{ row.projectName }}</td>
+      <td>{{ row.clientName }}</td>
+      <td [routerLink]="['/timesheet', row.Guid]">{{ row.hours }}</td>
     </tr>
   </tbody>
 </nz-table>

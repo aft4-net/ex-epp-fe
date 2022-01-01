@@ -22,6 +22,8 @@ interface ItemData {
 export class TempviewComponent implements OnInit {
   @Output() reviewEvent = new EventEmitter();
   // date = null;
+
+  
   isAll = true;
   notAll = false;
   timesheet: Timesheet | null = null;
@@ -31,7 +33,8 @@ export class TempviewComponent implements OnInit {
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   Guid: string | null = null;
   project_id :string | undefined;
-  date:Date | undefined
+  
+  userId: string | null = null;
 
 
   timesheet$: Observable<Timesheet | null> = new Observable();
@@ -50,7 +53,7 @@ export class TempviewComponent implements OnInit {
       Guid: "5ac731c7-9b77-4ba1-ad31-5a95d7c17401",
       name: 'Wada',
       dateRange: new Date(),
-      projectName: 'e66a381e-48d2-229e-32a4-bbc8541551dc',
+      projectName: 'Applicant',
       clientName: 'HR',
       hours: 8,
       status: 'Request for review',
@@ -59,7 +62,7 @@ export class TempviewComponent implements OnInit {
       Guid: "5ac731c7-9b77-4ba1-ad31-5a95d7c17401",
       name: 'Jira',
       dateRange: new Date(),
-      projectName: 'e66a381e-48d2-229e-32a4-bbc8541551dc',
+      projectName: 'Resource Management',
       clientName: 'Security Finance',
       hours: 12,
       status: 'Awaiting Approval',
@@ -68,7 +71,7 @@ export class TempviewComponent implements OnInit {
       Guid: "5ac731c7-9b77-4ba1-ad31-5a95d7c17401",
       name: 'Soressa',
       dateRange:new Date(),
-      projectName: 'e66a381e-48d2-229e-32a4-bbc8541551dc',
+      projectName: 'REDES',
       clientName: 'Security Finance',
       hours: 12,
       status: 'Approved',
@@ -77,7 +80,7 @@ export class TempviewComponent implements OnInit {
       Guid: "5ac731c7-9b77-4ba1-ad31-5a95d7c17401",
       name: 'Yero',
       dateRange: new Date(),
-      projectName: '79c23a9c-0a86-4b19-d554-8141eb70112f',
+      projectName: 'EPP',
       clientName: 'Security Finance',
       hours: 12,
       status: 'Awaiting Approval',
@@ -86,20 +89,12 @@ export class TempviewComponent implements OnInit {
       Guid: "5ac731c7-9b77-4ba1-ad31-5a95d7c17401",
       name: 'Dawi',
       dateRange: new Date(),
-      projectName: '79c23a9c-0a86-4b19-d554-8141eb70112f',
+      projectName: 'CRTR',
       clientName: 'Security Finance',
       hours: 12,
       status: 'Awaiting Approval',
     },
-    {
-      Guid: "5ac731c7-9b77-4ba1-ad31-5a95d7c17401",
-      name: 'Gemchu',
-      dateRange: new Date(),
-      projectName: '79c23a9c-0a86-4b19-d554-8141eb70112f',
-      clientName: 'Security Finance',
-      hours: 12,
-      status: 'Awaiting Approval',
-    },
+    
   ];
 
   cols: TemplateRef<any>[] = [];
@@ -116,12 +111,20 @@ export class TempviewComponent implements OnInit {
   this.router.navigate(['/timesheet']);
 }
 
-reviewsubmission(){
-  this.reviewEvent.emit();
-}
+reviewsubmissions(date:Date){
+ date = this.state.date;
+ this.userId = localStorage.getItem("userId");
+  if (this.userId) {
+      this.state.getTimesheet(this.userId,date);
+      console.log("ffffffffff",date);
+     this.router.navigate(['/timesheet']);
+  }
+   }
 
 reviewSubmission( Guid:string,project_id:string) :void
   {
+
+    this.userId = localStorage.getItem("userId");
     this.Guid =Guid;
     this.project_id =project_id;
     // this.state.timeEntries$ = of([]);
@@ -129,7 +132,7 @@ reviewSubmission( Guid:string,project_id:string) :void
       this._timesheetservice.getTimeEntriesByTimesheet_project(Guid,project_id).subscribe((data:any)=>{
       this.timeEntries$ = data ? data : null;
          if(data.length)
-   { this.router.navigate(['/timesheet',project_id]);
+   { this.router.navigate(['/timesheet']);
      
   }
     });
@@ -150,5 +153,9 @@ reviewSubmission( Guid:string,project_id:string) :void
 //   this.router.navigate(['/review-submission', submissio.name, submissio.project, submissio.date],{queryParams: {name: submissio.name, project:submissio.project, date: submissio.date}});
 // }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
+
+  
 }

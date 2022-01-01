@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { DayAndDateService } from "./services/day-and-date.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TimesheetService } from './services/timesheet.service';
@@ -35,7 +35,8 @@ export class TimesheetComponent implements OnInit {
 
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService
+    private timesheetStateService: TimesheetStateService,
+    private cdRef: ChangeDetectorRef 
   ) {
   }
 
@@ -47,5 +48,11 @@ export class TimesheetComponent implements OnInit {
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
 
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
+  }
+
+
+  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
+  ngAfterViewInit(): void {
+    this.cdRef.detectChanges(); 
   }
 }

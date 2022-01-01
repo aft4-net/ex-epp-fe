@@ -105,10 +105,6 @@ export class TimesheetService {
   }
 
 
-
-
-
-
   getTimeEntriesByTimesheet_project(timesheetId: string,  projectId: string) {
     let params = new HttpParams();
 
