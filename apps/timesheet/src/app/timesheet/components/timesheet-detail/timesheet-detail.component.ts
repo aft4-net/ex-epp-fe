@@ -209,7 +209,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.timesheetApprovals = null;
     this.timesheetReview =null
     // this.timesheetStateService.timeEntries$ = of([]);
-      this.timesheetService.getTimeEntriesByproject(project_id).subscribe(response => {
+      this.timesheetService.getTimeEntries(project_id).subscribe(response => {
     this.timesheetReview = response ? response : null;
     console.log("Review TimeEntris:",this.timesheetReview);
     this.checkForCurrentWeek();

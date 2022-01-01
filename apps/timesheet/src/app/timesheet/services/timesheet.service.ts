@@ -104,40 +104,6 @@ export class TimesheetService {
     return response.pipe(map((r) => r.body?.Data));
   }
 
-
-  getTimeEntriesByTimesheet_project(timesheetId: string,  projectId: string) {
-    let params = new HttpParams();
-
-    params = params.append('timesheetId', timesheetId);
-      if (projectId) {
-      params = params.append('projectId', projectId);
-    }
-
-    let response = this.http.get<TimeEntriesResponse>(
-      this.baseUrl + 'timeentriesbyproject',
-      { observe: 'response', params: params }
-    );
-
-    return response.pipe(map((r) => r.body?.Data));
-  }
-
-
-  getTimeEntriesByproject( projectId: string) {
-    let params = new HttpParams();
-  
-      params = params.append('projectId', projectId);
-        let response = this.http.get<TimeEntriesResponse>(
-      this.baseUrl + 'timeentriesdata',
-      { observe: 'response', params: params }
-    );
-
-    return response.pipe(map((r) => r.body?.Data));
-  }
-
-
-
-  
-
   addTimeEntry(employeeId: string, timeEntry: TimeEntry) {
     const headers = { 'content-type': 'application/json' };
 
