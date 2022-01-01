@@ -42,10 +42,10 @@
             <label for="" class="commentLabel">Comments</label><br />
 
             <nz-form-item>
-              <textarea class="textArea" [(ngModel)]="inputValue"></textarea>
+              <textarea class="textArea" [disabled]="timesheetDetail.status!=='Awaiting Approval'" [(ngModel)]="inputValue"></textarea>
             </nz-form-item>
             <nz-form-item>
-              <button nz-button class="approveButton" (click)="approve()">
+              <button nz-button class="approveButton" [hidden]="timesheetDetail.status!=='Awaiting Approval'" (click)="approve()">
                 Approve
               </button>
               &nbsp;
@@ -53,13 +53,14 @@
                 nz-button
                 class="requestForReviewButton"
                 (click)="requestForReview()"
-                [disabled]="!submitting" *ngIf="timesheetDetail?.status==='Approved'"
+                [disabled]="!submitting" [hidden]="timesheetDetail.status!=='Awaiting Approval'"
                 [title]="
                   submitting ? 'Enter comment to request for review!.' : ''
                 "
                 [disabled]="!inputValue"
               >
               Request for review
+
               </button>
             </nz-form-item>
           </nz-comment-content>

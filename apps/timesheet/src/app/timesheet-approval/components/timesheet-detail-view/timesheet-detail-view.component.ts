@@ -9,10 +9,7 @@ import { TimesheetService } from '../../../timesheet/services/timesheet.service'
 export class TimesheetDetailViewComponent implements OnInit {
   @Input() isDialogVisible=false;
   @Input() timesheetDetail:any;
-  @Input() isApproved=false;
   @Output() modalStatus=new EventEmitter<boolean>();
-  @Output () projectStatus=new EventEmitter<boolean>();
-
   submitting =true;
   inputValue='';
   appovalDetails:any[]=
@@ -20,9 +17,14 @@ export class TimesheetDetailViewComponent implements OnInit {
 
     {
      Date:Date.now(),
-     Hours:'08',
+     Hours:this.formatHour(8),
      Notes:'Additional changes asked by the client'
     },
+    {
+      Date:Date.now(),
+      Hours:this.formatHour(4),
+      Notes:''
+     },
   ]
     constructor(private timesheetService:TimesheetService) {
 
@@ -30,10 +32,20 @@ export class TimesheetDetailViewComponent implements OnInit {
 
     ngOnInit(): void {
     }
+  formatHour(hour:number)
+  {
+    if(hour>=10)
+    {
+      return hour.toString();
+    }
+    else
+    {
+      return '0'+ hour.toString();
+    }
+  }
   exitModal()
   {
     this.modalStatus.emit(false);
-    this.projectStatus.emit(false);
   }
   handleOk()
   {
