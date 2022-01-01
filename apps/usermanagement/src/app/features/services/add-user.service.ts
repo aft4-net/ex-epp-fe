@@ -58,15 +58,15 @@ export class AddUserService {
       catchError(this.formatError)
     );
   }
-  getGroups(): Observable<ResponseDTO<[GroupSetModel]>> {
+  getGroups(): Observable<[GroupSetModel]> {
     const url = `${environment.apiUrl}/GroupSet/getAll`;
-  return this.http.get<ResponseDTO<[GroupSetModel]>>(url).pipe(
+  return this.http.get<[GroupSetModel]>(url).pipe(
     catchError(this.formatError)
   );
   }
-  getUserGroups(userId: string): Observable<ResponseDTO<[string]>> {
+  getUserGroups(userId: string): Observable<[GroupSetModel]> {
     const url = `${environment.apiUrl}/User/GetUserGroup?userId=${userId}`;
-  return this.http.get<ResponseDTO<[string]>>(url).pipe(
+  return this.http.get<[GroupSetModel]>(url).pipe(
     catchError(this.formatError)
   );
 }
