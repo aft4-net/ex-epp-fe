@@ -1,48 +1,41 @@
-
-<div style="padding-right: 20px;">
-  <div style="padding-left: 10px; padding-top: 15px;">
-    <div style="float: right;">
+<div style="padding-right: 20px">
+  <div style="padding-left: 10px; padding-top: 15px">
+    <div style="float: right">
       <button nz-button class="cancel-button">Cancel</button>
-    <button nz-button class="button-style" >Update Permissions</button>
+      <button nz-button class="button-style">Update Permissions</button>
     </div>
     <div>
       <h3>Ro - Permissions</h3>
       <p>View and configure groups access.</p>
     </div>
   </div>
-<nz-collapse>
-  <nz-collapse-panel
-  *ngFor="let permission of listOfPermistion"
-  [nzHeader]="header"
-  >
-  <ng-template #header>
-    <label nz-checkbox (nzCheckedChange)="parentSelected('permission.Parent.PermissionCode')" >{{permission.Parent.value}}</label> 
-  </ng-template>
- 
-    <div style="padding-left: 10px;">
-    
-     
-      <nz-checkbox-group class="ant-checkbox-group-item" [(ngModel)]="permission.Childs" (ngModelChange)="log(permission.Childs)"></nz-checkbox-group>
-     
-    </div>
+  <nz-collapse>
+    <nz-collapse-panel
+      *ngFor="let permission of listOfPermistion; let i = index"
+      [nzHeader]="header"
+    >
+      <ng-template #header>
+        <label
+          nz-checkbox
+          [(ngModel)]="permission.Parent.checkAll"
+          [nzIndeterminate]="permission.Parent.indeterminate"
+          (nzCheckedChange)="updateAllPermissionChecked($event, i)"
+          >{{
+            permission.Parent.value 
+          }}</label
+        >
+      </ng-template>
 
- 
-
-  </nz-collapse-panel>
-</nz-collapse>
+      <div style="padding-left: 10px">
+        <div *ngFor="let item of permission.Childs">
+          <label
+            nz-checkbox
+            [(ngModel)]="item.checked"
+            (nzCheckedChange)="updateSingleChecked($event, i)"
+            >{{ item.value }}</label
+          >
+        </div>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
 </div>
-<nz-checkbox-group [(ngModel)]="listCheckBox" (ngModelChange)="groupCheck($event)"></nz-checkbox-group>
-
-
-<div style="border-bottom: 1px solid rgb(233, 233, 233);">
-  <label
-    nz-checkbox
-    [(ngModel)]="allChecked"
-    (ngModelChange)="updateAllChecked()"
-    [nzIndeterminate]="indeterminate"
-  >
-    Check all
-  </label>
-</div>
-<br />
-<nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>

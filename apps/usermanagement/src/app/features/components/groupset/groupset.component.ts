@@ -24,9 +24,9 @@ export class GroupsetComponent implements OnInit {
 
   isVisible = false;
   groupSet = new FormGroup({
-    Name: new FormControl('', [Validators.required, Validators.minLength(2),
+    Name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(70),
                               Validators.pattern('^[a-zA-Z][a-zA-Z0-9-_ ]+$')]),
-    Description: new FormControl('')
+    Description: new FormControl('', [Validators.maxLength(250)])
   });
 
   size: NzButtonSize = 'small';
@@ -115,6 +115,11 @@ export class GroupsetComponent implements OnInit {
     this.creategroupDashboardControls();
     this.groupList as GroupSetModel[];
     this.FeatchAllgroups();
+    this.notification.showNotification({
+      type: 'success',
+      content: 'Groups loaded successfully',
+      duration: 1,
+    });
   }
   creategroupDashboardControls() {
     this.groupDashboardForm = this.fb.group({

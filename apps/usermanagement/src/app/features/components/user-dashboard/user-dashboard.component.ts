@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router, RouterLink } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { fromEvent, Observable, of, pipe } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap, take } from 'rxjs/operators';
+import { fromEvent, Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { ColumnItem } from '../../Models/ColumnItem';
 import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
@@ -11,6 +11,7 @@ import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -55,7 +56,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.length - b.FullName.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
@@ -64,7 +65,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
       filterMultiple: true,
       listOfFilter:this.userListLastActivityDate,
       filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
@@ -74,14 +75,21 @@ export class UserDashboardComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
   
-  constructor(private userService : UserService,private _router: Router,private fb: FormBuilder) {
+  constructor(private userService : UserService,
+    private _router: Router,
+    private fb: FormBuilder,
+    private notification: NotificationBar) {
 
   }
 
   ngOnInit(): void {
     this.createUserDashboardControls();
-    this.userList as IUserModel[];
     this.FeatchAllUsers();
+    this.notification.showNotification({
+      type: 'success',
+      content: 'Users loaded successfully',
+      duration: 1,
+    });
   }
 
   createUserDashboardControls() {
@@ -107,19 +115,17 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
-        this.loading = false;
       }
       else
       {
-        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
-        this.FillTheFilter();
       }
-
-    },error => {
       this.loading = false;
-      //this.PopulateFilterColumns();
+    },() => {
+      this.loading = false;
+      this.userList = [];
+      this.userList$=of([]);
      });
     this.searchStateFound=false;
   }
@@ -130,7 +136,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -139,7 +145,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -148,7 +154,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -192,14 +198,11 @@ export class UserDashboardComponent implements OnInit {
                   value:this.userList.map(x=>x.Status)[i]
                 }
               )
-
             }
           }
-
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
-
           if(this.userList.length > 0) {
             this.PopulateFilterColumns();
           }
@@ -226,19 +229,18 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
-        this.loading = false;
       }
       else
       {
-        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
-        this.FillTheFilter();
       }
       this.searchStateFound=true;
+      this.loading = false;
     },error => {
       this.loading = false;
-      this.PopulateFilterColumns();
+      this.userList = [];
+      this.userList$=of([]);
      });
   }
 

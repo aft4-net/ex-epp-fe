@@ -7,6 +7,8 @@ export interface IPermissionModel{
            label :  string ,
            ParentCode :  string 
            checked:boolean
+           indeterminate:boolean,
+           checkAll:boolean
 } 
 export interface IPermissionResponseModel{
      ResponseStatus :  string ,

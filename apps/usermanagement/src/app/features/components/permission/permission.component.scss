@@ -25,3 +25,11 @@
     display: block;
     margin-right: 0;
 }
+::ng-deep.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00a551;
+  border-color: #00a551;
+}
+::ng-deep.ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  background-color: #00a551;
+  border-color: #00a551;
+}

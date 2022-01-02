@@ -1,6 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
 import { AddressEditComponent } from './Features/Components/employee/employee-edit/address-edit/address-edit.component';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { AppComponent } from './app.component';

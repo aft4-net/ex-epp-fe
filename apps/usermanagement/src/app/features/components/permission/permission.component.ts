@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { PermissionService } from '../../services/permission/permission.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
 export interface  GroupCheckBoxItem {
    label:string;
    value:string;
@@ -51,14 +54,13 @@ panels = [
     name: 'This is panel header 3'
   }
 ];
-
-  constructor(private _permissionService:PermissionService,private fb: FormBuilder) { }
-  public myFormGroup = this.fb.group({
-     
-     
-  }); 
+groupId:any;
+  constructor(private route: ActivatedRoute,private _permissionService:PermissionService,private notification: NotificationBar) {
+    
+   }
 
   ngOnInit(): void {
+    this.groupId = this.route.snapshot.paramMap.get('id');
 this._permissionService.getPermission().subscribe((reponse:any)=>{
   this.permissionResponse=reponse;
   this.permissionData=this.permissionResponse?.Data;
@@ -71,7 +73,9 @@ this._permissionService.getPermission().subscribe((reponse:any)=>{
        value :element.Parent.KeyValue,
        label:element.Parent.KeyValue,
        ParentCode :element.Parent.ParentCode,
-       checked:false
+       checked:false,
+       indeterminate:false,
+       checkAll:false
     }
   
     element.Childs.forEach((element1:any) => {
@@ -82,7 +86,9 @@ this._permissionService.getPermission().subscribe((reponse:any)=>{
         value :element1.KeyValue,
         label:element1.KeyValue,
         ParentCode :element1.ParentCode,
-        checked:false
+        checked:false,
+        indeterminate:false,
+        checkAll:false
      }]
     }
    
@@ -105,6 +111,11 @@ this._permissionService.getPermission().subscribe((reponse:any)=>{
     });
     console.log(this.listCheckBox);
    
+  this.notification.showNotification({
+    type: 'success',
+    content: 'Permissions loaded successfully',
+    duration: 1,
+  });
 })
   }
   parentSelected(code:string){
@@ -120,7 +131,22 @@ console.log(event);
     console.log(event)
     this.listCheckBox[0].checked=true;
   }
-
+  updateAllPermissionChecked(event:any,i:number): void {
+    console.log(event)
+    this.indeterminate = false;
+    if (event) {
+      this.listOfPermistion[i].Parent.indeterminate=false;
+      this.listOfPermistion[i].Childs =  this.listOfPermistion[i].Childs.map(item => ({
+        ...item,
+        checked: true
+      }));
+    } else {
+      this.listOfPermistion[i].Childs =  this.listOfPermistion[i].Childs.map(item => ({
+        ...item,
+        checked: false
+      }));
+    }
+  }
   updateAllChecked(): void {
     this.indeterminate = false;
     if (this.allChecked) {
@@ -136,16 +162,18 @@ console.log(event);
     }
   }
 
-  updateSingleChecked(): void {
-    if (this.checkOptionsOne.every(item => !item.checked)) {
-      this.allChecked = false;
-      this.indeterminate = false;
-    } else if (this.checkOptionsOne.every(item => item.checked)) {
-      this.allChecked = true;
-      this.indeterminate = false;
+  updateSingleChecked(event:any,index : number): void {
+    if ( this.listOfPermistion[index].Childs.every(item => !item.checked)) {
+      this.listOfPermistion[index].Parent.checkAll= false;
+      this.listOfPermistion[index].Parent.indeterminate = false;
+    } else if ( this.listOfPermistion[index].Childs.every(item => item.checked)) {
+      this.listOfPermistion[index].Parent.checkAll= true;
+      this.listOfPermistion[index].Parent.indeterminate = false;
     } else {
-      this.indeterminate = true;
+      this.listOfPermistion[index].Parent.indeterminate = true;
+      this.listOfPermistion[index].Parent.checkAll= false;
     }
+    //alert(index);
   }
 
 }

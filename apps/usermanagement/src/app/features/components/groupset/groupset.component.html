@@ -33,6 +33,9 @@
                   <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
                       Group's name must be at least 2 characters long.
                   </div>
+                  <div *ngIf="groupSet.get('Name')?.errors?.['maxlength'] && !(groupSet.get('Name')?.errors?.['required'])">
+                    Group's name must be no more than 70 characters long.
+                  </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['pattern'] && !(groupSet.get('Name')?.errors?.['minlength'])">
                       Invalid Group's name.
                   </div>
@@ -54,6 +57,11 @@
               >
               </textarea>
               <span class="groupSetSpan">A description will help you organize and manage your groups.</span>
+              <div *ngIf="groupSet.get('Description')?.invalid" class="text-danger-error">
+              <div *ngIf="groupSet.get('Description')?.errors?.['maxlength']">
+                Group's description must be no more than 250 characters long.
+              </div>
+              </div>
             </nz-form-control>
           </nz-form-item>
       </div>
@@ -63,7 +71,7 @@
 </ng-template>
 
 <ng-template #modalFooter>
-  <button nz-button nzType="default" class="defaultBtn" (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="default" class="defaultBtn" (click)="resetForm()">Clear</button>
   <button nz-button nzType="primary" [disabled]="groupSet.invalid" (click)="onSaveGroup()">Create Group</button>
 </ng-template>
 </nz-modal>
@@ -118,14 +126,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                  <td>{{user.Name }} </td>
+                <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <td>{{group.Name }} </td>
 
                   <td>
+                    <a routerLink="/usermanagement/group-detail/{{group.Guid}}">
                     <button nz-button nzType="default" style="border:0px; color: green;" nzType="link" [nzSize]="size"  nz-popover nzPopoverTitle=""
 
                       nzPopoverPlacement="bottom"> Show Detail
                       </button>
+                      </a>
                   </td>
 
                 </tr>
