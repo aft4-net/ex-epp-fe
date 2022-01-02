@@ -51,7 +51,7 @@
                     *ngIf="clients?.length else elseBlock">
 
 
-                    <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
+                    <nz-option ng-selected="client.label == formData.client" *ngFor="let client of $clients | async"
                         nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
                 </nz-select>
 
@@ -63,7 +63,7 @@
                     *ngIf="projects?.length else elseBlock">
 
 
-                    <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
+                    <nz-option ng-selected="project.label == formData.project" *ngFor="let project of $projects | async"
                         nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
                 </nz-select>
 

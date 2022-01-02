@@ -17,7 +17,9 @@ import { TimesheetService } from '../../services/timesheet.service';
 import { concat, observable, Observable, queueScheduler, scheduled, Scheduler } from 'rxjs';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { concatAll, mergeAll } from 'rxjs/operators';
+import { concatAll, map, mergeAll } from 'rxjs/operators';
+import { ClientAndProjectService } from '../../services/client-and-project.service';
+import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean,
@@ -58,6 +60,8 @@ export class TimesheetDetailComponent implements OnInit {
   invalidEntries: { Date: Date, Message: string }[] = [];
 
   clients: Client[] | null = null;
+  $clients: Observable<Client[]>
+  $projects: Observable<Project[]>
   clientsFiltered: Client[] | null = null;
   projects: Project[] | null = null;
   projectsFiltered: Project[] | null = null;
@@ -90,6 +94,8 @@ export class TimesheetDetailComponent implements OnInit {
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria
 
+
+
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, this.date) > 0;
@@ -101,8 +107,15 @@ export class TimesheetDetailComponent implements OnInit {
     private dayAndDateService: DayAndDateService,
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService
+    private timesheetStateService: TimesheetStateService,
+    private clientAndProjectStateService: ClientAndProjectStateService
   ) {
+    this.clientAndProjectStateService.$projects
+    .subscribe(response=> {
+      console.log(response)
+    })
+    this.$clients = this.clientAndProjectStateService.$clients;
+    this.$projects = this.clientAndProjectStateService.$projects;
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
     this.firstday1 = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
@@ -318,24 +331,24 @@ export class TimesheetDetailComponent implements OnInit {
   */
   checkForCurrentWeek(): void {
     let date = new Date();
-      date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-      if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-        this.dateColumnContainerClass = "";
-      }
-      else if ((this.lastday1.valueOf() >= date.valueOf()) || this.startingDateCriteria.isBeforeThreeWeeks) {
-        this.dateColumnContainerClass = "";
+    if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+      this.dateColumnContainerClass = "";
+    }
+    else if ((this.lastday1.valueOf() >= date.valueOf()) || this.startingDateCriteria.isBeforeThreeWeeks) {
+      this.dateColumnContainerClass = "";
+    }
+    else {
+      this.dateColumnContainerClass = "date-column-container";
+
+      if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+        this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
       }
       else {
-        this.dateColumnContainerClass = "date-column-container";
-
-        if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
-          this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
-        }
-        else {
-          this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
-        }
+        this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
       }
+    }
 
   }
 
