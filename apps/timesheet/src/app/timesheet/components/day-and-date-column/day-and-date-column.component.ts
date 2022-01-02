@@ -19,7 +19,7 @@ export class DayAndDateDirective {
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewInit {
+export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
@@ -35,10 +35,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
-  @ViewChildren('entries') entriesDiv!: QueryList<any>;
-  @ViewChild('pt') pointerEl!: ElementRef;
-  @ViewChild('col') colEl!: ElementRef;
-  @ViewChild('addIcon') iconEL!: ElementRef;
+ 
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
@@ -49,11 +46,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
   of: any;
   isSubmitted: boolean | undefined;
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
-  ngAfterViewInit(): void {
-    this.checkOverflow(this.colEl.nativeElement);
-    this.overflowCalc();
-  }
-
+  
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
@@ -67,8 +60,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     if (this.timeEntries) {
       let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
-      
-      this.overflowCalc();
+    
     }
 
     let today = new Date();
@@ -82,27 +74,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges, AfterViewIn
     else {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
-  }
-
-  overflowCalc() {
-    this.entriesDiv?.changes.subscribe(() => {
-      this.entriesDiv.toArray().forEach(el => {
-        if (this.entriesDiv.toArray()[this.index].nativeElement.getBoundingClientRect().bottom < this.pointerEl.nativeElement.getBoundingClientRect().top) {
-          this.overflowPt = this.index + 1;
-
-        }
-        this.index!++;
-      });
-      if (this.overflowPt! > 0) {
-        if (this.checkOverflow(this.colEl.nativeElement)) {
-          this.overflow = true;
-          this.colEl.nativeElement.style.overflow = "hidden";
-          this.columnOverflow.emit(this.overflow);
-          this.split(this.overflowPt!);
-          console.log(this.checkOverflow(this.colEl.nativeElement))
-        }
-      }
-    });
   }
   
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
