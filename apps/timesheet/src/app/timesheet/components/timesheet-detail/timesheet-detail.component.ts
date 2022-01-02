@@ -60,8 +60,6 @@ export class TimesheetDetailComponent implements OnInit {
   invalidEntries: { Date: Date, Message: string }[] = [];
 
   clients: Client[] | null = null;
-  $clients: Observable<Client[]>
-  $projects: Observable<Project[]>
   clientsFiltered: Client[] | null = null;
   projects: Project[] | null = null;
   projectsFiltered: Project[] | null = null;
@@ -94,6 +92,13 @@ export class TimesheetDetailComponent implements OnInit {
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria
 
+  $clients: Observable<Client[]>
+  $projects: Observable<Project[]>
+  $selectedClient: Observable<string | null>
+  $selectedProject: Observable<string | null>
+  $disableClient: Observable<boolean>
+  $disableProject: Observable<boolean>
+  $disableDates: Observable<boolean>
 
 
   disabledDate = (current: Date): boolean =>
@@ -108,19 +113,56 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private clientAndProjectStateService: ClientAndProjectStateService
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService
   ) {
-    this.clientAndProjectStateService.$projects
-    .subscribe(response=> {
-      console.log(response)
-    })
-    this.$clients = this.clientAndProjectStateService.$clients;
-    this.$projects = this.clientAndProjectStateService.$projects;
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
     this.firstday1 = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
     this.lastday1 = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate() + 6);
+
+    this.$clients = this._clientAndProjectStateService.$clients;
+    this.$projects = this._clientAndProjectStateService.$projects;
+    this.$selectedClient = this._clientAndProjectStateService.$selectedClient;
+    this.$selectedProject = this._clientAndProjectStateService.$selectedProject;
+    this.$disableClient = this._clientAndProjectStateService.$disableClient;
+    this.$disableProject = this._clientAndProjectStateService.$disableProject;
+    this.$disableDates = this._clientAndProjectStateService.$disableDate;
   }
+
+  initializeClient() {
+    this.$selectedClient.subscribe(clientId => {
+      console.log('clientId')
+      console.log(clientId)
+      console.log('clientId')
+      this.formData.client = clientId;
+
+    })
+  }
+
+  initializeProject() {
+    this.$selectedProject.subscribe(projectId => {
+      this.formData.project = projectId;
+    })
+  }
+
+  onClientChange(event: string) {
+    if (this._clientAndProjectStateService.Client !== event) {
+      console.log('client selected')
+      console.log(event)
+      console.log('client selected')
+      this._clientAndProjectStateService.Client = event;
+      this.initializeClient();
+    }
+  }
+
+  onProjectChange(event: string) {
+    if (this._clientAndProjectStateService.Project !== event) {
+      this._clientAndProjectStateService.Project = event;
+      this.initializeProject();
+      this.initializeClient();
+    }
+  }
+
 
   ngOnInit(): void {
     this.userId = localStorage.getItem("userId");
@@ -453,13 +495,10 @@ export class TimesheetDetailComponent implements OnInit {
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.showFormDrawer) {
-      this.setDefaultClient(this.clients);
-      this.setDefaultProject(this.projects);
-
       if (this.timeEntry) {
-        let clientId = this.projects?.filter(project => project.id == this.timeEntry?.ProjectId)[0].clientId.toString();
-        this.formData.client = clientId ? clientId : "";
-        this.formData.project = this.timeEntry.ProjectId.toString();
+        this._clientAndProjectStateService.Project = this.timeEntry?.ProjectId;
+        this._clientAndProjectStateService.disable();
+
         this.formData.hours = this.timeEntry.Hour;
         this.formData.note = this.timeEntry.Note;
 
@@ -468,6 +507,9 @@ export class TimesheetDetailComponent implements OnInit {
         this.disableClient = true;
         this.disableProject = true;
       }
+
+      this.initializeClient();
+      this.initializeProject();
 
       this.formData.fromDate = this.date;
       this.formData.toDate = this.date;
