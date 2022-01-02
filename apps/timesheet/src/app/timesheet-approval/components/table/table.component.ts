@@ -22,21 +22,24 @@ export class TableComponent {
 
   sortByParam="";
   sortDirection = "asc";
-
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-
-
+  timesheetDetail:any;
+  isModalVisible=false;
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() bulkCheck: boolean | undefined;
   @Input() status: boolean | undefined;
 
-  @Output() checkedListId = new EventEmitter<Set<number>>();
+  qtyofItemsChecked = 0
+
+  @Output() itemsSelected = new EventEmitter<number>();
+
+
 
 
 
@@ -53,7 +56,7 @@ export class TableComponent {
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
-      this.checkedListId.emit(this.setOfCheckedId);
+      //this.checkedListId.emit(this.setOfCheckedId);
       console.log(this.setOfCheckedId);
     } else {
       this.setOfCheckedId.delete(id);
@@ -62,8 +65,10 @@ export class TableComponent {
   }
 
   onItemChecked(id: number, checked: boolean): void {
+    this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onAllChecked(value: boolean): void {
@@ -79,9 +84,6 @@ export class TableComponent {
   refreshCheckedStatus(): void {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
-  }
-  showModal(id: any) {
-
   }
 
   sorter(heading:string) {
@@ -103,6 +105,15 @@ export class TableComponent {
       this.sortDirection = 'desc';
     }
   }
+  showModal(row: any) {
+    this.isModalVisible=true;
+    this.timesheetDetail=row;
+
+  }
+  timesheetDetailClose(event: boolean){
+    this.isModalVisible=false;
+  }
+  
 
   // PageSizeChange(pageSize: number) {
   //   console.log(pageSize);

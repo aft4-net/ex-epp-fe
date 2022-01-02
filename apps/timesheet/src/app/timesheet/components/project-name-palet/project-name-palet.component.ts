@@ -144,7 +144,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   }
 
   deleteTimeEntry(): void {
-    if (this.timeEntry) {
+    if (this.timeEntry) {debugger;
       this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(response => {
         this.deleteClicked.emit(ClickEventType.deleteTimeEntry);
       });

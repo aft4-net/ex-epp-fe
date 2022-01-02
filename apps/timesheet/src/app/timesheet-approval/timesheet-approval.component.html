@@ -19,21 +19,24 @@
 
 <div nz-row class="controllers">
 
-  <div *ngIf="currentNameSubject$ | async" nz-col>
-    <button nz-button nzType="default">Bulk Approval</button>
+    <div *ngIf="currentNameSubject$ | async" nz-col>
+        <button nz-button nzType="default"
+        [disabled]="qtyofItemsSelected <= 0"
+        >Bulk Approval</button>
 
-    <br>
-  </div>
+        <br>
+    </div>
 
-  <div nz-col nzSpan="6" class="ml-1">
-    <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input type="text" nz-input placeholder="Search" />
-    </nz-input-group>
-    <ng-template #suffixIconSearch>
-      <i nz-icon nzType="search"></i>
-    </ng-template>
+    <div nz-col nzSpan="6" class="ml-1">
+      <nz-input-group [nzSuffix]="suffixIconSearch" >
+        <input  type="text" nz-input placeholder="Search" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
 
-  </div>
+    </div>
+
   <br>
   <div nz-col class="ml-1">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
@@ -41,6 +44,7 @@
   </div>
 </div>
 <div class="tab">
+
 
   <div class="mb-4">
     <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
@@ -59,7 +63,12 @@
               </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
+              <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
+                (click)="showModal(row)">
+=======
               <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
+>>>>>>> 3e8a838c4c4959b0fb3d6d810a9e67aea7244f0c
                 <td>{{row.name}}</td>
                 <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
                 <td>{{row.projectName}}</td>
@@ -86,7 +95,7 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval">
-        <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false>
+        <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false >
           <thead>
             <tr>
               <th *ngIf="bulkCheck" [nzSelections]="listOfSelection" [(nzChecked)]="checked"
@@ -100,9 +109,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row.id)">
+              (click)="showModal(row)">
               <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)"
-                (nzCheckedChange)="onItemChecked(row.id, $event)">
+                (nzCheckedChange)="onItemChecked(row.id, $event)" >
               </td>
               <td>{{row.name}}</td>
               <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
@@ -132,7 +141,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row.id)">
+              (click)="showModal(row)">
               <td>{{row.name}}</td>
               <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
               <td>{{row.projectName}}</td>
@@ -162,7 +171,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let row of timeSheetApprovalReview | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row.id)">
+              (click)="showModal(row)">
               <td>{{row.name}}</td>
               <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
               <td>{{row.projectName}}</td>
@@ -178,17 +187,11 @@
           </nz-pagination>
         </span>
       </nz-tab>
-
-
     </nz-tabset>
   </div>
+  <div>
+    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 
-  <nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="Modal Title"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
-  [nzOkLoading]="isOkLoading"
->
-  <p *nzModalContent>Modal Content</p>
-</nz-modal>
+    (modalStatus)="timesheetDetailClose($event)"
+    ></exec-epp-timesheet-detail-view>
+  </div>

@@ -20,10 +20,11 @@ import {NzModalModule} from "ng-zorro-antd/modal";
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-
+import { NzCommentModule } from 'ng-zorro-antd/comment';
 import {TimesheetApprovalComponent} from "./timesheet-approval.component"
 import {TimesheetApprovalRoutingModule} from './timesheet-approval-routing.module';
 import { TimesheetModule } from '../timesheet/timesheet.module';
+import { TimesheetDetailViewComponent } from './components/timesheet-detail-view/timesheet-detail-view.component';
 
 
 
@@ -32,7 +33,8 @@ import { TimesheetModule } from '../timesheet/timesheet.module';
   declarations: [
     TableComponent,
     TimesheetApprovalComponent,
-    SortPipe
+    SortPipe,
+    TimesheetDetailViewComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ import { TimesheetModule } from '../timesheet/timesheet.module';
     NzTableModule,
     NzToolTipModule,
     NzTabsModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzCommentModule,
   ]
 })
 export class TimesheetApprovalModule { }
