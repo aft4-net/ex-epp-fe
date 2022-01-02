@@ -325,4 +325,9 @@ getTimesheetSubmissions(
     );
 
   }
+  updateTimesheetApproval( timesheetApproval:ApprovalEntity  ): Observable<any> {debugger;
+    const headers = { "content-type": "application/json" };
+
+    return this.http.put( this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
+  }
 }

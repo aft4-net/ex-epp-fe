@@ -33,6 +33,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   notSubmittedTooltip = "";
   toolTipColor = "red";
   toolTipText = "The time is passed total hour"
+  rejectedTimesheet: TimesheetApproval| null = null;
+  resubmitClicked: boolean = false;
 
   constructor(
     private timesheetService: TimesheetService,
@@ -77,9 +79,9 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
           this.timeSheetStatus = "not-submitted-enable";
           break;
           }
-      else{
-      this.btnText = "Submitted";
-      this.timeSheetStatus = "submitted-class";
+        if(this.resubmitClicked || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf()){
+           this.btnText = "Submitted";
+           this.timeSheetStatus = "submitted-class";
       }
     }
   }
@@ -121,6 +123,24 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
+      if(this.timesheetApprovals){
+      for(let i=0;i<this.timesheetApprovals.length;i++){debugger;
+        if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
+          this.rejectedTimesheet=this.timesheetApprovals[i];
+        }
+        if(this.rejectedTimesheet){
+        const temp={
+          TimesheetId: this.rejectedTimesheet.TimesheetId,
+          ProjectId: this.rejectedTimesheet.ProjectId,
+          ApprovalStatus: Object.values(ApprovalStatus)[0].valueOf()
+        } as unknown as ApprovalEntity;
+        
+        this.timesheetService.updateTimesheetApproval(temp).subscribe();
+        this.resubmitClicked=true;
+      }
+    }
+  }
+      else{
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         if (this.timesheet) {
           this.timesheetStateService.getTimeSheetApproval(this.timesheet?.Guid)
@@ -129,6 +149,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
       });
     }
+  }
   }
 
   getConfigWeeklyTotalHours() {
