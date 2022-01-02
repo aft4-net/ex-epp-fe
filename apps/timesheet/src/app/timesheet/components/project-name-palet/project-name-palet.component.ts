@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
@@ -24,46 +24,20 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   @Input() timesheetApproval: TimesheetApproval | null = null;
   project: Project | null = null;
   projectNamePaletClass = "project-name-palet"
-
   isVisible1 = false;
   clickEventType = ClickEventType.none;
   popoverVisible = false;
   startingDateCriteria = startingDateCriteria
   isApproved=false;
   isRejected = false;
-  entryApprovalStatus='';
-  approvalStatus :TimesheetApproval[] | null = null;
+ 
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService,
     private timesheetStateService: TimesheetStateService
   ) { }
-
+  
   ngOnInit(): void {
-
-    this.timesheetService.getTimeSheetApproval(this.timeEntry!.TimeSheetId).subscribe(response => {debugger;
-      this.approvalStatus= response ? response : null;
-      
-  });
-  if(this.approvalStatus){
-    for(let i=0;i<this.approvalStatus?.length;i++){
-     console.log(this.approvalStatus[i].Status)
-    }
-  if(this.approvalStatus){
-  for(let i = 0; i <this.approvalStatus.length; i++) {
-    if(this.approvalStatus[i].ProjectId==this.timeEntry?.ProjectId && this.approvalStatus[i].Status===Object.values(ApprovalStatus)[2].valueOf()){debugger;
-      this.isRejected=true;
-      this.isApproved=false;
-    }
-    if(this.approvalStatus[i].ProjectId==this.timeEntry?.ProjectId && this.approvalStatus[i].Status===Object.values(ApprovalStatus)[1].valueOf()){
-      this.isRejected=false;
-      this.isApproved=true;
-    }
-  }
-  }
-  console.log(this.isRejected)
-  console.log(this.isApproved)
-}
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -72,29 +46,32 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
         this.project = response ? response[0] : null;
       });
     }
-
     if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
       this.projectNamePaletClass = "project-name-palet-approved";
     } else {
       this.projectNamePaletClass = "project-name-palet";
     }
-    // if(this.approvalStatus){debugger;
-    //   this.checkForEntryStatus(this.approvalStatus);
-    //   }
+    if(this.timesheetApproval){
+      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[2].valueOf()){
+        this.isRejected=true;
+        this.isApproved=false;
+      }
+      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
+        this.isRejected=false;
+        this.isApproved=true;
+      }
+    }
   }
-
   showPopover() {
     if (this.clickEventType !== ClickEventType.none) {
       return;
     }
-
     this.clickEventType = ClickEventType.showPaletPopover;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       return;
     }
-
     this.paletEllipsisClicked.emit(timeEntryEvent);
     this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
   }
@@ -173,19 +150,6 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       });
     }
   }
-  // checkForEntryStatus(timesheetApproval:TimesheetApproval[]){
-   
-  //     for(let i = 0; i <timesheetApproval.length; i++) {
-  //         if(timesheetApproval[i].ProjectId==this.timeEntry?.ProjectId && timesheetApproval[i].Status===Object.values(ApprovalStatus)[2].valueOf()){debugger;
-  //           this.isRejected=true;
-  //           this.isApproved=false;
-  //         }
-  //         if(timesheetApproval[i].ProjectId==this.timeEntry?.ProjectId && timesheetApproval[i].Status===Object.values(ApprovalStatus)[1].valueOf()){
-  //           this.isRejected=false;
-  //           this.isApproved=true;
-  //         }
-  //       }
-  //     }
-    }
+ }
   
 

@@ -81,7 +81,6 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       this.btnText = "Submitted";
       this.timeSheetStatus = "submitted-class";
       }
-      console.log(this.timesheetApprovals[i].Status)
     }
   }
     else {
