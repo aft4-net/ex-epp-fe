@@ -198,10 +198,7 @@ export class TimesheetApprovalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.timesheetApprovalPaginationAll(1, 10);
     this.timesheetSubmissionPaginationAwaiting(1, 10);
-    this.timesheetSubmissionPaginationApproved(1,10);
-    this.timesheetSubmissionPaginationReview(1,10);
   }
 
   timesheetApprovalPaginationAll(index: number, pageSize: number) {
@@ -251,7 +248,9 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalPageReview = response.pagination.totalPage;
       });
   }
-
+test() {
+  console.log("clicked");
+}
 
   getweek(result: Date): void {
     console.log('week: ');
@@ -312,25 +311,15 @@ export class TimesheetApprovalComponent implements OnInit {
   }
 
 
-  sorter(heading: string) {
-    if (heading === 'Name') {
-      this.sortByParam = "name";
-    } else if (heading === 'Date Range') {
-      this.sortByParam = "dateRange";
-    } else if (heading === 'Project Name') {
-      this.sortByParam = "projectName";
-    } else if (heading === 'Client Name') {
-      this.sortByParam = "clientName";
-    } else if (heading === "Status") {
-      this.sortByParam = "status";
-    } else {
-      this.sortByParam = "";
-    }
-
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
+  sorter(attendee: string) {
+    if (attendee === "name") {
+      console.log("name came"); //API call
+    } else if (attendee === "dateRange") {
+      console.log("dateRange came"); //API call
+    } else if (attendee === "projectName") {
+      console.log("projectName came"); //API call
+    } else if (attendee === "clientName") {
+      console.log("clientName came"); //API call
     }
   }
 

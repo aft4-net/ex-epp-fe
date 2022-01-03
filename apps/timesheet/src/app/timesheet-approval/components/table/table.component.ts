@@ -29,6 +29,8 @@ export class TableComponent {
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
 
+  checkedIds: number[] = [];
+
 
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
@@ -37,6 +39,7 @@ export class TableComponent {
   @Input() status: boolean | undefined;
 
   @Output() checkedListId = new EventEmitter<Set<number>>();
+  @Output() sorter = new EventEmitter<string>();
 
 
 
@@ -49,6 +52,9 @@ export class TableComponent {
     }
   ];
 
+  updateCheckList(id:number) {
+    this.checkedIds = [...this.checkedIds, id];
+  }
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
@@ -84,15 +90,19 @@ export class TableComponent {
 
   }
 
-  sorter(heading:string) {
+  sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
+      this.sorter.emit("name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
+      this.sorter.emit("dateRange");
     }else if (heading === 'Project Name') {
       this.sortByParam = "projectName";
+      this.sorter.emit("projectName");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
+      this.sorter.emit("clientName");
     } else {
       this.sortByParam = "";
     }
