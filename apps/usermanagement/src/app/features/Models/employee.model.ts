@@ -1,3 +1,4 @@
+import { IEmployeeOrganization } from "./User/EmployeeOrganizationModel";
 
 export interface IEmployeeModel {
     Guid:string  
@@ -5,5 +6,6 @@ export interface IEmployeeModel {
     FatherName:string 
     GrandFatherName:string
     PersonalEmail:string
-    MobilePhone:string
+    MobilePhone:string,
+    EmployeeOrganization: IEmployeeOrganization
  }
