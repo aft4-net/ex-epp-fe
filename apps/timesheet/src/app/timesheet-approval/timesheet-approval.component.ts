@@ -23,8 +23,7 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
-  timesheetDetail:any;
-  isModalVisible=false;
+ 
   date = null;
   bulkCheck = true;
   statusColumn = true;
@@ -344,14 +343,7 @@ onItemChecked(id: number, checked: boolean): void {
     }
   }
 
-  showModal(row: any) {
-    this.isModalVisible=true;
-    this.timesheetDetail=row;
 
-  }
-  timesheetDetailClose(event: boolean){
-    this.isModalVisible=false;
-  }
 
   handleOk(): void {
     this.isOkLoading = true;

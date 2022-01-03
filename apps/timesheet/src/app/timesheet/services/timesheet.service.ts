@@ -31,7 +31,7 @@ export class TimesheetService {
   constructor(
     private http: HttpClient,
     private dayAndDateService: DayAndDateService
-  ) {}
+  ) { }
 
   //#region timesheet and timeEntry
   setreview(timesheet: Timesheet) {
@@ -137,6 +137,16 @@ export class TimesheetService {
     return this.http.put<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
       timeEntry,
+      { headers: headers }
+    );
+  }
+
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus',
+      approval,
       { headers: headers }
     );
   }
@@ -261,49 +271,51 @@ export class TimesheetService {
   }
   //#endregion
 
-getTimesheetSubmissions(
-  pageIndex: number,
-  pageSize: number,
-  sortField: string | null,
-  sortOrder: string | null,
-  filters: Array<{ key: string; value: string[] }>,
-  search?:string
-):Observable<PaginatedResult< TimesheetApproval[]>>  {
-  let params = new HttpParams()
-    .append('pageIndex', `${pageIndex}`)
-    .append('pageSize', `${pageSize}`)
-    .append('sortField', `${sortField}`)
-    .append('sortOrder', `${sortOrder}`)
-    .append('search',`${search}`);
-  filters.forEach(filter => {
-    filter.value.forEach(value => {
-      params = params.append(filter.key, value);
+  getTimesheetSubmissions(
+    pageIndex: number,
+    pageSize: number,
+    sortField: string | null,
+    sortOrder: string | null,
+    filters: Array<{ key: string; value: string[] }>,
+    search?: string
+  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+    let params = new HttpParams()
+      .append('pageIndex', `${pageIndex}`)
+      .append('pageSize', `${pageSize}`)
+      .append('sortField', `${sortField}`)
+      .append('sortOrder', `${sortOrder}`)
+      .append('search', `${search}`);
+    filters.forEach(filter => {
+      filter.value.forEach(value => {
+        params = params.append(filter.key, value);
+      });
     });
-  });
-   let paginatedResult: PaginatedResult< TimesheetApproval[]> = {
-     data: [] as  TimesheetApproval[],
-     pagination: {} as Pagination
-  };
-  return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
-       .pipe(   
-         map((response:any) => { 
-           paginatedResult= {
-             data:response.Data,
-             pagination:{pageIndex:response.PageIndex,
-               totalPage:response.TotalPage,
-               pageSize:response.PageSize,
-               totalRecord:response.TotalRecord}
+    let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
+      data: [] as TimesheetApproval[],
+      pagination: {} as Pagination
+    };
+    return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` + params.toString())
+      .pipe(
+        map((response: any) => {
+          paginatedResult = {
+            data: response.Data,
+            pagination: {
+              pageIndex: response.PageIndex,
+              totalPage: response.TotalPage,
+              pageSize: response.PageSize,
+              totalRecord: response.TotalRecord
+            }
           };
-          return paginatedResult;      
-         })
-       );
+          return paginatedResult;
+        })
+      );
 
-        }
+  }
   getTimesheetApprovalPagination(
     pageindex: number,
     pageSize: number,
     searchKey?: string,
-    status?:string
+    status?: string
   ): Observable<PaginatedResult<TimesheetApproval[]>> {
     const params = new HttpParams()
       .set('pageindex', pageindex.toString())
@@ -314,7 +326,7 @@ getTimesheetSubmissions(
       data: [] as TimesheetApproval[],
       pagination: {} as Pagination,
     };
-    return this.http.get(`${this.baseUrl}approve?`+ params.toString()).pipe(
+    return this.http.get(`${this.baseUrl}approve?` + params.toString()).pipe(
       map((response: any) => {
         paginatedResult = {
           data: response.Data,
@@ -330,11 +342,14 @@ getTimesheetSubmissions(
     );
 
   }
+  updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
+    const headers = { "content-type": "application/json" };
 
-updateTimeSheetStatus(arrayOfId:number[]){
-  return this.http.put( this.baseUrl + 'TimesheetApprovalBulkApprove',
-  arrayOfId,)
-}
+    return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
+  }
 
-
+  updateTimeSheetStatus(arrayOfId: number[]) {
+    return this.http.put(this.baseUrl + 'TimesheetApprovalBulkApprove',
+      arrayOfId)
+  }
 }

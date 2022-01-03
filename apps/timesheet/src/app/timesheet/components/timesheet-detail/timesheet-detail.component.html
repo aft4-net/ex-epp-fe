@@ -35,7 +35,7 @@
                     </nz-date-picker>
                     <label for="to-date" class="ml-2">To Date:</label>
                     <nz-date-picker [(ngModel)]="formData.toDate" formControlName="toDate" [nzDisabled]="disableToDate"
-                        (ngModelChange)="onFormToDateChange()" nzFormat="MM-dd-YYYY" nzSuffixIcon=""
+                        (ngModelChange)="onFormToDateChange()" nzFormat="MM/dd/YYYY" nzSuffixIcon=""
                         [nzDisabledDate]="disabledDates" class="w-24  rounded-none border-0 border-t-0">
                     </nz-date-picker>
 
@@ -50,11 +50,10 @@
                 <label for="client" id="client" class="mb-2 font-semibold">Client<span
                         class="font-bold text-base text-red-500  ml-2">*</span></label>
                 <nz-select nzShowSearch nzAllowClear formControlName="client" [(ngModel)]="formData.client"
-                    [nzDisabled]="disableClient" (ngModelChange)="clientValueChange($event)"
-                    *ngIf="clients?.length else elseBlock">
+                    [nzDisabled]="$disableClient | async" (ngModelChange)="onClientChange($event)">
 
 
-                    <nz-option ng-selected="client.label == formData.client" *ngFor="let client of clients"
+                    <nz-option ng-selected="client.label == formData.client" *ngFor="let client of $clients | async"
                         nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
                 </nz-select>
 
@@ -62,11 +61,10 @@
                 <label for="project" id="project" class="mt-4 mb-2 font-semibold">Project<span
                         class="font-bold text-base text-red-500  ml-2">*</span></label>
                 <nz-select nzShowSearch nzAllowClear formControlName="project" [(ngModel)]="formData.project"
-                    [nzDisabled]="disableProject" (ngModelChange)="projectValueChange($event)"
-                    *ngIf="projects?.length else elseBlock">
+                    [nzDisabled]="$disableProject | async" (ngModelChange)="onProjectChange($event)">
 
 
-                    <nz-option ng-selected="project.label == formData.project" *ngFor="let project of projects"
+                    <nz-option ng-selected="project.label == formData.project" *ngFor="let project of $projects | async"
                         nzValue="{{ project.id }}" nzLabel="{{ project.name }}"></nz-option>
                 </nz-select>
 

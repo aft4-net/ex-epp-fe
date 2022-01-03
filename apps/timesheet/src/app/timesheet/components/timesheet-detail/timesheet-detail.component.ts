@@ -17,14 +17,7 @@ import {
 } from 'ng-zorro-antd/notification';
 import {
   Observable,
-  Scheduler,
-  concat,
-  observable,
-  of,
-  queueScheduler,
-  scheduled,
 } from 'rxjs';
-import { concatAll, mergeAll } from 'rxjs/operators';
 
 import { ActivatedRoute } from '@angular/router';
 import { ClickEventType } from '../../../models/clickEventType';
@@ -34,11 +27,12 @@ import { Employee } from '../../../models/employee';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { Project } from '../../../models/project';
 import { TimeEntryFormData } from '../../../models/timeEntryFormData';
-import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { differenceInCalendarDays } from 'date-fns';
+import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
+import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean;
@@ -106,7 +100,6 @@ export class TimesheetDetailComponent implements OnInit {
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
-  project_id: string;
   timesheetId: string | undefined;
   startValue: Date | null = null;
   endValue: Date | null = null;
@@ -114,6 +107,15 @@ export class TimesheetDetailComponent implements OnInit {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria;
+
+  $clients: Observable<Client[]>
+  $projects: Observable<Project[]>
+  $selectedClient: Observable<string | null>
+  $selectedProject: Observable<string | null>
+  $disableClient: Observable<boolean>
+  $disableProject: Observable<boolean>
+  $disableDates: Observable<boolean>
+
 
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -127,24 +129,50 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private _route: ActivatedRoute
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService
   ) {
-    this.project_id = this._route.snapshot.params.id;
-    this.getTimeEntriesByproject(this.project_id);
-
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
-    this.firstday1 = new Date(
-      this.curr.getFullYear(),
-      this.curr.getMonth(),
-      this.curr.getDate() - this.curr.getDay() + 1
-    );
-    this.lastday1 = new Date(
-      this.firstday1.getFullYear(),
-      this.firstday1.getMonth(),
-      this.firstday1.getDate() + 6
-    );
+
+    this.firstday1 = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
+    this.lastday1 = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate() + 6);
+
+    this.$clients = this._clientAndProjectStateService.$clients;
+    this.$projects = this._clientAndProjectStateService.$projects;
+    this.$selectedClient = this._clientAndProjectStateService.$selectedClient;
+    this.$selectedProject = this._clientAndProjectStateService.$selectedProject;
+    this.$disableClient = this._clientAndProjectStateService.$disableClient;
+    this.$disableProject = this._clientAndProjectStateService.$disableProject;
+    this.$disableDates = this._clientAndProjectStateService.$disableDate;
   }
+
+  initializeClient() {
+    this.$selectedClient.subscribe(clientId => {
+      this.formData.client = clientId;
+    });
+  }
+
+  initializeProject() {
+    this.$selectedProject.subscribe(projectId => {
+      this.formData.project = projectId;
+    });
+  }
+
+  onClientChange(event: string) {
+    if (this._clientAndProjectStateService.Client !== event) {
+      this._clientAndProjectStateService.Client = event;
+      this.initializeClient();
+    }
+  }
+
+  onProjectChange(event: string) {
+    if (this._clientAndProjectStateService.Project !== event) {
+      this._clientAndProjectStateService.Project = event;
+      this.initializeProject();
+      this.initializeClient();
+    }
+  }
+
 
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
@@ -391,33 +419,22 @@ export class TimesheetDetailComponent implements OnInit {
     date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      this.dateColumnContainerClass = '';
-    } else if (this.lastday1.valueOf() >= date.valueOf()) {
-      this.dateColumnContainerClass = '';
-    } else {
-      this.dateColumnContainerClass = 'date-column-container';
+      this.dateColumnContainerClass = "";
+    }
+    else if ((this.lastday1.valueOf() >= date.valueOf()) || this.startingDateCriteria.isBeforeThreeWeeks) {
+      this.dateColumnContainerClass = "";
+    }
+    else {
+      this.dateColumnContainerClass = "date-column-container";
 
-      if (
-        this.timeEntries &&
-        this.timeEntries.length > 0 &&
-        this.timesheetValidationService.isValidForApproval(
-          this.timeEntries,
-          this.timesheetConfig
-        )
-      ) {
-        this.createNotification(
-          'warning',
-          'Timesheet hase not been submitted',
-          'bottomRight'
-        );
-      } else {
-        this.createNotification(
-          'warning',
-          'Timesheet has not been filled',
-          'bottomRight'
-        );
+      if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
+        this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
+      }
+      else {
+        this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
       }
     }
+
   }
 
   calculateWeeklyTotalHours() {
@@ -548,15 +565,10 @@ export class TimesheetDetailComponent implements OnInit {
 
   showFormDrawer() {
     if (this.clickEventType === ClickEventType.showFormDrawer) {
-      this.setDefaultClient(this.clients);
-      this.setDefaultProject(this.projects);
-
       if (this.timeEntry) {
-        let clientId = this.projects
-          ?.filter((project) => project.id == this.timeEntry?.ProjectId)[0]
-          .clientId.toString();
-        this.formData.client = clientId ? clientId : '';
-        this.formData.project = this.timeEntry.ProjectId.toString();
+        this._clientAndProjectStateService.Project = this.timeEntry?.ProjectId;
+        this._clientAndProjectStateService.disable();
+
         this.formData.hours = this.timeEntry.Hour;
         this.formData.note = this.timeEntry.Note;
 
@@ -565,6 +577,9 @@ export class TimesheetDetailComponent implements OnInit {
         this.disableClient = true;
         this.disableProject = true;
       }
+
+      this.initializeClient();
+      this.initializeProject();
 
       this.formData.fromDate = this.date;
       this.formData.toDate = this.date;
@@ -967,11 +982,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
-  createNotification(
-    type: string,
-    message: string,
-    position?: NzNotificationPlacement
-  ) {
+  createNotification(type: string, message: string, position?: NzNotificationPlacement) {
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       return;
     }
