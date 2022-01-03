@@ -30,7 +30,7 @@ import { GroupDetailComponent } from '../features/components/group-detail/group-
            
           },
           {
-            path:'permission',component:PermissionComponent
+            path:'permission/:id',component:PermissionComponent
           },
           {
             path:'user-dashboard',component:UserDashboardComponent
@@ -39,7 +39,7 @@ import { GroupDetailComponent } from '../features/components/group-detail/group-
             path:'group',component:GroupsetComponent
           },
           {
-            path:'group-detail',component:GroupDetailComponent
+            path:'group-detail/:id',component:GroupDetailComponent
           }
         ] 
       },

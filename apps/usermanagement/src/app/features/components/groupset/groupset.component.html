@@ -126,14 +126,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                  <td>{{user.Name }} </td>
+                <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <td>{{group.Name }} </td>
 
                   <td>
+                    <a routerLink="/usermanagement/group-detail/{{group.Guid}}">
                     <button nz-button nzType="default" style="border:0px; color: green;" nzType="link" [nzSize]="size"  nz-popover nzPopoverTitle=""
 
                       nzPopoverPlacement="bottom"> Show Detail
                       </button>
+                      </a>
                   </td>
 
                 </tr>

@@ -9,6 +9,7 @@
         </div>
         <div nz-col nzSpan="12" style="text-align: right;">
             <nz-space>
+              
                 <button class="defaultButton" *nzSpaceItem nz-button nzType="default" >
                     Edit Descriptions
                 </button>
@@ -95,9 +96,11 @@
             <div class="permissionlist">
                 <div class="title-holder">
                     <p class="TabTitleStyle">Group Permissions</p>
+                    <a routerLink="/usermanagement/permission/{{groupId}}">
                     <button class="editPermissionButton" nz-button [nzSize]="size" nzType="link">
                     Edit group's access
                       </button>
+                    </a>
                 </div>
             </div>
         </div>
