@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   title = 'timesheet';
 
   constructor(private userService: UserService) {
-    localStorage.setItem("employeeId", employeeId.toString());
+    localStorage.setItem("userId", employeeId.toString());
     localStorage.setItem("supervisorId", employeeId.toString());
   }
 

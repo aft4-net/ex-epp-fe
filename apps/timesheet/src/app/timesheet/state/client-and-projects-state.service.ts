@@ -150,7 +150,9 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
             const client = this._findClientById(id);
             state = {
                 ...state,
-                selectedClient: id
+                selectedClient: id,
+                selectedProject: null,
+                isProjectDisabled: false
             };
             if (client.projects.length === 1) {
                 state = {
