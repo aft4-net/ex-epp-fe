@@ -36,7 +36,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
- 
+
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
@@ -47,17 +47,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   of: any;
   isSubmitted: boolean | undefined;
   startingDateCriteria = startingDateCriteria
-  
-  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> a72118bdfdc5bf8520b4d8b8347d933e5de449bf
+  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
-    
+
   }
 
   ngOnChanges(): void {
@@ -67,11 +62,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     if (this.timeEntries) {
       let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
-<<<<<<< HEAD
-    
-=======
-      
->>>>>>> a72118bdfdc5bf8520b4d8b8347d933e5de449bf
     }
 
     let today = new Date();
@@ -86,12 +76,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
   }
-<<<<<<< HEAD
-=======
 
-
->>>>>>> a72118bdfdc5bf8520b4d8b8347d933e5de449bf
-  
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
@@ -150,7 +135,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     const myElement = document.getElementById(el);
     myElement?.scrollIntoView();
   }
- 
+
   checkOverflow(divId:any){
     const elem = document.getElementById(divId)
 
