@@ -84,30 +84,26 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   }
 
 
-
-  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
+  
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
       this.projectNamePaletClicked.emit(timeEntryEvent);
     }
 
-    if (this.morePopover) {
-      this.clickEventType = ClickEventType.none;
-    }
+    this.clickEventType = ClickEventType.none;
   }
 
-  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType;
       this.paletEllipsisClicked.emit(timeEntryEvent);
     }
 
-    if (this.morePopover) {
-      this.clickEventType = ClickEventType.none;
-    }
+    this.clickEventType = ClickEventType.none;
   }
 
-  onEditButtonClicked(clickEventType: ClickEventType) {
+  onEditButtonClicked(clickEventType: ClickEventType) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
@@ -116,7 +112,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  onDeleteButtonClicked(clickEventType: ClickEventType) {
+  onDeleteButtonClicked(clickEventType: ClickEventType) {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.deleteButtonClicked.emit(this.clickEventType);
@@ -146,8 +142,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   scrollTimeEntriesUp(el: any) {
     const myElement = document.getElementById(el);
     myElement?.scrollIntoView();
-    console.log('++++++++++++++++++++++++');
-    console.log("item");
   }
 
   checkOverflow(divId: any) {
@@ -155,17 +149,14 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
     const isOverflowing = elem!.clientHeight < elem!.scrollHeight;
 
-    if (isOverflowing) {
-      console.log('**********   ************* ************* ******** **************');
+    if(isOverflowing){
       elem!.classList.remove("entries-overflow");
       elem!.classList.add("show-scroll-bar");
     }
-
-
-    console.log('-----------------');
-    console.log(elem!.clientHeight);
-    console.log(elem!.scrollHeight);
-    console.log(elem);
+    else {
+      elem!.classList.add("entries-overflow");
+      elem!.classList.remove("show-scroll-bar");
+    }
   }
 
 
