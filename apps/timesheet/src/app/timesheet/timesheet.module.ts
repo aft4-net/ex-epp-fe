@@ -18,6 +18,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { NzToolTipComponent, NzToolTipModule } from "ng-zorro-antd/tooltip";
 
+
 import {TimesheetComponent} from "./timesheet.component"
 import {TimesheetRoutingModule} from './timesheet-routing.module';
 import {TimesheetHeaderComponent} from './components/timesheet-header/timesheet-header.component';
@@ -28,6 +29,11 @@ import {ProjectNamePaletComponent} from './components/project-name-palet/project
 import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { TimesheetService } from './services/timesheet.service';
+import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
+
+
 
 @NgModule({
   declarations: [
@@ -36,7 +42,9 @@ import { TimesheetService } from './services/timesheet.service';
     DateSelectorComponent,
     DayAndDateColumnComponent,
     ProjectNamePaletComponent,
-    MoreProjectsComponent
+    MoreProjectsComponent,
+    ViewSubmissionsComponent,
+    TimesheetDetailComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +65,8 @@ import { TimesheetService } from './services/timesheet.service';
     NzDividerModule,
     NzModalModule,
     NzTableModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzPaginationModule
   ],
   exports: [TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],

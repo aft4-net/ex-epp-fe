@@ -1,21 +1,25 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
 import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { NzModalService } from "ng-zorro-antd/modal";
+import { DayAndDateService } from '../../services/day-and-date.service';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
+import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 @Component({
   selector: 'app-project-name-palet',
   templateUrl: './project-name-palet.component.html',
   styleUrls: ['./project-name-palet.component.scss']
 })
-export class ProjectNamePaletComponent implements OnInit {
-  @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>()
+export class ProjectNamePaletComponent implements OnInit, OnChanges {
+  @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
-  @Output() editClicked = new EventEmitter<ClickEventType>()
+  @Output() editClicked = new EventEmitter<ClickEventType>();
+  @Output() deleteClicked = new EventEmitter<ClickEventType>();
   @Input() timeEntry: TimeEntry | null = null;
   @Input() timesheetApproval: TimesheetApproval | null = null;
   project: Project | null = null;
@@ -24,12 +28,19 @@ export class ProjectNamePaletComponent implements OnInit {
   isVisible1 = false;
   clickEventType = ClickEventType.none;
   popoverVisible = false;
+  startingDateCriteria = startingDateCriteria
 
   constructor(private timesheetService: TimesheetService,
-    private modal: NzModalService) {
-  }
+    private readonly _dayAndDateService: DayAndDateService,
+    private modal: NzModalService,
+    private timesheetStateService: TimesheetStateService
+  ) { }
 
   ngOnInit(): void {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.timeEntry) {
       this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
         this.project = response ? response[0] : null;
@@ -44,33 +55,68 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   showPopover() {
+    if (this.clickEventType !== ClickEventType.none) {
+      return;
+    }
+
+    this.clickEventType = ClickEventType.showPaletPopover;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
-    if (this.clickEventType === ClickEventType.none) {
-      this.clickEventType = ClickEventType.showPaletPopover;
-      this.paletEllipsisClicked.emit(timeEntryEvent);
-      this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
+      return;
     }
+
+    this.paletEllipsisClicked.emit(timeEntryEvent);
+    this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
   }
 
   onProjectNamePaletClicked() {
-    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
-
-    if (this.clickEventType == ClickEventType.none) {
-      this.clickEventType = ClickEventType.showFormDrawer;
-      this.projectNamePaletClicked.emit(timeEntryEvent);
+    if (this.clickEventType !== ClickEventType.none) {
+      this.clickEventType = ClickEventType.none;
+      return;
     }
 
+    this.clickEventType = ClickEventType.showFormDrawer;
+    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
+
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
+      this.clickEventType = ClickEventType.none;
+      return;
+    }
+    /*
+    if (!this.checkTimeOverThreeWeeks()) {
+      this.clickEventType = ClickEventType.none;
+      return;
+    }
+    //*/
+
+    this.projectNamePaletClicked.emit(timeEntryEvent);
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
   }
 
   showFormDrawer() {
-    if (this.clickEventType === ClickEventType.none) {
-      this.editClicked.emit(ClickEventType.showFormDrawer);
-      this.popoverVisible = false;
+    if (this.clickEventType !== ClickEventType.none) {
+      this.clickEventType = ClickEventType.none;
+      return;
     }
 
+    this.editClicked.emit(ClickEventType.showFormDrawer);
+    this.popoverVisible = false;
+
     this.clickEventType = ClickEventType.none;
+  }
+
+  checkTimeOverThreeWeeks() {
+    const nowDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
+    let projectDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
+    if (this.timeEntry) {
+      projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
+    }
+    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
+    if (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond) {
+      return true;
+    }
+    return false;
   }
 
   closePopover() {
@@ -92,10 +138,9 @@ export class ProjectNamePaletComponent implements OnInit {
   }
 
   deleteTimeEntry(): void {
-    if (this.timeEntry) {
-      this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(data => {
-        console.log(data);
-        window.location.reload();
+    if (this.timeEntry) {debugger;
+      this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(response => {
+        this.deleteClicked.emit(ClickEventType.deleteTimeEntry);
       });
     }
   }

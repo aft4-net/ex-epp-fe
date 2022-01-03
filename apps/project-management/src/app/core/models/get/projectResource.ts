@@ -1,8 +1,7 @@
 import { Employee } from ".";
 
 export interface ProjectResource{
-    employee:Employee,
+    employee:Employee ,
     assignedDate:Date;
- 
-}
+ }
 

@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   BillingAddressCreate,
   ClientContactCreate,
@@ -12,6 +10,9 @@ import {
   StateService,
   ValidtyAddClientForms,
 } from '..';
+
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 const iniitalAddClientState: ClientCreate = {
   SalesPersonGuid: '',
@@ -28,7 +29,7 @@ const iniitalAddClientState: ClientCreate = {
   providedIn: 'root',
 })
 export class AddClientStateService extends StateService<ClientCreate> {
-  private comapanyContacts = new BehaviorSubject<Employee[]>({} as Employee[]);
+  private comapanyContacts = new BehaviorSubject<Employee[]>([] as Employee[]);
 
   constructor() {
     super(iniitalAddClientState);
@@ -88,9 +89,9 @@ export class AddClientStateService extends StateService<ClientCreate> {
     // eslint-disable-next-line prefer-const
     let validtyAddClientForms: ValidtyAddClientForms = {
       clientDetailsForm: false,
-      clientLocationForm: false,
-      clientContactsForm: false,
-      CompanyContactsForm: false,
+      clientLocationForm: true,
+      clientContactsForm: true,
+      CompanyContactsForm: true,
     };
 
     return this.state$.pipe(
@@ -108,17 +109,6 @@ export class AddClientStateService extends StateService<ClientCreate> {
           validtyAddClientForms.clientDetailsForm = false;
         }
 
-        if (res.BillingAddress.length >= 0 && res.OperatingAddress.length >= 1)
-          validtyAddClientForms.clientLocationForm = true;
-        else validtyAddClientForms.clientLocationForm = false;
-
-        if (res.ClientContacts.length >= 1)
-          validtyAddClientForms.clientContactsForm = true;
-        else validtyAddClientForms.clientContactsForm = false;
-
-        if (res.CompanyContacts.length >= 1)
-          validtyAddClientForms.CompanyContactsForm = true;
-        else validtyAddClientForms.CompanyContactsForm = false;
 
         return validtyAddClientForms;
       })
