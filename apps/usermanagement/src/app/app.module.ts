@@ -21,6 +21,7 @@ import { registerLocaleData } from '@angular/common';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
 import { AddUserComponent } from './features/components/user/add-user/add-user.component';
 import { UserToGroupComponent } from './features/components/user/user-to-group/user-to-group.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 registerLocaleData(en);
 @NgModule({
