@@ -1,21 +1,28 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { DayAndDateService } from "./services/day-and-date.service";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TimesheetService } from './services/timesheet.service';
-import { differenceInCalendarDays } from 'date-fns';
-import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { ClickEventType } from '../models/clickEventType';
-import { NzNotificationDataOptions, NzNotificationService } from 'ng-zorro-antd/notification';
-import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetApprovalResponse, TimesheetConfiguration } from '../models/timesheetModels';
-import { DateColumnEvent, TimeEntryEvent } from '../models/clickEventEmitObjectType';
-import { Client } from '../models/client';
-import { Project } from '../models/project';
-import { Employee } from '../models/employee';
+import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {DayAndDateService} from "./services/day-and-date.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TimesheetService} from './services/timesheet.service';
+import {differenceInCalendarDays} from 'date-fns';
+import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import {ClickEventType} from '../models/clickEventType';
+import {NzNotificationDataOptions, NzNotificationService} from 'ng-zorro-antd/notification';
+import {
+  ApprovalStatus,
+  TimeEntry,
+  Timesheet,
+  TimesheetApproval,
+  TimesheetApprovalResponse,
+  TimesheetConfiguration
+} from '../models/timesheetModels';
+import {DateColumnEvent, TimeEntryEvent} from '../models/clickEventEmitObjectType';
+import {Client} from '../models/client';
+import {Project} from '../models/project';
+import {Employee} from '../models/employee';
 
-import { NzNotificationPlacement } from "ng-zorro-antd/notification";
+import {NzNotificationPlacement} from "ng-zorro-antd/notification";
 //import { retry } from 'rxjs/operators';
-import { TimeEntryFormData } from '../models/timeEntryFormData';
-import { TimesheetValidationService } from './services/timesheet-validation.service';
+import {TimeEntryFormData} from '../models/timeEntryFormData';
+import {TimesheetValidationService} from './services/timesheet-validation.service';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -65,9 +72,10 @@ export class TimesheetComponent implements OnInit {
   date = new Date();
   futereDate: any;
   public weekDays: any[] = [];
+  public weekDaysNew: any[] = [];
   curr = new Date();
-  firstday1: Date = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
-  lastday1: Date = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate() + 6);
+  firstday1: any;
+  lastday1: any;
   parentCount = null;
   nextWeeks = null;
   lastWeeks = null;
@@ -91,6 +99,9 @@ export class TimesheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.startingWeek();
+    this.calcualteNoOfDaysBetweenDates();
+
     this.userId = localStorage.getItem("userId");
 
     if (this.userId) {
@@ -108,10 +119,50 @@ export class TimesheetComponent implements OnInit {
       note: [null, [Validators.required]],
     });
 
+  }
+
+  setFirstDay() {
+    return 2;
+  }
+
+  startingWeek() {
+    // debugger;
+    this.dayAndDateService.fs = this.setFirstDay();
     this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    this.calcualteNoOfDaysBetweenDates();
+
+    if (this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
+  }
+
+  nextWeek(count: any) {
+    // debugger;
+    this.dayAndDateService.fs = this.setFirstDay();
+    let ss = this.dayAndDateService.getWeekendLastDay();
+    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if (this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
+  }
+
+  lastastWeek(count: any) {
+    // debugger;
+    this.lastWeeks = count;
+    this.dayAndDateService.fs = this.setFirstDay();
+    let ss = this.dayAndDateService.getWeekendFirstDay();
+    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
+    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.firstday1 = this.weekDays[0];
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if (this.userId) {
+      this.getTimesheet(this.userId, this.weekDays[0])
+    }
   }
 
   // To calculate the time difference of two dates
@@ -119,9 +170,10 @@ export class TimesheetComponent implements OnInit {
     let date1 = new Date("06/21/2019");
     let date2 = new Date("07/30/2019");
     let Difference_In_Time = date2.getTime() - date1.getTime();
-
+    let dd = new Date();
     // To calculate the no. of days between two dates
     let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    console.log('the day is -- > ' + dd.getDay());
   }
 
   getTimesheetConfiguration() {
@@ -146,8 +198,7 @@ export class TimesheetComponent implements OnInit {
       if (this.timesheet) {
         this.getTimeEntries(this.timesheet.Guid);
         this.getTimeSheetApproval(this.timesheet.Guid);
-      }
-      else {
+      } else {
         this.checkForCurrentWeek();
       }
     }, error => {
@@ -237,9 +288,9 @@ export class TimesheetComponent implements OnInit {
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
-      if (this.userId) {
-        this.getTimesheet(this.userId, this.weekDays[0]);
-      }
+      // if (this.userId) {
+      //   this.getTimesheet(this.userId, this.weekDays[this.setFirstDay()]);
+      // }
     }
   }
 
@@ -251,29 +302,6 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  nextWeek(count: any) {
-    this.nextWeeks = count;
-    let ss = this.dayAndDateService.getWeekendLastDay();
-    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-
-    if (this.userId) {
-      this.getTimesheet(this.userId, this.weekDays[0])
-    }
-  }
-
-  lastastWeek(count: any) {
-    this.lastWeeks = count;
-    let ss = this.dayAndDateService.getWeekendFirstDay();
-    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-
-    if (this.userId) {
-      this.getTimesheet(this.userId, this.weekDays[0])
-    }
-  }
 
   /* checkForCurrentWeek()
   * check if the displayed week is the current week
@@ -286,17 +314,14 @@ export class TimesheetComponent implements OnInit {
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnContainerClass = "";
-    }
-    else if (this.lastday1.valueOf() >= date.valueOf()) {
+    } else if (this.lastday1.valueOf() >= date.valueOf()) {
       this.dateColumnContainerClass = "";
-    }
-    else {
+    } else {
       this.dateColumnContainerClass = "date-column-container";
 
       if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
         this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
-      }
-      else {
+      } else {
         this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
       }
     }
@@ -305,8 +330,7 @@ export class TimesheetComponent implements OnInit {
   calculateWeeklyTotalHours() {
     if (this.timeEntries) {
       this.weeklyTotalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
-    }
-    else {
+    } else {
       this.weeklyTotalHours = 0;
     }
   }
@@ -386,8 +410,7 @@ export class TimesheetComponent implements OnInit {
       if (timesheetApproval.length > 0 && timesheetApproval[0].Status != ApprovalStatus.Rejected) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
         this.clearFormData();
-      }
-      else {
+      } else {
         this.showFormDrawer();
       }
     });
@@ -423,8 +446,7 @@ export class TimesheetComponent implements OnInit {
   setDefaultClient(clients: Client[] | null) {
     if (!clients) {
       return;
-    }
-    else if (this.formData.client && this.formData.client != "") {
+    } else if (this.formData.client && this.formData.client != "") {
       return;
     }
 
@@ -434,8 +456,7 @@ export class TimesheetComponent implements OnInit {
   setDefaultProject(projects: Project[] | null) {
     if (!projects) {
       return;
-    }
-    else if (this.formData.project && this.formData.project != "") {
+    } else if (this.formData.project && this.formData.project != "") {
       return;
     }
 
@@ -444,7 +465,7 @@ export class TimesheetComponent implements OnInit {
 
   submitForm(): void {
     this.invalidEntries = [];
-    
+
     for (const i in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(i)) {
         this.validateForm.controls[i].markAsDirty();
@@ -483,8 +504,7 @@ export class TimesheetComponent implements OnInit {
       timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
       this.updateTimeEntry(timeEntry);
-    }
-    else if (this.timesheet) {
+    } else if (this.timesheet) {
       timeEntry.TimeSheetId = this.timesheet.Guid;
       this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date, timeEntry.ProjectId).subscribe(response => {
         this.timeEntry = response ? response[0] : null;
@@ -497,13 +517,11 @@ export class TimesheetComponent implements OnInit {
           this.updateTimeEntry(timeEntry);
 
           this.timeEntry = null;
-        }
-        else {
+        } else {
           this.addTimeEntry(timeEntry);
         }
       })
-    }
-    else {
+    } else {
       this.addTimeEntry(timeEntry);
     }
   }
@@ -517,7 +535,7 @@ export class TimesheetComponent implements OnInit {
     let tmpTimeEntry: TimeEntry | null;
     let dates = this.dayAndDateService.getRangeOfDates(this.formData.fromDate, this.formData.toDate);
 
-    const fromDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - this.date.getDay() + 1);
+    const fromDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - this.date.getDay() + 2);
     const toDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate() + 6);
 
     this.timesheetValidationService.fromDate = fromDate;
@@ -532,39 +550,35 @@ export class TimesheetComponent implements OnInit {
         let timeEntryClone;
 
         if (tmpTimeEntry) {
-          tmpTimeEntry = { ...tmpTimeEntry };
+          tmpTimeEntry = {...tmpTimeEntry};
 
           tmpTimeEntry.Date = timeEntry.Date;
           tmpTimeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
           tmpTimeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
 
-          timeEntryClone = { ...tmpTimeEntry };
-        }
-        else {
-          timeEntryClone = { ...timeEntry };
+          timeEntryClone = {...tmpTimeEntry};
+        } else {
+          timeEntryClone = {...timeEntry};
         }
 
         if (this.timesheetValidationService.isValidForAdd(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
-        }
-        else {
+        } else {
           this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
           });
         }
       }
-    }
-    else {
+    } else {
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
-        let timeEntryClone = { ...timeEntry };
+        let timeEntryClone = {...timeEntry};
 
         if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
-        }
-        else {
+        } else {
           this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
@@ -671,19 +685,16 @@ export class TimesheetComponent implements OnInit {
     if (this.timeEntry) {
       this.dateColumnTotalHour = totalHour ? totalHour : 0;
       this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
-    }
-    else if (fromDate && toDate) {
+    } else if (fromDate && toDate) {
       fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
       toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
 
       if (fromDate.valueOf() === toDate.valueOf()) {
         this.dateColumnTotalHour = totalHour ? totalHour : 0;
-      }
-      else {
+      } else {
         this.dateColumnTotalHour = 0;
       }
-    }
-    else {
+    } else {
       this.dateColumnTotalHour = totalHour ?? 0;
     }
   }
@@ -697,8 +708,7 @@ export class TimesheetComponent implements OnInit {
       this.formData.toDate = this.formData.fromDate;
       this.disableToDate = false;
       this.setColumnDate(this.formData.fromDate);
-    }
-    else {
+    } else {
       this.formData.toDate = null;
       this.disableToDate = true;
     }
@@ -732,25 +742,27 @@ export class TimesheetComponent implements OnInit {
 
     switch (type.toLowerCase()) {
       case "success":
-        this.notification.success("", message, { nzPlacement: position });
+        this.notification.success("", message, {nzPlacement: position});
         break;
       case "info":
-        this.notification.info("", message, { nzPlacement: position });
+        this.notification.info("", message, {nzPlacement: position});
         break;
       case "warning":
-        this.notification.warning("", message, { nzPlacement: position });
+        this.notification.warning("", message, {nzPlacement: position});
         break;
       case "error":
-        this.notification.error("", message, { nzPlacement: position });
+        this.notification.error("", message, {nzPlacement: position});
         break;
     }
   }
 
   disabledDates = (current: Date): boolean => {
-    let date = new Date(current.getFullYear(), current.getMonth(), current.getDate());
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    let date1 = new Date(current.getFullYear(), current.getMonth(), current.getDate());
     let fromDate = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate());
     let toDate = new Date(this.lastday1.getFullYear(), this.lastday1.getMonth(), this.lastday1.getDate());
 
-    return date.valueOf() < fromDate.valueOf() || date.valueOf() > toDate.valueOf() || date.valueOf() > new Date().valueOf();
+    return date1.valueOf() < fromDate.valueOf() || date1.valueOf() > toDate.valueOf() || date1.valueOf() > new Date().valueOf();
   }
 }
