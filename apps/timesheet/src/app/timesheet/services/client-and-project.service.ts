@@ -11,13 +11,13 @@ import { BaseQueryOnlyAPIService } from './base-api.service';
   providedIn: 'root'
 })
 export class ClientAndProjectService extends BaseQueryOnlyAPIService<Client> {
-  
+
   constructor(
     httpClient: HttpClient
   ) {
     super(
       httpClient,
-      "http://localhost:14696/api/v1/ProjectModule/GetByEmployeeId?employeeId=279f7d9c-425e-4691-8eff-716ba6fd6524"
+      environment.apiUrl + "/ProjectModule/GetByEmployeeId?employeeId=" + localStorage.getItem("userId") as string
     );
   }
 
