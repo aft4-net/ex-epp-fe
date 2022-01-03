@@ -29,6 +29,8 @@ export class TableComponent {
   setOfCheckedId = new Set<number>();
   timesheetDetail:any;
   isModalVisible=false;
+  arrayOfCheckedId:number[] =[];
+
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
@@ -38,6 +40,8 @@ export class TableComponent {
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
+  @Output() CheckedIds = new EventEmitter<number[]>();
+
 
 
 
@@ -56,13 +60,23 @@ export class TableComponent {
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
-      //this.checkedListId.emit(this.setOfCheckedId);
+      this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
+      console.log(this.arrayOfCheckedId)
     } else {
       this.setOfCheckedId.delete(id);
+      this.RemoveElementFromArray(id);
       console.log(this.setOfCheckedId);
+      console.log(this.arrayOfCheckedId)
     }
+this.CheckedIds.emit(this.arrayOfCheckedId);
+
   }
+  RemoveElementFromArray(element: number) {
+    this.arrayOfCheckedId.forEach((value,index)=>{
+        if(value==element) this.arrayOfCheckedId.splice(index,1);
+    });
+}
 
   onItemChecked(id: number, checked: boolean): void {
     this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);

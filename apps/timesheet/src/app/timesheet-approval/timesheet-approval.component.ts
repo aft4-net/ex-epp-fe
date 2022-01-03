@@ -84,6 +84,7 @@ export class TimesheetApprovalComponent implements OnInit {
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
   public arrayOfCheckedId:number[] =[];
+  ids: number[]=[];
   
   resources: any;
   
@@ -297,13 +298,26 @@ updateProjectResourseList(resources: any) {
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
+      this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
+      console.log(this.arrayOfCheckedId)
     } else {
       this.setOfCheckedId.delete(id);
+      this.RemoveElementFromArray(id);
       console.log(this.setOfCheckedId);
+      console.log(this.arrayOfCheckedId)
     }
-  }
 
+  }
+  RemoveElementFromArray(element: number) {
+    this.arrayOfCheckedId.forEach((value,index)=>{
+        if(value==element) this.arrayOfCheckedId.splice(index,1);
+    });
+}
+
+CheckedIds(id:number[]) {
+  this.ids = id;
+}
 
 
   onAllChecked(value: boolean): void {
@@ -374,12 +388,12 @@ onItemChecked(id: number, checked: boolean): void {
   }
   onApprove(){
     
-    let ids=this.setOfCheckedId 
-    for (let entry of ids){
-      this.arrayOfCheckedId.push(entry);
-      console.log(this.arrayOfCheckedId);
-    }
+    // let ids=this.setOfCheckedId 
+    // for (let entry of ids){
+    //   this.arrayOfCheckedId.push(entry);
+    //   console.log(this.arrayOfCheckedId);
+    // }
     this.timesheetBulkApproval(this.arrayOfCheckedId);
-    this.arrayOfCheckedId.length = 0;
+    //this.arrayOfCheckedId.length = 0;
   }
 }

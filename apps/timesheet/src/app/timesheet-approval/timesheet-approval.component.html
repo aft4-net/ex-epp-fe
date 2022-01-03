@@ -187,9 +187,11 @@
       </nz-tab>
     </nz-tabset>
   </div>
-  <div>
+  <!-- <div>
     <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 
     (modalStatus)="timesheetDetailClose($event)"
     ></exec-epp-timesheet-detail-view>
-  </div>
+  </div> -->
+  {{ids}}
+<exec-epp-table [bulkCheck]="true" [rowData]="employees" (CheckedIds)="CheckedIds($event)"></exec-epp-table>
