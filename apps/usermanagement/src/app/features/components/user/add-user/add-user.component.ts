@@ -24,7 +24,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
   @Input() addUserEvents: Observable<void> = new Observable<void>();
   employeeList: IEmployeeModel[] = [];
   selectedUserValue = '';
-  constructor(private userService: AddUserService, private notifier: NotifierService){;}
+  constructor(private userService: AddUserService, 
+    private notifier: NotifierService){;}
   
   ngOnInit(): void {
     this.eventsSubscription= this.addUserEvents.subscribe(()=>this.onAddUser());

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { Data, Router, RouterLink } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { fromEvent, Observable, of, Subject } from 'rxjs';
+import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { ColumnItem } from '../../Models/ColumnItem';
 import { listtToFilter } from '../../Models/listToFilter';
@@ -11,26 +11,23 @@ import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
-import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { ResponseDTO } from '../../Models/ResponseDTO';
 import { AddUserService } from '../../services/add-user.service';
-import { IEmployeeModel } from '../../Models/employee.model';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
+import { ResponseDTO } from '../../Models/ResponseDTO';
+import { IEmployeeModel } from '../../Models/employee.model';
 import { IUserPostModel } from '../../Models/User/user-post.model';
-
-
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-  isVisible=false;
-  isLoadng = false;
+
   userfrm: any;
-  employeeList: IEmployeeModel[] = [];
+  isLoadng = false;
+  employeeList: IEmployeeModel [] = []
   selectedUserValue = '';
-  onUserAddSubj: Subject<void> = new Subject<void>();
+  isUserModalVisible=false;
   size: NzButtonSize = 'small';
   userDashboardForm !: FormGroup;
   loading = false;
@@ -67,7 +64,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
+      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.length - b.FullName.length,
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
@@ -76,7 +73,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
+      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
       filterMultiple: true,
       listOfFilter:this.userListLastActivityDate,
       filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
@@ -89,10 +86,8 @@ export class UserDashboardComponent implements OnInit {
   constructor(private userService : UserService,
     private _router: Router,
     private fb: FormBuilder,
-    private notification: NotificationBar,
     private addUserService: AddUserService,
     private notifier: NotifierService) {
-
   }
 
   ngOnInit(): void {
@@ -100,12 +95,8 @@ export class UserDashboardComponent implements OnInit {
       UserName: new FormControl(null, [Validators.required]),
     });
     this.createUserDashboardControls();
+    this.userList as IUserModel[];
     this.FeatchAllUsers();
-    this.notification.showNotification({
-      type: 'success',
-      content: 'Users loaded successfully',
-      duration: 1,
-    });
   }
 
   createUserDashboardControls() {
@@ -131,17 +122,19 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
+        this.loading = false;
       }
       else
       {
+        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
+        this.FillTheFilter();
       }
+
+    },error => {
       this.loading = false;
-    },() => {
-      this.loading = false;
-      this.userList = [];
-      this.userList$=of([]);
+      this.PopulateFilterColumns();
      });
     this.searchStateFound=false;
   }
@@ -152,7 +145,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -161,7 +154,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -170,7 +163,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -214,11 +207,14 @@ export class UserDashboardComponent implements OnInit {
                   value:this.userList.map(x=>x.Status)[i]
                 }
               )
+
             }
           }
+
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
+
           if(this.userList.length > 0) {
             this.PopulateFilterColumns();
           }
@@ -245,18 +241,19 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
+        this.loading = false;
       }
       else
       {
+        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
+        this.FillTheFilter();
       }
       this.searchStateFound=true;
-      this.loading = false;
     },error => {
       this.loading = false;
-      this.userList = [];
-      this.userList$=of([]);
+      this.PopulateFilterColumns();
      });
   }
 
@@ -322,38 +319,30 @@ export class UserDashboardComponent implements OnInit {
       this.loading = false;
     }
   }
-
-  AddToGroup(userId: string) {
-
-  }
-
-  Remove(userId: string) {
-
-  }
-  
-  ShowDetail(userId: string) {
-    this._router.navigateByUrl('/user-detail');
-  }
   onAddUser()
   {
     this.selectedUserValue = '';
-    this.isVisible = true;
-    alert('ok');//this works
+    this.isUserModalVisible = true;
+    this.isLoadng = true;
+
+    console.log('addUser');
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
-        alert('ok');//this is not working
         this.employeeList= r.Data;
         this.isLoadng =false;
-        console.log (r.Data);
-
-        //this.userfrm.reset();
+        this.userfrm.reset();
       },
       (error: any)=>{
-        console.log('error');
         console.log(error);
         this.onShowError(error);
       }
     )
+  }
+  onShowError(err: any) {
+    let errMsg = 'Some error occured. Please review your input and try again. ';
+    console.log(err);
+    this.notifier.notify(NotificationType.error, errMsg);
+    this.isLoadng = false;
   }
   onSaveUser()
   {
@@ -380,7 +369,7 @@ export class UserDashboardComponent implements OnInit {
               'User is created successfully'
             );
             this.isLoadng = false;
-            this.isVisible = false;
+            this.isUserModalVisible = false;
             this.selectedUserValue = '';
           },
           (err: any) => this.onShowError(err)
@@ -389,19 +378,26 @@ export class UserDashboardComponent implements OnInit {
     )
     return;
   }
+
+  AddToGroup(userId: string) {
+
+  }
+
+  Remove(userId: string) {
+
+  }
+  
+  ShowDetail(userId: string) {
+    this._router.navigateByUrl('/user-detail');
+  }
+  
   handleOk(): void {
     console.log('Button ok clicked!');
-    this.isVisible = false;
+    this.isUserModalVisible = false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isVisible = false;
-  }
-  onShowError(err: any) {
-    let errMsg = 'Some error occured. Please review your input and try again. ';
-    console.log(err);
-    this.notifier.notify(NotificationType.error, errMsg);
-    this.isLoadng = false;
+    this.isUserModalVisible = false;
+    this.userfrm.reset();
   }
 }

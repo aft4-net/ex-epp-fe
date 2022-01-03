@@ -21,15 +21,8 @@ import { registerLocaleData } from '@angular/common';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
 import { AddUserComponent } from './features/components/user/add-user/add-user.component';
 import { UserToGroupComponent } from './features/components/user/user-to-group/user-to-group.component';
-import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import { MSAL_INSTANCE } from '@azure/msal-angular';
-registerLocaleData(en);
 
-export function MSALInstanceFactory(): IPublicClientApplication 
-{return new PublicClientApplication({
-   auth: {
-     clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
-      redirectUri: 'http://localhost:4200'}});}
+registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,14 +30,13 @@ export function MSALInstanceFactory(): IPublicClientApplication
     HeaderComponent,
     FooterComponent,
     SiderComponent,
-    SigninComponent,
+    //SigninComponent,
     PermissionComponent,
     UserDashboardComponent,
     GroupsetComponent,
     GroupDetailComponent,
     AddUserComponent,
     UserToGroupComponent
-    
   ],
   imports: [
     BrowserModule,
@@ -60,12 +52,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
 
     ], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US },
-  {
-    provide: MSAL_INSTANCE,
-    useFactory: MSALInstanceFactory
-  }
-  ],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
