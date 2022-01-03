@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SiderComponent } from '../../components/application/sider/sider.component';
-import { GroupsetComponent } from '../../features/components/groupset/groupset.component';
+//import { GroupsetComponent } from '../../features/components/groupset/groupset.component';
 
 const routes: Routes = [
   {
@@ -11,11 +11,11 @@ const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'users' },
       {
         path: 'users',
-        component: GroupsetComponent
+        //component: GroupsetComponent
       },
       {
         path: 'groups',
-        component: GroupsetComponent
+        //component: GroupsetComponent
       },
     ],
   },

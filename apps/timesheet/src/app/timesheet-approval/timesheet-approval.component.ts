@@ -23,11 +23,16 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
+  timesheetDetail:any;
+  isModalVisible=false;
   date = null;
   bulkCheck = true;
   statusColumn = true;
   cols: TemplateRef<any>[] = [];
   currentNameSubject$ = new BehaviorSubject(true);
+
+  qtyofItemsSelected = 0
+
   searchProject = new FormControl();
 
   isVisible = false;
@@ -89,6 +94,7 @@ export class TimesheetApprovalComponent implements OnInit {
       }
     }
   ];
+
 
   employees = [
     {
@@ -267,11 +273,15 @@ test() {
     }
   }
 
-  updateProjectResourseList(resources: any) {
-    this.resources = resources;
-    console.log(this.resources);
-  }
-  // for the table
+
+onItemCheckStatusChange(event: number){
+  this.qtyofItemsSelected = event;
+}
+updateProjectResourseList(resources: any) {
+  this.resources = resources;
+  console.log(this.resources);
+}
+// for the table
 
   PageIndexChange(index: any): void {
     this.pageIndex = index;
@@ -290,20 +300,25 @@ test() {
     }
   }
 
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
+
 
   onAllChecked(value: boolean): void {
     this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
     this.refreshCheckedStatus();
   }
 
+
+onItemChecked(id: number, checked: boolean): void {
+  this.qtyofItemsSelected += (checked? 1: -1);
+  this.updateCheckedSet(id, checked);
+  this.refreshCheckedStatus();
+}
+
   onCurrentPageDataChange($event: readonly ItemData[]): void {
     this.listOfCurrentPageData = $event;
     this.refreshCheckedStatus();
   }
+
 
   refreshCheckedStatus(): void {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
@@ -323,10 +338,13 @@ test() {
     }
   }
 
+  showModal(row: any) {
+    this.isModalVisible=true;
+    this.timesheetDetail=row;
 
-  showModal(id: any): void {
-    this.isVisible = true;
-    console.log(id);
+  }
+  timesheetDetailClose(event: boolean){
+    this.isModalVisible=false;
   }
 
   handleOk(): void {

@@ -15,6 +15,8 @@ import { UserDashboardComponent } from './features/components/user-dashboard/use
 import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 import {  MsalModule, MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
+import { PrimaryComponent } from './components/primary-template/primary.component';
+
 
 
 export function MSALInstanceFactory(): IPublicClientApplication 
@@ -29,7 +31,8 @@ export function MSALInstanceFactory(): IPublicClientApplication
     AppComponent, 
     EppdashboardComponent,
     SigninComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    PrimaryComponent
     ],
   imports: [
     BrowserModule,
@@ -45,7 +48,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
     MsalModule,
     ApplicationModule,
      ],
-  providers: [{ provide: NZ_I18N, useValue: en_US,  },{
+  providers: [{ provide: NZ_I18N, useValue: en_US },{
     provide: MSAL_INSTANCE,
     useFactory: MSALInstanceFactory
   },

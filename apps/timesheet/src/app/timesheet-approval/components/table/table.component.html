@@ -1,4 +1,3 @@
-{{setOfCheckedId}}
 <nz-table class="manager-table" #basicTable [nzData]="rowData" [nzFrontPagination]=false
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
@@ -14,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
+    <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row)">
       <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)">
       </td>
       <td>{{row.name}}</td>
@@ -33,10 +32,5 @@
     </tr>
   </tbody>
 </nz-table>
-<!-- <div class="pagination mb-2" style="float: right;margin-right: 2rem;display: flex;">
-  <div>Showing 1 - {{rowData.length}} of {{total}} entries</div>
-  <div>
-    <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total" nzSimple>
-    </nz-pagination>
-  </div> -->
+
 

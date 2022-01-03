@@ -19,21 +19,24 @@
 
 <div nz-row class="controllers">
 
-  <div *ngIf="currentNameSubject$ | async" nz-col>
-    <button nz-button nzType="default">Bulk Approval</button>
+    <div *ngIf="currentNameSubject$ | async" nz-col>
+        <button nz-button nzType="default"
+        [disabled]="qtyofItemsSelected <= 0"
+        >Bulk Approval</button>
 
-    <br>
-  </div>
+        <br>
+    </div>
 
-  <div nz-col nzSpan="6" class="ml-1">
-    <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input type="text" nz-input placeholder="Search" />
-    </nz-input-group>
-    <ng-template #suffixIconSearch>
-      <i nz-icon nzType="search"></i>
-    </ng-template>
+    <div nz-col nzSpan="6" class="ml-1">
+      <nz-input-group [nzSuffix]="suffixIconSearch" >
+        <input  type="text" nz-input placeholder="Search" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
 
-  </div>
+    </div>
+
   <br>
   <div nz-col class="ml-1">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
@@ -41,6 +44,7 @@
   </div>
 </div>
 <div class="tab">
+
 
   <div class="mb-4">
     <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
@@ -85,17 +89,6 @@
           </nz-pagination>
         </span>
       </nz-tab>
-
-
     </nz-tabset>
   </div>
 
-  <nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="Modal Title"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
-  [nzOkLoading]="isOkLoading"
->
-  <p *nzModalContent>Modal Content</p>
-</nz-modal>
