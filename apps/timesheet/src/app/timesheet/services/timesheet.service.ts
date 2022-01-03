@@ -32,10 +32,10 @@ export class TimesheetService {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
+      fromDate = this.dayAndDateService.getWeekendFirstDay();
     }
     else {
-      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
+      fromDate = this.dayAndDateService.getWeekendFirstDay();
     }
     fromDate.setHours(3, 0, 0, 0);
 

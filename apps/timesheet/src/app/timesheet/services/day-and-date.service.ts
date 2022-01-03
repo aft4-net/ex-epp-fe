@@ -13,19 +13,19 @@ export class DayAndDateService {
   lastday: any;
   firstday1: any;
   lastday1: any;
+  fs = 1;
 
   constructor(private http: HttpClient) {
   }
 
   //Returns Monday's date for the week
   //Assumming Monday is the first date and Sunday is the last date
-  getWeeksFirstDate(date: Date){
+  getWeeksFirstDate(date: Date) {
     let firstDate;
 
-    if (date.getDay() === 0){
+    if (date.getDay() === 0) {
       firstDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 6);
-    }
-    else{
+    } else {
       date.setDate(date.getDate() - date.getDay() + 1);
       firstDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     }
@@ -35,13 +35,12 @@ export class DayAndDateService {
 
   //Returns Sunday's date for the week
   //Assumming Monday is the first date and Sunday is the last date
-  getWeeksLastDate(date: Date){
+  getWeeksLastDate(date: Date) {
     let lastDate;
 
-    if(date.getDay() === 0){
+    if (date.getDay() === 0) {
       lastDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
-    else{
+    } else {
       date.setDate(date.getDate() - date.getDay() + 1);
       lastDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 6);
     }
@@ -59,21 +58,139 @@ export class DayAndDateService {
   }
 
   nextWeekDates(cuur1: any, increamt: any): any[] {
+    console.log('next week func passed date: ' + cuur1);
     this.clearData();
     this.computeFirstDay(cuur1);
-    for (let i = 0; i <= 8; i++) {
+    let y = 0;
+    y = this.getIterationSizeForWeeks('future', this.getWeekendFirstDay());
+    for (let i = 0; i <= y; i++) {
       if (this.weekDays.length === 7) {
         break
       } else {
-        if (i === 0) {
+        if (i < this.fs) {
           continue;
         } else {
-          this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + i));
-          let bb: DaydateModel;
-          // eslint-disable-next-line prefer-const
-          bb = this.lastday;
-          this.weekDays.push(bb);
-          this.lastday1 = bb;
+
+          if (i == 8) {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          } else if (i == 9) {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 2));
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          } else if (i == 10) {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 3));
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          } else if (i == 11) {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 4));
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          } else if (i == 12) {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 5));
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          } else if (i == 13) {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 6));
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          } else {
+            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + i));
+            console.log('next week 1st day is: ' + cuur1 + this.lastday);
+            let bb: DaydateModel;
+            // eslint-disable-next-line prefer-const
+            bb = this.lastday;
+            this.weekDays.push(bb);
+            this.lastday1 = bb;
+          }
+        }
+      }
+    }
+    console.log('all future dates: ' + this.weekDays);
+    return this.weekDays;
+  }
+
+  getWeekByDate(cuur1: any): any[] {
+    if (cuur1 != null) {
+      this.clearData();
+      this.computeFirstDay(cuur1);
+      let y = this.getIterationSizeForWeeks('initial', this.getWeekendFirstDay());
+      for (let i = 0; i <= y; i++) {
+        if (this.weekDays.length === 7) {
+          break
+        } else {
+          if (i < this.setFirstWeeksFirstDay()) {
+            continue;
+          } else {
+            if (i == 8) {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
+              let bb: DaydateModel;
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == 9) {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 2));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == 10) {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 3));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == 11) {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 4));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == 12) {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 5));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == 13) {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 6));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else {
+              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + i));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            }
+          }
         }
       }
     }
@@ -84,27 +201,114 @@ export class DayAndDateService {
     if (cuur1 != null) {
       this.clearData();
       this.computeFirstDayForPreviosWeek(cuur1);
-      for (let i = 0; i >= -8; i--) {
+      let y = 0;
+      y = this.getIterationSizeForWeeks('prev', this.getWeekendFirstDay());
+      for (let i = 0; i >= y; i--) {
         if (this.weekDays.length === 7) {
           break
         } else {
-          if (i === 0) {
+          if (i > -this.setFirstWeeksFirstDay()) {
             continue;
           } else {
-            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - i));
-            let bb: DaydateModel;
-            // eslint-disable-next-line prefer-const
-            bb = this.lastday;
-            this.weekDays.push(bb);
-            this.lastday1 = bb;
+            console.log('the value of i=' + i);
+            if (i == -8) {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() + 1));
+              console.log('when i=' + i + ' then, date=' + this.lastday);
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == -9) {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() + 2));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == -10) {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() + 3));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == -11) {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() + 4));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == -12) {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() + 5));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else if (i == -13) {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() + 6));
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            } else {
+              this.lastday = new Date(this.firstday1.setDate(this.firstday1.getDate() - this.firstday1.getDay() - i));
+              console.log('when i=' + i + ' then, date=' + this.lastday);
+              let bb: DaydateModel;
+              // eslint-disable-next-line prefer-const
+              bb = this.lastday;
+              this.weekDays.push(bb);
+              this.lastday1 = bb;
+            }
           }
         }
       }
     }
+    this.getWeekendFirstDay();
+    console.log('getWeekendFirstDay=' + this.getWeekendFirstDay());
+
     return this.weekDays;
   }
 
+  getIterationSizeForWeeks(methodss: string, firstWFirstD: number): any {
+    let y = 8;
+    let y1 = -8;
+    if (methodss === 'initial' || methodss === 'future') {
+
+      if (firstWFirstD == 2) {
+        y = 9;
+      } else if (firstWFirstD == 3) {
+        y = 10;
+      } else if (firstWFirstD == 4) {
+        y = 11;
+      } else if (firstWFirstD == 5) {
+        y = 12;
+      } else if (firstWFirstD == 6) {
+        y = 13;
+      }
+      return y;
+    } else if (methodss === 'prev') {
+      if (firstWFirstD == 2) {
+        y1 = -9;
+      } else if (firstWFirstD == 3) {
+        y1 = -10;
+      } else if (firstWFirstD == 4) {
+        y1 = -11;
+      } else if (firstWFirstD == 5) {
+        y1 = -12;
+      } else if (firstWFirstD == 6) {
+        y1 = -13;
+      }
+      return y1;
+    }
+
+  }
+
   getWeekendLastDay(): any {
+    console.log('last day: ' + this.lastday1);
     return this.lastday1;
   }
 
@@ -119,37 +323,23 @@ export class DayAndDateService {
     this.lastday1 = '';
   }
 
-  getWeekByDate(cuur1: any): any[] {
-    if (cuur1 != null) {
-      this.clearData();
-      this.computeFirstDay(cuur1);
-      for (let i = 0; i <= 8; i++) {
-        if (this.weekDays.length === 7) {
-          break
-        } else {
-          if (i === 0) {
-            continue;
-          } else {
-            this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + i));
-            let bb: DaydateModel;
-            // eslint-disable-next-line prefer-const
-            bb = this.lastday;
-            this.weekDays.push(bb);
-            this.lastday1 = bb;
-          }
-        }
-      }
-    }
-    return this.weekDays;
+  setFirstWeeksFirstDay() {
+    if (this.fs > 1 && this.fs <= 6)
+      return this.fs;
+    else
+      return 1;
   }
 
   computeFirstDayForPreviosWeek(cuur1: any) {
     this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
-    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - 6));
+    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - this.setFirstWeeksFirstDay()));
   }
 
   computeFirstDay(cuur1: any) {
     this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
-    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
+    this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + this.setFirstWeeksFirstDay()));
+    console.log('show first day: ' + this.firstday1);
+    // }
   }
+
 }

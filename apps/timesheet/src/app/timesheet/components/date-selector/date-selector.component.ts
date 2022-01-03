@@ -23,7 +23,7 @@ export class DateSelectorComponent implements OnInit {
   onTodaysButtonClick() {
     this.valueChange.emit(new Date());
   }
-  
+
   onChange(result: Date): void {
     this.valueChange.emit(result);
   }
