@@ -27,7 +27,7 @@
       name = "group"
       nzMode = "tags"
       formControlName="GroupNames"
-      
+      placeholder="Search groups"
     >
      <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
     </nz-select>
