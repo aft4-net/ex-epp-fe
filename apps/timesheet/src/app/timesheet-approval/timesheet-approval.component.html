@@ -21,7 +21,7 @@
 
     <div *ngIf="currentNameSubject$ | async" nz-col>
         <button nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
         >Bulk Approval</button>
 
         <br>
@@ -63,12 +63,10 @@
               </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
+
               <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
                 (click)="showModal(row)">
-=======
-              <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row.id)">
->>>>>>> 3e8a838c4c4959b0fb3d6d810a9e67aea7244f0c
+
                 <td>{{row.name}}</td>
                 <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
                 <td>{{row.projectName}}</td>
