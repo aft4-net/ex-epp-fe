@@ -42,8 +42,8 @@ export class TimesheetDetailViewComponent implements OnInit {
   }
   approve()
   {
-    //this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
-   // this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
+    this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Approved;
     this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();

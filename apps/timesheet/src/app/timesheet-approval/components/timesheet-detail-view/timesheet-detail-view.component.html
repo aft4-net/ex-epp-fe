@@ -1,6 +1,6 @@
 <nz-modal
   [nzVisible]="isDialogVisible"
-  nzTitle="{{timesheetDetail?.name}}, {{timesheetDetail?.dateRange| date:'MMM dd'}} - {{ timesheetDetail.dateRange | date}}"
+  nzTitle="{{timesheetDetail?.name}}, {{timesheetDetail?.dateRange| date:'MMM dd'}} - {{ timesheetDetail?.dateRange | date}}"
   [nzFooter]="null"
   [nzWidth]="890"
   (nzOnCancel)="exitModal()"
@@ -13,10 +13,10 @@
         <label style="font-weight: 500">{{timesheetDetail.projectName}}</label>
       </div>
       <div>
-        <label>Client Name:</label> <label style="font-weight: 500">{{timesheetDetail.clientName}}</label>
+        <label>Client Name:</label> <label style="font-weight: 500">{{timesheetDetail?.clientName}}</label>
       </div>
       <div>
-        <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail.hours}}</label>
+        <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail?.hours}}</label>
       </div>
       <div>
         <nz-table class="table" #rowSelectionTable [nzData]="appovalDetails">
@@ -29,7 +29,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of appovalDetails; let i = index">
-              <td>{{ data.Date | date:'EEEE'}} {{ data.Date | date}} </td>
+              <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
               <td>{{ formatHour(data.Hour) }}</td>
               <td>{{ data.Note }}</td>
             </tr>
