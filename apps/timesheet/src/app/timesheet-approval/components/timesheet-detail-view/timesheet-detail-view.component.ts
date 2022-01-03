@@ -14,7 +14,21 @@ export class TimesheetDetailViewComponent implements OnInit {
   submitting =true;
   inputValue='';
   //@Input() approvalDetails:any[]=[]
-  timesheetApprove!:TimesheetApproval;
+  timesheetApprove:TimesheetApproval=
+  {
+    TimesheetId: "18babdff-c572-4fbc-a102-d6434b7140c3",
+    ProjectId: "7645b7bf-5675-4eb8-ac1d-96b306926422",
+    Status: ApprovalStatus.Approved,
+    Comment:'string',
+    EmployeeName:"string",
+    FromDate:new Date(Date.now()),
+    ToDate:new Date(Date.now()),
+    CreatedDate:new Date(Date.now()),
+    ClientName:"string",
+    TotalHours:8,
+    ProjectName:"string"
+  };
+  public arrayOfCheckedId:string[]=[];
   approvalDetails:any[]=[
      {
        Date:Date.now(),
@@ -52,18 +66,24 @@ export class TimesheetDetailViewComponent implements OnInit {
   {
     ;
   }
+
   approve()
   {
-    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
-    this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    // const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    // this.timesheetApprove.ProjectId=projectId;
+    // this.timesheetApprove.TimesheetId=timesheetId;
+    // this.timesheetApprove.Comment=this.inputValue;
+    // this.timesheetApprove.Status=ApprovalStatus.Approved;
     this.timesheetApprove.Comment=this.inputValue;
-    this.timesheetApprove.Status=ApprovalStatus.Approved;
+    this.timesheetApprove.Status=ApprovalStatus.Requested;
     this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
+
+
   }
   requestForReview()
   {
-    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
     this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Requested;
     this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
