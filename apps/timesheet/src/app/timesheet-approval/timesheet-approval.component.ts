@@ -13,7 +13,7 @@ interface ItemData {
   projectName: number;
   clientName: string;
   hours: number,
-  stats: string
+  status: string
 }
 
 
@@ -84,9 +84,9 @@ export class TimesheetApprovalComponent implements OnInit {
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
   public arrayOfCheckedId:number[] =[];
-  
+
   resources: any;
-  
+
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -205,10 +205,7 @@ export class TimesheetApprovalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.timesheetApprovalPaginationAll(1, 10);
     this.timesheetSubmissionPaginationAwaiting(1, 10);
-    this.timesheetSubmissionPaginationApproved(1,10);
-    this.timesheetSubmissionPaginationReview(1,10);
   }
 
   timesheetApprovalPaginationAll(index: number, pageSize: number) {
@@ -258,6 +255,9 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalPageReview = response.pagination.totalPage;
       });
   }
+test() {
+  console.log("clicked");
+}
   timesheetBulkApproval(arrayOfIds:number[]){
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds)
   }
@@ -316,7 +316,7 @@ onItemChecked(id: number, checked: boolean): void {
   this.qtyofItemsSelected += (checked? 1: -1);
   this.updateCheckedSet(id, checked);
   this.refreshCheckedStatus();
-  
+
 
 }
 
@@ -332,23 +332,15 @@ onItemChecked(id: number, checked: boolean): void {
   }
 
 
-  sorter(heading: string) {
-    if (heading === 'Name') {
-      this.sortByParam = "name";
-    } else if (heading === 'Date Range') {
-      this.sortByParam = "dateRange";
-    } else if (heading === 'Project Name') {
-      this.sortByParam = "projectName";
-    } else if (heading === 'Client Name') {
-      this.sortByParam = "clientName";
-    } else {
-      this.sortByParam = "";
-    }
-
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
+  sorter(sortIndex: string) {
+    if (sortIndex === "name") {
+      console.log("name came"); //API call
+    } else if (sortIndex === "dateRange") {
+      console.log("dateRange came"); //API call
+    } else if (sortIndex === "projectName") {
+      console.log("projectName came"); //API call
+    } else if (sortIndex === "clientName") {
+      console.log("clientName came"); //API call
     }
   }
 
@@ -373,8 +365,8 @@ onItemChecked(id: number, checked: boolean): void {
     this.isVisible = false;
   }
   onApprove(){
-    
-    let ids=this.setOfCheckedId 
+
+    let ids=this.setOfCheckedId
     for (let entry of ids){
       this.arrayOfCheckedId.push(entry);
       console.log(this.arrayOfCheckedId);
