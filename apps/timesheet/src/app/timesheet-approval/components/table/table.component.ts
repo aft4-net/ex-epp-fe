@@ -29,12 +29,15 @@ export class TableComponent {
   setOfCheckedId = new Set<number>();
   timesheetDetail:any;
   isModalVisible=false;
+  
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() bulkCheck: boolean | undefined;
   @Input() status: boolean | undefined;
 
+  @Output() checkedListId = new EventEmitter<Set<number>>();
+  @Output() sorter = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
@@ -86,15 +89,19 @@ export class TableComponent {
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
-  sorter(heading:string) {
+  sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
+      this.sorter.emit("name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
+      this.sorter.emit("dateRange");
     }else if (heading === 'Project Name') {
       this.sortByParam = "projectName";
+      this.sorter.emit("projectName");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
+      this.sorter.emit("clientName");
     } else {
       this.sortByParam = "";
     }
@@ -113,7 +120,7 @@ export class TableComponent {
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;
   }
-  
+
 
   // PageSizeChange(pageSize: number) {
   //   console.log(pageSize);
