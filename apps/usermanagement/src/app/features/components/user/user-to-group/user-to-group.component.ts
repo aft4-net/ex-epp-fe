@@ -12,9 +12,9 @@ import { AddUserService } from "../../../services/add-user.service";
   styleUrls: ['./user-to-group.component.scss'],
 })
 export class UserToGroupComponent implements OnInit {
-
-  isVisible = false;
   isLoadng = false;
+
+  isGroupModalVisible = false;
   groupfrm: any;
 
   selectedUserId = '00be94a8-09fe-41c8-8151-7d9cc771996b';
@@ -30,7 +30,7 @@ export class UserToGroupComponent implements OnInit {
   }
   onAddGroups() {
       this.selectedGroups = [];
-      this.isVisible = true;
+      this.isGroupModalVisible = true;
       this.isLoadng = true;
       this.userService.getGroups().subscribe(
           (r:  GroupSetModel[]) => {
@@ -79,7 +79,7 @@ export class UserToGroupComponent implements OnInit {
                   'User is created successfully'
               );
               this.isLoadng = false;
-              this.isVisible = false;
+              this.isGroupModalVisible = false;
               this.selectedGroups = [];
               this.groupfrm.reset();
           },
@@ -89,7 +89,7 @@ export class UserToGroupComponent implements OnInit {
   }
 
   handleCancel() {
-      this.isVisible = false;
+      this.isGroupModalVisible = false;
       this.groupfrm.reset();
   }
 }

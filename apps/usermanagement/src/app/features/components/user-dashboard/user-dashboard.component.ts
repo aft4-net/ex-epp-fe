@@ -16,6 +16,7 @@ import { NotificationType, NotifierService } from '../../../shared/services/noti
 import { ResponseDTO } from '../../Models/ResponseDTO';
 import { IEmployeeModel } from '../../Models/employee.model';
 import { IUserPostModel } from '../../Models/User/user-post.model';
+import { GroupSetModel } from '../../Models/group-set.model';
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -28,6 +29,13 @@ export class UserDashboardComponent implements OnInit {
   employeeList: IEmployeeModel [] = []
   selectedUserValue = '';
   isUserModalVisible=false;
+
+  isGroupModalVisible = false;
+  groupfrm: any;
+  selectedUserId = '00be94a8-09fe-41c8-8151-7d9cc771996b';
+  groupList: GroupSetModel[] = [];
+  selectedGroups: string[] = [];
+
   size: NzButtonSize = 'small';
   userDashboardForm !: FormGroup;
   loading = false;
@@ -94,6 +102,9 @@ export class UserDashboardComponent implements OnInit {
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
     });
+    this.groupfrm = new FormGroup({
+      Groups: new FormControl([], Validators.required),
+  });
     this.createUserDashboardControls();
     this.userList as IUserModel[];
     this.FeatchAllUsers();
@@ -331,6 +342,7 @@ export class UserDashboardComponent implements OnInit {
         this.employeeList= r.Data;
         this.isLoadng =false;
         this.userfrm.reset();
+        this.FeatchAllUsers();
       },
       (error: any)=>{
         console.log(error);
@@ -338,6 +350,65 @@ export class UserDashboardComponent implements OnInit {
       }
     )
   }
+  AddToGroup(userId: string)  {
+    this.selectedGroups = [];
+    this.isGroupModalVisible = true;
+    this.isLoadng = true;
+    this.addUserService.getGroups().subscribe(
+        (r:  GroupSetModel[]) => {
+
+            this.groupList = r;
+            this.addUserService.getUserGroups(userId).subscribe(
+                (r: GroupSetModel[]) => {
+                    r.forEach(el => {
+                        this.selectedGroups.push(el.Guid);
+                    });
+                    this.groupfrm.setValue({'Groups': this.selectedGroups});
+
+                   
+                },
+                (error: any) => {
+                    console.log(error);
+                }
+            );
+            this.isLoadng = false;
+        },
+        (error: any) => {
+            console.log(error);
+            this.onShowError(error.Error);
+        }
+    );
+
+}
+onSaveGroups() {
+  this.selectedGroups = [];
+  this.isLoadng = true;
+      const x = this.groupfrm.get('Groups').value;
+      
+      x.forEach((el: string) => {
+          this.selectedGroups.push(el as string);
+      });
+
+  this.addUserService.addGroups(this.selectedUserId, this.selectedGroups).subscribe(
+      () => {
+          this.notifier.notify(
+              NotificationType.success,
+              'User is created successfully'
+          );
+          this.isLoadng = false;
+          this.isGroupModalVisible = false;
+          this.selectedGroups = [];
+          this.groupfrm.reset();
+      },
+      (err: any) => this.onShowError(err)
+  );
+
+}
+
+handleGroupCancel() {
+  this.isGroupModalVisible = false;
+  this.groupfrm.reset();
+}
   onShowError(err: any) {
     let errMsg = 'Some error occured. Please review your input and try again. ';
     console.log(err);
@@ -379,9 +450,9 @@ export class UserDashboardComponent implements OnInit {
     return;
   }
 
-  AddToGroup(userId: string) {
+  
 
-  }
+  
 
   Remove(userId: string) {
 
