@@ -326,8 +326,11 @@ export class TimesheetService {
       data: [] as TimesheetApproval[],
       pagination: {} as Pagination,
     };
-    return this.http.get(`${this.baseUrl}approve?` + params.toString()).pipe(
+    return this.http.get(`${this.baseUrl}ApprovedTimesheet?` + params.toString()).pipe(
       map((response: any) => {
+        console.log("service");
+        console.log(response.Data);
+
         paginatedResult = {
           data: response.Data,
           pagination: {
