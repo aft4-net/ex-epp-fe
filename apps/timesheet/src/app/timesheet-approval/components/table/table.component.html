@@ -32,5 +32,10 @@
     </tr>
   </tbody>
 </nz-table>
+<div>
+<exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 
+(modalStatus)="timesheetDetailClose($event)"
+></exec-epp-timesheet-detail-view>
+</div>
 

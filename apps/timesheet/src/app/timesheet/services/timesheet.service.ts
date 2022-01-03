@@ -136,6 +136,16 @@ export class TimesheetService {
     );
   }
 
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus',
+      approval,
+      { headers: headers }
+    );
+  }
+
   deleteTimeEntry(timeEntryId: string): Observable<unknown> {
     let params = new HttpParams();
 
@@ -280,8 +290,8 @@ getTimesheetSubmissions(
      pagination: {} as Pagination
   };
   return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
-       .pipe(   
-         map((response:any) => { 
+       .pipe(
+         map((response:any) => {
            paginatedResult= {
              data:response.Data,
              pagination:{pageIndex:response.PageIndex,
@@ -289,7 +299,7 @@ getTimesheetSubmissions(
                pageSize:response.PageSize,
                totalRecord:response.TotalRecord}
           };
-          return paginatedResult;      
+          return paginatedResult;
          })
        );
 
