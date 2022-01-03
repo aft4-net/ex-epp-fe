@@ -1,6 +1,6 @@
 <nz-modal
   [nzVisible]="isDialogVisible"
-  nzTitle="{{timesheetDetail?.name}}, {{timesheetDetail?.dateRange| date:'MMM dd'}} - {{ timesheetDetail.dateRange | date}}"
+  nzTitle="{{timesheetDetail?.name}}, {{timesheetDetail?.dateRange| date:'MMM dd'}} - {{ timesheetDetail?.dateRange | date}}"
   [nzFooter]="null"
   [nzWidth]="890"
   (nzOnCancel)="exitModal()"
@@ -13,13 +13,13 @@
         <label style="font-weight: 500">{{timesheetDetail.projectName}}</label>
       </div>
       <div>
-        <label>Client Name:</label> <label style="font-weight: 500">{{timesheetDetail.clientName}}</label>
+        <label>Client Name:</label> <label style="font-weight: 500">{{timesheetDetail?.clientName}}</label>
       </div>
       <div>
-        <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail.hours}}</label>
+        <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail?.hours}}</label>
       </div>
       <div>
-        <nz-table class="table" #rowSelectionTable [nzData]="appovalDetails">
+        <nz-table class="table" #rowSelectionTable [nzData]="approvalDetails">
           <thead>
             <tr class="tr">
               <th>Day and Date</th>
@@ -28,10 +28,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of appovalDetails; let i = index">
-              <td>{{ data.Date | date:'EEEE'}} {{ data.Date | date}} </td>
-              <td>{{ data.Hours }}</td>
-              <td>{{ data.Notes }}</td>
+            <tr *ngFor="let data of approvalDetails; let i = index">
+              <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
+              <td>{{ formatHour(data.Hour) }}</td>
+              <td>{{ data.Note }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -41,11 +41,11 @@
           <nz-comment-content>
             <label for="" class="commentLabel">Comments</label><br />
 
-            <nz-form-item>
-              <textarea class="textArea" [(ngModel)]="inputValue"></textarea>
+            <nz-form-item >
+              <textarea class="textArea" [disabled]="timesheetDetail.status!=='Awaiting Approval'" [(ngModel)]="inputValue"></textarea>
             </nz-form-item>
-            <nz-form-item>
-              <button nz-button class="approveButton" (click)="approve()">
+            <nz-form-item [hidden]="timesheetDetail.status!=='Awaiting Approval'">
+              <button nz-button class="approveButton"  (click)="approve()">
                 Approve
               </button>
               &nbsp;
@@ -59,7 +59,8 @@
                 "
                 [disabled]="!inputValue"
               >
-                Request for review
+              Request for review
+
               </button>
             </nz-form-item>
           </nz-comment-content>
