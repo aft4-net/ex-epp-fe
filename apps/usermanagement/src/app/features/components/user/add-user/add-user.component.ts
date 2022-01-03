@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
 import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
 
 import { IEmployeeModel } from "../../../Models/employee.model";
@@ -14,26 +15,35 @@ import { AddUserService } from "../../../services/add-user.service";
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent implements OnInit, OnDestroy {
   
   isVisible = false;
   isLoadng = false;
   userfrm: any;
-
+  private eventsSubscription: Subscription = new Subscription();
+  @Input() addUserEvents: Observable<void> = new Observable<void>();
   employeeList: IEmployeeModel[] = [];
   selectedUserValue = '';
   constructor(private userService: AddUserService, private notifier: NotifierService){;}
   
   ngOnInit(): void {
+    this.eventsSubscription= this.addUserEvents.subscribe(()=>this.onAddUser());
+    this.eventsSubscription.add();
     this.userfrm = new FormGroup({
         UserName: new FormControl(null, [Validators.required]),
       });
+  }
+  ngOnDestroy(): void {
+      this.eventsSubscription.unsubscribe();
   }
   onAddUser()
   {
     this.selectedUserValue = '';
     this.isVisible = true;
     this.isLoadng = true;
+    alert('inner subscriber');
+
+    console.log('addUser');
     this.userService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;
