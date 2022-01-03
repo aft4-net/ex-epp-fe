@@ -70,7 +70,6 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
         let state = {} as Partial<ClientAndProjectState>;
         this._clientAndProjectService.get()
             .subscribe((response: Client[]) => {
-
                 state = {
                     ...state,
                     collection: response

@@ -132,13 +132,13 @@ export class TimesheetDetailComponent implements OnInit {
   initializeClient() {
     this.$selectedClient.subscribe(clientId => {
       this.formData.client = clientId;
-    })
+    });
   }
 
   initializeProject() {
     this.$selectedProject.subscribe(projectId => {
       this.formData.project = projectId;
-    })
+    });
   }
 
   onClientChange(event: string) {

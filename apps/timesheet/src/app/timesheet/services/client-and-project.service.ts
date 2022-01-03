@@ -23,7 +23,6 @@ export class ClientAndProjectService extends BaseQueryOnlyAPIService<Client> {
 
   protected _extractMultiple(response: any): Client[] {
     return response.Data.map((client: any) => {
-      // const projects: Project[] = client.Projects as Project[]
       return {
         id: client.Guid,
         name: client.ClientName,
