@@ -25,6 +25,8 @@ import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
 })
 export class TimesheetService {
   baseUrl = environment.apiUrl;
+  timesheetId?:string;
+  timesheetApp?:Timesheet;
 
   constructor(
     private http: HttpClient,
@@ -32,6 +34,9 @@ export class TimesheetService {
   ) { }
 
   //#region timesheet and timeEntry
+  setreview(timesheet: Timesheet) {
+    this.timesheetApp = timesheet;
+  }
 
   getTimeSheet(userId: string, date?: Date) {
     let fromDate;
