@@ -17,6 +17,7 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { NzToolTipComponent, NzToolTipModule } from "ng-zorro-antd/tooltip";
+import { NzInputNumberModule } from "ng-zorro-antd/input-number"
 
 
 import {TimesheetComponent} from "./timesheet.component"
@@ -68,7 +69,8 @@ import { TimesheetConfigurationComponent } from './components/timesheet-configur
     NzModalModule,
     NzTableModule,
     NzToolTipModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzInputNumberModule
   ],
   exports: [TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],

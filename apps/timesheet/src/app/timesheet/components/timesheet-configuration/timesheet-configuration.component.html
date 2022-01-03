@@ -1,4 +1,46 @@
-<p>timesheet-configuration works!</p>
-<ul>
-    <li *ngFor="let item of (timesheetConfig$ | async) | keyvalue">{{ item.key }}, {{ item.value }}</li>
-</ul>
+<div>
+    <form [formGroup]="timesheetConfigForm">
+        <div class="flex flex-row">
+            <h5>Start of Week: </h5>
+            <nz-select id="startOfWeek" formControlName="startOfWeek">
+                <nz-option nzValue="Monday" nzLabel="Monday"></nz-option>
+                <nz-option nzValue="Tuesday" nzLabel="Tuesday"></nz-option>
+                <nz-option nzValue="Wednesday" nzLabel="Wednesday"></nz-option>
+                <nz-option nzValue="Thursday" nzLabel="Thursday"></nz-option>
+                <nz-option nzValue="Friday" nzLabel="Friday"></nz-option>
+                <nz-option nzValue="Starday" nzLabel="Starday"></nz-option>
+                <nz-option nzValue="Sunday" nzLabel="Sunday"></nz-option>
+            </nz-select>
+        </div>
+        <nz-divider></nz-divider>
+
+        <div class="flex flex-row">
+            <h5>Work Week: </h5>
+            <div formGroupName="workingDays">
+                <label><input type="checkbox" name="Monday" formControlName="Monday"> Monday</label>
+
+                <label><input type="checkbox" name="Tuesday" formControlName="Tuesday"> Tuesday</label>
+
+                <label><input type="checkbox" name="Wednesday" formControlName="Wednesday"> Wednesday</label>
+
+                <label><input type="checkbox" name="Thursday" formControlName="Thursday"> Thursday</label>
+
+                <label><input type="checkbox" name="Friday" formControlName="Friday"> Friday</label>
+
+                <label><input type="checkbox" id="starday" name="Starday" formControlName="Starday"> Starday</label>
+
+                <label><input type="checkbox" id="sunday" name="Sunday" formControlName="Sunday"> Sunday</label>
+            </div>
+        </div>
+        <nz-divider></nz-divider>
+
+        <div class="flex flex-row">
+            <h5>Business Hours: </h5>
+            <div formGroupName="workingHours">
+                <label>Min <nz-input-number formControlName="min" [nzMin]="0" [nzMax]="24" [nzStep]="1"></nz-input-number></label>
+
+                <label>Max <nz-input-number formControlName="max" [nzMin]="0" [nzMax]="24" [nzStep]="1"></nz-input-number></label>
+            </div>
+        </div>
+    </form>
+</div>
