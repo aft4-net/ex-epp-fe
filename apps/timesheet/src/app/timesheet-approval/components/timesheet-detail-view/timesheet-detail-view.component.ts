@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 @Component({
@@ -12,22 +13,10 @@ export class TimesheetDetailViewComponent implements OnInit {
   @Output() modalStatus=new EventEmitter<boolean>();
   submitting =true;
   inputValue='';
-  appovalDetails:any[]=
-  [
+  @Input() appovalDetails:any[]=[]
+  timesheetApprove!:TimesheetApproval;
 
-    {
-     Date:Date.now(),
-     Hours:this.formatHour(8),
-     Notes:'Additional changes asked by the client'
-    },
-    {
-      Date:Date.now(),
-      Hours:this.formatHour(4),
-      Notes:''
-     },
-  ]
     constructor(private timesheetService:TimesheetService) {
-
     }
 
     ngOnInit(): void {
@@ -53,11 +42,19 @@ export class TimesheetDetailViewComponent implements OnInit {
   }
   approve()
   {
-    ;
+    //this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
+   // this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    this.timesheetApprove.Comment=this.inputValue;
+    this.timesheetApprove.Status=ApprovalStatus.Approved;
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
   }
   requestForReview()
   {
-    ;
+    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
+    this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    this.timesheetApprove.Comment=this.inputValue;
+    this.timesheetApprove.Status=ApprovalStatus.Requested;
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
   }
 
   }

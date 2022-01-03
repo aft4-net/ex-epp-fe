@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:5000/api/v1/TimeSheet/"
+  //apiUrl: "http://localhost:5000/api/v1/TimeSheet/"
+  apiUrl: "  http://localhost:14696/api/v1/TimeSheet/"
+
 };
 
 /*

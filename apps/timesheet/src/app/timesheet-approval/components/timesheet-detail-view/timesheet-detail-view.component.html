@@ -30,8 +30,8 @@
           <tbody>
             <tr *ngFor="let data of appovalDetails; let i = index">
               <td>{{ data.Date | date:'EEEE'}} {{ data.Date | date}} </td>
-              <td>{{ data.Hours }}</td>
-              <td>{{ data.Notes }}</td>
+              <td>{{ formatHour(data.Hour) }}</td>
+              <td>{{ data.Note }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -41,11 +41,11 @@
           <nz-comment-content>
             <label for="" class="commentLabel">Comments</label><br />
 
-            <nz-form-item>
+            <nz-form-item >
               <textarea class="textArea" [disabled]="timesheetDetail.status!=='Awaiting Approval'" [(ngModel)]="inputValue"></textarea>
             </nz-form-item>
-            <nz-form-item>
-              <button nz-button class="approveButton" [hidden]="timesheetDetail.status!=='Awaiting Approval'" (click)="approve()">
+            <nz-form-item [hidden]="timesheetDetail.status!=='Awaiting Approval'">
+              <button nz-button class="approveButton"  (click)="approve()">
                 Approve
               </button>
               &nbsp;
@@ -53,7 +53,7 @@
                 nz-button
                 class="requestForReviewButton"
                 (click)="requestForReview()"
-                [disabled]="!submitting" [hidden]="timesheetDetail.status!=='Awaiting Approval'"
+                [disabled]="!submitting"
                 [title]="
                   submitting ? 'Enter comment to request for review!.' : ''
                 "

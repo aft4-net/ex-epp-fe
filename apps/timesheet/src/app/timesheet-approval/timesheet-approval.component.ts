@@ -25,6 +25,8 @@ interface ItemData {
 export class TimesheetApprovalComponent implements OnInit {
   timesheetDetail:any;
   isModalVisible=false;
+  timesheetEntries:any;
+  enryDate:any;
   date = null;
   bulkCheck = true;
   statusColumn = true;
@@ -350,7 +352,13 @@ onItemChecked(id: number, checked: boolean): void {
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
-    this.timeSheetService.timesheetDetail=row;
+    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
+    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const date =this.enryDate;
+    this.timeSheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
+      (entries)=>{this.timesheetEntries=entries
+      });
+      console.log(this.timesheetEntries)
 
   }
   timesheetDetailClose(event: boolean){

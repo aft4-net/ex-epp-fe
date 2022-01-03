@@ -25,7 +25,6 @@ import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
 })
 export class TimesheetService {
   baseUrl = environment.apiUrl;
-  timesheetDetail:any;
   constructor(
     private http: HttpClient,
     private dayAndDateService: DayAndDateService
@@ -93,7 +92,7 @@ export class TimesheetService {
     }
 
     let response = this.http.get<TimeEntriesResponse>(
-      this.baseUrl + 'timeentries',
+      this.baseUrl + 'TimeEntries',
       { observe: 'response', params: params }
     );
 
@@ -136,6 +135,17 @@ export class TimesheetService {
       { headers: headers }
     );
   }
+
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus',
+      approval,
+      { headers: headers }
+    );
+  }
+
 
   deleteTimeEntry(timeEntryId: string): Observable<unknown> {
     let params = new HttpParams();
