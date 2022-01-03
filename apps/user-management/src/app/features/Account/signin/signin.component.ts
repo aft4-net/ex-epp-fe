@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{MsalService} from '@azure/msal-angular';
 import{AuthenticationResult} from '@azure/msal-browser'
 import { MsalGuardConfiguration } from '@azure/msal-angular';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 
 @Component({
