@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { fromEvent, Observable, of } from 'rxjs';
+import { fromEvent, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { ColumnItem } from '../../Models/ColumnItem';
 import { listtToFilter } from '../../Models/listToFilter';
@@ -9,9 +9,15 @@ import { PaginationResult } from '../../Models/PaginationResult';
 import { IUserModel } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { ResponseDTO } from '../../Models/ResponseDTO';
+import { AddUserService } from '../../services/add-user.service';
+import { IEmployeeModel } from '../../Models/employee.model';
+import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
+import { IUserPostModel } from '../../Models/User/user-post.model';
+
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -20,6 +26,11 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 })
 export class UserDashboardComponent implements OnInit {
   isVisible=false;
+  isLoadng = false;
+  userfrm: any;
+  employeeList: IEmployeeModel[] = [];
+  selectedUserValue = '';
+  onUserAddSubj: Subject<void> = new Subject<void>();
   size: NzButtonSize = 'small';
   userDashboardForm !: FormGroup;
   loading = false;
@@ -78,11 +89,16 @@ export class UserDashboardComponent implements OnInit {
   constructor(private userService : UserService,
     private _router: Router,
     private fb: FormBuilder,
-    private notification: NotificationBar) {
+    private notification: NotificationBar,
+    private addUserService: AddUserService,
+    private notifier: NotifierService) {
 
   }
 
   ngOnInit(): void {
+    this.userfrm = new FormGroup({
+      UserName: new FormControl(null, [Validators.required]),
+    });
     this.createUserDashboardControls();
     this.FeatchAllUsers();
     this.notification.showNotification({
@@ -318,8 +334,60 @@ export class UserDashboardComponent implements OnInit {
   ShowDetail(userId: string) {
     this._router.navigateByUrl('/user-detail');
   }
-  addUser(){
-    this.isVisible=true;
+  onAddUser()
+  {
+    this.selectedUserValue = '';
+    this.isVisible = true;
+    alert('ok');//this works
+    this.addUserService.getEmployeesNotInUsers().subscribe(
+      (r:ResponseDTO<[IEmployeeModel]>) => {
+        alert('ok');//this is not working
+        this.employeeList= r.Data;
+        this.isLoadng =false;
+        console.log (r.Data);
+
+        //this.userfrm.reset();
+      },
+      (error: any)=>{
+        console.log('error');
+        console.log(error);
+        this.onShowError(error);
+      }
+    )
+  }
+  onSaveUser()
+  {
+    if(this.selectedUserValue == null || '')
+      this.onShowError('Select employee');
+
+    this.isLoadng = true;
+    const empId = this.selectedUserValue;
+    this.addUserService.getEmployeeById(empId).subscribe(
+      (res: ResponseDTO<IEmployeeModel>) => {
+        const user: IUserPostModel =   {
+          EmployeeId : res.Data.Guid,
+          FirstName : res.Data.FirstName,
+          MiddleName : res.Data.FatherName,
+          LastName : res.Data.GrandFatherName,
+          Tel:res.Data.MobilePhone,
+          Email: res.Data.PersonalEmail,
+        }
+
+        this.addUserService.add(user).subscribe(
+          () => {
+            this.notifier.notify(
+              NotificationType.success,
+              'User is created successfully'
+            );
+            this.isLoadng = false;
+            this.isVisible = false;
+            this.selectedUserValue = '';
+          },
+          (err: any) => this.onShowError(err)
+        )
+      }
+    )
+    return;
   }
   handleOk(): void {
     console.log('Button ok clicked!');
@@ -329,5 +397,11 @@ export class UserDashboardComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
+  }
+  onShowError(err: any) {
+    let errMsg = 'Some error occured. Please review your input and try again. ';
+    console.log(err);
+    this.notifier.notify(NotificationType.error, errMsg);
+    this.isLoadng = false;
   }
 }

@@ -2,7 +2,7 @@
   <div style="padding-left: 10px; padding-top: 15px">
     <div style="float: right">
       <button nz-button class="cancel-button">Cancel</button>
-      <button nz-button class="button-style">Update Permissions</button>
+      <button nz-button class="button-style" (click)="updatePermission()">Update Permissions</button>
     </div>
     <div>
       <h3>Ro - Permissions</h3>
@@ -21,7 +21,7 @@
           [nzIndeterminate]="permission.Parent.indeterminate"
           (nzCheckedChange)="updateAllPermissionChecked($event, i)"
           >{{
-            permission.Parent.value 
+            permission.Parent.label 
           }}</label
         >
       </ng-template>
@@ -31,8 +31,9 @@
           <label
             nz-checkbox
             [(ngModel)]="item.checked"
-            (nzCheckedChange)="updateSingleChecked($event, i)"
-            >{{ item.value }}</label
+            (nzCheckedChange)="updateSingleChecked($event, i,item.Guid)"
+            nzValue="item.Guid"
+            >{{ item.label }}</label
           >
         </div>
       </div>
