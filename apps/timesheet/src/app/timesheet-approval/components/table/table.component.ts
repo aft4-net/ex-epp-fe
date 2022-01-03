@@ -22,14 +22,13 @@ export class TableComponent {
 
   sortByParam="";
   sortDirection = "asc";
-
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-
-
+  timesheetDetail:any;
+  isModalVisible=false;
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
@@ -86,9 +85,6 @@ export class TableComponent {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
-  showModal(id: any) {
-
-  }
 
   sorter(heading:string) {
     if (heading === 'Name'){
@@ -109,6 +105,15 @@ export class TableComponent {
       this.sortDirection = 'desc';
     }
   }
+  showModal(row: any) {
+    this.isModalVisible=true;
+    this.timesheetDetail=row;
+
+  }
+  timesheetDetailClose(event: boolean){
+    this.isModalVisible=false;
+  }
+  
 
   // PageSizeChange(pageSize: number) {
   //   console.log(pageSize);
