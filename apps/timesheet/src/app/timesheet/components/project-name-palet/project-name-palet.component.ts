@@ -9,6 +9,7 @@ import { NzModalService } from "ng-zorro-antd/modal";
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -20,9 +21,9 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editClicked = new EventEmitter<ClickEventType>();
   @Output() deleteClicked = new EventEmitter<ClickEventType>();
-  @Input() timeEntry: TimeEntry | null = null;
+  @Input() timeEntry: TimeEntry = {} as TimeEntry;
   @Input() timesheetApproval: TimesheetApproval | null = null;
-  project: Project | null = null;
+  project: Project = {} as Project;
   projectNamePaletClass = "project-name-palet"
   isVisible1 = false;
   clickEventType = ClickEventType.none;
@@ -34,7 +35,8 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService,
-    private timesheetStateService: TimesheetStateService
+    private timesheetStateService: TimesheetStateService,
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService
   ) { }
   
   ngOnInit(): void {
@@ -42,9 +44,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.timeEntry) {
-      this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
-        this.project = response ? response[0] : null;
-      });
+      this.project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string)
     }
     if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
       this.projectNamePaletClass = "project-name-palet-approved";
@@ -112,19 +112,6 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  checkTimeOverThreeWeeks() {
-    const nowDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
-    let projectDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
-    if (this.timeEntry) {
-      projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
-    }
-    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
-    if (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond) {
-      return true;
-    }
-    return false;
-  }
-
   closePopover() {
     this.popoverVisible = false;
   }
@@ -144,7 +131,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   }
 
   deleteTimeEntry(): void {
-    if (this.timeEntry) {debugger;
+    if (this.timeEntry) {
       this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(response => {
         this.deleteClicked.emit(ClickEventType.deleteTimeEntry);
       });

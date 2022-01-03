@@ -19,6 +19,8 @@ import { TimesheetValidationService } from './services/timesheet-validation.serv
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from './state/timesheet-configuration-state.service';
 import { TimesheetStateService } from './state/timesheet-state.service';
+import { ClientAndProjectStateService } from './state/client-and-projects-state.service';
+import { ClientAndProjectService } from './services/client-and-project.service';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -35,12 +37,13 @@ export class TimesheetComponent implements OnInit {
 
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService
-  ) {
-  }
+    private timesheetStateService: TimesheetStateService,
+    private clientAndProjectService: ClientAndProjectService,
+    private clientAndProjectStateService: ClientAndProjectStateService
+  ) {}
 
   ngOnInit(): void {
-    this.userId = localStorage.getItem("userId");
+    this.userId = localStorage.getItem("employeeId");
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
