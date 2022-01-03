@@ -280,8 +280,8 @@ getTimesheetSubmissions(
      pagination: {} as Pagination
   };
   return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
-       .pipe(   
-         map((response:any) => { 
+       .pipe(
+         map((response:any) => {
            paginatedResult= {
              data:response.Data,
              pagination:{pageIndex:response.PageIndex,
@@ -289,7 +289,7 @@ getTimesheetSubmissions(
                pageSize:response.PageSize,
                totalRecord:response.TotalRecord}
           };
-          return paginatedResult;      
+          return paginatedResult;
          })
        );
 
@@ -330,4 +330,9 @@ getTimesheetSubmissions(
 
     return this.http.put( this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
+
+  updateTimeSheetStatus(arrayOfId:number[]){
+  return this.http.put( this.baseUrl + 'TimesheetApprovalBulkApprove',
+  arrayOfId,)
+}
 }

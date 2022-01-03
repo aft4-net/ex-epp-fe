@@ -83,9 +83,10 @@ export class TimesheetApprovalComponent implements OnInit {
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-
+  public arrayOfCheckedId:number[] =[];
+  
   resources: any;
-
+  
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -257,7 +258,9 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalPageReview = response.pagination.totalPage;
       });
   }
-
+  timesheetBulkApproval(arrayOfIds:number[]){
+    this.timeSheetService.updateTimeSheetStatus(arrayOfIds)
+  }
 
   getweek(result: Date): void {
     console.log('week: ');
@@ -313,6 +316,8 @@ onItemChecked(id: number, checked: boolean): void {
   this.qtyofItemsSelected += (checked? 1: -1);
   this.updateCheckedSet(id, checked);
   this.refreshCheckedStatus();
+  
+
 }
 
   onCurrentPageDataChange($event: readonly ItemData[]): void {
@@ -366,5 +371,15 @@ onItemChecked(id: number, checked: boolean): void {
 
   handleCancel(): void {
     this.isVisible = false;
+  }
+  onApprove(){
+    
+    let ids=this.setOfCheckedId 
+    for (let entry of ids){
+      this.arrayOfCheckedId.push(entry);
+      console.log(this.arrayOfCheckedId);
+    }
+    this.timesheetBulkApproval(this.arrayOfCheckedId);
+    this.arrayOfCheckedId.length = 0;
   }
 }
