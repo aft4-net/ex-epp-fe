@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,8 +24,7 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
-  timesheetDetail:any;
-  isModalVisible=false;
+
   date = null;
   bulkCheck = true;
   statusColumn = true;
@@ -203,7 +203,8 @@ export class TimesheetApprovalComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private timeSheetService: TimesheetService
+    private timeSheetService: TimesheetService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -326,14 +327,7 @@ emitArray(evt:Set<number>){
     }
   }
 
-  showModal(row: any) {
-    this.isModalVisible=true;
-    this.timesheetDetail=row;
 
-  }
-  timesheetDetailClose(event: boolean){
-    this.isModalVisible=false;
-  }
 
   handleOk(): void {
     this.isOkLoading = true;
