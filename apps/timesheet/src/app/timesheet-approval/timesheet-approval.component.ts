@@ -326,14 +326,14 @@ onItemChecked(id: number, checked: boolean): void {
   }
 
 
-  sorter(attendee: string) {
-    if (attendee === "name") {
+  sorter(sortIndex: string) {
+    if (sortIndex === "name") {
       console.log("name came"); //API call
-    } else if (attendee === "dateRange") {
+    } else if (sortIndex === "dateRange") {
       console.log("dateRange came"); //API call
-    } else if (attendee === "projectName") {
+    } else if (sortIndex === "projectName") {
       console.log("projectName came"); //API call
-    } else if (attendee === "clientName") {
+    } else if (sortIndex === "clientName") {
       console.log("clientName came"); //API call
     }
   }

@@ -29,6 +29,7 @@ export class TableComponent {
   setOfCheckedId = new Set<number>();
   timesheetDetail:any;
   isModalVisible=false;
+  
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
