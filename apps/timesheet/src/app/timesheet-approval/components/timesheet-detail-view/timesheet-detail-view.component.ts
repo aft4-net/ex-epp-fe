@@ -13,9 +13,21 @@ export class TimesheetDetailViewComponent implements OnInit {
   @Output() modalStatus=new EventEmitter<boolean>();
   submitting =true;
   inputValue='';
-  @Input() appovalDetails:any[]=[]
+  //@Input() approvalDetails:any[]=[]
   timesheetApprove!:TimesheetApproval;
+  approvalDetails:any[]=[
+     {
+       Date:Date.now(),
+       Hour:4,
+       Note:'additional client requirement'
 
+     },
+     {
+      Date:Date.now(),
+      Hour:2,
+      Note:'N/A'
+    },
+   ]
     constructor(private timesheetService:TimesheetService) {
     }
 

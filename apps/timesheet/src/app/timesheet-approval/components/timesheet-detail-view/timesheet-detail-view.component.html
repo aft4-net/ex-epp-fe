@@ -19,7 +19,7 @@
         <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail?.hours}}</label>
       </div>
       <div>
-        <nz-table class="table" #rowSelectionTable [nzData]="appovalDetails">
+        <nz-table class="table" #rowSelectionTable [nzData]="approvalDetails">
           <thead>
             <tr class="tr">
               <th>Day and Date</th>
@@ -28,7 +28,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of appovalDetails; let i = index">
+            <tr *ngFor="let data of approvalDetails; let i = index">
               <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
               <td>{{ formatHour(data.Hour) }}</td>
               <td>{{ data.Note }}</td>
