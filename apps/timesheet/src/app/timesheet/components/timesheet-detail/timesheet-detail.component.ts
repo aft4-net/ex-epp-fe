@@ -131,11 +131,7 @@ export class TimesheetDetailComponent implements OnInit {
 
   initializeClient() {
     this.$selectedClient.subscribe(clientId => {
-      console.log('clientId')
-      console.log(clientId)
-      console.log('clientId')
       this.formData.client = clientId;
-
     })
   }
 
@@ -147,9 +143,6 @@ export class TimesheetDetailComponent implements OnInit {
 
   onClientChange(event: string) {
     if (this._clientAndProjectStateService.Client !== event) {
-      console.log('client selected')
-      console.log(event)
-      console.log('client selected')
       this._clientAndProjectStateService.Client = event;
       this.initializeClient();
     }
