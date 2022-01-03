@@ -61,7 +61,7 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="timesheetSubmissionPaginationAwaiting(1,10)">
-        <exec-epp-table [bulkCheck]= true [rowData]="employees" (sorter)="sorter($event)"></exec-epp-table>
+        <exec-epp-table [bulkCheck]= true [rowData]="timeSheetApprovalAwaiting" (sorter)="sorter($event)"></exec-epp-table>
         <span nz-row class="pagination  flex justify-end">
           Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
           <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
