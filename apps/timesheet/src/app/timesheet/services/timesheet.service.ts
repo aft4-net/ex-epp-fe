@@ -325,4 +325,11 @@ getTimesheetSubmissions(
     );
 
   }
+
+updateTimeSheetStatus(arrayOfId:number[]){
+  return this.http.put( this.baseUrl + 'TimesheetApprovalBulkApprove',
+  arrayOfId,)
+}
+
+
 }

@@ -21,7 +21,7 @@
 
     <div *ngIf="currentNameSubject$ | async" nz-col>
         <button nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
         >Bulk Approval</button>
 
         <br>
