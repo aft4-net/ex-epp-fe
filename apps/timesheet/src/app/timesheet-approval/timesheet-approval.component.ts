@@ -13,7 +13,7 @@ interface ItemData {
   projectName: number;
   clientName: string;
   hours: number,
-  stats: string
+  status: string
 }
 
 
@@ -84,22 +84,13 @@ export class TimesheetApprovalComponent implements OnInit {
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
   public arrayOfCheckedId:number[] =[];
+  //setOfCheckedId:Set<Number>;
+ 
   ids: number[]=[];
-  
   resources: any;
-  
-  listOfSelection = [
-    {
-      text: 'Select All Row',
-      onSelect: () => {
-        this.onAllChecked(true);
-      }
-    }
-  ];
-
-
   employees = [
-    {
+    { 
+      //id:"13c41ba7-7b09-40b5-9e09-8869dc222ae4",
       id: 1,
       name: 'yosef',
       dateRange: Date.now(),
@@ -109,7 +100,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Request for review'
     },
     {
-      id: 3,
+      //id:"14c41ba7-7b09-40b5-9e09-8869dc222ae4",
+      id: 2,
       name: 'Daniel James',
       dateRange: Date.now(),
       projectName: 'Finanace Module',
@@ -118,7 +110,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Awaiting Approval'
     },
     {
-      id: 9,
+      id: 3,
+      //id:"15c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'Abel',
       dateRange: Date.now(),
       projectName: 'Test',
@@ -127,7 +120,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Approved'
     },
     {
-      id: 5,
+      id: 4,
+      //d:"16c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'hana',
       dateRange: Date.now(),
       projectName: 'test',
@@ -136,7 +130,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Approved'
     },
     {
-      id: 11,
+      id: 5,
+      //id:"17c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'yosef',
       dateRange: Date.now(),
       projectName: 'HR Module',
@@ -145,7 +140,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Request for review'
     },
     {
-      id: 13,
+      id: 6,
+      //id:"18c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'Daniel',
       dateRange: Date.now(),
       projectName: 'Finanace Module',
@@ -154,7 +150,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Awaiting Approval'
     },
     {
-      id: 19,
+      id: 7,
+      //id:"19c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'Abel',
       dateRange: Date.now(),
       projectName: 'Test',
@@ -163,7 +160,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Approved'
     },
     {
-      id: 15,
+      id: 8,
+      //id:"20c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'hana',
       dateRange: Date.now(),
       projectName: 'test',
@@ -172,7 +170,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Approved'
     },
     {
-      id: 16,
+      id: 9,
+      //id:"21c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'Daniel',
       dateRange: Date.now(),
       projectName: 'Finanace Module',
@@ -181,7 +180,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Awaiting Approval'
     },
     {
-      id: 17,
+      id: 10,
+      //id:"22c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'Abel',
       dateRange: Date.now(),
       projectName: 'Test',
@@ -190,7 +190,8 @@ export class TimesheetApprovalComponent implements OnInit {
       status: 'Approved'
     },
     {
-      id: 18,
+      id: 11,
+      //id:"23c41ba7-7b09-40b5-9e09-8869dc222ae4",
       name: 'hana',
       dateRange: Date.now(),
       projectName: 'test',
@@ -206,10 +207,7 @@ export class TimesheetApprovalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.timesheetApprovalPaginationAll(1, 10);
     this.timesheetSubmissionPaginationAwaiting(1, 10);
-    this.timesheetSubmissionPaginationApproved(1,10);
-    this.timesheetSubmissionPaginationReview(1,10);
   }
 
   timesheetApprovalPaginationAll(index: number, pageSize: number) {
@@ -259,8 +257,12 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalPageReview = response.pagination.totalPage;
       });
   }
+test() {
+  console.log("clicked");
+}
   timesheetBulkApproval(arrayOfIds:number[]){
-    this.timeSheetService.updateTimeSheetStatus(arrayOfIds)
+    this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
+    console.log("service"+arrayOfIds);
   }
 
   getweek(result: Date): void {
@@ -277,8 +279,6 @@ export class TimesheetApprovalComponent implements OnInit {
       this.currentNameSubject$.next(false);
     }
   }
-
-
 onItemCheckStatusChange(event: number){
   this.qtyofItemsSelected = event;
 }
@@ -295,74 +295,34 @@ updateProjectResourseList(resources: any) {
     this.loading = false;
   }
 
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-      this.arrayOfCheckedId.push(id);
-      console.log(this.setOfCheckedId);
-      console.log(this.arrayOfCheckedId)
-    } else {
-      this.setOfCheckedId.delete(id);
-      this.RemoveElementFromArray(id);
-      console.log(this.setOfCheckedId);
-      console.log(this.arrayOfCheckedId)
-    }
-
+emitArray(evt:Set<number>){
+  if(evt){
+    this.setOfCheckedId=evt;
+    ///this.arrayOfCheckedId= evt; 
+    console.log(this.setOfCheckedId);
   }
-  RemoveElementFromArray(element: number) {
-    this.arrayOfCheckedId.forEach((value,index)=>{
-        if(value==element) this.arrayOfCheckedId.splice(index,1);
-    });
+ 
 }
 
-CheckedIds(id:number[]) {
-  this.ids = id;
-}
+  // onCurrentPageDataChange($event: readonly ItemData[]): void {
+  //   this.listOfCurrentPageData = $event;
+  //   this.refreshCheckedStatus();
+  // }
 
+  // refreshCheckedStatus(): void {
+  //   this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
+  //   this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+  // }
 
-  onAllChecked(value: boolean): void {
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
-    this.refreshCheckedStatus();
-  }
-
-
-onItemChecked(id: number, checked: boolean): void {
-  this.qtyofItemsSelected += (checked? 1: -1);
-  this.updateCheckedSet(id, checked);
-  this.refreshCheckedStatus();
-  
-
-}
-
-  onCurrentPageDataChange($event: readonly ItemData[]): void {
-    this.listOfCurrentPageData = $event;
-    this.refreshCheckedStatus();
-  }
-
-
-  refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
-  }
-
-
-  sorter(heading: string) {
-    if (heading === 'Name') {
-      this.sortByParam = "name";
-    } else if (heading === 'Date Range') {
-      this.sortByParam = "dateRange";
-    } else if (heading === 'Project Name') {
-      this.sortByParam = "projectName";
-    } else if (heading === 'Client Name') {
-      this.sortByParam = "clientName";
-    } else {
-      this.sortByParam = "";
-    }
-
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
+  sorter(sortIndex: string) {
+    if (sortIndex === "name") {
+      console.log("name came"); //API call
+    } else if (sortIndex === "dateRange") {
+      console.log("dateRange came"); //API call
+    } else if (sortIndex === "projectName") {
+      console.log("projectName came"); //API call
+    } else if (sortIndex === "clientName") {
+      console.log("clientName came"); //API call
     }
   }
 
@@ -387,13 +347,15 @@ onItemChecked(id: number, checked: boolean): void {
     this.isVisible = false;
   }
   onApprove(){
-    
-    // let ids=this.setOfCheckedId 
-    // for (let entry of ids){
-    //   this.arrayOfCheckedId.push(entry);
-    //   console.log(this.arrayOfCheckedId);
-    // }
+    for (let element of this.setOfCheckedId) {
+      console.log(element);
+      this.arrayOfCheckedId.push(element);
+      //console.log(this.arrayOfCheckedId);
+  }
+
     this.timesheetBulkApproval(this.arrayOfCheckedId);
-    //this.arrayOfCheckedId.length = 0;
+    console.log("Approved"+this.arrayOfCheckedId);
+    console.log(this.arrayOfCheckedId);
+    this.arrayOfCheckedId.length=0;
   }
 }
