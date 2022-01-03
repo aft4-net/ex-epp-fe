@@ -146,7 +146,6 @@ export class TimesheetService {
     );
   }
 
-
   deleteTimeEntry(timeEntryId: string): Observable<unknown> {
     let params = new HttpParams();
 
@@ -336,4 +335,11 @@ getTimesheetSubmissions(
     );
 
   }
+
+updateTimeSheetStatus(arrayOfId:number[]){
+  return this.http.put( this.baseUrl + 'TimesheetApprovalBulkApprove',
+  arrayOfId,)
+}
+
+
 }

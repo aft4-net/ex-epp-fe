@@ -21,7 +21,7 @@
 
     <div *ngIf="currentNameSubject$ | async" nz-col>
         <button nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
         >Bulk Approval</button>
 
         <br>
@@ -48,133 +48,40 @@
 
   <div class="mb-4">
     <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
-      <nz-tab nzRight nzTitle="All">
+      <nz-tab nzRight nzTitle="All" (nzClick)="timesheetApprovalPaginationAll(1,10)">,
 
         <div nzRight class="content">
-          <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false>
-            <thead>
-              <tr>
-                <th [nzSortFn]="true" (click)="sorter('Name')">Name</th>
-                <th [nzSortFn]="true" (click)="sorter('Date Range')">Date range</th>
-                <th [nzSortFn]="true" (click)="sorter('Project Name')">Project Came</th>
-                <th [nzSortFn]="true" (click)="sorter('Client Name')">Client name</th>
-                <th>Hours</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row)">
-                <td>{{row.name}}</td>
-                <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
-                <td>{{row.projectName}}</td>
-                <td>{{row.clientName}}</td>
-                <td>{{row.hours}}</td>
-                <td>
-                  <div [ngClass]="{
-                    'is-blue': row.status === 'Request for review',
-                    'is-yellow': row.status === 'Awaiting Approval',
-                    'is-red': row.status === 'Approved',
-                    'is-green': row.status === 'Approved'
-                  }" style="width: 140px; height: auto;">{{row.status}}</div>
-                </td>
-              </tr>
-            </tbody>
-          </nz-table>
-          <span nz-row class="pagination  flex justify-end">
-            Showing {{pageIndexAll}} - {{ totalAll/pageSizeAll}} of {{totalAll}} entries
-            <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)"
-              nzSimple>
-            </nz-pagination>
-          </span>
+          <exec-epp-table [status]= true [rowData]="timeSheetApprovalAll" (sorter)="sorter($event)"></exec-epp-table>
+        <span nz-row class="pagination  flex justify-end">
+          Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
+          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
+            nzSimple>
+          </nz-pagination>
+        </span>
 
         </div>
       </nz-tab>
-      <nz-tab nzTitle="Awaiting Approval">
-        <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false >
-          <thead>
-            <tr>
-              <th *ngIf="bulkCheck" [nzSelections]="listOfSelection" [(nzChecked)]="checked"
-                [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
-              <th [nzSortFn]="true" (click)="sorter('Name')">Name</th>
-              <th [nzSortFn]="true" (click)="sorter('Date Range')">Date range</th>
-              <th [nzSortFn]="true" (click)="sorter('Project Name')">Project Came</th>
-              <th [nzSortFn]="true" (click)="sorter('Client Name')">Client name</th>
-              <th>Hours</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row)">
-              <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)"
-                (nzCheckedChange)="onItemChecked(row.id, $event)" >
-              </td>
-              <td>{{row.name}}</td>
-              <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
-              <td>{{row.projectName}}</td>
-              <td>{{row.clientName}}</td>
-              <td>{{row.hours}}</td>
-            </tr>
-          </tbody>
-        </nz-table>
+      <nz-tab nzTitle="Awaiting Approval" (nzClick)="timesheetSubmissionPaginationAwaiting(1,10)">
+        <exec-epp-table [bulkCheck]= true [rowData]="employees" (sorter)="sorter($event)"></exec-epp-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndexAwaiting}} - {{ totalAwaiting/pageSizeAwaiting}} of {{totalAwaiting}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAwaiting" [nzTotal]="totalAwaiting" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
+          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
-      <nz-tab nzTitle="Approved">
-        <nz-table class="manager-table" #basicTable [nzData]="employees" [nzFrontPagination]=false>
-          <thead>
-            <tr>
-              <th [nzSortFn]="true" (click)="sorter('Name')">Name</th>
-              <th [nzSortFn]="true" (click)="sorter('Date Range')">Date range</th>
-              <th [nzSortFn]="true" (click)="sorter('Project Name')">Project Came</th>
-              <th [nzSortFn]="true" (click)="sorter('Client Name')">Client name</th>
-              <th>Hours</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of employees | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row)">
-              <td>{{row.name}}</td>
-              <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
-              <td>{{row.projectName}}</td>
-              <td>{{row.clientName}}</td>
-              <td>{{row.hours}}</td>
-            </tr>
-          </tbody>
-        </nz-table>
+      <nz-tab nzTitle="Approved" (nzClick)="timesheetSubmissionPaginationApproved(1,10)">
+        <exec-epp-table [rowData]="timeSheetApprovalApproved" (sorter)="sorter($event)"></exec-epp-table>
         <span nz-row class="pagination  flex justify-end">
-          Showing {{pageIndexApproved}} - {{ totalApproved/pageSizeApproved}} of {{totalApproved}} entries
-          <nz-pagination [nzPageIndex]="pageIndexApproved" [nzTotal]="totalApproved" (nzPageIndexChange)="PageIndexChange($event)"
+          Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
+          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
             nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
 
-      <nz-tab nzTitle="Request for review">
-        <nz-table class="manager-table" #basicTable [nzData]="timeSheetApprovalReview" [nzFrontPagination]=false>
-          <thead>
-            <tr>
-              <th [nzSortFn]="true" (click)="sorter('Name')">Name</th>
-              <th [nzSortFn]="true" (click)="sorter('Date Range')">Date range</th>
-              <th [nzSortFn]="true" (click)="sorter('Project Name')">Project Came</th>
-              <th [nzSortFn]="true" (click)="sorter('Client Name')">Client name</th>
-              <th>Hours</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of timeSheetApprovalReview | sort:[sortByParam, sortDirection]" class="clickable"
-              (click)="showModal(row)">
-              <td>{{row.name}}</td>
-              <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
-              <td>{{row.projectName}}</td>
-              <td>{{row.clientName}}</td>
-              <td>{{row.hours}}</td>
-            </tr>
-          </tbody>
-        </nz-table>
+      <nz-tab nzTitle="Request for review" (nzClick)="timesheetSubmissionPaginationReview(1,10)">
+        <exec-epp-table [rowData]="timeSheetApprovalReview" (sorter)="sorter($event)"></exec-epp-table>
         <span nz-row class="pagination  flex justify-end">
           Showing {{pageIndexReview}} - {{ totalReview/pageSizeReview}} of {{totalReview}} entries
           <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChange($event)"
@@ -185,8 +92,5 @@
     </nz-tabset>
   </div>
   <div>
-    <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
-    
-    (modalStatus)="timesheetDetailClose($event)"
-    ></exec-epp-timesheet-detail-view>
-  </div>
+
+
