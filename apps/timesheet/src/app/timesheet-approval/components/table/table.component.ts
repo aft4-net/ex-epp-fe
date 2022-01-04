@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
-  id: number,
+  TimesheetId: string,
   name: string;
   dateRange: string;
   projectName: number;
@@ -16,6 +17,11 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
+  timesheetDetail:any;
+  isModalVisible=false;
+  timesheetEntries:any;
+  entryDate:any;
+
   total=10;
   pageIndex = 1;
   pageSize = 10;
@@ -26,22 +32,28 @@ export class TableComponent {
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
-  setOfCheckedId = new Set<number>();
-  timesheetDetail:any;
-  isModalVisible=false;
+  setOfCheckedId = new Set<string>();
+
+  //timesheetDetail:any;
+  //isModalVisible=false;
+
+  arrayOfCheckedId:string[] =[];
+
+
+
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() bulkCheck: boolean | undefined;
   @Input() status: boolean | undefined;
 
+  @Output() checkedListId = new EventEmitter<Set<number>>();
+  @Output() sorter = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
-
-
-
-
+  //@Output() CheckedIds = new EventEmitter<number[]>();
+  @Output() CheckedIds = new EventEmitter<Set<string>>();
 
   listOfSelection = [
     {
@@ -53,27 +65,45 @@ export class TableComponent {
   ];
 
 
-  updateCheckedSet(id: number, checked: boolean): void {
+  constructor(private readonly timesheetService:TimesheetService)
+  {}
+
+  updateCheckedSet(id: string, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
-      //this.checkedListId.emit(this.setOfCheckedId);
+      this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
+      //console.log(this.arrayOfCheckedId)
+      
     } else {
       this.setOfCheckedId.delete(id);
+      this.RemoveElementFromArray(id);
       console.log(this.setOfCheckedId);
+      //console.log(this.arrayOfCheckedId)
     }
-  }
+    this.CheckedIds.emit(this.setOfCheckedId);
 
-  onItemChecked(id: number, checked: boolean): void {
-    this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
+  }
+  RemoveElementFromArray(element: string) {
+    this.arrayOfCheckedId.forEach((value,index)=>{
+        if(value==element) this.arrayOfCheckedId.splice(index,1);
+    });
+}
+
+  onItemChecked(id: string, checked: boolean): void {
+    //this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    this.qtyofItemsChecked= this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onAllChecked(value: boolean): void {
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
+    //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetId, value));
     this.refreshCheckedStatus();
+    this.qtyofItemsChecked= this.setOfCheckedId.size;
+    this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onCurrentPageDataChange($event: readonly ItemData[]): void {
@@ -82,19 +112,24 @@ export class TableComponent {
   }
 
   refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+    //this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
+    
+    //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
-  sorter(heading:string) {
+  sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
+      this.sorter.emit("name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
+      this.sorter.emit("dateRange");
     }else if (heading === 'Project Name') {
       this.sortByParam = "projectName";
+      this.sorter.emit("projectName");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
+      this.sorter.emit("clientName");
     } else {
       this.sortByParam = "";
     }
@@ -105,15 +140,22 @@ export class TableComponent {
       this.sortDirection = 'desc';
     }
   }
+
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
+    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
+    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const date =this.entryDate;
+    this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
+      (entries)=>{this.timesheetEntries=entries
+      });
 
   }
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;
   }
-  
+
 
   // PageSizeChange(pageSize: number) {
   //   console.log(pageSize);

@@ -3,7 +3,7 @@
         <button nz-button class="h-9 " (click)="valueChangedLastWeek()">
                 <i nz-icon nzType="left" nzTheme="outline" class="inline-flex"></i>
         </button>
-        <button nz-button class="h-9 " (click)="valueChangedNextWeek()">
+        <button nz-button class="h-9 " (click)="valueChangedNextWeek()" [disabled]="isToday">
                 <i nz-icon nzType="right" nzTheme="outline" class="inline-flex"></i>
         </button>
         
