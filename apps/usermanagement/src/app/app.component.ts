@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, provideRoutes } from '@angular/router';
-
+import { MsalService } from '@azure/msal-angular';
+import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
 interface RouteLinks {
   name: string;
   link: string;
@@ -14,7 +15,7 @@ interface RouteLinks {
 export class AppComponent implements OnInit {
   route = '';
 
-
+  isLogin=false;
 checker1= false;
 counter = 1;
 
@@ -25,8 +26,21 @@ activePath(routePath: string) {
   return this.route == routePath;
 }
 
-constructor(private router: Router){}
+constructor(private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){}
 
 ngOnInit(): void {
+  this.isLogin=this._authenticationService.loginStatus();
+  if(!this.isLogin){
+   // window.location.reload();
+    this.router.navigateByUrl('usermanagement/sign_in');
+  }
+  else{
+    this.router.navigateByUrl('usermanagement');
+  }
+}
+
+isLoggedIn(): boolean {
+  return this.authService.instance.getActiveAccount() != null;
 }
 }
+

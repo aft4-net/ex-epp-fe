@@ -138,8 +138,9 @@ tr.ant-table-row.ng-star-inserted {
 }
 
 .permissionlist {
-  border-style: solid;
+  border: 0.1px solid;
   margin-left: 20px;
+  width: 300px;
 }
 
 .title-holder {
@@ -166,4 +167,8 @@ tr.ant-table-row.ng-star-inserted {
   color: #fff;
   background-color: #00a551;
   border-color: #00a551;
+}
+.assign-access{
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

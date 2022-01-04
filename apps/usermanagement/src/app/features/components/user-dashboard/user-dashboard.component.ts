@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { Data, Router, RouterLink } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
@@ -9,17 +9,34 @@ import { PaginationResult } from '../../Models/PaginationResult';
 import { IUserModel } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
-import { NotificationBar } from '../../../utils/feedbacks/notification';
-
+import { AddUserService } from '../../services/add-user.service';
+import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
+import { ResponseDTO } from '../../Models/ResponseDTO';
+import { IEmployeeModel } from '../../Models/employee.model';
+import { IUserPostModel } from '../../Models/User/user-post.model';
+import { GroupSetModel } from '../../Models/group-set.model';
+import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-  isVisible=false;
+
+  userfrm: any;
+  isLoadng = false;
+  employeeList: IEmployeeModel [] = []
+  selectedUserValue = '';
+  isUserModalVisible=false;
+
+  isGroupModalVisible = false;
+  groupfrm: any;
+  selectedUserId = '00be94a8-09fe-41c8-8151-7d9cc771996b';
+  groupList: GroupSetModel[] = [];
+  selectedGroups: string[] = [];
+
   size: NzButtonSize = 'small';
   userDashboardForm !: FormGroup;
   loading = false;
@@ -56,7 +73,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
+      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.length - b.FullName.length,
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
@@ -65,7 +82,7 @@ export class UserDashboardComponent implements OnInit {
       name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
+      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
       filterMultiple: true,
       listOfFilter:this.userListLastActivityDate,
       filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
@@ -74,22 +91,25 @@ export class UserDashboardComponent implements OnInit {
 
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
-  
+  isLogin=false;
   constructor(private userService : UserService,
     private _router: Router,
     private fb: FormBuilder,
-    private notification: NotificationBar) {
-
+    private addUserService: AddUserService,
+    private notifier: NotifierService, private _authenticationService:AuthenticationService) {
+      this.isLogin=_authenticationService.loginStatus();
   }
 
   ngOnInit(): void {
+    this.userfrm = new FormGroup({
+      UserName: new FormControl(null, [Validators.required]),
+    });
+    this.groupfrm = new FormGroup({
+      Groups: new FormControl([], Validators.required),
+  });
     this.createUserDashboardControls();
+    this.userList as IUserModel[];
     this.FeatchAllUsers();
-    console.log(this.notification.showNotification({
-      type: 'success',
-      content: 'Users loaded successfully',
-      duration: 1,
-    }));
   }
 
   createUserDashboardControls() {
@@ -115,17 +135,19 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
+        this.loading = false;
       }
       else
       {
+        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
+        this.FillTheFilter();
       }
+
+    },error => {
       this.loading = false;
-    },() => {
-      this.loading = false;
-      this.userList = [];
-      this.userList$=of([]);
+      this.PopulateFilterColumns();
      });
     this.searchStateFound=false;
   }
@@ -136,7 +158,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -145,7 +167,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
@@ -154,7 +176,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -198,11 +220,14 @@ export class UserDashboardComponent implements OnInit {
                   value:this.userList.map(x=>x.Status)[i]
                 }
               )
+
             }
           }
+
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
+
           if(this.userList.length > 0) {
             this.PopulateFilterColumns();
           }
@@ -229,18 +254,19 @@ export class UserDashboardComponent implements OnInit {
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.FillTheFilter();
+        this.loading = false;
       }
       else
       {
+        this.loading = false;
         this.userList = [];
         this.userList$=of([]);
+        this.FillTheFilter();
       }
       this.searchStateFound=true;
-      this.loading = false;
     },error => {
       this.loading = false;
-      this.userList = [];
-      this.userList$=of([]);
+      this.PopulateFilterColumns();
      });
   }
 
@@ -306,28 +332,147 @@ export class UserDashboardComponent implements OnInit {
       this.loading = false;
     }
   }
+  onAddUser()
+  {
+    this.selectedUserValue = '';
+    this.isUserModalVisible = true;
+    this.isLoadng = true;
 
-  AddToGroup(userId: string) {
-
+    console.log('addUser');
+    this.addUserService.getEmployeesNotInUsers().subscribe(
+      (r:ResponseDTO<[IEmployeeModel]>) => {
+        this.employeeList= r.Data;
+        this.isLoadng =false;
+        this.userfrm.reset();
+        this.FeatchAllUsers();
+      },
+      (error: any)=>{
+        console.log(error);
+        this.onShowError(error);
+      }
+    )
   }
+  AddToGroup(userId: string)  {
+    this.selectedGroups = [];
+    this.isGroupModalVisible = true;
+    this.isLoadng = true;
+    this.addUserService.getGroups().subscribe(
+        (r:  GroupSetModel[]) => {
+
+            this.groupList = r;
+            this.addUserService.getUserGroups(userId).subscribe(
+                (r: GroupSetModel[]) => {
+                    r.forEach(el => {
+                        this.selectedGroups.push(el.Guid);
+                    });
+                    this.groupfrm.setValue({'Groups': this.selectedGroups});
+                    this.isLoadng = false;
+                    this.isGroupModalVisible = false;
+                },
+                (error: any) => {
+                    console.log(error);
+                }
+            );
+            this.isLoadng = false;
+        },
+        (error: any) => {
+            console.log(error);
+            this.onShowError(error.Error);
+        }
+    );
+
+}
+onSaveGroups() {
+  this.selectedGroups = [];
+  this.isLoadng = true;
+      const x = this.groupfrm.get('Groups').value;
+      
+      x.forEach((el: string) => {
+          this.selectedGroups.push(el as string);
+      });
+
+  this.addUserService.addGroups(this.selectedUserId, this.selectedGroups).subscribe(
+      () => {
+          this.notifier.notify(
+              NotificationType.success,
+              'User is created successfully'
+          );
+          this.isLoadng = false;
+          this.isGroupModalVisible = false;
+          this.selectedGroups = [];
+          this.groupfrm.reset();
+      },
+      (err: any) => this.onShowError(err)
+  );
+
+}
+
+handleGroupCancel() {
+  this.isGroupModalVisible = false;
+  this.groupfrm.reset();
+}
+  onShowError(err: any) {
+    let errMsg = 'Some error occured. Please review your input and try again. ';
+    console.log(err);
+    this.notifier.notify(NotificationType.error, errMsg);
+    this.isLoadng = false;
+  }
+  onSaveUser()
+  {
+    if(this.selectedUserValue == null || '')
+      this.onShowError('Select employee');
+
+    this.isLoadng = true;
+    const empId = this.selectedUserValue;
+    this.addUserService.getEmployeeById(empId).subscribe(
+      (res: ResponseDTO<IEmployeeModel>) => {
+        const user: IUserPostModel =   {
+
+          EmployeeId : res.Data.Guid,
+          FirstName : res.Data.FirstName,
+          MiddleName : res.Data.FatherName,
+          LastName : res.Data.GrandFatherName,
+          Tel:res.Data.MobilePhone,
+          Email: res.Data.PersonalEmail,
+          UserName: res.Data.EmployeeOrganization?.CompaynEmail
+        }
+
+        this.addUserService.add(user).subscribe(
+          () => {
+            this.notifier.notify(
+              NotificationType.success,
+              'User is created successfully'
+            );
+            this.isLoadng = false;
+            this.isUserModalVisible = false;
+            this.selectedUserValue = '';
+          },
+          (err: any) => this.onShowError(err)
+        )
+      }
+    )
+    return;
+  }
+
+  
+
+  
 
   Remove(userId: string) {
 
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/user-detail');
+    this._router.navigateByUrl('/userdetail');
   }
-  addUser(){
-    this.isVisible=true;
-  }
+  
   handleOk(): void {
     console.log('Button ok clicked!');
-    this.isVisible = false;
+    this.isUserModalVisible = false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isVisible = false;
+    this.isUserModalVisible = false;
+    this.userfrm.reset();
   }
 }

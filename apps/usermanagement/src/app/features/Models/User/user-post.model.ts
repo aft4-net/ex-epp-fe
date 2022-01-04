@@ -5,4 +5,5 @@ export interface IUserPostModel {
   LastName: string;
   Tel: string;
   Email: string;
+  UserName: string;
 }

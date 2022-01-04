@@ -1,43 +1,334 @@
 import { Component, OnInit } from '@angular/core';
-import { IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
+import {
+  AllPermitionData,
+  IPermissionModel,
+  IPermissionResponseModel,
+} from '../../Models/User/Permission-get.model';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { PermissionService } from '../../services/permission/permission.service';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
+export interface GroupCheckBoxItem {
+  label: string;
+  value: string;
+  checked: boolean;
+  Guid: string;
+}
+export interface SelecttedPermission {
+  Guid: string;
+}
 
 @Component({
   selector: 'exec-epp-permission',
   templateUrl: './permission.component.html',
-  styleUrls: ['./permission.component.scss']
+  styleUrls: ['./permission.component.scss'],
 })
 export class PermissionComponent implements OnInit {
-permissionResponse?:IPermissionResponseModel;
-permissionData?:any;
-panels = [
-  {
-    active: true,
-    name: 'This is panel header 1',
-    disabled: false
-  },
-  {
-    active: false,
-    disabled: false,
-    name: 'This is panel header 2'
-  },
-  {
-    active: false,
-    disabled: false,
-    name: 'This is panel header 3'
-  }
-];
-  constructor(private _permissionService:PermissionService) { }
+  permissionResponse?: IPermissionResponseModel;
+  permissionData?: any;
+  parentPermission: any;
+  onePermission: any;
+  allChecked = false;
+  indeterminate = true;
+  isLoding=false;
+  permissionIdList: string[] = [];
+  childPermissions: IPermissionModel[] = [];
+  listOfPermistion: AllPermitionData[] = [];
+  listOfAssignedPermistion: AllPermitionData[] = [];
+  listCheckBox: GroupCheckBoxItem[] = [];
+goupPermissions:IPermissionModel[] = [];
+  selectedPermissionList: SelecttedPermission[] = [];
+  groupId: any;
+  constructor(
+    private _notification: NzNotificationService,
+    private route: ActivatedRoute,
+    private _permissionService: PermissionService,
+    private notification: NotificationBar,
+    private router:Router
+  ) {}
 
   ngOnInit(): void {
-this._permissionService.getPermission().subscribe((reponse:any)=>{
-  this.permissionResponse=reponse;
-  this.permissionData=this.permissionResponse?.Data;
-  console.log(this.permissionData);
-})
+ 
+    this.groupId = this.route.snapshot.paramMap.get('id');
+    this._permissionService.goupPermissions.forEach(element => {
+      this.selectedPermissionList = [
+        ...this.selectedPermissionList,
+        { Guid: element.Guid },
+      ];
+      
+    });
+    this._permissionService.getPermission().subscribe((reponse: any) => {
+      this.permissionResponse = reponse;
+      this.permissionData = this.permissionResponse?.Data;
+      this.permissionData.forEach((element: any) => {
+        this.parentPermission = {
+          Guid: element.Parent.Guid,
+          PermissionCode: element.Parent.PermissionCode,
+          Name: element.Parent.Name,
+          value: element.Parent.KeyValue,
+          label: this.firstLetterUperCaseWord(
+            element.Parent.KeyValue.replace(/_/g, ' ')
+          ),
+          ParentCode: element.Parent.ParentCode,
+          checked: false,
+          indeterminate: false,
+          checkAll: false,
+        };
+
+        element.Childs.forEach((element1: any) => {
+          this.childPermissions = [
+            ...this.childPermissions,
+            {
+              Guid: element1.Guid,
+              PermissionCode: element1.PermissionCode,
+              Name: element1.Name,
+              value: element1.KeyValue,
+              label: this.firstLetterUperCaseWord(
+                element1.KeyValue.replace(/_/g, ' ')
+              ),
+              ParentCode: element1.ParentCode,
+              checked: this.permissionAssigned(element1.Guid),
+              indeterminate: false,
+              checkAll: false,
+            },
+          ];
+        });
+        this.listOfPermistion = [
+          ...this.listOfPermistion,
+          {
+            Parent: this.parentPermission,
+            Childs: this.childPermissions,
+          },
+        ];
+        this.childPermissions = [];
+        let index=0;
+ 
+        this.listOfPermistion.forEach(element => {
+          if (this.listOfPermistion[index].Childs.every((item) => !item.checked)) {
+            this.listOfPermistion[index].Parent.checkAll = false;
+            this.listOfPermistion[index].Parent.indeterminate = false;
+          } else if (
+            this.listOfPermistion[index].Childs.every((item) => item.checked)
+          ) {
+            this.listOfPermistion[index].Parent.checkAll = true;
+            this.listOfPermistion[index].Parent.indeterminate = false;
+          } else {
+            this.listOfPermistion[index].Parent.indeterminate = true;
+            this.listOfPermistion[index].Parent.checkAll = false;
+          }
+         
+          index++;
+        });
+      });
+     
+      this.listCheckBox?.push({
+        label: this.permissionData[0].Childs[0].KeyValue,
+        value: this.permissionData[0].Childs[0].KeyValue,
+        checked: false,
+        Guid: '',
+      });
+      this.notification.showNotification({
+        type: 'success',
+        content: 'Permissions loaded successfully',
+        duration: 1,
+      });
+    });
+    this.assinedPermission();
   }
-  parentSelected(code:string){
-    alert(code)
+  assinedPermission() {
+    if(this.groupId!=null){
+    this.listOfAssignedPermistion=[];
+    this._permissionService
+      .getPermissionCategoryById(this.groupId)
+      .subscribe((reponse: any) => {
+        this.permissionResponse = reponse;
+        this.permissionData = this.permissionResponse?.Data;
+        this.permissionData.forEach((element: any) => {
+          this.parentPermission = {
+            Guid: element.Parent.Guid,
+            PermissionCode: element.Parent.PermissionCode,
+            Name: element.Parent.Name,
+            value: element.Parent.KeyValue,
+            label: this.firstLetterUperCaseWord(
+              element.Parent.KeyValue.replace(/_/g, ' ')
+            ),
+            ParentCode: element.Parent.ParentCode,
+            checked: false,
+            indeterminate: false,
+            checkAll: false,
+          };
+
+          element.Childs.forEach((element1: any) => {
+            this.childPermissions = [
+              ...this.childPermissions,
+              {
+                Guid: element1.Guid,
+                PermissionCode: element1.PermissionCode,
+                Name: element1.Name,
+                value: element1.KeyValue,
+                label: this.firstLetterUperCaseWord(
+                  element1.KeyValue.replace(/_/g, ' ')
+                ),
+                ParentCode: element1.ParentCode,
+                checked: false,
+                indeterminate: false,
+                checkAll: false,
+              },
+            ];
+          });
+          this.listOfAssignedPermistion = [
+            ...this.listOfAssignedPermistion,
+            {
+              Parent: this.parentPermission,
+              Childs: this.childPermissions,
+            },
+          ];
+          this.childPermissions = [];
+        });
+          this.listOfAssignedPermistion.forEach((element) => {
+            let count=0;
+            this.listOfPermistion.forEach((element2) => {
+              if (element.Parent.Guid == element2.Parent.Guid) {
+                element.Childs.forEach((element3) => {
+                  let count2=0;
+                  element2.Childs.forEach((element4) => {
+                    if (element3.Guid == element4.Guid) {
+                      element4.checked = true;
+                      this.listOfPermistion[count].Childs[count2].checked=true;
+                     
+                    }
+                    count2++;
+                  });
+                });
+              }
+              count++;
+            });
+          });
+       
+      });
+    }
   }
 
+  log(event: any) {
+    this.listCheckBox[0].checked = true;
+  }
+  updateAllPermissionChecked(event: any, i: number): void {
+    this.indeterminate = false;
+    if (event) {
+      this.listOfPermistion[i].Parent.indeterminate = false;
+      const allchilds = this.listOfPermistion[i].Childs;
+      this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
+        (item) => ({
+          ...item,
+          checked: true,
+        })
+      );
+
+      this.listOfPermistion[i].Childs.forEach((element) => {
+        let count = 0;
+        this.selectedPermissionList.forEach((element2) => {
+          if (element.Guid == element2.Guid) {
+            this.selectedPermissionList.splice(count, 1);
+          }
+          count++;
+        });
+
+        this.selectedPermissionList = [
+          ...this.selectedPermissionList,
+          { Guid: element.Guid },
+        ];
+      });
+    } else {
+      this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
+        (item) => ({
+          ...item,
+          checked: false,
+        })
+      );
+      this.listOfPermistion[i].Childs.forEach((child) => {
+        let count = 0;
+        this.selectedPermissionList.forEach((element) => {
+          if (element.Guid == child.Guid) {
+            this.selectedPermissionList.splice(count, 1);
+          }
+          count++;
+        });
+      });
+    }
+  }
+
+  updateSingleChecked(event: any, index: number, guid: string): void {
+    if (event) {
+      this.selectedPermissionList = [
+        ...this.selectedPermissionList,
+        { Guid: guid },
+      ];
+    } else {
+      let count = 0;
+      this.selectedPermissionList.forEach((element) => {
+        if (element.Guid == guid) {
+          this.selectedPermissionList.splice(count, 1);
+        }
+        count++;
+      });
+    }
+    if (this.listOfPermistion[index].Childs.every((item) => !item.checked)) {
+      this.listOfPermistion[index].Parent.checkAll = false;
+      this.listOfPermistion[index].Parent.indeterminate = false;
+    } else if (
+      this.listOfPermistion[index].Childs.every((item) => item.checked)
+    ) {
+      this.listOfPermistion[index].Parent.checkAll = true;
+      this.listOfPermistion[index].Parent.indeterminate = false;
+    } else {
+      this.listOfPermistion[index].Parent.indeterminate = true;
+      this.listOfPermistion[index].Parent.checkAll = false;
+    }
+  }
+  firstLetterUperCaseWord(word: string) {
+    let fullPhrase = '';
+    const wordLists = word.split(' ');
+    wordLists.forEach((element) => {
+      const titleCase =
+        element[0].toUpperCase() + element.substr(1).toLowerCase();
+      fullPhrase = fullPhrase + ' ' + titleCase;
+    });
+    return fullPhrase;
+  }
+  updatePermission() {
+    this.isLoding=true;
+    this.selectedPermissionList.forEach((element) => {
+      this.permissionIdList = [...this.permissionIdList, element.Guid];
+    });
+    const postData = {
+      GroupSetId: this.groupId,
+      PermissionIDArray: this.permissionIdList,
+    };
+    this._permissionService
+      .addGroupPermission(postData)
+      .subscribe((data: any) => {
+        this._notification.create(
+          data.ResponseStatus.toLowerCase(),
+          data.ResponseStatus,
+          data.Message
+        );
+        this.isLoding=false;
+      });
+  }
+
+  permissionAssigned(id:string){
+    let bool=false;
+    this._permissionService.goupPermissions.forEach(element => {
+      if(id==element.Guid){
+       bool=true;
+      }
+    });
+    return bool;
+  }
+  cancelPermission(){
+   
+    this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
+  }
 }

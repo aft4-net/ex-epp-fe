@@ -1,7 +1,5 @@
 import { Component,  OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
-import { NzButtonSize } from 'ng-zorro-antd/button';
 import { GroupSetService } from '../../services/group-set.service';
 import { GroupSetModel } from '../../Models/group-set.model';
 import { Observable, of } from 'rxjs';
@@ -10,6 +8,10 @@ import { IGroupUsersView } from '../../Models/User/GroupUsersView';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { FormBuilder } from '@angular/forms';
+import { NzButtonSize } from 'ng-zorro-antd/button';
+import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
+import { PermissionService } from '../../services/permission/permission.service';
 
 @Component({
   selector: 'exec-epp-group-detail',
@@ -21,9 +23,16 @@ export class GroupDetailComponent implements OnInit {
   groupParams =  new GroupParams();
   constructor(private groupSetService : GroupSetService, private _router: Router, 
               private fb: FormBuilder,private notification: NzNotificationService,
-              private modal: NzModalService, private activatedRoute: ActivatedRoute) {
+              private modal: NzModalService, private activatedRoute: ActivatedRoute,
+              private _permissionService:PermissionService) {
 
-  }
+              }
+  listOfAssignedPermistion:AllPermitionData[]=[]
+  permissionResponse?:IPermissionResponseModel;
+  permissionData?:any;
+  childPermissions:IPermissionModel[]=[];
+  parentPermission:any;
+  
   isVisible = false;
   isGroupEditVisible = false;
   isConfirmLoading = false;
@@ -61,6 +70,9 @@ export class GroupDetailComponent implements OnInit {
       console.log(result)
     } );
     this.FeatchAllGroupsUsers()
+    this._permissionService.PermissionList=[];
+    this.assinedPermission();
+    this._permissionService.getGroupPermissionById(this.groupId);
   }
 
   FeatchAllGroupsUsers() {
@@ -170,4 +182,53 @@ export class GroupDetailComponent implements OnInit {
   EditGroupDescription() {
     this.isGroupEditVisible = true;
   }
+  assinedPermission(){
+    this._permissionService.getPermissionCategoryById(this.groupId).subscribe((reponse:any)=>{
+      this.permissionResponse=reponse;
+      this.permissionData=this.permissionResponse?.Data;
+      this.permissionData.forEach((element:any) => {
+        this.parentPermission={
+           Guid:element.Parent.Guid,
+           PermissionCode :element.Parent.PermissionCode,
+           Name :element.Parent.Name,
+           value :element.Parent.KeyValue,
+           label: this.firstLetterUperCaseWord(element.Parent.KeyValue.replace(/_/g, ' ')),
+           ParentCode :element.Parent.ParentCode,
+           checked:false,
+           indeterminate:false,
+           checkAll:false
+        }
+      
+        element.Childs.forEach((element1:any) => {
+          this.childPermissions=[...this.childPermissions,{
+            Guid:element1.Guid,
+            PermissionCode :element1.PermissionCode,
+            Name :element1.Name,
+            value :element1.KeyValue,
+            label:this.firstLetterUperCaseWord(element1.KeyValue.replace(/_/g, ' ')),
+            ParentCode :element1.ParentCode,
+            checked:false,
+            indeterminate:false,
+            checkAll:false
+         }]
+        }
+       
+        );
+        this.listOfAssignedPermistion=[...this.listOfAssignedPermistion,{
+          Parent:this.parentPermission,
+          Childs:this.childPermissions
+        }];
+        this.childPermissions=[];
+      });
+    });
+  }
+  firstLetterUperCaseWord(word: string) {
+    let fullPhrase="";
+   const wordLists=word.split(" ");
+   wordLists.forEach(element => {
+   const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
+   fullPhrase= fullPhrase+ " "+ titleCase
+   });
+   return fullPhrase
+ }
 }

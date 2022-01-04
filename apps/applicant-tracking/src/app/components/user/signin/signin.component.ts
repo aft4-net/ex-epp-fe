@@ -11,7 +11,7 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
 
 @Component({
-  selector: 'app-signin',
+  selector: 'exec-epp-app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css'],
 })

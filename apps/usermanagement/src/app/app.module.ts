@@ -30,7 +30,7 @@ registerLocaleData(en);
     HeaderComponent,
     FooterComponent,
     SiderComponent,
-    SigninComponent,
+    //SigninComponent,
     PermissionComponent,
     UserDashboardComponent,
     GroupsetComponent,
