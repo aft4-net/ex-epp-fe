@@ -155,7 +155,7 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   setFirstDay() {
-    return 2;
+    return 1;
   }
 
   startingWeek() {
