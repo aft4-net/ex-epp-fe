@@ -1,5 +1,4 @@
 import {
-  ApprovalStatus,
   TimesheetApproval,
 } from '../../../models/timesheetModels';
 import { Component, OnInit } from '@angular/core';
@@ -10,19 +9,11 @@ import {
   NzTableSortFn,
   NzTableSortOrder,
 } from 'ng-zorro-antd/table';
-import { NzEllipsisPipe } from 'ng-zorro-antd/pipes';
 
-import { DateHelperByDatePipe } from 'ng-zorro-antd/i18n';
-import { PaginatedResult } from '../../../models/PaginatedResult';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 
-import { DateHelperByDatePipe } from 'ng-zorro-antd/i18n';
-import { PaginatedResult } from '../../../models/PaginatedResult';
-import { Router } from '@angular/router';
-import { TimesheetService } from '../../services/timesheet.service';
-import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 interface ColumnItem {
   name: string;
@@ -119,7 +110,7 @@ export class ViewSubmissionsComponent implements OnInit {
     this.timesheetSubmissionPaginatin(1, this.pageSize, null, []);
 
     this.timeSheetService
-      .getTimesheetSubmissions(1, this.pageSize, null, null, [])
+      .getUserTimesheetApprovalSubmissions(1, this.pageSize, null, null, [])
       .subscribe((response: any) => {
         this.timeSheetHistory = response.data;
         this.dataCount = this.timeSheetHistory.length;
@@ -146,7 +137,7 @@ export class ViewSubmissionsComponent implements OnInit {
   ) {
     this.loading = true;
     this.timeSheetService
-      .getTimesheetSubmissions(
+      .getUserTimesheetApprovalSubmissions(
         pageIndex,
         this.pageSize,
         sortField,
@@ -220,14 +211,12 @@ export class ViewSubmissionsComponent implements OnInit {
     this.timesheetSubmissionPaginatin(index, sortField, sortOrder, filter);
     this.loading = false;
   }
-
+  reviewsubmissions(date: Date) {
+    this.state.date = date;
+    this.userId = localStorage.getItem('userId');
+    if (this.userId) {
+      this.state.getTimesheet(this.userId, date);
+      this.router.navigate(['/timesheet']);
+    }
  }
-
-reviewsubmissions(date: Date) {
-  this.state.date = date;
-  this.userId = localStorage.getItem('userId');
-  if (this.userId) {
-    this.state.getTimesheet(this.userId, date);
-    this.router.navigate(['/timesheet']);
-  }
 }

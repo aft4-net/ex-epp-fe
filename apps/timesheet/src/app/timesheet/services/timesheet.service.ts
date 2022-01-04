@@ -271,7 +271,7 @@ export class TimesheetService {
   }
   //#endregion
 
-  getTimesheetSubmissions(
+  getUserTimesheetApprovalSubmissions(
     pageIndex: number,
     pageSize: number,
     sortField: string | null,
