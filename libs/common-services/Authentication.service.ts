@@ -14,7 +14,7 @@ isLogin=false;
     constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
 
    loginStatus(){
-       return true
+       return false
    }
     
     } 

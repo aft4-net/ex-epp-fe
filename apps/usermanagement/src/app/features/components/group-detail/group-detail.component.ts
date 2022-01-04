@@ -23,6 +23,7 @@ export class GroupDetailComponent implements OnInit {
   size: NzButtonSize = 'small';
   ngOnInit(): void {
     this.groupId = this.route.snapshot.paramMap.get('id');
+    this._permissionService.PermissionList=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
   }
