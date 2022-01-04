@@ -70,11 +70,11 @@ export class AddUserService {
     catchError(this.formatError)
   );
 }
-addGroups(userId: string, groups: string []): Observable<ResponseDTO<any>> {
-    this.path = `${environment.apiUrl}/user/AddUserToGroup?UserId=${userId}`
-  return this.http.post<ResponseDTO<any>>(this.path, groups, this.httpOptions).pipe(
-    catchError(this.formatError)
-  );
+addGroups(userId: string, Groups: string []): Observable<ResponseDTO<any>> {
+  this.path = `${environment.apiUrl}/user/AddUserToGroups?UserId=${userId}`
+return this.http.post<ResponseDTO<any>>(this.path, Groups, this.httpOptions).pipe(
+  catchError(this.formatError)
+);
 }
 
   formatError(error:any)

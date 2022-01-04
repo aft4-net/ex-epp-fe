@@ -117,6 +117,12 @@ export class UserDashboardComponent implements OnInit {
       content: 'User dashboard loaded successfully',
       duration: 1,
     });
+
+    this.notification.showNotification({
+      type: 'success',
+      content: 'User dashboad loaded successfully',
+      duration: 1,
+    });
   }
 
   createUserDashboardControls() {
@@ -405,12 +411,14 @@ onSaveGroups() {
               'User is created successfully'
           );
           this.isLoadng = false;
-          this.isGroupModalVisible = false;
+          this.isUserModalVisible = false;
           this.selectedGroups = [];
           this.groupfrm.reset();
       },
       (err: any) => this.onShowError(err)
   );
+
+
 
 }
 
