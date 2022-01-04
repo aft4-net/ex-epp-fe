@@ -366,8 +366,8 @@ export class UserDashboardComponent implements OnInit {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
-
-                   
+                    this.isLoadng = false;
+                    this.isGroupModalVisible = false;
                 },
                 (error: any) => {
                     console.log(error);

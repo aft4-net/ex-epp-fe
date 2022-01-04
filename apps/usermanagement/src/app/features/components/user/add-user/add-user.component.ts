@@ -79,18 +79,9 @@ export class AddUserComponent implements OnInit, OnDestroy {
           LastName: res.Data.GrandFatherName,
           Tel: res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
-          UserName: ""
+          UserName:res.Data?.EmployeeOrganization?.CompaynEmail
         }
-///Back up
-// const user: IUserPostModel =   {
-//   EmployeeId : res.Data.Guid,
-//   FirstName : res.Data.FirstName,
-//   MiddleName : res.Data.FatherName,
-//   LastName : res.Data.GrandFatherName,
-//   Tel:res.Data.MobilePhone,
-//   Email: res.Data.PersonalEmail,
-// }
-////
+
         this.userService.add(user).subscribe(
           () => {
             this.notifier.notify(
