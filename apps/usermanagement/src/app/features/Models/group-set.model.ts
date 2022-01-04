@@ -1,5 +1,5 @@
 export interface GroupSetModel {
-    Guid : string | null,
+    Guid : string,
     Name: string,
     Description: string
 }

@@ -1,26 +1,41 @@
 <nz-content>
     <nz-divider nzType="horizontal"></nz-divider>
-    <div style="margin-top: -40px;" class="inner-content">
+    <div  style="margin-top: -40px;" class="inner-content">
       <div nz-row>  
         <div nz-col nzSpan="12">
             <h2 class="PageHeader">
-                Pm admin page
+                {{groupDetail?.Name}}
             </h2>
         </div>
         <div nz-col nzSpan="12" style="text-align: right;">
             <nz-space>
-                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" >
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" (click)="EditGroupDescription()">
                     Edit Descriptions
                 </button>
-                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" >
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" (click)="createGroupDeleteModal()" >
                     Delete Group
                 </button>
             </nz-space>
+            <nz-modal [(nzVisible)]="isGroupEditVisible" nzTitle="Edit group's description" 
+                      [nzContent]="modalContent" [nzFooter]="modalFooter">
+                      <ng-template #modalContent>
+                        <p>Edit the group's description to organize your groups better on the list. You can't edit the group's name.</p>
+                        <nz-form-label >
+                          Group's description
+                        </nz-form-label>
+                        <textarea rows="4" nz-input></textarea>
+                      </ng-template>
+                      <ng-template #modalFooter>
+                        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+                        <button nz-button nzType="primary" class="editGroup" (click)="EditGroupDescription()"
+                         [nzLoading]="isConfirmLoading">Save Changes</button>
+                      </ng-template>
+            </nz-modal>
         </div>     
       </div>
       <div nz-row>  
         <div nz-col nzSpan="12">
-            dvcxvzcxvzcxvzxcvzcxvcvzvzcvzccx    
+          {{groupDetail?.Description}}
         </div>
       </div>
       <br/>
@@ -62,7 +77,7 @@
             <div nz-row>
                 <div nz-col nzSpan="20">
                     <nz-form-label [nzSpan]="14">Group members - Manual assignments</nz-form-label>
-                    <label>11</label>    
+                    <label>{{totalRecord}}</label>    
                 </div>
                 <div  nz-col style="text-align: right;"  nzSpan="4">
                     <button class="defaultButton" nz-button nzType="default" >
@@ -70,20 +85,38 @@
                     </button>
                 </div>
             </div>
-            <br />
-            <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" 
+            <br>
+            <div  nz-row nzJustify="end" *ngIf="groupUserList.length > 0">
+              <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
+              <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+                nzSimple (nzPageIndexChange)="GroupUsersPageIndexChange($event)"></nz-pagination>
+            </div>
+            <br/>
+            <nz-table nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupUserList" 
                 nzTableLayout="auto">
-                <thead>
-                  <tr>
-                    <th class="table_heading">User</th>
-                    <th class="table_heading">Options</th>
-                  </tr>
-                </thead>
+                <div *ngIf="groupUserList.length > 0; else normalHeader">
+                  <thead>
+                    <tr>
+                      <th class="table_heading" *ngFor="let column of listOfColumn"
+                          [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                          [nzSortDirections]="column.sortDirections">{{column.title}}</th>
+                      <th class="table_heading">Options</th>
+                    </tr>
+                  </thead>
+                </div>
+                <ng-template #normalHeader>
+                  <thead>
+                    <tr>
+                      <th class="table_heading">Name</th>
+                      <th class="table_heading">Options</th>
+                    </tr>
+                  </thead>
+                </ng-template>
                 <tbody>
-                  <tr>
-                    <td>user</td>
+                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                    <td>{{user.FullName}}</td>
                     <td>
-                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" >
+                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" (click)="RemoveUserFromGroup(user.Guid)" >
                           Remove
                         </button>
                     </td>

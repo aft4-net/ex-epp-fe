@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ErrHandleService } from '../../shared/services/error-handle.service';
@@ -10,16 +10,22 @@ import { Pagination } from '../Models/Pagination';
 import { PaginationResult } from '../Models/PaginationResult';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { environment } from "../../../environments/environment";
+import { IGroupUsersView } from '../Models/User/GroupUsersView';
 
 @Injectable({
     providedIn: 'root',
   })
   export class GroupSetService {
 
-    baseUrl = environment.apiUrl + '/group';
+    baseUrl = environment.apiUrl + '/GroupSet/';
     
     paginatedResult: PaginationResult<GroupSetModel[]> = {
       Data: [] as GroupSetModel[],
+      pagination: {} as Pagination,
+    };
+
+    groupUsersPaginatedResult: PaginationResult<IGroupUsersView[]> = {
+      Data: [] as IGroupUsersView[],
       pagination: {} as Pagination,
     };
     
@@ -30,16 +36,16 @@ import { environment } from "../../../environments/environment";
 
     constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
 
+    private groupSource = new BehaviorSubject<GroupSetModel>({} as GroupSetModel);
+    group$ = this.groupSource.asObservable();
+
     createGroup(groupSet: GroupSetModel): Observable<ResponseDTO<any>> {
-        return this.http.post<ResponseDTO<any>>(this.path, groupSet, this.httpOptions).pipe(
-          catchError(this.errHandler.formatErrors)
-        );
-      }
+      return this.http.post<ResponseDTO<any>>(this.path, groupSet, this.httpOptions).pipe(
+        catchError(this.errHandler.formatErrors)
+      );
+    }
       
-    SearchUsers(
-      groupParams: GroupParams
-    ): Observable<PaginationResult<GroupSetModel[]>> {
-      console.log("was in the service search ! "+  groupParams.searchKey.toString());
+    SearchUsers(groupParams: GroupParams): Observable<PaginationResult<GroupSetModel[]>> {
       let params = new HttpParams(); 
       if(groupParams.searchKey)
       {
@@ -47,11 +53,8 @@ import { environment } from "../../../environments/environment";
       }
       params = params.append("pageIndex", groupParams.pageIndex);
       params = params.append("pageSize", groupParams.pageSize);
-      console.log(params);
       return this.http
         .get<PaginationResult<GroupSetModel[]>>("http://localhost:14696/api/v1/GroupSet",{
-
-          
             params: {
               searhKey: groupParams.searchKey,
               pageIndex: groupParams.pageIndex,
@@ -75,8 +78,48 @@ import { environment } from "../../../environments/environment";
         );
     }
 
-    // LoadGroupDeatil(groupId : string) : Observable<ResponseDTO<any>> {
-      
+    LoadGroupDeatil(groupId : string) {
+       return this.http.get<ResponseDTO<GroupSetModel>>(this.baseUrl + 'LoadGroupSet?id=' + groupId);
+    }
+
+    LoadGroupUsers(groupParams: GroupParams): Observable<PaginationResult<IGroupUsersView[]>> {
+      let params = new HttpParams(); 
+      if(groupParams.groupId)
+      {
+        params = params.append("groupId", groupParams.groupId.toString());
+      }
+      params = params.append("pageIndex", groupParams.pageIndex.toString());
+      params = params.append("pageSize", groupParams.pageSize.toString());
+      return this.http.get<PaginationResult<IGroupUsersView>>(this.baseUrl + 'LoadGroupUsersSet',{ params }).pipe(
+          map((result: any) => {
+            this.groupUsersPaginatedResult = {
+              Data: result.Data,
+              pagination: {
+                PageIndex: result.PageIndex,
+                TotalRows: result.TotalPage,
+                PageSize: result.PageSize,
+                TotalRecord: result.TotalRecord
+              }
+            };
+            return this.groupUsersPaginatedResult;
+          })
+        );
+    }
+
+    DeleteGroup(groupId : string): Observable<ResponseDTO<any>> {
+      return this.http.delete<ResponseDTO<any>>(this.baseUrl + "?Id=" + groupId).pipe(
+        map((result) => {
+          return result;
+        })
+      )
+    }
+
+
+    // EditGroupDescription(groupId : string , description: string) : Observable<ResponseDTO<any>> {
+    //   return this.http.patch<ResponseDTO<any>>(this.baseUrl + "?Id=" + groupId).pipe(
+    //     map((result) => {
+    //       return result;
+    //     })
+    //   )
     // }
-    
 }
