@@ -320,7 +320,8 @@ export class TimesheetService {
     const params = new HttpParams()
       .set('pageindex', pageindex.toString())
       .set('pageSize', pageSize.toString())
-      .set('searchKey', searchKey ? searchKey : '');
+      .set('searchKey', searchKey ? searchKey : '')
+      .set('status' , status ? status: '');
 
     let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
       data: [] as TimesheetApproval[],
