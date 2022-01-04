@@ -2,7 +2,7 @@
 
 <div>
     <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'"
-        class="sm:flex  sm:ml-8" (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
+        class="sm:flex  sm:ml-8" [isToday]="isToday" (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
         (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
         
     <div class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false">
+<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false" (nzOnClose)="closeFormDrawer()">
     <div *nzDrawerContent>
         <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
             <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">
