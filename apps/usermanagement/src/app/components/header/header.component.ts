@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'exec-epp-page-header',
@@ -12,5 +13,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     
   }
+
 
 }

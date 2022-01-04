@@ -17,6 +17,8 @@ import { ResponseDTO } from '../../Models/ResponseDTO';
 import { IEmployeeModel } from '../../Models/employee.model';
 import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
+import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -90,12 +92,14 @@ export class UserDashboardComponent implements OnInit {
 
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
-  
+  isLogin=false;
   constructor(private userService : UserService,
+    private notification: NotificationBar,
     private _router: Router,
     private fb: FormBuilder,
     private addUserService: AddUserService,
-    private notifier: NotifierService) {
+    private notifier: NotifierService, private _authenticationService:AuthenticationService) {
+      this.isLogin=_authenticationService.loginStatus();
   }
 
   ngOnInit(): void {
@@ -108,6 +112,11 @@ export class UserDashboardComponent implements OnInit {
     this.createUserDashboardControls();
     this.userList as IUserModel[];
     this.FeatchAllUsers();
+    this.notification.showNotification({
+      type: 'success',
+      content: 'User dashboard loaded successfully',
+      duration: 1,
+    });
   }
 
   createUserDashboardControls() {
@@ -364,8 +373,8 @@ export class UserDashboardComponent implements OnInit {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
-
-                   
+                    this.isLoadng = false;
+                    this.isGroupModalVisible = false;
                 },
                 (error: any) => {
                     console.log(error);
