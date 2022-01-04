@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationService } from 'libs/common-services/Authentication.service';
 
 @Component({
   selector: 'exec-epp-dashboard',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  fullName:any
+  constructor(private authService: MsalService,private _authenticationService:AuthenticationService) { 
+    this.fullName=_authenticationService.getUserFullName();
+    const namearray=this.fullName.split(' ');
+    this.fullName=namearray[0];
 
-  ngOnInit(): void {
-  }
 
+
+}
+ngOnInit(): void {
+    
+}
 }
