@@ -37,9 +37,9 @@ export class TimesheetService {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
+      fromDate = this.dayAndDateService.getWeekendFirstDay();
     } else {
-      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
+      fromDate = this.dayAndDateService.getWeekendFirstDay();
     }
     fromDate.setHours(3, 0, 0, 0);
 
@@ -280,8 +280,8 @@ getTimesheetSubmissions(
      pagination: {} as Pagination
   };
   return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
-       .pipe(   
-         map((response:any) => { 
+       .pipe(
+         map((response:any) => {
            paginatedResult= {
              data:response.Data,
              pagination:{pageIndex:response.PageIndex,
@@ -289,7 +289,7 @@ getTimesheetSubmissions(
                pageSize:response.PageSize,
                totalRecord:response.TotalRecord}
           };
-          return paginatedResult;      
+          return paginatedResult;
          })
        );
 

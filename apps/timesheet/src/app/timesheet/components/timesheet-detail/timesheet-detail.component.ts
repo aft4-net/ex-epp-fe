@@ -1,23 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
-import { differenceInCalendarDays } from 'date-fns';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import {NzNotificationService, NzNotificationPlacement} from 'ng-zorro-antd/notification';
+import {differenceInCalendarDays} from 'date-fns';
 
-import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
-import { ClickEventType } from '../../../models/clickEventType';
-import { Client } from '../../../models/client';
-import { Employee } from '../../../models/employee';
-import { Project } from '../../../models/project';
-import { TimeEntryFormData } from '../../../models/timeEntryFormData';
-import { TimesheetConfiguration, Timesheet, TimeEntry, TimesheetApproval, ApprovalStatus } from '../../../models/timesheetModels';
-import { DayAndDateService } from '../../services/day-and-date.service';
-import { TimesheetValidationService } from '../../services/timesheet-validation.service';
-import { TimesheetService } from '../../services/timesheet.service';
-import { concat, observable, Observable, queueScheduler, scheduled, Scheduler } from 'rxjs';
-import { TimesheetStateService } from '../../state/timesheet-state.service';
-import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { concatAll, mergeAll } from 'rxjs/operators';
+import {DateColumnEvent, TimeEntryEvent} from '../../../models/clickEventEmitObjectType';
+import {ClickEventType} from '../../../models/clickEventType';
+import {Client} from '../../../models/client';
+import {Employee} from '../../../models/employee';
+import {Project} from '../../../models/project';
+import {TimeEntryFormData} from '../../../models/timeEntryFormData';
+import {
+  TimesheetConfiguration,
+  Timesheet,
+  TimeEntry,
+  TimesheetApproval,
+  ApprovalStatus
+} from '../../../models/timesheetModels';
+import {DayAndDateService} from '../../services/day-and-date.service';
+import {TimesheetValidationService} from '../../services/timesheet-validation.service';
+import {TimesheetService} from '../../services/timesheet.service';
+import {concat, observable, Observable, queueScheduler, scheduled, Scheduler} from 'rxjs';
+import {TimesheetStateService} from '../../state/timesheet-state.service';
+import {TimesheetConfigurationStateService} from '../../state/timesheet-configuration-state.service';
+import {concatAll, mergeAll} from 'rxjs/operators';
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean,
@@ -110,13 +116,16 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.startingWeek();
+
     this.userId = localStorage.getItem("userId");
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
 
-    this.timesheetConfig$.subscribe(tsc => this.timesheetConfig = tsc ?? { WorkingDays: [], WorkingHour: 0 });
+    this.timesheetConfig$.subscribe(tsc => this.timesheetConfig = tsc ?? {WorkingDays: [], WorkingHour: 0});
     this.timesheet$.subscribe(ts => this.timesheet = ts ?? null);
     this.timeEntries$.subscribe(te => this.timeEntries = te ?? null);
     this.timesheetApprovals$.subscribe(tsa => this.timesheetApprovals = tsa ?? null);
@@ -139,10 +148,55 @@ export class TimesheetDetailComponent implements OnInit {
       note: [null, [Validators.required]],
     });
 
+    // this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
+    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    // this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+    this.calcualteNoOfDaysBetweenDates();
+  }
+
+  setFirstDay() {
+    return 2;
+  }
+
+  startingWeek() {
+    // debugger;
+    this.dayAndDateService.fs = this.setFirstDay();
     this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    this.calcualteNoOfDaysBetweenDates();
+
+    // if (this.userId) {
+    //   this.getTimesheet(this.userId, this.weekDays[0])
+    // }
+  }
+
+  nextWeek(count: any) {
+    // debugger;
+    this.dayAndDateService.fs = this.setFirstDay();
+    let ss = this.dayAndDateService.getWeekendLastDay();
+    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    // if (this.userId) {
+    //   this.getTimesheet(this.userId, this.weekDays[0])
+    // }
+  }
+
+  lastastWeek(count: any) {
+    // debugger;
+    this.lastWeeks = count;
+    this.dayAndDateService.fs = this.setFirstDay();
+    let ss = this.dayAndDateService.getWeekendFirstDay();
+    console.log('f day: ' + ss);
+    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
+    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    // if (this.userId) {
+    //   this.getTimesheet(this.userId, this.weekDays[0])
+    // }
   }
 
   // To calculate the time difference of two dates
@@ -176,8 +230,7 @@ export class TimesheetDetailComponent implements OnInit {
 
       if (this.timesheet) {
         this.getTimeSheetApproval(this.timesheet.Guid);
-      }
-      else {
+      } else {
         this.checkForCurrentWeek();
       }
     }, error => {
@@ -282,35 +335,6 @@ export class TimesheetDetailComponent implements OnInit {
     }
   }
 
-  nextWeek(count: any) {
-    this.nextWeeks = count;
-    let ss = this.dayAndDateService.getWeekendLastDay();
-    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    this.checkTimeOverThreeWeeks(this.firstday1);
-
-    if (this.userId) {
-      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-    }
-
-    this.checkForCurrentWeek();
-  }
-
-  lastastWeek(count: any) {
-    this.lastWeeks = count;
-    let ss = this.dayAndDateService.getWeekendFirstDay();
-    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-    this.checkTimeOverThreeWeeks(this.firstday1);
-
-    if (this.userId) {
-      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-    }
-
-    this.checkForCurrentWeek();
-  }
 
   /* checkForCurrentWeek()
   * check if the displayed week is the current week
@@ -323,17 +347,14 @@ export class TimesheetDetailComponent implements OnInit {
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnContainerClass = "";
-    }
-    else if (this.lastday1.valueOf() >= date.valueOf()) {
+    } else if (this.lastday1.valueOf() >= date.valueOf()) {
       this.dateColumnContainerClass = "";
-    }
-    else {
+    } else {
       this.dateColumnContainerClass = "date-column-container";
 
       if (this.timeEntries && this.timeEntries.length > 0 && this.timesheetValidationService.isValidForApproval(this.timeEntries, this.timesheetConfig)) {
         this.createNotification("warning", "Timesheet hase not been submitted", "bottomRight");
-      }
-      else {
+      } else {
         this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
       }
     }
@@ -342,8 +363,7 @@ export class TimesheetDetailComponent implements OnInit {
   calculateWeeklyTotalHours() {
     if (this.timeEntries) {
       this.weeklyTotalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
-    }
-    else {
+    } else {
       this.weeklyTotalHours = 0;
     }
   }
@@ -431,8 +451,7 @@ export class TimesheetDetailComponent implements OnInit {
       if (timesheetApproval.length > 0 && timesheetApproval[0].Status != ApprovalStatus.Rejected) {
         this.notification.error('error', "You can't edit entries that are approved or submitted for approval.");
         this.clearFormData();
-      }
-      else {
+      } else {
         this.showFormDrawer();
       }
     });
@@ -468,8 +487,7 @@ export class TimesheetDetailComponent implements OnInit {
   setDefaultClient(clients: Client[] | null) {
     if (!clients) {
       return;
-    }
-    else if (this.formData.client && this.formData.client != "") {
+    } else if (this.formData.client && this.formData.client != "") {
       return;
     }
 
@@ -479,8 +497,7 @@ export class TimesheetDetailComponent implements OnInit {
   setDefaultProject(projects: Project[] | null) {
     if (!projects) {
       return;
-    }
-    else if (this.formData.project && this.formData.project != "") {
+    } else if (this.formData.project && this.formData.project != "") {
       return;
     }
 
@@ -528,8 +545,7 @@ export class TimesheetDetailComponent implements OnInit {
       timeEntry.TimeSheetId = this.timeEntry.TimeSheetId;
 
       this.updateTimeEntry(timeEntry);
-    }
-    else if (this.timesheet) {
+    } else if (this.timesheet) {
       timeEntry.TimeSheetId = this.timesheet.Guid;
       this.timesheetService.getTimeEntries(this.timesheet.Guid, this.date, timeEntry.ProjectId).subscribe(response => {
         this.timeEntry = response ? response[0] : null;
@@ -542,13 +558,11 @@ export class TimesheetDetailComponent implements OnInit {
           this.updateTimeEntry(timeEntry);
 
           this.timeEntry = null;
-        }
-        else {
+        } else {
           this.addTimeEntry(timeEntry);
         }
       })
-    }
-    else {
+    } else {
       this.addTimeEntry(timeEntry);
     }
   }
@@ -578,39 +592,35 @@ export class TimesheetDetailComponent implements OnInit {
         let timeEntryClone;
 
         if (tmpTimeEntry) {
-          tmpTimeEntry = { ...tmpTimeEntry };
+          tmpTimeEntry = {...tmpTimeEntry};
 
           tmpTimeEntry.Date = timeEntry.Date;
           tmpTimeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
           tmpTimeEntry.Note = tmpTimeEntry.Note + "\n" + timeEntry.Note;
 
-          timeEntryClone = { ...tmpTimeEntry };
-        }
-        else {
-          timeEntryClone = { ...timeEntry };
+          timeEntryClone = {...tmpTimeEntry};
+        } else {
+          timeEntryClone = {...timeEntry};
         }
 
         if (this.timesheetValidationService.isValidForAdd(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
-        }
-        else {
+        } else {
           this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
           });
         }
       }
-    }
-    else {
+    } else {
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
-        let timeEntryClone = { ...timeEntry };
+        let timeEntryClone = {...timeEntry};
 
         if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
-        }
-        else {
+        } else {
           this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? ""
@@ -717,19 +727,16 @@ export class TimesheetDetailComponent implements OnInit {
     if (this.timeEntry) {
       this.dateColumnTotalHour = totalHour ? totalHour : 0;
       this.dateColumnTotalHour -= this.timeEntry ? this.timeEntry.Hour : 0;
-    }
-    else if (fromDate && toDate) {
+    } else if (fromDate && toDate) {
       fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
       toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
 
       if (fromDate.valueOf() === toDate.valueOf()) {
         this.dateColumnTotalHour = totalHour ? totalHour : 0;
-      }
-      else {
+      } else {
         this.dateColumnTotalHour = 0;
       }
-    }
-    else {
+    } else {
       this.dateColumnTotalHour = totalHour ?? 0;
     }
   }
@@ -743,8 +750,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.formData.toDate = this.formData.fromDate;
       this.disableToDate = false;
       this.setColumnDate(this.formData.fromDate);
-    }
-    else {
+    } else {
       this.formData.toDate = null;
       this.disableToDate = true;
     }
@@ -772,7 +778,7 @@ export class TimesheetDetailComponent implements OnInit {
 
   createNotification(type: string, message: string, position?: NzNotificationPlacement) {
 
-    if(this.startingDateCriteria.isBeforeThreeWeeks){
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
       return;
     }
     if (!position) {
@@ -781,16 +787,16 @@ export class TimesheetDetailComponent implements OnInit {
 
     switch (type.toLowerCase()) {
       case "success":
-        this.notification.success("", message, { nzPlacement: position });
+        this.notification.success("", message, {nzPlacement: position});
         break;
       case "info":
-        this.notification.info("", message, { nzPlacement: position });
+        this.notification.info("", message, {nzPlacement: position});
         break;
       case "warning":
-        this.notification.warning("", message, { nzPlacement: position });
+        this.notification.warning("", message, {nzPlacement: position});
         break;
       case "error":
-        this.notification.error("", message, { nzPlacement: position });
+        this.notification.error("", message, {nzPlacement: position});
         break;
     }
   }
