@@ -290,26 +290,7 @@ export class TimesheetService {
         params = params.append(filter.key, value);
       });
     });
-<<<<<<< HEAD
-  });
-   let paginatedResult: PaginatedResult< TimesheetApproval[]> = {
-     data: [] as  TimesheetApproval[],
-     pagination: {} as Pagination
-  };
-  return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` +params.toString())
-       .pipe(
-         map((response:any) => {
-           paginatedResult= {
-             data:response.Data,
-             pagination:{pageIndex:response.PageIndex,
-               totalPage:response.TotalPage,
-               pageSize:response.PageSize,
-               totalRecord:response.TotalRecord}
-          };
-          return paginatedResult;
-         })
-       );
-=======
+
     let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
       data: [] as TimesheetApproval[],
       pagination: {} as Pagination
@@ -329,8 +310,6 @@ export class TimesheetService {
           return paginatedResult;
         })
       );
->>>>>>> develop
-
   }
   getTimesheetApprovalPagination(
     pageindex: number,

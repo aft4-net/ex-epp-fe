@@ -172,9 +172,7 @@ export class TimesheetDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.startingWeek();
-
-
+    //this.startingWeek();
     this.userId = localStorage.getItem('userId');
     this.timesheetConfig$ =
       this.timesheetConfigurationStateService.timesheetConfiguration$;
@@ -184,10 +182,10 @@ export class TimesheetDetailComponent implements OnInit {
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
 
 
-    this.timesheetConfig$.subscribe(
-      (tsc) =>
-        (this.timesheetConfig = tsc ?? { WorkingDays: [], WorkingHour: 0 })
-    );
+    this.timesheetConfig$.subscribe((tsc) =>{
+      (this.timesheetConfig = tsc ?? { WorkingDays: [], WorkingHour: 0 })
+      this.startingWeek();
+    });
     this.timesheet$.subscribe((ts) => (this.timesheet = ts ?? null));
     this.timeEntries$.subscribe((te) => (this.timeEntries = te ?? null));
     this.timesheetApprovals$.subscribe(
@@ -220,23 +218,17 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   setFirstDay() {
-    return 1;
+    return 2;
   }
 
   startingWeek() {
-    // debugger;
     this.dayAndDateService.fs = this.setFirstDay();
     this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-
-    // if (this.userId) {
-    //   this.getTimesheet(this.userId, this.weekDays[0])
-    // }
   }
 
   nextWeek(count: any) {
-    // debugger;
     this.dayAndDateService.fs = this.setFirstDay();
     let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
@@ -249,13 +241,11 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   lastastWeek(count: any) {
-    // debugger;
     this.lastWeeks = count;
     this.dayAndDateService.fs = this.setFirstDay();
     let ss = this.dayAndDateService.getWeekendFirstDay();
     console.log('f day: ' + ss);
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
-    // this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
