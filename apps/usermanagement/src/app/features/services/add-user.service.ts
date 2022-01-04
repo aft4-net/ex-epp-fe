@@ -65,7 +65,9 @@ export class AddUserService {
   );
   }
   getUserGroups(userId: string): Observable<[GroupSetModel]> {
+    
     const url = `${environment.apiUrl}/User/GetUserGroup?userId=${userId}`;
+    alert(url);
   return this.http.get<[GroupSetModel]>(url).pipe(
     catchError(this.formatError)
   );

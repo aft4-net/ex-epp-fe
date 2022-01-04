@@ -366,6 +366,7 @@ export class UserDashboardComponent implements OnInit {
     )
   }
   AddToGroup(userId: string)  {
+    this.selectedUserId = userId;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
     this.isLoadng = true;
@@ -380,7 +381,6 @@ export class UserDashboardComponent implements OnInit {
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
                     this.isLoadng = false;
-                    this.isGroupModalVisible = false;
                 },
                 (error: any) => {
                     console.log(error);
@@ -411,7 +411,7 @@ onSaveGroups() {
               'User is created successfully'
           );
           this.isLoadng = false;
-          this.isUserModalVisible = false;
+          this.isGroupModalVisible = false;
           this.selectedGroups = [];
           this.groupfrm.reset();
       },
