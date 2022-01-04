@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false">
+<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false" (nzOnClose)="closeFormDrawer()">
     <div *nzDrawerContent>
         <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
             <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">

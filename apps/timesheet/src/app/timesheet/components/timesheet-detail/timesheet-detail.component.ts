@@ -890,6 +890,7 @@ export class TimesheetDetailComponent implements OnInit {
 
   closeFormDrawer(): void {
     this.clearFormData();
+    this._clientAndProjectStateService.reset();
     this.drawerVisible = false;
   }
 
