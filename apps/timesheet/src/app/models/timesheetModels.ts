@@ -26,6 +26,7 @@ export enum ApprovalStatus {
 }
 
 export interface TimesheetApproval {
+  
     TimesheetId: string;
     ProjectId: string;
     Status: ApprovalStatus;
@@ -38,6 +39,8 @@ export interface TimesheetApproval {
     TotalHours:number;
     ProjectName:string;
 }
+
+
 
 export interface TimesheetConfiguration {
     WorkingDays: string[];
@@ -74,7 +77,7 @@ export interface TimesheetConfigResponse extends Response {
     Data: TimesheetConfiguration;
 }
 
-export interface ApprovalEntity extends Response{
+export interface ApprovalEntity {
   TimesheetId: string;
   ProjectId:string;
   Status:ApprovalStatus;

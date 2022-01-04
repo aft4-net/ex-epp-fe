@@ -23,7 +23,7 @@
       </svg>
     </a>
   </span>
- 
+
   <nz-date-picker class="mt-3 mb-3" nzMode="week" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
  <nz-table  #filterTable
   nzSize="small"
@@ -52,8 +52,8 @@
         </th>
 
         <th nzColumnKey="status" [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
-          [nzSortDirections]="listOfColumns[3].sortDirections" 
-          [nzFilters]="listOfColumns[3].listOfFilter" 
+          [nzSortDirections]="listOfColumns[3].sortDirections"
+          [nzFilters]="listOfColumns[3].listOfFilter"
           >
           {{ listOfColumns[3].name }}
         </th>
@@ -64,7 +64,7 @@
       </tr>
     </thead>
     <tbody style="margin-bottom: 0px !important; padding-bottom: 0px;!important " >
-      <tr *ngFor="let data of   filterTable.data">
+      <tr *ngFor="let data of   filterTable.data" (click)= reviewsubmissions(data.FromDate)>
         <td>{{data.FromDate | date:'MMM' }} {{data.FromDate | date:'L'}} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
         <td>{{  data.ClientName}}</td>
