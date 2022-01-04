@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from "../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 
@@ -11,12 +12,12 @@ import { ErrHandleService } from './error-handle.service';
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
+    constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
 
    loginStatus(){
        return this.isLogin();
    }
-   
+
     
    storeLoginUser(user:any){
     window.sessionStorage.removeItem('name');
@@ -25,6 +26,8 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem("name",user.name);
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
+    //this.router.navigateByUrl('');
+    window.location.replace('http://localhost:4200/');
    }
 
    getUserFullName(){

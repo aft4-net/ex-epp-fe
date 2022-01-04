@@ -35,7 +35,7 @@ ngOnInit(): void {
     this.router.navigateByUrl('usermanagement/sign_in');
   }
   else{
-    this.router.navigateByUrl('usermanagement');
+    this.router.navigateByUrl('');
   }
 }
 
