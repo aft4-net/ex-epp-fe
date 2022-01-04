@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
 ///import{MsalService} from '@azure/msal-angular';
 //import{AuthenticationResult} from '@azure/msal-browser'
 
@@ -12,15 +14,15 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent implements OnInit {
 
-  //    constructor(private authService: MsalService, private router: Router) {}
+     constructor(private authService: MsalService, private router: Router) {}
   
   ngOnInit(): void {
-    ;
-  //   this.authService.instance.handleRedirectPromise().then( res => {
-  //     if (res != null && res.account != null) {
-  //       this.authService.instance.setActiveAccount(res.account)
-  //     }
-  //   })
+    
+   this.authService.instance.handleRedirectPromise().then( res => {
+ if (res != null && res.account != null) {
+    this.authService.instance.setActiveAccount(res.account)
+    }
+  })
    }
 
    isLoggedIn(): boolean {
@@ -29,24 +31,21 @@ export class SigninComponent implements OnInit {
    }
 
   login() {
-    ;
-    // // this.authService.loginRedirect();
-    // this.authService.loginPopup()
-    //   .subscribe((response: AuthenticationResult) => {
-    //  const data=   this.authService.instance.setActiveAccount(response.account);
+    
+     this.authService.loginRedirect();
+     this.authService.loginPopup() .subscribe((response: AuthenticationResult) => {
+     const data=   this.authService.instance.setActiveAccount(response.account);
      
-    //    console.log('data');
-    //    console.log(response.account);
-    //    console.log(this.router.navigateByUrl('usermanagement'));
-    //    this.router.navigateByUrl('usermanagement');
-     
-    //  //window.location.reload();
-        
-    //   });
+    console.log('data');
+    console.log(response.account);
+    console.log(this.router.navigateByUrl('usermanagement'));
+    this.router.navigateByUrl('usermanagement');
+     window.location.reload();
+   });
   }
 
   logout() {
-   // this.authService.logout();
+   this.authService.logout();
     window.location.reload();
   }
 }
