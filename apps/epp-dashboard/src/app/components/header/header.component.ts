@@ -20,6 +20,7 @@ fullName:any
   }
 
   logout() {
+    this._authenticationService.loginCount=0;
     this.authService.logout();
       window.sessionStorage.clear();
      window.location.reload();
