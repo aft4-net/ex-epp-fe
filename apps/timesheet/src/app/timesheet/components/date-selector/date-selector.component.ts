@@ -13,6 +13,7 @@ export class DateSelectorComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   @Output() valueChangeNextWeek = new EventEmitter();
   @Output() valueChangeLastWeek = new EventEmitter();
+  @Input() isToday = true;
 
   date = null;
   CounterNextWeek = 0;
