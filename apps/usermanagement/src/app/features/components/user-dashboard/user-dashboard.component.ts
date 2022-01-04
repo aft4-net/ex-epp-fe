@@ -17,6 +17,7 @@ import { ResponseDTO } from '../../Models/ResponseDTO';
 import { IEmployeeModel } from '../../Models/employee.model';
 import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
+import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -90,12 +91,13 @@ export class UserDashboardComponent implements OnInit {
 
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
-  
+  isLogin=false;
   constructor(private userService : UserService,
     private _router: Router,
     private fb: FormBuilder,
     private addUserService: AddUserService,
-    private notifier: NotifierService) {
+    private notifier: NotifierService, private _authenticationService:AuthenticationService) {
+      this.isLogin=_authenticationService.loginStatus();
   }
 
   ngOnInit(): void {

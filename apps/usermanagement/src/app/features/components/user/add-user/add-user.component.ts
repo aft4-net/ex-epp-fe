@@ -58,7 +58,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
     )
   }
   onShowError(err: any) {
-    let errMsg = 'Some error occured. Please review your input and try again. ';
+    const errMsg = 'Some error occured. Please review your input and try again. ';
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
     this.isLoadng = false;
@@ -73,14 +73,24 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.userService.getEmployeeById(empId).subscribe(
       (res: ResponseDTO<IEmployeeModel>) => {
         const user: IUserPostModel =   {
-          EmployeeId : res.Data.Guid,
-          FirstName : res.Data.FirstName,
-          MiddleName : res.Data.FatherName,
-          LastName : res.Data.GrandFatherName,
-          Tel:res.Data.MobilePhone,
+          EmployeeId: res.Data.Guid,
+          FirstName: res.Data.FirstName,
+          MiddleName: res.Data.FatherName,
+          LastName: res.Data.GrandFatherName,
+          Tel: res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
+          UserName: ""
         }
-
+///Back up
+// const user: IUserPostModel =   {
+//   EmployeeId : res.Data.Guid,
+//   FirstName : res.Data.FirstName,
+//   MiddleName : res.Data.FatherName,
+//   LastName : res.Data.GrandFatherName,
+//   Tel:res.Data.MobilePhone,
+//   Email: res.Data.PersonalEmail,
+// }
+////
         this.userService.add(user).subscribe(
           () => {
             this.notifier.notify(
