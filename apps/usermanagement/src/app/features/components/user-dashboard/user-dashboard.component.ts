@@ -183,7 +183,7 @@ export class UserDashboardComponent implements OnInit {
             sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
-            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
           {
             name: 'Status',
@@ -470,16 +470,12 @@ handleGroupCancel() {
     return;
   }
 
-  
-
-  
-
   Remove(userId: string) {
 
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/user-detail');
+    this._router.navigateByUrl('/userdetail');
   }
   
   handleOk(): void {
