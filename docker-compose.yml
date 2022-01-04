@@ -5,7 +5,7 @@ services:
     image: blens/at:latest
     ports: 
       - "4201:80"
-  epp:
+  client-management:
     image: blens/eppfe:latest
     ports: 
       - "4202:80"
@@ -21,4 +21,8 @@ services:
     image: blens/rm:latest
     ports:
       - "4205:80"
+  user-management:
+    image: blens/um:latest
+    ports:
+      - "4206:80"
   
