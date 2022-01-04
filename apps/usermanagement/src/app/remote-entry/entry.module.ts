@@ -14,6 +14,7 @@ import { GroupDetailComponent } from '../features/components/group-detail/group-
 import {  MsalModule, MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { SigninComponent } from '../features/Account/signin/signin.component';
+import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
 export function MSALInstanceFactory(): IPublicClientApplication 
 {return new PublicClientApplication({
    auth: {
@@ -43,6 +44,9 @@ export function MSALInstanceFactory(): IPublicClientApplication
           },
           {
             path:'user-dashboard',component:UserDashboardComponent
+          },
+          {
+            path:'userdetails',component:UserdetailsComponent
           },
           {
             path:'group',component:GroupsetComponent

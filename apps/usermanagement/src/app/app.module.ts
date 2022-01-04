@@ -21,6 +21,7 @@ import { registerLocaleData } from '@angular/common';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
 import { AddUserComponent } from './features/components/user/add-user/add-user.component';
 import { UserToGroupComponent } from './features/components/user/user-to-group/user-to-group.component';
+import { UserdetailsComponent } from './features/components/userdetails/userdetails.component';
 
 registerLocaleData(en);
 @NgModule({
@@ -36,7 +37,8 @@ registerLocaleData(en);
     GroupsetComponent,
     GroupDetailComponent,
     AddUserComponent,
-    UserToGroupComponent
+    UserToGroupComponent,
+    UserdetailsComponent
   ],
   imports: [
     BrowserModule,
