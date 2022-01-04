@@ -1,13 +1,13 @@
 <nz-layout  *ngIf="isLogin">
     <nz-content>
-      <nz-divider nzType="horizontal"></nz-divider>
-      <div style="margin-top: -40px;" class="inner-content">
+      
+      <div style="margin-top: -20px;" class="inner-content">
         <div nz-row>  
           <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
           </h2></div>
           <div nz-col nzSpan="12" style="text-align: right;">
-            <button nz-button nzType="primary" class="adduser" (click)="onAddUser()">
+            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" (click)="onAddUser()">
               Add User
             </button>
           </div>  
