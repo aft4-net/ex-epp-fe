@@ -30,19 +30,18 @@ export class SigninComponent implements OnInit {
    }
 
   login() {
-    alert('response.account?.name');
-    // this.authService.loginRedirect();
+   
+   
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
-        alert('2response.account?.name');
-     const data=   this.authService.instance.setActiveAccount(response.account);
-     
-       console.log('data');
-       alert(response.account?.name);
+       const data=   this.authService.instance.setActiveAccount(response.account);
+      
        if(response.account?.username){
         this._authenticationService.storeLoginUser(response.account)
-       // this.router.navigateByUrl('');
-       window.location.reload();
+        
+        
+       // window.location.reload();
+        this.router.navigateByUrl('user-dashboard');
        }
        else{
         this.router.navigateByUrl('usermanagement');

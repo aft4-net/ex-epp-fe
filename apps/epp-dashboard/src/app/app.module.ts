@@ -8,6 +8,14 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
+import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+
+export function MSALInstanceFactory(): IPublicClientApplication 
+{return new PublicClientApplication({
+   auth: {
+     clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
+      redirectUri: 'http://localhost:4200'}});}
 @NgModule({
   declarations: [AppComponent, DashboardComponent
   ,HeaderComponent,
@@ -16,9 +24,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     BrowserModule,
     DemoNgZorroAntdModule,
+    
 
     HttpClientModule,
-
+    
     BrowserAnimationsModule,
     RouterModule.forRoot(
       [
@@ -35,7 +44,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { initialNavigation: 'enabledBlocking' }
     ),
   ],
-  providers: [],
+  providers: [{
+    provide: MSAL_INSTANCE,
+    useFactory: MSALInstanceFactory
+  },
+  MsalService ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

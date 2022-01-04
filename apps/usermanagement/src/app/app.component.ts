@@ -35,7 +35,13 @@ ngOnInit(): void {
     this.router.navigateByUrl('usermanagement/sign_in');
   }
   else{
-    this.router.navigateByUrl('usermanagement');
+    if(this._authenticationService.loginCount==0){
+      this._authenticationService.loginCount=1
+      this.router.navigateByUrl('');
+    }
+    else{
+      this.router.navigateByUrl('usermanagement');
+    }
   }
 }
 
