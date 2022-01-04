@@ -740,7 +740,7 @@
           "options": {
             "commands": [
               "nx build user-management --with-deps",
-              "docker build -f Dockerfile.user-management . -t resource-management"
+              "docker build -f Dockerfile.user-management . -t user-management"
             ],
             "parallel": false
           }
