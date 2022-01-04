@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
-import { findIndex } from 'rxjs/operators';
+import { findIndex, map } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
+import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
+import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Directive({
   selector: '[entries]',
@@ -19,7 +21,7 @@ export class DayAndDateDirective {
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
 })
-export class DayAndDateColumnComponent implements OnInit, OnChanges{
+export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   @Output() dateColumnClicked = new EventEmitter<DateColumnEvent>();
   @Output() projectNamePaletClicked = new EventEmitter<TimeEntryEvent>();
@@ -34,11 +36,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
+  @Input() timesheetreview: TimeEntry[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
-  @ViewChildren('entries') entriesDiv!: QueryList<any>;
-  @ViewChild('pt') pointerEl!: ElementRef;
-  @ViewChild('col') colEl!: ElementRef;
-  @ViewChild('addIcon') iconEL!: ElementRef;
+ 
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
@@ -48,12 +48,15 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
   overflowPt?: number = 0;
   of: any;
   isSubmitted: boolean | undefined;
-  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) { }
+  startingDateCriteria = startingDateCriteria
+  disabled = false
+
+  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
 
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
-    
+
   }
 
   ngOnChanges(): void {
@@ -63,13 +66,14 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     if (this.timeEntries) {
       let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
-      
+
     }
 
     let today = new Date();
 
-    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1))) {
+    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1)) || this.startingDateCriteria.isBeforeThreeWeeks) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      this.disabled = true;
     }
     else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
@@ -78,10 +82,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
   }
-
-
   
-  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {debugger;
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
       this.projectNamePaletClicked.emit(timeEntryEvent);
@@ -90,7 +92,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     this.clickEventType = ClickEventType.none;
   }
 
-  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {debugger;
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType;
       this.paletEllipsisClicked.emit(timeEntryEvent);
@@ -99,7 +101,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     this.clickEventType = ClickEventType.none;
   }
 
-  onEditButtonClicked(clickEventType: ClickEventType) {debugger;
+  onEditButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
@@ -108,7 +110,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     this.clickEventType = ClickEventType.none;
   }
 
-  onDeleteButtonClicked(clickEventType: ClickEventType) {debugger;
+  onDeleteButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.deleteButtonClicked.emit(this.clickEventType);
@@ -135,7 +137,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     this.morePopover = true;
   }
 
-  scrollTimeEntriesUp(el:any){
+  scrollTimeEntriesUp(el: any) {
     const myElement = document.getElementById(el);
     myElement?.scroll({
       top: 100,
@@ -149,8 +151,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     //myElement!.scrollTop = myElement!.scrollHeight - myElement!.clientHeight;
 
   }
- 
-  checkOverflow(divId:any){
+
+  checkOverflow(divId: any) {
     const elem = document.getElementById(divId)
 
     const isOverflowing = elem!.clientHeight < elem!.scrollHeight;
@@ -158,6 +160,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges{
     if(isOverflowing){
       elem!.classList.remove("entries-overflow");
       elem!.classList.add("show-scroll-bar");
+    }
+    else {
+      elem!.classList.add("entries-overflow");
+      elem!.classList.remove("show-scroll-bar");
     }
   }
 

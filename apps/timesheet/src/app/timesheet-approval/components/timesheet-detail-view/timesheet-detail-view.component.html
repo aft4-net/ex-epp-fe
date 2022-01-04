@@ -1,0 +1,71 @@
+<nz-modal
+  [nzVisible]="isDialogVisible"
+  nzTitle="{{timesheetDetail?.name}}, {{timesheetDetail?.dateRange| date:'MMM dd'}} - {{ timesheetDetail?.dateRange | date}}"
+  [nzFooter]="null"
+  [nzWidth]="890"
+  (nzOnCancel)="exitModal()"
+  nzMaskClosable="false"
+>
+  <ng-container *nzModalContent class="layer">
+    <div class="overflow-scroll">
+      <div>
+        <label>Project Name:</label>
+        <label style="font-weight: 500">{{timesheetDetail.ProjectName}}</label>
+      </div>
+      <div>
+        <label>Client Name:</label> <label style="font-weight: 500">{{timesheetDetail?.ClientName}}</label>
+      </div>
+      <div>
+        <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail?.TotalHours}}</label>
+      </div>
+      <div>
+        <nz-table class="table" #rowSelectionTable [nzData]="approvalDetails">
+          <thead>
+            <tr class="tr">
+              <th>Day and Date</th>
+              <th>Hours</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of approvalDetails; let i = index">
+              <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
+              <td>{{ formatHour(data.Hour) }}</td>
+              <td>{{ data.Note }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+      <div class="commentArea">
+        <nz-comment>
+          <nz-comment-content>
+            <label for="" class="commentLabel">Comments</label><br />
+
+            <nz-form-item >
+              <textarea class="textArea" [disabled]="timesheetDetail.status!=='Awaiting Approval'" [(ngModel)]="inputValue"></textarea>
+            </nz-form-item>
+            <nz-form-item [hidden]="timesheetDetail.status!=='Awaiting Approval'">
+              <button nz-button class="approveButton"  (click)="approve()">
+                Approve
+              </button>
+              &nbsp;
+              <button
+                nz-button
+                class="requestForReviewButton"
+                (click)="requestForReview()"
+                [disabled]="!submitting"
+                [title]="
+                  submitting ? 'Enter comment to request for review!.' : ''
+                "
+                [disabled]="!inputValue"
+              >
+              Request for review
+
+              </button>
+            </nz-form-item>
+          </nz-comment-content>
+        </nz-comment>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
