@@ -101,6 +101,15 @@
                     Edit group's access
                       </button>
                     </a>
+
+                    <div class="assign-access" *ngFor="let item of listOfAssignedPermistion;let i=index">
+                      <h3><b>{{item.Parent.label}}</b></h3>
+                      <div>
+                        <p *ngFor="let child of item.Childs">
+                          {{child.label}}
+                        </p>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
