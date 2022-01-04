@@ -1,37 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { MsalService } from '@azure/msal-angular';
-import { AuthenticationService } from 'libs/common-services/Authentication.service';
-=======
-import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
->>>>>>> 7261c7540e2b85bb0c335918a85551a5d0e9683e
 
+import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
+import {PermissionService} from './../../../../../../libs/common-services//permission.service';
+import { IntialdataService } from '../../services/intialdata.service';
 @Component({
   selector: 'exec-epp-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-<<<<<<< HEAD
-
   fullName:any
-  constructor(private authService: MsalService,private _authenticationService:AuthenticationService) { 
-    this.fullName=_authenticationService.getUserFullName();
-    const namearray=this.fullName.split(' ');
-    this.fullName=namearray[0];
-
-=======
-name:any
-  constructor(private _authenticationService:AuthenticationService) { }
+  permissionList:any[]=[ ];
+modulePermission:any[]=[];
+  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService) { }
 
   ngOnInit(): void {
-    this.name=this._authenticationService.getUserFullName();
+    this.fullName=this._authenticationService.getUserFullName();
+this.getPermission();
+this._permissionService.permissionList=this.permissionList;
+console.log('ggg')
+console.log(this._permissionService.permissionList)
+console.log('ggg')
   }
->>>>>>> 7261c7540e2b85bb0c335918a85551a5d0e9683e
+   authorize(key:string){
+     
+    // return true;
+     return this._permissionService.authorizedPerson(key);
+   }
+   getPermission(): void {
+    this._intialdataService.getUserPermission().subscribe((res:any)=>{
+      this.permissionList=res.Data;     
+    })
+    this._intialdataService.getModulePermission().subscribe((res:any)=>{
+      this.modulePermission=res.Data;
+     
+      this.modulePermission.forEach(parent => {
+        this.permissionList.forEach(child => {
+            if(parent.PermissionCode==child.ParentCode){
+                this.permissionList=[...this.permissionList,parent]
+                console.log(this.permissionList)
+                this._permissionService.permissionList=this.permissionList;
+            }
+        });
+    });
+    })
+}
+}
 
 
-}
-ngOnInit(): void {
-    
-}
-}
