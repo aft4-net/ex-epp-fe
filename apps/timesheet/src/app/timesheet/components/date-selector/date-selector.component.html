@@ -15,5 +15,10 @@
           <h1 class="date text-center mt-2 text-lg font-semibold sm:ml-6  sm:text-base sm:font-semibold   sm:mb-6 lg:mt-6 font-sans md:font-medium md:text-xl lg:font-medium lg:text-2xl xl:font-medium xl:text-2xl"> {{dates10}} {{dates11}} </h1>     
           <i nz-icon nzType="right" nzTheme="outline" class="mt-8 ml-6"></i>
        </div>
+
+       <div class="right-buttons mt-4 flex ml-96 pl-10">
+        <button [routerLink]="['/timesheet/view_submission']" nzSuccess nzSize="large" nz-button  class="mr-2">View Submision</button>
+        <button [routerLink]="['/timesheet/approve_timesheet']" nzSize="large" nz-button >Approve Timesheet</button>
+       </div>
         <!--<h1>Jul 26 - Aug 01, 2021</h1> -->
         <!--counter this weeks: {{CounterNextWeek}}-->
