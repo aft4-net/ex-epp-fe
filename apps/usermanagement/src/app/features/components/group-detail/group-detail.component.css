@@ -163,6 +163,11 @@ tr.ant-table-row.ng-star-inserted {
   padding: 0px !important;
 }
 
+.editGroup {
+  color: #fff;
+  background-color: #00a551;
+  border-color: #00a551;
+}
 .assign-access{
   margin-top: 10px;
   margin-bottom: 10px;

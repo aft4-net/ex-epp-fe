@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, fromEvent, of } from 'rxjs';
+import { Observable, fromEvent, of, observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
 import { ColumnItem } from '../../Models/ColumnItem';
@@ -261,8 +261,7 @@ export class GroupsetComponent implements OnInit {
 // to do
   }
 
-  ShowDetail(userId: string) {
-    //to do
+  ShowDetail(groupId : string) {
+    this.router.navigateByUrl('usermanagement/group-detail/' + groupId);
   }
-
 }
