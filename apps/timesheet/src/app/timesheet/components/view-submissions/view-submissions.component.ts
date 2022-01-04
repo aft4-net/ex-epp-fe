@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PaginatedResult } from '../../../models/PaginatedResult';
 import {
   ApprovalStatus,
   TimesheetApproval,
 } from '../../../models/timesheetModels';
-import { TimesheetService } from '../../services/timesheet.service';
+import { Component, OnInit } from '@angular/core';
 import {
   NzTableFilterFn,
   NzTableFilterList,
@@ -13,6 +10,12 @@ import {
   NzTableSortFn,
   NzTableSortOrder,
 } from 'ng-zorro-antd/table';
+
+import { DateHelperByDatePipe } from 'ng-zorro-antd/i18n';
+import { PaginatedResult } from '../../../models/PaginatedResult';
+import { Router } from '@angular/router';
+import { TimesheetService } from '../../services/timesheet.service';
+import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 interface ColumnItem {
   name: string;
@@ -30,6 +33,7 @@ interface ColumnItem {
 })
 export class ViewSubmissionsComponent implements OnInit {
   date = null;
+  userId: string | null = null;
   listOfColumns: ColumnItem[] = [
     {
       name: 'Date Range',
@@ -98,11 +102,12 @@ export class ViewSubmissionsComponent implements OnInit {
   params!: NzTableQueryParams;
   constructor(
     private router: Router,
-    private timeSheetService: TimesheetService
+    private timeSheetService: TimesheetService,
+    public state: TimesheetStateService
   ) {}
 
   ngOnInit(): void {
-    this.timesheetSubmissionPaginatin(1,this.pageSize,null,[]);
+    this.timesheetSubmissionPaginatin(1, this.pageSize, null, []);
     this.timeSheetHistory = this.sampleData;
     this.total = this.sampleData.length;
     this.setFliters();
@@ -112,52 +117,61 @@ export class ViewSubmissionsComponent implements OnInit {
     this.router.navigateByUrl('timesheet');
   }
 
-  timesheetSubmissionPaginatin(pageIndex:number, sortField:any, sortOrder:any, filter:any) {
-    this.loading=true;
+  timesheetSubmissionPaginatin(
+    pageIndex: number,
+    sortField: any,
+    sortOrder: any,
+    filter: any
+  ) {
+    this.loading = true;
     this.timeSheetService
-      .getTimesheetSubmissions(pageIndex, this.pageSize,sortField,sortOrder,filter)
+      .getTimesheetSubmissions(
+        pageIndex,
+        this.pageSize,
+        sortField,
+        sortOrder,
+        filter
+      )
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetHistory = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;
         this.total = response.pagination.totalRecord;
         this.totalPage = response.pagination.totalPage;
-        this.loading=false;
+        this.loading = false;
       });
   }
 
-  getWeek($event:Date)
-  {
-    console.log($event)
-    const { pageSize, pageIndex, sort, filter } =this.params;
-    const currentSort = sort.find(item => item.value !== null);
+  getWeek($event: Date) {
+    console.log($event);
+    const { pageSize, pageIndex, sort, filter } = this.params;
+    const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
-    filter.push({key:"FromDate",value:$event})
+    filter.push({ key: 'FromDate', value: $event });
     this.timesheetSubmissionPaginatin(pageIndex, sortField, sortOrder, filter);
- }
+  }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     console.log(params);
-    this.loading=true;
-    this.params=params
+    this.loading = true;
+    this.params = params;
     const { pageSize, pageIndex, sort, filter } = params;
-    const currentSort = sort.find(item => item.value !== null);
+    const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
     this.timesheetSubmissionPaginatin(pageIndex, sortField, sortOrder, filter);
   }
-   
+
   PageIndexChange(index: number): void {
     this.pageIndex = index;
     const { pageSize, pageIndex, sort, filter } = this.params;
-    const currentSort = sort.find(item => item.value !== null);
+    const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
     this.timesheetSubmissionPaginatin(index, sortField, sortOrder, filter);
     this.loading = false;
   }
-
 
   setFliters() {
     const clientNameList: string[] = [];
@@ -188,7 +202,6 @@ export class ViewSubmissionsComponent implements OnInit {
     console.log(this.statusFilter);
   }
 
- 
   getUniqeValue(value: any[]) {
     return value
       .map((item) => item)
@@ -197,7 +210,6 @@ export class ViewSubmissionsComponent implements OnInit {
 
   get sampleData(): TimesheetApproval[] {
     return [
- 
       {
         ProjectName: 'Fizer',
         ClientName: 'Security finance Coperation',
@@ -250,7 +262,7 @@ export class ViewSubmissionsComponent implements OnInit {
         CreatedDate: new Date(),
         TotalHours: 1231,
       },
-  
+
       {
         ProjectName: 'EPP',
         ClientName: 'Excellerent',
@@ -316,7 +328,16 @@ export class ViewSubmissionsComponent implements OnInit {
         ToDate: new Date(2021, 4, 25),
         CreatedDate: new Date(),
         TotalHours: 1231,
-      }
+      },
     ];
+  }
+
+  reviewsubmissions(date: Date) {
+    this.state.date = date;
+    this.userId = localStorage.getItem('userId');
+    if (this.userId) {
+      this.state.getTimesheet(this.userId, date);
+      this.router.navigate(['/timesheet']);
+    }
   }
 }

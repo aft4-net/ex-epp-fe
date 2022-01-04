@@ -21,8 +21,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekFirstDate: Date | null = null;
   @Input() weekLastDate: Date | null = null;
   @Input() isApproved = false;
-  @Output() resubmitEvent = new EventEmitter<boolean>();
-  @Input() resubmitClicked:boolean|undefined;
+  resubmitClicked:boolean|undefined;
   weeklyTotalHours: number = 0;
   configWeeklyTotalHour: number = 0;
   startingDateCriteria = startingDateCriteria
@@ -137,6 +136,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
         
         this.timesheetService.updateTimesheetApproval(temp).subscribe();
         this.timesheetApprovals[i].Status= ApprovalStatus.Requested;
+        this.resubmitClicked=true;
         this.checkForSubmittedForApproal();
       }
     }
