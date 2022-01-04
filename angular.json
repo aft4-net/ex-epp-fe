@@ -735,6 +735,16 @@
       "sourceRoot": "apps/user-management/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build user-management --with-deps",
+              "docker build -f Dockerfile.user-management . -t resource-management"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -754,7 +764,11 @@
                 "output": "/assets/"
               }
             ],
-            "styles": ["apps/user-management/src/theme.less", "apps/user-management/src/styles.scss","node_modules/ng-zorro-antd/ng-zorro-antd.min.css"],
+            "styles": [
+              "apps/user-management/src/theme.less",
+              "apps/user-management/src/styles.scss",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -763,7 +777,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",

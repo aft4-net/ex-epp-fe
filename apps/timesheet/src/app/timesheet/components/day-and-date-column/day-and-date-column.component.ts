@@ -36,11 +36,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
+  @Input() timesheetreview: TimeEntry[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
-  @ViewChildren('entries') entriesDiv!: QueryList<any>;
-  @ViewChild('pt') pointerEl!: ElementRef;
-  @ViewChild('col') colEl!: ElementRef;
-  @ViewChild('addIcon') iconEL!: ElementRef;
+ 
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
@@ -84,10 +82,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
   }
-
-
   
-  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {debugger;
+  onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
       this.projectNamePaletClicked.emit(timeEntryEvent);
@@ -96,7 +92,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {debugger;
+  onPaletEllipsisClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType;
       this.paletEllipsisClicked.emit(timeEntryEvent);
@@ -105,7 +101,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  onEditButtonClicked(clickEventType: ClickEventType) {debugger;
+  onEditButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.editButtonClicked.emit(this.clickEventType);
@@ -114,7 +110,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  onDeleteButtonClicked(clickEventType: ClickEventType) {debugger;
+  onDeleteButtonClicked(clickEventType: ClickEventType) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = clickEventType;
       this.deleteButtonClicked.emit(this.clickEventType);

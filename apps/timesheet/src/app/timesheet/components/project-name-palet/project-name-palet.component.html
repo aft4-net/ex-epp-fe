@@ -10,9 +10,10 @@
     <h2>{{ timeEntry?.Hour }} Hrs</h2>
   </div>
   </div>
-  <div class="{{ projectNamePaletClass }} flex flex-row justify-between items-center w-full mt-0 mb-2 h-8">
-    <P class="ml-2">Review</P>
-    <img class="bubble" src="./../../../../assets/images/speech-bubble.svg" style="width:20px;height:17.5px; margin-left:0px;">
+  <div *ngIf="isApproved || isRejected" class="{{ projectNamePaletClass }} flex flex-row justify-between items-center w-full mt-0 mb-2 h-8">
+    <P *ngIf="isRejected" class="ml-2">Review</P>
+    <P *ngIf="isApproved" class="ml-2">Approved</P>
+   <img *ngIf="isRejected" class="bubble mr-2" src="./../../../../assets/images/speech-bubble.svg" style="width:20px;height:17.5px; margin-left:0px;">
   </div>
 <ng-template #palet_popover>
   <div class="edit-delete w-20 mt-12">
