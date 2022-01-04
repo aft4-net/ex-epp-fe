@@ -353,7 +353,7 @@ export class TimesheetService {
   }
 
   updateTimeSheetStatus(arrayOfId: string[]) {
-    return this.http.put(this.baseUrl + 'TimesheetApprovalBulkApprove',
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',
       arrayOfId)
   }
 }
