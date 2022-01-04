@@ -327,7 +327,7 @@ export class TimesheetService {
       data: [] as TimesheetApproval[],
       pagination: {} as Pagination,
     };
-    return this.http.get(`${this.baseUrl}ApprovedTimesheet?` + params.toString()).pipe(
+    return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
       map((response: any) => {
         console.log("service");
         console.log(response.Data);
@@ -352,7 +352,7 @@ export class TimesheetService {
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
-  updateTimeSheetStatus(arrayOfId: number[]) {
+  updateTimeSheetStatus(arrayOfId: string[]) {
     return this.http.put(this.baseUrl + 'TimesheetApprovalBulkApprove',
       arrayOfId)
   }
