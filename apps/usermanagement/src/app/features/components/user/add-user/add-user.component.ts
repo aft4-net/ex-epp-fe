@@ -79,6 +79,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
+          UserName:res.Data?.EmployeeOrganization?.CompaynEmail
         }
 
         this.userService.add(user).subscribe(
