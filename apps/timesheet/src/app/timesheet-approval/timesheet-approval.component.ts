@@ -88,8 +88,8 @@ export class TimesheetApprovalComponent implements OnInit {
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
-  setOfCheckedId = new Set<number>();
-  public arrayOfCheckedId:number[] =[];
+  setOfCheckedId = new Set<string>();
+  public arrayOfCheckedId:string[] =[];
   //setOfCheckedId:Set<Number>;
  
   ids: number[]=[];
@@ -296,7 +296,7 @@ export class TimesheetApprovalComponent implements OnInit {
 test() {
   console.log("clicked");
 }
-  timesheetBulkApproval(arrayOfIds:number[]){
+  timesheetBulkApproval(arrayOfIds:string[]){
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
     console.log("service"+arrayOfIds);
   }
@@ -327,7 +327,7 @@ updateProjectResourseList(resources: any) {
 
 
 
-emitArray(evt:Set<number>){
+emitArray(evt:Set<string>){
   if(evt){
     this.setOfCheckedId=evt;
     ///this.arrayOfCheckedId= evt; 
