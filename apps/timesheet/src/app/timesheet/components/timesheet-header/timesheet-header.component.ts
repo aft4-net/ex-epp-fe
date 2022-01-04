@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
@@ -21,8 +21,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekFirstDate: Date | null = null;
   @Input() weekLastDate: Date | null = null;
   @Input() isApproved = false;
-
-
+  resubmitClicked:boolean|undefined;
   weeklyTotalHours: number = 0;
   configWeeklyTotalHour: number = 0;
   startingDateCriteria = startingDateCriteria
@@ -33,6 +32,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   notSubmittedTooltip = "";
   toolTipColor = "red";
   toolTipText = "The time is passed total hour"
+  rejectedTimesheet: TimesheetApproval| null = null;
+  
 
   constructor(
     private timesheetService: TimesheetService,
@@ -71,14 +72,22 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
   checkForSubmittedForApproal() {
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      this.btnText = "Submitted";
-      this.timeSheetStatus = "submitted-class";
+      for(let i = 0; i < this.timesheetApprovals.length;i++){
+        if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
+          this.btnText="Resubmit Timesheet";
+          this.timeSheetStatus = "not-submitted-enable";
+          break;
+          }
+        if(this.resubmitClicked || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf()){
+           this.btnText = "Submitted";
+           this.timeSheetStatus = "submitted-class";
+      }
     }
-
+  }
     else {
       this.checkIfValidForApproval();
     }
-  }
+ }
 
   checkIfValidForApproval() {
     let timesheetConfig = this.timesheetConfig ?? {
@@ -113,6 +122,26 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
+      if(this.timesheetApprovals){
+      for(let i=0;i<this.timesheetApprovals.length;i++){
+        if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
+          this.rejectedTimesheet=this.timesheetApprovals[i];
+        }
+        if(this.rejectedTimesheet){
+        const temp={
+          TimesheetId: this.rejectedTimesheet.TimesheetId,
+          ProjectId: this.rejectedTimesheet.ProjectId,
+          ApprovalStatus: Object.values(ApprovalStatus)[0].valueOf()
+        } as unknown as ApprovalEntity;
+        
+        this.timesheetService.updateTimesheetApproval(temp).subscribe();
+        this.timesheetApprovals[i].Status= ApprovalStatus.Requested;
+        this.resubmitClicked=true;
+        this.checkForSubmittedForApproal();
+      }
+    }
+  }
+      else{
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         if (this.timesheet) {
           this.timesheetStateService.getTimeSheetApproval(this.timesheet?.Guid)
@@ -121,6 +150,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
       });
     }
+  }
   }
 
   getConfigWeeklyTotalHours() {

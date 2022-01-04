@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
   id: number,
@@ -16,6 +17,11 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
+  timesheetDetail:any;
+  isModalVisible=false;
+  timesheetEntries:any;
+  entryDate:any;
+
   total=10;
   pageIndex = 1;
   pageSize = 10;
@@ -27,9 +33,7 @@ export class TableComponent {
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-  timesheetDetail:any;
-  isModalVisible=false;
-  
+
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
@@ -55,7 +59,8 @@ export class TableComponent {
     }
   ];
 
-
+  constructor(private readonly timesheetService:TimesheetService)
+  {}
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -112,9 +117,16 @@ export class TableComponent {
       this.sortDirection = 'desc';
     }
   }
+
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
+    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
+    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const date =this.entryDate;
+    this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
+      (entries)=>{this.timesheetEntries=entries
+      });
 
   }
   timesheetDetailClose(event: boolean){

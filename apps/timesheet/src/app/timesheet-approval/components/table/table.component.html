@@ -16,21 +16,25 @@
     <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row)">
       <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)">
       </td>
-      <td>{{row.name}}</td>
-      <td>{{row.dateRange | date:'MMM-dd '}} - {{ row.dateRange | date}}</td>
-      <td>{{row.projectName}}</td>
-      <td>{{row.clientName}}</td>
-      <td>{{row.hours}}</td>
+      <td>{{row.EmployeeName}}</td>
+      <td>{{row.FromDate | date:'MMM-dd '}} - {{ row.ToDate | date}}</td>
+      <td>{{row.ProjectName}}</td>
+      <td>{{row.ClientName}}</td>
+      <td>{{row.TotalHours}}</td>
       <td *ngIf="status">
         <div [ngClass]="{
-        'is-blue': row.status === 'Request for review',
-        'is-yellow': row.status === 'Awaiting Approval',
-        'is-red': row.status === 'Approved',
-        'is-green': row.status === 'Approved'
-      }" style="width: 140px; height: auto;">{{row.status}}</div>
+        'is-blue': row.Status === 'Rejected',
+        'is-yellow': row.Status === 'Requested',
+        'is-green': row.Status === 'Approved'
+      }" style="width: 140px; height: auto;">{{row.Status}}</div>
       </td>
     </tr>
   </tbody>
 </nz-table>
+<div>
+<exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 
+(modalStatus)="timesheetDetailClose($event)"
+></exec-epp-timesheet-detail-view>
+</div>
 
