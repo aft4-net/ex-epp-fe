@@ -11,7 +11,7 @@ import { ErrHandleService } from './error-handle.service';
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-
+loginCount=0;
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
 
    loginStatus(){

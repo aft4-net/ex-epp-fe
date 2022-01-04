@@ -22,19 +22,7 @@ import { ProgressButtonsComponent } from './components/progress-buttons/progress
 import { ToastrModule } from 'ngx-toastr';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
-
-// import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
-
-
-
-
-
-
-
-
-
 registerLocaleData(en);
-
 @NgModule({
   declarations: [
     AppComponent,

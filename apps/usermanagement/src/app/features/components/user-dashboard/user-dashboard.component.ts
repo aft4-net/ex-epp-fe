@@ -117,6 +117,12 @@ export class UserDashboardComponent implements OnInit {
       content: 'User dashboard loaded successfully',
       duration: 1,
     });
+
+    this.notification.showNotification({
+      type: 'success',
+      content: 'User dashboad loaded successfully',
+      duration: 1,
+    });
   }
 
   createUserDashboardControls() {
@@ -177,7 +183,7 @@ export class UserDashboardComponent implements OnInit {
             sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
-            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
           },
           {
             name: 'Status',
@@ -360,6 +366,7 @@ export class UserDashboardComponent implements OnInit {
     )
   }
   AddToGroup(userId: string)  {
+    this.selectedUserId = userId;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
     this.isLoadng = true;
@@ -374,7 +381,7 @@ export class UserDashboardComponent implements OnInit {
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
                     this.isLoadng = false;
-                    this.isGroupModalVisible = false;
+                    console.log(this.selectedGroups);
                 },
                 (error: any) => {
                     console.log(error);
@@ -411,6 +418,8 @@ onSaveGroups() {
       },
       (err: any) => this.onShowError(err)
   );
+
+
 
 }
 
@@ -461,16 +470,12 @@ handleGroupCancel() {
     return;
   }
 
-  
-
-  
-
   Remove(userId: string) {
 
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/user-detail');
+    this._router.navigateByUrl('/userdetail');
   }
   
   handleOk(): void {

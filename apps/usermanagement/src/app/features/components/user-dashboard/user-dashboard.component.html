@@ -1,13 +1,13 @@
 <nz-layout  *ngIf="isLogin">
     <nz-content>
-      <nz-divider nzType="horizontal"></nz-divider>
-      <div style="margin-top: -40px;" class="inner-content">
+      
+      <div style="margin-top: -20px;" class="inner-content">
         <div nz-row>  
           <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
           </h2></div>
           <div nz-col nzSpan="12" style="text-align: right;">
-            <button nz-button nzType="primary" class="adduser" (click)="onAddUser()">
+            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" (click)="onAddUser()">
               Add User
             </button>
           </div>  
@@ -81,13 +81,13 @@
                     <ng-template #contentTemplate>
                       <div>
                         <nz-space nzDirection="vertical">
-                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link"  nz-button nzType="default" (click)="ShowDetail(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)">
                           Show Detail
                         </button>
-                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link"  nz-button nzType="default" (click)="AddToGroup(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId)">
                             Add to group
                         </button>
-                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link" nz-button nzType="default" (click)="Remove(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="Remove(user.UserId)">
                          Remove
                         </button>
                         </nz-space>
@@ -154,12 +154,11 @@
             <nz-form-item>
               <nz-form-control [nzSpan]="24" >
               <nz-select
-      [(ngModel)]="selectedGroups"
       nzShowSearch
       [nzShowArrow]="true"
       name = "group"
       nzMode = "tags"
-      formControlName="GroupNames"
+      formControlName="Groups"
       placeholder="Search groups"
     >
      <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
@@ -171,7 +170,7 @@
 </form>
 <div class="right-footer">
     <button nz-button nzType="primary" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
+    <button nz-button nzType="default"  class="defaultBtn" (click)="handleGroupCancel()">Clear</button>
 </div>
 </ng-template>
 </nz-modal>

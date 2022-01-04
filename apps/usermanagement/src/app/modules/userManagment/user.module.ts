@@ -8,7 +8,7 @@ import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [SiderComponent,],
+  declarations: [SiderComponent],
   imports: [
     ApplicationRoutingModule,
     FormsModule,
