@@ -320,13 +320,14 @@ export class TimesheetService {
     const params = new HttpParams()
       .set('pageindex', pageindex.toString())
       .set('pageSize', pageSize.toString())
-      .set('searchKey', searchKey ? searchKey : '');
+      .set('searchKey', searchKey ? searchKey : '')
+      .set('status', status ? status : '');
 
     let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
       data: [] as TimesheetApproval[],
       pagination: {} as Pagination,
     };
-    return this.http.get(`${this.baseUrl}ApprovedTimesheet?` + params.toString()).pipe(
+    return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
       map((response: any) => {
         console.log("service");
         console.log(response.Data);

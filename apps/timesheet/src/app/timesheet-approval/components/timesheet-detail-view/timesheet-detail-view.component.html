@@ -31,7 +31,7 @@
             <tr *ngFor="let data of approvalDetails; let i = index">
               <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
               <td>{{ formatHour(data.Hour) }}</td>
-              <td>{{ data.Note }}</td>
+              <td>{{ getNote(data.Note) }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -40,11 +40,17 @@
         <nz-comment>
           <nz-comment-content>
             <label for="" class="commentLabel">Comments</label><br />
-
-            <nz-form-item >
-              <textarea class="textArea" [disabled]="timesheetDetail.status!=='Awaiting Approval'" [(ngModel)]="inputValue"></textarea>
-            </nz-form-item>
-            <nz-form-item [hidden]="timesheetDetail.status!=='Awaiting Approval'">
+             <div *ngIf="isStatatusRequest(timesheetDetail.Status)">
+              <nz-form-item >
+                <textarea class="textArea" [disabled]="isStatatusRequest(timesheetDetail.Status)" [ngModel]="timesheetDetail.Comment"></textarea>
+              </nz-form-item>
+             </div>
+             <div *ngIf="!isStatatusRequest(timesheetDetail.Status)">
+              <nz-form-item >
+                <textarea class="textArea" [disabled]="isStatatusRequest(timesheetDetail.Status)" [(ngModel)]="inputValue"></textarea>
+              </nz-form-item>
+             </div>
+            <nz-form-item [hidden]="isStatatusRequest(timesheetDetail.Status)">
               <button nz-button class="approveButton"  (click)="approve()">
                 Approve
               </button>
