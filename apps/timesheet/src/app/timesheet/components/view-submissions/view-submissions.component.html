@@ -1,4 +1,4 @@
-<!-- <header>
+<header>
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
     <nz-breadcrumb-item>
@@ -9,8 +9,8 @@
   <div nz-row>
     <div class="page-title"> View Submissions </div>
   </div>
-</header> -->
-<!-- <hr> -->
+</header> 
+ <hr> 
 <section id="submissionHistory" class="mb-20">
   <span nz-row>
     <a nzSm="4" nzXs="4" (click)="navaigateToTimeSheet()"><svg width="76" height="24" viewBox="0 0 76 24" fill="none"
@@ -23,33 +23,39 @@
       </svg>
     </a>
   </span>
-
-  <nz-date-picker class="mt-3 mb-3" nzMode="week" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
- <nz-table  #filterTable
+ 
+  <nz-date-picker class="mt-3 mb-3"  [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
+ <nz-table 
   nzSize="small"
  [nzOuterBordered]="true"
   [nzFrontPagination]="false"
   [nzData]="timeSheetHistory"
   (nzQueryParams)="onQueryParamsChange($event)">
-    <thead>
+    <thead >
       <tr>
-        <th [nzSortOrder]="listOfColumns[0].sortOrder" [nzSortFn]="listOfColumns[0].sortFn"
+        <th nzColumnKey="DateRange"  [nzSortOrder]="listOfColumns[0].sortOrder" [nzSortFn]="listOfColumns[0].sortFn"
           [nzSortDirections]="listOfColumns[0].sortDirections">
           {{listOfColumns[0].name }}
         </th>
 
-        <th nzColumnKey="ProjectName" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
-          [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
-          [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
-          {{ listOfColumns[1].name }}
-        </th>
-
-
-        <th nzColumnKey="ClientName" [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
+        <th nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+        [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
+        {{ listOfColumns[1].name }}
+      </th>
+   
+        <th  nzColumnKey="Client" [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
           [nzSortDirections]="listOfColumns[2].sortDirections" [nzFilterMultiple]="listOfColumns[2].filterMultiple"
           [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
           {{ listOfColumns[2].name }}
         </th>
+<<<<<<< HEAD
+        <th nzColumnKey="Status" [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
+        [nzSortDirections]="listOfColumns[3].sortDirections" [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+        [nzFilters]="listOfColumns[3].listOfFilter" [nzFilterFn]="listOfColumns[3].filterFn">
+        {{ listOfColumns[3].name }}
+      </th>
+=======
 
         <th nzColumnKey="status" [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
           [nzSortDirections]="listOfColumns[3].sortDirections"
@@ -58,32 +64,31 @@
           {{ listOfColumns[3].name }}
         </th>
 
+>>>>>>> develop
         <th>
           {{listOfColumns[4].name }}
         </th>
       </tr>
     </thead>
     <tbody style="margin-bottom: 0px !important; padding-bottom: 0px;!important " >
-      <tr *ngFor="let data of   filterTable.data" (click)= reviewsubmissions(data.FromDate)>
+      <tr *ngFor="let data of   timeSheetHistory" (click)= reviewsubmissions(data.FromDate)>
         <td>{{data.FromDate | date:'MMM' }} {{data.FromDate | date:'L'}} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
         <td>{{  data.ClientName}}</td>
-        <td>
-
-          <div *ngIf="data.Status===1" class="approved"> Approved </div>
-          <div *ngIf="data.Status===0" class="submited"> Submitted</div>
-          <div *ngIf="data.Status===2" class=" review">  Request for review </div>
-
+        <td>           
+          <div *ngIf="data.Status==='Approved'" class="approved"> Approved </div>
+          <div *ngIf="data.Status==='Requested'" class="submited"> Submitted</div>
+          <div *ngIf="data.Status==='Rejected'" class=" review">  Request for review </div>
         </td>
         <td>
-          <ng-template [ngIf]="data.Comment===''"> N/A </ng-template>
+          <ng-template [ngIf]="data.Comment==='' || data.Comment===null "> N/A </ng-template>
           {{ data.Comment}}
         </td>
       </tr>
     </tbody>
   </nz-table>
-  <span nz-row class="pagination  flex justify-end">
-    Showing {{ pageSize}} of {{total}} entries
+  <span class="pagination" *ngIf="timeSheetHistory"  nz-row class="pagination  flex justify-end">
+ Showing {{pageIndex}} - {{totalPage}} of {{total}} entries
     <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
     </nz-pagination>
   </span>
