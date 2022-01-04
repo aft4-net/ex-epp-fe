@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
@@ -9,6 +9,7 @@ import { NzModalService } from "ng-zorro-antd/modal";
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -20,52 +21,57 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editClicked = new EventEmitter<ClickEventType>();
   @Output() deleteClicked = new EventEmitter<ClickEventType>();
-  @Input() timeEntry: TimeEntry | null = null;
+  @Input() timeEntry: TimeEntry = {} as TimeEntry;
   @Input() timesheetApproval: TimesheetApproval | null = null;
-  project: Project | null = null;
+  project: Project = {} as Project;
   projectNamePaletClass = "project-name-palet"
-
   isVisible1 = false;
   clickEventType = ClickEventType.none;
   popoverVisible = false;
   startingDateCriteria = startingDateCriteria
-
+  isApproved=false;
+  isRejected = false;
+ 
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService,
-    private timesheetStateService: TimesheetStateService
+    private timesheetStateService: TimesheetStateService,
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService
   ) { }
-
+  
   ngOnInit(): void {
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.timeEntry) {
-      this.timesheetService.getProject(this.timeEntry.ProjectId).subscribe(response => {
-        this.project = response ? response[0] : null;
-      });
+      this.project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string)
     }
-
     if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
       this.projectNamePaletClass = "project-name-palet-approved";
     } else {
       this.projectNamePaletClass = "project-name-palet";
     }
+    if(this.timesheetApproval){
+      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[2].valueOf()){
+        this.isRejected=true;
+        this.isApproved=false;
+      }
+      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
+        this.isRejected=false;
+        this.isApproved=true;
+      }
+    }
   }
-
   showPopover() {
     if (this.clickEventType !== ClickEventType.none) {
       return;
     }
-
     this.clickEventType = ClickEventType.showPaletPopover;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showPaletPopover, timeEntry: this.timeEntry };
 
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       return;
     }
-
     this.paletEllipsisClicked.emit(timeEntryEvent);
     this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
   }
@@ -106,19 +112,6 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  checkTimeOverThreeWeeks() {
-    const nowDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
-    let projectDate: Date = this._dayAndDateService.getWeeksFirstDate(new Date());
-    if (this.timeEntry) {
-      projectDate = this._dayAndDateService.getWeeksFirstDate(new Date(this.timeEntry.Date));
-    }
-    const threeWeeksinMillisecond = 3 * 7 * 24 * 3600 * 1000
-    if (nowDate.getTime() - projectDate.getTime() > threeWeeksinMillisecond) {
-      return true;
-    }
-    return false;
-  }
-
   closePopover() {
     this.popoverVisible = false;
   }
@@ -144,5 +137,6 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       });
     }
   }
+ }
+  
 
-}

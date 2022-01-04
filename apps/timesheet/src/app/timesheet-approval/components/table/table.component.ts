@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
   id: number,
@@ -16,19 +17,22 @@ interface ItemData {
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
+  timesheetDetail:any;
+  isModalVisible=false;
+  timesheetEntries:any;
+  entryDate:any;
+
   total=10;
   pageIndex = 1;
   pageSize = 10;
 
   sortByParam="";
   sortDirection = "asc";
-
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
-
 
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
@@ -36,6 +40,8 @@ export class TableComponent {
   @Input() bulkCheck: boolean | undefined;
   @Input() status: boolean | undefined;
 
+  @Output() checkedListId = new EventEmitter<Set<number>>();
+  @Output() sorter = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
@@ -53,7 +59,8 @@ export class TableComponent {
     }
   ];
 
-
+  constructor(private readonly timesheetService:TimesheetService)
+  {}
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
@@ -86,19 +93,20 @@ export class TableComponent {
     this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
     this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
-  showModal(id: any) {
 
-  }
-
-  sorter(heading:string) {
+  sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
+      this.sorter.emit("name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
+      this.sorter.emit("dateRange");
     }else if (heading === 'Project Name') {
       this.sortByParam = "projectName";
+      this.sorter.emit("projectName");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
+      this.sorter.emit("clientName");
     } else {
       this.sortByParam = "";
     }
@@ -109,6 +117,22 @@ export class TableComponent {
       this.sortDirection = 'desc';
     }
   }
+
+  showModal(row: any) {
+    this.isModalVisible=true;
+    this.timesheetDetail=row;
+    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
+    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const date =this.entryDate;
+    this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
+      (entries)=>{this.timesheetEntries=entries
+      });
+
+  }
+  timesheetDetailClose(event: boolean){
+    this.isModalVisible=false;
+  }
+
 
   // PageSizeChange(pageSize: number) {
   //   console.log(pageSize);
