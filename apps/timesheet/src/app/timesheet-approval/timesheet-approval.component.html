@@ -54,17 +54,17 @@
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalAll}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+          <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChangeAll($event)" nzSimple>
           </nz-pagination>
         </span>
 
         </div>
       </nz-tab>
-      <nz-tab nzTitle="Awaiting Approval" (nzClick)="timesheetSubmissionPaginationAwaiting(1,10, 'Requested','')">
+      <nz-tab nzTitle="Awaiting Approval" (nzClick)="timesheetSubmissionPaginationAwaiting(1,10,'')">
         <exec-epp-table [bulkCheck]= true [rowData]="timeSheetApprovalAwaiting" (sorter)="sorter($event)"></exec-epp-table>
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAwaiting}} of {{totalAwaiting}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+          <nz-pagination [nzPageIndex]="pageIndexAwaiting" [nzTotal]="totalAwaiting" (nzPageIndexChange)="PageIndexChangeAwaiting($event)" nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
@@ -73,17 +73,17 @@
 
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsApproved}} of {{totalApproved}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+          <nz-pagination [nzPageIndex]="pageIndexApproved" [nzTotal]="totalApproved" (nzPageIndexChange)="PageIndexChangeApproved($event)" nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
 
-      <nz-tab nzTitle="Request for review" (nzClick)="timesheetSubmissionPaginationReview(1,10,'Rejected','')">
+      <nz-tab nzTitle="Request for review" (nzClick)="timesheetSubmissionPaginationReview(1,10,'')">
         <exec-epp-table [rowData]="timeSheetApprovalReview" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsReview}} of {{totalReview}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChangeReview($event)" nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>

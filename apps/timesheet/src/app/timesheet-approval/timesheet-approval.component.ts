@@ -212,7 +212,7 @@ export class TimesheetApprovalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, 'Rejected','');
+    this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
   }
 
   timesheetApprovalPaginationAll(index: number, pageSize: number,search:string) {
@@ -228,9 +228,15 @@ export class TimesheetApprovalComponent implements OnInit {
       });
   }
 
-  timesheetSubmissionPaginationAwaiting(index: number, pageSize: number, status:string, search:string) {
+  PageIndexChangeAll(index: number): void {
+    this.pageIndexAll = index;
+    this.timesheetApprovalPaginationAll(index,this.pageSizeAll,'');
+    this.loading = false;
+  }
+
+  timesheetSubmissionPaginationAwaiting(index: number, pageSize: number, search:string) {
     this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize, search,status)
+      .getTimesheetApprovalPagination(index, pageSize, search,'Requested')
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetApprovalAwaiting = response.data;
         this.pageIndexAwaiting = response.pagination.pageIndex;
@@ -239,6 +245,12 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalAwaiting = response.pagination.totalRecord;
         this.totalPageAwaiting = response.pagination.totalPage;
       });
+  }
+
+  PageIndexChangeAwaiting(index: number): void {
+    this.pageIndexAwaiting = index;
+    this.timesheetSubmissionPaginationAwaiting(index,this.pageSizeAwaiting,'');
+    this.loading = false;
   }
 
   timesheetSubmissionPaginationApproved(index: number, pageSize: number, search:string) {
@@ -254,9 +266,15 @@ export class TimesheetApprovalComponent implements OnInit {
       });
   }
 
-  timesheetSubmissionPaginationReview(index: number, pageSize: number, status:string, search:string) {
+  PageIndexChangeApproved(index: number): void {
+    this.pageIndexApproved = index;
+    this.timesheetSubmissionPaginationApproved(index,this.pageSizeApproved,'');
+    this.loading = false;
+  }
+
+  timesheetSubmissionPaginationReview(index: number, pageSize: number, search:string) {
     this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize, search,status)
+      .getTimesheetApprovalPagination(index, pageSize, search,'Rejected')
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetApprovalReview = response.data;
         this.pageIndexReview = response.pagination.pageIndex;
@@ -266,6 +284,13 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalPageReview = response.pagination.totalPage;
       });
   }
+
+  PageIndexChangeReview(index: number): void {
+    this.pageIndexReview = index;
+    this.timesheetSubmissionPaginationReview(index,this.pageSizeReview,'');
+    this.loading = false;
+  }
+
 test() {
   console.log("clicked");
 }
@@ -299,11 +324,7 @@ updateProjectResourseList(resources: any) {
 // for the table
 
 
-PageIndexChange(index: number): void {
-  this.pageIndexAll = index;
-  this.timesheetApprovalPaginationAll(index,this.pageSizeAll,'');
-  this.loading = false;
-}
+
 
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
