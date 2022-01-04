@@ -1,21 +1,6 @@
 
 <div >
     <h2 class="font-bold azk">Account </h2>
-    <form [formGroup]="userdetail" class="flex flex-col gap-5">
-      <div nz-row>
-          <nz-divider nzOrientation="left" nzText="User Detail"></nz-divider>
-      <div nz-col class="gutter-row" [nzSpan]="2"><div class="inner-box"><app-avatar icon="user" [size]="80"></app-avatar></div></div>
-    
-    <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-      <div nz-col class="gutter-row" [nzSpan]="16"><div class="inner-box">Wolde Yalew Sintayehu</div></div>
-      <div nz-col class="gutter-row" [nzSpan]="16"><div class="inner-box"> Developer III</div></div>
-      <div nz-col class="gutter-row" [nzSpan]="16"><div class="inner-box">WYalews@excelerentsolutions.com</div></div>
-      <div nz-col class="gutter-row" [nzSpan]="16"><div class="inner-box">+-+251987654332</div></div>
-    </div>
-    
-    </div>
-    </form>
-
       <form [formGroup]="userdetail" nzSpan="24">
       <div nz-row> 
       <div class="user-detail">
@@ -44,6 +29,15 @@
           margin-bottom: 60px; width: 80px; height: 80px; line-height: 80px; font-size: 40px;" 
           class="ant-avatar ant-avatar-circle ant-avatar-icon">
           </app-avatar>
+          <br />
+          <nz-switch
+          [ngModel]="true"
+          [nzCheckedChildren]="checkedTemplate" 
+          [nzUnCheckedChildren]="unCheckedTemplate"
+        ></nz-switch>
+        <ng-template #checkedTemplate><i nz-icon nzType="check"></i></ng-template>
+        <ng-template #unCheckedTemplate><i nz-icon nzType="close"></i></ng-template>
+          </div>
       </div>
       <div class="user-detail-lower">
        
@@ -51,7 +45,7 @@
         <div nz-row>
           <div nz-col class="gutter-row" nzSpan="24">
             <div class="inner-box">
-                <span>ayifter@excellerentsolutions.com</span>
+                <span>Wyalew@excellerentsolutions.com</span>
             </div>
           </div>
           
@@ -59,7 +53,7 @@
         <div nz-row>
             <div nz-col class="gutter-row" nzSpan="24">
               <div class="inner-box">
-                  <span>+251-914-277222</span>
+                  <span>+251-914-270000</span>
               </div>
             </div>
             
@@ -68,7 +62,6 @@
         </div>
         
       </div>
-    </div>
     </form>
    
   </div>
