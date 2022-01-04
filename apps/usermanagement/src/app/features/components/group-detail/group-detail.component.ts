@@ -39,6 +39,7 @@ export class GroupDetailComponent implements OnInit {
   isOkLoading = false;
   loading = false;
   groupDetail? : GroupSetModel;
+  editedGroupDetail? : GroupSetModel;
   size: NzButtonSize = 'small';
   groupSet$: Observable<GroupSetModel> | undefined ;
   groupId? : any;
@@ -53,6 +54,7 @@ export class GroupDetailComponent implements OnInit {
   totalRecord !: number;
   beginingRow !: number;
   lastRow !: number;
+  groupdescription : any;
   listOfColumn = [
     {
       title: 'Name',
@@ -167,7 +169,7 @@ export class GroupDetailComponent implements OnInit {
   }
 
   DeleteGroup(): void {
-    this.groupSetService.DeleteGroup('95085388-15f2-426b-9e90-03551f1b8ed3').subscribe(
+    this.groupSetService.DeleteGroup(this.groupId).subscribe(
       (result) => {
         this.createNotification(result.ResponseStatus.toString(), result.Message); 
         this._router.navigateByUrl('usermanagement/group');
@@ -182,6 +184,17 @@ export class GroupDetailComponent implements OnInit {
   EditGroupDescription() {
     this.isGroupEditVisible = true;
   }
+
+  SaveGroupDescription() {
+    this.editedGroupDetail = {
+      Guid: this.groupId,
+      Name: "",
+      Description: this.groupdescription
+    };
+    console.log(this.editedGroupDetail.Description);
+    this.groupSetService.EditGroupDescription(this.editedGroupDetail);
+  }
+
   assinedPermission(){
     this._permissionService.getPermissionCategoryById(this.groupId).subscribe((reponse:any)=>{
       this.permissionResponse=reponse;

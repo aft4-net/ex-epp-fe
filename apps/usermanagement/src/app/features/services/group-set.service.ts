@@ -115,11 +115,11 @@ import { IGroupUsersView } from '../Models/User/GroupUsersView';
     }
 
 
-    // EditGroupDescription(groupId : string , description: string) : Observable<ResponseDTO<any>> {
-    //   return this.http.patch<ResponseDTO<any>>(this.baseUrl + "?Id=" + groupId).pipe(
-    //     map((result) => {
-    //       return result;
-    //     })
-    //   )
-    // }
+    EditGroupDescription(groupSet : GroupSetModel) : Observable<ResponseDTO<any>> {
+      return this.http.patch<ResponseDTO<any>>(this.baseUrl + groupSet, this.httpOptions).pipe(
+        map((result) => {
+          return result;
+        })
+      )
+    }
 }

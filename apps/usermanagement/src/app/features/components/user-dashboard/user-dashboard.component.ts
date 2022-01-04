@@ -454,10 +454,6 @@ handleGroupCancel() {
     return;
   }
 
-  
-
-  
-
   Remove(userId: string) {
 
   }
