@@ -215,6 +215,7 @@ export class TimesheetApprovalComponent implements OnInit {
     this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
   }
 
+
   timesheetApprovalPaginationAll(index: number, pageSize: number,search:string) {
     this.timeSheetService
       .getTimesheetApprovalPagination(index, pageSize, search,'')
