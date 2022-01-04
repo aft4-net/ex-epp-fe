@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
-///import{MsalService} from '@azure/msal-angular';
+import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
+//import{MsalService} from '@azure/msal-angular';
 //import{AuthenticationResult} from '@azure/msal-browser'
 
 
@@ -14,7 +15,7 @@ import { AuthenticationResult } from '@azure/msal-browser';
 })
 export class SigninComponent implements OnInit {
 
-      constructor(private authService: MsalService, private router: Router) {}
+      constructor(private _authenticationService:AuthenticationService,private authService: MsalService, private router: Router) {}
   
   ngOnInit(): void {
     
@@ -26,30 +27,37 @@ export class SigninComponent implements OnInit {
    }
 
    isLoggedIn(): boolean {
-     return true;
+     //return true;
     return this.authService.instance.getActiveAccount() != null
    }
 
   login() {
-    
-     this.authService.loginRedirect();
+    alert('response.account?.name');
+    // this.authService.loginRedirect();
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
+        alert('2response.account?.name');
      const data=   this.authService.instance.setActiveAccount(response.account);
      
        console.log('data');
-       console.log(response.account);
-       console.log(this.router.navigateByUrl('usermanagement'));
-       this.router.navigateByUrl('usermanagement');
-     
-     window.location.reload();
+       alert(response.account?.name);
+       if(response.account?.username){
+        this._authenticationService.storeLoginUser(response.account)
+       // this.router.navigateByUrl('');
+       window.location.reload();
+       }
+       else{
+        this.router.navigateByUrl('usermanagement');
+       }
         
       });
   }
 
   logout() {
     this.authService.logout();
+      window.sessionStorage.clear();
     window.location.reload();
+
   }
 }
 
