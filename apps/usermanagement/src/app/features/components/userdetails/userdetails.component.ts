@@ -1,4 +1,4 @@
-import {NgModule, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -14,8 +14,9 @@ import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { GroupData, UserDetail } from '../../Models/User/UserDetail';
 import { UserDetailService } from '../../services/user-detail.service';
+import { UserDetail, GroupData } from '../../Models/User/UserDetail';
+import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class UserdetailsComponent implements OnInit {
   public userDetals: [UserDetail] | [] = [];
   isRecordUpdated = false;
   selectedRecord: string | undefined;
-
+  cgm=CustomFormModule;
   userdetail = new FormGroup({
     UserId: new FormControl(''),
     FullName: new FormControl(''),
@@ -113,10 +114,17 @@ export class UserdetailsComponent implements OnInit {
     this.getUsers();
     this.getAllGroupList();
     this.getAllUserGroups();
-    // this.lookupService.getAllLookUps().subscribe(res => {
-    //  this.appliedSoFar = res.map(o => o.Pid);
-    // });
-  }
+    this.userDetailService
+      .getUserInfo({ UserId: "" })
+      .subscribe(async (response) => {
+        const data = response.Data;
+        console.log(data);
+        this.userdetail.controls.FullName.setValue(data.FullName);
+        this.userdetail.controls.JobTitle.setValue(data.JobTitle);
+        this.userdetail.controls.email.setValue(data.Email);
+        this.userdetail.controls.PhoneNo.setValue(data.PhoneNo);
+      });
+      }
 
   onAddNewRecord(): void {
     this.resetForm();
