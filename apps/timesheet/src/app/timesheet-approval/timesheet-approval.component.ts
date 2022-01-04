@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -199,7 +200,8 @@ export class TimesheetApprovalComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private timeSheetService: TimesheetService
+    private timeSheetService: TimesheetService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
