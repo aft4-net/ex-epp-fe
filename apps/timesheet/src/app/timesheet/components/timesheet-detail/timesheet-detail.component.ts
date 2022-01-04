@@ -107,6 +107,7 @@ export class TimesheetDetailComponent implements OnInit {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria;
+  isToday = true;
 
   $clients: Observable<Client[]>
   $projects: Observable<Project[]>
@@ -380,6 +381,9 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   nextWeek(count: any) {
+    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() <= 7 *24 * 3600000) {
+      this.isToday = true;
+    }
     this.nextWeeks = count;
     let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
@@ -395,6 +399,7 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   lastastWeek(count: any) {
+    this.isToday = false;
     this.lastWeeks = count;
     let ss = this.dayAndDateService.getWeekendFirstDay();
     this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
