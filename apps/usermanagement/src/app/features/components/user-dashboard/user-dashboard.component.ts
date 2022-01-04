@@ -423,7 +423,6 @@ onSaveGroups() {
 }
 
 handleGroupCancel() {
-  this.isGroupModalVisible = false;
   this.groupfrm.reset();
 }
   onShowError(err: any) {
@@ -484,7 +483,6 @@ handleGroupCancel() {
   }
 
   handleCancel(): void {
-    this.isUserModalVisible = false;
     this.userfrm.reset();
   }
 }

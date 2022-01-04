@@ -99,7 +99,13 @@
           </div>
         </div>
       </div>
-      <nz-modal [(nzVisible)]="isUserModalVisible" [nzFooter]="null" nzTitle="Add User" (nzOnCancel)="handleCancel()" >
+      <nz-modal 
+      [nzWidth]="'450px'" 
+      [(nzVisible)]="isUserModalVisible"
+       [nzFooter]="null" 
+       nzTitle="Add User" 
+      (nzOnCancel)="isUserModalVisible=false"
+        >
     <ng-container *nzModalContent>
    
 
@@ -107,7 +113,6 @@
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
             <div class="label">Employee
-            <span style="color:red; font-weight:bold">&nbsp;*</span>
             </div>
             <nz-form-item>
               <nz-form-control [nzSpan]="24" >
@@ -127,21 +132,22 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
+    <button nz-button nzType="default"  class="defaultBtn modal-footer-btn def" (click)="handleCancel()">Clear</button>
 </div>
 
 </ng-container>
   </nz-modal>
 
-<nz-modal
+<nz-modal 
+[nzWidth]="'450px'"
 [(nzVisible)]="isGroupModalVisible"
 [nzTitle]="modalTitle"
 [nzContent]="modalContent"
 [nzFooter]="null"
-(nzOnCancel)="handleGroupCancel()"
+(nzOnCancel)="isGroupModalVisible=false"
 >
-<ng-template #modalTitle class="backChange"><h4>Add Users</h4></ng-template>
+<ng-template #modalTitle class="backChange"><h4>Add Groups</h4></ng-template>
 
 <ng-template #modalContent>
  
@@ -169,8 +175,8 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn" (click)="handleGroupCancel()">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
+    <button nz-button nzType="default"  class="defaultBtn modal-footer-btn def" (click)="handleGroupCancel()">Clear</button>
 </div>
 </ng-template>
 </nz-modal>
