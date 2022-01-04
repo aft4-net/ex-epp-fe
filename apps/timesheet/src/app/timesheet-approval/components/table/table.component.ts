@@ -34,6 +34,13 @@ export class TableComponent {
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<number>();
 
+  //timesheetDetail:any;
+  //isModalVisible=false;
+
+  arrayOfCheckedId:number[] =[];
+
+
+
   @Input() rowData : any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
@@ -45,10 +52,8 @@ export class TableComponent {
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
-
-
-
-
+  //@Output() CheckedIds = new EventEmitter<number[]>();
+  @Output() CheckedIds = new EventEmitter<Set<number>>();
 
   listOfSelection = [
     {
@@ -59,29 +64,46 @@ export class TableComponent {
     }
   ];
 
+
   constructor(private readonly timesheetService:TimesheetService)
   {}
+
   updateCheckedSet(id: number, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
-      //this.checkedListId.emit(this.setOfCheckedId);
+      this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
+      //console.log(this.arrayOfCheckedId)
+      
     } else {
       this.setOfCheckedId.delete(id);
+      this.RemoveElementFromArray(id);
       console.log(this.setOfCheckedId);
+      //console.log(this.arrayOfCheckedId)
     }
+    this.CheckedIds.emit(this.setOfCheckedId);
+
   }
+  RemoveElementFromArray(element: number) {
+    this.arrayOfCheckedId.forEach((value,index)=>{
+        if(value==element) this.arrayOfCheckedId.splice(index,1);
+    });
+}
 
   onItemChecked(id: number, checked: boolean): void {
-    this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
+    //this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
+    this.qtyofItemsChecked= this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onAllChecked(value: boolean): void {
+    //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
     this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
     this.refreshCheckedStatus();
+    this.qtyofItemsChecked= this.setOfCheckedId.size;
+    this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
   onCurrentPageDataChange($event: readonly ItemData[]): void {
@@ -90,8 +112,9 @@ export class TableComponent {
   }
 
   refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+    //this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
+    
+    //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
   sorterMethod(heading:string) {

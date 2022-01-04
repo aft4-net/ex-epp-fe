@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
+<<<<<<< HEAD
   apiUrl: 'http://localhost:14696/api/v1/TimeSheet/',
+=======
+  apiUrl: "http://localhost:14696/api/v1/TimeSheet/"
+>>>>>>> 9f3789fac5aab5ccd332bf5b28842d47c14b0cbb
 };
 
 /*
