@@ -381,7 +381,6 @@ export class UserDashboardComponent implements OnInit {
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
                     this.isLoadng = false;
-                    console.log(this.selectedGroups);
                 },
                 (error: any) => {
                     console.log(error);
@@ -462,6 +461,7 @@ handleGroupCancel() {
             this.isLoadng = false;
             this.isUserModalVisible = false;
             this.selectedUserValue = '';
+            this.FeatchAllUsers();
           },
           (err: any) => this.onShowError(err)
         )
