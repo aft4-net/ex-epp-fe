@@ -51,6 +51,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   of: any;
   isSubmitted: boolean | undefined;
   startingDateCriteria = startingDateCriteria
+  disabled = false
 
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
 
@@ -72,8 +73,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
     let today = new Date();
 
-    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1))) {
+    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1)) || this.startingDateCriteria.isBeforeThreeWeeks) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      this.disabled = true;
     }
     else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
