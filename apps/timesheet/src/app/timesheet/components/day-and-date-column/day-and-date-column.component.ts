@@ -139,7 +139,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   scrollTimeEntriesUp(el: any) {
     const myElement = document.getElementById(el);
-    myElement?.scrollIntoView();
+    myElement?.scroll({
+      top: 100,
+      behavior: 'smooth'
+    });
+  }
+
+  scrollTimeEntriesBottom(el:any){
+    const myElement = document.getElementById(el);
+    myElement!.scroll({ top: myElement!.scrollHeight, behavior: 'smooth' });
+    //myElement!.scrollTop = myElement!.scrollHeight - myElement!.clientHeight;
+
   }
 
   checkOverflow(divId: any) {
