@@ -74,7 +74,7 @@ export class TableComponent {
       this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
       //console.log(this.arrayOfCheckedId)
-      
+
     } else {
       this.setOfCheckedId.delete(id);
       this.RemoveElementFromArray(id);
@@ -113,7 +113,7 @@ export class TableComponent {
 
   refreshCheckedStatus(): void {
     //this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    
+
     //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
