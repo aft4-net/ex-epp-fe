@@ -84,7 +84,7 @@ export class TimesheetApprovalComponent implements OnInit {
   pageSize = 10;
 
   sortByParam = "";
-  sortDirection = "asc";
+  sortDirection = "Ascending";
 
   checked = false;
   indeterminate = false;
@@ -124,9 +124,9 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
-   
+
     console.log('direct');
-    console.log(this.timesheetSubmissionPagination(1,10,'','Name','','','','Descending','Requested'));
+    this.initialDataforTab();
   }
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
@@ -195,25 +195,57 @@ export class TimesheetApprovalComponent implements OnInit {
     this.loading = false;
   }
 
+initialDataforTab() {
+  this.statusG = 'Requested';
 
+      this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+}
 
   onAllTabClick() {
-    this.timesheetSubmissionPagination(1,10,'','','','','','','');
+    this.statusG = '';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
   }
 
   onAwaitingTabClick() {
-    this.timesheetSubmissionPagination(1,10,'','','','','','','Requested');
+    this.statusG = 'Requested';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
   }
 
   onApprovedTabClick() {
-    this.timesheetSubmissionPagination(1,10,'','','','','','','Approved');
+    this.statusG = 'Approved';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
   }
 
   onReviewTabClick() {
-    this.timesheetSubmissionPagination(1,10,'','','','','','','Rejected');
+    this.statusG = 'Rejected';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
   }
 
-  
+
 test() {
   console.log("clicked");
 }
@@ -243,10 +275,6 @@ updateProjectResourseList(resources: any) {
   this.resources = resources;
   console.log(this.resources);
 }
-// for the table
-
-
-
 
 emitArray(evt:Set<string>){
   if(evt){
@@ -256,30 +284,40 @@ emitArray(evt:Set<string>){
 
 }
 
-  
+sorterDirection(sortIndex: string) {
+  console.log('emitter');
+  if (sortIndex === 'Descending') {
+    this.sortDirection = 'Ascending';
+    console.log(this.sortDirection);
+  } else {
+    this.sortDirection = 'Descending';
+    console.log(this.sortDirection);
+  }
+}
+
+sortDirectionMethod() {
+  if (this.sortDirection === 'Descending') {
+    this.sortDirection = 'Ascending';
+    this.sortG = this.sortDirection;
+
+
+  } else if (this.sortDirection === 'Ascending') {
+    this.sortDirection = 'Descending';
+    this.sortG = this.sortDirection;
+    console.log(this.sortDirection);
+  }
+}
 
   sorter(sortIndex: string) {
+    this.sortDirectionMethod();
+    this.sortByG = sortIndex;
 
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'Ascending';
-    } else {
-      this.sortDirection = 'Descending';
-    }
-
-    if (sortIndex === "name") {
       this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
 
         this.sortByG,this.projectNameG,this.clientNameG,
 
-        this.weekG,this.sortG,'');
-      console.log("name came"); //API call
-    } else if (sortIndex === "dateRange") {
-      console.log("dateRange came"); //API call
-    } else if (sortIndex === "projectName") {
-      console.log("projectName came"); //API call
-    } else if (sortIndex === "clientName") {
-      console.log("clientName came"); //API call
-    }
+        this.weekG,this.sortG,this.statusG);
+        console.log(sortIndex+" came");
   }
 
 
@@ -309,9 +347,9 @@ emitArray(evt:Set<string>){
     this.arrayOfCheckedId.length=0;
     //delay(3000);
     console.log("This"+this.timeSheetApprovalAwaiting);
-  
-    
-    
+
+
+
   }
   SearchByResourceName()
   {
