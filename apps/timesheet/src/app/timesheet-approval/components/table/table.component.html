@@ -2,7 +2,7 @@
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
     <tr>
-      <th *ngIf="bulkCheck" [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+      <th *ngIf="bulkCheck"  [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="onAllChecked($event)"></th>
       <th [nzSortFn]="true" (click)="sorterMethod('Name')">Name</th>
       <th [nzSortFn]="true" (click)="sorterMethod('Date Range')">Date range</th>

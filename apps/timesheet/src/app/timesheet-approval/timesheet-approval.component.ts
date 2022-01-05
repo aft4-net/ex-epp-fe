@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { PaginatedResult } from '../models/PaginatedResult';
 import { TimesheetApproval } from '../models/timesheetModels';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
@@ -90,6 +91,7 @@ export class TimesheetApprovalComponent implements OnInit {
   listOfData: readonly ItemData[] = [];
   setOfCheckedId = new Set<string>();
   public arrayOfCheckedId:string[] =[];
+ 
   //setOfCheckedId:Set<Number>;
  
   ids: number[]=[];
@@ -215,6 +217,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
   ngOnInit(): void {
     this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
+   
   }
 
   timesheetApprovalPaginationAll(index: number, pageSize: number,search:string) {
@@ -372,16 +375,22 @@ emitArray(evt:Set<string>){
     this.isVisible = false;
   }
   onApprove(){
+   
     for (let element of this.setOfCheckedId) {
       console.log(element);
       this.arrayOfCheckedId.push(element);
-      //console.log(this.arrayOfCheckedId);
-  }
+      console.log(this.arrayOfCheckedId);
+    }
 
     this.timesheetBulkApproval(this.arrayOfCheckedId);
     console.log("Approved"+this.arrayOfCheckedId);
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
-    this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
+
+    //this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
+    //this.PageIndexChangeAwaiting(this.totalPageAwaiting);
+  
+    
+    
   }
 }
