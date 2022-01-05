@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -12,6 +13,11 @@ import { TimesheetConfigurationStateService } from '../../state/timesheet-config
 })
 export class TimesheetConfigurationComponent implements OnInit {
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
+  timesheetConfig: TimesheetConfiguration = {
+    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+    WorkingDays: [], 
+    WorkingHours: {Min: 0, Max: 24}
+  };
   timesheetConfigForm = new FormGroup({
     startOfWeek: new FormControl('Monday'),
     workingDays: new FormGroup({
@@ -36,6 +42,31 @@ export class TimesheetConfigurationComponent implements OnInit {
 
   ngOnInit(): void {
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
+
+    this.timesheetConfig$.subscribe(tsc => {
+      this.timesheetConfig = tsc ?? {
+        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        WorkingDays: [], 
+        WorkingHours: {Min: 0, Max: 24}
+      };
+
+      this.timesheetConfigForm.setValue({
+        startOfWeek: this.timesheetConfig.StartOfWeeks[0].DayOfWeek,
+        workingDays: {
+          monday: this.timesheetConfig.WorkingDays.indexOf("Monday") >= 0,
+          tuesday: this.timesheetConfig.WorkingDays.indexOf("Tuesday") >= 0,
+          wednesday: this.timesheetConfig.WorkingDays.indexOf("Wednesday") >= 0,
+          thursday: this.timesheetConfig.WorkingDays.indexOf("Thursday") >= 0,
+          friday: this.timesheetConfig.WorkingDays.indexOf("Friday") >= 0,
+          starday: this.timesheetConfig.WorkingDays.indexOf("Starday") >= 0,
+          sunday: this.timesheetConfig.WorkingDays.indexOf("Sunday") >= 0,
+        },
+        workingHours: {
+          min: this.timesheetConfig.WorkingHours.Min,
+          max: this.timesheetConfig.WorkingHours.Max
+        }
+      });
+    });
   }
 
   onSubmit() {
@@ -100,5 +131,4 @@ export class TimesheetConfigurationComponent implements OnInit {
 
     return workingDays;
   }
-
 }
