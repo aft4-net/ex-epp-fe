@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
-import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
-=======
 import { MsalService } from '@azure/msal-angular';
->>>>>>> ad971f58fc612059d1e5a77dd8bb89bf39bea49d
 
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import {PermissionService} from './../../../../../../libs/common-services//permission.service';
@@ -14,28 +10,16 @@ import { IntialdataService } from '../../services/intialdata.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-<<<<<<< HEAD
-name:any
-  constructor(private _authenticationService:AuthenticationService) { }
-=======
   fullName:any
   permissionList:any[]=[ ];
 modulePermission:any[]=[];
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService) { }
->>>>>>> ad971f58fc612059d1e5a77dd8bb89bf39bea49d
 
   ngOnInit(): void {
     this.fullName=this._authenticationService.getUserFullName();
-this.getPermission();
-this._permissionService.permissionList=this.permissionList;
-console.log('ggg')
-console.log(this._permissionService.permissionList)
-console.log('ggg')
+    this.getPermission();
+    this._permissionService.permissionList=this.permissionList;
   }
-<<<<<<< HEAD
-
-
-=======
    authorize(key:string){
      
     // return true;
@@ -59,7 +43,6 @@ console.log('ggg')
     });
     })
 }
->>>>>>> ad971f58fc612059d1e5a77dd8bb89bf39bea49d
 }
 
 

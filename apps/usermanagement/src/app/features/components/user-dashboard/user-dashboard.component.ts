@@ -351,7 +351,6 @@ export class UserDashboardComponent implements OnInit {
     this.isUserModalVisible = true;
     this.isLoadng = true;
 
-    console.log('addUser');
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;
@@ -372,7 +371,6 @@ export class UserDashboardComponent implements OnInit {
     this.isLoadng = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
-
             this.groupList = r;
             this.addUserService.getUserGroups(userId).subscribe(
                 (r: GroupSetModel[]) => {
@@ -393,7 +391,6 @@ export class UserDashboardComponent implements OnInit {
             this.onShowError(error.Error);
         }
     );
-
 }
 onSaveGroups() {
   this.selectedGroups = [];
