@@ -207,6 +207,8 @@ initialDataforTab() {
 
   onAllTabClick() {
     this.statusG = '';
+    this.sortByG ='DateRange';
+    this.sortG = 'Descending';
     this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
 
         this.sortByG,this.projectNameG,this.clientNameG,
@@ -217,6 +219,8 @@ initialDataforTab() {
 
   onAwaitingTabClick() {
     this.statusG = 'Requested';
+    this.sortByG ='';
+    this.sortG = '';
     this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
 
         this.sortByG,this.projectNameG,this.clientNameG,
@@ -227,6 +231,8 @@ initialDataforTab() {
 
   onApprovedTabClick() {
     this.statusG = 'Approved';
+    this.sortByG ='DateRange';
+    this.sortG = 'Descending';
     this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
 
         this.sortByG,this.projectNameG,this.clientNameG,
@@ -237,6 +243,8 @@ initialDataforTab() {
 
   onReviewTabClick() {
     this.statusG = 'Rejected';
+    this.sortByG ='DateRange';
+    this.sortG = 'Descending';
     this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
 
         this.sortByG,this.projectNameG,this.clientNameG,
