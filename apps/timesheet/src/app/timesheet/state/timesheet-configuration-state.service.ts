@@ -33,12 +33,8 @@ export class TimesheetConfigurationStateService {
       if(!response) {
         return;
       }
-
-      if(response.ResponseStatus === "Success") {
-        this.timesheetConfigurationSource.next(response.Data);
-      }
     }, error => {
 
-    })
+    });
   }
 }

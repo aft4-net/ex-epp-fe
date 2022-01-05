@@ -45,7 +45,7 @@ export class TimesheetConfigurationComponent implements OnInit {
       StartOfWeeks: [
         {
           DayOfWeek: configValues.startOfWeek,
-          EffectiveDate: new Date()
+          EffectiveDate: new Date(0)
         }
       ],
       WorkingDays: this.getListOfWorkingDays(),
@@ -94,7 +94,7 @@ export class TimesheetConfigurationComponent implements OnInit {
     }
 
     // Sunday
-    if(configValues.workingDays.Sunday) {
+    if(configValues.workingDays.sunday) {
       workingDays.push("sunday");
     }
 
