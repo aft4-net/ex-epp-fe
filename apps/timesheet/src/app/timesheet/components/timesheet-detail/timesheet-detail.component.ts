@@ -104,6 +104,7 @@ export class TimesheetDetailComponent implements OnInit {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria;
+  isToday = true;
 
   $clients: Observable<Client[]>
   $projects: Observable<Project[]>
@@ -174,8 +175,7 @@ export class TimesheetDetailComponent implements OnInit {
   ngOnInit(): void {
     //this.startingWeek();
     this.userId = localStorage.getItem('userId');
-    this.timesheetConfig$ =
-      this.timesheetConfigurationStateService.timesheetConfiguration$;
+    this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
 
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
@@ -221,7 +221,7 @@ export class TimesheetDetailComponent implements OnInit {
     return 2;
   }
 
-  startingWeek() {
+  startingWeek() {debugger;
     this.dayAndDateService.fs = this.setFirstDay();
     this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
@@ -229,6 +229,10 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   nextWeek(count: any) {
+    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() <= 7 *24 * 3600000) {
+      this.isToday = true;
+    }
+
     this.dayAndDateService.fs = this.setFirstDay();
     let ss = this.dayAndDateService.getWeekendLastDay();
     this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
@@ -236,11 +240,14 @@ export class TimesheetDetailComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
     if (this.userId) {
-      this.getTimesheet(this.userId, this.weekDays[0])
+      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
     }
+
+    this.checkForCurrentWeek();
   }
 
   lastastWeek(count: any) {
+    this.isToday = false;
     this.lastWeeks = count;
     this.dayAndDateService.fs = this.setFirstDay();
     let ss = this.dayAndDateService.getWeekendFirstDay();
@@ -250,8 +257,10 @@ export class TimesheetDetailComponent implements OnInit {
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
     if (this.userId) {
-      this.getTimesheet(this.userId, this.weekDays[0])
+      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
     }
+
+    this.checkForCurrentWeek();
   }
 
   // To calculate the time difference of two dates
@@ -418,7 +427,6 @@ export class TimesheetDetailComponent implements OnInit {
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
     }
   }
-
 
   /* checkForCurrentWeek()
    * check if the displayed week is the current week
@@ -912,6 +920,7 @@ export class TimesheetDetailComponent implements OnInit {
 
   closeFormDrawer(): void {
     this.clearFormData();
+    this._clientAndProjectStateService.reset();
     this.drawerVisible = false;
   }
 

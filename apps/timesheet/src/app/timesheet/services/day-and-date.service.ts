@@ -333,15 +333,11 @@ export class DayAndDateService {
   computeFirstDayForPreviosWeek(cuur1: any) {
     this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
     this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - this.setFirstWeeksFirstDay()));
-    console.log('last w first day: ' + this.firstday1);
-
   }
 
   computeFirstDay(cuur1: any) {
     this.firstday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay()))
     this.firstday1 = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + this.setFirstWeeksFirstDay()));
-    console.log('show first day: ' + this.firstday1);
-    // }
   }
 
 }

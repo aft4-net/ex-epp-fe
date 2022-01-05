@@ -18,8 +18,8 @@ export class TimesheetConfigurationStateService {
   getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
       var timesheetConfig = response ?? {
-        WorkingHour: [],
-        WorkingDays: 0
+        WorkingDays: [],
+        WorkingHour: 0
       }
 
       this.timesheetConfigurationSource.next(timesheetConfig);
