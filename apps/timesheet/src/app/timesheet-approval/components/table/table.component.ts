@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
+  TimesheetApprovalGuid:string,
   TimesheetId: string,
   name: string;
   dateRange: string;
@@ -100,7 +101,7 @@ export class TableComponent {
 
   onAllChecked(value: boolean): void {
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetId, value));
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetApprovalGuid, value));
     this.refreshCheckedStatus();
     this.qtyofItemsChecked= this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
