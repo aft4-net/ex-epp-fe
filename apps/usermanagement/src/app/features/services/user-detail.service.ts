@@ -71,4 +71,7 @@ export class UserDetailService {
       catchError(this.errHandler.formatErrors)
     );
   }
+  getUserById(id:string){
+    return this.http.get(`${environment.apiUrl}/user/${id}`);
+  }
 }

@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormValidator } from '../../../utils/validator';
 import { environment } from '../../../../environments/environment';
@@ -17,7 +17,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { UserDetailService } from '../../services/user-detail.service';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
-import { AuthenticationService } from 'libs/common-services/Authentication.service';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+
 
 
 @Component({
@@ -35,6 +36,8 @@ export class UserdetailsComponent implements OnInit {
   isRecordUpdated = false;
   selectedRecord: string | undefined;
   cgm=CustomFormModule;
+  userId:any;
+  userdetailInfo:any
   userdetail = new FormGroup({
     UserId: new FormControl(''),
     FullName: new FormControl(''),
@@ -53,10 +56,10 @@ export class UserdetailsComponent implements OnInit {
 
   public fetchedGroupName: [GroupData] | [] = [];
 
-  //userGroup = new FormGroup({
-    //GroupIDArray: new FormControl([], Validators.required),
-    //UserGuid: new FormControl('1399365f-ac3f-4cbe-a026-a3860954a8d0')
- // });
+  userGroup = new FormGroup({
+    GroupIDArray: new FormControl([], Validators.required),
+    UserGuid: new FormControl()
+ });
 
   public listOfTypes: [UserDetail] | [] = [];
   public listOfGroups: [GroupData] | [] =[];
@@ -67,12 +70,12 @@ export class UserdetailsComponent implements OnInit {
 
 
   getAllGroupSetsByUserId() { 
-    this.userDetailService.getGroupSetByUserId("1399365f-ac3f-4cbe-a026-a3860954a8d0").subscribe((res) => {
+    this.userDetailService.getGroupSetByUserId(this.userId).subscribe((res) => {
       this.fetchedGroupName = res.Data;
     });
   }
   getAllUserGroups() { 
-    this.userDetailService.getAllUserGroupsByUserId("1399365f-ac3f-4cbe-a026-a3860954a8d0").subscribe((res) => {
+    this.userDetailService.getAllUserGroupsByUserId(this.userId).subscribe((res) => {
       this.listUserGroups = res.Data;
     });
   }
@@ -99,6 +102,7 @@ export class UserdetailsComponent implements OnInit {
     private notification: NotificationBar,
     private _authenticationService:AuthenticationService, 
     private validator: FormValidator,
+    private route: ActivatedRoute,
     private _fb: FormBuilder
   ) {
     this.userdetail = _fb.group({
@@ -114,19 +118,15 @@ export class UserdetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userId = this.route.snapshot.paramMap.get('id');
     this.getAllGroupSetsByUserId();
     this.getUsers();
     this.getAllGroupList();
     this.getAllUserGroups();
-    this.userDetailService
-      .getUserInfo({ UserId: "" })
-      .subscribe(async (response) => {
-        const data = response.Data;
-        console.log(data);
-        this.userdetail.controls.FullName.setValue(data.FullName);
-        this.userdetail.controls.JobTitle.setValue(data.JobTitle);
-        this.userdetail.controls.email.setValue(data.Email);
-        this.userdetail.controls.PhoneNo.setValue(data.PhoneNo);
+    this.userDetailService.getUserById(this.userId)
+      .subscribe(async (response:any) => {
+        this.userdetailInfo = response.Data;
+       
       });
       }
 
@@ -138,8 +138,11 @@ export class UserdetailsComponent implements OnInit {
   }
   
   onSaveRecord(): void {
-    const dataToPost = this.userdetail.value;
-    dataToPost.UserGuid = "1399365f-ac3f-4cbe-a026-a3860954a8d0";
+    const dataToPost = this.userGroup.value;
+    dataToPost.UserGuid = this.userId;
+    console.log('dataToPost')
+    console.log(dataToPost)
+    console.log('dataToPost')
     this.userDetailService.addGroupToUser(dataToPost).subscribe(
       () => {
         this.loading = false;

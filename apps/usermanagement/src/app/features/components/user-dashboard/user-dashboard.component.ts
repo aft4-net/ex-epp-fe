@@ -80,7 +80,7 @@ export class UserDashboardComponent implements OnInit {
       filterFn: null
     },
     {
-      name: 'Last Activity',
+      name: 'Last Activity Date',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
@@ -90,7 +90,7 @@ export class UserDashboardComponent implements OnInit {
     }
   ]
 
-  @ViewChild('searchInput', { static: true })
+  @ViewChild('userNameInput', { static: true }) element: ElementRef | undefined;
   input!: ElementRef;
   isLogin=false;
   constructor(private userService : UserService,
@@ -138,6 +138,7 @@ export class UserDashboardComponent implements OnInit {
     this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
       if(response.Data) {
+       
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -471,7 +472,7 @@ handleGroupCancel() {
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/usermanagement/userdetails');
+    this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
   }
   
   handleOk(): void {

@@ -19,9 +19,6 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
           this.permissionList.forEach(element => {
               if(element.KeyValue==key){
                   found= true;
-                  console.log('found')
-                  console.log(found)
-                  console.log('found')
               }
           });
           return found;

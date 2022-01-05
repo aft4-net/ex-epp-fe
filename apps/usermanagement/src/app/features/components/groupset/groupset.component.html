@@ -200,11 +200,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                  <td>{{user.Name}}</td>  
+                <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <td>{{group.Name}}</td>  
                   <td>
                     <button nz-button  style="border:0px; color: green;" nzType="link" [nzSize]="size"
-                      (click)="ShowDetail(user.Guid)">Show Detail
+                      (click)="ShowDetail(group.Guid)">Show Detail
                     </button>
                   </td>                
                 </tr>

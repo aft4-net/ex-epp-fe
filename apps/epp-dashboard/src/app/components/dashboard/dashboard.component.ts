@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
-
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import {PermissionService} from './../../../../../../libs/common-services//permission.service';
 import { IntialdataService } from '../../services/intialdata.service';
@@ -10,13 +8,20 @@ import { IntialdataService } from '../../services/intialdata.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
   fullName:any
   permissionList:any[]=[ ];
-modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService) { }
+  modulePermission:any[]=[];
+  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
+    this.fullName=_authenticationService.getUserFullName();
+    const namearray=this.fullName.split(' ');
+    this.fullName=namearray[0];
+ 
+  }
 
   ngOnInit(): void {
-    this.fullName=this._authenticationService.getUserFullName();
+   
+
     this.getPermission();
     this._permissionService.permissionList=this.permissionList;
   }
@@ -36,7 +41,6 @@ modulePermission:any[]=[];
         this.permissionList.forEach(child => {
             if(parent.PermissionCode==child.ParentCode){
                 this.permissionList=[...this.permissionList,parent]
-                console.log(this.permissionList)
                 this._permissionService.permissionList=this.permissionList;
             }
         });

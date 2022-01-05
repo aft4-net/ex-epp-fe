@@ -15,7 +15,7 @@
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
             <nz-input-group [nzPrefix]="suffixIconButton">
-              <input type="text" #searchInput formControlName="userName" nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
+              <input type="text" #userNameInput formControlName="userName" nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchUsersByUserName()">
@@ -64,23 +64,7 @@
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName }} </td>
-                    <td>
-
-                      <div *ngIf="(user.LastActivityDate | date:'MMM dd, yyyy') === 'Jan 01, 0001'; then thenBlock; else elseBlock"></div>
-
-                        <ng-template #thenBlock>
-
-                          {{""}}
-
-                        </ng-template>
-
-                        <ng-template #elseBlock>
-
-                          {{user.LastActivityDate | date:'MMM dd, yyyy'}}
-
-                        </ng-template>
-
-                      </td>
+                    <td>{{user.LastActivityDate | date:'MMM dd, yyyy' }}</td>
                     <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
                     <td>
