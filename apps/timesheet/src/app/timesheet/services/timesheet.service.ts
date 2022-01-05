@@ -20,6 +20,7 @@ import { Project } from '../../models/project';
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable({
   providedIn: 'root',
@@ -30,9 +31,12 @@ export class TimesheetService {
   timesheetApp?:Timesheet;
 
   constructor(
+    private notification: NzNotificationService,
     private http: HttpClient,
     private dayAndDateService: DayAndDateService
-  ) { }
+  ) {
+
+  }
 
   //#region timesheet and timeEntry
   setreview(timesheet: Timesheet) {
@@ -438,11 +442,14 @@ export class TimesheetService {
 
   updateTimeSheetStatus(arrayOfId: string[]) {
     console.log("updateStatus"+arrayOfId);
-    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((respose:any)=>{});
-
-
-
-
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
+      if (response.ResponseStatus.toString() == 'Success') {
+        this.notification.success("Bulk Approved successfully","");
+      }
+      else{
+        this.notification.error("Bulk is not Approved","");
+      }
+    });
   }
 
 }
