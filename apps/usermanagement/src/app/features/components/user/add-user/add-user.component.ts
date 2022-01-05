@@ -63,6 +63,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.notifier.notify(NotificationType.error, errMsg);
     this.isLoadng = false;
   }
+
+
   onSaveUser()
   {
     if(this.selectedUserValue == null || '')

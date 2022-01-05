@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GroupsetComponent } from '../features/components/groupset/groupset.component';
 import { GroupDetailComponent } from '../features/components/group-detail/group-detail.component';
-import {  MsalModule, MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
+import {  MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
@@ -67,13 +67,8 @@ export function MSALInstanceFactory(): IPublicClientApplication
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
     },
-<<<<<<< HEAD
     { provide: NZ_I18N, useValue: en_US },
     MsalService 
-=======
-    MsalService,
-    {provide: NZ_I18N, useValue: en_US}
->>>>>>> 561e3da05d8604beed770bc212bd9f34131f094e
     ],
 })
 export class RemoteEntryModule {}
