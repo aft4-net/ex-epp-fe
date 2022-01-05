@@ -19,8 +19,8 @@
 
 <div nz-row class="controllers">
 
-    <div *ngIf="currentNameSubject$ | async" nz-col>
-        <button nz-button nzType="default"
+    <div *ngIf="currentNameSubject$ | async"   nz-col>
+        <button class="approveButton" nz-button nzType="default"
         [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()" 
         >Bulk Approval</button>
 
@@ -36,7 +36,7 @@
       </ng-template>
 
     </div>
-
+  <br>
   <br>
   <div nz-col class="ml-1">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
