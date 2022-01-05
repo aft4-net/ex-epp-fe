@@ -1,5 +1,5 @@
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { NzToolTipComponent, NzToolTipModule } from "ng-zorro-antd/tooltip";
+import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 import {CommonModule} from '@angular/common';
 import {DateSelectorComponent} from './components/date-selector/date-selector.component';
@@ -16,6 +16,7 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzInputModule} from "ng-zorro-antd/input"
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {NzModalModule} from "ng-zorro-antd/modal";
+import { NzInputNumberModule } from "ng-zorro-antd/input-number"
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import {NzPopoverModule} from "ng-zorro-antd/popover"
@@ -29,6 +30,7 @@ import {TimesheetRoutingModule} from './timesheet-routing.module';
 import { TimesheetService } from './services/timesheet.service';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
+import { TimesheetConfigurationComponent } from './components/timesheet-configuration/timesheet-configuration.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,7 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
     MoreProjectsComponent,
     ViewSubmissionsComponent,
     TimesheetDetailComponent,
-
+    TimesheetConfigurationComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
     NzModalModule,
     NzTableModule,
     NzToolTipModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzInputNumberModule
   ],
   exports: [TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],

@@ -8,6 +8,7 @@ import {
   TimesheetApprovalResponse,
   TimesheetBulkApproval,
   TimesheetConfigResponse,
+  TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
@@ -44,9 +45,9 @@ export class TimesheetService {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
     } else {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
 
@@ -204,6 +205,12 @@ export class TimesheetService {
     );
 
     return response.pipe(map((r) => r.Data));
+  }
+
+  addTimeSheetConfiguration(timesheetConfig: TimesheetConfiguration) {
+    const headers = { 'content-type': 'application/json' }
+    
+    return this.http.post<TimesheetConfigResponse>(this.baseUrl + 'TimeSheetConfig', timesheetConfig, {headers: headers});
   }
 
   //#endregion
@@ -421,24 +428,15 @@ export class TimesheetService {
     );
   }
 
-  // updateTimeSheetStatus(arrayOfId: number[]) {
-  //   return this.http.put(
-  //     this.baseUrl + 'TimesheetApprovalBulkApprove',
-  //     arrayOfId
-  //   );
-  // }
-
-
-
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
-
   updateTimeSheetStatus(arrayOfId: string[]) {
     console.log("updateStatus"+arrayOfId);
+
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
@@ -448,5 +446,4 @@ export class TimesheetService {
       }
     });
   }
-
 }
