@@ -17,6 +17,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { UserDetailService } from '../../services/user-detail.service';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
+import { AuthenticationService } from 'libs/common-services/Authentication.service';
 
 
 @Component({
@@ -27,6 +28,9 @@ import { CustomFormModule } from '../../../shared/modules/forms/custom-form.modu
 export class UserdetailsComponent implements OnInit {
   isModalVisible = false;
   isUpdateMode = false;
+  switchValue = false;
+  loading = false;
+  isLogin=false;
   public userDetals: [UserDetail] | [] = [];
   isRecordUpdated = false;
   selectedRecord: string | undefined;
@@ -61,8 +65,6 @@ export class UserdetailsComponent implements OnInit {
   listUserGroups: Array<any> = [];
   public membershipList: [GroupData] | [] =[];
 
-  loading = false;
-
 
   getAllGroupSetsByUserId() { 
     this.userDetailService.getGroupSetByUserId("1399365f-ac3f-4cbe-a026-a3860954a8d0").subscribe((res) => {
@@ -95,6 +97,7 @@ export class UserdetailsComponent implements OnInit {
     private router: Router,
     private modal: NzModalService,
     private notification: NotificationBar,
+    private _authenticationService:AuthenticationService, 
     private validator: FormValidator,
     private _fb: FormBuilder
   ) {
@@ -103,6 +106,7 @@ export class UserdetailsComponent implements OnInit {
       JobTitle: null,
       Guid:null
     });
+    this.isLogin=_authenticationService.loginStatus();
   }
 
   hasDataEntry(value: boolean) {
@@ -191,7 +195,15 @@ export class UserdetailsComponent implements OnInit {
       //Status: toDisplayRow.Status, 
     });
    }
-
+   clickSwitch(): void {
+    if (!this.loading) {
+      this.loading = true;
+      setTimeout(() => {
+        this.switchValue = !this.switchValue;
+        this.loading = false;
+      }, 3000);
+    }
+  }
   onFormSubmit() {
     this.isModalVisible = false;
     this.loading = true;
