@@ -128,12 +128,12 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService
-  ) {
+  ) {debugger;
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
 
-    this.firstday1 = new Date(this.curr.getFullYear(), this.curr.getMonth(), this.curr.getDate() - this.curr.getDay() + 1);
-    this.lastday1 = new Date(this.firstday1.getFullYear(), this.firstday1.getMonth(), this.firstday1.getDate() + 6);
+    this.firstday1 = this.dayAndDateService.getWeeksFirstDate(this.curr);
+    this.lastday1 = this.dayAndDateService.getWeeksLastDate(this.curr);
 
     this.$clients = this._clientAndProjectStateService.$clients;
     this.$projects = this._clientAndProjectStateService.$projects;
@@ -218,41 +218,48 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   setFirstDay() {
-    return 2;
+    return 1;
   }
 
   startingWeek() {debugger;
+    let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+
     this.dayAndDateService.fs = this.setFirstDay();
-    this.weekDays = this.dayAndDateService.getWeekByDate(this.curr);
+    this.weekDays = this.dayAndDateService.getWeekByDate(date);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
-  nextWeek(count: any) {
-    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() <= 7 *24 * 3600000) {
+  nextWeek(count: any) {debugger;
+    this.date.setDate(this.date.getDate() + 7);
+    let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+
+    this.dayAndDateService.fs = this.setFirstDay();
+    this.weekDays = this.dayAndDateService.getWeekByDate(date);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 *24 * 3600000) {
       this.isToday = true;
     }
 
-    this.dayAndDateService.fs = this.setFirstDay();
-    let ss = this.dayAndDateService.getWeekendLastDay();
-    this.weekDays = this.dayAndDateService.nextWeekDates(ss, count);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-
     if (this.userId) {
       this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
     }
 
     this.checkForCurrentWeek();
+    this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
-  lastastWeek(count: any) {
+  lastastWeek(count: any) {debugger;
+    this.date.setDate(this.date.getDate() - 7);
     this.isToday = false;
-    this.lastWeeks = count;
+    let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+
     this.dayAndDateService.fs = this.setFirstDay();
-    let ss = this.dayAndDateService.getWeekendFirstDay();
-    console.log('f day: ' + ss);
-    this.weekDays = this.dayAndDateService.lastWeekDates(ss, count);
+    this.weekDays = this.dayAndDateService.getWeekByDate(date);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
@@ -261,6 +268,7 @@ export class TimesheetDetailComponent implements OnInit {
     }
 
     this.checkForCurrentWeek();
+    this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
   // To calculate the time difference of two dates
@@ -405,22 +413,27 @@ export class TimesheetDetailComponent implements OnInit {
     return endValue.getTime() <= this.startValue.getTime();
   };
 
-  selectedDate(count: any) {
-    this.parentCount = count;
-    if (count != null) {
-      this.weekDays = this.dayAndDateService.getWeekByDate(count);
-      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
-      this.checkForCurrentWeek();
-      this.checkTimeOverThreeWeeks(this.firstday1);
+  selectedDate(date: Date) {debugger;
+    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-      if (this.userId) {
-        this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-      }
+    this.dayAndDateService.fs = this.setFirstDay();
+    this.weekDays = this.dayAndDateService.getWeekByDate(date);
+    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 *24 * 3600000) {
+      this.isToday = true;
     }
+
+    if (this.userId) {
+      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
+    }
+    
+    this.checkForCurrentWeek();
+    this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
-  selectedDateCanceled(curr: any) {
+  selectedDateCanceled(curr: any) {debugger;
     if (curr != null) {
       this.weekDays = this.dayAndDateService.getWeekByDate(curr);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();

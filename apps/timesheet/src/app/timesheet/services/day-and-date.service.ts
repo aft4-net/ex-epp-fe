@@ -18,32 +18,14 @@ export class DayAndDateService {
   constructor(private http: HttpClient) {
   }
 
-  //Returns Monday's date for the week
-  //Assumming Monday is the first date and Sunday is the last date
   getWeeksFirstDate(date: Date) {
-    let firstDate;
-
-    if (date.getDay() === 0) {
-      firstDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 6);
-    } else {
-      date.setDate(date.getDate() - date.getDay() + 1);
-      firstDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
-
-    return firstDate;
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + this.setFirstWeeksFirstDay());;
   }
 
-  //Returns Sunday's date for the week
-  //Assumming Monday is the first date and Sunday is the last date
   getWeeksLastDate(date: Date) {
-    let lastDate;
+    let lastDate = this.getWeeksFirstDate(date);
 
-    if (date.getDay() === 0) {
-      lastDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    } else {
-      date.setDate(date.getDate() - date.getDay() + 1);
-      lastDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 6);
-    }
+    return new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate() + 6);;
   }
 
   getRangeOfDates(fromDate: Date, toDate: Date) {
