@@ -26,7 +26,21 @@ export enum ApprovalStatus {
 }
 
 export interface TimesheetApproval {
-  
+    //TimesheetApprovalGuid:string;
+    TimesheetId: string;
+    ProjectId: string;
+    Status: ApprovalStatus;
+    Comment?:string;
+    EmployeeName:string;
+    FromDate:Date;
+    ToDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
+    ProjectName:string;
+}
+export interface TimesheetBulkApproval {
+    TimesheetApprovalGuid:string;
     TimesheetId: string;
     ProjectId: string;
     Status: ApprovalStatus;
@@ -40,11 +54,20 @@ export interface TimesheetApproval {
     ProjectName:string;
 }
 
+export interface StartOfWeek {
+    DayOfWeek: string;
+    EffectiveDate: Date;
+}
 
+export interface WorkingHours {
+    Min: number;
+    Max: number;
+}
 
 export interface TimesheetConfiguration {
+    StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
-    WorkingHour: number;
+    WorkingHours: WorkingHours;
 }
 
 interface Response {

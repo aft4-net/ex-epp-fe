@@ -1,9 +1,3 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   ApprovalEntity,
   TimeEntriesResponse,
@@ -12,13 +6,22 @@ import {
   Timesheet,
   TimesheetApproval,
   TimesheetApprovalResponse,
+  TimesheetBulkApproval,
   TimesheetConfigResponse,
+  TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
-import { Project } from '../../models/project';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { filter, map } from 'rxjs/operators';
+
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
-import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { Injectable } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Observable } from 'rxjs';
+import { Project } from '../../models/project';
+import { environment } from 'apps/timesheet/src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -29,22 +32,22 @@ export class TimesheetService {
   timesheetApp?:Timesheet;
 
   constructor(
+    private notification: NzNotificationService,
     private http: HttpClient,
     private dayAndDateService: DayAndDateService
-  ) { }
+  ) {
+
+  }
 
   //#region timesheet and timeEntry
-  setreview(timesheet: Timesheet) {
-    this.timesheetApp = timesheet;
-  }
 
   getTimeSheet(userId: string, date?: Date) {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
     } else {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
 
@@ -204,6 +207,12 @@ export class TimesheetService {
     return response.pipe(map((r) => r.Data));
   }
 
+  addTimeSheetConfiguration(timesheetConfig: TimesheetConfiguration) {
+    const headers = { 'content-type': 'application/json' }
+    
+    return this.http.post<TimesheetConfigResponse>(this.baseUrl + 'TimeSheetConfig', timesheetConfig, {headers: headers});
+  }
+
   //#endregion
 
   //#region client and poject from mock server
@@ -356,25 +365,54 @@ export class TimesheetService {
   }
 
   getTimesheetApprovalPagination(
-    pageindex: number,
-    pageSize: number,
-    searchKey?: string,
-    status?: string
-  ): Observable<PaginatedResult<TimesheetApproval[]>> {
-    const params = new HttpParams()
-      .set('pageindex', pageindex.toString())
-      .set('pageSize', pageSize.toString())
-      .set('searchKey', searchKey ? searchKey : '')
-      .set('status' , status ? status: '');
 
-    let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
-      data: [] as TimesheetApproval[],
+    pageindex: number,
+
+    pageSize: number,
+
+    searchKey?: string,
+
+    SortBy?: string,
+
+    ProjectName?: string,
+
+    ClientName?: string,
+
+    Week?: string,
+
+    sort?: string,
+
+    status ?:string
+
+  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+
+    const params = new HttpParams()
+
+      .set('PageIndex', pageindex.toString())
+
+      .set('PageSize', pageSize.toString())
+
+      .set('searchKey', searchKey ? searchKey : '')
+
+      .set('SortBy', SortBy? SortBy:'')
+
+      .set('ProjectName', ProjectName ? ProjectName:'')
+
+      .set('ClientName',ClientName ? ClientName:'')
+
+      .set('Week',Week? Week:'')
+
+      .set('sort',sort ? sort:'Ascending')
+
+      .set('status', status ? status :'');
+
+    let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
+      data: [] as TimesheetBulkApproval[],
       pagination: {} as Pagination,
     };
     return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
       map((response: any) => {
-        console.log("service");
-        console.log(response.Data);
+
 
         paginatedResult = {
           data: response.Data,
@@ -390,17 +428,22 @@ export class TimesheetService {
     );
   }
 
-  updateTimeSheetStatus(arrayOfId: number[]) {
-    return this.http.put(
-      this.baseUrl + 'TimesheetApprovalBulkApprove',
-      arrayOfId
-    );
-  }
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
+  updateTimeSheetStatus(arrayOfId: string[]) {
+    console.log("updateStatus"+arrayOfId);
 
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
+      if (response.ResponseStatus.toString() == 'Success') {
+        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
+      }
+      else{
+        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
+      }
+    });
+  }
 }

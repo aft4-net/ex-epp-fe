@@ -22,7 +22,7 @@ export class TimesheetStateService {
 
   getTimesheet(userId: string, date?: Date) {
     if(date){
-      this.date = date;
+      this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     }
     this.timesheetSource.next(null);
     this.timeEntriesSource.next(null);

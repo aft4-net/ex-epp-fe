@@ -111,7 +111,7 @@ export class ViewSubmissionsComponent implements OnInit {
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
-    public state: TimesheetStateService
+    private state: TimesheetStateService
   ) {}
 
   ngOnInit(): void {
@@ -220,10 +220,11 @@ export class ViewSubmissionsComponent implements OnInit {
     this.loading = false;
   }
   reviewsubmissions(date: Date) {
-    this.state.date = date;
+    date = new Date(date);
+    this.state.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
-      this.state.getTimesheet(this.userId, date);
+      this.state.getTimesheet(this.userId);
       this.router.navigate(['/timesheet']);
     }
  }

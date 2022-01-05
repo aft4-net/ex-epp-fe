@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
+  TimesheetApprovalGuid:string,
   TimesheetId: string,
   name: string;
   dateRange: string;
@@ -49,6 +50,7 @@ export class TableComponent {
 
   @Output() checkedListId = new EventEmitter<Set<number>>();
   @Output() sorter = new EventEmitter<string>();
+  @Output() sortingDirection = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
@@ -74,7 +76,7 @@ export class TableComponent {
       this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
       //console.log(this.arrayOfCheckedId)
-      
+
     } else {
       this.setOfCheckedId.delete(id);
       this.RemoveElementFromArray(id);
@@ -100,7 +102,7 @@ export class TableComponent {
 
   onAllChecked(value: boolean): void {
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetId, value));
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetApprovalGuid, value));
     this.refreshCheckedStatus();
     this.qtyofItemsChecked= this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
@@ -113,33 +115,28 @@ export class TableComponent {
 
   refreshCheckedStatus(): void {
     //this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    
+
     //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
   sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
-      this.sorter.emit("name");
+      this.sorter.emit("Name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
-      this.sorter.emit("dateRange");
-    }else if (heading === 'Project Name') {
+      this.sorter.emit("DateRange");
+    }else if (heading === 'Project'){
       this.sortByParam = "projectName";
-      this.sorter.emit("projectName");
+      this.sorter.emit("Project");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
-      this.sorter.emit("clientName");
-    } else {
-      this.sortByParam = "";
+      this.sorter.emit("Client");
     }
 
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
-    }
   }
+
+
 
   showModal(row: any) {
     this.isModalVisible=true;
