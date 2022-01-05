@@ -99,7 +99,7 @@ export class TimesheetApprovalComponent implements OnInit {
   resources: any;
 
   // variables for generic method
-    pageSizeG = 10;
+    pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
     searchKeyG :string | null = null;
