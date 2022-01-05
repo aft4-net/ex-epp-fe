@@ -102,10 +102,11 @@ export class GroupsetComponent implements OnInit {
       (err: any) => {
         this.notification.showNotification({
           type: 'error',
-          content: 'Error, group not added. Please try again',
+          content: err?.error.Message,
           duration: 5000,
         });
-        console.log('error:' + err);
+        console.log('error:' + err.error.Message);
+        console.log(err);
       }
     );
      
