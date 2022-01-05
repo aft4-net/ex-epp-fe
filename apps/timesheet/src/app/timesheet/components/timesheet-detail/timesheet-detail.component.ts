@@ -174,7 +174,7 @@ export class TimesheetDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //this.startingWeek();
+    this.timesheetStateService.setApproval(false);
     this.userId = localStorage.getItem('userId');
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
 
