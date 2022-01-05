@@ -1,6 +1,3 @@
-import {
-  TimesheetApproval,
-} from '../../../models/timesheetModels';
 import { Component, OnInit } from '@angular/core';
 import {
   NzTableFilterFn,
@@ -11,9 +8,9 @@ import {
 } from 'ng-zorro-antd/table';
 
 import { Router } from '@angular/router';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
-
 
 interface ColumnItem {
   name: string;
@@ -156,25 +153,18 @@ export class ViewSubmissionsComponent implements OnInit {
   }
 
   getWeek($event: Date) {
+    if (this.date) {
+      let index = -1;
 
-    if (this.date)
-    {
-     let index=-1;
-     
+      for (let i = 0; i < this.params.filter.length; i++)
+        if (this.params.filter[i].key == 'DateWeek') index = i;
 
-      for (let i = 0; i < this.params.filter.length; i++) 
-        if (this.params.filter[i].key == 'DateWeek') 
-           index=i;
-        
-           if(index!=-1)
-           this.params.filter[index].value=$event;
-           else
-           this.params.filter.push({key:'DateWeek',value:$event});
- }
-    else{
-      for (let i = 0; i < this.params.filter.length; i++) 
-      if (this.params.filter[i].key == 'DateWeek') 
-        this.params.filter[i].value =null;
+      if (index != -1) this.params.filter[index].value = $event;
+      else this.params.filter.push({ key: 'DateWeek', value: $event });
+    } else {
+      for (let i = 0; i < this.params.filter.length; i++)
+        if (this.params.filter[i].key == 'DateWeek')
+          this.params.filter[i].value = null;
     }
 
     const { pageSize, pageIndex, sort, filter } = this.params;
@@ -198,7 +188,6 @@ export class ViewSubmissionsComponent implements OnInit {
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
     this.timesheetSubmissionPaginatin(pageIndex, sortField, sortOrder, filter);
-
   }
 
   PageIndexChange(index: number): void {
@@ -218,5 +207,5 @@ export class ViewSubmissionsComponent implements OnInit {
       this.state.getTimesheet(this.userId, date);
       this.router.navigate(['/timesheet']);
     }
- }
+  }
 }
