@@ -19,7 +19,7 @@
 
 <div nz-row class="controllers">
 
-    <div *ngIf="currentNameSubject$ | async" nz-col>
+    <div *ngIf="currentNameSubject$ | async" nz-col style="margin-right: 12px;">
         <button nz-button nzType="default"
         [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()" 
         >Bulk Approval</button>
@@ -27,7 +27,7 @@
         <br>
     </div>
 
-    <div nz-col nzSpan="6" class="ml-1">
+    <div nz-col nzSpan="8" class="ml-1" style="margin-right: 12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  type="text" nz-input placeholder="Search" />
       </nz-input-group>
@@ -43,7 +43,7 @@
 
   </div>
 </div>
-<div class="tab">
+<div class="tab" style="z-index: 9;">
 
 
   <div class="mb-4">
