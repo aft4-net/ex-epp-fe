@@ -383,5 +383,6 @@ emitArray(evt:Set<string>){
     console.log("Approved"+this.arrayOfCheckedId);
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
+    this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
   }
 }

@@ -12,6 +12,7 @@ import {
   Timesheet,
   TimesheetApproval,
   TimesheetApprovalResponse,
+  TimesheetBulkApproval,
   TimesheetConfigResponse,
   TimesheetResponse,
 } from '../../models/timesheetModels';
@@ -360,15 +361,15 @@ export class TimesheetService {
     pageSize: number,
     searchKey?: string,
     status?: string
-  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+  ): Observable<PaginatedResult<TimesheetBulkApproval[]>> {
     const params = new HttpParams()
       .set('pageindex', pageindex.toString())
       .set('pageSize', pageSize.toString())
       .set('searchKey', searchKey ? searchKey : '')
       .set('status' , status ? status: '');
 
-    let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
-      data: [] as TimesheetApproval[],
+    let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
+      data: [] as TimesheetBulkApproval[],
       pagination: {} as Pagination,
     };
     return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
@@ -390,17 +391,29 @@ export class TimesheetService {
     );
   }
 
-  updateTimeSheetStatus(arrayOfId: number[]) {
-    return this.http.put(
-      this.baseUrl + 'TimesheetApprovalBulkApprove',
-      arrayOfId
-    );
-  }
+  // updateTimeSheetStatus(arrayOfId: number[]) {
+  //   return this.http.put(
+  //     this.baseUrl + 'TimesheetApprovalBulkApprove',
+  //     arrayOfId
+  //   );
+  // }
+
+
+  
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
+
+  updateTimeSheetStatus(arrayOfId: string[]) {
+    console.log("updateStatus"+arrayOfId);
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((respose:any)=>{});
+
+    
+      
+      
+  }
 
 }
