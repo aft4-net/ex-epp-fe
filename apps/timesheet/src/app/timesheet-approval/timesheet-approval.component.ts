@@ -217,6 +217,7 @@ export class TimesheetApprovalComponent implements OnInit {
     this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
   }
 
+
   timesheetApprovalPaginationAll(index: number, pageSize: number,search:string) {
     this.timeSheetService
       .getTimesheetApprovalPagination(index, pageSize, search,'')
@@ -296,7 +297,7 @@ export class TimesheetApprovalComponent implements OnInit {
 test() {
   console.log("clicked");
 }
-  timesheetBulkApproval(arrayOfIds:string[]){
+  timesheetBulkApproval(arrayOfIds:any[]){
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
     console.log("service"+arrayOfIds);
   }
@@ -382,5 +383,6 @@ emitArray(evt:Set<string>){
     console.log("Approved"+this.arrayOfCheckedId);
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
+    this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
   }
 }

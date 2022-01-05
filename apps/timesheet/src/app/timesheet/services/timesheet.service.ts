@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   ApprovalEntity,
@@ -12,6 +12,7 @@ import {
   Timesheet,
   TimesheetApproval,
   TimesheetApprovalResponse,
+  TimesheetBulkApproval,
   TimesheetConfigResponse,
   TimesheetResponse,
 } from '../../models/timesheetModels';
@@ -42,9 +43,9 @@ export class TimesheetService {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
+      fromDate = this.dayAndDateService.getWeekendFirstDay();
     } else {
-      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
+      fromDate = this.dayAndDateService.getWeekendFirstDay();
     }
     fromDate.setHours(3, 0, 0, 0);
 
@@ -271,60 +272,104 @@ export class TimesheetService {
   }
   //#endregion
 
-  getTimesheetSubmissions(
+  getUserTimesheetApprovalSubmissions(
     pageIndex: number,
     pageSize: number,
     sortField: string | null,
     sortOrder: string | null,
-    filters: Array<{ key: string; value: string[] }>,
-    search?: string
-  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+    filters: Array<{ key: string; value: string[] }>
+  ) {
     let params = new HttpParams()
-      .append('pageIndex', `${pageIndex}`)
-      .append('pageSize', `${pageSize}`)
-      .append('sortField', `${sortField}`)
-      .append('sortOrder', `${sortOrder}`)
-      .append('search', `${search}`);
-    filters.forEach(filter => {
-      filter.value.forEach(value => {
-        params = params.append(filter.key, value);
-      });
-    });
-    let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
-      data: [] as TimesheetApproval[],
-      pagination: {} as Pagination
-    };
-    return this.http.get(`${this.baseUrl}usertimesheetSubmissions?` + params.toString())
+      .append('PageIndex', `${pageIndex}`)
+      .append('PageSize', `${pageSize}`)
+      .append('SortField', `${sortField}`)
+      .append('SortOrder', `${sortOrder}`)
+      .append('EmployeeGuId', `${localStorage.getItem('userId')}`);
+      console.log(filters)
+    if (filters)
+      for (let i = 0; i < filters.length; i++) {
+        if (filters[i].key == 'Project' && filters[i].value)
+          for (let j = 0; j < filters[i].value.length; j++)
+            params = params.append('ProjectFilters', filters[i].value[j]);
+
+        if (filters[i].key == 'Client' && filters[i].value)
+          for (let z = 0; z < filters[i].value.length; z++)
+            params = params.append('ClientFilters', filters[i].value[z]);
+
+        if (filters[i].key == 'Status') {
+          for (let w = 0; w < filters[i].value.length; w++)
+            params = params.append('StatusFilter', filters[i].value[w]);
+        }
+        if (filters[i].key == 'DateWeek' && filters[i].value)
+          params = params.append('DateWeek', filters[i].value.toLocaleString());
+      }
+
+    const clientNameFliter: { text: string; value: string }[] = [] as {
+      text: string;
+      value: string;
+    }[];
+    const projectNameFliter: { text: string; value: string }[] = [] as {
+      text: string;
+      value: string;
+    }[];
+    const statusFilter: { text: string; value: string }[] = [] as {
+      text: string;
+      value: string;
+    }[];
+    return this.http
+      .get(`${this.baseUrl}UserTimesheetApprovalsHistory?` + params.toString())
       .pipe(
         map((response: any) => {
-          paginatedResult = {
-            data: response.Data,
-            pagination: {
-              pageIndex: response.PageIndex,
-              totalPage: response.TotalPage,
-              pageSize: response.PageSize,
-              totalRecord: response.TotalRecord
+          if (response.Data.Filters)
+          {
+            for (let i = 0; i < response.Data.Filters.ClientFilter.length; i++)
+              clientNameFliter.push({
+                text: response.Data.Filters.ClientFilter[i].ClientName,
+                value: response.Data.Filters.ClientFilter[i].Guid,
+              });
+
+            for (let i = 0; i < response.Data.Filters.StatusFilter.length; i++)
+              statusFilter.push({
+                text: response.Data.Filters.StatusFilter[i],
+                value: response.Data.Filters.StatusFilter[i],
+              });
+
+            for (let i = 0; i < response.Data.Filters.ProjectFilter.length; i++)
+              projectNameFliter.push({
+                text: response.Data.Filters.ProjectFilter[i].ProjectName,
+                value: response.Data.Filters.ProjectFilter[i].ProjectId,
+              });
             }
+          return {
+            data: response.Data.UserTimesheetApprovals,
+            pagination: {
+              pageIndex: response.Data.PageIndex,
+              totalPage: response.Data.TotalPage,
+              pageSize: response.Data.PageSize,
+              totalRecord: response.Data.TotalRecord,
+            },
+            projectFilter: projectNameFliter,
+            clientFilters: clientNameFliter,
+            statusFilter: statusFilter,
           };
-          return paginatedResult;
         })
       );
-
   }
+
   getTimesheetApprovalPagination(
     pageindex: number,
     pageSize: number,
     searchKey?: string,
     status?: string
-  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+  ): Observable<PaginatedResult<TimesheetBulkApproval[]>> {
     const params = new HttpParams()
       .set('pageindex', pageindex.toString())
       .set('pageSize', pageSize.toString())
       .set('searchKey', searchKey ? searchKey : '')
       .set('status' , status ? status: '');
 
-    let paginatedResult: PaginatedResult<TimesheetApproval[]> = {
-      data: [] as TimesheetApproval[],
+    let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
+      data: [] as TimesheetBulkApproval[],
       pagination: {} as Pagination,
     };
     return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
@@ -344,16 +389,31 @@ export class TimesheetService {
         return paginatedResult;
       })
     );
-
   }
+
+  // updateTimeSheetStatus(arrayOfId: number[]) {
+  //   return this.http.put(
+  //     this.baseUrl + 'TimesheetApprovalBulkApprove',
+  //     arrayOfId
+  //   );
+  // }
+
+
+  
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
+
   updateTimeSheetStatus(arrayOfId: string[]) {
-    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',
-      arrayOfId)
+    console.log("updateStatus"+arrayOfId);
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((respose:any)=>{});
+
+    
+      
+      
   }
+
 }

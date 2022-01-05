@@ -29,7 +29,7 @@ export class DateSelectorComponent implements OnInit {
     const date = this._dayAndDateService.getWeeksFirstDate(new Date())
     this.valueChange.emit(new Date());
   }
-  
+
   onChange(result: Date): void {
     this.valueChange.emit(result);
   }
@@ -39,7 +39,7 @@ export class DateSelectorComponent implements OnInit {
     this.valueChangeNextWeek.emit(this.CounterNextWeek);
   }
   valueChangedLastWeek() {
-    this.CounterLastWeek = this.CounterLastWeek + 1;
+    this.CounterLastWeek = this.CounterLastWeek;
     this.valueChangeLastWeek.emit(this.CounterLastWeek);
   }
 }
