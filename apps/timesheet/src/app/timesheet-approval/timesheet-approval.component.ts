@@ -126,7 +126,7 @@ export class TimesheetApprovalComponent implements OnInit {
   ngOnInit(): void {
    // this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
     console.log('direct');
-    console.log(this.timesheetSubmissionPagination(1,10,'','Name','','','','Descending','Requested'));
+    this.timesheetSubmissionPagination(1,10,'','Name','','','','Descending','Requested');
   }
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
