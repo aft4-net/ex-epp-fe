@@ -84,7 +84,15 @@ export class ViewSubmissionsComponent implements OnInit {
       filterMultiple: false,
       listOfFilter: [],
       filterFn: null,
-    },
+    },   {
+      name:"Hours",
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [null],
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null,
+    }
   ];
 
   timeSheetHistory: any;

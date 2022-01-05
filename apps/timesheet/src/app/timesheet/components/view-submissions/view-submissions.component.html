@@ -32,13 +32,13 @@
   [nzData]="timeSheetHistory"
   (nzQueryParams)="onQueryParamsChange($event)">
     <thead >
-      <tr>
+      <tr  >
         <th nzColumnKey="DateRange"  [nzSortOrder]="listOfColumns[0].sortOrder" [nzSortFn]="listOfColumns[0].sortFn"
           [nzSortDirections]="listOfColumns[0].sortDirections">
           {{listOfColumns[0].name }}
         </th>
 
-        <th nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
+        <th  nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
         [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
         [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
         {{ listOfColumns[1].name }}
@@ -57,6 +57,9 @@
         <th>
           {{listOfColumns[4].name }}
         </th>
+        <th>
+          {{listOfColumns[5].name }}
+        </th>
       </tr>
     </thead>
     <tbody style="margin-bottom: 0px !important; padding-bottom: 0px; " >
@@ -72,6 +75,9 @@
         <td>
           <ng-template [ngIf]="data.Comment==='' || data.Comment===null "> N/A </ng-template>
           {{ data.Comment}}
+        </td>
+        <td>
+          {{ data.TotalHours}}
         </td>
       </tr>
     </tbody>
