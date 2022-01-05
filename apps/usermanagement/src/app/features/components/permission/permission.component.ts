@@ -32,6 +32,9 @@ export class PermissionComponent implements OnInit {
   onePermission: any;
   allChecked = false;
   indeterminate = true;
+   allModuleCecked=true;
+   countSelectedModule=0;
+   allModuleIntermidate=true;
   isLoding=false;
   permissionIdList: string[] = [];
   childPermissions: IPermissionModel[] = [];
@@ -121,7 +124,7 @@ goupPermissions:IPermissionModel[] = [];
          
           index++;
         });
-       
+       this.checkWhileAllSelected();
         
       });
      
@@ -219,8 +222,9 @@ goupPermissions:IPermissionModel[] = [];
   updateAllPermissionChecked(event: any, i: number): void {
     this.indeterminate = false;
     if (event) {
+      this.countSelectedModule++;
       this.listOfPermistion[i].Parent.indeterminate = false;
-      const allchilds = this.listOfPermistion[i].Childs;
+     
       this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
         (item) => ({
           ...item,
@@ -231,6 +235,7 @@ goupPermissions:IPermissionModel[] = [];
       this.listOfPermistion[i].Childs.forEach((element) => {
         let count = 0;
         this.selectedPermissionList.forEach((element2) => {
+          this.checkWhileAllSelected();
           if (element.Guid == element2.Guid) {
             this.selectedPermissionList.splice(count, 1);
           }
@@ -243,6 +248,7 @@ goupPermissions:IPermissionModel[] = [];
         ];
       });
     } else {
+      this.countSelectedModule--;
       this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
         (item) => ({
           ...item,
@@ -251,6 +257,7 @@ goupPermissions:IPermissionModel[] = [];
       );
       this.listOfPermistion[i].Childs.forEach((child) => {
         let count = 0;
+        this.checkWhileAllSelected();
         this.selectedPermissionList.forEach((element) => {
           if (element.Guid == child.Guid) {
             this.selectedPermissionList.splice(count, 1);
@@ -259,6 +266,22 @@ goupPermissions:IPermissionModel[] = [];
         });
       });
     }
+    
+    if(this.countSelectedModule==this.listOfPermistion.length){
+      this.allModuleCecked=true;
+      this.allModuleIntermidate=false
+     }
+     else  if(0<this.countSelectedModule && this.countSelectedModule<this.listOfPermistion.length){
+      this.allModuleCecked=false;
+      this.allModuleIntermidate=true
+     }
+     else{
+      this.allModuleCecked=false;
+      this.allModuleIntermidate=false
+     }
+
+
+
   }
 
   checkAll(event:any){
@@ -312,7 +335,7 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
       });
     
   }
-  
+  this.checkWhileAllSelected();
 }
     
 
@@ -345,14 +368,20 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
       this.listOfPermistion[index].Parent.indeterminate = true;
       this.listOfPermistion[index].Parent.checkAll = false;
     }
+    this.checkWhileAllSelected();
   }
   firstLetterUperCaseWord(word: string) {
     let fullPhrase = '';
     const wordLists = word.split(' ');
     wordLists.forEach((element) => {
-      const titleCase =
+      try {
+        const titleCase =
         element[0].toUpperCase() + element.substr(1).toLowerCase();
       fullPhrase = fullPhrase + ' ' + titleCase;
+      } catch (error) {
+        console.log();
+        
+      }
     });
     if(wordLists.length==0){
 fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
@@ -392,5 +421,34 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
   cancelPermission(){
    
     this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
+  }
+  checkWhileAllSelected(){
+   let interm=0;
+   let check=0;
+   this.allModuleIntermidate=true
+      this.listOfPermistion.forEach(element => {
+        if(element.Parent.indeterminate){
+          interm++;
+          
+        }
+        if(element.Parent.checkAll){
+         check++;
+         
+        }
+     
+           if(check==this.listOfPermistion.length){
+            this.allModuleCecked=true;
+            this.allModuleIntermidate=false
+           }
+           else  if(interm>0){
+            this.allModuleCecked=false;
+            this.allModuleIntermidate=true
+           }
+           else{
+            this.allModuleCecked=false;
+            this.allModuleIntermidate=false
+           }
+
+      });
   }
 }

@@ -1,4 +1,4 @@
-<div style="padding-right: 20px">
+<div style="padding-right: 20px; padding-bottom: 10px;">
   <div style="padding-left: 10px; padding-top: 15px">
     <div style="float: right">
       <button nz-button class="cancel-button" (click)="cancelPermission()" >Cancel</button>
@@ -15,6 +15,9 @@
     <label
     nz-checkbox
     (nzCheckedChange)="checkAll($event)"
+    [(ngModel)]="allModuleCecked"
+    [nzIndeterminate]="allModuleIntermidate"
+  
     >Select All</label>
   </div>
   <nz-collapse>
