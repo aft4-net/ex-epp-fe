@@ -128,3 +128,7 @@ font-size: 16px;
 
   transition: all .3s;
 }
+
+::ng-deep .ant-table-column-sorters {
+    float: none;
+}

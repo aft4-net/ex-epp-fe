@@ -1,4 +1,4 @@
-<header>
+<!-- <header>
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
     <nz-breadcrumb-item>
@@ -10,7 +10,7 @@
     <div class="page-title"> View Submissions </div>
   </div>
 </header> 
- <hr> 
+ <hr>  -->
 <section id="submissionHistory" class="mb-20">
   <span nz-row>
     <a nzSm="4" nzXs="4" (click)="navaigateToTimeSheet()"><svg width="76" height="24" viewBox="0 0 76 24" fill="none"
@@ -38,7 +38,7 @@
           {{listOfColumns[0].name }}
         </th>
 
-        <th [nzAlign]="'center'" nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
+        <th  nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
         [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
         [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
         {{ listOfColumns[1].name }}
@@ -57,6 +57,9 @@
         <th>
           {{listOfColumns[4].name }}
         </th>
+        <th>
+          {{listOfColumns[5].name }}
+        </th>
       </tr>
     </thead>
     <tbody style="margin-bottom: 0px !important; padding-bottom: 0px; " >
@@ -72,6 +75,9 @@
         <td>
           <ng-template [ngIf]="data.Comment==='' || data.Comment===null "> N/A </ng-template>
           {{ data.Comment}}
+        </td>
+        <td>
+          {{ data.TotalHours}}
         </td>
       </tr>
     </tbody>
