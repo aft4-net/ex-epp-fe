@@ -15,6 +15,7 @@ import {  MsalModule, MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 export function MSALInstanceFactory(): IPublicClientApplication 
 {return new PublicClientApplication({
    auth: {
@@ -66,7 +67,8 @@ export function MSALInstanceFactory(): IPublicClientApplication
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
     },
-    MsalService 
+    MsalService,
+    {provide: NZ_I18N, useValue: en_US}
     ],
 })
 export class RemoteEntryModule {}

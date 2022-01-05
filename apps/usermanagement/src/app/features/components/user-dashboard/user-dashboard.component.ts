@@ -138,6 +138,7 @@ export class UserDashboardComponent implements OnInit {
     this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
       if(response.Data) {
+       
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -351,7 +352,6 @@ export class UserDashboardComponent implements OnInit {
     this.isUserModalVisible = true;
     this.isLoadng = true;
 
-    console.log('addUser');
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;
@@ -372,7 +372,6 @@ export class UserDashboardComponent implements OnInit {
     this.isLoadng = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
-
             this.groupList = r;
             this.addUserService.getUserGroups(userId).subscribe(
                 (r: GroupSetModel[]) => {
@@ -381,7 +380,6 @@ export class UserDashboardComponent implements OnInit {
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
                     this.isLoadng = false;
-                    console.log(this.selectedGroups);
                 },
                 (error: any) => {
                     console.log(error);
@@ -394,7 +392,6 @@ export class UserDashboardComponent implements OnInit {
             this.onShowError(error.Error);
         }
     );
-
 }
 onSaveGroups() {
   this.selectedGroups = [];
@@ -424,7 +421,6 @@ onSaveGroups() {
 }
 
 handleGroupCancel() {
-  this.isGroupModalVisible = false;
   this.groupfrm.reset();
 }
   onShowError(err: any) {
@@ -462,6 +458,7 @@ handleGroupCancel() {
             this.isLoadng = false;
             this.isUserModalVisible = false;
             this.selectedUserValue = '';
+            this.FeatchAllUsers();
           },
           (err: any) => this.onShowError(err)
         )
@@ -475,7 +472,7 @@ handleGroupCancel() {
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/userdetail');
+    this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
   }
   
   handleOk(): void {
@@ -484,7 +481,6 @@ handleGroupCancel() {
   }
 
   handleCancel(): void {
-    this.isUserModalVisible = false;
     this.userfrm.reset();
   }
 }

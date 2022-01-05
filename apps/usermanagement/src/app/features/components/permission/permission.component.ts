@@ -27,7 +27,7 @@ export interface SelecttedPermission {
 })
 export class PermissionComponent implements OnInit {
   permissionResponse?: IPermissionResponseModel;
-  permissionData?: any;
+  permissionData:any;
   parentPermission: any;
   onePermission: any;
   allChecked = false;
@@ -63,6 +63,7 @@ goupPermissions:IPermissionModel[] = [];
       this.permissionResponse = reponse;
       this.permissionData = this.permissionResponse?.Data;
       this.permissionData.forEach((element: any) => {
+        
         this.parentPermission = {
           Guid: element.Parent.Guid,
           PermissionCode: element.Parent.PermissionCode,
@@ -76,7 +77,6 @@ goupPermissions:IPermissionModel[] = [];
           indeterminate: false,
           checkAll: false,
         };
-
         element.Childs.forEach((element1: any) => {
           this.childPermissions = [
             ...this.childPermissions,
@@ -121,6 +121,8 @@ goupPermissions:IPermissionModel[] = [];
          
           index++;
         });
+       
+        
       });
      
       this.listCheckBox?.push({
@@ -295,6 +297,9 @@ goupPermissions:IPermissionModel[] = [];
         element[0].toUpperCase() + element.substr(1).toLowerCase();
       fullPhrase = fullPhrase + ' ' + titleCase;
     });
+    if(wordLists.length==0){
+fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
+    }
     return fullPhrase;
   }
   updatePermission() {

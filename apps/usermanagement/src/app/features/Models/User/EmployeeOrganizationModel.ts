@@ -1,3 +1,4 @@
 export interface IEmployeeOrganization{
-    CompaynEmail: string
+    CompaynEmail: string;
+    JobTitle: string
 }

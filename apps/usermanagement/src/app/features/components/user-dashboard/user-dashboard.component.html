@@ -64,7 +64,7 @@
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName }} </td>
-                    <td>{{user.LastActivityDate | date:'MMM d, y' }}</td>
+                    <td>{{user.LastActivityDate | date:'MMM dd, yyyy' }}</td>
                     <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
                     <td>
@@ -99,7 +99,15 @@
           </div>
         </div>
       </div>
-      <nz-modal [(nzVisible)]="isUserModalVisible" [nzFooter]="null" nzTitle="Add User" (nzOnCancel)="handleCancel()" >
+
+
+      <nz-modal 
+      [nzWidth]="'450px'" 
+      [(nzVisible)]="isUserModalVisible"
+       [nzFooter]="null" 
+       nzTitle="Add user as employee" 
+      (nzOnCancel)="isUserModalVisible=false"
+        >
     <ng-container *nzModalContent>
    
 
@@ -107,19 +115,18 @@
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
             <div class="label">Employee
-            <span style="color:red; font-weight:bold">&nbsp;*</span>
             </div>
             <nz-form-item>
               <nz-form-control [nzSpan]="24" >
-              <nz-select
+      <nz-select
       [(ngModel)]="selectedUserValue"
       nzShowSearch
       [nzShowArrow]="true"
       name = "UserName"
       formControlName="UserName"
-      
+      placeholder="Select employee"
     >
-     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName"></nz-option>
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.JobTitle  !== 'undefined' && employee.EmployeeOrganization?.JobTitle != null ? '- '+ employee.EmployeeOrganization.JobTitle: '')"></nz-option>
     </nz-select>
               </nz-form-control>
             </nz-form-item>
@@ -127,21 +134,22 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
+    <button nz-button nzType="default"  class="defaultBtn modal-footer-btn def" (click)="handleCancel()" [disabled]="userfrm.invalid">Clear</button>
 </div>
 
 </ng-container>
   </nz-modal>
 
-<nz-modal
+<nz-modal 
+[nzWidth]="'450px'"
 [(nzVisible)]="isGroupModalVisible"
 [nzTitle]="modalTitle"
 [nzContent]="modalContent"
 [nzFooter]="null"
-(nzOnCancel)="handleGroupCancel()"
+(nzOnCancel)="isGroupModalVisible=false"
 >
-<ng-template #modalTitle class="backChange"><h4>Add Users</h4></ng-template>
+<ng-template #modalTitle class="backChange"><h4>Add Groups</h4></ng-template>
 
 <ng-template #modalContent>
  
@@ -149,7 +157,6 @@
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
             <div class="label">Groups
-            <span style="color:red; font-weight:bold">&nbsp;*</span>
             </div>
             <nz-form-item>
               <nz-form-control [nzSpan]="24" >
@@ -169,8 +176,8 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn" (click)="handleGroupCancel()">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
+    <button nz-button nzType="default"  class="defaultBtn modal-footer-btn def" (click)="handleGroupCancel()" [disabled]="groupfrm.invalid">Clear</button>
 </div>
 </ng-template>
 </nz-modal>
