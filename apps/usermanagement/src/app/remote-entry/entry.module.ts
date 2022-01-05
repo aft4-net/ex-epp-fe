@@ -47,7 +47,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'user-dashboard',component:UserDashboardComponent
           },
           {
-            path:'userdetails',component:UserdetailsComponent
+            path:'userdetails/:id',component:UserdetailsComponent
           },
           {
             path:'group',component:GroupsetComponent
@@ -67,8 +67,13 @@ export function MSALInstanceFactory(): IPublicClientApplication
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
     },
+<<<<<<< HEAD
     { provide: NZ_I18N, useValue: en_US },
     MsalService 
+=======
+    MsalService,
+    {provide: NZ_I18N, useValue: en_US}
+>>>>>>> 561e3da05d8604beed770bc212bd9f34131f094e
     ],
 })
 export class RemoteEntryModule {}
