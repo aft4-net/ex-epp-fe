@@ -101,13 +101,29 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
     }
 
     public reset(): void {
-        this.State = {
+        let state = {
+            collection: this.State.collection,
             selectedClient: null,
             selectedProject: null,
             isClientDisabled: false,
-            isProjectDisabled: false,
-            isDatesDisabled: false,
+            isProjectDisabled: false
+        } as Partial<ClientAndProjectState>;
+        if (state.collection?.length === 1) {
+            const projects = state.collection[0].projects;
+            state = {
+                ...state,
+                selectedClient: state.collection[0].id,
+                isClientDisabled: true
+            }
+            if (projects.length === 1) {
+                state = {
+                    ...state,
+                    selectedProject: projects[0].id,
+                    isProjectDisabled: true
+                }
+            }
         }
+        this.State = state;
     }
 
     private _findClientById(id: string): Client {
