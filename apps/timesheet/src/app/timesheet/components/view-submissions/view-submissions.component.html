@@ -61,7 +61,7 @@
     </thead>
     <tbody style="margin-bottom: 0px !important; padding-bottom: 0px; " >
       <tr *ngFor="let data of   timeSheetHistory" (click)= reviewsubmissions(data.FromDate)>
-        <td>{{data.FromDate | date:'MMM' }} {{data.FromDate | date:'L'}} - {{data.ToDate | date}} </td>
+        <td>{{data.FromDate | date:'MMM d' }} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
         <td>{{  data.ClientName}}</td>
         <td>           
