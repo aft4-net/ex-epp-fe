@@ -7,5 +7,6 @@ export interface IEmployeeModel {
     GrandFatherName:string
     PersonalEmail:string
     MobilePhone:string,
+    JobTitle: string
     EmployeeOrganization: IEmployeeOrganization
  }

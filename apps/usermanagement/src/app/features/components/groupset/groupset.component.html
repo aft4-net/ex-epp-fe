@@ -68,8 +68,10 @@
 </ng-template>
 
 <ng-template #modalFooter>
-  <button nz-button nzType="default" class="defaultBtn" (click)="resetForm()">Clear</button>
-  <button nz-button nzType="primary" [disabled]="groupSet.invalid" (click)="onSaveGroup()">Create Group</button>
+  <div style="text-align: left;">
+    <button nz-button nzType="primary" class="foo" [disabled]="groupSet.invalid" (click)="onSaveGroup()">Create Group</button>
+    <button nz-button nzType="default" class="foo" [disabled]="(!(groupSet?.dirty))"  class="defaultBtn" (click)="resetForm()">Clear</button>  
+  </div>
 </ng-template>
 </nz-modal>
 

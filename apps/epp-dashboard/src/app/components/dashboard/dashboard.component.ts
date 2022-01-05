@@ -17,9 +17,9 @@ modulePermission:any[]=[];
 
   ngOnInit(): void {
     this.fullName=this._authenticationService.getUserFullName();
-this.getPermission();
-this._permissionService.permissionList=this.permissionList;
 
+    this.getPermission();
+    this._permissionService.permissionList=this.permissionList;
   }
    authorize(key:string){
      
