@@ -23,7 +23,7 @@ export class TimesheetComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = localStorage.getItem("employeeId");
+    this.userId = localStorage.getItem("userId");
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
