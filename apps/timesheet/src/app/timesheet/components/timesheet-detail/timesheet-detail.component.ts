@@ -332,18 +332,7 @@ export class TimesheetDetailComponent implements OnInit {
         : false;
   }
 
-  getTimeEntriesByproject(project_id: string) {
-    this.timesheet = null;
-    this.timeEntries = null;
-    this.timesheetApprovals = null;
-    this.timesheetReview = null;
-    // this.timesheetStateService.timeEntries$ = of([]);
-    this.timesheetService.getTimeEntries(project_id).subscribe((response) => {
-      this.timesheetReview = response ? response : null;
-      console.log('Review TimeEntris:', this.timesheetReview);
-      this.checkForCurrentWeek();
-    });
-  }
+ 
 
   getTimeSheetApproval(guid: string) {
     this.timesheetService.getTimeSheetApproval(guid).subscribe((response) => {

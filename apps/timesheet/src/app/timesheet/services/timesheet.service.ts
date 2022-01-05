@@ -39,10 +39,7 @@ export class TimesheetService {
   }
 
   //#region timesheet and timeEntry
-  setreview(timesheet: Timesheet) {
-    this.timesheetApp = timesheet;
-  }
-
+ 
   getTimeSheet(userId: string, date?: Date) {
     let fromDate;
 
