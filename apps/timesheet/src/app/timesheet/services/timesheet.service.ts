@@ -34,15 +34,12 @@ export class TimesheetService {
     private notification: NzNotificationService,
     private http: HttpClient,
     private dayAndDateService: DayAndDateService
-  ) { 
-    
+  ) {
+
   }
 
   //#region timesheet and timeEntry
-  setreview(timesheet: Timesheet) {
-    this.timesheetApp = timesheet;
-  }
-
+ 
   getTimeSheet(userId: string, date?: Date) {
     let fromDate;
 
@@ -361,16 +358,46 @@ export class TimesheetService {
   }
 
   getTimesheetApprovalPagination(
+
     pageindex: number,
+
     pageSize: number,
+
     searchKey?: string,
-    status?: string
-  ): Observable<PaginatedResult<TimesheetBulkApproval[]>> {
+
+    SortBy?: string,
+
+    ProjectName?: string,
+
+    ClientName?: string,
+
+    Week?: string,
+
+    sort?: string,
+
+    status ?:string
+
+  ): Observable<PaginatedResult<TimesheetApproval[]>> {
+
     const params = new HttpParams()
-      .set('pageindex', pageindex.toString())
-      .set('pageSize', pageSize.toString())
+
+      .set('PageIndex', pageindex.toString())
+
+      .set('PageSize', pageSize.toString())
+
       .set('searchKey', searchKey ? searchKey : '')
-      .set('status' , status ? status: '');
+
+      .set('SortBy', SortBy? SortBy:'')
+
+      .set('ProjectName', ProjectName ? ProjectName:'')
+
+      .set('ClientName',ClientName ? ClientName:'')
+
+      .set('Week',Week? Week:'')
+
+      .set('sort',sort ? sort:'Ascending')
+
+      .set('status', status ? status :'');
 
     let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
       data: [] as TimesheetBulkApproval[],
@@ -378,8 +405,7 @@ export class TimesheetService {
     };
     return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
       map((response: any) => {
-        console.log("service");
-        console.log(response.Data);
+
 
         paginatedResult = {
           data: response.Data,
@@ -403,7 +429,7 @@ export class TimesheetService {
   // }
 
 
-  
+
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
@@ -415,12 +441,12 @@ export class TimesheetService {
     console.log("updateStatus"+arrayOfId);
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
-        this.notification.success("Bulk approval successfull","");
+        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
       }
       else{
-        this.notification.error("Bulk approval is not successfull","");
+        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
       }
-    });  
+    });
   }
 
 }
