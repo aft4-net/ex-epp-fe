@@ -128,7 +128,7 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService
-  ) {debugger;
+  ) {
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
 
@@ -221,7 +221,7 @@ export class TimesheetDetailComponent implements OnInit {
     return 1;
   }
 
-  startingWeek() {debugger;
+  startingWeek() {
     let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
     this.dayAndDateService.fs = this.setFirstDay();
@@ -232,7 +232,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
-  nextWeek(count: any) {debugger;
+  nextWeek(count: any) {
     this.date.setDate(this.date.getDate() + 7);
     let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
@@ -253,7 +253,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
-  lastastWeek(count: any) {debugger;
+  lastastWeek(count: any) {
     this.date.setDate(this.date.getDate() - 7);
     this.isToday = false;
     let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
@@ -332,18 +332,7 @@ export class TimesheetDetailComponent implements OnInit {
         : false;
   }
 
-  getTimeEntriesByproject(project_id: string) {
-    this.timesheet = null;
-    this.timeEntries = null;
-    this.timesheetApprovals = null;
-    this.timesheetReview = null;
-    // this.timesheetStateService.timeEntries$ = of([]);
-    this.timesheetService.getTimeEntries(project_id).subscribe((response) => {
-      this.timesheetReview = response ? response : null;
-      console.log('Review TimeEntris:', this.timesheetReview);
-      this.checkForCurrentWeek();
-    });
-  }
+ 
 
   getTimeSheetApproval(guid: string) {
     this.timesheetService.getTimeSheetApproval(guid).subscribe((response) => {
@@ -413,7 +402,7 @@ export class TimesheetDetailComponent implements OnInit {
     return endValue.getTime() <= this.startValue.getTime();
   };
 
-  selectedDate(date: Date) {debugger;
+  selectedDate(date: Date) {
     this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
     this.dayAndDateService.fs = this.setFirstDay();
@@ -433,7 +422,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
-  selectedDateCanceled(curr: any) {debugger;
+  selectedDateCanceled(curr: any) {
     if (curr != null) {
       this.weekDays = this.dayAndDateService.getWeekByDate(curr);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();

@@ -164,7 +164,6 @@ export class TimesheetApprovalComponent implements OnInit {
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
 
         this.TimesheetApprovalResponse = response.data;
-        console.log(this.TimesheetApprovalResponse);
 
         this.pageIndexG = response.pagination.pageIndex;
 
@@ -230,7 +229,7 @@ export class TimesheetApprovalComponent implements OnInit {
   }
 
   onAllTabClick() {
-    this.timesheetSubmissionPagination(1,5,'','','','','','','');
+    this.timesheetSubmissionPagination(1,10,'','','','','','','');
   }
 
   onAwaitingTabClick() {

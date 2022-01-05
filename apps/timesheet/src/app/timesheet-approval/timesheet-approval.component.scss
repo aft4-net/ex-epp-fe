@@ -12,7 +12,7 @@
   padding-left: 35px;
 }
 .tab {
-    //margin-top: -72px;
+//     margin-top: -10px;
 
     padding-right: 35px;
 }
@@ -54,3 +54,13 @@ nz-date-picker {
 
 }
 
+@media screen and (min-width: 1050px) {
+  .tab {
+    margin-top: -10px;
+  }
+  .controllers {
+    z-index: 987;
+    position: absolute;
+    width: 1025px;
+  }
+}
