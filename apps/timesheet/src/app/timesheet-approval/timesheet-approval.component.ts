@@ -296,7 +296,7 @@ export class TimesheetApprovalComponent implements OnInit {
 test() {
   console.log("clicked");
 }
-  timesheetBulkApproval(arrayOfIds:string[]){
+  timesheetBulkApproval(arrayOfIds:any[]){
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
     console.log("service"+arrayOfIds);
   }
