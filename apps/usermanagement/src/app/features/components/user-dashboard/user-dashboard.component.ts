@@ -80,7 +80,7 @@ export class UserDashboardComponent implements OnInit {
       filterFn: null
     },
     {
-      name: 'Last Activity',
+      name: 'Last Activity Date',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
@@ -90,7 +90,7 @@ export class UserDashboardComponent implements OnInit {
     }
   ]
 
-  @ViewChild('searchInput', { static: true })
+  @ViewChild('userNameInput', { static: true }) element: ElementRef | undefined;
   input!: ElementRef;
   isLogin=false;
   constructor(private userService : UserService,
