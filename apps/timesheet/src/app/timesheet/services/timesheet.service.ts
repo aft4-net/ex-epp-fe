@@ -39,7 +39,7 @@ export class TimesheetService {
   }
 
   //#region timesheet and timeEntry
- 
+
   getTimeSheet(userId: string, date?: Date) {
     let fromDate;
 
