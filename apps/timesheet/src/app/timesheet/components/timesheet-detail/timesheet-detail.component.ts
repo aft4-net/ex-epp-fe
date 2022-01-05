@@ -54,8 +54,9 @@ export class TimesheetDetailComponent implements OnInit {
   disableClient = false;
   disableProject = false;
   timesheetConfig: TimesheetConfiguration = {
+    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: [],
-    WorkingHour: 0,
+    WorkingHours: {Min: 0, Max: 24},
   };
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
   timesheet: Timesheet | null = null;

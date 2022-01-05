@@ -1,5 +1,5 @@
 <div>
-    <form [formGroup]="timesheetConfigForm">
+    <form [formGroup]="timesheetConfigForm" (ngSubmit)="onSubmit()">
         <div class="flex flex-row">
             <h5>Start of Week: </h5>
             <nz-select id="startOfWeek" formControlName="startOfWeek">
@@ -17,19 +17,19 @@
         <div class="flex flex-row">
             <h5>Work Week: </h5>
             <div formGroupName="workingDays">
-                <label><input type="checkbox" name="Monday" formControlName="Monday"> Monday</label>
+                <label><input type="checkbox" name="Monday" formControlName="monday">Monday</label>
 
-                <label><input type="checkbox" name="Tuesday" formControlName="Tuesday"> Tuesday</label>
+                <label><input type="checkbox" name="Tuesday" formControlName="tuesday">Tuesday</label>
 
-                <label><input type="checkbox" name="Wednesday" formControlName="Wednesday"> Wednesday</label>
+                <label><input type="checkbox" name="Wednesday" formControlName="wednesday">Wednesday</label>
 
-                <label><input type="checkbox" name="Thursday" formControlName="Thursday"> Thursday</label>
+                <label><input type="checkbox" name="Thursday" formControlName="thursday">Thursday</label>
 
-                <label><input type="checkbox" name="Friday" formControlName="Friday"> Friday</label>
+                <label><input type="checkbox" name="Friday" formControlName="friday">Friday</label>
 
-                <label><input type="checkbox" id="starday" name="Starday" formControlName="Starday"> Starday</label>
+                <label><input type="checkbox" name="Starday" formControlName="starday">Starday</label>
 
-                <label><input type="checkbox" id="sunday" name="Sunday" formControlName="Sunday"> Sunday</label>
+                <label><input type="checkbox" name="Sunday" formControlName="sunday">Sunday</label>
             </div>
         </div>
         <nz-divider></nz-divider>
@@ -42,5 +42,7 @@
                 <label>Max <nz-input-number formControlName="max" [nzMin]="0" [nzMax]="24" [nzStep]="1"></nz-input-number></label>
             </div>
         </div>
+
+        <button type="submit" class="absolute left-1/4">Submit</button>
     </form>
 </div>

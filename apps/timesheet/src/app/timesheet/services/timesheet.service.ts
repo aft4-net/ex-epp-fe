@@ -14,6 +14,7 @@ import {
   TimesheetApprovalResponse,
   TimesheetBulkApproval,
   TimesheetConfigResponse,
+  TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
 import { Project } from '../../models/project';
@@ -205,6 +206,12 @@ export class TimesheetService {
     return response.pipe(map((r) => r.Data));
   }
 
+  addTimeSheetConfiguration(timesheetConfig: TimesheetConfiguration) {
+    const headers = { 'content-type': 'application/json' }
+    
+    return this.http.post<TimesheetConfigResponse>(this.baseUrl + 'TimeSheetConfig', timesheetConfig, {headers: headers});
+  }
+
   //#endregion
 
   //#region client and poject from mock server
@@ -391,29 +398,14 @@ export class TimesheetService {
     );
   }
 
-  // updateTimeSheetStatus(arrayOfId: number[]) {
-  //   return this.http.put(
-  //     this.baseUrl + 'TimesheetApprovalBulkApprove',
-  //     arrayOfId
-  //   );
-  // }
-
-
-  
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
-
   updateTimeSheetStatus(arrayOfId: string[]) {
     console.log("updateStatus"+arrayOfId);
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((respose:any)=>{});
-
-    
-      
-      
   }
-
 }
