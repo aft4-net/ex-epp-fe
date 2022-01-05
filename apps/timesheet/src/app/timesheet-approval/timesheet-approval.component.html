@@ -19,15 +19,15 @@
 
 <div nz-row class="controllers">
 
-    <div *ngIf="currentNameSubject$ | async" nz-col style="margin-right: 12px;">
-        <button nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()" 
+    <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
+        <button class="approveButton" nz-button nzType="default"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
         >Bulk Approval</button>
 
         <br>
     </div>
 
-    <div nz-col nzSpan="8" class="ml-1" style="margin-right: 12px;">
+    <div nz-col nzSpan="8" class="ml-1" >
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  type="text" nz-input placeholder="Search" />
       </nz-input-group>
@@ -36,7 +36,7 @@
       </ng-template>
 
     </div>
-
+  <br>
   <br>
   <div nz-col class="ml-1">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
@@ -61,7 +61,7 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="timesheetSubmissionPaginationAwaiting(1,10,'')">
-        <exec-epp-table [bulkCheck]= true [rowData]="employees" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
+        <exec-epp-table [bulkCheck]= true [rowData]="timeSheetApprovalAwaiting" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
         (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAwaiting}} of {{totalAwaiting}} entries

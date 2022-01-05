@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
-  id: number,
+  TimesheetApprovalGuid:string,
+  TimesheetId: string,
   name: string;
   dateRange: string;
   projectName: number;
@@ -32,12 +33,12 @@ export class TableComponent {
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
-  setOfCheckedId = new Set<number>();
+  setOfCheckedId = new Set<string>();
 
   //timesheetDetail:any;
   //isModalVisible=false;
 
-  arrayOfCheckedId:number[] =[];
+  arrayOfCheckedId:string[] =[];
 
 
 
@@ -53,7 +54,7 @@ export class TableComponent {
 
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
-  @Output() CheckedIds = new EventEmitter<Set<number>>();
+  @Output() CheckedIds = new EventEmitter<Set<string>>();
 
   listOfSelection = [
     {
@@ -68,13 +69,13 @@ export class TableComponent {
   constructor(private readonly timesheetService:TimesheetService)
   {}
 
-  updateCheckedSet(id: number, checked: boolean): void {
+  updateCheckedSet(id: string, checked: boolean): void {
     if (checked) {
       this.setOfCheckedId.add(id);
       this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
       //console.log(this.arrayOfCheckedId)
-      
+
     } else {
       this.setOfCheckedId.delete(id);
       this.RemoveElementFromArray(id);
@@ -84,13 +85,13 @@ export class TableComponent {
     this.CheckedIds.emit(this.setOfCheckedId);
 
   }
-  RemoveElementFromArray(element: number) {
+  RemoveElementFromArray(element: string) {
     this.arrayOfCheckedId.forEach((value,index)=>{
         if(value==element) this.arrayOfCheckedId.splice(index,1);
     });
 }
 
-  onItemChecked(id: number, checked: boolean): void {
+  onItemChecked(id: string, checked: boolean): void {
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
@@ -100,7 +101,7 @@ export class TableComponent {
 
   onAllChecked(value: boolean): void {
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetApprovalGuid, value));
     this.refreshCheckedStatus();
     this.qtyofItemsChecked= this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
@@ -113,7 +114,7 @@ export class TableComponent {
 
   refreshCheckedStatus(): void {
     //this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    
+
     //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
