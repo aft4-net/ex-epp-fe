@@ -13,12 +13,13 @@ const routes: Routes = [
       {
         path: "",
         component: TimesheetDetailComponent
-      },
-      {
-        path: "view-submissions",
-        component: ViewSubmissionsComponent
       }
+  
     ]
+  },
+  {
+    path: "view-submissions",
+    component: ViewSubmissionsComponent
   }
 ]
 
