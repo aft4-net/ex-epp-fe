@@ -11,25 +11,19 @@ import { ErrHandleService } from './error-handle.service';
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
     path = `${environment.apiUrl}/GroupSet`;
-permissionList:any[]=[];
-email:string='';
-    constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
+permissionList:any[]=[ ];
 
-    getPermission(): void {
-         this.http.get<any>(`${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.email}`).subscribe((res:any) => {
-             this.permissionList=res.Data;
-         })
-       
-      }
+constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
       authorizedPerson(key:string){
-          if(!this.permissionList){
-              this.getPermission();
-          }
+        let found=false;
           this.permissionList.forEach(element => {
               if(element.KeyValue==key){
-                  return true;
+                  found= true;
+                  console.log('found')
+                  console.log(found)
+                  console.log('found')
               }
           });
-          return false;
+          return found;
       }
     } 
