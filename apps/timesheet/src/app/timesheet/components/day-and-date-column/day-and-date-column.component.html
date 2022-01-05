@@ -1,6 +1,4 @@
-<div
-  class="{{ dateColumnHighlightClass }} flex justify-center items-center rounded-md border border-gray-300 mr-2 mt-2 sm:mb-10 h-100">
-
+<div class="{{ dateColumnHighlightClass }} flex justify-center items-center rounded-md border border-gray-300 mr-2 mt-2 sm:mb-10 h-100">
   <div class="date-column-timesheet  w-full">
     <div #col class="flex justify-between border-b mt-2 pb-2">
       <div class="flex bg-gray-100 rounded ml-2 ">
@@ -12,7 +10,7 @@
       <h3 class="hour mt-2 mr-2 font-sans text-base font-normal text-gray-500 font-bold">{{ totalHours }} Hrs</h3>
     </div>
     <div (click)="showFormDrawer()" class="cursor-pointer flex justify-center items-center border pt-2 pb-2 ml-2 mr-2"
-      [hidden]="startingDateCriteria.isBeforeThreeWeeks">
+      [hidden]="disabled">
       <svg class="text-green-600 text-xl" viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em"
         height="1em" data-icon="plus-circle" aria-hidden="true">
         <path
