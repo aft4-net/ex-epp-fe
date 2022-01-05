@@ -64,7 +64,7 @@
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName }} </td>
-                    <td>{{user.LastActivityDate | date:'MMM d, y' }}</td>
+                    <td>{{user.LastActivityDate | date:'MMM dd, yyyy' }}</td>
                     <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
                     <td>

@@ -77,7 +77,6 @@ goupPermissions:IPermissionModel[] = [];
           indeterminate: false,
           checkAll: false,
         };
-        alert(this.permissionData.length);
         element.Childs.forEach((element1: any) => {
           this.childPermissions = [
             ...this.childPermissions,

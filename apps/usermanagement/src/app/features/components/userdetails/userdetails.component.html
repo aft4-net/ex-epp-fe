@@ -10,7 +10,7 @@
             <div nz-row>
               <div nz-col class="gutter-row" nzSpan="24">
                 <div class="inner-box">
-                  <p style="margin: 0">Wolde Yalew</p>
+                  <p style="margin: 0">{{userdetailInfo.FirstName + " " + userdetailInfo.MiddleName + " " +userdetailInfo.LastName}} </p>
                 </div>
               </div>
             </div>
@@ -56,14 +56,14 @@
           <div nz-row>
             <div nz-col class="gutter-row" nzSpan="24">
               <div class="inner-box">
-                <span>Wyalew@excellerentsolutions.com</span>
+                <span>{{userdetailInfo.Email}}</span>
               </div>
             </div>
           </div>
           <div nz-row>
             <div nz-col class="gutter-row" nzSpan="24">
               <div class="inner-box">
-                <span>+251-914-270000</span>
+                <span>{{userdetailInfo.Tel}}</span>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@
     (nzOnCancel)="handleCancel()"
   >
     <ng-container *nzModalContent>
-      <form [formGroup]="userdetail">
+      <form [formGroup]="userGroup">
         <div nz-row [nzGutter]="16">
           <div nz-col nzSpan="24">
             <app-select
@@ -111,7 +111,7 @@
               errorMsg="Please select a Group"
               [list]="listOfGroups"
               fcn="GroupIDArray"
-              [form]="userdetail"
+              [form]="userGroup"
               placeholder="Select a group"
               [multiple]="true"
               [isRequired]="true"
@@ -123,7 +123,7 @@
         <div nz-row nzJustify="end">
           <div nz-col class="col-pad" nzSpan="3">
             <app-button
-              [disabled]="!userdetail.valid"
+              [disabled]="!userGroup.valid"
               [loading]="loading"
               (click)="onSaveRecord()"
               type="primary"

@@ -46,7 +46,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'user-dashboard',component:UserDashboardComponent
           },
           {
-            path:'userdetails',component:UserdetailsComponent
+            path:'userdetails/:id',component:UserdetailsComponent
           },
           {
             path:'group',component:GroupsetComponent

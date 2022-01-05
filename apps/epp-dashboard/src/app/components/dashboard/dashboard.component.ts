@@ -19,9 +19,7 @@ modulePermission:any[]=[];
     this.fullName=this._authenticationService.getUserFullName();
 this.getPermission();
 this._permissionService.permissionList=this.permissionList;
-console.log('ggg')
-console.log(this._permissionService.permissionList)
-console.log('ggg')
+
   }
    authorize(key:string){
      
@@ -39,7 +37,6 @@ console.log('ggg')
         this.permissionList.forEach(child => {
             if(parent.PermissionCode==child.ParentCode){
                 this.permissionList=[...this.permissionList,parent]
-                console.log(this.permissionList)
                 this._permissionService.permissionList=this.permissionList;
             }
         });

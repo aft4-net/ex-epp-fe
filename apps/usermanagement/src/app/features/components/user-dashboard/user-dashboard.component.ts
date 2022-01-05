@@ -138,6 +138,7 @@ export class UserDashboardComponent implements OnInit {
     this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
       if(response.Data) {
+       
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -474,7 +475,7 @@ handleGroupCancel() {
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/usermanagement/userdetails');
+    this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
   }
   
   handleOk(): void {
