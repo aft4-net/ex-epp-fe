@@ -53,7 +53,7 @@
           <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
@@ -63,8 +63,9 @@
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
         <exec-epp-table [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
         (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
+
         <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
@@ -72,8 +73,8 @@
       <nz-tab nzTitle="Approved" (nzClick)="onApprovedTabClick()">
         <exec-epp-table [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
-        <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+         <span nz-row class="pagination  flex justify-end">
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
@@ -83,7 +84,7 @@
         <exec-epp-table [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
