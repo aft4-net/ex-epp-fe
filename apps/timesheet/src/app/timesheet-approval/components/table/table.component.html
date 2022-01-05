@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of rowData | sort:[sortByParam, sortDirection]" class="clickable" (click)="showModal(row)">
-      <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.id)" (nzCheckedChange)="onItemChecked(row.id, $event)">
+      <td *ngIf="bulkCheck" [nzChecked]="setOfCheckedId.has(row.TimesheetApprovalGuid)" (nzCheckedChange)="onItemChecked(row.TimesheetApprovalGuid, $event)">
       </td>
       <td>{{row.EmployeeName}}</td>
       <td>{{row.FromDate | date:'MMM-dd '}} - {{ row.ToDate | date}}</td>
