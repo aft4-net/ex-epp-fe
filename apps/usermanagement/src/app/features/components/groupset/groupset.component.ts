@@ -106,7 +106,7 @@ export class GroupsetComponent implements OnInit {
           duration: 5000,
         });
         console.log('error:' + err.error.Message);
-        console.log(err);
+        
       }
     );
      
