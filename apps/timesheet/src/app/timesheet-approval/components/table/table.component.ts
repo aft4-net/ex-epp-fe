@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
+  TimesheetApprovalGuid:string,
   TimesheetId: string,
   name: string;
   dateRange: string;
@@ -74,7 +75,7 @@ export class TableComponent {
       this.arrayOfCheckedId.push(id);
       console.log(this.setOfCheckedId);
       //console.log(this.arrayOfCheckedId)
-      
+
     } else {
       this.setOfCheckedId.delete(id);
       this.RemoveElementFromArray(id);
@@ -100,7 +101,7 @@ export class TableComponent {
 
   onAllChecked(value: boolean): void {
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetId, value));
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetApprovalGuid, value));
     this.refreshCheckedStatus();
     this.qtyofItemsChecked= this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
@@ -113,7 +114,7 @@ export class TableComponent {
 
   refreshCheckedStatus(): void {
     //this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    
+
     //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 

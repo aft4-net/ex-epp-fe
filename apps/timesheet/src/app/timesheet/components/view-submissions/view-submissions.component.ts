@@ -204,7 +204,7 @@ export class ViewSubmissionsComponent implements OnInit {
     this.state.date = date;
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
-      this.state.getTimesheet(this.userId, date);
+      this.state.getTimesheet(this.userId);
       this.router.navigate(['/timesheet']);
     }
   }
