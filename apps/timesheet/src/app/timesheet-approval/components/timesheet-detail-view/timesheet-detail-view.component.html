@@ -1,24 +1,24 @@
-<nz-modal
+<nz-modal class="modal"
   [nzVisible]="isDialogVisible"
-  nzTitle="{{timesheetDetail?.name}}, {{timesheetDetail?.dateRange| date:'MMM dd'}} - {{ timesheetDetail?.dateRange | date}}"
+  nzTitle="{{timesheetDetail?.EmployeeName}}, {{timesheetDetail?.FromDate| date:'MMM dd'}} - {{ timesheetDetail?.ToDate | date}}"
   [nzFooter]="null"
-  [nzWidth]="890"
+  [nzWidth]="1334"
   (nzOnCancel)="exitModal()"
   nzMaskClosable="false"
 >
   <ng-container *nzModalContent class="layer">
     <div class="overflow-scroll">
-      <div>
+      <div style="font-size: 14px;line-height: 22px; margin:4px 0">
         <label>Project Name:</label>
-        <label style="font-weight: 500">{{timesheetDetail.ProjectName}}</label>
+        <label style="font-weight: 500;margin-left: 5px;">{{timesheetDetail.ProjectName}}</label>
       </div>
-      <div>
-        <label>Client Name:</label> <label style="font-weight: 500">{{timesheetDetail?.ClientName}}</label>
+      <div style="font-size: 14px;line-height: 22px; margin:4px 0">
+        <label>Client Name:</label> <label style="font-weight: 500;margin-left: 5px;" >{{timesheetDetail?.ClientName}}</label>
       </div>
-      <div>
-        <label>Total Hours:</label><label style="font-weight: 500">{{timesheetDetail?.TotalHours}}</label>
+      <div style="font-size: 14px;line-height: 22px; margin:4px 0">
+        <label>Total Hours:</label><label style="font-weight: 500;margin-left: 5px;">{{formatHour(timesheetDetail.TotalHours)}}</label>
       </div>
-      <div>
+      <div style="font-size: 14px;line-height: 22px; margin:20px 0px">
         <nz-table class="table" #rowSelectionTable [nzData]="approvalDetails">
           <thead>
             <tr class="tr">
@@ -36,18 +36,18 @@
           </tbody>
         </nz-table>
       </div>
-      <div class="commentArea">
-        <nz-comment>
-          <nz-comment-content>
-            <label for="" class="commentLabel">Comments</label><br />
+      <div class="commentArea" style="font-size: 16px;line-height: 24px; margin:3px 0;margin-top:40px;">
+           <div style="font-size: 16px;line-height: 24px; margin:4px 0">
+            <label for="" class="commentLabel">Comments</label>
+          </div>
              <div *ngIf="isStatatusRequest(timesheetDetail.Status)">
               <nz-form-item >
-                <textarea class="textArea" [disabled]="isStatatusRequest(timesheetDetail.Status)" [ngModel]="timesheetDetail.Comment"></textarea>
+                <label  > {{timesheetDetail.Comment}}</label>
               </nz-form-item>
              </div>
              <div *ngIf="!isStatatusRequest(timesheetDetail.Status)">
               <nz-form-item >
-                <textarea class="textArea" [disabled]="isStatatusRequest(timesheetDetail.Status)" [(ngModel)]="inputValue"></textarea>
+                <textarea nz-input class="textArea" [disabled]="isStatatusRequest(timesheetDetail.Status)" [rows]="3" [(ngModel)]="inputValue"></textarea>
               </nz-form-item>
              </div>
             <nz-form-item [hidden]="isStatatusRequest(timesheetDetail.Status)">
@@ -69,9 +69,8 @@
 
               </button>
             </nz-form-item>
-          </nz-comment-content>
-        </nz-comment>
       </div>
     </div>
   </ng-container>
 </nz-modal>
+

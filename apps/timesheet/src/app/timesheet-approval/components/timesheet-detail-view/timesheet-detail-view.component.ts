@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
-
 @Component({
   selector: 'exec-epp-timesheet-detail-view',
   templateUrl: './timesheet-detail-view.component.html',
@@ -22,12 +21,14 @@ export class TimesheetDetailViewComponent implements OnInit {
 
     ngOnInit(): void {
     }
+
   getNote(note:string)
   {
     return note!==null?note:"N/A";
   }
   formatHour(hour:number)
   {
+
     if(hour>=10)
     {
       return hour.toString();
@@ -47,16 +48,12 @@ export class TimesheetDetailViewComponent implements OnInit {
     this.modalStatus.emit(false);
     this.inputValue='';
   }
-  handleOk()
-  {
-    ;
-  }
 
   approve()
   {
     this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
-    this.timesheetApprove.Status=ApprovalStatus.Requested;
+    this.timesheetApprove.Status=ApprovalStatus.Approved;
     this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
     this.isDialogVisible=false;
   }

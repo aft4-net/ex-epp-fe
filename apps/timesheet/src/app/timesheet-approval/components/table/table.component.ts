@@ -21,6 +21,7 @@ export class TableComponent {
   isModalVisible=false;
   timesheetEntries:any;
   entryDate:any;
+  hours=0;
 
   total=10;
   pageIndex = 1;
