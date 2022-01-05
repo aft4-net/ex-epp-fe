@@ -1,9 +1,3 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   ApprovalEntity,
   TimeEntriesResponse,
@@ -17,11 +11,17 @@ import {
   TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
-import { Project } from '../../models/project';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { filter, map } from 'rxjs/operators';
+
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
-import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Observable } from 'rxjs';
+import { Project } from '../../models/project';
+import { environment } from 'apps/timesheet/src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +40,7 @@ export class TimesheetService {
   }
 
   //#region timesheet and timeEntry
- 
+
   getTimeSheet(userId: string, date?: Date) {
     let fromDate;
 
@@ -439,10 +439,10 @@ export class TimesheetService {
 
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
-        this.notification.success("Bulk Approved successfully","");
+        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
       }
       else{
-        this.notification.error("Bulk is not Approved","");
+        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
       }
     });
   }
