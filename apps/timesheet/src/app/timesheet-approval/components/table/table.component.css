@@ -40,3 +40,7 @@ div.is-green {
   margin-bottom: 1%;
 }
 
+::ng-deep .ant-table-thead>tr>th {
+
+  background: #F5F5F5 !important;
+}

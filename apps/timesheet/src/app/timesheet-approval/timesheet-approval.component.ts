@@ -220,6 +220,7 @@ export class TimesheetApprovalComponent implements OnInit {
    
   }
 
+
   timesheetApprovalPaginationAll(index: number, pageSize: number,search:string) {
     this.timeSheetService
       .getTimesheetApprovalPagination(index, pageSize, search,'')

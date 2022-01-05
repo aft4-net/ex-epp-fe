@@ -2,12 +2,12 @@
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>
     <tr>
-      <th *ngIf="bulkCheck"  [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+      <th *ngIf="bulkCheck" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="onAllChecked($event)"></th>
       <th [nzSortFn]="true" (click)="sorterMethod('Name')">Name</th>
-      <th [nzSortFn]="true" (click)="sorterMethod('Date Range')">Date range</th>
-      <th [nzSortFn]="true" [nzFilterFn]="true" (click)="sorterMethod('Project Name')">Project Came</th>
-      <th [nzSortFn]="true" (click)="sorterMethod('Client Name')">Client name</th>
+      <th [nzSortFn]="true" (click)="sorterMethod('Date Range')">Date Range</th>
+      <th [nzSortFn]="true" [nzFilterFn]="true" (click)="sorterMethod('Project Name')">Project Name</th>
+      <th [nzSortFn]="true" (click)="sorterMethod('Client Name')">Client Name</th>
       <th>Hours</th>
       <th *ngIf="status">Status</th>
     </tr>
@@ -26,7 +26,11 @@
         'is-blue': row.Status === 'Rejected',
         'is-yellow': row.Status === 'Requested',
         'is-green': row.Status === 'Approved'
-      }" style="width: 140px; height: auto;">{{row.Status}}</div>
+      }" style="width: 140px; height: auto;">
+        <div *ngIf="row.Status === 'Rejected'">Return for review</div>
+        <div *ngIf="row.Status === 'Requested'">Awaiting Approval</div>
+        <div *ngIf="row.Status === 'Approved'">Approved</div>
+      </div>
       </td>
     </tr>
   </tbody>
