@@ -196,7 +196,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 .modal-footer-btn {
   height: 38px;
   width: 61px;
-  border: solid 2px #00a551;
+  border: solid 1px #00a551;
 }
 .def{
 }
