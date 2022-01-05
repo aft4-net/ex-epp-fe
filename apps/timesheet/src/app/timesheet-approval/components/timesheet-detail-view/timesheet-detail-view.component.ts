@@ -54,17 +54,20 @@ export class TimesheetDetailViewComponent implements OnInit {
     this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Approved;
-    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
     this.isDialogVisible=false;
+    this.timesheetService.success='Timesheet approved successfully';
+    this.timesheetService.error='Timesheet approve failed';
   }
   requestForReview()
   {
     this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Rejected;
-    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
     this.isDialogVisible=false;
-
+    this.timesheetService.success='Timesheet requested for review successfully';
+    this.timesheetService.error='Timesheet request for review failed';
   }
 
   }

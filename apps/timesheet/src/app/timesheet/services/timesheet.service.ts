@@ -26,6 +26,9 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   providedIn: 'root',
 })
 export class TimesheetService {
+  success=''
+  error=''
+
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
@@ -143,16 +146,6 @@ export class TimesheetService {
     return this.http.put<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
       timeEntry,
-      { headers: headers }
-    );
-  }
-
-  updateTimesheetProjectApproval(approval: TimesheetApproval) {
-    const headers = { 'content-type': 'application/json' };
-
-    return this.http.put<TimesheetApprovalResponse>(
-      this.baseUrl + 'TimesheetProjectStatus',
-      approval,
       { headers: headers }
     );
   }
@@ -452,5 +445,25 @@ export class TimesheetService {
       }
     });
   }
+
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers }).subscribe((response:any)=>{
+        if (response.ResponseStatus.toString() == 'Success') {
+          this.notification.success(this.success,"",
+          { nzPlacement: 'bottomRight' }
+
+          );
+        }
+        else{
+
+          this.notification.error(this.error,"",
+          { nzPlacement: 'bottomRight' }
+          );
+        }
+      });
+    }
 
 }

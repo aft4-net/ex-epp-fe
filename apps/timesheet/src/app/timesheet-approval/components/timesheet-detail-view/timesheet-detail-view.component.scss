@@ -1,4 +1,15 @@
-
+::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 1.6em;
+  background-color: rgba(0,0,0,.06);
+  transform: translateY(-50%);
+  transition: background-color .3s;
+  content: '';
+  display: none;
+}
 ::ng-deep .ant-modal-header {
   padding: 16px 24px;
   color: rgba(0,0,0,.85);
