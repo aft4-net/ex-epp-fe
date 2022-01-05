@@ -16,7 +16,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
    auth: {
      clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-      redirectUri: 'http://localhost:4200'}});}
+      redirectUri: 'http://18.116.78.75:4206'}});}
 @NgModule({
   declarations: [AppComponent, DashboardComponent
   ,HeaderComponent,

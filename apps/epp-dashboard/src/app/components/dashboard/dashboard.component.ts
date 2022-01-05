@@ -8,13 +8,19 @@ import { IntialdataService } from '../../services/intialdata.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
   fullName:any
   permissionList:any[]=[ ];
-modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService) { }
+  modulePermission:any[]=[];
+  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
+    this.fullName=_authenticationService.getUserFullName();
+    const namearray=this.fullName.split(' ');
+    this.fullName=namearray[0];
+ 
+  }
 
   ngOnInit(): void {
-    this.fullName=this._authenticationService.getUserFullName();
+   
 
     this.getPermission();
     this._permissionService.permissionList=this.permissionList;
