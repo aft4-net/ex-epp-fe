@@ -91,11 +91,11 @@ export class TimesheetApprovalComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   public arrayOfCheckedId:string[] =[];
   //setOfCheckedId:Set<Number>;
- 
+
   ids: number[]=[];
   resources: any;
   employees = [
-    { 
+    {
       //id:"13c41ba7-7b09-40b5-9e09-8869dc222ae4",
       id: 1,
       name: 'yosef',
@@ -213,14 +213,18 @@ export class TimesheetApprovalComponent implements OnInit {
     private http: HttpClient
   ) { }
 
+
+
   ngOnInit(): void {
     this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
+    console.log('direct');
+    console.log(this.timeSheetService.getTimesheetApprovalPagination(1,10,'','Name','Requested'));
   }
 
 
-  timesheetApprovalPaginationAll(index: number, pageSize: number,search:string) {
+  timesheetApprovalPaginationAll(index: number, pageSize: number,search:string, sortBy: string) {
     this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize, search,'')
+      .getTimesheetApprovalPagination(index, pageSize, search,'',sortBy)
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
         this.timeSheetApprovalAll = response.data;
         this.pageIndexAll = response.pagination.pageIndex;
@@ -233,7 +237,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
   PageIndexChangeAll(index: number): void {
     this.pageIndexAll = index;
-    this.timesheetApprovalPaginationAll(index,this.pageSizeAll,'');
+    this.timesheetApprovalPaginationAll(index,this.pageSizeAll,'','');
     this.loading = false;
   }
 
@@ -331,10 +335,10 @@ updateProjectResourseList(resources: any) {
 emitArray(evt:Set<string>){
   if(evt){
     this.setOfCheckedId=evt;
-    ///this.arrayOfCheckedId= evt; 
+    ///this.arrayOfCheckedId= evt;
     console.log(this.setOfCheckedId);
   }
- 
+
 }
 
   // onCurrentPageDataChange($event: readonly ItemData[]): void {
@@ -348,7 +352,15 @@ emitArray(evt:Set<string>){
   // }
 
   sorter(sortIndex: string) {
+
+    if (this.sortDirection === 'desc') {
+      this.sortDirection = 'Ascending';
+    } else {
+      this.sortDirection = 'Descending';
+    }
+
     if (sortIndex === "name") {
+      this.timesheetApprovalPaginationAll(1,10,'','Name')
       console.log("name came"); //API call
     } else if (sortIndex === "dateRange") {
       console.log("dateRange came"); //API call

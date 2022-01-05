@@ -360,12 +360,14 @@ export class TimesheetService {
     pageindex: number,
     pageSize: number,
     searchKey?: string,
-    status?: string
+    status?: string,
+    SortBy?: string
   ): Observable<PaginatedResult<TimesheetBulkApproval[]>> {
     const params = new HttpParams()
       .set('pageindex', pageindex.toString())
       .set('pageSize', pageSize.toString())
       .set('searchKey', searchKey ? searchKey : '')
+      .set('SortBy', SortBy ? SortBy : '')
       .set('status' , status ? status: '');
 
     let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
@@ -399,7 +401,7 @@ export class TimesheetService {
   // }
 
 
-  
+
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
@@ -411,9 +413,9 @@ export class TimesheetService {
     console.log("updateStatus"+arrayOfId);
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((respose:any)=>{});
 
-    
-      
-      
+
+
+
   }
 
 }

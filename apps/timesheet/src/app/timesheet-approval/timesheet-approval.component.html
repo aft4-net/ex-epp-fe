@@ -47,8 +47,8 @@
 
 
   <div class="mb-4">
-    <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
-      <nz-tab nzRight nzTitle="All" (nzClick)="timesheetApprovalPaginationAll(1,10,'')">,
+    <nz-tabset [nzAnimated]='false' nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
+      <nz-tab nzRight nzTitle="All" (nzClick)="timesheetApprovalPaginationAll(1,10,'','')">,
         <div nzRight class="content">
           <exec-epp-table [status]= true [rowData]="timeSheetApprovalAll" (sorter)="sorter($event)"></exec-epp-table>
 
