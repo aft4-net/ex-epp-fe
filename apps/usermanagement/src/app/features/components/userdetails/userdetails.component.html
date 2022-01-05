@@ -1,12 +1,12 @@
-<nz-layout>
-  <nz-content>
-<div style="margin-top: -20px" class="inner-content">
+<nz-layout style="background: white;" >
+  <nz-content style="padding-right: 10%; padding-bottom: 3%;">
+<div>
   <h2 class="font-bold azk">Account</h2>
   
   
   <form [formGroup]="userdetail" nzSpan="24">
     <div nz-row>
-      <div class="user-detail">
+      <div class="user-detail" style="margin-left: 3px;">
         <div class="user-detail-upper">
           <div class="user-detail-upper-inner">
             <div nz-row>
@@ -41,18 +41,12 @@
             class="ant-avatar ant-avatar-circle ant-avatar-icon"
           >
           </app-avatar>
-          <br />
-          <br />
-          <nz-switch
-            [(ngModel)]="switchValue"
-            [nzControl]="true"
-            (click)="clickSwitch()"
-            [nzLoading]="loading"
-          ></nz-switch>
+        
+       
 
           <br />
         </div>
-      </div>
+      
       <div class="user-detail-lower">
         <div class="user-detail-lower-inner">
           <div nz-row>
@@ -69,8 +63,17 @@
               </div>
             </div>
           </div>
+          <div>
+            <nz-switch
+            [(ngModel)]="switchValue"
+            [nzControl]="true"
+            (click)="clickSwitch()"
+            [nzLoading]="loading"
+          ></nz-switch>
+          </div>
         </div>
       </div>
+    </div>
     </div>
   </form>
 </div>
