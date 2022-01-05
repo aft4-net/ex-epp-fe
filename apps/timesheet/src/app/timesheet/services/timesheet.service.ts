@@ -441,10 +441,10 @@ export class TimesheetService {
     console.log("updateStatus"+arrayOfId);
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
-        this.notification.success("Bulk Approved successfully","");
+        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
       }
       else{
-        this.notification.error("Bulk is not Approved","");
+        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
       }
     });
   }
