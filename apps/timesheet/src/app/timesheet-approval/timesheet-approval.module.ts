@@ -63,6 +63,8 @@ import { TimesheetDetailViewComponent } from './components/timesheet-detail-view
     NzTabsModule,
     NzPaginationModule,
     NzCommentModule,
+    NzNotificationModule,
+    
   ]
 })
 export class TimesheetApprovalModule { }

@@ -49,6 +49,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   of: any;
   isSubmitted: boolean | undefined;
   startingDateCriteria = startingDateCriteria
+  disabled = false
 
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
 
@@ -70,8 +71,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
     let today = new Date();
 
-    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1))) {
+    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1)) || this.startingDateCriteria.isBeforeThreeWeeks) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      this.disabled = true;
     }
     else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
@@ -137,7 +139,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   scrollTimeEntriesUp(el: any) {
     const myElement = document.getElementById(el);
-    myElement?.scrollIntoView();
+    myElement?.scroll({
+      top: 100,
+      behavior: 'smooth'
+    });
+  }
+
+  scrollTimeEntriesBottom(el:any){
+    const myElement = document.getElementById(el);
+    myElement!.scroll({ top: myElement!.scrollHeight, behavior: 'smooth' });
+    //myElement!.scrollTop = myElement!.scrollHeight - myElement!.clientHeight;
+
   }
 
   checkOverflow(divId: any) {
