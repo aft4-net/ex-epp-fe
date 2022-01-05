@@ -267,7 +267,7 @@ emitArray(evt:Set<string>){
     }
 
     if (sortIndex === "name") {
-      this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG,
+      this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
 
         this.sortByG,this.projectNameG,this.clientNameG,
 
