@@ -250,6 +250,7 @@ export class TimesheetApprovalComponent implements OnInit {
         this.totalRecordsAwaiting = response.data.length;
         this.totalAwaiting = response.pagination.totalRecord;
         this.totalPageAwaiting = response.pagination.totalPage;
+        console.log("from component", response.data);
       });
   }
 
@@ -387,9 +388,10 @@ emitArray(evt:Set<string>){
     console.log("Approved"+this.arrayOfCheckedId);
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
-
-    //this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
+    delay(3000);
+    this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
     //this.PageIndexChangeAwaiting(this.totalPageAwaiting);
+    console.log("This"+this.timeSheetApprovalAwaiting);
   
     
     
