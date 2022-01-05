@@ -12,7 +12,7 @@
   padding-left: 35px;
 }
 .tab {
-    //margin-top: -72px;
+//     margin-top: -10px;
 
     padding-right: 35px;
 }
@@ -35,6 +35,9 @@ nz-date-picker {
   border-bottom: none !important;
 }
 
+::ng-deep .nz-table-content {
+  border:1px solid #FFE58F;
+}
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #00A551;
 }
@@ -49,8 +52,27 @@ nz-date-picker {
 .pagination {
   margin-right: 2rem;
 }
+
+button.is-blue {
+  color: grey;
+}
+button.is-yellow {
+  color: #00A551;
+  border-color: #00A551;
+  
+}
 .approveButton{
 
 
 }
 
+@media screen and (min-width: 1050px) {
+  .tab {
+    margin-top: -10px;
+  }
+  .controllers {
+    z-index: 987;
+    position: absolute;
+    width: 1025px;
+  }
+}
