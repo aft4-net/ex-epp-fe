@@ -1,13 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
+import { FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
+import { Router } from '@angular/router';
 import { TimesheetApproval } from '../models/timesheetModels';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
+import { delay } from 'rxjs/operators';
 
 interface ItemData {
   id: number,
@@ -26,7 +27,7 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
-
+  tabselected=1;
   date = null;
   bulkCheck = true;
   statusColumn = true;
@@ -101,7 +102,7 @@ export class TimesheetApprovalComponent implements OnInit {
     pageSizeG = 10;
     pageIndexG = 1;
     statusG = '';
-    searchKeyG = '';
+    searchKeyG :string | null = null;
     sortByG = '';
     projectNameG = '';
     clientNameG = '';
@@ -125,22 +126,22 @@ export class TimesheetApprovalComponent implements OnInit {
   ngOnInit(): void {
    // this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
     console.log('direct');
-    console.log(this.timesheetSubmissionPagination(1,10,'Requested','','Name','','','','Descending'));
+    console.log(this.timesheetSubmissionPagination(1,10,'','Name','','','','Descending','Requested'));
   }
 
-  timesheetSubmissionPagination(pageIndex: number,pageSize: number ,status:string,
-                                searchKey: string,sortBy: string,projectName:string,
-                                clientName: string, week: string, sort: string) {
+  timesheetSubmissionPagination(pageIndex: number,pageSize: number,
+    searchKey: string,sortBy: string,projectName:string,
+    clientName: string, week: string, sort: string ,status:string) {
 
     this.pageIndexG = pageIndex;
     this.pageSizeG = pageSize;
-    this.statusG = status;
     this.searchKeyG =searchKey;
     this.sortByG = sortBy;
     this.projectNameG = projectName;
     this.clientNameG = clientName;
     this.weekG = week;
     this.sortG = sort;
+    this.statusG = status;
 
     this.timeSheetService
 
@@ -184,7 +185,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
       this.pageSizeG,
 
-      this.searchKeyG,
+      this.searchKeyG?this.searchKeyG:'',
 
       this.sortByG,
 
@@ -232,15 +233,15 @@ export class TimesheetApprovalComponent implements OnInit {
   }
 
   onAwaitingTabClick() {
-    this.timesheetSubmissionPagination(1,10,'Requested','','','','','','');
+    this.timesheetSubmissionPagination(1,10,'','','','','','','Requested');
   }
 
   onApprovedTabClick() {
-    this.timesheetSubmissionPagination(1,10,'Approved','','','','','','');
+    this.timesheetSubmissionPagination(1,10,'','','','','','','Approved');
   }
 
   onReviewTabClick() {
-    this.timesheetSubmissionPagination(1,10,'Rejected','','','','','','');
+    this.timesheetSubmissionPagination(1,10,'','','','','','','Rejected');
   }
 
   PageIndexChangeAwaiting(index: number): void {
@@ -303,10 +304,10 @@ test() {
   onTabSelected(tab: any) {
     console.log(tab);
     if (tab === 1) {
-      this.currentNameSubject$.next(true);
+      // this.currentNameSubject$.next(true);
     }
     else {
-      this.currentNameSubject$.next(false);
+      // this.currentNameSubject$.next(false);
     }
   }
 onItemCheckStatusChange(event: number){
@@ -375,7 +376,7 @@ emitArray(evt:Set<string>){
   }
   onApprove(){
 
-    for (let element of this.setOfCheckedId) {
+    for (const element of this.setOfCheckedId) {
       console.log(element);
       this.arrayOfCheckedId.push(element);
       console.log(this.arrayOfCheckedId);
@@ -388,6 +389,91 @@ emitArray(evt:Set<string>){
 
     //this.timesheetSubmissionPaginationAwaiting(this.pageIndexAwaiting, this.pageSizeAwaiting, '');
     //this.PageIndexChangeAwaiting(this.totalPageAwaiting);
+
+
+
+  }
+  SearchByResourceName()
+  {
+    if(!this.searchKeyG){
+
+    //  return
+
+    }else if(this.searchKeyG.length<2)
+    {
+      return
+    }
+
+
+    if(this.tabselected==0)
+    {
+      console.log("jijisjssss");
+
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetApprovalPaginationAll(1,10,'',this.searchKeyG?this.searchKeyG:'');
+    }
+    else if(this.tabselected==1)
+    {
+
+      console.log("tab 1 selected")
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetSubmissionPaginationAwaiting(1,10,'Requested',this.searchKeyG?this.searchKeyG:'');
+
+    }
+    else if(this.tabselected==2)
+    {
+      console.log("tab 2 selected")
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetSubmissionPaginationApproved(1,10,'Approved',this.searchKeyG?this.searchKeyG:'');
+
+    }
+    else if(this.tabselected==3)
+    {
+      console.log("tab 3 selected")
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetSubmissionPaginationReview(1,10,'Rejected',this.searchKeyG?this.searchKeyG:'');
+
+    }
 
 
 
