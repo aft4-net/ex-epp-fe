@@ -37,7 +37,7 @@ ngOnInit(): void {
   else{
     if(this._authenticationService.loginCount==0){
       this._authenticationService.loginCount=1
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('usermanagement');
     }
     else{
       this.router.navigateByUrl('usermanagement');
