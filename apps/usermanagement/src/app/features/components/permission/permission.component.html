@@ -11,7 +11,12 @@
       <p>View and configure groups access.</p>
     </div>
   </div>
-  
+  <div style="padding-left: 15px;padding-bottom: 5px;">
+    <label
+    nz-checkbox
+    (nzCheckedChange)="checkAll($event)"
+    >Select All</label>
+  </div>
   <nz-collapse>
     <nz-collapse-panel
       *ngFor="let permission of listOfPermistion; let i = index"

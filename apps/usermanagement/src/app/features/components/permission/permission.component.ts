@@ -261,6 +261,63 @@ goupPermissions:IPermissionModel[] = [];
     }
   }
 
+  checkAll(event:any){
+
+ 
+for (let i = 0; i < this.listOfPermistion.length; i++) {
+  
+    this.indeterminate = false;
+    if (event) {
+      this.listOfPermistion[i].Parent.indeterminate = false;
+      this.listOfPermistion[i].Parent.checkAll = true;
+      const allchilds = this.listOfPermistion[i].Childs;
+      this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
+        (item) => ({
+          ...item,
+          checked: true,
+        })
+      );
+
+      this.listOfPermistion[i].Childs.forEach((element) => {
+        let count = 0;
+        this.selectedPermissionList.forEach((element2) => {
+          if (element.Guid == element2.Guid) {
+            this.selectedPermissionList.splice(count, 1);
+          }
+          count++;
+        });
+
+        this.selectedPermissionList = [
+          ...this.selectedPermissionList,
+          { Guid: element.Guid },
+        ];
+      });
+    } else {
+      this.listOfPermistion[i].Parent.checkAll = false;
+     
+      this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
+        (item) => ({
+          ...item,
+          checked: false,
+        })
+      );
+      this.listOfPermistion[i].Childs.forEach((child) => {
+        let count = 0;
+        this.selectedPermissionList.forEach((element) => {
+          if (element.Guid == child.Guid) {
+            this.selectedPermissionList.splice(count, 1);
+          }
+          count++;
+        });
+      });
+    
+  }
+  
+}
+    
+
+   
+  }
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
       this.selectedPermissionList = [
