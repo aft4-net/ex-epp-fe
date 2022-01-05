@@ -1,9 +1,3 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { environment } from 'apps/timesheet/src/environments/environment';
 import {
   ApprovalEntity,
   TimeEntriesResponse,
@@ -16,11 +10,17 @@ import {
   TimesheetConfigResponse,
   TimesheetResponse,
 } from '../../models/timesheetModels';
-import { Project } from '../../models/project';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { filter, map } from 'rxjs/operators';
+
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
-import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
+import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Observable } from 'rxjs';
+import { Project } from '../../models/project';
+import { environment } from 'apps/timesheet/src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -406,7 +406,7 @@ export class TimesheetService {
       data: [] as TimesheetBulkApproval[],
       pagination: {} as Pagination,
     };
-    return this.http.get(`${this.baseUrl}ApprovedTimesheet?` + params.toString()).pipe(
+    return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
       map((response: any) => {
 
 
