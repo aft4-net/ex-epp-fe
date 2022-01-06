@@ -21,8 +21,12 @@ export class TimesheetConfigurationStateService {
       var timesheetConfig : TimesheetConfiguration = response ?? {
         StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
         WorkingDays: [],
-        WorkingHour: 0
+        WorkingHours: {Min: 0, Max: 0}
       }
+
+      timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}];
+      timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? [];
+      timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? { Min: 0, Max: 24};
 
       this.timesheetConfigurationSource.next(timesheetConfig);
     });
