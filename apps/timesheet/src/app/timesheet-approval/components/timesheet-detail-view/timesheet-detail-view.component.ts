@@ -14,6 +14,7 @@ export class TimesheetDetailViewComponent implements OnInit {
   inputValue='';
   @Input() approvalDetails:any[]=[]
   timesheetApprove!:TimesheetApproval;
+  @Output () timesheetStatusUpdated=new EventEmitter<TimesheetApproval>();
 
     constructor(private timesheetService:TimesheetService) {
 
@@ -55,9 +56,13 @@ export class TimesheetDetailViewComponent implements OnInit {
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Approved;
     this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
-    this.isDialogVisible=false;
+    this.modalStatus.emit(false);
     this.timesheetService.success='Timesheet approved successfully';
     this.timesheetService.error='Timesheet approve failed';
+    if(this.timesheetService.statusChanged)
+    {
+      this.timesheetStatusUpdated.emit(this.timesheetApprove);
+    }
   }
   requestForReview()
   {
@@ -65,9 +70,13 @@ export class TimesheetDetailViewComponent implements OnInit {
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Rejected;
     this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
-    this.isDialogVisible=false;
-    this.timesheetService.success='Timesheet requested for review successfully';
-    this.timesheetService.error='Timesheet request for review failed';
+    this.modalStatus.emit(false);
+    this.timesheetService.success='Timesheet returned for review successfully';
+    this.timesheetService.error='Timesheet return for review failed';
+    if(this.timesheetService.statusChanged)
+    {
+      this.timesheetStatusUpdated.emit(this.timesheetApprove);
+    }
   }
 
   }

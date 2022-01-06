@@ -1,6 +1,6 @@
 .back {
   display: flex;
-  padding-left: 35px;
+  margin-left: 24px;
   margin-bottom: 1rem;
 
 }
@@ -9,17 +9,15 @@
   cursor: pointer;
 }
 .controllers {
-  padding-left: 35px;
+  margin-left: 24px;
 }
 .tab {
 //     margin-top: -10px;
-
-    padding-right: 35px;
 }
 
 ::ng-deep .ant-tabs-nav-list {
   margin-left: auto;
-  margin-right: 3.5rem;
+  margin-right: 24px;
   //margin-bottom: 1rem;
 }
 
@@ -73,6 +71,6 @@ button.is-yellow {
   .controllers {
     z-index: 987;
     position: absolute;
-    width: 1025px;
+    width: 745px;
   }
 }
