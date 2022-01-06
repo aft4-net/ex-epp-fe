@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { ThrowStmt } from '@angular/compiler';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -67,9 +67,14 @@ export class TimesheetConfigurationComponent implements OnInit {
         }
       });
     });
+
+    this.timesheetConfigForm.valueChanges.pipe(
+      debounceTime(3000),
+      distinctUntilChanged((prev, next) => JSON.stringify(prev) === JSON.stringify(next))
+    ).subscribe(() => this.saveTimesheetConfiguration());
   }
 
-  onSubmit() {
+  saveTimesheetConfiguration() {debugger;
     const configValues = this.timesheetConfigForm.value;
 
     let timesheetConfig: TimesheetConfiguration = {

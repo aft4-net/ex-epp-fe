@@ -1,5 +1,5 @@
 <div>
-    <form [formGroup]="timesheetConfigForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="timesheetConfigForm">
         <div class="flex flex-row">
             <h5>Start of Week: </h5>
             <nz-select id="startOfWeek" formControlName="startOfWeek">
@@ -42,7 +42,5 @@
                 <label>Max <nz-input-number formControlName="max" [nzMin]="0" [nzMax]="24" [nzStep]="1"></nz-input-number></label>
             </div>
         </div>
-
-        <button type="submit" class="absolute left-1/4">Submit</button>
     </form>
 </div>
