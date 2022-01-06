@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
@@ -22,6 +23,7 @@ export class TableComponent {
   isModalVisible=false;
   timesheetEntries:any;
   entryDate:any;
+  hours=0;
 
   total=10;
   pageIndex = 1;
@@ -50,12 +52,12 @@ export class TableComponent {
 
   @Output() checkedListId = new EventEmitter<Set<number>>();
   @Output() sorter = new EventEmitter<string>();
+  @Output() sortingDirection = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
   @Output() CheckedIds = new EventEmitter<Set<string>>();
-
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -65,7 +67,11 @@ export class TableComponent {
     }
   ];
 
-
+updateTimesheetAfterStatusChanged(row:any)
+{
+    this.rowData=this.rowData.filter(r=>r
+      .TimesheetId!==row.TimesheetId);
+}
   constructor(private readonly timesheetService:TimesheetService)
   {}
 
@@ -121,37 +127,31 @@ export class TableComponent {
   sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
-      this.sorter.emit("name");
+      this.sorter.emit("Name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
-      this.sorter.emit("dateRange");
-    }else if (heading === 'Project Name') {
+      this.sorter.emit("DateRange");
+    }else if (heading === 'Project'){
       this.sortByParam = "projectName";
-      this.sorter.emit("projectName");
+      this.sorter.emit("Project");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
-      this.sorter.emit("clientName");
-    } else {
-      this.sortByParam = "";
+      this.sorter.emit("Client");
     }
 
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
-    }
   }
+
+
 
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
-    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
-    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const timesheetId=row.TimesheetId;
+    const projectId=row.projectId;
     const date =this.entryDate;
     this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
       (entries)=>{this.timesheetEntries=entries
       });
-
   }
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;

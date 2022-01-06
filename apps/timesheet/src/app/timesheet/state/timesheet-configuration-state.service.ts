@@ -8,8 +8,9 @@ import { TimesheetService } from '../services/timesheet.service';
 })
 export class TimesheetConfigurationStateService {
   private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>({
+    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: [],
-    WorkingHour: 0
+    WorkingHours: {Min: 0, Max: 24}
   });
   timesheetConfiguration$ = this.timesheetConfigurationSource.asObservable();
 
@@ -17,12 +18,27 @@ export class TimesheetConfigurationStateService {
 
   getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      var timesheetConfig = response ?? {
+      var timesheetConfig : TimesheetConfiguration = response ?? {
+        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
         WorkingDays: [],
-        WorkingHour: 0
+        WorkingHours: {Min: 0, Max: 0}
       }
 
+      timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}];
+      timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? [];
+      timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? { Min: 0, Max: 24};
+
       this.timesheetConfigurationSource.next(timesheetConfig);
+    });
+  }
+
+  addTimesheetConfiguration(timesheetConfig: TimesheetConfiguration) {
+    this.timesheetService.addTimeSheetConfiguration(timesheetConfig).subscribe(response => {
+      if(!response) {
+        return;
+      }
+    }, error => {
+
     });
   }
 }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
-
 @Component({
   selector: 'exec-epp-timesheet-detail-view',
   templateUrl: './timesheet-detail-view.component.html',
@@ -13,28 +12,24 @@ export class TimesheetDetailViewComponent implements OnInit {
   @Output() modalStatus=new EventEmitter<boolean>();
   submitting =true;
   inputValue='';
-  //@Input() approvalDetails:any[]=[]
+  @Input() approvalDetails:any[]=[]
   timesheetApprove!:TimesheetApproval;
-  approvalDetails:any[]=[
-     {
-       Date:Date.now(),
-       Hour:4,
-       Note:'additional client requirement'
+  @Output () timesheetStatusUpdated=new EventEmitter<TimesheetApproval>();
 
-     },
-     {
-      Date:Date.now(),
-      Hour:2,
-      Note:'N/A'
-    },
-   ]
     constructor(private timesheetService:TimesheetService) {
+
     }
 
     ngOnInit(): void {
     }
+
+  getNote(note:string)
+  {
+    return note!==null?note:"N/A";
+  }
   formatHour(hour:number)
   {
+
     if(hour>=10)
     {
       return hour.toString();
@@ -44,29 +39,44 @@ export class TimesheetDetailViewComponent implements OnInit {
       return '0'+ hour.toString();
     }
   }
+  isStatatusRequest(status:string)
+  {
+    return (status!=='Requested'?true:false);
+  }
+
   exitModal()
   {
     this.modalStatus.emit(false);
+    this.inputValue='';
   }
-  handleOk()
-  {
-    ;
-  }
+
   approve()
   {
-    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
-    this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Approved;
-    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
+    this.modalStatus.emit(false);
+    this.timesheetService.success='Timesheet approved successfully';
+    this.timesheetService.error='Timesheet approve failed';
+    if(this.timesheetService.statusChanged)
+    {
+      this.timesheetStatusUpdated.emit(this.timesheetApprove);
+    }
   }
   requestForReview()
   {
-    this.timesheetApprove.ProjectId="7645b7bf-5675-4eb8-ac1d-96b306926422";
-    this.timesheetApprove.TimesheetId="18babdff-c572-4fbc-a102-d6434b7140c3";
+    this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
-    this.timesheetApprove.Status=ApprovalStatus.Requested;
-    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe();
+    this.timesheetApprove.Status=ApprovalStatus.Rejected;
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
+    this.modalStatus.emit(false);
+    this.timesheetService.success='Timesheet returned for review successfully';
+    this.timesheetService.error='Timesheet return for review failed';
+    if(this.timesheetService.statusChanged)
+    {
+      this.timesheetStatusUpdated.emit(this.timesheetApprove);
+    }
   }
 
   }

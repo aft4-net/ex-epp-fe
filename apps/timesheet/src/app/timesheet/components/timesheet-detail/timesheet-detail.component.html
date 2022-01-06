@@ -97,7 +97,13 @@
                 <label for="note" class="mt-4 mb-2 font-semibold">Note</label>
                 <textarea [(ngModel)]="formData.note" formControlName="note" nz-input rows="4">
                     {{ formData.note }}
-                  </textarea>
+                </textarea>
+                <div *ngIf="timesheetApproval">
+                    <strong>Manager's Note</strong>          
+                    <p>          
+                      {{ timesheetApproval.Comment }}          
+                    </p>
+                </div>
                 <div class="save-and-clear">
                     <button id="save" class="mt-6 font-bold" nz-button
                         [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-dateColumnTotalHour)">Save

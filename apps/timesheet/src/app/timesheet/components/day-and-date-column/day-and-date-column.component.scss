@@ -22,6 +22,10 @@
     scrollbar-width: none;  /* Firefox */
   }
 
+.date-column-timesheet .add-btn{
+    color: #00A551;
+}
+
 .date-column-with-highlight {
     @media screen and (min-width: 1024px) {
         .date-column-timesheet {
