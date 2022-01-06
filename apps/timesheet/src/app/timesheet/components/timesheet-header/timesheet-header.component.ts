@@ -22,6 +22,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekFirstDate: Date | null = null;
   @Input() weekLastDate: Date | null = null;
   @Input() isApproved = false;
+  @Input() approval = false;
   resubmitClicked:boolean|undefined;
   weeklyTotalHours: number = 0;
   configWeeklyTotalHour: number = 0;

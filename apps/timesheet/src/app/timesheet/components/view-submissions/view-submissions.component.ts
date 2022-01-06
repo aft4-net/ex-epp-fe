@@ -115,6 +115,7 @@ export class ViewSubmissionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.state.setApproval(true);
     this.timesheetSubmissionPaginatin(1, this.pageSize, null, []);
 
     this.timeSheetService

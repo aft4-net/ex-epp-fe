@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TimeEntry, Timesheet, TimesheetApproval } from '../../models/timesheetModels';
+import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval } from '../../models/timesheetModels';
 import { TimesheetService } from '../services/timesheet.service';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { TimesheetService } from '../services/timesheet.service';
 })
 export class TimesheetStateService {
   date: Date = new Date();
+
+  private approvalSource  = new BehaviorSubject<boolean>(false);
+  approval$ = this.approvalSource.asObservable();
 
   private timesheetSource = new BehaviorSubject<Timesheet | null>(null);
   timesheet$ = this.timesheetSource.asObservable();
@@ -53,4 +56,7 @@ export class TimesheetStateService {
     });
   }
 
+  setApproval(status: boolean){
+    this.approvalSource.next(status);
+  }
 }

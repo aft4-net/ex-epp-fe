@@ -17,6 +17,8 @@ export class TimesheetComponent implements OnInit {
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   timesheetApprovals$: Observable<TimesheetApproval[] | null> = new Observable();
 
+  approval$: Observable<boolean> = new Observable();
+
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
@@ -28,6 +30,8 @@ export class TimesheetComponent implements OnInit {
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
+
+    this.approval$  = this.timesheetStateService.approval$;
 
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
   }

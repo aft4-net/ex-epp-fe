@@ -27,6 +27,9 @@ import { environment } from 'apps/timesheet/src/environments/environment';
   providedIn: 'root',
 })
 export class TimesheetService {
+  success=''
+  error=''
+
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
@@ -50,6 +53,7 @@ export class TimesheetService {
       fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
+
 
     let params = new HttpParams();
 
@@ -100,7 +104,7 @@ export class TimesheetService {
     }
 
     let response = this.http.get<TimeEntriesResponse>(
-      this.baseUrl + 'timeentries',
+      this.baseUrl + 'TimeEntries',
       { observe: 'response', params: params }
     );
 
@@ -140,16 +144,6 @@ export class TimesheetService {
     return this.http.put<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
       timeEntry,
-      { headers: headers }
-    );
-  }
-
-  updateTimesheetProjectApproval(approval: TimesheetApproval) {
-    const headers = { 'content-type': 'application/json' };
-
-    return this.http.put<TimesheetApprovalResponse>(
-      this.baseUrl + 'TimesheetProjectStatus',
-      approval,
       { headers: headers }
     );
   }
@@ -209,7 +203,7 @@ export class TimesheetService {
 
   addTimeSheetConfiguration(timesheetConfig: TimesheetConfiguration) {
     const headers = { 'content-type': 'application/json' }
-    
+
     return this.http.post<TimesheetConfigResponse>(this.baseUrl + 'TimeSheetConfig', timesheetConfig, {headers: headers});
   }
 
@@ -445,4 +439,25 @@ export class TimesheetService {
       }
     });
   }
+
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers }).subscribe((response:any)=>{
+        if (response.ResponseStatus.toString() == 'Success') {
+          this.notification.success(this.success,"",
+          { nzPlacement: 'bottomRight' }
+
+          );
+        }
+        else{
+
+          this.notification.error(this.error,"",
+          { nzPlacement: 'bottomRight' }
+          );
+        }
+      });
+    }
+
 }
