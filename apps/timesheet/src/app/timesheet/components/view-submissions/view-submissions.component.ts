@@ -84,7 +84,15 @@ export class ViewSubmissionsComponent implements OnInit {
       filterMultiple: false,
       listOfFilter: [],
       filterFn: null,
-    },
+    },   {
+      name:"Hours",
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [null],
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null,
+    }
   ];
 
   timeSheetHistory: any;
@@ -103,10 +111,11 @@ export class ViewSubmissionsComponent implements OnInit {
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
-    public state: TimesheetStateService
+    private state: TimesheetStateService
   ) {}
 
   ngOnInit(): void {
+    this.state.setApproval(true);
     this.timesheetSubmissionPaginatin(1, this.pageSize, null, []);
 
     this.timeSheetService
@@ -212,7 +221,8 @@ export class ViewSubmissionsComponent implements OnInit {
     this.loading = false;
   }
   reviewsubmissions(date: Date) {
-    this.state.date = date;
+    date = new Date(date);
+    this.state.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
       this.state.getTimesheet(this.userId);

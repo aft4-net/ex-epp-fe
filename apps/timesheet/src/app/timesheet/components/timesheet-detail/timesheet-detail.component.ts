@@ -1,5 +1,5 @@
 
-import {  ApprovalStatus,  TimeEntry,  Timesheet,  TimesheetApproval,  TimesheetConfiguration,
+import {  ApprovalStatus,  StartOfWeek,  TimeEntry,  Timesheet,  TimesheetApproval,  TimesheetConfiguration,
 } from '../../../models/timesheetModels';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
@@ -54,8 +54,9 @@ export class TimesheetDetailComponent implements OnInit {
   disableClient = false;
   disableProject = false;
   timesheetConfig: TimesheetConfiguration = {
+    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: [],
-    WorkingHour: 0,
+    WorkingHours: {Min: 0, Max: 24},
   };
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
   timesheet: Timesheet | null = null;
@@ -173,7 +174,7 @@ export class TimesheetDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //this.startingWeek();
+    this.timesheetStateService.setApproval(false);
     this.userId = localStorage.getItem('userId');
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
 
@@ -183,8 +184,12 @@ export class TimesheetDetailComponent implements OnInit {
 
 
     this.timesheetConfig$.subscribe((tsc) =>{
-      (this.timesheetConfig = tsc ?? { WorkingDays: [], WorkingHour: 0 })
-      this.startingWeek();
+      this.timesheetConfig = tsc ?? {
+        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        WorkingDays: [], 
+        WorkingHours: {Min: 0, Max: 24}
+      };
+      this.startingWeek(this.timesheetConfig.StartOfWeeks);
     });
     this.timesheet$.subscribe((ts) => (this.timesheet = ts ?? null));
     this.timeEntries$.subscribe((te) => (this.timeEntries = te ?? null));
@@ -217,14 +222,21 @@ export class TimesheetDetailComponent implements OnInit {
     this.calcualteNoOfDaysBetweenDates();
   }
 
-  setFirstDay() {
-    return 1;
+  setFirstDay(startOfWeeks: StartOfWeek[]) {
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    let dayOfWeek = daysOfWeek.indexOf(startOfWeeks[0].DayOfWeek)
+    if(dayOfWeek === -1){
+      dayOfWeek = 1;
+    }
+
+    return dayOfWeek;
   }
 
-  startingWeek() {
+  startingWeek(startOfWeeks: StartOfWeek[]) {
     let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
-    this.dayAndDateService.fs = this.setFirstDay();
+    this.dayAndDateService.fs = this.setFirstDay(startOfWeeks);
     this.weekDays = this.dayAndDateService.getWeekByDate(date);
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
@@ -233,42 +245,59 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   nextWeek(count: any) {
-    this.date.setDate(this.date.getDate() + 7);
-    let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    this.timesheetConfig$.subscribe(tsc => {
+      this.timesheetConfig = tsc ?? {
+        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        WorkingDays: [], 
+        WorkingHours: {Min: 0, Max: 24}
+      }
 
-    this.dayAndDateService.fs = this.setFirstDay();
-    this.weekDays = this.dayAndDateService.getWeekByDate(date);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+      this.date.setDate(this.date.getDate() + 7);
+      let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
-    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 *24 * 3600000) {
-      this.isToday = true;
-    }
+      this.dayAndDateService.fs = this.setFirstDay(this.timesheetConfig.StartOfWeeks);
+      this.weekDays = this.dayAndDateService.getWeekByDate(date);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
-    if (this.userId) {
-      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-    }
+      if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 *24 * 3600000) {
+        this.isToday = true;
+      }
 
-    this.checkForCurrentWeek();
-    this.checkTimeOverThreeWeeks(this.firstday1);
+      if (this.userId) {
+        this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
+      }
+
+      this.checkForCurrentWeek();
+      this.checkTimeOverThreeWeeks(this.firstday1);
+
+    });    
   }
 
   lastastWeek(count: any) {
-    this.date.setDate(this.date.getDate() - 7);
-    this.isToday = false;
-    let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    this.timesheetConfig$.subscribe(tsc => {
+      this.timesheetConfig = tsc ?? {
+        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        WorkingDays: [], 
+        WorkingHours: {Min: 0, Max: 24}
+      }
 
-    this.dayAndDateService.fs = this.setFirstDay();
-    this.weekDays = this.dayAndDateService.getWeekByDate(date);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+      this.date.setDate(this.date.getDate() - 7);
+      this.isToday = false;
+      let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
-    if (this.userId) {
-      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-    }
+      this.dayAndDateService.fs = this.setFirstDay(this.timesheetConfig.StartOfWeeks);
+      this.weekDays = this.dayAndDateService.getWeekByDate(date);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
-    this.checkForCurrentWeek();
-    this.checkTimeOverThreeWeeks(this.firstday1);
+      if (this.userId) {
+        this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
+      }
+
+      this.checkForCurrentWeek();
+      this.checkTimeOverThreeWeeks(this.firstday1);
+    });
   }
 
   // To calculate the time difference of two dates
@@ -403,23 +432,32 @@ export class TimesheetDetailComponent implements OnInit {
   };
 
   selectedDate(date: Date) {
-    this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    this.timesheetConfig$.subscribe(tsc => {
+      this.timesheetConfig = tsc ?? {
+        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        WorkingDays: [], 
+        WorkingHours: {Min: 0, Max: 24}
+      }
 
-    this.dayAndDateService.fs = this.setFirstDay();
-    this.weekDays = this.dayAndDateService.getWeekByDate(date);
-    this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
-    this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+      this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 *24 * 3600000) {
-      this.isToday = true;
-    }
+      this.dayAndDateService.fs = this.setFirstDay(this.timesheetConfig.StartOfWeeks);
+      this.weekDays = this.dayAndDateService.getWeekByDate(date);
+      this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
+      this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
-    if (this.userId) {
-      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-    }
-    
-    this.checkForCurrentWeek();
-    this.checkTimeOverThreeWeeks(this.firstday1);
+      if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 *24 * 3600000) {
+        this.isToday = true;
+      }
+
+      if (this.userId) {
+        this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
+      }
+      
+      this.checkForCurrentWeek();
+      this.checkTimeOverThreeWeeks(this.firstday1);
+
+    });
   }
 
   selectedDateCanceled(curr: any) {
@@ -454,7 +492,6 @@ export class TimesheetDetailComponent implements OnInit {
         this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
       }
     }
-
   }
 
   calculateWeeklyTotalHours() {

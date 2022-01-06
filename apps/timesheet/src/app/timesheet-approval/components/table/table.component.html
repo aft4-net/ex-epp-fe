@@ -6,7 +6,7 @@
         (nzCheckedChange)="onAllChecked($event)"></th>
       <th [nzSortFn]="true" (click)="sorterMethod('Name')">Name</th>
       <th [nzSortFn]="true" (click)="sorterMethod('Date Range')">Date Range</th>
-      <th [nzSortFn]="true" [nzFilterFn]="true" (click)="sorterMethod('Project Name')">Project Name</th>
+      <th [nzSortFn]="true" (click)="sorterMethod('Project')">Project Name</th>
       <th [nzSortFn]="true" (click)="sorterMethod('Client Name')">Client Name</th>
       <th>Hours</th>
       <th *ngIf="status">Status</th>

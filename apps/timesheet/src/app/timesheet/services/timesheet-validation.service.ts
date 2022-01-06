@@ -103,12 +103,16 @@ export class TimesheetValidationService {
       return false;
     }
 
+    if(!timesheetConfiguration?.StartOfWeeks) {
+      timesheetConfiguration.StartOfWeeks = [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}];
+    }
+
     if (!timesheetConfiguration?.WorkingDays) {
       timesheetConfiguration.WorkingDays = [];
     }
 
-    if (!timesheetConfiguration?.WorkingHour) {
-      timesheetConfiguration.WorkingHour = 0;
+    if (!timesheetConfiguration?.WorkingHours) {
+      timesheetConfiguration.WorkingHours = {Min: 0, Max: 24};
     }
 
     for (const workingDay of timesheetConfiguration.WorkingDays) {
@@ -128,8 +132,8 @@ export class TimesheetValidationService {
     }
 
     if (
-      !timesheetConfiguration.WorkingHour ||
-      timesheetConfiguration.WorkingHour <= 0
+      !timesheetConfiguration.WorkingHours ||
+      timesheetConfiguration.WorkingHours.Min <= 0
     ) {
       return true;
     }
@@ -155,7 +159,7 @@ export class TimesheetValidationService {
         .map((te) => te.Hour)
         .reduce((prev, next) => prev + next, 0);
 
-      if (totalHour < timesheetConfiguration.WorkingHour) {
+      if (totalHour < timesheetConfiguration.WorkingHours.Min) {
         this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${date.toDateString()} date to satisfy minimum working hours.`;
         return false;
       }
