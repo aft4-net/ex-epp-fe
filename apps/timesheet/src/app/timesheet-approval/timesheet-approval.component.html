@@ -23,24 +23,18 @@
         <button class="approveButton" nz-button nzType="default"
         [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
         >Bulk Approval</button>
-
-        <br>
     </div>
 
-    <div nz-col nzSpan="8" class="ml-1" >
+    <div nz-col nzSpan="10" class="ml-1" style="margin-right: 12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  type="text" nz-input placeholder="Search" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
       </ng-template>
-
     </div>
-  <br>
-  <br>
-  <div nz-col class="ml-1">
+  <div nz-col class="ml-1" nzSpan="8">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
-
   </div>
 </div>
 <div class="tab" style="z-index: 9;">
