@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
@@ -57,7 +58,6 @@ export class TableComponent {
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
   @Output() CheckedIds = new EventEmitter<Set<string>>();
-
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -67,7 +67,11 @@ export class TableComponent {
     }
   ];
 
-
+updateTimesheetAfterStatusChanged(row:any)
+{
+    this.rowData=this.rowData.filter(r=>r
+      .TimesheetId!==row.TimesheetId);
+}
   constructor(private readonly timesheetService:TimesheetService)
   {}
 

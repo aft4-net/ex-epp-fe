@@ -33,7 +33,8 @@ export class TimesheetService {
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
-
+  statusChanged=false;
+  timesheetApprove!:TimesheetApproval;
   constructor(
     private notification: NzNotificationService,
     private http: HttpClient,
@@ -450,12 +451,16 @@ export class TimesheetService {
           { nzPlacement: 'bottomRight' }
 
           );
+          this.statusChanged=true;
+          this.timesheetApprove=approval;
         }
         else{
 
           this.notification.error(this.error,"",
           { nzPlacement: 'bottomRight' }
           );
+          this.statusChanged=false;
+
         }
       });
     }
