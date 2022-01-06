@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Employee } from '../models';
-import { Observable } from 'rxjs';
+import { Employee } from '..';
 import { ApiService } from '../models/apiService';
 
 @Injectable({
@@ -15,7 +14,7 @@ export class EmployeeService extends ApiService<Employee> {
 
   getResourceUrl(): string {
 
-    return 'Employees';
+    return 'Employee/GetEmployeeSelection';
   }
 
 }

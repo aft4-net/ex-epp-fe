@@ -136,17 +136,17 @@
       "sourceRoot": "apps/client-management/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build client-management --with-deps",
+              "docker build -f Dockerfile.client-management . -t client-management"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
-          "deploy": {
-            "builder": "@nrwl/workspace:run-commands",
-            "options": {
-              "commands": [
-                "nx build client-management --with-deps",
-                "docker build -f Dockerfile.client-management . -t client-management"
-              ],
-              "parallel": false
-            }
-          },
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["dist/apps/client-management"],
           "options": {
@@ -851,6 +851,16 @@
       "sourceRoot": "apps/user-management/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build user-management --with-deps",
+              "docker build -f Dockerfile.user-management . -t user-management"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -883,7 +893,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",

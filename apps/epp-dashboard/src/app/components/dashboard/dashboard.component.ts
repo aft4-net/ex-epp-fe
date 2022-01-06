@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
-
-import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
-import {PermissionService} from './../../../../../../libs/common-services//permission.service';
+import { AuthenticationService } from 'libs/common-services/Authentication.service';
 import { IntialdataService } from '../../services/intialdata.service';
+import { PermissionService } from 'apps/usermanagement/src/app/features/services/permission/permission.service';
+
+
 @Component({
   selector: 'exec-epp-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,23 +15,24 @@ export class DashboardComponent implements OnInit {
   fullName:any
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
+  constructor(private _intialdataService: IntialdataService,
+    private _authenticationService:AuthenticationService, 
+    private _permissionService : PermissionService)  { 
     this.fullName=_authenticationService.getUserFullName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0];
- 
-  }
-
+    }
   ngOnInit(): void {
    
 
     this.getPermission();
-    this._permissionService.permissionList=this.permissionList;
+    this._permissionService.PermissionList=this.permissionList;
   }
+
    authorize(key:string){
      
     // return true;
-     return this._permissionService.authorizedPerson(key);
+  //   return this._permissionService.authorizedPerson(key);
    }
    getPermission(): void {
     this._intialdataService.getUserPermission().subscribe((res:any)=>{
@@ -43,12 +45,10 @@ export class DashboardComponent implements OnInit {
         this.permissionList.forEach(child => {
             if(parent.PermissionCode==child.ParentCode){
                 this.permissionList=[...this.permissionList,parent]
-                this._permissionService.permissionList=this.permissionList;
+                this._permissionService.PermissionList=this.permissionList;
             }
         });
     });
     })
 }
 }
-
-

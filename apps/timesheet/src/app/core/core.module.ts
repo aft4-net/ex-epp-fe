@@ -4,11 +4,9 @@ import { HeaderComponent } from './header/header.component';
 import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     CommonModule,

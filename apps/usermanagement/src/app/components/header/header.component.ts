@@ -6,12 +6,13 @@ import { MsalService } from '@azure/msal-angular';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent  {
 
-  constructor() { }
+  constructor(private authService: MsalService) { }
 
-  ngOnInit(): void {
-    
+
+  logout() {
+    this.authService.logout()
   }
 
 

@@ -67,6 +67,8 @@ import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { MsalModule } from '@azure/msal-angular';
 
 @NgModule({
   exports: [
@@ -137,7 +139,9 @@ import { NzWaveModule } from 'ng-zorro-antd/core/wave';
     NzUploadModule,
     NzWaveModule,
     NzResizableModule,
-    NzPipesModule
+    NzPipesModule,
+    NzSpaceModule,
+    MsalModule
   ]
 })
 export class DemoNgZorroAntdModule {
