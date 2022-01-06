@@ -9,7 +9,7 @@
   <div nz-row>
     <div class="page-title"> View Submissions </div>
   </div>
-</header> 
+</header>
  <hr>  -->
 <section id="submissionHistory" class="mb-20">
   <span nz-row>
@@ -23,9 +23,9 @@
       </svg>
     </a>
   </span>
- 
+
   <nz-date-picker class="mt-3 mb-3"  [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
- <nz-table 
+ <nz-table
   nzSize="small"
  [nzOuterBordered]="true"
   [nzFrontPagination]="false"
@@ -43,7 +43,7 @@
         [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
         {{ listOfColumns[1].name }}
       </th>
-   
+
         <th  nzColumnKey="Client" [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
           [nzSortDirections]="listOfColumns[2].sortDirections" [nzFilterMultiple]="listOfColumns[2].filterMultiple"
           [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
@@ -59,12 +59,12 @@
         </th>
       </tr>
     </thead>
-    <tbody style="margin-bottom: 0px !important; padding-bottom: 0px; " >
+    <tbody style="margin-bottom: 0px !important; padding-bottom: 0px; "  >
       <tr *ngFor="let data of   timeSheetHistory" (click)= "reviewsubmissions(data.FromDate)">
         <td>{{data.FromDate | date:'MMM d' }} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
         <td>{{  data.ClientName}}</td>
-        <td>           
+        <td>
           <div *ngIf="data.Status==='Approved'" class="approved"> Approved </div>
           <div *ngIf="data.Status==='Requested'" class="submited"> Submitted</div>
           <div *ngIf="data.Status==='Rejected'" class=" review">  Request for review </div>

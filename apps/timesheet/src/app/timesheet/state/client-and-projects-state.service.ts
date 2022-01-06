@@ -1,10 +1,11 @@
-import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { Client } from "../../models/client";
-import { Project } from "../../models/project";
-import { ClientAndProjectService } from "../services/client-and-project.service";
+
 import { BaseStateService } from "./base-state.service";
+import { Client } from "../../models/client";
+import { ClientAndProjectService } from "../services/client-and-project.service";
+import { Injectable } from "@angular/core";
+import { Project } from "../../models/project";
 
 export interface ClientAndProjectState {
     collection: Client[],
