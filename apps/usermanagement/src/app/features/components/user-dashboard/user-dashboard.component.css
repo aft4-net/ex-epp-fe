@@ -198,5 +198,10 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   width: 61px;
   border: solid 1px #00a551;
 }
-.def{
+.ant-btn-default{
+  background-color: white;
+  color: #00a551;
+}
+.l-btn{
+  margin-right: 10px !important;
 }

@@ -3,7 +3,7 @@
       
       <div style="margin-top: -20px;" class="inner-content">
         <div nz-row>  
-          <div nz-ddcol nzSpan="12"><h2 class="PageHeader">
+          <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
           </h2></div>
           <div nz-col nzSpan="12" style="text-align: right;">
@@ -134,8 +134,8 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn modal-footer-btn def" (click)="handleCancel()" [disabled]="userfrm.invalid">Clear</button>
+    <button nz-button nzType="default"  class="default modal-footer-btn l-btn" (click)="handleCancel()" [disabled]="userfrm.invalid">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()">Add</button>
 </div>
 
 </ng-container>
@@ -176,8 +176,10 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
-    <button nz-button nzType="default"  class="default modal-footer-btn" (click)="handleGroupCancel()" [disabled]="groupfrm.invalid">Clear</button>
+    <button nz-button nzType="default"  class="default modal-footer-btn l-btn" (click)="handleGroupCancel()" 
+    [disabled]="groupfrm.invalid"
+    style="margin-right:15px">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()">Add</button>
 </div>
 </ng-template>
 </nz-modal>
