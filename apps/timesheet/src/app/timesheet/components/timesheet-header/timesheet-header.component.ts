@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
@@ -39,6 +40,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
   constructor(
     private timesheetService: TimesheetService,
+    private notification: NzNotificationService,
     private timesheetValidationService: TimesheetValidationService,
     private timesheetStateService: TimesheetStateService
   ) { }
@@ -72,18 +74,31 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     this.checkForSubmittedForApproal();
   }
 
-  checkForSubmittedForApproal() {
+  checkForSubmittedForApproal() {debugger;
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+      for(let i = 0; i < this.timesheetApprovals.length; i++) {
+        if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()){
+          break;
+        }
+
+        if(i === this.timesheetApprovals.length - 1) {
+          this.btnText = "Approved";
+           this.timeSheetStatus = "submitted-class";
+           return;
+        }
+      }
+
       for(let i = 0; i < this.timesheetApprovals.length;i++){
         if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
           this.btnText="Resubmit Timesheet";
           this.timeSheetStatus = "not-submitted-enable";
           break;
-          }
+        }
+
         if(this.resubmitClicked || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf()){
            this.btnText = "Submitted";
            this.timeSheetStatus = "submitted-class";
-      }
+        }
     }
   }
     else {
@@ -127,24 +142,25 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
       if(this.timesheetApprovals){
-      for(let i=0;i<this.timesheetApprovals.length;i++){
-        if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
-          this.rejectedTimesheet=this.timesheetApprovals[i];
+          for(let i=0;i<this.timesheetApprovals.length;i++){
+            if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
+              this.rejectedTimesheet=this.timesheetApprovals[i];
+            }
+            if(this.rejectedTimesheet){
+            const temp={
+              TimesheetId: this.rejectedTimesheet.TimesheetId,
+              ProjectId: this.rejectedTimesheet.ProjectId,
+              ApprovalStatus: Object.values(ApprovalStatus)[0].valueOf()
+            } as unknown as ApprovalEntity;
+            
+            this.timesheetService.updateTimesheetApproval(temp).subscribe();
+            this.timesheetApprovals[i].Status= ApprovalStatus.Requested;
+            this.resubmitClicked=true;
+            this.checkForSubmittedForApproal();
+            this.createNotification("info", "Timesheet resubmitted for approval", "bottomRight");
+          }
         }
-        if(this.rejectedTimesheet){
-        const temp={
-          TimesheetId: this.rejectedTimesheet.TimesheetId,
-          ProjectId: this.rejectedTimesheet.ProjectId,
-          ApprovalStatus: Object.values(ApprovalStatus)[0].valueOf()
-        } as unknown as ApprovalEntity;
-        
-        this.timesheetService.updateTimesheetApproval(temp).subscribe();
-        this.timesheetApprovals[i].Status= ApprovalStatus.Requested;
-        this.resubmitClicked=true;
-        this.checkForSubmittedForApproal();
       }
-    }
-  }
       else{
       this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
         if (this.timesheet) {
@@ -153,6 +169,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       }, error => {
 
       });
+      
+      this.createNotification("info", "Timesheet requested for approval", "bottomRight");
     }
   }
   }
@@ -162,5 +180,32 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     const workingHourPerDay = this.timesheetConfig?.WorkingHours?.Min ?? 0;
 
     return numberOfDays * workingHourPerDay;
+  }
+
+  createNotification(type: string, message: string, position?: NzNotificationPlacement) {
+
+    if (this.startingDateCriteria.isBeforeThreeWeeks) {
+      return;
+    }
+    if (!position) {
+      position = 'topRight';
+    }
+
+    switch (type.toLowerCase()) {
+
+      case 'success':
+        this.notification.success('', message, { nzPlacement: position });
+        break;
+      case 'info':
+        this.notification.info('', message, { nzPlacement: position });
+        break;
+      case 'warning':
+        this.notification.warning('', message, { nzPlacement: position });
+        break;
+      case 'error':
+        this.notification.error('', message, { nzPlacement: position });
+
+        break;
+    }
   }
 }
