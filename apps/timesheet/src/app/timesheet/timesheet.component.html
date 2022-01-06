@@ -1,6 +1,7 @@
 <div>
   <!--<nz-divider></nz-divider> -->
   <app-timesheet-header class="md:flex lg:flex xl:flex ml-8"
+    [approval]="(approval$ | async) ?? false"
     [timesheetConfig]="(timesheetConfig$ | async)"
     [timesheet]="(timesheet$ | async)"
     [timeEntries]="(timeEntries$ | async)"

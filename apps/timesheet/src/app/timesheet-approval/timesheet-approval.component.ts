@@ -1,11 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
+import { FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
+import { Router } from '@angular/router';
 import { TimesheetApproval } from '../models/timesheetModels';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
+import { delay } from 'rxjs/operators';
 
 interface ItemData {
   id: number,
@@ -24,7 +27,7 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
-
+  tabselected=1;
   date = null;
   bulkCheck = true;
   statusColumn = true;
@@ -45,24 +48,28 @@ export class TimesheetApprovalComponent implements OnInit {
   pageIndexAll = 1;
   pageSizeAll = 10;
   totalPageAll!: number;
+  totalRecordsAll = 10;
 
   timeSheetApprovalAwaiting!: TimesheetApproval[];
   totalAwaiting = 10;
   pageIndexAwaiting = 1;
   pageSizeAwaiting = 10;
   totalPageAwaiting!: number;
+  totalRecordsAwaiting = 10;
 
   timeSheetApprovalApproved!: TimesheetApproval[];
   totalApproved = 10;
   pageIndexApproved = 1;
   pageSizeApproved = 10;
   totalPageApproved!: number;
+  totalRecordsApproved = 10;
 
   timeSheetApprovalReview!: TimesheetApproval[];
   totalReview = 10;
   pageIndexReview = 1;
   pageSizeReview = 10;
   totalPageReview!: number;
+  totalRecordsReview = 10;
 
   loading = true;
 
@@ -70,134 +77,43 @@ export class TimesheetApprovalComponent implements OnInit {
   totalPage!: number;
 
   //table
-
+  params!: NzTableQueryParams;
+  timeSheetHistory!: TimesheetApproval[];
   total = 10;
   pageIndex = 1;
   pageSize = 10;
 
   sortByParam = "";
-  sortDirection = "asc";
+  sortDirection = "Ascending";
 
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
   listOfData: readonly ItemData[] = [];
-  setOfCheckedId = new Set<number>();
-  public arrayOfCheckedId:number[] =[];
+  setOfCheckedId = new Set<string>();
+  public arrayOfCheckedId:string[] =[];
 
+  //setOfCheckedId:Set<Number>;
+
+  ids: number[]=[];
   resources: any;
 
-  listOfSelection = [
-    {
-      text: 'Select All Row',
-      onSelect: () => {
-        this.onAllChecked(true);
-      }
-    }
-  ];
+  // variables for generic method
+    pageSizeG = 7;
+    pageIndexG = 1;
+    statusG = '';
+    searchKeyG :string | null = null;
+    sortByG = '';
+    projectNameG = '';
+    clientNameG = '';
+    weekG = '';
+    sortG = 'Ascending';
 
-
-  employees = [
-    {
-      id: 1,
-      name: 'yosef',
-      dateRange: Date.now(),
-      projectName: 'HR Module',
-      clientName: 'Connect+',
-      hours: 8,
-      status: 'Request for review'
-    },
-    {
-      id: 3,
-      name: 'Daniel James',
-      dateRange: Date.now(),
-      projectName: 'Finanace Module',
-      clientName: 'Security Finance',
-      hours: 12,
-      status: 'Awaiting Approval'
-    },
-    {
-      id: 9,
-      name: 'Abel',
-      dateRange: Date.now(),
-      projectName: 'Test',
-      clientName: 'test',
-      hours: 20,
-      status: 'Approved'
-    },
-    {
-      id: 5,
-      name: 'hana',
-      dateRange: Date.now(),
-      projectName: 'test',
-      clientName: 'test',
-      hours: 10,
-      status: 'Approved'
-    },
-    {
-      id: 11,
-      name: 'yosef',
-      dateRange: Date.now(),
-      projectName: 'HR Module',
-      clientName: 'Connect+',
-      hours: 8,
-      status: 'Request for review'
-    },
-    {
-      id: 13,
-      name: 'Daniel',
-      dateRange: Date.now(),
-      projectName: 'Finanace Module',
-      clientName: 'Security Finance',
-      hours: 12,
-      status: 'Awaiting Approval'
-    },
-    {
-      id: 19,
-      name: 'Abel',
-      dateRange: Date.now(),
-      projectName: 'Test',
-      clientName: 'test',
-      hours: 20,
-      status: 'Approved'
-    },
-    {
-      id: 15,
-      name: 'hana',
-      dateRange: Date.now(),
-      projectName: 'test',
-      clientName: 'test',
-      hours: 10,
-      status: 'Approved'
-    },
-    {
-      id: 16,
-      name: 'Daniel',
-      dateRange: Date.now(),
-      projectName: 'Finanace Module',
-      clientName: 'Security Finance',
-      hours: 12,
-      status: 'Awaiting Approval'
-    },
-    {
-      id: 17,
-      name: 'Abel',
-      dateRange: Date.now(),
-      projectName: 'Test',
-      clientName: 'test',
-      hours: 20,
-      status: 'Approved'
-    },
-    {
-      id: 18,
-      name: 'hana',
-      dateRange: Date.now(),
-      projectName: 'test',
-      clientName: 'test',
-      hours: 10,
-      status: 'Approved'
-    }
-  ];
+    // response
+    TimesheetApprovalResponse!: TimesheetApproval[];
+    totalResponse!: number;
+    totalPageResponse!: number;
+  // end of generic variables
 
   constructor(
     private router: Router,
@@ -205,62 +121,145 @@ export class TimesheetApprovalComponent implements OnInit {
     private http: HttpClient
   ) { }
 
+
+
   ngOnInit(): void {
-    this.timesheetSubmissionPaginationAwaiting(1, 10);
+
+    console.log('direct');
+    this.initialDataforTab();
   }
 
-  timesheetApprovalPaginationAll(index: number, pageSize: number) {
+  timesheetSubmissionPagination(pageIndex: number,pageSize: number,
+    searchKey: string,sortBy: string,projectName:string,
+    clientName: string, week: string, sort: string ,status:string) {
+
+    this.pageIndexG = pageIndex;
+    this.pageSizeG = pageSize;
+    this.searchKeyG =searchKey;
+    this.sortByG = sortBy;
+    this.projectNameG = projectName;
+    this.clientNameG = clientName;
+    this.weekG = week;
+    this.sortG = sort;
+    this.statusG = status;
+
     this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize)
+
+      .getTimesheetApprovalPagination(
+
+        this.pageIndexG,
+
+         this.pageSizeG,
+
+         this.searchKeyG,
+
+         this.sortByG,
+
+         this.projectNameG,
+
+         this.clientNameG,this.weekG,this.sortG,this.statusG
+
+      )
+
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-        this.timeSheetApprovalAll = response.data;
-        this.pageIndexAll = response.pagination.pageIndex;
-        this.pageSizeAll = response.pagination.pageSize;
-        this.totalAll = response.pagination.totalRecord;
-        this.totalPageAll = response.pagination.totalPage;
+
+        this.TimesheetApprovalResponse = response.data;
+
+        this.pageIndexG = response.pagination.pageIndex;
+
+        this.pageSizeG = response.pagination.pageSize;
+
+        this.totalRecordsAll = response.data.length;
+
+        this.totalResponse = response.pagination.totalRecord;
+
+        this.totalPageResponse = response.pagination.totalPage;
+
       });
+
   }
 
-  timesheetSubmissionPaginationAwaiting(index: number, pageSize: number) {
-    this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize)
-      .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-        this.timeSheetApprovalAwaiting = response.data;
-        this.pageIndexAwaiting = response.pagination.pageIndex;
-        this.pageSizeAwaiting = response.pagination.pageSize;
-        this.totalAwaiting = response.pagination.totalRecord;
-        this.totalPageAwaiting = response.pagination.totalPage;
-      });
+  PageIndexChangeG(index: number): void {
+    this.pageIndexG = index;
+    this.timesheetSubmissionPagination(this.pageIndexG,
+
+      this.pageSizeG,
+
+      this.searchKeyG?this.searchKeyG:'',
+
+      this.sortByG,
+
+      this.projectNameG,
+
+      this.clientNameG,this.weekG,this.sortG,this.statusG);
+    this.loading = false;
   }
 
-  timesheetSubmissionPaginationApproved(index: number, pageSize: number) {
-    this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize)
-      .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-        this.timeSheetApprovalApproved = response.data;
-        this.pageIndexApproved = response.pagination.pageIndex;
-        this.pageSizeApproved = response.pagination.pageSize;
-        this.totalApproved = response.pagination.totalRecord;
-        this.totalPageApproved = response.pagination.totalPage;
-      });
+initialDataforTab() {
+  this.statusG = 'Requested';
+
+      this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+}
+
+  onAllTabClick() {
+    this.statusG = '';
+    this.sortByG ='DateRange';
+    this.sortG = 'Descending';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
   }
 
-  timesheetSubmissionPaginationReview(index: number, pageSize: number) {
-    this.timeSheetService
-      .getTimesheetApprovalPagination(index, pageSize)
-      .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-        this.timeSheetApprovalReview = response.data;
-        this.pageIndexReview = response.pagination.pageIndex;
-        this.pageSizeReview = response.pagination.pageSize;
-        this.totalReview = response.pagination.totalRecord;
-        this.totalPageReview = response.pagination.totalPage;
-      });
+  onAwaitingTabClick() {
+    this.statusG = 'Requested';
+    this.sortByG ='';
+    this.sortG = '';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
   }
+
+  onApprovedTabClick() {
+    this.statusG = 'Approved';
+    this.sortByG ='DateRange';
+    this.sortG = 'Descending';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
+  }
+
+  onReviewTabClick() {
+    this.statusG = 'Rejected';
+    this.sortByG ='DateRange';
+    this.sortG = 'Descending';
+    this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+
+  }
+
+
 test() {
   console.log("clicked");
 }
-  timesheetBulkApproval(arrayOfIds:number[]){
-    this.timeSheetService.updateTimeSheetStatus(arrayOfIds)
+  timesheetBulkApproval(arrayOfIds:any[]){
+    this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
+    console.log("service"+arrayOfIds);
   }
 
   getweek(result: Date): void {
@@ -271,14 +270,12 @@ test() {
   onTabSelected(tab: any) {
     console.log(tab);
     if (tab === 1) {
-      this.currentNameSubject$.next(true);
+      // this.currentNameSubject$.next(true);
     }
     else {
-      this.currentNameSubject$.next(false);
+      // this.currentNameSubject$.next(false);
     }
   }
-
-
 onItemCheckStatusChange(event: number){
   this.qtyofItemsSelected = event;
 }
@@ -286,63 +283,49 @@ updateProjectResourseList(resources: any) {
   this.resources = resources;
   console.log(this.resources);
 }
-// for the table
 
-  PageIndexChange(index: any): void {
-    this.pageIndex = index;
-    this.loading = true;
-    this.timesheetApprovalPaginationAll(index, 10);
-    this.loading = false;
+emitArray(evt:Set<string>){
+  if(evt){
+    this.setOfCheckedId=evt;
+    console.log(this.setOfCheckedId);
   }
-
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-      console.log(this.setOfCheckedId);
-    } else {
-      this.setOfCheckedId.delete(id);
-      console.log(this.setOfCheckedId);
-    }
-  }
-
-
-
-  onAllChecked(value: boolean): void {
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.id, value));
-    this.refreshCheckedStatus();
-  }
-
-
-onItemChecked(id: number, checked: boolean): void {
-  this.qtyofItemsSelected += (checked? 1: -1);
-  this.updateCheckedSet(id, checked);
-  this.refreshCheckedStatus();
-
 
 }
 
-  onCurrentPageDataChange($event: readonly ItemData[]): void {
-    this.listOfCurrentPageData = $event;
-    this.refreshCheckedStatus();
+sorterDirection(sortIndex: string) {
+  console.log('emitter');
+  if (sortIndex === 'Descending') {
+    this.sortDirection = 'Ascending';
+    console.log(this.sortDirection);
+  } else {
+    this.sortDirection = 'Descending';
+    console.log(this.sortDirection);
   }
+}
+
+sortDirectionMethod() {
+  if (this.sortDirection === 'Descending') {
+    this.sortDirection = 'Ascending';
+    this.sortG = this.sortDirection;
 
 
-  refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+  } else if (this.sortDirection === 'Ascending') {
+    this.sortDirection = 'Descending';
+    this.sortG = this.sortDirection;
+    console.log(this.sortDirection);
   }
-
+}
 
   sorter(sortIndex: string) {
-    if (sortIndex === "name") {
-      console.log("name came"); //API call
-    } else if (sortIndex === "dateRange") {
-      console.log("dateRange came"); //API call
-    } else if (sortIndex === "projectName") {
-      console.log("projectName came"); //API call
-    } else if (sortIndex === "clientName") {
-      console.log("clientName came"); //API call
-    }
+    this.sortDirectionMethod();
+    this.sortByG = sortIndex;
+
+      this.timesheetSubmissionPagination(this.pageIndexG,this.pageSizeG,this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,this.projectNameG,this.clientNameG,
+
+        this.weekG,this.sortG,this.statusG);
+        console.log(sortIndex+" came");
   }
 
 
@@ -360,12 +343,105 @@ onItemChecked(id: number, checked: boolean): void {
   }
   onApprove(){
 
-    let ids=this.setOfCheckedId
-    for (let entry of ids){
-      this.arrayOfCheckedId.push(entry);
+    for (const element of this.setOfCheckedId) {
+      console.log(element);
+      this.arrayOfCheckedId.push(element);
       console.log(this.arrayOfCheckedId);
     }
+
     this.timesheetBulkApproval(this.arrayOfCheckedId);
-    this.arrayOfCheckedId.length = 0;
+    console.log("Approved"+this.arrayOfCheckedId);
+    console.log(this.arrayOfCheckedId);
+    this.arrayOfCheckedId.length=0;
+    //delay(3000);
+    console.log("This"+this.timeSheetApprovalAwaiting);
+
+
+
+  }
+  SearchByResourceName()
+  {
+    if(!this.searchKeyG){
+
+    //  return
+
+    }else if(this.searchKeyG.length<2)
+    {
+      return
+    }
+
+
+    if(this.tabselected==0)
+    {
+      console.log("jijisjssss");
+
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetApprovalPaginationAll(1,10,'',this.searchKeyG?this.searchKeyG:'');
+    }
+    else if(this.tabselected==1)
+    {
+
+      console.log("tab 1 selected")
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetSubmissionPaginationAwaiting(1,10,'Requested',this.searchKeyG?this.searchKeyG:'');
+
+    }
+    else if(this.tabselected==2)
+    {
+      console.log("tab 2 selected")
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetSubmissionPaginationApproved(1,10,'Approved',this.searchKeyG?this.searchKeyG:'');
+
+    }
+    else if(this.tabselected==3)
+    {
+      console.log("tab 3 selected")
+      this.timesheetSubmissionPagination(this.pageIndexG,
+
+        this.pageSizeG,
+
+        this.searchKeyG?this.searchKeyG:'',
+
+        this.sortByG,
+
+        this.projectNameG,
+
+        this.clientNameG,this.weekG,this.sortG,this.statusG);
+      // this.timesheetSubmissionPaginationReview(1,10,'Rejected',this.searchKeyG?this.searchKeyG:'');
+
+    }
+
+
+
   }
 }

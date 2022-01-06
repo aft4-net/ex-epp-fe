@@ -12,8 +12,9 @@ import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.compo
 })
 export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() timesheetConfig: TimesheetConfiguration | null = {
+    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: [],
-    WorkingHour: 0
+    WorkingHours: {Min: 0, Max: 24}
   };
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
@@ -21,6 +22,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekFirstDate: Date | null = null;
   @Input() weekLastDate: Date | null = null;
   @Input() isApproved = false;
+  @Input() approval = false;
   resubmitClicked:boolean|undefined;
   weeklyTotalHours: number = 0;
   configWeeklyTotalHour: number = 0;
@@ -91,8 +93,9 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
   checkIfValidForApproval() {
     let timesheetConfig = this.timesheetConfig ?? {
+      StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
       WorkingDays: [],
-      WorkingHour: 0
+      WorkingHours: { Min: 0, Max: 24}
     }
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], timesheetConfig)) {
       this.validForApproal = true;
@@ -104,14 +107,15 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       this.validForApproal = false;
       this.btnText = "Request for Approval";
       this.timeSheetStatus = "not-submitted-disable";
-      this.notSubmittedTooltip = `Please fill in your working days ${timesheetConfig.WorkingDays} with a minimum hour of ${timesheetConfig.WorkingHour}`;
+      this.notSubmittedTooltip = `Please fill in your working days ${timesheetConfig.WorkingDays} with a minimum hour of ${timesheetConfig.WorkingHours.Min}`;
     }
   }
 
   onRequestForApproval() {
     let timesheetConfig = this.timesheetConfig ?? {
+      StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
       WorkingDays: [],
-      WorkingHour: 0
+      WorkingHours: { Min: 0, Max: 24 }
     }
     if (!this.timesheet) {
       return;
@@ -155,7 +159,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
   getConfigWeeklyTotalHours() {
     const numberOfDays = this.timesheetConfig?.WorkingDays?.length ?? 0;
-    const workingHourPerDay = this.timesheetConfig?.WorkingHour ?? 0;
+    const workingHourPerDay = this.timesheetConfig?.WorkingHours?.Min ?? 0;
 
     return numberOfDays * workingHourPerDay;
   }

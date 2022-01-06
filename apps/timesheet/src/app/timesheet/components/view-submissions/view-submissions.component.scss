@@ -106,3 +106,29 @@ font-size: 16px;
     background: #03da6b !important;
     color: white;
   }
+
+
+.pagination{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+::ng-deep ant-table-filter-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: -40px -8px -4px 40px;
+  padding: 0 4px;
+  color: #bfbfbf;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  transition: all .3s;
+}
+
+::ng-deep .ant-table-column-sorters {
+    float: none;
+}
