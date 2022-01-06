@@ -74,7 +74,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     this.checkForSubmittedForApproal();
   }
 
-  checkForSubmittedForApproal() {debugger;
+  checkForSubmittedForApproal() {
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
       for(let i = 0; i < this.timesheetApprovals.length; i++) {
         if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()){

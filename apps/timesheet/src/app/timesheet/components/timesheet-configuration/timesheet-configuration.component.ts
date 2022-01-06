@@ -77,7 +77,7 @@ export class TimesheetConfigurationComponent implements OnInit {
     ).subscribe(() => this.saveTimesheetConfiguration());
   }
 
-  saveTimesheetConfiguration() {debugger;
+  saveTimesheetConfiguration() {
     const configValues = this.timesheetConfigForm.value;
 
     let timesheetConfig: TimesheetConfiguration = {
