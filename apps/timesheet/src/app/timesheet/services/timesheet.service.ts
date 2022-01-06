@@ -293,7 +293,6 @@ export class TimesheetService {
       .append('SortField', `${sortField}`)
       .append('SortOrder', `${sortOrder}`)
       .append('EmployeeGuId', `${localStorage.getItem('userId')}`);
-      console.log(filters)
     if (filters)
       for (let i = 0; i < filters.length; i++) {
         if (filters[i].key == 'Project' && filters[i].value)
