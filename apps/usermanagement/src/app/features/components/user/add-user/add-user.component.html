@@ -3,7 +3,7 @@
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
             <div class="label">Employee
-            <span style="color:red; font-weight:bold">&nbsp;*</span>
+           
             </div>
             <nz-form-item>
               <nz-form-control [nzSpan]="24" >
@@ -24,5 +24,5 @@
 </form>
 <div class="right-footer">
     <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
-    <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
+    <button nz-button nzType="default" [disabled]="(!(userfrm?.dirty))"  class="defaultBtn" (click)="handleCancel()">Clear</button>
 </div>
