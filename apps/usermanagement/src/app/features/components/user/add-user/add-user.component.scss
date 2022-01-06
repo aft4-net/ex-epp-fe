@@ -1,27 +1,18 @@
-.label {
-    font-size: 14px;
-    line-height: 24px;
-    color: rgba(0,0,0,.85);
-    margin-bottom: 2px;
-    font-weight: 500;
-    --antd-wave-shadow-color: #18ffba;  
-  }
-.right-footer{
-    text-align: left;
-    align-items: left;
-    margin-left: 0px;
-}
-.ant-btn-primary {
-    color: #fff;
-    background-color: #00a551;
-    border-color: #00a551;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.12);
-    box-shadow: 0 2px 0 rgba(0,0,0,.045);
-  }
-  .ant-btn-primary[disabled],.ant-btn-primary[disabled]:active, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
-    color: rgba(0,0,0,.25);
-    border-color: #d9d9d9;
-    background: #f5f5f5;
-    text-shadow: none;
-    box-shadow: none;
-  }
+span::-moz-selection { background: #00a551; color: white; }
+  span::selection { background: #00a551; color: white; }
+  
+  .label::-moz-selection { background: #00a551; color: white; }
+  .label::selection { background: #00a551; color: white; }
+  
+  p::-moz-selection { background: #00a551; color: white; }
+  p::selection { background: #00a551; color: white; }
+  
+  input::-moz-selection { background: #00a551; color: white; }
+  input::selection { background: #00a551; color: white; }
+  
+  textarea::-moz-selection { background: #00a551; color: white; }
+  textarea::selection { background: #00a551; color: white; }
+  
+  h4::-moz-selection { background: #00a551; color: white; }
+  h4::selection { background: #00a551; color: white; }
+  

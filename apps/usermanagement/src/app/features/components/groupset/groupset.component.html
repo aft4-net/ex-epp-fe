@@ -1,3 +1,6 @@
+<button nz-button (click)="onAddNewRecord()" nzType="primary" class="createGroupButton">Create group</button>
+
+
 <nz-modal
 [(nzVisible)]="isVisible"
 [nzTitle]="modalTitle"
@@ -8,7 +11,7 @@
 <ng-template #modalTitle class="backChange"><h4>Create group</h4></ng-template>
 
 <ng-template #modalContent>
-
+ 
   <form class="flex flex-col gap-5" [formGroup]="groupSet" (ngSubmit)="onSaveGroup()" #form>
 
     <div nz-row>
@@ -25,16 +28,13 @@
                 <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
                     class="text-danger-error">
                   <div *ngIf="(groupSet.get('Name')?.errors?.['required'])">
-                      Group's name is required. 
+                    Group's name is required.
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
-                      Group's name must be at least 2 characters long.
-                  </div>
-                  <div *ngIf="groupSet.get('Name')?.errors?.['maxlength'] && !(groupSet.get('Name')?.errors?.['required'])">
-                    Group's name must be no more than 70 characters long.
+                    Group's name must be at least 2 characters long.
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['pattern'] && !(groupSet.get('Name')?.errors?.['minlength'])">
-                      Invalid Group's name.
+                    Invalid Group's name.
                   </div>
                 </div>
 
@@ -47,18 +47,13 @@
           <div class="label">Group's description (Optional)</div>
           <nz-form-item>
             <nz-form-control [formGroup]='groupSet' [nzSpan]="24">
-              <textarea
+              <textarea 
                 nz-input
                 form="groupSet"
-                formControlName="Description"
+                formControlName="Description" 
               >
               </textarea>
               <span class="groupSetSpan">A description will help you organize and manage your groups.</span>
-              <div *ngIf="groupSet.get('Description')?.invalid" class="text-danger-error">
-              <div *ngIf="groupSet.get('Description')?.errors?.['maxlength']">
-                Group's description must be no more than 250 characters long.
-              </div>
-              </div>
             </nz-form-control>
           </nz-form-item>
       </div>
@@ -68,150 +63,7 @@
 </ng-template>
 
 <ng-template #modalFooter>
-  <div style="text-align: left;">
-    <button nz-button nzType="primary" class="foo" [disabled]="groupSet.invalid" (click)="onSaveGroup()">Create Group</button>
-    <button nz-button nzType="default" class="foo" [disabled]="(!(groupSet?.dirty))"  class="defaultBtn" (click)="resetForm()">Clear</button>  
-  </div>
+  <button nz-button nzType="default" class="defaultBtn" (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" [disabled]="groupSet.invalid" (click)="onSaveGroup()">Create Group</button>
 </ng-template>
 </nz-modal>
-
-<nz-layout >
-  <nz-content>
-    <div style="margin-top: -20px;" class="inner-content">
-      <div nz-row>
-          <div nz-col nzSpan="14" >
-            <h2 class="PageHeader">
-              Groups
-            </h2>
-          </div>
-          <div nz-col nzSpan="2"  nzOffset="8" >
-            <button nz-button [nzSize]="'large'" (click)="onAddNewRecord()" nzType="primary" class="createGroupButton">Create group</button>
-          </div>
-
-          <nz-modal
-          [(nzVisible)]="isVisible"
-          [nzTitle]="modalTitle"
-          [nzContent]="modalContent"
-          [nzFooter]="modalFooter"
-          (nzOnCancel)="handleCancel()"
-          >
-          <ng-template #modalTitle class="backChange"><h4>Create group</h4></ng-template>
-          
-          <ng-template #modalContent>
-          
-            <form class="flex flex-col gap-5" [formGroup]="groupSet" (ngSubmit)="onSaveGroup()" #form>
-          
-              <div nz-row>
-          
-                  <div nz-col nzSpan="24" class="forDes">
-                    <!-- <p>When you create the group, you'll be able to add users
-                        to it and configure its access or associate job positions
-                        to let the system assign them automatically. </p> -->
-                      <div class="label required">Group's name</div>
-                      <nz-form-item>
-                        <nz-form-control [formGroup]='groupSet' [nzSpan]="24" >
-                          <input nz-input formControlName="Name" touched form="groupSet">
-                          <span class="groupSetSpan">You won't be able to change the group's name in the future.</span>
-                          <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
-                              class="text-danger-error">
-                            <div *ngIf="(groupSet.get('Name')?.errors?.['required'])">
-                                Group's name is required. 
-                            </div>
-                            <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
-                                Group's name must be at least 2 characters long.
-                            </div>
-                            <div *ngIf="groupSet.get('Name')?.errors?.['maxlength'] && !(groupSet.get('Name')?.errors?.['required'])">
-                              Group's name must be no more than 70 characters long.
-                            </div>
-                            <div *ngIf="groupSet.get('Name')?.errors?.['pattern'] && !(groupSet.get('Name')?.errors?.['minlength'])">
-                                Invalid Group's name.
-                            </div>
-                          </div>
-          
-                        </nz-form-control>
-                      </nz-form-item>
-                  </div>
-              </div><br>
-              <div nz-row >
-                <div nz-col nzSpan="24" class="forDes">
-                    <div class="label">Group's description (Optional)</div>
-                    <nz-form-item>
-                      <nz-form-control [formGroup]='groupSet' [nzSpan]="24">
-                        <textarea
-                          nz-input
-                          form="groupSet"
-                          formControlName="Description"
-                        >
-                        </textarea>
-                        <span class="groupSetSpan">A description will help you organize and manage your groups.</span>
-                        <div *ngIf="groupSet.get('Description')?.invalid" class="text-danger-error">
-                        <div *ngIf="groupSet.get('Description')?.errors?.['maxlength']">
-                          Group's description must be no more than 250 characters long.
-                        </div>
-                        </div>
-                      </nz-form-control>
-                    </nz-form-item>
-                </div>
-              </div>
-          </form>
-          
-          </ng-template>
-          
-          <ng-template #modalFooter>
-            <button nz-button nzType="default" class="defaultBtn" (click)="resetForm()">Clear</button>
-            <button nz-button nzType="primary" [disabled]="groupSet.invalid" (click)="onSaveGroup()">Create Group</button>
-          </ng-template>
-          </nz-modal>
-
-      </div>
-      <div [formGroup]="groupDashboardForm" nz-row >
-        <div nz-col class="gutter-row" [nzSpan]="8" >
-          <nz-input-group nzSearch [nzSize]="'small'"  [nzPrefix]="suffixIconButton">
-            <input type="text" style="border: 0ch;"  #searchInput formControlName="groupName" nz-input placeholder="Search here" (change)="SearchgroupsByName()" />
-          </nz-input-group>
-          <ng-template #suffixIconButton>
-            <button nz-button style="border: 0ch;" nzSearch   (click)="SearchgroupsByName()">
-              <i nz-icon nzType="search"></i>
-            </button>
-          </ng-template>
-        </div>
-      </div>
-      <div  nz-row nzJustify="end" *ngIf="groupList.length > 0">
-        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
-        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
-      </div>
-      <br/>
-      <div nz-row style="margin-top:-10px">
-        <div nz-col class="gutter-row" nzSpan="24">
-            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupList"
-              nzTableLayout="auto">
-              <thead>
-                <tr>
-                  <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
-                    [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                    [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-
-                  <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
-                    [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                    [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                    [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                  <th class="table_heading">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
-                  <td>{{group.Name}}</td>  
-                  <td>
-                    <button nz-button  style="border:0px; color: green;" nzType="link" [nzSize]="size"
-                      (click)="ShowDetail(group.Guid)">Show Detail
-                    </button>
-                  </td>                
-                </tr>
-              </tbody>
-            </nz-table>
-        </div>
-      </div>
-    </div>
-  </nz-content>
-</nz-layout>

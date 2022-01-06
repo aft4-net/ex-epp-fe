@@ -2,11 +2,8 @@
 
 import { BillingAddress } from './billing-address';
 import { ClientContact } from './client-contact';
-import { ClientStatus } from '..';
 import { CompanyContact } from './company-contact';
 import { Employee } from './employee';
-import { FormGroupDirective } from '@angular/forms';
-import { List } from 'postcss/lib/list';
 import { OperatingAddress } from './operating-address';
 
 export interface Client {

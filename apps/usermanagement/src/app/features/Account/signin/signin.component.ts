@@ -13,7 +13,8 @@ import {AuthenticationService} from './../../../../../../../libs/common-services
 })
 export class SigninComponent implements OnInit {
 
-      constructor(private _authenticationService:AuthenticationService,private authService: MsalService, private router: Router) {}
+      constructor(private _authenticationService:AuthenticationService,
+        private authService: MsalService, private router: Router) {}
   
   ngOnInit(): void {
     
