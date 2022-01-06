@@ -33,7 +33,8 @@ export class TimesheetService {
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
-
+  statusChanged=false;
+  timesheetApprove!:TimesheetApproval;
   constructor(
     private notification: NzNotificationService,
     private http: HttpClient,
@@ -287,7 +288,6 @@ export class TimesheetService {
       .append('SortField', `${sortField}`)
       .append('SortOrder', `${sortOrder}`)
       .append('EmployeeGuId', `${localStorage.getItem('userId')}`);
-      console.log(filters)
     if (filters)
       for (let i = 0; i < filters.length; i++) {
         if (filters[i].key == 'Project' && filters[i].value)
@@ -451,12 +451,16 @@ export class TimesheetService {
           { nzPlacement: 'bottomRight' }
 
           );
+          this.statusChanged=true;
+          this.timesheetApprove=approval;
         }
         else{
 
           this.notification.error(this.error,"",
           { nzPlacement: 'bottomRight' }
           );
+          this.statusChanged=false;
+
         }
       });
     }
