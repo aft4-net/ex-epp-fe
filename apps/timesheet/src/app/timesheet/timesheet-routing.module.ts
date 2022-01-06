@@ -4,6 +4,7 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
 import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
 
 import { TimesheetComponent } from './timesheet.component';
+import { TimesheetConfigurationComponent } from './components/timesheet-configuration/timesheet-configuration.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,17 @@ const routes: Routes = [
       },
       {
         path: "view-submissions",
-        component: ViewSubmissionsComponent
+        component: ViewSubmissionsComponent,
+        data: {
+          breadcrumb: "View Submission"
+        }
+      },
+      {
+        path: "timesheet-configuration",
+        component: TimesheetConfigurationComponent,
+        data: {
+          breadcrumb: "Configuration"
+        }
       }
     ]
   }

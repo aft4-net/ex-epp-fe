@@ -219,6 +219,7 @@
   </div>
 </nz-drawer>
 
+<<<<<<< HEAD
 <nz-modal
   [(nzVisible)]="modalVisible"
   nzTitle="Invalid Time Entries"
@@ -254,4 +255,32 @@
       <button nz-button nzType="primary" (click)="handleOk()">OK</button>
     </span>
   </ng-container>
+=======
+<nz-modal [(nzVisible)]="modalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true"
+    [nzClosable]="false" nzClassName="invalid-time-entry-modal">
+    <ng-container *nzModalContent>
+        <nz-table #invalidEntriesData [nzData]="invalidEntries??[]">
+            <thead>
+                <tr>
+                    <th>Time Entry Date</th>
+                    <th>Error Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let invalidEntry of invalidEntriesData.data">
+                    <td>{{ invalidEntry.Date.toDateString() }}</td>
+                    <td>{{ invalidEntry.Message }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">Please enter valid time entries before saving time entry for a range.</th>
+                </tr>
+            </tfoot>
+        </nz-table>
+        <span class="flex justify-center">
+            <button nz-button nzType="primary" (click)="handleOk()">OK</button>
+        </span>
+    </ng-container>
+>>>>>>> ee30abf5ef627d7447f14508935415d9dfb63a36
 </nz-modal>

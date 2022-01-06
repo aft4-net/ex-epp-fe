@@ -22,14 +22,21 @@
     <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
         <button class="approveButton" nz-button nzType="default"
         [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
-        >Bulk Approval</button>
+        [ngClass]="{
+          'is-blue': qtyofItemsSelected <= 0,
+          'is-yellow': qtyofItemsSelected > 0
+
+        }">
+          Bulk Approval
+
+        </button>
 
         <br>
     </div>
 
     <div nz-col nzSpan="8" class="ml-1" >
       <nz-input-group [nzSuffix]="suffixIconSearch" >
-        <input  type="text" nz-input placeholder="Search" />
+        <input  [(ngModel)]="searchKeyG" (ngModelChange)="SearchByResourceName()" type="text" nz-input placeholder="Search by employee name" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
@@ -47,10 +54,10 @@
 
 
   <div class="mb-4">
-    <nz-tabset [nzAnimated]='false' nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
+    <nz-tabset [nzAnimated]='false' nzRight [(nzSelectedIndex)]="tabselected" (nzSelectedIndexChange)="onTabSelected($event)">
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()">
         <div nzRight class="content">
-          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
