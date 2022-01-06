@@ -9,10 +9,12 @@
 @font-face {
   font-family: "SF Pro Display";
   src: url("assets/fonts/SFPRODISPLAYREGULAR.OTF");
+  font-weight: normal;
 }
 
+
 body {
-  font-family: "SF Pro Display";
+  // font-family: "SF Pro Display";
 }
 /* For Very small screen size. eg. Mobile*/
 .ant-drawer-content-wrapper {
