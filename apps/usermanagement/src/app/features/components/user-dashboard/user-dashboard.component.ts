@@ -80,7 +80,7 @@ export class UserDashboardComponent implements OnInit {
       filterFn: null
     },
     {
-      name: 'Last Activity',
+      name: 'Last Activity Date',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
@@ -90,7 +90,7 @@ export class UserDashboardComponent implements OnInit {
     }
   ]
 
-  @ViewChild('searchInput', { static: true })
+  @ViewChild('userNameInput', { static: true }) element: ElementRef | undefined;
   input!: ElementRef;
   isLogin=false;
   constructor(private userService : UserService,
@@ -138,6 +138,7 @@ export class UserDashboardComponent implements OnInit {
     this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
       if(response.Data) {
+       
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -351,7 +352,6 @@ export class UserDashboardComponent implements OnInit {
     this.isUserModalVisible = true;
     this.isLoadng = true;
 
-    console.log('addUser');
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;
@@ -372,7 +372,6 @@ export class UserDashboardComponent implements OnInit {
     this.isLoadng = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
-
             this.groupList = r;
             this.addUserService.getUserGroups(userId).subscribe(
                 (r: GroupSetModel[]) => {
@@ -393,7 +392,6 @@ export class UserDashboardComponent implements OnInit {
             this.onShowError(error.Error);
         }
     );
-
 }
 onSaveGroups() {
   this.selectedGroups = [];
@@ -423,7 +421,6 @@ onSaveGroups() {
 }
 
 handleGroupCancel() {
-  this.isGroupModalVisible = false;
   this.groupfrm.reset();
 }
   onShowError(err: any) {
@@ -475,7 +472,7 @@ handleGroupCancel() {
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/userdetail');
+    this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
   }
   
   handleOk(): void {
@@ -484,7 +481,6 @@ handleGroupCancel() {
   }
 
   handleCancel(): void {
-    this.isUserModalVisible = false;
     this.userfrm.reset();
   }
 }

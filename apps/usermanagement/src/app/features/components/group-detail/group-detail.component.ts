@@ -1,4 +1,4 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { GroupSetService } from '../../services/group-set.service';
 import { GroupSetModel } from '../../Models/group-set.model';
@@ -8,10 +8,11 @@ import { IGroupUsersView } from '../../Models/User/GroupUsersView';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
 import { PermissionService } from '../../services/permission/permission.service';
+import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
 
 @Component({
   selector: 'exec-epp-group-detail',
@@ -39,7 +40,7 @@ export class GroupDetailComponent implements OnInit {
   isOkLoading = false;
   loading = false;
   groupDetail? : GroupSetModel;
-  editedGroupDetail? : GroupSetModel;
+  editedGroupDetail? : GroupSetDescription;
   size: NzButtonSize = 'small';
   groupSet$: Observable<GroupSetModel> | undefined ;
   groupId? : any;
@@ -55,6 +56,7 @@ export class GroupDetailComponent implements OnInit {
   beginingRow !: number;
   lastRow !: number;
   groupdescription : any;
+  groupDescriptionEditForm !: FormGroup;
   listOfColumn = [
     {
       title: 'Name',
@@ -66,6 +68,7 @@ export class GroupDetailComponent implements OnInit {
   ];
 
   ngOnInit() {
+    this.createGroupDescriptionControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
       this.groupDetail  = result 
@@ -75,6 +78,11 @@ export class GroupDetailComponent implements OnInit {
     this._permissionService.PermissionList=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
+  }
+  createGroupDescriptionControls() {
+    this.groupDescriptionEditForm = this.fb.group({
+      description: [[],[Validators.required]]
+    })
   }
 
   FeatchAllGroupsUsers() {
@@ -134,17 +142,27 @@ export class GroupDetailComponent implements OnInit {
 
   }
 
-  createNotification(type: string, message : string): void {
-    this.notification.create(
-      type,
-      'Group Deleted',
-      message
-    );
+  createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
+    this.modal.create({
+      nzTitle: tplTitle,
+      nzContent: tplContent,
+      nzFooter: tplFooter,
+      nzMaskClosable: false,
+      nzClosable: false,
+      nzComponentParams: {
+        value: 'Template Context'
+      },
+      nzOnOk: () => console.log('Click ok')
+    });
+  }
+
+  createNotification(title: string,type: string, message : string): void {
+    this.notification.create(type, title, message);
   }
 
   createGroupDeleteModal(): void {
     const modal: NzModalRef = this.modal.create({
-    nzTitle: 'Delete  Group',
+    nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
     nzContent: 'Users in this group will lose all permissions related to the group.' + 
                 "Deleting a group can't be undone",
     nzFooter: [
@@ -159,6 +177,33 @@ export class GroupDetailComponent implements OnInit {
         label: 'Delete Group',
         type: 'primary',
         danger: true,
+        disabled: false,
+        loading: false,
+        onClick: () => {
+          this.DeleteGroup();
+          modal.destroy()
+        }
+      }]
+    });
+  }
+
+  createEditGroupDescriptionModal(): void {
+    const modal: NzModalRef = this.modal.create({
+    nzTitle: "Edit group's description",
+    nzContent: "Edit the group's description to organize your groups better on the list. You can't edit the group's name.",
+    nzFooter: [
+      {
+          label: 'Cancel',
+          shape: 'round',
+          onClick: () =>{
+            modal.destroy()
+          } 
+      },
+      {
+        label: 'Delete Group',
+        type: 'primary',
+        danger: true,
+        disabled: true,
         loading: false,
         onClick: () => {
           this.DeleteGroup();
@@ -171,14 +216,14 @@ export class GroupDetailComponent implements OnInit {
   DeleteGroup(): void {
     this.groupSetService.DeleteGroup(this.groupId).subscribe(
       (result) => {
-        this.createNotification(result.ResponseStatus.toString(), result.Message); 
+        this.createNotification('Deleting group',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message); 
         this._router.navigateByUrl('usermanagement/group');
       }
     )
   }
 
   handleCancel() {
-    this.isGroupEditVisible = false;
+    this.groupDescriptionEditForm.reset();
   }
 
   EditGroupDescription() {
@@ -188,11 +233,17 @@ export class GroupDetailComponent implements OnInit {
   SaveGroupDescription() {
     this.editedGroupDetail = {
       Guid: this.groupId,
-      Name: "",
-      Description: this.groupdescription
+      Description: this.groupDescriptionEditForm.value.description
     };
     console.log(this.editedGroupDetail.Description);
-    this.groupSetService.EditGroupDescription(this.editedGroupDetail);
+    this.groupSetService.EditGroupDescription(this.editedGroupDetail).subscribe((x) => {
+      this.handleCancel();
+      this.createNotification('Updating group description',x.ResponseStatus.toString().toLocaleLowerCase(), x.Message);
+      this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
+        this.groupDetail  = result 
+        console.log(result)
+      } );
+    });
   }
 
   assinedPermission(){
@@ -243,5 +294,10 @@ export class GroupDetailComponent implements OnInit {
    fullPhrase= fullPhrase+ " "+ titleCase
    });
    return fullPhrase
+ }
+
+ GroupDescriptionEditCancel() {
+   this.isGroupEditVisible = false;
+   this.groupDescriptionEditForm.reset();
  }
 }

@@ -11,13 +11,14 @@ import { PaginationResult } from '../Models/PaginationResult';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { environment } from "../../../environments/environment";
 import { IGroupUsersView } from '../Models/User/GroupUsersView';
+import { GroupSetDescription } from '../Models/Group/GroupSetDescription';
 
 @Injectable({
     providedIn: 'root',
   })
   export class GroupSetService {
 
-    baseUrl = environment.apiUrl + '/GroupSet/';
+    baseUrl = environment.apiUrl + '/GroupSet';
     
     paginatedResult: PaginationResult<GroupSetModel[]> = {
       Data: [] as GroupSetModel[],
@@ -79,7 +80,7 @@ import { IGroupUsersView } from '../Models/User/GroupUsersView';
     }
 
     LoadGroupDeatil(groupId : string) {
-       return this.http.get<ResponseDTO<GroupSetModel>>(this.baseUrl + 'LoadGroupSet?id=' + groupId);
+       return this.http.get<ResponseDTO<GroupSetModel>>(this.baseUrl + '/LoadGroupSet?id=' + groupId);
     }
 
     LoadGroupUsers(groupParams: GroupParams): Observable<PaginationResult<IGroupUsersView[]>> {
@@ -90,7 +91,7 @@ import { IGroupUsersView } from '../Models/User/GroupUsersView';
       }
       params = params.append("pageIndex", groupParams.pageIndex.toString());
       params = params.append("pageSize", groupParams.pageSize.toString());
-      return this.http.get<PaginationResult<IGroupUsersView>>(this.baseUrl + 'LoadGroupUsersSet',{ params }).pipe(
+      return this.http.get<PaginationResult<IGroupUsersView>>(this.baseUrl + '/LoadGroupUsersSet',{ params }).pipe(
           map((result: any) => {
             this.groupUsersPaginatedResult = {
               Data: result.Data,
@@ -114,12 +115,7 @@ import { IGroupUsersView } from '../Models/User/GroupUsersView';
       )
     }
 
-
-    EditGroupDescription(groupSet : GroupSetModel) : Observable<ResponseDTO<any>> {
-      return this.http.patch<ResponseDTO<any>>(this.baseUrl + groupSet, this.httpOptions).pipe(
-        map((result) => {
-          return result;
-        })
-      )
+    EditGroupDescription(groupSet : GroupSetDescription) {
+      return this.http.patch<ResponseDTO<any>>(this.baseUrl, groupSet);
     }
 }

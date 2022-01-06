@@ -11,10 +11,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GroupsetComponent } from '../features/components/groupset/groupset.component';
 import { GroupDetailComponent } from '../features/components/group-detail/group-detail.component';
-import {  MsalModule, MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
+import {  MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 export function MSALInstanceFactory(): IPublicClientApplication 
 {return new PublicClientApplication({
    auth: {
@@ -46,7 +47,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'user-dashboard',component:UserDashboardComponent
           },
           {
-            path:'userdetails',component:UserdetailsComponent
+            path:'userdetails/:id',component:UserdetailsComponent
           },
           {
             path:'group',component:GroupsetComponent
@@ -66,6 +67,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
     },
+    { provide: NZ_I18N, useValue: en_US },
     MsalService 
     ],
 })
