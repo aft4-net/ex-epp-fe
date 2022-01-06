@@ -155,6 +155,10 @@ body{
   padding-right: 9.56px;
 }
 
+.ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+  padding: 12px;
+    line-height: 24px;
+}
 
 .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
   display: none;

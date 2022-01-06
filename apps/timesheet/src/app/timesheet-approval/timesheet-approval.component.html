@@ -22,12 +22,19 @@
     <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
         <button class="approveButton" nz-button nzType="default"
         [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
-        >Bulk Approval</button>
+        [ngClass]="{
+          'is-blue': qtyofItemsSelected <= 0,
+          'is-yellow': qtyofItemsSelected > 0
+
+        }">
+          Bulk Approval
+
+        </button>
     </div>
 
     <div nz-col nzSpan="10" class="ml-1" style="margin-right: 12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
-        <input  type="text" nz-input placeholder="Search" />
+        <input  [(ngModel)]="searchKeyG" (ngModelChange)="SearchByResourceName()" type="text" nz-input placeholder="Search by employee name" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
@@ -41,13 +48,13 @@
 
 
   <div class="mb-4">
-    <nz-tabset [nzAnimated]='false' nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
+    <nz-tabset [nzAnimated]='false' nzRight [(nzSelectedIndex)]="tabselected" (nzSelectedIndexChange)="onTabSelected($event)">
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()">
         <div nzRight class="content">
-          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
@@ -57,8 +64,9 @@
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
         <exec-epp-table [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
         (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
+
         <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
@@ -66,8 +74,8 @@
       <nz-tab nzTitle="Approved" (nzClick)="onApprovedTabClick()">
         <exec-epp-table [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
-        <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+         <span nz-row class="pagination  flex justify-end">
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
@@ -77,7 +85,7 @@
         <exec-epp-table [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalResponse}} of {{totalAll}} entries
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>

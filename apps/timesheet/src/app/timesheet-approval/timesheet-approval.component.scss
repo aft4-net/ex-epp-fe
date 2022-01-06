@@ -33,6 +33,9 @@ nz-date-picker {
   border-bottom: none !important;
 }
 
+::ng-deep .nz-table-content {
+  border:1px solid #FFE58F;
+}
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #00A551;
 }
@@ -46,6 +49,15 @@ nz-date-picker {
 
 .pagination {
   margin-right: 2rem;
+}
+
+button.is-blue {
+  color: grey;
+}
+button.is-yellow {
+  color: #00A551;
+  border-color: #00A551;
+  
 }
 .approveButton{
 

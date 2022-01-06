@@ -9,6 +9,7 @@ import { AccountService } from '../../services/user/account.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpInterceptor } from '../../interceptor/httpInterceptor';
 import { AuthorizationCheck } from '../../services/autherization/authorizationCheck';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
 @NgModule({
   declarations: [SignupComponent, SigninComponent],
@@ -19,6 +20,7 @@ import { AuthorizationCheck } from '../../services/autherization/authorizationCh
     SharedModule,
   ],
   providers:[{ provide: HTTP_INTERCEPTORS, useClass: httpInterceptor, multi: true }, 
+    {provide: NZ_I18N, useValue: en_US},
     AuthorizationCheck, AccountService]
 })
 export class UserModule { }

@@ -1,0 +1,46 @@
+<div class="w-3/5 ml-6 pt-8 pr-10 pb-8 pl-10 rounded-lg border-[#AEAEAE] border">
+    <form [formGroup]="timesheetConfigForm">
+        <div class="flex flex-row content-center">
+            <h5 class="mt-auto mb-auto">Start of Week: </h5>
+            <nz-select id="startOfWeek" formControlName="startOfWeek" class="ml-8 w-80 h-9 rounded-sm border-[#D9D9D9]">
+                <nz-option nzValue="Monday" nzLabel="Monday"></nz-option>
+                <nz-option nzValue="Tuesday" nzLabel="Tuesday"></nz-option>
+                <nz-option nzValue="Wednesday" nzLabel="Wednesday"></nz-option>
+                <nz-option nzValue="Thursday" nzLabel="Thursday"></nz-option>
+                <nz-option nzValue="Friday" nzLabel="Friday"></nz-option>
+                <nz-option nzValue="Starday" nzLabel="Starday"></nz-option>
+                <nz-option nzValue="Sunday" nzLabel="Sunday"></nz-option>
+            </nz-select>
+        </div>
+        <nz-divider></nz-divider>
+
+        <div class="flex flex-row content-center">
+            <h5 class="mt-auto mb-auto">Work Week: </h5>
+            <div formGroupName="workingDays" class="ml-6">
+                <label class="ml-6"><input type="checkbox" name="Monday" formControlName="monday" class="mr-2 w-4 h-4 rounded-sm">Monday</label>
+
+                <label class="ml-6"><input type="checkbox" name="Tuesday" formControlName="tuesday" class="mr-2 w-4 h-4 rounded-sm">Tuesday</label>
+
+                <label class="ml-6"><input type="checkbox" name="Wednesday" formControlName="wednesday" class="mr-2 w-4 h-4 rounded-sm">Wednesday</label>
+
+                <label class="ml-6"><input type="checkbox" name="Thursday" formControlName="thursday" class="mr-2 w-4 h-4 rounded-sm">Thursday</label>
+
+                <label class="ml-6"><input type="checkbox" name="Friday" formControlName="friday" class="mr-2 w-4 h-4 rounded-sm">Friday</label>
+
+                <label class="ml-6"><input type="checkbox" name="Starday" formControlName="starday" class="mr-2 w-4 h-4 rounded-sm">Starday</label>
+
+                <label class="ml-6"><input type="checkbox" name="Sunday" formControlName="sunday" class="mr-2 w-4 h-4 rounded-sm">Sunday</label>
+            </div>
+        </div>
+        <nz-divider></nz-divider>
+
+        <div class="flex flex-row content-center">
+            <h5 class="w-28 h-5 mt-auto mb-auto">Business Hours: </h5>
+            <div formGroupName="workingHours">
+                <label class="ml-2 w-9 h-7 pt-0.5 pr-0 pb-0.5 pl-0 text-center">Min <input formControlName="min" min="0.00" max="24.00" step="1" class="w-32 h-9 pt-2 pr-3 pb-2 pl-3 text-center bg-[#FFFFFF] border border-[#D9D9D9] rounded-sm"></label>
+
+                <label class="ml-2 w-9 h-7 pt-0.5 pr-0 pb-0.5 pl-0 text-center">Max <input formControlName="max" type="number" min="0.00" max="24.00" step="1" class="w-32 h-9 pt-2 pr-3 pb-2 pl-3 text-center bg-[#FFFFFF] border border-[#D9D9D9] rounded-sm"></label>
+            </div>
+        </div>
+    </form>
+</div>

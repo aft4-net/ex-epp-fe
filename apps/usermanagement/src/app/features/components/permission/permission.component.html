@@ -1,0 +1,51 @@
+<div style="padding-right: 20px; padding-bottom: 10px;">
+  <div style="padding-left: 10px; padding-top: 15px">
+    <div style="float: right">
+      <button nz-button class="cancel-button" (click)="cancelPermission()" >Cancel</button>
+      <button nz-button class="button-style" [nzLoading]='isLoding' (click)="updatePermission()">
+        Update Permissions
+      </button>
+    </div>
+    <div>
+      <h3>Ro - Permissions</h3>
+      <p>View and configure groups access.</p>
+    </div>
+  </div>
+  <div style="padding-left: 15px;padding-bottom: 5px;">
+    <label
+    nz-checkbox
+    (nzCheckedChange)="checkAll($event)"
+    [(ngModel)]="allModuleCecked"
+    [nzIndeterminate]="allModuleIntermidate"
+  
+    >Select All</label>
+  </div>
+  <nz-collapse>
+    <nz-collapse-panel
+      *ngFor="let permission of listOfPermistion; let i = index"
+      [nzHeader]="header"
+    >
+      <ng-template #header>
+        <label
+          nz-checkbox
+          [(ngModel)]="permission.Parent.checkAll"
+          [nzIndeterminate]="permission.Parent.indeterminate"
+          (nzCheckedChange)="updateAllPermissionChecked($event, i)"
+          >{{ permission.Parent.label }}</label
+        >
+      </ng-template>
+
+      <div style="padding-left: 10px">
+        <div *ngFor="let item of permission.Childs">
+          <label
+            nz-checkbox
+            [(ngModel)]="item.checked"
+            (nzCheckedChange)="updateSingleChecked($event, i, item.Guid)"
+            nzValue="item.Guid"
+            >{{ item.label }}</label
+          >
+        </div>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
+</div>
