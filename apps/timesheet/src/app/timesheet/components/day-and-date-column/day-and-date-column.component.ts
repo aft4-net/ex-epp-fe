@@ -50,13 +50,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   isSubmitted: boolean | undefined;
   startingDateCriteria = startingDateCriteria
   disabled = false
+  isFutureDate=false;
 
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
 
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
-
+    this.checkForFutureDate(this.item);
+    console.log(this.item)
+    ;console.log(this.isFutureDate)
+    console.log(this.dates1)
   }
 
   ngOnChanges(): void {
@@ -81,7 +85,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
   }
-  
+
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
@@ -180,5 +184,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     else {
       return timesheetApprovals[0];
     }
+  }
+  checkForFutureDate(curr:any){
+    let now = new Date();
+    if ( curr>now) {
+      this.isFutureDate = true;
+    }
+    return this.isFutureDate;
   }
 }
