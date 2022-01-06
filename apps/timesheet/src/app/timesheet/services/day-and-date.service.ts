@@ -8,7 +8,7 @@ import {DaydateModel} from "../../models/daydate.model";
 })
 export class DayAndDateService {
   date = new Date();
-  public weekDays: DaydateModel[] = [];
+  weekDays: Date[] = [];
   firstday: any;
   lastday: any;
   firstday1: any;
@@ -55,42 +55,42 @@ export class DayAndDateService {
 
           if (i == 8) {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
             this.lastday1 = bb;
           } else if (i == 9) {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 2));
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
             this.lastday1 = bb;
           } else if (i == 10) {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 3));
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
             this.lastday1 = bb;
           } else if (i == 11) {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 4));
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
             this.lastday1 = bb;
           } else if (i == 12) {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 5));
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
             this.lastday1 = bb;
           } else if (i == 13) {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 6));
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
@@ -98,7 +98,7 @@ export class DayAndDateService {
           } else {
             this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + i));
             console.log('next week 1st day is: ' + cuur1 + this.lastday);
-            let bb: DaydateModel;
+            let bb: Date;
             // eslint-disable-next-line prefer-const
             bb = this.lastday;
             this.weekDays.push(bb);
@@ -115,66 +115,12 @@ export class DayAndDateService {
     if (cuur1 != null) {
       this.clearData();
       this.computeFirstDay(cuur1);
-      let y = this.getIterationSizeForWeeks('initial', this.getWeekendFirstDay());
-      for (let i = 0; i <= y; i++) {
-        if (this.weekDays.length === 7) {
-          break
-        } else {
-          if (i < this.setFirstWeeksFirstDay()) {
-            continue;
-          } else {
-            if (i == 8) {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
-              let bb: DaydateModel;
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            } else if (i == 9) {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 2));
-              let bb: DaydateModel;
-              // eslint-disable-next-line prefer-const
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            } else if (i == 10) {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 3));
-              let bb: DaydateModel;
-              // eslint-disable-next-line prefer-const
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            } else if (i == 11) {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 4));
-              let bb: DaydateModel;
-              // eslint-disable-next-line prefer-const
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            } else if (i == 12) {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 5));
-              let bb: DaydateModel;
-              // eslint-disable-next-line prefer-const
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            } else if (i == 13) {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 6));
-              let bb: DaydateModel;
-              // eslint-disable-next-line prefer-const
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            } else {
-              this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + i));
-              let bb: DaydateModel;
-              // eslint-disable-next-line prefer-const
-              bb = this.lastday;
-              this.weekDays.push(bb);
-              this.lastday1 = bb;
-            }
-          }
-        }
+      let weekLen = 7;
+      let date = new Date(this.firstday1);
+      for (let i = 0; i < weekLen; i++) {
+        this.weekDays.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() + i));
       }
+      this.lastday1 = new Date(this.weekDays[weekLen - 1]);
     }
     return this.weekDays;
   }
@@ -196,42 +142,42 @@ export class DayAndDateService {
             if (i == -8) {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 1));
               console.log('when i=' + i + ' then, date=' + this.lastday);
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);
               this.lastday1 = bb;
             } else if (i == -9) {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 2));
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);
               this.lastday1 = bb;
             } else if (i == -10) {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 3));
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);
               this.lastday1 = bb;
             } else if (i == -11) {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 4));
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);
               this.lastday1 = bb;
             } else if (i == -12) {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 5));
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);
               this.lastday1 = bb;
             } else if (i == -13) {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() + 6));
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);
@@ -239,7 +185,7 @@ export class DayAndDateService {
             } else {
               this.lastday = new Date(cuur1.setDate(cuur1.getDate() - cuur1.getDay() - i));
               console.log('when i=' + i + ' then, date=' + this.lastday);
-              let bb: DaydateModel;
+              let bb: Date;
               // eslint-disable-next-line prefer-const
               bb = this.lastday;
               this.weekDays.push(bb);

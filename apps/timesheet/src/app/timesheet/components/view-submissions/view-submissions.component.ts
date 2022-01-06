@@ -66,6 +66,15 @@ export class ViewSubmissionsComponent implements OnInit {
         list.some((name) => item.ClientName.indexOf(name) !== -1),
     },
     {
+      name:"Hours",
+      sortOrder: null,
+      sortFn: null,
+      sortDirections: [null],
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: null,
+    },
+    {
       name: 'Status',
       sortOrder: null,
       sortFn: (a: TimesheetApproval, b: TimesheetApproval) =>
@@ -84,9 +93,8 @@ export class ViewSubmissionsComponent implements OnInit {
       filterMultiple: false,
       listOfFilter: [],
       filterFn: null,
-    },
+    }
   ];
-
   timeSheetHistory: any;
   total = 10;
   loading = true;
@@ -103,10 +111,11 @@ export class ViewSubmissionsComponent implements OnInit {
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
-    public state: TimesheetStateService
+    private state: TimesheetStateService
   ) {}
 
   ngOnInit(): void {
+    this.state.setApproval(true);
     this.timesheetSubmissionPaginatin(1, this.pageSize, null, []);
 
     this.timeSheetService
@@ -120,7 +129,7 @@ export class ViewSubmissionsComponent implements OnInit {
         this.totalPage = response.pagination.totalPage;
         this.listOfColumns[1].listOfFilter = response.projectFilter;
         this.listOfColumns[2].listOfFilter = response.clientFilters;
-        this.listOfColumns[3].listOfFilter = response.statusFilter;
+        this.listOfColumns[4].listOfFilter = response.statusFilter;
         this.loading = false;
       });
   }
@@ -212,7 +221,8 @@ export class ViewSubmissionsComponent implements OnInit {
     this.loading = false;
   }
   reviewsubmissions(date: Date) {
-    this.state.date = date;
+    date = new Date(date);
+    this.state.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
       this.state.getTimesheet(this.userId);

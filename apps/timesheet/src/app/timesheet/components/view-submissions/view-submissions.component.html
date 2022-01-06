@@ -32,13 +32,13 @@
   [nzData]="timeSheetHistory"
   (nzQueryParams)="onQueryParamsChange($event)">
     <thead >
-      <tr>
+      <tr  >
         <th nzColumnKey="DateRange"  [nzSortOrder]="listOfColumns[0].sortOrder" [nzSortFn]="listOfColumns[0].sortFn"
           [nzSortDirections]="listOfColumns[0].sortDirections">
           {{listOfColumns[0].name }}
         </th>
 
-        <th nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
+        <th  nzColumnKey="Project" [nzSortOrder]="listOfColumns[1].sortOrder" [nzSortFn]="listOfColumns[1].sortFn"
         [nzSortDirections]="listOfColumns[1].sortDirections" [nzFilterMultiple]="listOfColumns[1].filterMultiple"
         [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
         {{ listOfColumns[1].name }}
@@ -49,14 +49,19 @@
           [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
           {{ listOfColumns[2].name }}
         </th>
-        <th nzColumnKey="Status" [nzSortOrder]="listOfColumns[3].sortOrder" [nzSortFn]="listOfColumns[3].sortFn"
-        [nzSortDirections]="listOfColumns[3].sortDirections" [nzFilterMultiple]="listOfColumns[3].filterMultiple"
-        [nzFilters]="listOfColumns[3].listOfFilter" [nzFilterFn]="listOfColumns[3].filterFn">
-        {{ listOfColumns[3].name }}
-      </th>
         <th>
-          {{listOfColumns[4].name }}
+          {{listOfColumns[3].name }}
         </th>
+        <th  nzColumnKey="Status" [nzSortOrder]="listOfColumns[4].sortOrder" [nzSortFn]="listOfColumns[4].sortFn"
+        [nzSortDirections]="listOfColumns[4].sortDirections" [nzFilterMultiple]="listOfColumns[4].filterMultiple"
+        [nzFilters]="listOfColumns[4].listOfFilter" [nzFilterFn]="listOfColumns[4].filterFn">
+        {{ listOfColumns[4].name }}
+      </th>
+
+        <th>
+          {{listOfColumns[5].name }}
+        </th>
+     
       </tr>
     </thead>
     <tbody style="margin-bottom: 0px !important; padding-bottom: 0px; " >
@@ -64,6 +69,9 @@
         <td>{{data.FromDate | date:'MMM d' }} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
         <td>{{  data.ClientName}}</td>
+        <td>
+          {{ data.TotalHours}}
+        </td>
         <td>           
           <div *ngIf="data.Status==='Approved'" class="approved"> Approved </div>
           <div *ngIf="data.Status==='Requested'" class="submited"> Submitted</div>
@@ -73,6 +81,7 @@
           <ng-template [ngIf]="data.Comment==='' || data.Comment===null "> N/A </ng-template>
           {{ data.Comment}}
         </td>
+  
       </tr>
     </tbody>
   </nz-table>
