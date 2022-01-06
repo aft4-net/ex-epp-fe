@@ -22,6 +22,7 @@ export class TableComponent {
   isModalVisible=false;
   timesheetEntries:any;
   entryDate:any;
+  hours=0;
 
   total=10;
   pageIndex = 1;
@@ -141,13 +142,12 @@ export class TableComponent {
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
-    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
-    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const timesheetId=row.TimesheetId;
+    const projectId=row.projectId;
     const date =this.entryDate;
     this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
       (entries)=>{this.timesheetEntries=entries
       });
-
   }
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;
