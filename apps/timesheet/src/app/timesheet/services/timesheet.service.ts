@@ -425,11 +425,10 @@ export class TimesheetService {
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
-    return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
+    return this.http.put(this.baseUrl + "TimesheetProjectStatus", timesheetApproval, { "headers": headers });
   }
 
   updateTimeSheetStatus(arrayOfId: string[]) {
-    console.log("updateStatus"+arrayOfId);
 
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {

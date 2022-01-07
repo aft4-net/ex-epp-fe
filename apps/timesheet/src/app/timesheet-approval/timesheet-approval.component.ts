@@ -124,8 +124,6 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    console.log('direct');
     this.initialDataforTab();
   }
 
