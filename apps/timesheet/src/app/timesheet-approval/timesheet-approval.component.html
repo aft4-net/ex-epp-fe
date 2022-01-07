@@ -30,24 +30,18 @@
           Bulk Approval
 
         </button>
-
-        <br>
     </div>
 
-    <div nz-col nzSpan="8" class="ml-1" >
+    <div nz-col nzSpan="10" class="ml-1" style="margin-right: 12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  [(ngModel)]="searchKeyG" (ngModelChange)="SearchByResourceName()" type="text" nz-input placeholder="Search by employee name" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
       </ng-template>
-
     </div>
-  <br>
-  <br>
-  <div nz-col class="ml-1">
+  <div nz-col class="ml-1" nzSpan="8">
     <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
-
   </div>
 </div>
 <div class="tab" style="z-index: 9;">

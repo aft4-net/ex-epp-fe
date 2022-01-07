@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -37,10 +38,12 @@ export class TimesheetConfigurationComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private timesheetConfigStateService: TimesheetConfigurationStateService
+    private timesheetConfigStateService: TimesheetConfigurationStateService,
+    private timesheetStateService: TimesheetStateService
   ) { }
 
   ngOnInit(): void {
+    this.timesheetStateService.setApproval(true);
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
     this.timesheetConfig$.subscribe(tsc => {
@@ -74,7 +77,7 @@ export class TimesheetConfigurationComponent implements OnInit {
     ).subscribe(() => this.saveTimesheetConfiguration());
   }
 
-  saveTimesheetConfiguration() {debugger;
+  saveTimesheetConfiguration() {
     const configValues = this.timesheetConfigForm.value;
 
     let timesheetConfig: TimesheetConfiguration = {

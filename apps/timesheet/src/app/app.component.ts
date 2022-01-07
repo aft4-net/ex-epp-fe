@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   title = 'timesheet';
 
   constructor(private userService: UserService) {
-    let userId = "c0b74644-b81a-4c33-a6b0-672ba4bc8cb2";
+    let userId = "091cc829-bb39-45a3-b089-9001a8bc1917";
     localStorage.setItem("userId", userId);
 
     let supervisorId = "1b38f8be-e7dc-495f-ace3-c87f2332b063";
