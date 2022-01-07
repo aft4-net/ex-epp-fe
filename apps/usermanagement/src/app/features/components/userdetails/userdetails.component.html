@@ -1,1 +1,188 @@
-<p>userdetails works!</p>
+<nz-layout style="background: white;" >
+  <nz-content style="padding-right: 10%; padding-bottom: 3%;">
+<div>
+  <h2 class="font-bold azk">Account</h2>
+  
+  
+  <form [formGroup]="userdetail" nzSpan="24">
+    <div nz-row>
+      <div class="user-detail" style="margin-left: 3px;">
+        <div class="user-detail-upper">
+          <div class="user-detail-upper-inner">
+            <div nz-row>
+              <div nz-col class="gutter-row" nzSpan="24">
+                <div class="inner-box">
+                  <p style="margin: 0">{{userdetailInfo.FirstName + " " + userdetailInfo.MiddleName + " " +userdetailInfo.LastName}} </p>
+                </div>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col class="gutter-row" nzSpan="24">
+                <div class="inner-box">
+                  <p style="font-size: 14px">Developer III</p>
+                </div>
+              </div>
+            </div>
+             
+          </div>
+          <app-avatar
+            icon="user"
+            size="65"
+            style="
+              margin-top: -62px;
+              margin-left: 2px;
+              margin-bottom: 60px;
+              width: 80px;
+              height: 80px;
+              line-height: 80px;
+              font-size: 40px;
+            "
+            class="ant-avatar ant-avatar-circle ant-avatar-icon"
+          >
+          </app-avatar>
+        
+       
+
+          <br />
+        </div>
+      
+      <div class="user-detail-lower">
+        <div class="user-detail-lower-inner">
+          <div nz-row>
+            <div nz-col class="gutter-row" nzSpan="24">
+              <div class="inner-box">
+                <span>{{userdetailInfo.Email}}</span>
+              </div>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col class="gutter-row" nzSpan="24">
+              <div class="inner-box">
+                <span>{{userdetailInfo.Tel}}</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <nz-switch
+            [(ngModel)]="switchValue"
+            [nzControl]="true"
+            (click)="clickSwitch()"
+            [nzLoading]="loading"
+          ></nz-switch>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </form>
+</div>
+<br />
+<div class="m-5">
+  <h2 class="font-bold azk">Permission groups</h2>
+  <p class="azk">
+    Use groups to precisely manage a user's access & roles (e.g. give them
+    access to module/s or make them an admin).
+  </p>
+  <div nz-row nzJustify="end">
+    <div nz-col nzSpan="3">
+      <button
+        nz-button
+        nzType="primary"
+        (click)="onAddNewRecord()"
+        class="createGroupButton"
+      >
+        Add to group
+      </button>
+    </div>
+  </div>
+  <nz-modal
+    [(nzVisible)]="isModalVisible"
+    [nzTitle]="isUpdateMode ? 'Edit Look Up' : 'Add New'"
+    nzWidth="35%"
+    class="max-modal-width"
+    [nzFooter]="null"
+    (nzOnCancel)="handleCancel()"
+  >
+    <ng-container *nzModalContent>
+      <form [formGroup]="userGroup">
+        <div nz-row [nzGutter]="16">
+          <div nz-col nzSpan="24">
+            <app-select
+              [enableHidding]="true"
+              [selectedSoFar]="fetchedGroupName"
+              #groupMember
+              [displayError]="groupMember.focusout"
+              errorMsg="Please select a Group"
+              [list]="listOfGroups"
+              fcn="GroupIDArray"
+              [form]="userGroup"
+              placeholder="Select a group"
+              [multiple]="true"
+              [isRequired]="true"
+              label="Please select a Group"
+            ></app-select>
+          </div>
+        </div>
+
+        <div nz-row nzJustify="end">
+          <div nz-col class="col-pad" nzSpan="3">
+            <app-button
+              [disabled]="!userGroup.valid"
+              [loading]="loading"
+              (click)="onSaveRecord()"
+              type="primary"
+            >
+              {{ isUpdateMode ? 'Remove' : 'Add' }}
+            </app-button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </nz-modal>
+  <div *ngIf="!isModalVisible" class="azk" style="width: auto">
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-table
+          #table
+          [nzData]="listUserGroups"
+          [nzFrontPagination]="false"
+          style="overflow-y: auto; max-height: 20rem"
+        >
+          <thead>
+            <tr>
+              <th>Group</th>
+              <th>Added</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of table?.data">
+              <td>{{ getGroupName(data?.GroupSetGuid) }}</td>
+              <td>{{ data?.CreatedDate | date }}</td>
+
+              <td>
+                <a
+                  (click)="onDeleteRecord(data.Guid)"
+                  nzTooltipPlacement="bottom"
+                  nz-tooltip
+                  nzTooltipTitle="Delete"
+                  nzTooltipColor="red"
+                >
+                  <i
+                    nz-icon
+                    style="font-size: 16px; color: red"
+                    nzType="delete"
+                    nzTheme="outline"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</div>
+</nz-content>
+</nz-layout>
