@@ -1,6 +1,4 @@
-import {
-  TimesheetApproval,
-} from '../../../models/timesheetModels';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { Component, OnInit } from '@angular/core';
 import {
   NzTableFilterFn,
@@ -13,7 +11,6 @@ import {
 import { Router } from '@angular/router';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
-
 
 interface ColumnItem {
   name: string;
@@ -36,8 +33,7 @@ export class ViewSubmissionsComponent implements OnInit {
     {
       name: 'Date Range',
       sortOrder: null,
-      sortFn: (a: TimesheetApproval, b: TimesheetApproval) =>
-        a.ToDate.toDateString().localeCompare(b.ToDate.toDateString()),
+      sortFn: {} as NzTableSortFn<TimesheetApproval>,
       sortDirections: ['ascend', 'descend', null],
       filterMultiple: false,
       listOfFilter: [] as { text: string; value: string }[],
@@ -46,8 +42,7 @@ export class ViewSubmissionsComponent implements OnInit {
     {
       name: 'Project Name',
       sortOrder: null,
-      sortFn: (a: TimesheetApproval, b: TimesheetApproval) =>
-        a.ProjectName.localeCompare(b.ProjectName),
+      sortFn: {} as NzTableSortFn<TimesheetApproval>,
       sortDirections: ['ascend', 'descend', null],
       filterMultiple: true,
       listOfFilter: [] as { text: string; value: string }[],
@@ -57,8 +52,7 @@ export class ViewSubmissionsComponent implements OnInit {
     {
       name: 'Client Name',
       sortOrder: null,
-      sortFn: (a: TimesheetApproval, b: TimesheetApproval) =>
-        a.ClientName.localeCompare(b.ClientName),
+      sortFn: {} as NzTableSortFn<TimesheetApproval>,
       sortDirections: ['ascend', 'descend', null],
       filterMultiple: true,
       listOfFilter: [] as { text: string; value: string }[],
@@ -66,7 +60,7 @@ export class ViewSubmissionsComponent implements OnInit {
         list.some((name) => item.ClientName.indexOf(name) !== -1),
     },
     {
-      name:"Hours",
+      name: 'Hours',
       sortOrder: null,
       sortFn: null,
       sortDirections: [null],
@@ -77,8 +71,7 @@ export class ViewSubmissionsComponent implements OnInit {
     {
       name: 'Status',
       sortOrder: null,
-      sortFn: (a: TimesheetApproval, b: TimesheetApproval) =>
-        a.Status.toLocaleString().localeCompare(b.Status.toLocaleString()),
+      sortFn: {} as NzTableSortFn<TimesheetApproval>,
       sortDirections: ['ascend', 'descend', null],
       filterMultiple: true,
       listOfFilter: [] as { text: string; value: string }[],
@@ -93,7 +86,7 @@ export class ViewSubmissionsComponent implements OnInit {
       filterMultiple: false,
       listOfFilter: [],
       filterFn: null,
-    }
+    },
   ];
   timeSheetHistory: any;
   total = 10;
@@ -165,27 +158,18 @@ export class ViewSubmissionsComponent implements OnInit {
   }
 
   getWeek($event: Date) {
+    if (this.date) {
+      let index = -1;
+      for (let i = 0; i < this.params.filter.length; i++)
+        if (this.params.filter[i].key == 'DateWeek') index = i;
 
-    if (this.date)
-    {
-     let index=-1;
-     
-
-      for (let i = 0; i < this.params.filter.length; i++) 
-        if (this.params.filter[i].key == 'DateWeek') 
-           index=i;
-        
-           if(index!=-1)
-           this.params.filter[index].value=$event;
-           else
-           this.params.filter.push({key:'DateWeek',value:$event});
- }
-    else{
-      for (let i = 0; i < this.params.filter.length; i++) 
-      if (this.params.filter[i].key == 'DateWeek') 
-        this.params.filter[i].value =null;
+      if (index != -1) this.params.filter[index].value = $event;
+      else this.params.filter.push({ key: 'DateWeek', value: $event });
+    } else {
+      for (let i = 0; i < this.params.filter.length; i++)
+        if (this.params.filter[i].key == 'DateWeek')
+          this.params.filter[i].value = null;
     }
-
     const { pageSize, pageIndex, sort, filter } = this.params;
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
@@ -207,7 +191,6 @@ export class ViewSubmissionsComponent implements OnInit {
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
     this.timesheetSubmissionPaginatin(pageIndex, sortField, sortOrder, filter);
-
   }
 
   PageIndexChange(index: number): void {
@@ -222,11 +205,15 @@ export class ViewSubmissionsComponent implements OnInit {
   }
   reviewsubmissions(date: Date) {
     date = new Date(date);
-    this.state.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    this.state.date = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
       this.state.getTimesheet(this.userId);
       this.router.navigate(['/timesheet']);
     }
- }
+  }
 }
