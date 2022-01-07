@@ -17,17 +17,21 @@ export class TimesheetComponent implements OnInit {
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   timesheetApprovals$: Observable<TimesheetApproval[] | null> = new Observable();
 
+  approval$: Observable<boolean> = new Observable();
+
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
   ) {}
 
   ngOnInit(): void {
-    this.userId = localStorage.getItem("employeeId");
+    this.userId = localStorage.getItem("userId");
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
+
+    this.approval$  = this.timesheetStateService.approval$;
 
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
   }

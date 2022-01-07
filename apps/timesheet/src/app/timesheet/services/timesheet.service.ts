@@ -8,6 +8,7 @@ import {
   TimesheetApprovalResponse,
   TimesheetBulkApproval,
   TimesheetConfigResponse,
+  TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
@@ -26,10 +27,14 @@ import { environment } from 'apps/timesheet/src/environments/environment';
   providedIn: 'root',
 })
 export class TimesheetService {
+  success=''
+  error=''
+
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
-
+  statusChanged=false;
+  timesheetApprove!:TimesheetApproval;
   constructor(
     private notification: NzNotificationService,
     private http: HttpClient,
@@ -44,11 +49,12 @@ export class TimesheetService {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
     } else {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
+
 
     let params = new HttpParams();
 
@@ -99,7 +105,7 @@ export class TimesheetService {
     }
 
     let response = this.http.get<TimeEntriesResponse>(
-      this.baseUrl + 'timeentries',
+      this.baseUrl + 'TimeEntries',
       { observe: 'response', params: params }
     );
 
@@ -139,16 +145,6 @@ export class TimesheetService {
     return this.http.put<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
       timeEntry,
-      { headers: headers }
-    );
-  }
-
-  updateTimesheetProjectApproval(approval: TimesheetApproval) {
-    const headers = { 'content-type': 'application/json' };
-
-    return this.http.put<TimesheetApprovalResponse>(
-      this.baseUrl + 'TimesheetProjectStatus',
-      approval,
       { headers: headers }
     );
   }
@@ -204,6 +200,12 @@ export class TimesheetService {
     );
 
     return response.pipe(map((r) => r.Data));
+  }
+
+  addTimeSheetConfiguration(timesheetConfig: TimesheetConfiguration) {
+    const headers = { 'content-type': 'application/json' }
+
+    return this.http.post<TimesheetConfigResponse>(this.baseUrl + 'TimeSheetConfig', timesheetConfig, {headers: headers});
   }
 
   //#endregion
@@ -286,7 +288,6 @@ export class TimesheetService {
       .append('SortField', `${sortField}`)
       .append('SortOrder', `${sortOrder}`)
       .append('EmployeeGuId', `${localStorage.getItem('userId')}`);
-      console.log(filters)
     if (filters)
       for (let i = 0; i < filters.length; i++) {
         if (filters[i].key == 'Project' && filters[i].value)
@@ -421,24 +422,15 @@ export class TimesheetService {
     );
   }
 
-  // updateTimeSheetStatus(arrayOfId: number[]) {
-  //   return this.http.put(
-  //     this.baseUrl + 'TimesheetApprovalBulkApprove',
-  //     arrayOfId
-  //   );
-  // }
-
-
-
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
     return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
   }
 
-
   updateTimeSheetStatus(arrayOfId: string[]) {
     console.log("updateStatus"+arrayOfId);
+
     return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
@@ -448,5 +440,29 @@ export class TimesheetService {
       }
     });
   }
+
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers }).subscribe((response:any)=>{
+        if (response.ResponseStatus.toString() == 'Success') {
+          this.notification.success(this.success,"",
+          { nzPlacement: 'bottomRight' }
+
+          );
+          this.statusChanged=true;
+          this.timesheetApprove=approval;
+        }
+        else{
+
+          this.notification.error(this.error,"",
+          { nzPlacement: 'bottomRight' }
+          );
+          this.statusChanged=false;
+
+        }
+      });
+    }
 
 }

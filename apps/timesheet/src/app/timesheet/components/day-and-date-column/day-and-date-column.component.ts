@@ -73,8 +73,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
 
     let today = new Date();
-
-    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1)) || this.startingDateCriteria.isBeforeThreeWeeks) {
+    if (this.date > new Date(today.getFullYear(), today.getMonth(), today.getDate()) || this.startingDateCriteria.isBeforeThreeWeeks) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
       this.disabled = true;
     }
