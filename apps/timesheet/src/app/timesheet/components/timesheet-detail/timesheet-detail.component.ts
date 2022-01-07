@@ -64,6 +64,7 @@ export class TimesheetDetailComponent implements OnInit {
   timeEntries: TimeEntry[] | null = null;
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   timesheetApprovals: TimesheetApproval[] | null = [];
+  timesheetApproval: TimesheetApproval | null = null;
   timesheetReview: TimeEntry[] | null = [];
   timesheetApprovals$: Observable<TimesheetApproval[] | null> =
     new Observable();
@@ -638,6 +639,8 @@ export class TimesheetDetailComponent implements OnInit {
         this.disableToDate = true;
         this.disableClient = true;
         this.disableProject = true;
+        
+        this.timesheetApproval = this.timesheetApprovals?.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId)[0] ?? null;
       }
 
       this.initializeClient();
