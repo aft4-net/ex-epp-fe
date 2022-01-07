@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './timesheet/services/user.service';
-    
+
 @Component({
   selector: 'exec-epp-root',
   templateUrl: './app.component.html',
@@ -18,6 +18,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 }
