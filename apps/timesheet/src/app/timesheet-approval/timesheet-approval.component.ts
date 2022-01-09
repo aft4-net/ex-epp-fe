@@ -114,6 +114,7 @@ export class TimesheetApprovalComponent implements OnInit {
     TimesheetApprovalResponse!: TimesheetApproval[];
     totalResponse!: number;
     totalPageResponse!: number;
+    onwaiting=1;
   // end of generic variables
 
   constructor(
@@ -126,6 +127,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialDataforTab();
+
   }
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
@@ -340,7 +342,18 @@ sortDirectionMethod() {
   handleCancel(): void {
     this.isVisible = false;
   }
-  
+  statusChanged(row:any)
+  {
+   // alert("grand parent");
+   if(this.tabselected===1)
+   {
+    this.onAwaitingTabClick();
+   }
+   else    if(this.tabselected===0)
+    {
+      this.onAllTabClick();
+    }
+  }
   onApprove(){
 
     for (const element of this.setOfCheckedId) {
@@ -355,13 +368,13 @@ sortDirectionMethod() {
     this.arrayOfCheckedId.length=0;
     console.log("This"+this.timeSheetApprovalAwaiting);
     this.onAwaitingTabClick();
-    
+
 
   }
   Approve(){
     this.onApprove();
     this.onAwaitingTabClick();
-    
+
   }
   SearchByResourceName()
   {
@@ -390,7 +403,7 @@ sortDirectionMethod() {
         this.projectNameG,
 
         this.clientNameG,this.weekG,this.sortG,this.statusG);
-     
+
     }
     else if(this.tabselected==1)
     {

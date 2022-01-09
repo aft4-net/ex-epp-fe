@@ -49,9 +49,13 @@
 
   <div class="mb-4">
     <nz-tabset [nzAnimated]='false' nzRight [(nzSelectedIndex)]="tabselected" (nzSelectedIndexChange)="onTabSelected($event)">
-      <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()">
+      <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
+      >
         <div nzRight class="content">
-          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"
+          (isApprovedReturned)="statusChanged($event)"
+
+          ></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
@@ -63,7 +67,9 @@
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
         <exec-epp-table [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
-        (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
+        (itemsSelected)="onItemCheckStatusChange($event)"
+        (isApprovedReturned)="statusChanged($event)"
+         ></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
