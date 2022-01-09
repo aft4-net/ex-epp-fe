@@ -1,24 +1,21 @@
-<nz-layout >
+<nz-layout  *ngIf="isLogin">
     <nz-content>
-      <nz-divider nzType="horizontal"></nz-divider>
-      <div style="margin-top: -40px;" class="inner-content">
-        <div nz-row>       
-            <div nz-col nzSpan="14" >
-              <h2 class="PageHeader">
-                Users
-              </h2>
-            </div>
-            <div nz-col nzSpan="2"  nzOffset="8">
-              <button nz-button nzType="primary" class="adduser">
-                Add User
+      
+      <div style="margin-top: -20px;" class="inner-content">
+        <div nz-row>  
+          <div nz-col nzSpan="12"><h2 class="PageHeader">
+            Users
+          </h2></div>
+          <div nz-col nzSpan="12" style="text-align: right;">
+            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" (click)="onAddUser()">
+              Add User
             </button>
-            </div>
+          </div>  
         </div>
-        
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
             <nz-input-group [nzPrefix]="suffixIconButton">
-              <input type="text" #searchInput formControlName="userName" nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
+              <input type="text" #userNameInput formControlName="userName" nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchUsersByUserName()">
@@ -28,32 +25,46 @@
           </div>
         </div>
         <div  nz-row nzJustify="end" *ngIf="userList.length > 0">
-          <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+          <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
           <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
             nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
         </div>
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24">
-              <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
-                <thead>
-                  <tr>
-                    <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
-                      [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                      [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-  
-                    <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
-                      [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                      [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                      [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                    <th class="table_heading">Actions</th>
-                  </tr>
-                </thead>
+                <div *ngIf="userList.length > 0; else normalHeader">
+                  <thead>
+                    <tr>
+                      <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+                        [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                        [nzSortDirections]="column.sortDirections">{{column.name}}</th>
+    
+                      <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                        [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                        [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                        [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+                      <th class="table_heading">Actions</th>
+                    </tr>
+                  </thead>
+                </div>
+                <ng-template #normalHeader>
+                  <thead>
+                    <tr>
+                      <th class="table_heading">Name</th>
+                      <th class="table_heading">Last Activity Date</th>
+                      <th class="table_heading">Department</th>
+                      <th class="table_heading">Role</th>
+                      <th class="table_heading">Status</th>
+                      <th class="table_heading">Actions</th>
+                    </tr>
+                  </thead>
+                </ng-template>
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName }} </td>
-                    <td>{{user.LastActivityDate | date:'MMM d, y' }}</td>
+                    <td>{{user.LastActivityDate | date:'MMM dd, yyyy' }}</td>
                     <td>{{user.Department }}</td>
                     <td>{{user.JobTitle }}</td>
                     <td>
@@ -70,13 +81,13 @@
                     <ng-template #contentTemplate>
                       <div>
                         <nz-space nzDirection="vertical">
-                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link"  nz-button nzType="default" (click)="ShowDetail(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)">
                           Show Detail
                         </button>
-                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link"  nz-button nzType="default" (click)="AddToGroup(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId)">
                             Add to group
                         </button>
-                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nzType="link" nz-button nzType="default" (click)="Remove(user.UserId)">
+                        <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="Remove(user.UserId)">
                          Remove
                         </button>
                         </nz-space>
@@ -88,6 +99,93 @@
           </div>
         </div>
       </div>
+
+
+      <nz-modal 
+      [nzWidth]="'450px'" 
+      [(nzVisible)]="isUserModalVisible"
+       [nzFooter]="null" 
+       nzTitle="Add user" 
+      (nzOnCancel)="isUserModalVisible=false"
+        >
+    <ng-container *nzModalContent>
+   
+
+ <form  [formGroup]="userfrm" (ngSubmit)="onSaveUser()" #form>
+    <div nz-row>
+        <div nz-col nzSpan="24" class="forDes">
+            <div class="label">Employee
+            </div>
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24" >
+      <nz-select
+      [(ngModel)]="selectedUserValue"
+      nzShowSearch
+      [nzShowArrow]="true"
+      name = "UserName"
+      formControlName="UserName"
+      placeholder="Select employee"
+    >
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.JobTitle  !== 'undefined' && employee.EmployeeOrganization?.JobTitle != null ? '- '+ employee.EmployeeOrganization.JobTitle: '')"></nz-option>
+    </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div><br>
+</form>
+<div class="right-footer">
+    <button nz-button nzType="default"  class="default modal-footer-btn l-btn" (click)="handleCancel()" [disabled]="userfrm.invalid">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()">Add</button>
+</div>
+
+</ng-container>
+  </nz-modal>
+
+<nz-modal 
+[nzWidth]="'450px'"
+[(nzVisible)]="isGroupModalVisible"
+[nzTitle]="modalTitle"
+[nzContent]="modalContent"
+[nzFooter]="null"
+(nzOnCancel)="isGroupModalVisible=false"
+>
+<ng-template #modalTitle class="backChange"><h4>Add Groups</h4></ng-template>
+
+<ng-template #modalContent>
+ 
+  <form  [formGroup]="groupfrm" (ngSubmit)="onSaveGroups()" #form>
+    <div nz-row>
+        <div nz-col nzSpan="24" class="forDes">
+            <div class="label">Groups
+            </div>
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24" >
+              <nz-select
+      nzShowSearch
+      [nzShowArrow]="true"
+      name = "group"
+      nzMode = "tags"
+      formControlName="Groups"
+      placeholder="Search groups"
+    >
+     <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
+    </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div><br>
+</form>
+<div class="right-footer">
+    <button nz-button nzType="default"  class="default modal-footer-btn l-btn" (click)="handleGroupCancel()" 
+    [disabled]="groupfrm.invalid"
+    style="margin-right:15px">Clear</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()">Add</button>
+</div>
+</ng-template>
+</nz-modal>
+
+
     </nz-content>
   </nz-layout>
   
+    
