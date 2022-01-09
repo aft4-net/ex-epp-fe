@@ -102,13 +102,16 @@ export class TimesheetApprovalComponent implements OnInit {
     pageSizeG = 10;
     pageIndexG = 1;
     statusG = '';
-    searchKeyG :string | null = null;
+    // searchKeyG :string | null = null;
     sortByG = '';
     projectNameG = '';
     clientNameG = '';
-    weekG = '';
+    // weekG = '';
     sortG = 'Ascending';
-
+    searchKeyGBinded :string | null = null;
+    searchKeyG = '';
+    weekGBinded: Date | null = null;
+    weekG = '';
     // response
     TimesheetApprovalResponse!: TimesheetApproval[];
     totalResponse!: number;
@@ -121,8 +124,8 @@ export class TimesheetApprovalComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-
-
+  
+  
   ngOnInit(): void {
    
     console.log('direct');
@@ -313,18 +316,27 @@ emitArray(evt:Set<string>){
     
     
   }
-  SearchByResourceName()
-  {
-    if(!this.searchKeyG){
 
-    //  return
-
-    }else if(this.searchKeyG.length<2)
-    {
-      return
+  onSearchChange() {
+    if(this.searchKeyGBinded) {
+      if(this.searchKeyGBinded.length < 2) {
+        this.searchKeyG = '';
+      } else {
+        this.searchKeyG = this.searchKeyGBinded
+      }
+    } else {
+      this.searchKeyG = '';
     }
-
-
+    this.UpdateData();
+  }
+  onWeekChange() {
+    this.weekG = this.weekGBinded?this.weekGBinded.toISOString():'';
+    this.UpdateData();
+  }
+  
+  UpdateData()
+  {
+    
     if(this.tabselected==0)
     {
       console.log("jijisjssss");
