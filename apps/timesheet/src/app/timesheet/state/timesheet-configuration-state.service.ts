@@ -7,26 +7,24 @@ import { TimesheetService } from '../services/timesheet.service';
   providedIn: 'root'
 })
 export class TimesheetConfigurationStateService {
-  private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>({
+  readonly defaultTimesheetConfig: TimesheetConfiguration = {
     StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: [],
     WorkingHours: {Min: 0, Max: 24}
-  });
+  };
+
+  private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>(this.defaultTimesheetConfig);
   timesheetConfiguration$ = this.timesheetConfigurationSource.asObservable();
 
   constructor(private timesheetService: TimesheetService) { }
 
   getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      var timesheetConfig : TimesheetConfiguration = response ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [],
-        WorkingHours: {Min: 0, Max: 0}
-      }
+      var timesheetConfig : TimesheetConfiguration = response ?? this.defaultTimesheetConfig;
 
-      timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}];
-      timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? [];
-      timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? { Min: 0, Max: 24};
+      timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? this.defaultTimesheetConfig.StartOfWeeks;
+      timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? this.defaultTimesheetConfig.WorkingDays;
+      timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? this.defaultTimesheetConfig.WorkingHours;
 
       this.timesheetConfigurationSource.next(timesheetConfig);
     });

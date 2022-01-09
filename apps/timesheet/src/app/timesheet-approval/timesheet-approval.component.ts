@@ -10,6 +10,7 @@ import { TimesheetApproval } from '../models/timesheetModels';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { delay } from 'rxjs/operators';
 
+
 interface ItemData {
   id: number,
   name: string;
@@ -125,8 +126,6 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    console.log('direct');
     this.initialDataforTab();
 
   }
@@ -272,10 +271,10 @@ test() {
   onTabSelected(tab: any) {
     console.log(tab);
     if (tab === 1) {
-      // this.currentNameSubject$.next(true);
+      this.currentNameSubject$.next(true);
     }
     else {
-      // this.currentNameSubject$.next(false);
+      this.currentNameSubject$.next(false);
     }
   }
 onItemCheckStatusChange(event: number){
@@ -367,9 +366,14 @@ sortDirectionMethod() {
     console.log("Approved"+this.arrayOfCheckedId);
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
-    //delay(3000);
     console.log("This"+this.timeSheetApprovalAwaiting);
+    this.onAwaitingTabClick();
 
+
+  }
+  Approve(){
+    this.onApprove();
+    this.onAwaitingTabClick();
 
   }
   SearchByResourceName()
@@ -399,7 +403,7 @@ sortDirectionMethod() {
         this.projectNameG,
 
         this.clientNameG,this.weekG,this.sortG,this.statusG);
-      // this.timesheetApprovalPaginationAll(1,10,'',this.searchKeyG?this.searchKeyG:'');
+
     }
     else if(this.tabselected==1)
     {
@@ -416,7 +420,6 @@ sortDirectionMethod() {
         this.projectNameG,
 
         this.clientNameG,this.weekG,this.sortG,this.statusG);
-      // this.timesheetSubmissionPaginationAwaiting(1,10,'Requested',this.searchKeyG?this.searchKeyG:'');
 
     }
     else if(this.tabselected==2)
@@ -433,7 +436,6 @@ sortDirectionMethod() {
         this.projectNameG,
 
         this.clientNameG,this.weekG,this.sortG,this.statusG);
-      // this.timesheetSubmissionPaginationApproved(1,10,'Approved',this.searchKeyG?this.searchKeyG:'');
 
     }
     else if(this.tabselected==3)
@@ -450,7 +452,6 @@ sortDirectionMethod() {
         this.projectNameG,
 
         this.clientNameG,this.weekG,this.sortG,this.statusG);
-      // this.timesheetSubmissionPaginationReview(1,10,'Rejected',this.searchKeyG?this.searchKeyG:'');
 
     }
 

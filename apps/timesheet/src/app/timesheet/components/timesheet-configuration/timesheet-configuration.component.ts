@@ -13,12 +13,8 @@ import { TimesheetStateService } from '../../state/timesheet-state.service';
   styleUrls: ['./timesheet-configuration.component.scss']
 })
 export class TimesheetConfigurationComponent implements OnInit {
-  timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
-  timesheetConfig: TimesheetConfiguration = {
-    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [], 
-    WorkingHours: {Min: 0, Max: 24}
-  };
+  timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();;
+  timesheetConfig: TimesheetConfiguration = this.timesheetConfigStateService.defaultTimesheetConfig;;
   timesheetConfigForm = new FormGroup({
     startOfWeek: new FormControl('Monday'),
     workingDays: new FormGroup({
@@ -40,18 +36,16 @@ export class TimesheetConfigurationComponent implements OnInit {
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService
-  ) { }
+  ) { 
+    this.timesheetStateService.setTimesheetPageTitle("Configuration");
+  }
 
   ngOnInit(): void {
     this.timesheetStateService.setApproval(true);
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
     this.timesheetConfig$.subscribe(tsc => {
-      this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [], 
-        WorkingHours: {Min: 0, Max: 24}
-      };
+      this.timesheetConfig = tsc ?? this.timesheetConfigStateService.defaultTimesheetConfig;
 
       this.timesheetConfigForm.setValue({
         startOfWeek: this.timesheetConfig.StartOfWeeks[0].DayOfWeek,
@@ -70,11 +64,6 @@ export class TimesheetConfigurationComponent implements OnInit {
         }
       });
     });
-
-    this.timesheetConfigForm.valueChanges.pipe(
-      debounceTime(3000),
-      distinctUntilChanged((prev, next) => JSON.stringify(prev) === JSON.stringify(next))
-    ).subscribe(() => this.saveTimesheetConfiguration());
   }
 
   saveTimesheetConfiguration() {
