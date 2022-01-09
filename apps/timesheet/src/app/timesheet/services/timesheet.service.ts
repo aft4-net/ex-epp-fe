@@ -13,7 +13,7 @@ import {
 } from '../../models/timesheetModels';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
-import { filter, map } from 'rxjs/operators';
+import { delay, filter, map } from 'rxjs/operators';
 
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
@@ -445,24 +445,7 @@ export class TimesheetService {
     const headers = { 'content-type': 'application/json' };
 
     return this.http.put<TimesheetApprovalResponse>(
-      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers }).subscribe((response:any)=>{
-        if (response.ResponseStatus.toString() == 'Success') {
-          this.notification.success(this.success,"",
-          { nzPlacement: 'bottomRight' }
-
-          );
-          this.statusChanged=true;
-          this.timesheetApprove=approval;
-        }
-        else{
-
-          this.notification.error(this.error,"",
-          { nzPlacement: 'bottomRight' }
-          );
-          this.statusChanged=false;
-
-        }
-      });
+      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers });
     }
 
 }

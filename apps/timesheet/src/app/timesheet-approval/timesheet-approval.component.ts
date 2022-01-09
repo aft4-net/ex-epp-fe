@@ -113,6 +113,7 @@ export class TimesheetApprovalComponent implements OnInit {
     TimesheetApprovalResponse!: TimesheetApproval[];
     totalResponse!: number;
     totalPageResponse!: number;
+    onwaiting=1;
   // end of generic variables
 
   constructor(
@@ -127,6 +128,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
     console.log('direct');
     this.initialDataforTab();
+
   }
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
@@ -341,6 +343,18 @@ sortDirectionMethod() {
   handleCancel(): void {
     this.isVisible = false;
   }
+  statusChanged(row:any)
+  {
+   // alert("grand parent");
+   if(this.tabselected===1)
+   {
+    this.onAwaitingTabClick();
+   }
+   else    if(this.tabselected===0)
+    {
+      this.onAllTabClick();
+    }
+  }
   onApprove(){
 
     for (const element of this.setOfCheckedId) {
@@ -355,7 +369,6 @@ sortDirectionMethod() {
     this.arrayOfCheckedId.length=0;
     //delay(3000);
     console.log("This"+this.timeSheetApprovalAwaiting);
-
 
 
   }
