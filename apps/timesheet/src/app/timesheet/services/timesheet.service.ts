@@ -386,20 +386,20 @@ export class TimesheetService {
       .append('PageSize', `${pageSize}`);
       if(searchKey){
 
-      params.append('searchKey', `${searchKey}`)
+     params= params.append('searchKey', `${searchKey}`);
       }
       if(SortBy){
 
-        params = params.append('SortBy', `${SortBy}`)
+        params = params.append('SortBy', `${SortBy}`);
         }
 if(Week){
-  params =params.append('Week',`${Week}`)
+  params =params.append('Week',`${Week}`);
 }
 if(sort){
-params =params.append('sort',`${sort}`)
+params =params.append('sort',`${sort}`);
 }
 if(status){
-params =params.append('status', `${status}` )
+params =params.append('status', `${status}` );
   }
       ProjectName?.forEach(filter => {
 

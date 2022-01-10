@@ -185,7 +185,7 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -203,7 +203,7 @@ initialDataforTab() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -221,7 +221,7 @@ initialDataforTab() {
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -240,7 +240,7 @@ initialDataforTab() {
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -259,7 +259,7 @@ initialDataforTab() {
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -278,7 +278,7 @@ initialDataforTab() {
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -368,7 +368,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -390,7 +390,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -411,7 +411,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -460,18 +460,20 @@ sortDirectionMethod() {
     console.log("This"+this.timeSheetApprovalAwaiting);
   }
 
-  onSearchChange() {
-    if(this.searchKeyGBinded) {
-      if(this.searchKeyGBinded.length < 2) {
-        this.searchKeyG = '';
+
+    onSearchChange() {
+      if(this.searchKeyGBinded) {
+        if(this.searchKeyGBinded.length < 2) {
+          this.searchKeyG = '';
+        } else {
+          this.searchKeyG = this.searchKeyGBinded
+        }
       } else {
-        this.searchKeyG = this.searchKeyGBinded
+        this.searchKeyG = '';
       }
-    } else {
-      this.searchKeyG = '';
+      this.UpdateData();
     }
-    this.UpdateData();
-  }
+
   onWeekChange() {
     this.weekG = this.weekGBinded?this.weekGBinded.toISOString():'';
     this.UpdateData();
@@ -488,7 +490,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -506,7 +508,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -524,7 +526,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -542,7 +544,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
