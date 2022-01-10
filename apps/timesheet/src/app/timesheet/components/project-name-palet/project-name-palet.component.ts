@@ -29,7 +29,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   clickEventType = ClickEventType.none;
   popoverVisible = false;
   startingDateCriteria = startingDateCriteria
-  isApproved=false;
+  isApproved = false;
   isRejected = false;
  
   constructor(private timesheetService: TimesheetService,
@@ -46,7 +46,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     if (this.timeEntry) {
       this.project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string)
     }
-    if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
+    if (this.timesheetApproval && this.timesheetApproval.Status === Object.values(ApprovalStatus)[1].valueOf()) {
       this.projectNamePaletClass = "project-name-palet-approved";
     } else {
       this.projectNamePaletClass = "project-name-palet";
@@ -56,9 +56,13 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
         this.isRejected=true;
         this.isApproved=false;
       }
-      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
+      else if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
         this.isRejected=false;
         this.isApproved=true;
+      }
+      else {
+        this.isRejected = false;
+        this.isApproved = false;
       }
     }
   }
@@ -73,7 +77,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
     this.paletEllipsisClicked.emit(timeEntryEvent);
-    this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
+    this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status !== Object.values(ApprovalStatus)[1].valueOf() : true;
   }
 
   onProjectNamePaletClicked() {
@@ -82,19 +86,18 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.clickEventType = ClickEventType.showFormDrawer;
-    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
+    if(this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+      this.clickEventType = ClickEventType.none;
+      return;
+    }
 
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
-    }
-    /*
-    if (!this.checkTimeOverThreeWeeks()) {
-      this.clickEventType = ClickEventType.none;
-      return;
-    }
-    //*/
+    }    
+
+    this.clickEventType = ClickEventType.showFormDrawer;
+    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     this.projectNamePaletClicked.emit(timeEntryEvent);
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.

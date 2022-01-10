@@ -15,6 +15,7 @@ import { LocationPhoneService } from '../../../Services/address/location-phone.s
 import { Nationality } from '../../../Models/Nationality';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 
 @Component({
@@ -76,7 +77,7 @@ isEdit = false
     private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
 
      this.isEdit = this._form.IsEdit
-     
+
       this.employeeService.isdefault=false
     }
 

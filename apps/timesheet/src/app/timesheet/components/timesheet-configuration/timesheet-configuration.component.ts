@@ -4,7 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { ThrowStmt } from '@angular/compiler';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -12,12 +13,8 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./timesheet-configuration.component.scss']
 })
 export class TimesheetConfigurationComponent implements OnInit {
-  timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
-  timesheetConfig: TimesheetConfiguration = {
-    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [], 
-    WorkingHours: {Min: 0, Max: 24}
-  };
+  timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();;
+  timesheetConfig: TimesheetConfiguration = this.timesheetConfigStateService.defaultTimesheetConfig;;
   timesheetConfigForm = new FormGroup({
     startOfWeek: new FormControl('Monday'),
     workingDays: new FormGroup({
@@ -37,18 +34,18 @@ export class TimesheetConfigurationComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private timesheetConfigStateService: TimesheetConfigurationStateService
-  ) { }
+    private timesheetConfigStateService: TimesheetConfigurationStateService,
+    private timesheetStateService: TimesheetStateService
+  ) { 
+    this.timesheetStateService.setTimesheetPageTitle("Configuration");
+  }
 
   ngOnInit(): void {
+    this.timesheetStateService.setApproval(true);
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
     this.timesheetConfig$.subscribe(tsc => {
-      this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [], 
-        WorkingHours: {Min: 0, Max: 24}
-      };
+      this.timesheetConfig = tsc ?? this.timesheetConfigStateService.defaultTimesheetConfig;
 
       this.timesheetConfigForm.setValue({
         startOfWeek: this.timesheetConfig.StartOfWeeks[0].DayOfWeek,
@@ -69,7 +66,7 @@ export class TimesheetConfigurationComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  saveTimesheetConfiguration() {
     const configValues = this.timesheetConfigForm.value;
 
     let timesheetConfig: TimesheetConfiguration = {
