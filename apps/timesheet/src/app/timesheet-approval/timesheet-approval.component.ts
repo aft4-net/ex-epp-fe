@@ -214,9 +214,9 @@ initialDataforTab() {
 }
 
   onAllTabClick() {
+    this.stateReset();
     this.statusG = '';
-    this.sortByG ='DateRange';
-    this.sortG = 'Descending';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
@@ -233,9 +233,9 @@ initialDataforTab() {
   }
 
   onAwaitingTabClick() {
+    this.stateReset();
     this.statusG = 'Requested';
-    this.sortByG ='';
-    this.sortG = '';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
@@ -249,12 +249,13 @@ initialDataforTab() {
 
      this.clientNameG);
 
+
   }
 
   onApprovedTabClick() {
+    this.stateReset();
     this.statusG = 'Approved';
-    this.sortByG ='DateRange';
-    this.sortG = 'Descending';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
@@ -271,9 +272,9 @@ initialDataforTab() {
   }
 
   onReviewTabClick() {
+    this.stateReset();
     this.statusG = 'Rejected';
-    this.sortByG ='DateRange';
-    this.sortG = 'Descending';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
@@ -430,6 +431,26 @@ sortDirectionMethod() {
     }, 3000);
   }
 
+  stateReset():void
+  {
+
+    this.sortByG = '';
+
+    this.pageIndexG=1;
+
+      this.pageSizeG=7;
+
+      this.searchKeyG='';
+
+      this.sortByG='';
+
+     this.weekG='';
+     this.sortG=''
+
+     this.projectNameG=[] ;
+
+     this.clientNameG=[];
+  }
   handleCancel(): void {
     this.isVisible = false;
   }
