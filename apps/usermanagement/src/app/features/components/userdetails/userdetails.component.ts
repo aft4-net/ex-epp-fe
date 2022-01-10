@@ -31,6 +31,7 @@ export class UserdetailsComponent implements OnInit {
   isUpdateMode = false;
   switchValue = false;
   loading = false;
+  nzSwitch=true;
   isLogin=false;
   public userDetals: [UserDetail] | [] = [];
   isRecordUpdated = false;

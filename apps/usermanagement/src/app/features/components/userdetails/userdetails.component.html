@@ -64,12 +64,12 @@
             </div>
           </div>
           <div>
-            <nz-switch
-            [(ngModel)]="switchValue"
-            [nzControl]="true"
-            (click)="clickSwitch()"
-            [nzLoading]="loading"
-          ></nz-switch>
+           
+            <nz-switch [ngModelOptions]="{standalone: true}" [ngModel]="userdetailInfo.Status==='Active'? true:false"></nz-switch>
+            
+          
+            
+            
           </div>
         </div>
       </div>
