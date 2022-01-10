@@ -1,3 +1,5 @@
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
@@ -119,7 +121,8 @@ export class TimesheetApprovalComponent implements OnInit {
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
-    private http: HttpClient
+    private http: HttpClient,
+    private notification:NzNotificationService
   ) { }
 
 
@@ -259,7 +262,15 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
-    this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
+    this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
+      if (response.ResponseStatus.toString() == 'Success') {
+        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
+        this.onAwaitingTabClick();
+      }
+      else{
+        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
+      }
+    });
     console.log("service"+arrayOfIds);
   }
 
@@ -356,15 +367,9 @@ sortDirectionMethod() {
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
     console.log("This"+this.timeSheetApprovalAwaiting);
-    this.onAwaitingTabClick();
-    
-
-  }
-  Approve(){
-    this.onApprove();
-    this.onAwaitingTabClick();
     
   }
+  
   SearchByResourceName()
   {
     if(!this.searchKeyG){

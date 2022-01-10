@@ -21,7 +21,7 @@
 
     <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
         <button class="approveButton" nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0" (click)="Approve()" (click)="onAwaitingTabClick()"   [routerLink]="'/timesheet-approval'"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"   
         [ngClass]="{
           'is-blue': qtyofItemsSelected <= 0,
           'is-yellow': qtyofItemsSelected > 0
