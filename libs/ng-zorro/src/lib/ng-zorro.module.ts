@@ -84,7 +84,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
      NzLayoutModule,
     // NzListModule,
     // NzMentionModule,
-    // NzMenuModule,
+    NzMenuModule,
     // NzMessageModule,
     NzModalModule,
     NzNoAnimationModule,
