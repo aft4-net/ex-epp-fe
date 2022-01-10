@@ -18,73 +18,77 @@
 </div>
 
 <div nz-row class="controllers">
+    <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
+        <button class="approveButton" nz-button nzType="default"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
+        [ngClass]="{
+          'is-blue': qtyofItemsSelected <= 0,
+          'is-yellow': qtyofItemsSelected > 0
 
-    <div *ngIf="currentNameSubject$ | async" nz-col>
-        <button nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()" 
-        >Bulk Approval</button>
+        }">
+          Bulk Approval
 
-        <br>
+        </button>
     </div>
 
-    <div nz-col nzSpan="6" class="ml-1">
+    <div nz-col nzSpan="10" class="ml-1" style="margin-right:12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
-        <input  type="text" nz-input placeholder="Search" />
+        <input  [(ngModel)]="searchKeyGBinded" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search by employee name" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
       </ng-template>
-
     </div>
-
+  <br>
   <br>
   <div nz-col class="ml-1">
-    <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
-
+    <nz-date-picker [(ngModel)]="weekGBinded" (ngModelChange)="onWeekChange()"></nz-date-picker>
   </div>
 </div>
-<div class="tab">
+<div class="tab" style="z-index: 9;">
 
 
   <div class="mb-4">
-    <nz-tabset nzRight [nzSelectedIndex]=1 (nzSelectedIndexChange)="onTabSelected($event)">
-      <nz-tab nzRight nzTitle="All" (nzClick)="timesheetApprovalPaginationAll(1,10,'')">,
+    <nz-tabset [nzAnimated]='false' nzRight [(nzSelectedIndex)]="tabselected" (nzSelectedIndexChange)="onTabSelected($event)">
+      <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
+      >
         <div nzRight class="content">
-          <exec-epp-table [status]= true [rowData]="timeSheetApprovalAll" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table (isApprovedReturned)="statusChanged($event)"  [status]= true  [ProjectName]="filteredProjectNamesList" (FilterByProject)="FilterByProject($event)" [ClientName]="filteredClientNamesList" [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalRecordsAll}} of {{totalAll}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAll" [nzTotal]="totalAll" (nzPageIndexChange)="PageIndexChangeAll($event)" nzSimple>
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
+          <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
 
         </div>
       </nz-tab>
-      <nz-tab nzTitle="Awaiting Approval" (nzClick)="timesheetSubmissionPaginationAwaiting(1,10,'')">
-        <exec-epp-table [bulkCheck]= true [rowData]="employees" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
+      <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
+        <exec-epp-table (isApprovedReturned)="statusChanged($event)" [bulkCheck]= true [ProjectName]="filteredProjectNamesList"  [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
         (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
+
         <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalRecordsAwaiting}} of {{totalAwaiting}} entries
-          <nz-pagination [nzPageIndex]="pageIndexAwaiting" [nzTotal]="totalAwaiting" (nzPageIndexChange)="PageIndexChangeAwaiting($event)" nzSimple>
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
+          <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
-      <nz-tab nzTitle="Approved" (nzClick)="timesheetSubmissionPaginationApproved(1,10,'')">
-        <exec-epp-table [rowData]="timeSheetApprovalApproved" (sorter)="sorter($event)"></exec-epp-table>
+      <nz-tab nzTitle="Approved" (nzClick)="onApprovedTabClick()">
+        <exec-epp-table [ProjectName]="filteredProjectNamesList" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
-        <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalRecordsApproved}} of {{totalApproved}} entries
-          <nz-pagination [nzPageIndex]="pageIndexApproved" [nzTotal]="totalApproved" (nzPageIndexChange)="PageIndexChangeApproved($event)" nzSimple>
+         <span nz-row class="pagination  flex justify-end">
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
+          <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>
 
-      <nz-tab nzTitle="Request for review" (nzClick)="timesheetSubmissionPaginationReview(1,10,'')">
-        <exec-epp-table [rowData]="timeSheetApprovalReview" (sorter)="sorter($event)"></exec-epp-table>
+      <nz-tab nzTitle="Request for review" (nzClick)="onReviewTabClick()">
+        <exec-epp-table [ProjectName]="filteredProjectNamesList" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
-          Showing {{ totalRecordsReview}} of {{totalReview}} entries
-          <nz-pagination [nzPageIndex]="pageIndexReview" [nzTotal]="totalReview" (nzPageIndexChange)="PageIndexChangeReview($event)" nzSimple>
+          Showing {{ totalRecordsAll}} of {{totalResponse}} entries
+          <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
       </nz-tab>

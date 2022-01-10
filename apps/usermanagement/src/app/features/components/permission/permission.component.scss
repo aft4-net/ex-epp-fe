@@ -1,0 +1,35 @@
+.button-style {
+    float: right;
+    background: #00a551;
+    color: white;
+    border: 0.5px solid #00a551;
+    padding: 4px;
+  }
+  .button-style:hover {
+    background: #04d86a;
+  }
+  .cancel-button{
+    margin-right: 5px;
+    border: none;
+    width: 100px;
+    height: 35px;
+    padding: 4px;
+    background: rgb(231, 229, 229);
+  }
+
+  .cancel-button:hover{
+      color: #00a551;
+  }
+
+  .ant-checkbox-group-item {
+    display: block;
+    margin-right: 0;
+}
+::ng-deep.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00a551;
+  border-color: #00a551;
+}
+::ng-deep.ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  background-color: #00a551;
+  border-color: #00a551;
+}

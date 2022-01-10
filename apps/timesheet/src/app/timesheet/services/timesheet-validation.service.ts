@@ -10,6 +10,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { TimesheetService } from './timesheet.service';
 import { iif } from 'rxjs';
 import { throwIfEmpty } from 'rxjs/operators';
+import { TimesheetConfigurationStateService } from '../state/timesheet-configuration-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class TimesheetValidationService {
   toDate: Date;
   message: string | null = null;
 
-  constructor() {
+  constructor(private timesheetConfigStateService: TimesheetConfigurationStateService) {
     this.date = new Date();
     this.date = new Date(
       this.date.getFullYear(),
@@ -103,12 +104,16 @@ export class TimesheetValidationService {
       return false;
     }
 
-    if (!timesheetConfiguration?.WorkingDays) {
-      timesheetConfiguration.WorkingDays = [];
+    if(!timesheetConfiguration?.StartOfWeeks) {
+      timesheetConfiguration.StartOfWeeks = this.timesheetConfigStateService.defaultTimesheetConfig.StartOfWeeks;
     }
 
-    if (!timesheetConfiguration?.WorkingHour) {
-      timesheetConfiguration.WorkingHour = 0;
+    if (!timesheetConfiguration?.WorkingDays) {
+      timesheetConfiguration.WorkingDays = this.timesheetConfigStateService.defaultTimesheetConfig.WorkingDays;
+    }
+
+    if (!timesheetConfiguration?.WorkingHours) {
+      timesheetConfiguration.WorkingHours = this.timesheetConfigStateService.defaultTimesheetConfig.WorkingHours;
     }
 
     for (const workingDay of timesheetConfiguration.WorkingDays) {
@@ -128,8 +133,8 @@ export class TimesheetValidationService {
     }
 
     if (
-      !timesheetConfiguration.WorkingHour ||
-      timesheetConfiguration.WorkingHour <= 0
+      !timesheetConfiguration.WorkingHours ||
+      timesheetConfiguration.WorkingHours.Min <= 0
     ) {
       return true;
     }
@@ -155,8 +160,8 @@ export class TimesheetValidationService {
         .map((te) => te.Hour)
         .reduce((prev, next) => prev + next, 0);
 
-      if (totalHour < timesheetConfiguration.WorkingHour) {
-        this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${date.toDateString()} date to satisfy minimum working hours.`;
+      if (totalHour < timesheetConfiguration.WorkingHours.Min) {
+        this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${new Date(date).toDateString()} date to satisfy minimum working hours.`;
         return false;
       }
     }

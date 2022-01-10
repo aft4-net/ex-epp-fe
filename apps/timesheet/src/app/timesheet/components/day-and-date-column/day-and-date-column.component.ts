@@ -38,7 +38,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
   @Input() timesheetreview: TimeEntry[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
- 
+
   totalHours: number = 0;
   dateColumnHighlightClass: string = "date-column-with-highlight";
   morePopover = false;
@@ -50,13 +50,14 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   isSubmitted: boolean | undefined;
   startingDateCriteria = startingDateCriteria
   disabled = false
+  isFutureDate=false;
 
   constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
 
   clickEventType = ClickEventType.none;
 
   ngOnInit(): void {
-
+    this.checkForFutureDate(this.item);
   }
 
   ngOnChanges(): void {
@@ -66,23 +67,30 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     if (this.timeEntries) {
       let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
-
     }
 
     let today = new Date();
-
-    if (this.date > new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1)) || this.startingDateCriteria.isBeforeThreeWeeks) {
+    today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    if (this.date.valueOf() > today.valueOf() || this.startingDateCriteria.isBeforeThreeWeeks) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
       this.disabled = true;
     }
     else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      if (this.date.valueOf() === today.valueOf()){
+        this.dateColumnHighlightClass = "date-column-with-no-highlight-today";
+      }
+      else {
+        this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      }
+    }
+    else if (this.date.valueOf() === today.valueOf()) {
+      this.dateColumnHighlightClass = "date-column-with-highlight-today";
     }
     else {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
   }
-  
+
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = timeEntryEvent.clickEventType
@@ -139,7 +147,17 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   scrollTimeEntriesUp(el: any) {
     const myElement = document.getElementById(el);
-    myElement?.scrollIntoView();
+    myElement?.scroll({
+      top: 100,
+      behavior: 'smooth'
+    });
+  }
+
+  scrollTimeEntriesBottom(el:any){
+    const myElement = document.getElementById(el);
+    myElement!.scroll({ top: myElement!.scrollHeight, behavior: 'smooth' });
+    //myElement!.scrollTop = myElement!.scrollHeight - myElement!.clientHeight;
+
   }
 
   checkOverflow(divId: any) {
@@ -171,5 +189,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     else {
       return timesheetApprovals[0];
     }
+  }
+  checkForFutureDate(curr:any){
+    let now = new Date();
+    if ( curr>now) {
+      this.isFutureDate = true;
+    }
+    return this.isFutureDate;
   }
 }

@@ -1,3 +1,4 @@
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -18,7 +19,8 @@ registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     CoreModule,
     HomeModule,
+    NzNotificationModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US},DatePipe],
   bootstrap: [AppComponent],

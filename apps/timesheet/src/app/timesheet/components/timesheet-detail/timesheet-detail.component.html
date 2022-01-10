@@ -2,16 +2,14 @@
 
 <div>
     <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'"
-        class="sm:flex  sm:ml-8" (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
+        class="sm:flex  sm:ml-8" [isToday]="isToday" (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
         (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
-        
     <div class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
         <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
             <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EE' " [date]="myD"
                 [timesheet]="(timesheet$ | async)"
                 [timeEntries]="(timeEntries$ | async)"
                 [timesheetApprovals]="(timesheetApprovals$ | async)"
-                [timesheetreview]="(timesheetReview)"
                 (dateColumnClicked)="onDateColumnClicked($event, myD)"
                 (projectNamePaletClicked)="onProjectNamePaletClicked($event, myD)"
                 (paletEllipsisClicked)="onPaletEllipsisClicked($event, myD)"
@@ -22,7 +20,7 @@
     </div>
 </div>
 
-<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false">
+<nz-drawer [nzVisible]="drawerVisible" [nzClosable]="false" [nzMask]="false" (nzOnClose)="closeFormDrawer()">
     <div *nzDrawerContent>
         <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
             <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">
@@ -99,7 +97,13 @@
                 <label for="note" class="mt-4 mb-2 font-semibold">Note</label>
                 <textarea [(ngModel)]="formData.note" formControlName="note" nz-input rows="4">
                     {{ formData.note }}
-                  </textarea>
+                </textarea>
+                <div *ngIf="timesheetApproval">
+                    <strong>Manager's Note</strong>          
+                    <p>          
+                      {{ timesheetApproval.Comment }}          
+                    </p>
+                </div>
                 <div class="save-and-clear">
                     <button id="save" class="mt-6 font-bold" nz-button
                         [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-dateColumnTotalHour)">Save
