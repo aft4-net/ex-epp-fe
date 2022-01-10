@@ -31,7 +31,7 @@
         </button>
     </div>
 
-    <div nz-col nzSpan="8" class="ml-1" >
+    <div nz-col nzSpan="10" class="ml-1" style="margin-right:12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  [(ngModel)]="searchKeyGBinded" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search by employee name" />
       </nz-input-group>
@@ -53,7 +53,7 @@
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
       >
         <div nzRight class="content">
-          <exec-epp-table [status]= true  [ProjectName]="filteredProjectNamesList" (FilterByProject)="FilterByProject($event)" [ClientName]="filteredClientNamesList" [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table (isApprovedReturned)="statusChanged($event)"  [status]= true  [ProjectName]="filteredProjectNamesList" (FilterByProject)="FilterByProject($event)" [ClientName]="filteredClientNamesList" [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
@@ -64,7 +64,7 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
-        <exec-epp-table [bulkCheck]= true [ProjectName]="filteredProjectNamesList"  [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
+        <exec-epp-table (isApprovedReturned)="statusChanged($event)" [bulkCheck]= true [ProjectName]="filteredProjectNamesList"  [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
         (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
