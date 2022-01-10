@@ -427,7 +427,7 @@ handleGroupCancel() {
   this.groupfrm.reset();
 }
   onShowError(err: any) {
-    let errMsg = 'Some error occured. Please review your input and try again. ';
+    const errMsg = 'Some error occured. Please review your input and try again. ';
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
     this.isLoadng = false;
@@ -470,10 +470,6 @@ handleGroupCancel() {
     return;
   }
 
-  Remove(userId: string) {
-
-  }
-  
   ShowDetail(userId: string) {
     this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
   }
