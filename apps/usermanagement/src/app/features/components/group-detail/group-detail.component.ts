@@ -33,7 +33,7 @@ export class GroupDetailComponent implements OnInit {
   permissionData?:any;
   childPermissions:IPermissionModel[]=[];
   parentPermission:any;
-  
+  isAddToGroupVisible = false;
   isVisible = false;
   isGroupEditVisible = false;
   isConfirmLoading = false;
@@ -57,6 +57,7 @@ export class GroupDetailComponent implements OnInit {
   lastRow !: number;
   groupdescription : any;
   groupDescriptionEditForm !: FormGroup;
+  AddToGroupForm !: FormGroup;
   listOfColumn = [
     {
       title: 'Name',
@@ -69,6 +70,7 @@ export class GroupDetailComponent implements OnInit {
 
   ngOnInit() {
     this.createGroupDescriptionControls();
+    this.createAddToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
       this.groupDetail  = result 
@@ -82,6 +84,12 @@ export class GroupDetailComponent implements OnInit {
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
       description: [[],[Validators.required]]
+    })
+  }
+
+  createAddToGroupControls() {
+    this.AddToGroupForm = this.fb.group({
+      Users: [[],[Validators.required]]
     })
   }
 
@@ -299,5 +307,17 @@ export class GroupDetailComponent implements OnInit {
  GroupDescriptionEditCancel() {
    this.isGroupEditVisible = false;
    this.groupDescriptionEditForm.reset();
+ }
+
+ AddUserToGroup() {
+
+ }
+
+ CloseAddUserToGroup() {
+  this.isAddToGroupVisible = false;
+ }
+
+ ShowAddUserToGroupModal() {
+  this.isAddToGroupVisible = true;
  }
 }
