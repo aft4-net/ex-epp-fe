@@ -274,7 +274,6 @@ export class TimesheetService {
     return response.pipe(map((r) => r.body));
   }
   //#endregion
-
   getUserTimesheetApprovalSubmissions(
     pageIndex: number,
     pageSize: number,
@@ -322,26 +321,25 @@ export class TimesheetService {
       .get(`${this.baseUrl}UserTimesheetApprovalsHistory?` + params.toString())
       .pipe(
         map((response: any) => {
-          if (response.Data.Filters)
-          {
-            for (let i = 0; i < response.Data.Filters.ClientFilter.length; i++)
+          if(Object.keys(response.Data.Filters).length!= 0)
+          { for (let i = 0; i < response.Data.Filters.ClientFilter.length; i++)
               clientNameFliter.push({
                 text: response.Data.Filters.ClientFilter[i].ClientName,
                 value: response.Data.Filters.ClientFilter[i].Guid,
               });
-
+             
             for (let i = 0; i < response.Data.Filters.StatusFilter.length; i++)
               statusFilter.push({
                 text: response.Data.Filters.StatusFilter[i],
                 value: response.Data.Filters.StatusFilter[i],
               });
-
+            
             for (let i = 0; i < response.Data.Filters.ProjectFilter.length; i++)
               projectNameFliter.push({
                 text: response.Data.Filters.ProjectFilter[i].ProjectName,
                 value: response.Data.Filters.ProjectFilter[i].ProjectId,
               });
-            }
+        }
           return {
             data: response.Data.UserTimesheetApprovals,
             pagination: {
@@ -357,6 +355,7 @@ export class TimesheetService {
         })
       );
   }
+ 
 
   getTimesheetApprovalPagination(
 
@@ -415,8 +414,6 @@ params =params.append('status', `${status}` )
     };
     return this.http.get(`${this.baseUrl}TimesheetsApprovalPaginated?` + params.toString()).pipe(
       map((response: any) => {
-
-
         paginatedResult = {
           data: response.Data,
           pagination: {
