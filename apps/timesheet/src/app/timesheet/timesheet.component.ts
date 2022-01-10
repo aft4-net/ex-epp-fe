@@ -22,9 +22,7 @@ export class TimesheetComponent implements OnInit {
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.userId = localStorage.getItem("userId");
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
@@ -34,5 +32,9 @@ export class TimesheetComponent implements OnInit {
     this.approval$  = this.timesheetStateService.approval$;
 
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
+  }
+
+  ngOnInit(): void {
+
   }
 }
