@@ -1,0 +1,76 @@
+<nz-modal class="modal"
+  [nzVisible]="isDialogVisible"
+  nzTitle="{{timesheetDetail?.EmployeeName}}, {{timesheetDetail?.FromDate| date:'MMM dd'}} - {{ timesheetDetail?.ToDate | date}}"
+  [nzFooter]="null"
+  [nzWidth]="1334"
+  (nzOnCancel)="exitModal()"
+  nzMaskClosable="false"
+>
+  <ng-container *nzModalContent class="layer">
+    <div class="overflow-scroll">
+      <div style="font-size: 14px;line-height: 22px; margin-bottom:4px ">
+        <label>Project Name:</label>
+        <label style="font-weight: 500;margin-left: 5px;">{{timesheetDetail.ProjectName}}</label>
+      </div>
+      <div style="font-size: 14px;line-height: 22px; margin:4px 0">
+        <label>Client Name:</label> <label style="font-weight: 500;margin-left: 5px;" >{{timesheetDetail?.ClientName}}</label>
+      </div>
+      <div style="font-size: 14px;line-height: 22px; margin:4px 0">
+        <label>Total Hours:</label><label style="font-weight: 500;margin-left: 5px;">{{formatHour(timesheetDetail.TotalHours)}}</label>
+      </div>
+      <div style="font-size: 14px;line-height: 22px; margin:20px 0px">
+        <nz-table class="table" #rowSelectionTable [nzData]="approvalDetails">
+          <thead>
+            <tr class="tr">
+              <th>Day and Date</th>
+              <th>Hours</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of approvalDetails; let i = index">
+              <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
+              <td>{{ formatHour(data.Hour) }}</td>
+              <td>{{ getNote(data.Note) }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+      <div class="commentArea" style="font-size: 16px;line-height: 24px; margin:3px 0;margin-top:40px;">
+           <div style="font-size: 16px;line-height: 24px; margin:4px 0">
+            <label for="" class="commentLabel">Comments</label>
+          </div>
+             <div *ngIf="isStatatusRequest(timesheetDetail.Status)">
+              <nz-form-item >
+                <label  > {{timesheetDetail.Comment}}</label>
+              </nz-form-item>
+             </div>
+             <div *ngIf="!isStatatusRequest(timesheetDetail.Status)">
+              <nz-form-item >
+                <textarea nz-input class="textArea" [disabled]="isStatatusRequest(timesheetDetail.Status)" [rows]="3" [(ngModel)]="inputValue"></textarea>
+              </nz-form-item>
+             </div>
+            <nz-form-item [hidden]="isStatatusRequest(timesheetDetail.Status)">
+              <button nz-button class="approveButton"  (click)="approve()">
+                Approve
+              </button>
+              &nbsp;
+              <button
+                nz-button
+                class="requestForReviewButton"
+                (click)="requestForReview()"
+                [disabled]="!submitting"
+                [title]="
+                  submitting ? 'Enter comment to request for review!.' : ''
+                "
+                [disabled]="!inputValue"
+              >
+              Request for review
+
+              </button>
+            </nz-form-item>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+

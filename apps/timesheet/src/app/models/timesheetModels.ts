@@ -1,3 +1,5 @@
+
+
 export interface Timesheet {
     Guid: string;
     FromDate: Date;
@@ -24,14 +26,48 @@ export enum ApprovalStatus {
 }
 
 export interface TimesheetApproval {
+    //TimesheetApprovalGuid:string;
     TimesheetId: string;
     ProjectId: string;
     Status: ApprovalStatus;
+    Comment?:string;
+    EmployeeName:string;
+    FromDate:Date;
+    ToDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
+    ProjectName:string;
+}
+export interface TimesheetBulkApproval {
+    TimesheetApprovalGuid:string;
+    TimesheetId: string;
+    ProjectId: string;
+    Status: ApprovalStatus;
+    Comment?:string;
+    EmployeeName:string;
+    FromDate:Date;
+    ToDate:Date;
+    CreatedDate:Date;
+    ClientName:string;
+    TotalHours:number;
+    ProjectName:string;
+}
+
+export interface StartOfWeek {
+    DayOfWeek: string;
+    EffectiveDate: Date;
+}
+
+export interface WorkingHours {
+    Min: number;
+    Max: number;
 }
 
 export interface TimesheetConfiguration {
+    StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
-    WorkingHour: number;
+    WorkingHours: WorkingHours;
 }
 
 interface Response {
@@ -62,4 +98,10 @@ export interface TimesheetApprovalResponse extends Response {
 
 export interface TimesheetConfigResponse extends Response {
     Data: TimesheetConfiguration;
+}
+
+export interface ApprovalEntity {
+  TimesheetId: string;
+  ProjectId:string;
+  Status:ApprovalStatus;
 }

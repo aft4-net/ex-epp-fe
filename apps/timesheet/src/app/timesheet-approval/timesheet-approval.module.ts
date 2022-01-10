@@ -1,7 +1,7 @@
+import { SortPipe } from './../../../../client-management/src/app/core/pipes/sort.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
-
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
@@ -18,17 +18,24 @@ import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
-
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzCommentModule } from 'ng-zorro-antd/comment';
 import {TimesheetApprovalComponent} from "./timesheet-approval.component"
 import {TimesheetApprovalRoutingModule} from './timesheet-approval-routing.module';
 import { TimesheetModule } from '../timesheet/timesheet.module';
+import { TimesheetDetailViewComponent } from './components/timesheet-detail-view/timesheet-detail-view.component';
+
 
 
 
 @NgModule({
   declarations: [
     TableComponent,
-    TimesheetApprovalComponent
+    TimesheetApprovalComponent,
+    SortPipe,
+    TimesheetDetailViewComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +50,7 @@ import { TimesheetModule } from '../timesheet/timesheet.module';
     NzSelectModule,
     NzInputModule,
     NzPopoverModule,
+    NzAlertModule,
     FormsModule,
     NzLayoutModule,
     ReactiveFormsModule,
@@ -51,7 +59,12 @@ import { TimesheetModule } from '../timesheet/timesheet.module';
     NzDividerModule,
     NzModalModule,
     NzTableModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzTabsModule,
+    NzPaginationModule,
+    NzCommentModule,
+    NzNotificationModule,
+    
   ]
 })
 export class TimesheetApprovalModule { }

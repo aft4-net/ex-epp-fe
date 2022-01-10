@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { DayAndDateService } from '../../services/day-and-date.service';
+
 @Component({
   selector: 'app-date-selector',
   templateUrl: './date-selector.component.html',
@@ -11,19 +13,23 @@ export class DateSelectorComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   @Output() valueChangeNextWeek = new EventEmitter();
   @Output() valueChangeLastWeek = new EventEmitter();
+  @Input() isToday = true;
 
   date = null;
   CounterNextWeek = 0;
   CounterLastWeek = 0;
-  constructor() { }
+  constructor(
+    private readonly _dayAndDateService: DayAndDateService
+    ) { }
 
   ngOnInit(): void {
   }
 
   onTodaysButtonClick() {
+    const date = this._dayAndDateService.getWeeksFirstDate(new Date())
     this.valueChange.emit(new Date());
   }
-  
+
   onChange(result: Date): void {
     this.valueChange.emit(result);
   }
@@ -33,7 +39,7 @@ export class DateSelectorComponent implements OnInit {
     this.valueChangeNextWeek.emit(this.CounterNextWeek);
   }
   valueChangedLastWeek() {
-    this.CounterLastWeek = this.CounterLastWeek + 1;
+    this.CounterLastWeek = this.CounterLastWeek;
     this.valueChangeLastWeek.emit(this.CounterLastWeek);
   }
 }
