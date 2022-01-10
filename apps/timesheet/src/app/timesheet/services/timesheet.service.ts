@@ -367,9 +367,8 @@ export class TimesheetService {
 
     SortBy?: string,
 
-    ProjectName?: string,
-
-    ClientName?: string,
+    ProjectName?:  string[] ,
+    ClientName?: string[],
 
     Week?: string,
 
@@ -379,25 +378,35 @@ export class TimesheetService {
 
   ): Observable<PaginatedResult<TimesheetApproval[]>> {
 
-    const params = new HttpParams()
+    let params = new HttpParams()
 
-      .set('PageIndex', pageindex.toString())
+      .append('PageIndex', `${pageindex}`)
 
-      .set('PageSize', pageSize.toString())
+      .append('PageSize', `${pageSize}`);
+      if(searchKey){
 
-      .set('searchKey', searchKey ? searchKey : '')
+      params.append('searchKey', `${searchKey}`)
+      }
+      if(SortBy){
 
-      .set('SortBy', SortBy? SortBy:'')
+        params = params.append('SortBy', `${SortBy}`)
+        }
+if(Week){
+  params =params.append('Week',`${Week}`)
+}
+if(sort){
+params =params.append('sort',`${sort}`)
+}
+if(status){
+params =params.append('status', `${status}` )
+  }
+      ProjectName?.forEach(filter => {
 
-      .set('ProjectName', ProjectName ? ProjectName:'')
-
-      .set('ClientName',ClientName ? ClientName:'')
-
-      .set('Week',Week? Week:'')
-
-      .set('sort',sort ? sort:'Ascending')
-
-      .set('status', status ? status :'');
+        params = params.append("ProjectName", filter);
+      });
+      ClientName?.forEach(filter => {
+        params = params.append("ClientName", filter);
+      });
 
     let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
       data: [] as TimesheetBulkApproval[],

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
@@ -10,6 +11,12 @@ interface ItemData {
   clientName: string;
   hours: number,
   stats: string
+}
+
+interface DataItem {
+  name: string;
+  age: number;
+  address: string;
 }
 
 @Component({
@@ -51,12 +58,17 @@ export class TableComponent {
 
   @Output() checkedListId = new EventEmitter<Set<number>>();
   @Output() sorter = new EventEmitter<string>();
+  @Input() ProjectName=[{ text: '', value: '', checked: false }];
+  @Input() ClientName =[{ text: '', value: '', checked: false }];
   @Output() sortingDirection = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
   @Output() CheckedIds = new EventEmitter<Set<string>>();
+  @Output() FilterByProject  = new EventEmitter<Array<string>>();
+  @Output() FilterByClient  = new EventEmitter<Array<string>>();
+
 
   listOfSelection = [
     {
@@ -153,69 +165,14 @@ export class TableComponent {
     this.isModalVisible=false;
   }
 
+  filterByProject(event:string[]){
+    this.FilterByProject.emit(event);
 
-  // PageSizeChange(pageSize: number) {
-  //   console.log(pageSize);
-  //   this.pageSize = pageSize;
-  //   this._clientservice
-  //     .getWithPagnationResut(this.pageIndex, pageSize, this.searchProject.value)
-  //     .subscribe((response: PaginatedResult<Client[]>) => {
-  //       this.clientsdata = response.data;
-  //       this.pageIndex = response.pagination.pageIndex;
-  //       this.pageSize = response.pagination.pageSize;
-  //       this.loading = false;
+   }
+   filterByClient(event:string[]){
 
-  //     });
-  // }
-
-  // PageIndexChange(index: any): void {
-
-  //   if(this.isFilter){
-  //    this.clientsdata =this.totalData.slice((index-1)*10,index*10);
-
-  //   }
-  //   else{
-  //    this.pageIndex = index;
-  //    this.loading = true;
-  //    if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
-  //      this._clientservice
-  //        .getWithPagnationResut(index, 10, this.searchProject.value)
-  //        .subscribe((response: PaginatedResult<Client[]>) => {
-  //          this.clientsdata = response.data;
-  //          this.unfilteredData = response.data;
-  //          this.pageIndex = response.pagination.pageIndex;
-  //          this.total = response.pagination.totalRecord;
-
-  //          this.totalPage = response.pagination.totalPage;
-  //          this.pageSize = response.pagination.pageSize;
-  //          this.loading = false;
-  //        });
-
-
-  //    } else {
-  //      this._clientservice
-  //        .getWithPagnationResut(index, 10)
-  //        .subscribe((response: PaginatedResult<Client[]>) => {
-  //          this.clientsdata = response.data;
-  //          this.unfilteredData = response.data;
-  //          this.pageIndex = response.pagination.pageIndex;
-  //          this.pageSize = response.pagination.pageSize;
-  //          this.loading = false;
-  //          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
-  //            this.search(
-  //              this.searchAddressList,
-  //              this.searchstatusList,
-  //              this.searchsalesPersonList
-  //            );
-
-  //          }
-
-
-  //        });
-  //      this.searchStateFound = false;
-  //    }}
-  //  }
-
+     this.FilterByClient.emit(event);
+    }
 }
 
 
