@@ -20,7 +20,23 @@
           <i nz-icon [nzType]="'bell'" [nzTheme]="'outline'"></i>
         </nz-badge>
       </button>
-      <button nz-button nzShape="circle" nzType="primary" nzDanger (click)="logout()">{{fullName}}</button>
+ 
+      <button nz-button nzType="primary" nzDanger nzShape="circle"    nzPopoverTrigger="click" 
+      nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
+      <ng-template #contentTemplate>
+        <div>
+            <button class="actionButtons" nz-button nzType="default"  >
+               Edit Account
+            </button>
+            <button class="actionButtons"  nz-button nzType="default" >
+              User Profile
+            </button>
+            <button class="actionButtons"  nz-button nzType="default" nzDanger (click)="logout()">
+                Logout
+            </button>
+          
+        </div>
+      </ng-template>
     </nz-page-header-extra>
   </nz-page-header>
 </div>

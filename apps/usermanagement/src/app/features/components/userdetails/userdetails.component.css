@@ -145,3 +145,11 @@
   .jjjj{
     margin-left: 19px;
   }
+
+  ::ng-deep .ant-switch-checked{
+    background-color: #00a551;
+    border-color: #00a551;
+  }
+  .add-button{
+    background-color: #00a551;
+  }
