@@ -3,6 +3,7 @@ import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/no
 import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
+import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
@@ -12,11 +13,7 @@ import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.compo
   styleUrls: ['./timesheet-header.component.scss']
 })
 export class TimesheetHeaderComponent implements OnInit, OnChanges {
-  @Input() timesheetConfig: TimesheetConfiguration | null = {
-    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [],
-    WorkingHours: {Min: 0, Max: 24}
-  };
+  @Input() timesheetConfig: TimesheetConfiguration | null = this.timesheetConfigStateService.defaultTimesheetConfig;
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
   @Input() timesheetApprovals: TimesheetApproval[] | null = null;
@@ -24,7 +21,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   @Input() weekLastDate: Date | null = null;
   @Input() isApproved = false;
   @Input() approval = false;
-  resubmitClicked:boolean|undefined;
+  resubmitClicked: boolean | undefined;
   weeklyTotalHours: number = 0;
   configWeeklyTotalHour: number = 0;
   startingDateCriteria = startingDateCriteria
@@ -35,13 +32,15 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   notSubmittedTooltip = "";
   toolTipColor = "red";
   toolTipText = "The time is passed total hour"
-  rejectedTimesheet: TimesheetApproval| null = null;
-  
+  rejectedTimesheet: TimesheetApproval | null = null;
+
+  title$ = this.timesheetStateService.timesheetPageTitle$;
 
   constructor(
     private timesheetService: TimesheetService,
     private notification: NzNotificationService,
     private timesheetValidationService: TimesheetValidationService,
+    private timesheetConfigStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService
   ) { }
 
@@ -75,43 +74,54 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   }
 
   checkForSubmittedForApproal() {
+    let timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
+
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      for(let i = 0; i < this.timesheetApprovals.length; i++) {
-        if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()){
+      for (let i = 0; i < this.timesheetApprovals.length; i++) {
+        if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()) {
           break;
         }
 
-        if(i === this.timesheetApprovals.length - 1) {
+        if (i === this.timesheetApprovals.length - 1) {
           this.btnText = "Approved";
-           this.timeSheetStatus = "submitted-class";
-           return;
+          this.timeSheetStatus = "submitted-class";
+          return;
         }
       }
 
-      for(let i = 0; i < this.timesheetApprovals.length;i++){
-        if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
-          this.btnText="Resubmit Timesheet";
-          this.timeSheetStatus = "not-submitted-enable";
+      for (let i = 0; i < this.timesheetApprovals.length; i++) {
+        if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf()) {
+          this.btnText = "Resubmit Timesheet";
+          if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], timesheetConfig)) {
+            this.validForApproal = true;
+            this.timeSheetStatus = "not-submitted-enable";
+            this.notSubmittedTooltip = "";
+          }
+          else {
+            this.validForApproal = false;
+            this.timeSheetStatus = "not-submitted-disable";
+            this.notSubmittedTooltip = `Please fill in your working days`;
+            if (timesheetConfig.WorkingHours.Min > 0) {
+              this.notSubmittedTooltip += ` with a minimum hour of ${timesheetConfig.WorkingHours.Min}`;
+            }
+          }
           break;
         }
 
-        if(this.resubmitClicked || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[0].valueOf()){
-           this.btnText = "Submitted";
-           this.timeSheetStatus = "submitted-class";
+        if (this.resubmitClicked || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf()) {
+          this.btnText = "Submitted";
+          this.timeSheetStatus = "submitted-class";
         }
+      }
     }
-  }
     else {
       this.checkIfValidForApproval();
     }
- }
+  }
 
   checkIfValidForApproval() {
-    let timesheetConfig = this.timesheetConfig ?? {
-      StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-      WorkingDays: [],
-      WorkingHours: { Min: 0, Max: 24}
-    }
+    let timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
+
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], timesheetConfig)) {
       this.validForApproal = true;
       this.btnText = "Request for Approval";
@@ -122,16 +132,16 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       this.validForApproal = false;
       this.btnText = "Request for Approval";
       this.timeSheetStatus = "not-submitted-disable";
-      this.notSubmittedTooltip = `Please fill in your working days ${timesheetConfig.WorkingDays} with a minimum hour of ${timesheetConfig.WorkingHours.Min}`;
+      this.notSubmittedTooltip = `Please fill in your working days`;
+      if (timesheetConfig.WorkingHours.Min > 0) {
+        this.notSubmittedTooltip += ` with a minimum hour of ${timesheetConfig.WorkingHours.Min}`;
+      }
     }
   }
 
   onRequestForApproval() {
-    let timesheetConfig = this.timesheetConfig ?? {
-      StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-      WorkingDays: [],
-      WorkingHours: { Min: 0, Max: 24 }
-    }
+    let timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
+
     if (!this.timesheet) {
       return;
     }
@@ -141,38 +151,43 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     }
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
-      if(this.timesheetApprovals){
-          for(let i=0;i<this.timesheetApprovals.length;i++){
-            if(this.timesheetApprovals[i].Status===Object.values(ApprovalStatus)[2].valueOf()){
-              this.rejectedTimesheet=this.timesheetApprovals[i];
-            }
-            if(this.rejectedTimesheet){
-            const temp={
+      if (this.timesheetApprovals) {
+        for (let i = 0; i < this.timesheetApprovals.length; i++) {
+          if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf()) {
+            this.rejectedTimesheet = this.timesheetApprovals[i];
+          }
+          if (this.rejectedTimesheet) {
+            const temp = {
               TimesheetId: this.rejectedTimesheet.TimesheetId,
               ProjectId: this.rejectedTimesheet.ProjectId,
               ApprovalStatus: Object.values(ApprovalStatus)[0].valueOf()
             } as unknown as ApprovalEntity;
-            
-            this.timesheetService.updateTimesheetApproval(temp).subscribe();
-            this.timesheetApprovals[i].Status= ApprovalStatus.Requested;
-            this.resubmitClicked=true;
+
+            this.timesheetService.updateTimesheetApproval(temp).subscribe(response => {
+              if (this.timesheet) {
+                this.timesheetStateService.getTimeSheetApproval(this.timesheet.Guid);
+              }
+            }, error => {
+
+            });
+
             this.checkForSubmittedForApproal();
             this.createNotification("info", "Timesheet resubmitted for approval", "bottomRight");
           }
         }
       }
-      else{
-      this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
-        if (this.timesheet) {
-          this.timesheetStateService.getTimeSheetApproval(this.timesheet?.Guid)
-        }
-      }, error => {
+      else {
+        this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
+          if (this.timesheet) {
+            this.timesheetStateService.getTimeSheetApproval(this.timesheet?.Guid)
+          }
+        }, error => {
 
-      });
-      
-      this.createNotification("info", "Timesheet requested for approval", "bottomRight");
+        });
+
+        this.createNotification("info", "Timesheet requested for approval", "bottomRight");
+      }
     }
-  }
   }
 
   getConfigWeeklyTotalHours() {

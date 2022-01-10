@@ -53,17 +53,14 @@ export class TimesheetDetailComponent implements OnInit {
   disableToDate = false;
   disableClient = false;
   disableProject = false;
-  timesheetConfig: TimesheetConfiguration = {
-    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [],
-    WorkingHours: {Min: 0, Max: 24},
-  };
+  timesheetConfig: TimesheetConfiguration = this.timesheetConfigurationStateService.defaultTimesheetConfig;
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
   timesheet: Timesheet | null = null;
   timesheet$: Observable<Timesheet | null> = new Observable();
   timeEntries: TimeEntry[] | null = null;
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   timesheetApprovals: TimesheetApproval[] | null = [];
+  timesheetApproval: TimesheetApproval | null = null;
   timesheetReview: TimeEntry[] | null = [];
   timesheetApprovals$: Observable<TimesheetApproval[] | null> =
     new Observable();
@@ -130,6 +127,7 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetStateService: TimesheetStateService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService
   ) {
+    this.timesheetStateService.setTimesheetPageTitle("Manage my Timesheet");
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
 
@@ -184,11 +182,7 @@ export class TimesheetDetailComponent implements OnInit {
 
 
     this.timesheetConfig$.subscribe((tsc) =>{
-      this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [], 
-        WorkingHours: {Min: 0, Max: 24}
-      };
+      this.timesheetConfig = tsc ?? this.timesheetConfigurationStateService.defaultTimesheetConfig;
       this.startingWeek(this.timesheetConfig.StartOfWeeks);
     });
     this.timesheet$.subscribe((ts) => (this.timesheet = ts ?? null));
@@ -341,7 +335,6 @@ export class TimesheetDetailComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-
       }
     );
   }
@@ -638,6 +631,8 @@ export class TimesheetDetailComponent implements OnInit {
         this.disableToDate = true;
         this.disableClient = true;
         this.disableProject = true;
+        
+        this.timesheetApproval = this.timesheetApprovals?.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId)[0] ?? null;
       }
 
       this.initializeClient();

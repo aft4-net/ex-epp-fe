@@ -4,6 +4,8 @@ import { TimesheetApproval, TimesheetApprovalProjectDetails } from '../models/ti
 
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
 import { Router } from '@angular/router';
@@ -104,25 +106,21 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
     TimesheetApprovalResponse!: TimesheetApproval[];
     totalResponse!: number;
     totalPageResponse!: number;
-    filterList: any;
-
-  filterListAPI: TimesheetApprovalProjectDetails[] = [];
-
-  filterResult: any;
+    onwaiting=1;
   // end of generic variables
 
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
-    private http: HttpClient
+    private http: HttpClient,
+    private notification:NzNotificationService
   ) { }
 
 
 
   ngOnInit(): void {
-   this.getFilterList()
-    console.log('direct');
     this.initialDataforTab();
+
   }
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
@@ -290,7 +288,15 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
-    this.timeSheetService.updateTimeSheetStatus(arrayOfIds);
+    this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
+      if (response.ResponseStatus.toString() == 'Success') {
+        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
+        this.onAwaitingTabClick();
+      }
+      else{
+        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
+      }
+    });
     console.log("service"+arrayOfIds);
   }
 
@@ -302,10 +308,10 @@ test() {
   onTabSelected(tab: any) {
     console.log(tab);
     if (tab === 1) {
-      // this.currentNameSubject$.next(true);
+      this.currentNameSubject$.next(true);
     }
     else {
-      // this.currentNameSubject$.next(false);
+      this.currentNameSubject$.next(false);
     }
   }
 onItemCheckStatusChange(event: number){
@@ -421,6 +427,18 @@ sortDirectionMethod() {
   handleCancel(): void {
     this.isVisible = false;
   }
+  statusChanged(row:any)
+  {
+   // alert("grand parent");
+   if(this.tabselected===1)
+   {
+    this.onAwaitingTabClick();
+   }
+   else    if(this.tabselected===0)
+    {
+      this.onAllTabClick();
+    }
+  }
   onApprove(){
 
     for (const element of this.setOfCheckedId) {
@@ -433,12 +451,10 @@ sortDirectionMethod() {
     console.log("Approved"+this.arrayOfCheckedId);
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
-    //delay(3000);
     console.log("This"+this.timeSheetApprovalAwaiting);
-
-
-
   }
+
+
   SearchByResourceName()
   {
     if(!this.searchKeyG){
@@ -524,39 +540,6 @@ sortDirectionMethod() {
       // this.timesheetSubmissionPaginationReview(1,10,'Rejected',this.searchKeyG?this.searchKeyG:'');
 
     }
-
-
-
-  }
-getFilterList() {
-
-  //   this.http.get('http://localhost:5000/api/v1/TimeSheet/GetApprovalProjectDetails').subscribe(res => {
-
-  //     this.filterResult = res;
-
-  //     this.filterListAPI = res.Data;
-
-  //     //console.log(this.filterListAPI);
-
-  //     for(let i =0 ; i < this.filterListAPI.length; i++) {
-
-  //       this.filteredProjectNamesList.push({
-
-  //         text: this.filterListAPI[i].ProjectName,
-
-  //         value: this.filterListAPI[i].ProjectName,
-
-  //         checked: true,
-
-  //       });
-
-  //     }
-
-  //     this.filteredProjectNamesList.shift();
-
-  //     console.log(this.filteredProjectNamesList);
-
-    //})
 
 
 

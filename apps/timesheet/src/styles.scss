@@ -6,6 +6,16 @@
 
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("assets/fonts/SFPRODISPLAYREGULAR.OTF");
+  font-weight: normal;
+}
+
+
+body {
+  // font-family: "SF Pro Display";
+}
 /* For Very small screen size. eg. Mobile*/
 .ant-drawer-content-wrapper {
   width: 400px!important;
@@ -17,6 +27,13 @@
     margin: 0;
     padding: 0;
   }
+}
+app-timesheet-header {
+  margin-left: 24px;
+}
+
+app-timesheet-header.md\:flex {
+  margin-left: 24px;
 }
 
 /* For medium and big screen sizes like Tab and Desktop*/
@@ -148,4 +165,8 @@ body{
 
   float: left;
 
+}
+
+.ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  display: none;
 }

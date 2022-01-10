@@ -13,7 +13,7 @@ import {
 } from '../../models/timesheetModels';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
-import { filter, map } from 'rxjs/operators';
+import { delay, filter, map } from 'rxjs/operators';
 
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
@@ -33,7 +33,8 @@ export class TimesheetService {
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
-
+  statusChanged=false;
+  timesheetApprove!:TimesheetApproval;
   constructor(
     private notification: NzNotificationService,
     private http: HttpClient,
@@ -433,40 +434,19 @@ params =params.append('status', `${status}` )
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
-    return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
+    return this.http.put(this.baseUrl + "TimesheetProjectStatus", timesheetApproval, { "headers": headers });
   }
 
   updateTimeSheetStatus(arrayOfId: string[]) {
-    console.log("updateStatus"+arrayOfId);
 
-    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
-      if (response.ResponseStatus.toString() == 'Success') {
-        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
-      }
-      else{
-        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
-      }
-    });
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId);
   }
 
   updateTimesheetProjectApproval(approval: TimesheetApproval) {
     const headers = { 'content-type': 'application/json' };
 
     return this.http.put<TimesheetApprovalResponse>(
-      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers }).subscribe((response:any)=>{
-        if (response.ResponseStatus.toString() == 'Success') {
-          this.notification.success(this.success,"",
-          { nzPlacement: 'bottomRight' }
-
-          );
-        }
-        else{
-
-          this.notification.error(this.error,"",
-          { nzPlacement: 'bottomRight' }
-          );
-        }
-      });
+      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers });
     }
 
 }

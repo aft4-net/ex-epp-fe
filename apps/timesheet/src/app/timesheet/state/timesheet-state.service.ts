@@ -9,6 +9,9 @@ import { TimesheetService } from '../services/timesheet.service';
 export class TimesheetStateService {
   date: Date = new Date();
 
+  private timesheetPageTitleSource = new BehaviorSubject<string>("");
+  timesheetPageTitle$ = this.timesheetPageTitleSource.asObservable();
+
   private approvalSource  = new BehaviorSubject<boolean>(false);
   approval$ = this.approvalSource.asObservable();
 
@@ -58,5 +61,9 @@ export class TimesheetStateService {
 
   setApproval(status: boolean){
     this.approvalSource.next(status);
+  }
+
+  setTimesheetPageTitle(pageTitle: string) {
+    this.timesheetPageTitleSource.next(pageTitle);
   }
 }
