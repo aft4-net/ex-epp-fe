@@ -8,11 +8,12 @@ import {
   TimesheetApprovalResponse,
   TimesheetBulkApproval,
   TimesheetConfigResponse,
+  TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
-import { filter, map } from 'rxjs/operators';
+import { delay, filter, map } from 'rxjs/operators';
 
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
@@ -26,10 +27,14 @@ import { environment } from 'apps/timesheet/src/environments/environment';
   providedIn: 'root',
 })
 export class TimesheetService {
+  success=''
+  error=''
+
   baseUrl = environment.apiUrl;
   timesheetId?:string;
   timesheetApp?:Timesheet;
-
+  statusChanged=false;
+  timesheetApprove!:TimesheetApproval;
   constructor(
     private notification: NzNotificationService,
     private http: HttpClient,
@@ -44,11 +49,12 @@ export class TimesheetService {
     let fromDate;
 
     if (date) {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(date);
     } else {
-      fromDate = this.dayAndDateService.getWeekendFirstDay();
+      fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
     fromDate.setHours(3, 0, 0, 0);
+
 
     let params = new HttpParams();
 
@@ -99,7 +105,7 @@ export class TimesheetService {
     }
 
     let response = this.http.get<TimeEntriesResponse>(
-      this.baseUrl + 'timeentries',
+      this.baseUrl + 'TimeEntries',
       { observe: 'response', params: params }
     );
 
@@ -139,16 +145,6 @@ export class TimesheetService {
     return this.http.put<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
       timeEntry,
-      { headers: headers }
-    );
-  }
-
-  updateTimesheetProjectApproval(approval: TimesheetApproval) {
-    const headers = { 'content-type': 'application/json' };
-
-    return this.http.put<TimesheetApprovalResponse>(
-      this.baseUrl + 'TimesheetProjectStatus',
-      approval,
       { headers: headers }
     );
   }
@@ -204,6 +200,12 @@ export class TimesheetService {
     );
 
     return response.pipe(map((r) => r.Data));
+  }
+
+  addTimeSheetConfiguration(timesheetConfig: TimesheetConfiguration) {
+    const headers = { 'content-type': 'application/json' }
+
+    return this.http.post<TimesheetConfigResponse>(this.baseUrl + 'TimeSheetConfig', timesheetConfig, {headers: headers});
   }
 
   //#endregion
@@ -286,7 +288,6 @@ export class TimesheetService {
       .append('SortField', `${sortField}`)
       .append('SortOrder', `${sortOrder}`)
       .append('EmployeeGuId', `${localStorage.getItem('userId')}`);
-      console.log(filters)
     if (filters)
       for (let i = 0; i < filters.length; i++) {
         if (filters[i].key == 'Project' && filters[i].value)
@@ -367,9 +368,8 @@ export class TimesheetService {
 
     SortBy?: string,
 
-    ProjectName?: string,
-
-    ClientName?: string,
+    ProjectName?:  string[] ,
+    ClientName?: string[],
 
     Week?: string,
 
@@ -379,25 +379,35 @@ export class TimesheetService {
 
   ): Observable<PaginatedResult<TimesheetApproval[]>> {
 
-    const params = new HttpParams()
+    let params = new HttpParams()
 
-      .set('PageIndex', pageindex.toString())
+      .append('PageIndex', `${pageindex}`)
 
-      .set('PageSize', pageSize.toString())
+      .append('PageSize', `${pageSize}`);
+      if(searchKey){
 
-      .set('searchKey', searchKey ? searchKey : '')
+      params.append('searchKey', `${searchKey}`)
+      }
+      if(SortBy){
 
-      .set('SortBy', SortBy? SortBy:'')
+        params = params.append('SortBy', `${SortBy}`)
+        }
+if(Week){
+  params =params.append('Week',`${Week}`)
+}
+if(sort){
+params =params.append('sort',`${sort}`)
+}
+if(status){
+params =params.append('status', `${status}` )
+  }
+      ProjectName?.forEach(filter => {
 
-      .set('ProjectName', ProjectName ? ProjectName:'')
-
-      .set('ClientName',ClientName ? ClientName:'')
-
-      .set('Week',Week? Week:'')
-
-      .set('sort',sort ? sort:'Ascending')
-
-      .set('status', status ? status :'');
+        params = params.append("ProjectName", filter);
+      });
+      ClientName?.forEach(filter => {
+        params = params.append("ClientName", filter);
+      });
 
     let paginatedResult: PaginatedResult<TimesheetBulkApproval[]> = {
       data: [] as TimesheetBulkApproval[],
@@ -421,32 +431,22 @@ export class TimesheetService {
     );
   }
 
-  // updateTimeSheetStatus(arrayOfId: number[]) {
-  //   return this.http.put(
-  //     this.baseUrl + 'TimesheetApprovalBulkApprove',
-  //     arrayOfId
-  //   );
-  // }
-
-
-
   updateTimesheetApproval(timesheetApproval: ApprovalEntity): Observable<any> {
     const headers = { "content-type": "application/json" };
 
-    return this.http.put(this.baseUrl + "ProjectStatus", timesheetApproval, { "headers": headers });
+    return this.http.put(this.baseUrl + "TimesheetProjectStatus", timesheetApproval, { "headers": headers });
   }
-
 
   updateTimeSheetStatus(arrayOfId: string[]) {
-    console.log("updateStatus"+arrayOfId);
-    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId).subscribe((response:any)=>{
-      if (response.ResponseStatus.toString() == 'Success') {
-        this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
-      }
-      else{
-        this.notification.error("Bulk approval is not successfull","", { nzPlacement: 'bottomRight' });
-      }
-    });
+
+    return this.http.post(this.baseUrl + 'TimesheetApprovalBulkApprove',arrayOfId);
   }
+
+  updateTimesheetProjectApproval(approval: TimesheetApproval) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.put<TimesheetApprovalResponse>(
+      this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers });
+    }
 
 }

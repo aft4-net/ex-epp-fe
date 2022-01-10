@@ -1,6 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
 import { AddressEditComponent } from './Features/Components/employee/employee-edit/address-edit/address-edit.component';
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { AppComponent } from './app.component';
@@ -23,19 +22,7 @@ import { ProgressButtonsComponent } from './components/progress-buttons/progress
 import { ToastrModule } from 'ngx-toastr';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
-
-// import { UploadphotoComponent } from './Features/Components/personal-info/uploadphoto/uploadphoto.component';
-
-
-
-
-
-
-
-
-
 registerLocaleData(en);
-
 @NgModule({
   declarations: [
     AppComponent,

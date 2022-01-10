@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {
@@ -12,6 +14,12 @@ interface ItemData {
   stats: string
 }
 
+interface DataItem {
+  name: string;
+  age: number;
+  address: string;
+}
+
 @Component({
   selector: 'exec-epp-table',
   templateUrl: './table.component.html',
@@ -22,6 +30,7 @@ export class TableComponent {
   isModalVisible=false;
   timesheetEntries:any;
   entryDate:any;
+  hours=0;
 
   total=10;
   pageIndex = 1;
@@ -50,12 +59,19 @@ export class TableComponent {
 
   @Output() checkedListId = new EventEmitter<Set<number>>();
   @Output() sorter = new EventEmitter<string>();
+  @Input() ProjectName=[{ text: '', value: '', checked: false }];
+  @Input() ClientName =[{ text: '', value: '', checked: false }];
+  @Output() sortingDirection = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
   @Output() CheckedIds = new EventEmitter<Set<string>>();
+  @Output() FilterByProject  = new EventEmitter<Array<string>>();
+  @Output() FilterByClient  = new EventEmitter<Array<string>>();
 
+
+  @Output() isApprovedReturned=new EventEmitter<boolean>();
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -65,7 +81,11 @@ export class TableComponent {
     }
   ];
 
+updateTimesheetAfterStatusChanged(row:boolean)
+{
+   this.isApprovedReturned.emit(row);
 
+}
   constructor(private readonly timesheetService:TimesheetService)
   {}
 
@@ -121,105 +141,44 @@ export class TableComponent {
   sorterMethod(heading:string) {
     if (heading === 'Name'){
       this.sortByParam = "name";
-      this.sorter.emit("name");
+      this.sorter.emit("Name");
     } else if (heading === 'Date Range'){
       this.sortByParam = "dateRange";
-      this.sorter.emit("dateRange");
-    }else if (heading === 'Project Name') {
+      this.sorter.emit("DateRange");
+    }else if (heading === 'Project'){
       this.sortByParam = "projectName";
-      this.sorter.emit("projectName");
+      this.sorter.emit("Project");
     } else if (heading === 'Client Name') {
       this.sortByParam = "clientName";
-      this.sorter.emit("clientName");
-    } else {
-      this.sortByParam = "";
+      this.sorter.emit("Client");
     }
 
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
-    }
   }
+
+
 
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
-    const timesheetId='18babdff-c572-4fbc-a102-d6434b7140c3';
-    const projectId='7645b7bf-5675-4eb8-ac1d-96b306926422';
+    const timesheetId=row.TimesheetId;
+    const projectId=row.projectId;
     const date =this.entryDate;
     this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
       (entries)=>{this.timesheetEntries=entries
       });
-
   }
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;
   }
 
+  filterByProject(event:string[]){
+    this.FilterByProject.emit(event);
 
-  // PageSizeChange(pageSize: number) {
-  //   console.log(pageSize);
-  //   this.pageSize = pageSize;
-  //   this._clientservice
-  //     .getWithPagnationResut(this.pageIndex, pageSize, this.searchProject.value)
-  //     .subscribe((response: PaginatedResult<Client[]>) => {
-  //       this.clientsdata = response.data;
-  //       this.pageIndex = response.pagination.pageIndex;
-  //       this.pageSize = response.pagination.pageSize;
-  //       this.loading = false;
+   }
+   filterByClient(event:string[]){
 
-  //     });
-  // }
-
-  // PageIndexChange(index: any): void {
-
-  //   if(this.isFilter){
-  //    this.clientsdata =this.totalData.slice((index-1)*10,index*10);
-
-  //   }
-  //   else{
-  //    this.pageIndex = index;
-  //    this.loading = true;
-  //    if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
-  //      this._clientservice
-  //        .getWithPagnationResut(index, 10, this.searchProject.value)
-  //        .subscribe((response: PaginatedResult<Client[]>) => {
-  //          this.clientsdata = response.data;
-  //          this.unfilteredData = response.data;
-  //          this.pageIndex = response.pagination.pageIndex;
-  //          this.total = response.pagination.totalRecord;
-
-  //          this.totalPage = response.pagination.totalPage;
-  //          this.pageSize = response.pagination.pageSize;
-  //          this.loading = false;
-  //        });
-
-
-  //    } else {
-  //      this._clientservice
-  //        .getWithPagnationResut(index, 10)
-  //        .subscribe((response: PaginatedResult<Client[]>) => {
-  //          this.clientsdata = response.data;
-  //          this.unfilteredData = response.data;
-  //          this.pageIndex = response.pagination.pageIndex;
-  //          this.pageSize = response.pagination.pageSize;
-  //          this.loading = false;
-  //          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
-  //            this.search(
-  //              this.searchAddressList,
-  //              this.searchstatusList,
-  //              this.searchsalesPersonList
-  //            );
-
-  //          }
-
-
-  //        });
-  //      this.searchStateFound = false;
-  //    }}
-  //  }
-
+     this.FilterByClient.emit(event);
+    }
 }
 
 

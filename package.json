@@ -16,6 +16,8 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-architects/module-federation": "^12.2.0",
+    "@angular-devkit/architect": "^0.1301.2",
     "@angular/animations": "^12.2.13",
     "@angular/common": "^12.2.0",
     "@angular/compiler": "^12.2.0",
@@ -26,6 +28,7 @@
     "@angular/platform-browser-dynamic": "^12.2.0",
     "@angular/router": "^12.2.0",
     "@ant-design/icons": "^4.7.0",
+    "@ant-design/icons-angular": "^13.0.1",
     "@azure/msal-angular": "^2.0.6",
     "@azure/msal-browser": "^2.20.0",
     "@nrwl/angular": "12.9.0",

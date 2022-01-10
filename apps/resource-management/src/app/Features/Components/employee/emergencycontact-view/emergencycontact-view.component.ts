@@ -65,12 +65,12 @@ export class EmergencycontactViewComponent implements OnInit {
       this.isVisible = false;
       this.isConfirmLoading = false;
     }, 3000);
-  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts; 
+  const emergencyContact =this.form.getModelEmergencyContactDetails() as EmergencyContacts;
 
   if(!this.IsEdit){
     this.form.allEmergencyContacts=[...this.form.allEmergencyContacts ,emergencyContact]
-    
-     
+
+
    }
    else{
     this.form.allEmergencyContacts[this.editAt]=emergencyContact;
