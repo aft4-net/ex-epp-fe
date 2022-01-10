@@ -36,23 +36,22 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @NgModule({
   exports: [
-
-    NzPageHeaderModule ,
+    NzPageHeaderModule,
     NzIconModule,
     NzInputNumberModule,
     NzDividerModule,
-    NzGridModule ,
-    NzFormModule ,
-    NzTabsModule ,
-    NzInputModule ,
+    NzGridModule,
+    NzFormModule,
+    NzTabsModule,
+    NzInputModule,
     NzIconModule,
-    NzDatePickerModule ,
+    NzDatePickerModule,
     NzRadioModule,
-    NzEmptyModule ,
+    NzEmptyModule,
     // NzAffixModule,
     NzAlertModule,
     // NzAnchorModule,
@@ -61,7 +60,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     // NzBackTopModule,
     NzBadgeModule,
     NzButtonModule,
-     NzBreadCrumbModule,
+    NzBreadCrumbModule,
     // NzCalendarModule,
     NzCardModule,
     // NzCarouselModule,
@@ -81,7 +80,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     NzIconModule,
     NzInputModule,
     NzInputNumberModule,
-     NzLayoutModule,
+    NzLayoutModule,
     // NzListModule,
     // NzMentionModule,
     NzMenuModule,
@@ -115,7 +114,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     NzTreeModule,
     // NzTreeSelectModule,
     NzTypographyModule,
-    NzUploadModule,
+    NzUploadModule
     // NzWaveModule,
     // NzResizableModule
   ],
