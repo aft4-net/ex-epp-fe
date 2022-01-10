@@ -856,7 +856,7 @@
           "options": {
             "commands": [
               "nx build usermanagement --with-deps",
-              "docker build -f Dockerfile.user-management . -t user-management"
+              "docker build -f Dockerfile.user-management . -t usermanagement"
             ],
             "parallel": false
           }
