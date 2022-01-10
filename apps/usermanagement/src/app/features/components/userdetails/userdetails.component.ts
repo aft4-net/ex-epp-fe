@@ -31,6 +31,7 @@ export class UserdetailsComponent implements OnInit {
   isUpdateMode = false;
   switchValue = false;
   loading = false;
+  nzSwitch=true;
   isLogin=false;
   public userDetals: [UserDetail] | [] = [];
   isRecordUpdated = false;
@@ -146,11 +147,13 @@ export class UserdetailsComponent implements OnInit {
     this.userDetailService.addGroupToUser(dataToPost).subscribe(
       () => {
         this.loading = false;
+        this.isModalVisible = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Successfully added.',
+          content: 'You have successfully added group to user.',
           duration: 5000,
         });
+
         this.getAllGroupSetsByUserId();
         this.getAllGroupList();
         this.getAllUserGroups();
@@ -175,6 +178,7 @@ export class UserdetailsComponent implements OnInit {
         duration: 5000,
       });
       this.isRecordUpdated = true;
+     
     }
     this.userdetail.reset();
     this.validation.controls.isMultitpleEntry.setValue(true);
