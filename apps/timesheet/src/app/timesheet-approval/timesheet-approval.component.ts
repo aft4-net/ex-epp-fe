@@ -460,7 +460,6 @@ sortDirectionMethod() {
     console.log("This"+this.timeSheetApprovalAwaiting);
   }
 
-
   onSearchChange() {
     if(this.searchKeyGBinded) {
       if(this.searchKeyGBinded.length < 2) {
