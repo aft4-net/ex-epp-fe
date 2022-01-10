@@ -92,7 +92,7 @@
         (click)="onAddNewRecord()"
         class="createGroupButton"
       >
-        Add to group
+        Add to Group
       </button>
     </div>
   </div>
@@ -128,10 +128,11 @@
         <div nz-row nzJustify="end">
           <div nz-col class="col-pad" nzSpan="3">
             <app-button
+             class="add-button"
               [disabled]="!userGroup.valid"
               [loading]="loading"
               (click)="onSaveRecord()"
-              type="primary"
+              style="color: red;"
             >
               {{ isUpdateMode ? 'Remove' : 'Add' }}
             </app-button>
