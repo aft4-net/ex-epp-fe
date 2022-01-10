@@ -105,7 +105,9 @@ export class ViewSubmissionsComponent implements OnInit {
     private router: Router,
     private timeSheetService: TimesheetService,
     private state: TimesheetStateService
-  ) {}
+  ) {
+    this.state.setTimesheetPageTitle("View Submissions");
+  }
 
   ngOnInit(): void {
     this.state.setApproval(true);

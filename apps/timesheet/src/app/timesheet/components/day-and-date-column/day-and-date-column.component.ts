@@ -58,9 +58,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.checkForFutureDate(this.item);
-    console.log(this.item)
-    ;console.log(this.isFutureDate)
-    console.log(this.dates1)
   }
 
   ngOnChanges(): void {
@@ -73,12 +70,21 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
 
     let today = new Date();
-    if (this.date > new Date(today.getFullYear(), today.getMonth(), today.getDate()) || this.startingDateCriteria.isBeforeThreeWeeks) {
+    today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    if (this.date.valueOf() > today.valueOf() || this.startingDateCriteria.isBeforeThreeWeeks) {
       this.dateColumnHighlightClass = "date-column-with-no-highlight";
       this.disabled = true;
     }
     else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      if (this.date.valueOf() === today.valueOf()){
+        this.dateColumnHighlightClass = "date-column-with-no-highlight-today";
+      }
+      else {
+        this.dateColumnHighlightClass = "date-column-with-no-highlight";
+      }
+    }
+    else if (this.date.valueOf() === today.valueOf()) {
+      this.dateColumnHighlightClass = "date-column-with-highlight-today";
     }
     else {
       this.dateColumnHighlightClass = "date-column-with-highlight";

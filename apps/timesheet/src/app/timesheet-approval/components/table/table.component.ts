@@ -58,6 +58,7 @@ export class TableComponent {
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
   @Output() CheckedIds = new EventEmitter<Set<string>>();
+  @Output() isApprovedReturned=new EventEmitter<boolean>();
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -67,10 +68,10 @@ export class TableComponent {
     }
   ];
 
-updateTimesheetAfterStatusChanged(row:any)
+updateTimesheetAfterStatusChanged(row:boolean)
 {
-    this.rowData=this.rowData.filter(r=>r
-      .TimesheetId!==row.TimesheetId);
+   this.isApprovedReturned.emit(row);
+
 }
   constructor(private readonly timesheetService:TimesheetService)
   {}

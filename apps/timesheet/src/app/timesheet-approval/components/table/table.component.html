@@ -39,7 +39,7 @@
 <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 [approvalDetails]="timesheetEntries"
 (modalStatus)="timesheetDetailClose($event)"
-
+(isApprovedOrReturned)="updateTimesheetAfterStatusChanged($event)"
 ></exec-epp-timesheet-detail-view>
 </div>
 
