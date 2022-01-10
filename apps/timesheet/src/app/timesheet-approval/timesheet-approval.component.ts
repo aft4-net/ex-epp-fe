@@ -91,15 +91,21 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
-    searchKeyG :string | null = null;
+    // searchKeyG :string | null = null;
     sortByG = '';
+    // weekG = '';
+    sortG = 'Ascending';
+    searchKeyGBinded :string | null = null;
+    searchKeyG = '';
+    weekGBinded: Date | null = null;
+    weekG = '';
     projectNameG?:  string[];
     clientNameG?: string[];
     filteredProjectNamesList = [
       { text: 'Application Tracking', value: 'Application Tracking', checked: false }
   ,{ text: 'Project Management', value: 'Project Management', checked: false }];
-    weekG = '';
-    sortG = 'Ascending';
+
+
 
     filteredClientNamesList = [{ text: 'Excellerent1', value: 'Excellerent1', checked: false }];
     // response
@@ -179,7 +185,7 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -197,7 +203,7 @@ initialDataforTab() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -208,14 +214,14 @@ initialDataforTab() {
 }
 
   onAllTabClick() {
+    this.stateReset();
     this.statusG = '';
-    this.sortByG ='DateRange';
-    this.sortG = 'Descending';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -227,14 +233,14 @@ initialDataforTab() {
   }
 
   onAwaitingTabClick() {
+    this.stateReset();
     this.statusG = 'Requested';
-    this.sortByG ='';
-    this.sortG = '';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -243,17 +249,18 @@ initialDataforTab() {
 
      this.clientNameG);
 
+
   }
 
   onApprovedTabClick() {
+    this.stateReset();
     this.statusG = 'Approved';
-    this.sortByG ='DateRange';
-    this.sortG = 'Descending';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -265,14 +272,14 @@ initialDataforTab() {
   }
 
   onReviewTabClick() {
+    this.stateReset();
     this.statusG = 'Rejected';
-    this.sortByG ='DateRange';
-    this.sortG = 'Descending';
+
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
 
-      this.searchKeyG?this.searchKeyG:'',
+      this.searchKeyG,
 
       this.sortByG,
 
@@ -362,7 +369,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -384,7 +391,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -405,7 +412,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -424,6 +431,26 @@ sortDirectionMethod() {
     }, 3000);
   }
 
+  stateReset():void
+  {
+
+    this.sortByG = '';
+
+    this.pageIndexG=1;
+
+      this.pageSizeG=7;
+
+      this.searchKeyG='';
+
+      this.sortByG='';
+
+     this.weekG='';
+     this.sortG=''
+
+     this.projectNameG=[] ;
+
+     this.clientNameG=[];
+  }
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -455,17 +482,26 @@ sortDirectionMethod() {
   }
 
 
-  SearchByResourceName()
-  {
-    if(!this.searchKeyG){
-
-    //  return
-
-    }else if(this.searchKeyG.length<2)
-    {
-      return
+    onSearchChange() {
+      if(this.searchKeyGBinded) {
+        if(this.searchKeyGBinded.length < 2) {
+          this.searchKeyG = '';
+        } else {
+          this.searchKeyG = this.searchKeyGBinded
+        }
+      } else {
+        this.searchKeyG = '';
+      }
+      this.UpdateData();
     }
 
+  onWeekChange() {
+    this.weekG = this.weekGBinded?this.weekGBinded.toISOString():'';
+    this.UpdateData();
+  }
+
+  UpdateData()
+  {
 
     if(this.tabselected==0)
     {
@@ -475,7 +511,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -493,7 +529,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -511,7 +547,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
@@ -529,7 +565,7 @@ sortDirectionMethod() {
 
         this.pageSizeG,
 
-        this.searchKeyG?this.searchKeyG:'',
+        this.searchKeyG,
 
         this.sortByG,
 
