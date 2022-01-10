@@ -851,6 +851,16 @@
       "sourceRoot": "apps/usermanagement/src",
       "prefix": "exec-epp",
       "architect": {
+       "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build usermanagement --with-deps",
+              "docker build -f Dockerfile.user-management . -t user-management"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
