@@ -470,6 +470,11 @@ handleGroupCancel() {
     return;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  Remove(userId: string) {
+
+  }
+  
   ShowDetail(userId: string) {
     this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
   }
