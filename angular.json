@@ -14,7 +14,6 @@
               "nx build applicant-tracking --with-deps",
               "docker build -f Dockerfile.applicant-tracking . -t applicant-tracking"
             ],
-            
             "parallel": false
           }
         },
@@ -400,6 +399,7 @@
         }
       }
     },
+    
     "epp-dashboard-e2e": {
       "root": "apps/epp-dashboard-e2e",
       "sourceRoot": "apps/epp-dashboard-e2e/src",
