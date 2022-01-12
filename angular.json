@@ -40,12 +40,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "200kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -169,12 +169,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "300kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -325,12 +325,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "300kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -490,12 +490,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "300kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -627,12 +627,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "300kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -761,7 +761,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "300kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -882,12 +882,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "5mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "300kb",
-                  "maximumError": "500kb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -1013,3 +1013,5 @@
   },
   "defaultProject": "passport"
 }
+
+
