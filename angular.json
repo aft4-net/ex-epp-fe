@@ -399,6 +399,7 @@
         }
       }
     },
+    
     "epp-dashboard-e2e": {
       "root": "apps/epp-dashboard-e2e",
       "sourceRoot": "apps/epp-dashboard-e2e/src",
