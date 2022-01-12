@@ -5,9 +5,6 @@ pipeline{
      environment {
         registry = "blens/epp"
         registryCredential = 'dockerhubID-Blen'
-      
-        
-        
     }
     stages
    { 

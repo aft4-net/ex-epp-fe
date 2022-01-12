@@ -39,12 +39,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "500kb",
                   "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "200kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -168,12 +168,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "500kb",
                   "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "300kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -324,12 +324,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "500kb",
                   "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "300kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -399,6 +399,7 @@
         }
       }
     },
+    
     "epp-dashboard-e2e": {
       "root": "apps/epp-dashboard-e2e",
       "sourceRoot": "apps/epp-dashboard-e2e/src",
@@ -488,12 +489,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "500kb",
                   "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "300kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -625,12 +626,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "500kb",
                   "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb",
+                  "maximumWarning": "300kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -759,7 +760,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
+                  "maximumWarning": "300kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -851,16 +852,6 @@
       "sourceRoot": "apps/usermanagement/src",
       "prefix": "exec-epp",
       "architect": {
-       "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              "nx build usermanagement --with-deps",
-              "docker build -f Dockerfile.user-management . -t usermanagement"
-            ],
-            "parallel": false
-          }
-        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -895,7 +886,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
+                  "maximumWarning": "300kb",
                   "maximumError": "10mb"
                 }
               ],
@@ -1022,3 +1013,5 @@
   },
   "defaultProject": "passport"
 }
+
+
