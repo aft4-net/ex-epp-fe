@@ -14,6 +14,7 @@
               "nx build applicant-tracking --with-deps",
               "docker build -f Dockerfile.applicant-tracking . -t applicant-tracking"
             ],
+            
             "parallel": false
           }
         },
