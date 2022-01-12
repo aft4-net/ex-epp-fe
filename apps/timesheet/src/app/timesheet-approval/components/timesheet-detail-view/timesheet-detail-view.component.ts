@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SelectMultipleControlValueAccessor } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 @Component({
@@ -14,8 +17,11 @@ export class TimesheetDetailViewComponent implements OnInit {
   inputValue='';
   @Input() approvalDetails:any[]=[]
   timesheetApprove!:TimesheetApproval;
+  @Output () isApprovedOrReturned=new EventEmitter<boolean>();
 
-    constructor(private timesheetService:TimesheetService) {
+    constructor(private timesheetService:TimesheetService,
+      private notification: NzNotificationService,
+      private _router: Router) {
 
     }
 
@@ -54,20 +60,49 @@ export class TimesheetDetailViewComponent implements OnInit {
     this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Approved;
-    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
-    this.isDialogVisible=false;
-    this.timesheetService.success='Timesheet approved successfully';
-    this.timesheetService.error='Timesheet approve failed';
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe((response:any)=>{
+      if (response.ResponseStatus.toString() == 'Success') {
+        this.notification.success("Timesheet approved successfully","",
+        { nzPlacement: 'bottomRight' }
+
+        );
+       console.log("one - approval");
+       this.isApprovedOrReturned.emit(true);
+      }
+      else{
+
+        this.notification.error("Timesheet approve failed","",
+        { nzPlacement: 'bottomRight' }
+        )
+
+      }
+    });
+    this.exitModal();
   }
   requestForReview()
   {
     this.timesheetApprove=this.timesheetDetail;
     this.timesheetApprove.Comment=this.inputValue;
     this.timesheetApprove.Status=ApprovalStatus.Rejected;
-    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove);
-    this.isDialogVisible=false;
-    this.timesheetService.success='Timesheet requested for review successfully';
-    this.timesheetService.error='Timesheet request for review failed';
+    this.timesheetService.updateTimesheetProjectApproval(this.timesheetApprove).subscribe((response:any)=>{
+      if (response.ResponseStatus.toString() == 'Success') {
+        this.notification.success("Timesheet returned for review successfully","",
+        { nzPlacement: 'bottomRight' }
+
+        );
+       console.log("one - approval");
+       this.isApprovedOrReturned.emit(true);
+      }
+      else{
+
+        this.notification.error("Timesheet return for review failed","",
+        { nzPlacement: 'bottomRight' }
+        )
+
+      }
+    });
+    this.exitModal();
+
   }
 
   }

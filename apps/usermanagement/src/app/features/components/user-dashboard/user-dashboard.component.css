@@ -203,6 +203,9 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   width: 61px;
   border: solid 1px #00a551;
 }
+.clear-btn:hover{
+  color: #00a551;
+}
 .ant-btn-default{
   background-color: white;
   color: #00a551;

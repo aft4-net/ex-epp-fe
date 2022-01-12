@@ -44,8 +44,13 @@
                 },
                 {
                   "type": "anyComponentStyle",
+<<<<<<< HEAD
                   "maximumWarning": "200kb",
                   "maximumError": "500kb"
+=======
+                  "maximumWarning": "2kb",
+                  "maximumError": "20kb"
+>>>>>>> 112056f143a3d74eff65c8bb60f51db755cfd272
                 }
               ],
               "fileReplacements": [
@@ -845,13 +850,29 @@
         }
       }
     },
+<<<<<<< HEAD
     
+=======
+>>>>>>> 112056f143a3d74eff65c8bb60f51db755cfd272
     "usermanagement": {
       "projectType": "application",
       "root": "apps/usermanagement",
       "sourceRoot": "apps/usermanagement/src",
       "prefix": "exec-epp",
       "architect": {
+<<<<<<< HEAD
+=======
+       "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build usermanagement --with-deps",
+              "docker build -f Dockerfile.user-management . -t usermanagement"
+            ],
+            "parallel": false
+          }
+        },
+>>>>>>> 112056f143a3d74eff65c8bb60f51db755cfd272
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -882,12 +903,17 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
+<<<<<<< HEAD
                   "maximumWarning": "300kb",
                   "maximumError": "500kb"
+=======
+                  "maximumWarning": "2kb",
+                  "maximumError": "100kb"
+>>>>>>> 112056f143a3d74eff65c8bb60f51db755cfd272
                 }
               ],
               "fileReplacements": [

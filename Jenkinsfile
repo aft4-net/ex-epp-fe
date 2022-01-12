@@ -49,6 +49,10 @@ pipeline{
                             sh "docker tag resource-management:latest blens/rm"
                             sh "docker tag project-management:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
+<<<<<<< HEAD
+=======
+                            sh "docker tag usermanagement:latest blens/um"
+>>>>>>> 112056f143a3d74eff65c8bb60f51db755cfd272
                             
                             sh "docker push blens/eppfe"
                             sh "docker push blens/ts"

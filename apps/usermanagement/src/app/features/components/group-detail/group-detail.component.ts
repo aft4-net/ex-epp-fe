@@ -146,10 +146,12 @@ export class GroupDetailComponent implements OnInit {
       this.loading = false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   RemoveUserFromGroup(userId : string) {
 
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
     this.modal.create({
       nzTitle: tplTitle,
@@ -309,7 +311,8 @@ export class GroupDetailComponent implements OnInit {
    this.groupDescriptionEditForm.reset();
  }
 
- AddUserToGroup() {
+ // eslint-disable-next-line @typescript-eslint/no-empty-function
+ AddUserToGroup() : void {
 
  }
 
