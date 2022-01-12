@@ -75,13 +75,6 @@
       "tags": [],
       "implicitDependencies": ["timesheet"]
     },
-    "user-management": {
-      "tags": []
-    },
-    "user-management-e2e": {
-      "tags": [],
-      "implicitDependencies": ["user-management"]
-    },
     "usermanagement": {
       "tags": []
     },

@@ -1,4 +1,6 @@
-
+export interface TimesheetApprovalProjectDetails  {
+  projectName: string;
+}
 
 export interface Timesheet {
     Guid: string;

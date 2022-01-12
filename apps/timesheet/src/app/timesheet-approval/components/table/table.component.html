@@ -6,8 +6,8 @@
         (nzCheckedChange)="onAllChecked($event)"></th>
       <th [nzSortFn]="true" (click)="sorterMethod('Name')">Name</th>
       <th [nzSortFn]="true" (click)="sorterMethod('Date Range')">Date Range</th>
-      <th [nzSortFn]="true" (click)="sorterMethod('Project')">Project Name</th>
-      <th [nzSortFn]="true" (click)="sorterMethod('Client Name')">Client Name</th>
+      <th  [nzFilters]="ProjectName" (nzFilterChange)="filterByProject($event)"  [nzFilterFn]="true"  [nzSortFn]="true" (click)="sorterMethod('Project')">Project Name</th>
+      <th  [nzFilters]="ClientName" (nzFilterChange)="filterByClient($event)"  [nzFilterFn]="true"  [nzSortFn]="true" (click)="sorterMethod('Client Name')">Client Name</th>
       <th>Hours</th>
       <th *ngIf="status">Status</th>
     </tr>
@@ -36,9 +36,12 @@
   </tbody>
 </nz-table>
 <div>
+
+
 <exec-epp-timesheet-detail-view [isDialogVisible]="isModalVisible" [timesheetDetail]="timesheetDetail"
 [approvalDetails]="timesheetEntries"
 (modalStatus)="timesheetDetailClose($event)"
+(isApprovedOrReturned)="updateTimesheetAfterStatusChanged($event)"
 ></exec-epp-timesheet-detail-view>
 </div>
 

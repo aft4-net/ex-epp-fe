@@ -10,6 +10,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { TimesheetService } from './timesheet.service';
 import { iif } from 'rxjs';
 import { throwIfEmpty } from 'rxjs/operators';
+import { TimesheetConfigurationStateService } from '../state/timesheet-configuration-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class TimesheetValidationService {
   toDate: Date;
   message: string | null = null;
 
-  constructor() {
+  constructor(private timesheetConfigStateService: TimesheetConfigurationStateService) {
     this.date = new Date();
     this.date = new Date(
       this.date.getFullYear(),
@@ -104,15 +105,15 @@ export class TimesheetValidationService {
     }
 
     if(!timesheetConfiguration?.StartOfWeeks) {
-      timesheetConfiguration.StartOfWeeks = [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}];
+      timesheetConfiguration.StartOfWeeks = this.timesheetConfigStateService.defaultTimesheetConfig.StartOfWeeks;
     }
 
     if (!timesheetConfiguration?.WorkingDays) {
-      timesheetConfiguration.WorkingDays = [];
+      timesheetConfiguration.WorkingDays = this.timesheetConfigStateService.defaultTimesheetConfig.WorkingDays;
     }
 
     if (!timesheetConfiguration?.WorkingHours) {
-      timesheetConfiguration.WorkingHours = {Min: 0, Max: 24};
+      timesheetConfiguration.WorkingHours = this.timesheetConfigStateService.defaultTimesheetConfig.WorkingHours;
     }
 
     for (const workingDay of timesheetConfiguration.WorkingDays) {
@@ -160,7 +161,7 @@ export class TimesheetValidationService {
         .reduce((prev, next) => prev + next, 0);
 
       if (totalHour < timesheetConfiguration.WorkingHours.Min) {
-        this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${date.toDateString()} date to satisfy minimum working hours.`;
+        this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${new Date(date).toDateString()} date to satisfy minimum working hours.`;
         return false;
       }
     }

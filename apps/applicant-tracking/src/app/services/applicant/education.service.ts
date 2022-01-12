@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'apps/applicant-tracking/src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EducationModel } from '../../models/education/education.model';

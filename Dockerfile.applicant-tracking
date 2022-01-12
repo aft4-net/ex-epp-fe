@@ -3,5 +3,7 @@ WORKDIR /app
 COPY ./dist/apps/applicant-tracking .
 
 FROM nginx:stable-alpine as production-stage
+RUN rm -rf /usr/share/nginx/html/* && rm -rf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=install-stage /app /usr/share/nginx/html
 EXPOSE 80
