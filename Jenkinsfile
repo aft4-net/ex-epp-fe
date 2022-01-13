@@ -15,25 +15,24 @@ pipeline{
         
             }
         }
+    stage('npm build')
+     {
+         when {
+             branch 'develop'
+         }
+         steps{
+              sh 'npm install'
+              sh 'npm build-all'
+            }
+        }    
     stage('npm run')
      {
-        //when {
-                
-        //  branch 'develop'  
-            
-        //  }
-        //  steps{
-        //    sh 'npm install'
-        //    sh 'npm run deploy'
-        //  }
-        when {
-                
-            branch 'master'  
-            
-            }
-            steps{
+         when {
+             branch 'master'
+         }
+         steps{
               sh 'npm install'
-              sh 'npm run deploy'
+              sh 'npm deploy'
             }
         }    
 
