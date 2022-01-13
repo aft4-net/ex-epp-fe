@@ -13,6 +13,9 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
 import { PermissionService } from '../../services/permission/permission.service';
 import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
+import { UserService } from '../../services/user.service';
+import { ResponseDTO } from '../../../models/ResponseDTO';
+import { GroupUsers } from '../../Models/Group/GroupUsres';
 
 @Component({
   selector: 'exec-epp-group-detail',
@@ -25,7 +28,7 @@ export class GroupDetailComponent implements OnInit {
   constructor(private groupSetService : GroupSetService, private _router: Router, 
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
-              private _permissionService:PermissionService) {
+              private _permissionService:PermissionService, private userService : UserService) {
 
               }
   listOfAssignedPermistion:AllPermitionData[]=[]
@@ -57,7 +60,12 @@ export class GroupDetailComponent implements OnInit {
   lastRow !: number;
   groupdescription : any;
   groupDescriptionEditForm !: FormGroup;
-  AddToGroupForm !: FormGroup;
+  AddUserToGroupForm !: FormGroup;
+  groupUsers : GroupUsers= {
+    GroupGuid: "",
+    UserGuidCollection: [],
+  };
+  usersNotAssignedGroup !: IGroupUsersView[];
   listOfColumn = [
     {
       title: 'Name',
@@ -70,13 +78,13 @@ export class GroupDetailComponent implements OnInit {
 
   ngOnInit() {
     this.createGroupDescriptionControls();
-    this.createAddToGroupControls();
+    this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
       this.groupDetail  = result 
       console.log(result)
     } );
-    this.FeatchAllGroupsUsers()
+    this.FeatchAllGroupsUsers();
     this._permissionService.PermissionList=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
@@ -87,8 +95,8 @@ export class GroupDetailComponent implements OnInit {
     })
   }
 
-  createAddToGroupControls() {
-    this.AddToGroupForm = this.fb.group({
+  AddUserToGroupControls() {
+    this.AddUserToGroupForm = this.fb.group({
       Users: [[],[Validators.required]]
     })
   }
@@ -103,7 +111,7 @@ export class GroupDetailComponent implements OnInit {
         this.listOfCurrentPageData = response.Data;
         this.pageIndex=response.pagination.PageIndex;
         this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
+        this.totalRecord=response.pagination.TotalRecord;
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
@@ -146,12 +154,13 @@ export class GroupDetailComponent implements OnInit {
       this.loading = false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  RemoveUserFromGroup(userId : string) {
-
+  RemoveUserFromGroup(groupUserId : string) {
+      this.groupSetService.RemoveUserFromGroup(groupUserId).subscribe((result) => {
+        this.createNotification('Removing User',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+        this.FeatchAllGroupsUsers();
+      })
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
   createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
     this.modal.create({
       nzTitle: tplTitle,
@@ -191,6 +200,33 @@ export class GroupDetailComponent implements OnInit {
         loading: false,
         onClick: () => {
           this.DeleteGroup();
+          modal.destroy()
+        }
+      }]
+    });
+  }
+
+  createGroupMemeberDeleteModal(groupUserId :string): void {
+    alert(groupUserId);
+    const modal: NzModalRef = this.modal.create({
+    nzTitle: 'Remove user form group',
+    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group.The user will not have the permission that are provied to the group. <br/>" +
+                "Removing a user can't be undone",
+    nzFooter: [
+      {
+          label: 'Cancel',
+          onClick: () =>{
+            modal.destroy()
+          } 
+      },
+      {
+        label: 'Remove User',
+        type: 'primary',
+        danger: true,
+        disabled: false,
+        loading: false,
+        onClick: () => {
+          this.RemoveUserFromGroup(groupUserId);
           modal.destroy()
         }
       }]
@@ -311,9 +347,14 @@ export class GroupDetailComponent implements OnInit {
    this.groupDescriptionEditForm.reset();
  }
 
- // eslint-disable-next-line @typescript-eslint/no-empty-function
- AddUserToGroup() : void {
-
+ AddUserToGroup() {
+    this.groupUsers.GroupGuid = this.groupId;
+    this.groupUsers.UserGuidCollection = this.AddUserToGroupForm.value.Users;
+    this.groupSetService.AddUsersToGroup(this.groupUsers).subscribe((result) => {
+      this.isAddToGroupVisible=false;
+      this.createNotification('Adding Users',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message); 
+      this.FeatchAllGroupsUsers();
+    });
  }
 
  CloseAddUserToGroup() {
@@ -322,5 +363,14 @@ export class GroupDetailComponent implements OnInit {
 
  ShowAddUserToGroupModal() {
   this.isAddToGroupVisible = true;
+  this.userService.LoadUsersNotAssignedToGroup(this.groupId).subscribe(
+    (result: ResponseDTO<IGroupUsersView[]> | any)=> {
+      this.usersNotAssignedGroup = result.Data;
+    });
+ }
+
+ CancelAddUserToGroup() {
+  this.AddUserToGroupForm.reset();
+  this.AddUserToGroupForm.controls["Users"].markAsPristine()
  }
 }
