@@ -13,7 +13,7 @@
 
       </div>
 
-  <div nz-row [nzGutter]="24" >
+  <div nz-row [nzGutter]="20" >
     <div nz-col [nzSpan]="5" *ngIf="authorize('Time_sheet_Module')">
       <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
         <nz-card-meta
@@ -72,6 +72,9 @@
         <p style="font-size:14px; ">Projects</p>
       </ng-template>
     </div>
+
+  </div>
+  <div nz-row [nzGutter]="25" style="padding-top: 2%;"  nzHoverable="true" >
     <div nz-col [nzSpan]="5">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
@@ -101,9 +104,6 @@
         <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; ">User Management</p></a>
       </ng-template>
     </div>
-  </div>
-   
-   
   </div>
 </div>
 
