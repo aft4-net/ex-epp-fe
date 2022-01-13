@@ -64,16 +64,16 @@ export class AddUserService {
     catchError(this.formatError)
   );
   }
-  getUserGroups(userId: string): Observable<[GroupSetModel]> {
+  getUserGroups(userId: string): Observable<ResponseDTO<[GroupSetModel]>> {
     
-    const url = `${environment.apiUrl}/User/GetUsersGroup?userId=${userId}`;
-  return this.http.get<[GroupSetModel]>(url).pipe(
+    const url = `${environment.apiUrl}/UserGroups/GetGroupSetByUserId?guid=${userId}`;
+    return this.http.get<ResponseDTO<[GroupSetModel]>>(url).pipe(
     catchError(this.formatError)
   );
 }
 addGroups(userId: string, Groups: string []): Observable<ResponseDTO<any>> {
-  this.path = `${environment.apiUrl}/user/AddUserToGroups?UserId=${userId}`
-return this.http.post<ResponseDTO<any>>(this.path, Groups, this.httpOptions).pipe(
+  this.path = `${environment.apiUrl}/UserGroups?userId=${userId}`;
+return this.http.put<ResponseDTO<any>>(this.path, Groups, this.httpOptions).pipe(
   catchError(this.formatError)
 );
 }
