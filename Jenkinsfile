@@ -17,12 +17,7 @@ pipeline{
         }
     stage('npm run')
      {
-        when {
-                
-            branch 'develop'  
-            
-            }
-            steps{
+         steps{
               sh 'npm install'
               sh 'npm run deploy'
             }
