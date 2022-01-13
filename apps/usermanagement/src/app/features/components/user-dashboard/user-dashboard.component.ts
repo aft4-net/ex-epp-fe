@@ -377,12 +377,16 @@ export class UserDashboardComponent implements OnInit {
         (r:  GroupSetModel[]) => {
             this.groupList = r;
             this.addUserService.getUserGroups(userId).subscribe(
-                (r: GroupSetModel[]) => {
-                    r.forEach(el => {
+                (r: ResponseDTO<GroupSetModel[]>) => {
+                  const groups = r.Data;
+                    groups.forEach(el => {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
                     this.isLoadng = false;
+                    console.log(r);
+                    console.log(this.selectedGroups);
+
                 },
                 (error: any) => {
                     console.log(error);
