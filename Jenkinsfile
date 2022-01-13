@@ -26,15 +26,6 @@ pipeline{
               sh 'npm install'
               sh 'npm run deploy'
             }
-        when {
-                
-            branch 'master'  
-            
-            }
-            steps{
-              sh 'npm install'
-              sh 'npm run deploy'
-            }   
         }    
 
    
