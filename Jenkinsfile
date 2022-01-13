@@ -17,15 +17,15 @@ pipeline{
         }
     stage('npm run')
      {
-        when {
+        //when {
                 
-            branch 'develop'  
+        //  branch 'develop'  
             
-            }
-            steps{
-              sh 'npm install'
-              sh 'npm run deploy'
-            }
+        //  }
+        //  steps{
+        //    sh 'npm install'
+        //    sh 'npm run deploy'
+        //  }
         when {
                 
             branch 'master'  
