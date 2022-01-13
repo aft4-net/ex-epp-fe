@@ -21,4 +21,9 @@ services:
     image: blens/rm:latest
     ports:
       - "4205:80"
+
+  usermanagement:
+    image: blens/um:latest
+    ports:
+      - "4206:80"
   
