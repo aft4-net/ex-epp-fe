@@ -19,6 +19,15 @@ pipeline{
      {
         when {
                 
+            branch 'develop'  
+            
+            }
+            steps{
+              sh 'npm install'
+              sh 'npm run deploy'
+            }
+        when {
+                
             branch 'master'  
             
             }
