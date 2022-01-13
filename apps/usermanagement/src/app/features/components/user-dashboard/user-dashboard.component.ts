@@ -69,7 +69,7 @@ export class UserDashboardComponent implements OnInit {
 
   listOfColumns!: ColumnItem<IUserModel>[];
 
-  listOfColumnsFullName: ColumnItem<IUserModel>[] = [
+  listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
       name: 'Name',
       sortOrder: null,
@@ -78,9 +78,11 @@ export class UserDashboardComponent implements OnInit {
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
-    },
-    {
-      name: 'Last Activity Date',
+    }
+  ];
+  listOfColumnsLastActivityDate: ColumnItem<IUserModel>[] = [
+  {
+      name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
@@ -88,7 +90,7 @@ export class UserDashboardComponent implements OnInit {
       listOfFilter:this.userListLastActivityDate,
       filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
     }
-  ]
+  ];
 
   @ViewChild('userNameInput', { static: true }) element: ElementRef | undefined;
   input!: ElementRef;
@@ -137,8 +139,8 @@ export class UserDashboardComponent implements OnInit {
     this.loading = true;
     this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
-      if(response.Data) {
-       
+      if(response.Data) 
+      { 
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -367,6 +369,7 @@ export class UserDashboardComponent implements OnInit {
   }
   AddToGroup(userId: string)  {
     this.selectedUserId = userId;
+    
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
     this.isLoadng = true;
@@ -424,7 +427,7 @@ handleGroupCancel() {
   this.groupfrm.reset();
 }
   onShowError(err: any) {
-    let errMsg = 'Some error occured. Please review your input and try again. ';
+    const errMsg = 'Some error occured. Please review your input and try again. ';
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
     this.isLoadng = false;
@@ -467,6 +470,7 @@ handleGroupCancel() {
     return;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   Remove(userId: string) {
 
   }

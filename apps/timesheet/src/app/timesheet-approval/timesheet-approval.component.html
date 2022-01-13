@@ -18,10 +18,9 @@
 </div>
 
 <div nz-row class="controllers">
-
     <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
         <button class="approveButton" nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0" (click)="Approve()" (click)="onAwaitingTabClick()"   [routerLink]="'/timesheet-approval'"
+        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
         [ngClass]="{
           'is-blue': qtyofItemsSelected <= 0,
           'is-yellow': qtyofItemsSelected > 0
@@ -32,16 +31,18 @@
         </button>
     </div>
 
-    <div nz-col nzSpan="10" class="ml-1" style="margin-right: 12px;">
+    <div nz-col nzSpan="10" class="ml-1" style="margin-right:12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
-        <input  [(ngModel)]="searchKeyG" (ngModelChange)="SearchByResourceName()" type="text" nz-input placeholder="Search by employee name" />
+        <input  [(ngModel)]="searchKeyGBinded" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search by employee name" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
       </ng-template>
     </div>
-  <div nz-col class="ml-1" nzSpan="8">
-    <nz-date-picker nzMode="week" [(ngModel)]="date"></nz-date-picker>
+  <br>
+  <br>
+  <div nz-col class="ml-1">
+    <nz-date-picker [(ngModel)]="weekGBinded" (ngModelChange)="onWeekChange()"></nz-date-picker>
   </div>
 </div>
 <div class="tab" style="z-index: 9;">
@@ -52,10 +53,7 @@
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
       >
         <div nzRight class="content">
-          <exec-epp-table [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"
-          (isApprovedReturned)="statusChanged($event)"
-
-          ></exec-epp-table>
+          <exec-epp-table (isApprovedReturned)="statusChanged($event)"  [status]= true  [ProjectName]="filteredProjectNamesList" (FilterByProject)="FilterByProject($event)" [ClientName]="filteredClientNamesList" [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
@@ -66,10 +64,8 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
-        <exec-epp-table [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
-        (itemsSelected)="onItemCheckStatusChange($event)"
-        (isApprovedReturned)="statusChanged($event)"
-         ></exec-epp-table>
+        <exec-epp-table (isApprovedReturned)="statusChanged($event)" [bulkCheck]= true [ProjectName]="filteredProjectNamesList"  [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
+        (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
@@ -78,7 +74,7 @@
         </span>
       </nz-tab>
       <nz-tab nzTitle="Approved" (nzClick)="onApprovedTabClick()">
-        <exec-epp-table [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
+        <exec-epp-table [ProjectName]="filteredProjectNamesList" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
          <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
@@ -88,7 +84,7 @@
       </nz-tab>
 
       <nz-tab nzTitle="Request for review" (nzClick)="onReviewTabClick()">
-        <exec-epp-table [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
+        <exec-epp-table [ProjectName]="filteredProjectNamesList" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries

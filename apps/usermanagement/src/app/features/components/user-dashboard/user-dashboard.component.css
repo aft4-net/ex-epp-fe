@@ -126,6 +126,11 @@ button.userstatus:hover {
   color: #00a551;
 }
 
+button.namebutton button.namebutton:hover button.namebutton:active {
+  border:0px solid; 
+  color: black;
+}
+
 .userstatus {
   border-color: #DCFFDC;
   background-color: #DCFFDC;
@@ -198,9 +203,29 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   width: 61px;
   border: solid 1px #00a551;
 }
+.clear-btn:hover{
+  color: #00a551;
+}
 .ant-btn-default{
   background-color: white;
   color: #00a551;
+}
+.def{
+  color: #00A551;
+}
+
+.ant-btn-link,.ant-btn-link:focus, .ant-btn-link:hover {
+  color: black !important
+}
+
+::ng-deep .ant-table-column-sorters {
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flow-root !important;
+}
+
+::ng-deep .ant-table-filter-column {
+  display: inline-flex !important;
 }
 .l-btn{
   margin-right: 10px !important;
