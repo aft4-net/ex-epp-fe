@@ -15,11 +15,14 @@ pipeline{
         
             }
         }
-    stage('npm run')
+    stage('npm build')
      {
+         when {
+             branch 'develop'
+         }
          steps{
               sh 'npm install'
-              sh 'npm run deploy'
+              sh 'npm build-all'
             }
         }    
 
