@@ -19,7 +19,7 @@ pipeline{
      {
         when {
                 
-            branch 'master'  
+            branch 'master|develop'  
             
             }
             steps{
