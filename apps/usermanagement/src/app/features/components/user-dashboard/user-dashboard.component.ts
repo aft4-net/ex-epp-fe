@@ -368,7 +368,6 @@ export class UserDashboardComponent implements OnInit {
     )
   }
   AddToGroup(userId: string)  {
-    alert(userId);
     this.selectedUserId = userId;
     
     this.selectedGroups = [];
