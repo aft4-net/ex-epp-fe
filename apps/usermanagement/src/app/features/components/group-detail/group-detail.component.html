@@ -94,11 +94,11 @@
                   <nz-modal [(nzVisible)]="isAddToGroupVisible" nzTitle="Add members to group"
                    [nzContent]="addUserToGroupmodalContent" [nzFooter]="null" (nzOnCancel)="CloseAddUserToGroup()">
                     <ng-template #addUserToGroupmodalContent>
-                      <form [formGroup]="AddToGroupForm">
+                      <form [formGroup]="AddUserToGroupForm" (ngSubmit)="AddUserToGroup()">
                         <div nz-row>
                           <div nz-col nzSpan="24">
                             <nz-select nzShowSearch [nzMaxTagCount]="20" nzMode="tags" nzMode="multiple" nzPlaceHolder="Select Users" formControlName="Users" style="width: 100%;">
-                              <!-- <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option> -->
+                              <nz-option *ngFor="let user of usersNotAssignedGroup" [nzLabel]="user.FullName" [nzValue]="user.Guid"></nz-option>
                             </nz-select>
                           </div>
                         </div>
@@ -106,15 +106,14 @@
                         <div class="right-footer">
                           <label class="footerText">Displaying 20 users. Update search criteria for better results.</label>
                           <nz-space>
-                            <button *nzSpaceItem nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-                            <button id="editgroupdescriptionbutton" [disabled]="groupDescriptionEditForm.invalid" *nzSpaceItem nz-button nzType="primary" class="editGroup" (click)="AddUserToGroup()">Save Changes</button>
+                            <button *nzSpaceItem nz-button nzType="default" (click)="CancelAddUserToGroup()">Cancel</button>
+                            <button id="addUserToGroupbutton" [disabled]="AddUserToGroupForm.invalid" *nzSpaceItem nz-button nzType="primary" class="editGroup">Save Changes</button>
                           </nz-space>
                         </div>
                       </form>
                     </ng-template>
-                </nz-modal>
-                  
-                </div> 
+                </nz-modal>                  
+              </div> 
             </div>
             <br>
             <div  nz-row nzJustify="end" *ngIf="groupUserList.length > 0">
@@ -147,7 +146,7 @@
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName}}</td>
                     <td>
-                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" (click)="RemoveUserFromGroup(user.Guid)" >
+                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" (click)="createGroupMemeberDeleteModal(user.Guid)" >
                           Remove
                         </button>
                     </td>
@@ -164,7 +163,6 @@
                     Edit group's access
                       </button>
                     </a>
-
                     <div class="assign-access" *ngFor="let item of listOfAssignedPermistion;let i=index">
                       <h3><b>{{item.Parent.label}}</b></h3>
                       <div>
