@@ -17,6 +17,8 @@ import { PermissionComponent } from './features/components/permission/permission
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { GroupsetComponent } from './features/components/groupset/groupset.component';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
+import { AddUserComponent } from './features/components/user/add-user/add-user.component';
+import { UserToGroupComponent } from './features/components/user/user-to-group/user-to-group.component';
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { UserdetailsComponent } from './features/components/userdetails/userdetails.component';
@@ -34,6 +36,8 @@ registerLocaleData(en);
     UserDashboardComponent,
     GroupsetComponent,
     GroupDetailComponent,
+    AddUserComponent,
+    UserToGroupComponent,
     UserdetailsComponent
   ],
   imports: [

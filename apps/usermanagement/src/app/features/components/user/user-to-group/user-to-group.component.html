@@ -1,0 +1,44 @@
+<button nz-button (click)="onAddGroups()" nzType="primary" >Create User(s)</button>
+
+
+<nz-modal
+[(nzVisible)]="isGroupModalVisible"
+[nzTitle]="modalTitle"
+[nzContent]="modalContent"
+[nzFooter]="null"
+(nzOnCancel)="handleCancel()"
+>
+<ng-template #modalTitle class="backChange"><h4>Add Users</h4></ng-template>
+
+<ng-template #modalContent>
+ 
+  <form  [formGroup]="groupfrm" (ngSubmit)="onSaveGroups()" #form>
+    <div nz-row>
+        <div nz-col nzSpan="24" class="forDes">
+            <div class="label">Groups
+            <span style="color:red; font-weight:bold">&nbsp;*</span>
+            </div>
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24" >
+              <nz-select
+      [(ngModel)]="selectedGroups"
+      nzShowSearch
+      [nzShowArrow]="true"
+      name = "group"
+      nzMode = "tags"
+      formControlName="GroupNames"
+      placeholder="Search groups"
+    >
+     <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
+    </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div><br>
+</form>
+<div class="right-footer">
+    <button nz-button nzType="primary" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" style="margin-right:10px">Add</button>
+    <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
+</div>
+</ng-template>
+</nz-modal>
