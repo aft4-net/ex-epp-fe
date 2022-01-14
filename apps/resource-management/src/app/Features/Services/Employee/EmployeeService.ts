@@ -52,6 +52,7 @@ export class EmployeeService {
     this.setEmployee(employee);
   }
   setEmployee(employee: Employee) {
+  
     return this.http.post(this.baseUrl, employee).subscribe(
       (response: ResponseDto<Employee> | any) => {
         this.employeeSource.next(response.data), console.log(response.message);
@@ -100,10 +101,14 @@ export class EmployeeService {
   }
 
   add(employee: Employee) {
+    delete employee.guid;
+    console.log("in the save service now : " + JSON.stringify(employee));
+    console.log("was the url : "+ this.baseUrl);
     return this.http.post(this.baseUrl, employee);
   }
 
   update(employee: Employee) {
+  
     return this.http.put(this.baseUrl, employee);
   }
   saveEmployee() {
