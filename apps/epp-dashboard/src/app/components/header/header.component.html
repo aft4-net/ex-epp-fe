@@ -28,12 +28,17 @@
             <button nz-row style="border: none;"  nz-button nzType="default"  >
                {{thefullName}}
             </button>
+            <button nz-row style="border: none;"  nz-button nzType="default"  >
+              {{theGroup}}
+           </button>
             <button nz-row style="border: none;"   nz-button nzType="default" >
-              <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; ">  User Profile</p></a>         
+              <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; "> User Profile</p></a>         
             </button>
             <button nz-row style="border: none;"   nz-button nzType="default" nzDanger (click)="logout()">
                 Logout
             </button>
+          
+           
         </div>
 
       </ng-template>
