@@ -51,6 +51,13 @@
       "tags": [],
       "implicitDependencies": ["epp-dashboard"]
     },
+    "eppconfiguration": {
+      "tags": []
+    },
+    "eppconfiguration-e2e": {
+      "tags": [],
+      "implicitDependencies": ["eppconfiguration"]
+    },
     "ng-zorro": {
       "tags": []
     },
