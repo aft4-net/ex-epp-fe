@@ -28,7 +28,8 @@
         <p style="font-size:14px; ">Timesheet</p>
       </ng-template>
     </div>
-    <div nz-col [nzSpan]="5" *ngIf="authorize('Employee_Module')">
+    <!-- *ngIf="authorize('Employee_Module')" -->
+    <div nz-col [nzSpan]="5" >
       <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
         <a href="http://localhost:60730/">
         <nz-card-meta
@@ -41,7 +42,7 @@
         <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:green ;  font-size: '19px';"></i>
       </ng-template>
       <ng-template #avatarTextTemplate>
-        <p style="font-size:14px; ">Employee Information</p>
+        <p style="font-size:14px; "><a routerLink="resourcemanagement">Employee Information</a></p>
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5">

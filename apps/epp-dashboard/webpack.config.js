@@ -25,8 +25,13 @@ module.exports = {
     new ModuleFederationPlugin({
       remotes: {
         usermanagement: 'usermanagement@http://localhost:4231/remoteEntry.js',
+<<<<<<< HEAD
         eppconfiguration:
           'eppconfiguration@http://localhost:4232/remoteEntry.js',
+=======
+        resourcemanagement:
+          'resourcemanagement@http://localhost:4234/remoteEntry.js',
+>>>>>>> em-routing
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },
