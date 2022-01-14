@@ -9,8 +9,10 @@ import {AuthenticationService} from './../../../../../../libs/common-services/Au
 })
 export class HeaderComponent implements OnInit {
 fullName:any
+thefullName = "";
   constructor(private authService: MsalService,private _authenticationService:AuthenticationService) { 
     this.fullName=_authenticationService.getUserFullName();
+    this.thefullName = this.fullName;
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0][0].toUpperCase()+namearray[1][0].toUpperCase();
   }

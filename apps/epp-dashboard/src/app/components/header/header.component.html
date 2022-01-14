@@ -23,19 +23,19 @@
  
       <button nz-button nzType="primary" nzDanger nzShape="circle"    nzPopoverTrigger="click" 
       nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
-      <ng-template #contentTemplate>
-        <div>
-            <button class="actionButtons" nz-button nzType="default"  >
-               Edit Account
+      <ng-template #contentTemplate>      
+        <div  nz-col>
+            <button nz-row style="border: none;"  nz-button nzType="default"  >
+               {{thefullName}}
             </button>
-            <button class="actionButtons"  nz-button nzType="default" >
-              User Profile
+            <button nz-row style="border: none;"   nz-button nzType="default" >
+              <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; ">  User Profile</p></a>         
             </button>
-            <button class="actionButtons"  nz-button nzType="default" nzDanger (click)="logout()">
+            <button nz-row style="border: none;"   nz-button nzType="default" nzDanger (click)="logout()">
                 Logout
             </button>
-          
         </div>
+
       </ng-template>
     </nz-page-header-extra>
   </nz-page-header>
