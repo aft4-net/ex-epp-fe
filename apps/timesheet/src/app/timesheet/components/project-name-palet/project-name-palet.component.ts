@@ -10,6 +10,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
+import { PermissionService} from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -31,14 +32,15 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   startingDateCriteria = startingDateCriteria
   isApproved = false;
   isRejected = false;
- 
+
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService,
     private timesheetStateService: TimesheetStateService,
-    private readonly _clientAndProjectStateService: ClientAndProjectStateService
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService,
+    private readonly _permissionService: PermissionService
   ) { }
-  
+
   ngOnInit(): void {
   }
 
@@ -94,7 +96,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
-    }    
+    }
 
     this.clickEventType = ClickEventType.showFormDrawer;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
@@ -140,6 +142,9 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       });
     }
   }
+  authorize(key: string){
+      return this._permissionService.authorizedPerson(key);
+    }
  }
-  
+
 
