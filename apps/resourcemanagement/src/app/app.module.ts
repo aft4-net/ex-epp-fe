@@ -26,6 +26,8 @@ import { RouterModule } from '@angular/router';
 import { RemoteEntryComponent } from './remote-entry/entry.component';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { EmployeeModule } from './Features/Components/employee/employee.module';
+import { DeviceDetailModule } from './Features/Components/device-detail/device-detail.module';
+import { DeviceDetailComponent } from './Features/Components/device-detail/device-detail.component';
 registerLocaleData(en);
 @NgModule({
   declarations: [
@@ -40,12 +42,14 @@ registerLocaleData(en);
     EmergencycontactEditComponent,
     AddressEditComponent,
     FamilyDetailEditComponent,
+   
 
 
   ],
   imports: [
     EmployeeRoutingModule,
     EmployeeModule,
+    DeviceDetailModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

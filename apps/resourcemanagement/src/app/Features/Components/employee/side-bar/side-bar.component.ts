@@ -10,9 +10,9 @@ export class SideBarComponent implements OnInit {
 
   @Input() active = 0
   constructor(private router:Router) {}
-  title = 'client';
+  title = 'Side-bar';
   route = '';
-  activePath(routePath: string) {
+  activeRoute(routePath: string) {
     if (this.route === '') this.route = this.router.url;
     return this.route == routePath;
   }

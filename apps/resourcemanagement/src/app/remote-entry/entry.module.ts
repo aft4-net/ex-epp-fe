@@ -23,6 +23,8 @@ import { FamilyDetailViewComponent } from '../Features/Components/employee/famil
 import { FamilyDetailComponent } from '../Features/Components/employee/family-detail/family-detail.component';
 import { PersonalAddressesComponent } from '../Features/Components/employee/personal-addresses/personal-addresses.component';
 import { EmployeeModule } from '../Features/Components/employee/employee.module';
+import { DeviceDetailComponent } from '../Features/Components/device-detail/device-detail.component';
+import { AddEditDeviceDetailComponent } from '../Features/Components/device-detail/add-edit-device-detail/add-edit-device-detail.component';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
@@ -41,11 +43,12 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-   
+
     RouterModule.forChild([
       {
         path: '',
         component: AppComponent,
+       
         children: [
           {
             path: '',
@@ -53,39 +56,40 @@ export function MSALInstanceFactory(): IPublicClientApplication {
           },
 
           {
-            path: 'personal-info',
+            path: 'employee/add-employee/personal-info',
             component: PersonalInfoComponent,
           },
+          
           {
-            path: 'Organization-Detail',
-            component: OrganizationDetailComponent,
-          },
-          {
-            path: 'personal-address',
+            path: 'employee/add-employee/personal-address',
             component: PersonalAddressesComponent,
           },
-        
+
           {
-            path: 'Organization-Detail',
+            path: 'employee/add-employee/Organization-Detail',
             component: OrganizationDetailComponent,
           },
-        
-          {path: 'address-view',
-          component: AddressViewComponent,
-        },
+
+          { path: 'employee/add-employee/address-view', component: AddressViewComponent },
           {
-            path: 'family-detail',
+            path: 'employee/add-employee/family-detail',
             component: FamilyDetailComponent,
           },
           {
-            path: 'family-detail-view',
+            path: 'employee/add-employee/family-detail-view',
             component: FamilyDetailViewComponent,
           },
-        
+
           {
-            path: 'emergencycontacts-view',
+            path: 'employee/add-employee/emergencycontacts-view',
             component: EmergencycontactViewComponent,
           },
+          {
+            path: 'device-detail',
+            component: DeviceDetailComponent,
+          },
+          { path: 'add', component: AddEditDeviceDetailComponent },
+          { path: 'edit/:id', component: AddEditDeviceDetailComponent },
         ],
       },
     ]),

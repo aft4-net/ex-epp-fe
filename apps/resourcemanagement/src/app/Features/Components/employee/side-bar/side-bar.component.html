@@ -1,31 +1,29 @@
-
-<br/>
+<br />
 <!--nzSelected ---->
-<ul nz-menu nzMode="inline" >
-  <li nz-menu-item  [nzSelected]='activePath("/resourcemanagement/personal-info")' routerLink="/resourcemanagement/personal-info"
-  s>
+<ul nz-menu nzMode="inline">
+  <li nz-menu-item [nzSelected]='activeRoute("/resourcemanagement/employee/add-employee/personal-info")'
+    routerLink="/resourcemanagement/employee/add-employee/personal-info">
     <i class="nz-icon" nz-icon [nzType]="'unordered-list'" [nzTheme]="'outline'"></i>
     Personal Detail
   </li>
-  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/address-view")'  routerLink="/resourcemanagement/address-view">
-    <i
-      class="nz-icon"
-      nz-icon
-      [nzType]="'environment'"
-      [nzTheme]="'outline'"
-    ></i
-    >Personal Addresses
+  <li nz-menu-item [nzSelected]='activeRoute("/resourcemanagement/employee/add-employee/address-view")'
+    routerLink="/resourcemanagement/employee/add-employee/address-view">
+    <i class="nz-icon" nz-icon [nzType]="'environment'" [nzTheme]="'outline'"></i>Personal Addresses
   </li>
-  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/family-detail-view")' routerLink="/resourcemanagement/family-detail-view">
+  <li nz-menu-item [nzSelected]='activeRoute("/resourcemanagement/employee/add-employee/family-detail-view")'
+    routerLink="/resourcemanagement/employee/add-employee/family-detail-view">
     <i class="nz-icon" nz-icon [nzType]="'file-text'" [nzTheme]="'outline'"></i>
     Family Details
   </li>
-  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/emergencycontacts-view")' routerLink="/resourcemanagement/emergencycontacts-view">
+  <li nz-menu-item [nzSelected]='activeRoute("/resourcemanagement/employee/add-employee/emergencycontacts-view")'
+    routerLink="/resourcemanagement/employee/add-employee/emergencycontacts-view">
     <i class="nz-icon" nz-icon [nzType]="'contacts'" [nzTheme]="'outline'"></i>
     Emergency Contacts
   </li>
-  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/Organization-Detail")' routerLink="/resourcemanagement/Organization-Detail">
+
+  <li nz-menu-item [nzSelected]='activeRoute("/resourcemanagement/employee/add-employee/Organization-Detail")'
+    routerLink="/resourcemanagement/employee/add-employee/Organization-Detail">
     <i class="nz-icon" nz-icon [nzType]="'apartment'" [nzTheme]="'outline'"></i>
     Organizational detail
   </li>
-</ul>
+ </ul>

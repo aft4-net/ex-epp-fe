@@ -16,6 +16,7 @@ export class PageBreadcrumbComponent implements OnInit {
   isdefault = this._employeeService.isdefault;
 
   router: string;
+  route = '';
 
   constructor(
     public _employeeService: EmployeeService,
@@ -28,6 +29,9 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('gggg', this.route);
+    this.activeRoute(this.route);
+    
  }
 
   saveEmployee() {
@@ -46,7 +50,7 @@ export class PageBreadcrumbComponent implements OnInit {
   }
 
   addEmployee() {
-
+    this.route = '/resourcemanagement/employee/add-employee/personal-info';
     this._formGenerator.generateForms()
     this._employeeService.isEdit=false;
     this._employeeService.save="Save";
@@ -54,9 +58,25 @@ export class PageBreadcrumbComponent implements OnInit {
     this._formGenerator.allAddresses=[];
     this._formGenerator.allEmergencyContacts=[];
     this._formGenerator.allFamilyDetails=[];
-     this._router.navigate(['/resourcemanagement/personal-info']);
-      this._employeeService.isdefault =!this.isdefault;
-     // this.isdefault = false;
+    this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']); 
+    const currentUrl = this.route;
+    this._router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
+    this._router.navigate([currentUrl]);
+  
+    });
+     
 
+  }
+
+  
+  activeRoute(routePath: string) {
+    if(this.route== '')
+  {
+    this.route = this._router.url;
+  }
+    
+    return this.route == routePath;
+
+    
   }
 }

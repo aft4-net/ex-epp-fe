@@ -14,7 +14,7 @@
       <!-- *ngIf="router !=='/employee/add-employee/personal-info'" -->
       <!-- *ngIf="_employeeService.isdefault && router !== '/device-detail'" -->
       <div nz-col nzSpan="2">
-        <button
+        <button *ngIf="activeRoute('/resourcemanagement')"
          
           nz-button
           class="addButton"
