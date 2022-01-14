@@ -11,13 +11,13 @@
   <div *ngIf="!isApproved && !approval" class="flex flex-row justify-end sm:gap-2 sm:w-4/6 lg:pt-6 items-center">
     <div class="mr-0">
 
-      <div *ngIf="this.weeklyTotalHours <= getConfigWeeklyTotalHours() else otherTooltip">
-        <h5 class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
+      <div *ngIf="this.weeklyTotalHours <= getConfigWeeklyTotalHours(); else otherTooltip">
+        <h5 *ngIf="authorize('View_Timesheet')" class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
           Hours Completed: {{ weeklyTotalHours }} </h5>
       </div>
 
       <ng-template #otherTooltip>
-        <h5 *ngIf="authorize('View_Timesheet')" nz-tooltip [nzTooltipTitle]="toolTipText"
+        <h5 nz-tooltip [nzTooltipTitle]="toolTipText"
           class="mt-2 font-sans font-medium  lg:text-lg lg:text-gray-600 lg:font-semibold h-full align-middle">Total
           Hours Completed: <span class="text-red-500">{{ weeklyTotalHours }} </span>
         </h5>
