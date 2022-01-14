@@ -1,0 +1,31 @@
+
+<br/>
+<!--nzSelected ---->
+<ul nz-menu nzMode="inline" >
+  <li nz-menu-item  [nzSelected]='activePath("/resourcemanagement/personal-info")' routerLink="/resourcemanagement/personal-info"
+  s>
+    <i class="nz-icon" nz-icon [nzType]="'unordered-list'" [nzTheme]="'outline'"></i>
+    Personal Detail
+  </li>
+  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/address-view")'  routerLink="/resourcemanagement/address-view">
+    <i
+      class="nz-icon"
+      nz-icon
+      [nzType]="'environment'"
+      [nzTheme]="'outline'"
+    ></i
+    >Personal Addresses
+  </li>
+  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/family-detail-view")' routerLink="/resourcemanagement/family-detail-view">
+    <i class="nz-icon" nz-icon [nzType]="'file-text'" [nzTheme]="'outline'"></i>
+    Family Details
+  </li>
+  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/emergencycontacts-view")' routerLink="/resourcemanagement/emergencycontacts-view">
+    <i class="nz-icon" nz-icon [nzType]="'contacts'" [nzTheme]="'outline'"></i>
+    Emergency Contacts
+  </li>
+  <li nz-menu-item [nzSelected]='activePath("/resourcemanagement/Organization-Detail")' routerLink="/resourcemanagement/Organization-Detail">
+    <i class="nz-icon" nz-icon [nzType]="'apartment'" [nzTheme]="'outline'"></i>
+    Organizational detail
+  </li>
+</ul>
