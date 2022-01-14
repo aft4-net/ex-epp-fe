@@ -25,6 +25,7 @@ import { registerLocaleData } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { RemoteEntryComponent } from './remote-entry/entry.component';
 import { RemoteEntryModule } from './remote-entry/entry.module';
+import { EmployeeModule } from './Features/Components/employee/employee.module';
 registerLocaleData(en);
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ registerLocaleData(en);
   ],
   imports: [
     EmployeeRoutingModule,
+    EmployeeModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

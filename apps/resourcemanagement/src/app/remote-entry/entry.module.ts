@@ -22,7 +22,7 @@ import { EmergencycontactViewComponent } from '../Features/Components/employee/e
 import { FamilyDetailViewComponent } from '../Features/Components/employee/family-detail-view/family-detail-view.component';
 import { FamilyDetailComponent } from '../Features/Components/employee/family-detail/family-detail.component';
 import { PersonalAddressesComponent } from '../Features/Components/employee/personal-addresses/personal-addresses.component';
-import { CommonModule } from '@angular/common';
+import { EmployeeModule } from '../Features/Components/employee/employee.module';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
@@ -39,9 +39,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     BrowserModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    CommonModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+   
     RouterModule.forChild([
       {
         path: '',
@@ -51,6 +51,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: '',
             component: EmployeeDetailComponent,
           },
+
           {
             path: 'personal-info',
             component: PersonalInfoComponent,
@@ -63,11 +64,15 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: 'personal-address',
             component: PersonalAddressesComponent,
           },
-
+        
           {
-            path: 'address-view',
-            component: AddressViewComponent,
+            path: 'Organization-Detail',
+            component: OrganizationDetailComponent,
           },
+        
+          {path: 'address-view',
+          component: AddressViewComponent,
+        },
           {
             path: 'family-detail',
             component: FamilyDetailComponent,
@@ -76,6 +81,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: 'family-detail-view',
             component: FamilyDetailViewComponent,
           },
+        
           {
             path: 'emergencycontacts-view',
             component: EmergencycontactViewComponent,
@@ -93,4 +99,4 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     MsalService,
   ],
 })
-export class RemoteEntryModule { }
+export class RemoteEntryModule {}
