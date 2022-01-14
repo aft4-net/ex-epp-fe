@@ -49,17 +49,16 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             import('usermanagement/Module').then((m) => m.RemoteEntryModule),
         },
         {
-<<<<<<< HEAD
           path: 'eppconfiguration',
           loadChildren: () =>
             import('eppconfiguration/Module').then((m) => m.RemoteEntryModule),
-=======
+        },
+        {
           path: 'resourcemanagement',
           loadChildren: () =>
             import('resourcemanagement/Module').then(
               (m) => m.RemoteEntryModule
             ),
->>>>>>> em-routing
         },
       ],
       { initialNavigation: 'enabledBlocking' }
