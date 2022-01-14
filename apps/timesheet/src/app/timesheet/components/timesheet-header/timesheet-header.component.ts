@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { PermissionService } from 'libs/common-services/permission.service';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
@@ -41,7 +42,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     private notification: NzNotificationService,
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService
+    private timesheetStateService: TimesheetStateService,
+    private readonly _permissionService: PermissionService
   ) { }
 
   ngOnInit(): void {
@@ -222,5 +224,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
         break;
     }
+  }
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
   }
 }
