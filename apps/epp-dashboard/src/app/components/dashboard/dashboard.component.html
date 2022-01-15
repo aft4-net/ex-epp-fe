@@ -47,7 +47,7 @@
         <p style="font-size:12px; ">Add, Edit and View clients details</p>
       </ng-template>
     </div>
-    <div nz-col [nzSpan]="5" style="padding-top: 2%; padding-right: 7%;" *ngIf="authorize('Time_sheet_Module')" >
+    <div nz-col [nzSpan]="5" style="padding-top: 2%; padding-right: 7%;" >
       <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
         <nz-card-meta
         [nzTitle]="timesheetTextTemplate"
@@ -107,7 +107,7 @@
       </ng-template>
       <ng-template #userTextTemplate>
         
-        <a routerLink="usermanagement"  >
+        <a routerLink="usermanagement" style="color: black;"  >
           <p style="font-size:16px; font-weight: bolder;">User Management</p>
           <p style="font-size:12px; ">Add, Edit and View User's</p>
           
