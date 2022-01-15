@@ -11,12 +11,18 @@ export class IntialdataService {
   baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail}`;
   baseUrl2 = environment.apiUrl + '/Permission/module';
   
-  constructor(private http: HttpClient) { }
+  
+  constructor(private http: HttpClient) { 
+
+  
+  }
 
   getUserPermission(){
+    
     return this.http.get(this.baseUrl);
   }
   getModulePermission(){
+    
     return this.http.get(this.baseUrl2);
   }
 }
