@@ -9,13 +9,16 @@ import { IntialdataService } from '../../services/intialdata.service';
 })
 export class DashboardComponent implements OnInit {
 
-  fullName:any
+  fullName:any;
+  date:any;
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
     this.fullName=_authenticationService.getUserFullName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0];
+    
+    this.date = new Date();
  
   }
 
