@@ -22,12 +22,10 @@ thefullName = "";
     this.uemail=_authenticationService.getEmail();
   }
   getUser(){
-    console.log("before: "+ this.uemail);
      this._authenticationService.getUser(this.uemail);
     setTimeout(() => {
-      console.log("anotherone bites the desert " +  this._authenticationService.position);
       this.theGroup = this._authenticationService.position;
-    }, 5000); 
+    }, 500); 
   }
 
   ngOnInit(): void {

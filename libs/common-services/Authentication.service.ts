@@ -15,6 +15,7 @@ import { ErrHandleService } from './error-handle.service';
     };
   loginCount=0;
   position:string="";
+  empGuid:any;
 
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
 
@@ -25,8 +26,9 @@ import { ErrHandleService } from './error-handle.service';
    getUser(email:string){
      this.http.get<any>('http://localhost:14696/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email).subscribe(
       (response) => {
-        console.log("Pos was " + response["EmployeeOrganization"]["JobTitle"]);
+        console.log("empguid is " + response["Guid"]);
        this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.empGuid = response["Guid"];
       }
     );
    }

@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0];  
       this.thePosition = _authenticationService.position;
-    }, 100);
+    }, 500);
   
   }
 
