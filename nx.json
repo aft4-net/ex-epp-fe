@@ -51,6 +51,13 @@
       "tags": [],
       "implicitDependencies": ["epp-dashboard"]
     },
+    "eppconfiguration": {
+      "tags": []
+    },
+    "eppconfiguration-e2e": {
+      "tags": [],
+      "implicitDependencies": ["eppconfiguration"]
+    },
     "ng-zorro": {
       "tags": []
     },
@@ -67,6 +74,13 @@
     "resource-management-e2e": {
       "tags": [],
       "implicitDependencies": ["resource-management"]
+    },
+    "resourcemanagement": {
+      "tags": []
+    },
+    "resourcemanagement-e2e": {
+      "tags": [],
+      "implicitDependencies": ["resourcemanagement"]
     },
     "timesheet": {
       "tags": []

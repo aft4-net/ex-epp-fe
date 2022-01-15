@@ -9,18 +9,30 @@ import { IntialdataService } from '../../services/intialdata.service';
 })
 export class DashboardComponent implements OnInit {
 
+<<<<<<< HEAD
   thePosition : any;
   fullName:any
+=======
+  fullName:any;
+  date:any;
+>>>>>>> epp-module-integration
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
     setTimeout(() => {
     this.fullName=_authenticationService.getUserFullName();
     const namearray=this.fullName.split(' ');
+<<<<<<< HEAD
     this.fullName=namearray[0];  
       this.thePosition = _authenticationService.position;
     }, 500);
   
+=======
+    this.fullName=namearray[0];
+    
+    this.date = new Date();
+ 
+>>>>>>> epp-module-integration
   }
 
   ngOnInit(): void {
