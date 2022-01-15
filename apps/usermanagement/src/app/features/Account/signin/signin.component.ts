@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import { AuthenticationResult } from '@azure/msal-browser';
+import { AccountInfo, AuthenticationResult } from '@azure/msal-browser';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 
 
@@ -31,7 +31,17 @@ export class SigninComponent implements OnInit {
 
   login() {
    
-   
+    const x: AccountInfo = {
+      homeAccountId:'',
+      username:'FMoges@ExellerentSolutions.com',
+      localAccountId: 'FMoges@ExellerentSolutions.com',
+      tenantId:'',
+      environment:''
+    }
+    this.authService.instance.setActiveAccount(x);
+    this._authenticationService.storeLoginUser(x);
+
+    return;
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
        const data=   this.authService.instance.setActiveAccount(response.account);

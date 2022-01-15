@@ -116,7 +116,7 @@
 
 
       <nz-modal 
-      [nzWidth]="'450px'" 
+      [nzWidth]="'430px'" 
       [(nzVisible)]="isUserModalVisible"
        [nzFooter]="null" 
        nzTitle="Add user" 
@@ -128,7 +128,7 @@
  <form  [formGroup]="userfrm" (ngSubmit)="onSaveUser()" #form>
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
-            <div class="label">Employee
+            <div class="label required">Employee
             </div>
             <nz-form-item>
               <nz-form-control [nzSpan]="24" >
@@ -144,6 +144,24 @@
     </nz-select>
               </nz-form-control>
             </nz-form-item>
+            <div class="label">Groups
+            <span class="muted">(Optional)</span>
+            </div>
+<nz-form-control [nzSpan]="24">
+  <nz-form-item>
+     <nz-select
+      nzShowSearch
+      [nzShowArrow]="true"
+      name = "GroupsOnUser"
+      nzMode = "tags"
+      formControlName="GroupsOnUser"
+      placeholder="Search groups"
+    >
+     <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
+    </nz-select>
+  </nz-form-item>
+</nz-form-control>
+
         </div>
     </div><br>
 </form>
@@ -156,7 +174,7 @@
   </nz-modal>
 
 <nz-modal 
-[nzWidth]="'450px'"
+[nzWidth]="'430px'"
 [(nzVisible)]="isGroupModalVisible"
 [nzTitle]="modalTitle"
 [nzContent]="modalContent"

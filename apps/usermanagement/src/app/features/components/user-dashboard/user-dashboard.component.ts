@@ -8,10 +8,8 @@ import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { IUserModel } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
-import { UserService } from '../../services/user.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
-import { AddUserService } from '../../services/add-user.service';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
 import { ResponseDTO } from '../../Models/ResponseDTO';
 import { IEmployeeModel } from '../../Models/employee.model';
@@ -19,6 +17,8 @@ import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { UserService } from '../../services/user.service';
+import { AddUserService } from '../../services/add-user.service';
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -107,6 +107,7 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
+      GroupsOnUser: new FormControl(null),
     });
     this.groupfrm = new FormGroup({
       Groups: new FormControl([], Validators.required),
@@ -358,8 +359,11 @@ export class UserDashboardComponent implements OnInit {
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;
         this.isLoadng =false;
-        this.userfrm.reset();
         this.FeatchAllUsers();
+        this.addUserService.getGroups().subscribe(
+          (r:  GroupSetModel[]) => {
+              this.groupList = r;
+          });
       },
       (error: any)=>{
         console.log(error);
@@ -376,6 +380,9 @@ export class UserDashboardComponent implements OnInit {
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
             this.groupList = r;
+            if(userId === '') 
+            return;
+            
             this.addUserService.getUserGroups(userId).subscribe(
                 (r: GroupSetModel[]) => {
                     r.forEach(el => {
@@ -461,6 +468,7 @@ handleGroupCancel() {
             this.isLoadng = false;
             this.isUserModalVisible = false;
             this.selectedUserValue = '';
+            this.userfrm.reset();
             this.FeatchAllUsers();
           },
           (err: any) => this.onShowError(err)
