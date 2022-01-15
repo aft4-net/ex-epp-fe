@@ -13,6 +13,7 @@ import { ErrHandleService } from './error-handle.service';
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
+    url="http://localhost:14696";
   loginCount=0;
   position:string="";
   empGuid:any;
@@ -24,7 +25,7 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
-     this.http.get<any>('http://localhost:14696/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email).subscribe(
+     this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email).subscribe(
       (response) => {
         console.log("empguid is " + response["Guid"]);
        this.position  = response["EmployeeOrganization"]["JobTitle"];
