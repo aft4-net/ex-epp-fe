@@ -9,26 +9,33 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
-import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import {
+  IPublicClientApplication,
+  PublicClientApplication,
+} from '@azure/msal-browser';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
-export function MSALInstanceFactory(): IPublicClientApplication 
-{return new PublicClientApplication({
-   auth: {
-     clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-      redirectUri: 'http://18.116.78.75:4206'}});}
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
+      redirectUri: 'http://18.116.78.75:4206',
+    },
+  });
+}
 @NgModule({
-  declarations: [AppComponent, DashboardComponent
-  ,HeaderComponent,
-  FooterComponent
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     DemoNgZorroAntdModule,
-    
 
     HttpClientModule,
-    
+
     BrowserAnimationsModule,
     RouterModule.forRoot(
       [
@@ -41,16 +48,30 @@ export function MSALInstanceFactory(): IPublicClientApplication
           loadChildren: () =>
             import('usermanagement/Module').then((m) => m.RemoteEntryModule),
         },
+        {
+          path: 'eppconfiguration',
+          loadChildren: () =>
+            import('eppconfiguration/Module').then((m) => m.RemoteEntryModule),
+        },
+        {
+          path: 'resourcemanagement',
+          loadChildren: () =>
+            import('resourcemanagement/Module').then(
+              (m) => m.RemoteEntryModule
+            ),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
   ],
-  providers: [{
-    provide: MSAL_INSTANCE,
-    useFactory: MSALInstanceFactory
-  },
-  {provide: NZ_I18N, useValue: en_US},
-  MsalService ],
+  providers: [
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,
+    },
+    { provide: NZ_I18N, useValue: en_US },
+    MsalService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
