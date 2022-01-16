@@ -98,7 +98,7 @@
                           <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId)">
+                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
                           <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="Remove(user.UserId)">
@@ -116,7 +116,7 @@
 
 
       <nz-modal 
-      [nzWidth]="'430px'" 
+      [nzWidth]="'410px'" 
       [(nzVisible)]="isUserModalVisible"
        [nzFooter]="null" 
        nzTitle="Add user" 
@@ -174,14 +174,15 @@
   </nz-modal>
 
 <nz-modal 
-[nzWidth]="'430px'"
+[nzWidth]="'410px'"
 [(nzVisible)]="isGroupModalVisible"
 [nzTitle]="modalTitle"
 [nzContent]="modalContent"
 [nzFooter]="null"
 (nzOnCancel)="isGroupModalVisible=false"
 >
-<ng-template #modalTitle class="backChange"><h4>Add Groups</h4></ng-template>
+<ng-template #modalTitle class="backChange"><h4 style="float:left">Add Groups
+ </h4> <span class="muted"> - {{ fullName }}</span></ng-template>
 
 <ng-template #modalContent>
  

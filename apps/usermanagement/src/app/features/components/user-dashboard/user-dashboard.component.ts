@@ -11,7 +11,7 @@ import { UserParams } from '../../Models/User/UserParams';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
-import { ResponseDTO } from '../../Models/ResponseDTO';
+import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
 import { IEmployeeModel } from '../../Models/employee.model';
 import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
@@ -66,7 +66,7 @@ export class UserDashboardComponent implements OnInit {
   userListDepartment: NzTableFilterList=[];
   userListLastActivityDate: NzTableFilterList=[];
   userListFullName : NzTableFilterList=[];
-
+  fullName = '';
   listOfColumns!: ColumnItem<IUserModel>[];
 
   listOfColumnsUser: ColumnItem<IUserModel>[] = [
@@ -107,7 +107,7 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
-      GroupsOnUser: new FormControl(null),
+      GroupsOnUser: new FormControl([]),
     });
     this.groupfrm = new FormGroup({
       Groups: new FormControl([], Validators.required),
@@ -351,14 +351,12 @@ export class UserDashboardComponent implements OnInit {
   }
   onAddUser()
   {
-    this.selectedUserValue = '';
     this.isUserModalVisible = true;
-    this.isLoadng = true;
 
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
+       
         this.employeeList= r.Data;
-        this.isLoadng =false;
         this.FeatchAllUsers();
         this.addUserService.getGroups().subscribe(
           (r:  GroupSetModel[]) => {
@@ -371,9 +369,9 @@ export class UserDashboardComponent implements OnInit {
       }
     )
   }
-  AddToGroup(userId: string)  {
+  AddToGroup(userId: string, fullName: string)  {
     this.selectedUserId = userId;
-    
+    this.fullName = fullName;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
     this.isLoadng = true;
@@ -384,8 +382,8 @@ export class UserDashboardComponent implements OnInit {
             return;
             
             this.addUserService.getUserGroups(userId).subscribe(
-                (r: GroupSetModel[]) => {
-                    r.forEach(el => {
+                (r: ResponseDTO<GroupSetModel[]>) => {
+                    r.Data.forEach(el => {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
@@ -413,7 +411,13 @@ onSaveGroups() {
       });
 
   this.addUserService.addGroups(this.selectedUserId, this.selectedGroups).subscribe(
-      () => {
+      (r: ResponseDTO<any>) => {
+        if( r.ResponseStatus == ResponseStatus.error)
+       {
+         this.onShowError('Some error has occured. Review your inputs and try again');
+         this.isLoadng = false;
+         return;
+       }
           this.notifier.notify(
               NotificationType.success,
               'User is created successfully'
@@ -443,11 +447,11 @@ handleGroupCancel() {
   {
     if(this.selectedUserValue == null || '')
       this.onShowError('Select employee');
-
     this.isLoadng = true;
     const empId = this.selectedUserValue;
     this.addUserService.getEmployeeById(empId).subscribe(
       (res: ResponseDTO<IEmployeeModel>) => {
+        const selectedGroups = this.userfrm.get('GroupsOnUser').value;
         const user: IUserPostModel =   {
 
           EmployeeId : res.Data.Guid,
@@ -456,11 +460,19 @@ handleGroupCancel() {
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
-          UserName: res.Data.EmployeeOrganization?.CompaynEmail
-        }
+          UserName: res.Data.EmployeeOrganization?.CompaynEmail,
+          GroupIds: selectedGroups?selectedGroups:[]
+        };
+        
 
         this.addUserService.add(user).subscribe(
-          () => {
+          (r: ResponseDTO<any>) => {
+            if( r.ResponseStatus == ResponseStatus.error)
+            {
+              this.onShowError('Some error has occured. Review your inputs and try again');
+              this.isLoadng = false;
+              return;
+            }
             this.notifier.notify(
               NotificationType.success,
               'User is created successfully'

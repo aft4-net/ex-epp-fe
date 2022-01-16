@@ -42,7 +42,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.selectedUserValue = '';
     this.isVisible = true;
     this.isLoadng = true;
-    alert('inner subscriber');
 
     console.log('addUser');
     this.userService.getEmployeesNotInUsers().subscribe(
@@ -81,7 +80,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
           LastName: res.Data.GrandFatherName,
           Tel: res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
-          UserName:res.Data?.EmployeeOrganization?.CompaynEmail
+          UserName:res.Data?.EmployeeOrganization?.CompaynEmail,
+          GroupIds: []
         }
 
         this.userService.add(user).subscribe(
