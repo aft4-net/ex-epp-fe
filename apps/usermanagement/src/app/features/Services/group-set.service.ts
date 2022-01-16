@@ -12,6 +12,7 @@ import { ResponseDTO } from '../../models/ResponseDTO';
 import { environment } from "../../../environments/environment";
 import { IGroupUsersView } from '../Models/User/GroupUsersView';
 import { GroupSetDescription } from '../Models/Group/GroupSetDescription';
+import { GroupUsers } from '../Models/Group/GroupUsres';
 
 @Injectable({
     providedIn: 'root',
@@ -91,7 +92,7 @@ import { GroupSetDescription } from '../Models/Group/GroupSetDescription';
       }
       params = params.append("pageIndex", groupParams.pageIndex.toString());
       params = params.append("pageSize", groupParams.pageSize.toString());
-      return this.http.get<PaginationResult<IGroupUsersView>>(this.baseUrl + '/LoadGroupUsersSet',{ params }).pipe(
+      return this.http.get<PaginationResult<IGroupUsersView>>(environment.apiUrl + '/UserGroups/LoadGroupUsersSet',{ params }).pipe(
           map((result: any) => {
             this.groupUsersPaginatedResult = {
               Data: result.Data,
@@ -117,5 +118,18 @@ import { GroupSetDescription } from '../Models/Group/GroupSetDescription';
 
     EditGroupDescription(groupSet : GroupSetDescription) {
       return this.http.patch<ResponseDTO<any>>(this.baseUrl, groupSet);
+    }
+
+    AddUsersToGroup(groupUsers : GroupUsers) : Observable<ResponseDTO<any>>
+    {
+      return this.http.post<ResponseDTO<any>>(environment.apiUrl + '/UserGroups/RegisterUsersInGroup', groupUsers, this.httpOptions);
+    }
+
+    RemoveUserFromGroup(groupUserId : string): Observable<ResponseDTO<any>> {
+      return this.http.delete<ResponseDTO<any>>(environment.apiUrl + '/UserGroups/RemoveUserFromGroup'+ "?userGroupGuid=" + groupUserId).pipe(
+        map((result) => {
+          return result;
+        })
+      )
     }
 }

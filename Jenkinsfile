@@ -5,9 +5,6 @@ pipeline{
      environment {
         registry = "blens/epp"
         registryCredential = 'dockerhubID-Blen'
-      
-        
-        
     }
     stages
    { 
@@ -18,20 +15,26 @@ pipeline{
         
             }
         }
-    stage('npm run')
-     {
-        when {
-                
-            branch 'master'  
-            
+        stage('npm build')
+        {
+            when {
+                 branch 'develop'
+             }
+         steps{
+              sh 'npm install'
+              sh 'npm run build-all'
             }
-            steps{
+        }    
+        stage('npm deploy')
+        {
+            when {
+                 branch 'master'
+             }
+         steps{
               sh 'npm install'
               sh 'npm run deploy'
             }
-        }    
-
-   
+        }   
     stage('Deploy to Staging')
         {
            when {
@@ -49,7 +52,7 @@ pipeline{
                             sh "docker tag resource-management:latest blens/rm"
                             sh "docker tag project-management:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
-                            sh "docker tag user-management:latest blens/um"
+                            sh "docker tag usermanagement:latest blens/um"
                             
                             sh "docker push blens/eppfe"
                             sh "docker push blens/ts"

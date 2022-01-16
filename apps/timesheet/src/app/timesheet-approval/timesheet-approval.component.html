@@ -17,7 +17,7 @@
   <span routerLink="/timesheet"  class="ml-1 back-navigator">Back</span>
 </div>
 
-<div nz-row class="controllers">
+<div nz-row class="controllers timesheetapproval-controllers">
     <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
         <button class="approveButton" nz-button nzType="default"
         [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
@@ -45,7 +45,7 @@
     <nz-date-picker [nzInputReadOnly]=true [(ngModel)]="weekGBinded" (ngModelChange)="onWeekChange()"></nz-date-picker>
   </div>
 </div>
-<div class="tab" style="z-index: 9;">
+<div class="tab timesheetapproval-tab" style="z-index: 9;">
 
 
   <div class="mb-4">

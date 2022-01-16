@@ -7,6 +7,8 @@ import { Pagination } from '../Models/Pagination';
 import { PaginationResult } from '../Models/PaginationResult';
 import { IUserModel } from '../Models/User/UserList';
 import { UserParams } from '../Models/User/UserParams';
+import { IGroupUsersView } from '../Models/User/GroupUsersView';
+import { ResponseDTO } from '../Models/ResponseDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +53,13 @@ export class UserService {
           return this.paginatedResult;
         })
       );
+  }
+  
+  LoadUsersNotAssignedToGroup(groupId: string) : Observable<ResponseDTO<IGroupUsersView>>{
+    return this.http.get<PaginationResult<IGroupUsersView>>(this.baseUrl + '/LoadUsersNotAssginedToGroup?groupId=' + groupId).pipe(
+      map((result: any) => {
+        return result;
+      })
+    );
   }
 }
