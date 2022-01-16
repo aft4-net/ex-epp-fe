@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import {PermissionService} from './../../../../../../libs/common-services//permission.service';
 import { IntialdataService } from '../../services/intialdata.service';
-import { DatePipe } from '@angular/common';
 @Component({
   selector: 'exec-epp-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,38 +9,19 @@ import { DatePipe } from '@angular/common';
 })
 export class DashboardComponent implements OnInit {
 
-<<<<<<< HEAD
-
-  thePosition : any;
-
-  fullName:any;
-  date:any;
-  permissionList:any[]=[ ];
-  modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
-    setTimeout(() => {
-    this.fullName=_authenticationService.getUserFullName();
-    const namearray=this.fullName.split(' ');
-
-    this.fullName=namearray[0];  
-    this.date = new Date();
-      this.thePosition = _authenticationService.position;
-    }, 500);
-
-=======
   date:any;
   fullName:any
+  thePosition : any;
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,
-    private _permissionService:PermissionService, )  { 
+  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService )  { 
     this.fullName=_authenticationService.getUserFullName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0];
     this.date = new Date();
+    this.thePosition = _authenticationService.position;
    
  
->>>>>>> origin
   }
 
   ngOnInit(): void {
