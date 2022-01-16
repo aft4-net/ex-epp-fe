@@ -27,7 +27,6 @@ import { AddUserService } from '../../services/add-user.service';
 export class UserDashboardComponent implements OnInit {
 
   userfrm: any;
-  isLoadng = false;
   employeeList: IEmployeeModel [] = []
   selectedUserValue = '';
   isUserModalVisible=false;
@@ -67,6 +66,7 @@ export class UserDashboardComponent implements OnInit {
   userListLastActivityDate: NzTableFilterList=[];
   userListFullName : NzTableFilterList=[];
   fullName = '';
+  loadingOnSave = false;
   listOfColumns!: ColumnItem<IUserModel>[];
 
   listOfColumnsUser: ColumnItem<IUserModel>[] = [
@@ -374,7 +374,7 @@ export class UserDashboardComponent implements OnInit {
     this.fullName = fullName;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
-    this.isLoadng = true;
+    this.loadingOnSave = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
             this.groupList = r;
@@ -387,13 +387,13 @@ export class UserDashboardComponent implements OnInit {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
-                    this.isLoadng = false;
+                    this.loadingOnSave = false;
                 },
                 (error: any) => {
                     console.log(error);
                 }
             );
-            this.isLoadng = false;
+            this.loadingOnSave = false;
         },
         (error: any) => {
             console.log(error);
@@ -402,8 +402,9 @@ export class UserDashboardComponent implements OnInit {
     );
 }
 onSaveGroups() {
+
   this.selectedGroups = [];
-  this.isLoadng = true;
+  this.loadingOnSave = true;
       const x = this.groupfrm.get('Groups').value;
       
       x.forEach((el: string) => {
@@ -415,14 +416,14 @@ onSaveGroups() {
         if( r.ResponseStatus == ResponseStatus.error)
        {
          this.onShowError('Some error has occured. Review your inputs and try again');
-         this.isLoadng = false;
+         this.loadingOnSave = false;
          return;
        }
           this.notifier.notify(
               NotificationType.success,
               'User is created successfully'
           );
-          this.isLoadng = false;
+          this.loadingOnSave = false;
           this.isGroupModalVisible = false;
           this.selectedGroups = [];
           this.groupfrm.reset();
@@ -441,13 +442,13 @@ handleGroupCancel() {
     const errMsg = 'Some error occured. Please review your input and try again. ';
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
-    this.isLoadng = false;
+    this.loadingOnSave = false;
   }
   onSaveUser()
   {
     if(this.selectedUserValue == null || '')
       this.onShowError('Select employee');
-    this.isLoadng = true;
+    this.loadingOnSave = true;
     const empId = this.selectedUserValue;
     this.addUserService.getEmployeeById(empId).subscribe(
       (res: ResponseDTO<IEmployeeModel>) => {
@@ -470,14 +471,14 @@ handleGroupCancel() {
             if( r.ResponseStatus == ResponseStatus.error)
             {
               this.onShowError('Some error has occured. Review your inputs and try again');
-              this.isLoadng = false;
+              this.loadingOnSave = false;
               return;
             }
             this.notifier.notify(
               NotificationType.success,
               'User is created successfully'
             );
-            this.isLoadng = false;
+            this.loadingOnSave = false;
             this.isUserModalVisible = false;
             this.selectedUserValue = '';
             this.userfrm.reset();
