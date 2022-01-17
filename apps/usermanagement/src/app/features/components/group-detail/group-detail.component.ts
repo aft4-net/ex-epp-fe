@@ -1,6 +1,6 @@
 import { Component,  OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { GroupSetService } from '../../services/group-set.service';
+import { GroupSetService } from '../../Services/group-set.service';
 import { GroupSetModel } from '../../Models/group-set.model';
 import { Observable, of } from 'rxjs';
 import { GroupParams } from '../../Models/User/GroupParams';
@@ -13,7 +13,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
 import { PermissionService } from '../../services/permission/permission.service';
 import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../Services/user.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
 
@@ -161,6 +161,7 @@ export class GroupDetailComponent implements OnInit {
       })
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
     this.modal.create({
       nzTitle: tplTitle,
