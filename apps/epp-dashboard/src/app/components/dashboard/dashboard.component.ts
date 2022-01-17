@@ -9,23 +9,19 @@ import { IntialdataService } from '../../services/intialdata.service';
 })
 export class DashboardComponent implements OnInit {
 
-
-  thePosition : any;
-
-  fullName:any;
   date:any;
+  fullName:any
+  thePosition : any;
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService)  { 
-    setTimeout(() => {
+  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _permissionService:PermissionService )  { 
     this.fullName=_authenticationService.getUserFullName();
     const namearray=this.fullName.split(' ');
-
-    this.fullName=namearray[0];  
+    this.fullName=namearray[0];
     this.date = new Date();
-      this.thePosition = _authenticationService.position;
-    }, 500);
-
+    this.thePosition = _authenticationService.position;
+   
+ 
   }
 
   ngOnInit(): void {
@@ -33,6 +29,7 @@ export class DashboardComponent implements OnInit {
 
     this.getPermission();
     this._permissionService.permissionList=this.permissionList;
+   
   }
    authorize(key:string){
      
