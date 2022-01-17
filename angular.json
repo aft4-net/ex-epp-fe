@@ -395,6 +395,7 @@
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
+              "nx serve timesheetnew",
               "nx serve eppconfiguration",
               "nx serve resourcemanagement",
               "nx serve usermanagement",
@@ -1102,6 +1103,134 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/timesheet-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "timesheetnew": {
+      "projectType": "application",
+      "root": "apps/timesheetnew",
+      "sourceRoot": "apps/timesheetnew/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/timesheetnew",
+            "index": "apps/timesheetnew/src/index.html",
+            "main": "apps/timesheetnew/src/main.ts",
+            "polyfills": "apps/timesheetnew/src/polyfills.ts",
+            "tsConfig": "apps/timesheetnew/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/timesheetnew/src/favicon.ico",
+              "apps/timesheetnew/src/assets"
+            ],
+            "styles": ["apps/timesheetnew/src/styles.scss"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/timesheetnew/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/timesheetnew/src/environments/environment.ts",
+                  "with": "apps/timesheetnew/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/timesheetnew/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@nrwl/angular:webpack-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "timesheetnew:build:production"
+            },
+            "development": {
+              "browserTarget": "timesheetnew:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4233
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "timesheetnew:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/timesheetnew/src/**/*.ts",
+              "apps/timesheetnew/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/timesheetnew"],
+          "options": {
+            "jestConfig": "apps/timesheetnew/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "timesheetnew-e2e": {
+      "root": "apps/timesheetnew-e2e",
+      "sourceRoot": "apps/timesheetnew-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/timesheetnew-e2e/cypress.json",
+            "devServerTarget": "timesheetnew:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "timesheetnew:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/timesheetnew-e2e/**/*.{js,ts}"]
           }
         }
       }

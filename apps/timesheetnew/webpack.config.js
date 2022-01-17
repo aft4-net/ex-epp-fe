@@ -9,7 +9,7 @@ sharedMappings.register(path.join(__dirname, '../../tsconfig.base.json'), [
 
 module.exports = {
   output: {
-    uniqueName: 'epp-dashboard',
+    uniqueName: 'timesheetnew',
     publicPath: 'auto',
   },
   optimization: {
@@ -23,13 +23,10 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      remotes: {
-        usermanagement: 'usermanagement@http://localhost:4231/remoteEntry.js',
-        eppconfiguration:
-          'eppconfiguration@http://localhost:4232/remoteEntry.js',
-        resourcemanagement:
-          'resourcemanagement@http://localhost:4234/remoteEntry.js',
-        timesheetnew: 'timesheetnew@http://localhost:4233/remoteEntry.js',
+      name: 'timesheetnew',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Module': 'apps/timesheetnew/src/app/remote-entry/entry.module.ts',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },

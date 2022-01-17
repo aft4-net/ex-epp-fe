@@ -60,6 +60,11 @@ export function MSALInstanceFactory(): IPublicClientApplication {
               (m) => m.RemoteEntryModule
             ),
         },
+        {
+          path: 'timesheetnew',
+          loadChildren: () =>
+            import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
