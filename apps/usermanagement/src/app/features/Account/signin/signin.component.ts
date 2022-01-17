@@ -37,11 +37,24 @@ export class SigninComponent implements OnInit {
        const data=   this.authService.instance.setActiveAccount(response.account);
       
        if(response.account?.username){
-        this._authenticationService.storeLoginUser(response.account)
+        this._authenticationService.getLoggedInUserAuthToken(response.account?.username).subscribe(
+          (res) => {            
+            if(res.Data && res.Data.Token){
+              localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
+            }
+            this._authenticationService.storeLoginUser(response.account);
+            this.router.navigateByUrl('');
+          },
+          (error) => {
+            if(error.error.Message === "Unauthorized"){
+              this.logout();
+            }
+          }
+        ); 
         
         
        // window.location.reload();
-        this.router.navigateByUrl('user-dashboard');
+        //this.router.navigateByUrl('user-dashboard');
        }
        else{
         this.router.navigateByUrl('usermanagement');
@@ -51,9 +64,10 @@ export class SigninComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+      this.authService.logout();
       window.sessionStorage.clear();
-    window.location.reload();
+      localStorage.removeItem('loggedInUserInfo');
+      window.location.reload();
 
   }
 }
