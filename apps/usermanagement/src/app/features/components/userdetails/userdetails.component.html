@@ -1,80 +1,79 @@
 <nz-layout *ngIf="isLogin" style="background: white;" >
   <nz-content style="padding-right: 10%; padding-bottom: 3%;">
-<div>
-  <h2 class="font-bold azk">Account</h2>
-  
-  
-  <form [formGroup]="userdetail" nzSpan="24" *ngIf="authorize('Employee_Module')>
-    <div nz-row>
-      <div class="user-detail" style="margin-left: 3px;">
-        <div class="user-detail-upper">
-          <div class="user-detail-upper-inner">
-            <div nz-row>
-              <div nz-col class="gutter-row" nzSpan="24">
-                <div class="inner-box">
-                  <p style="margin: 0">{{userdetailInfo.FirstName + " " + userdetailInfo.MiddleName + " " +userdetailInfo.LastName}} </p>
-                </div>
-              </div>
-            </div>
 
+  <div>
+    <h2 class="font-bold azk">Account</h2>
+    <form [formGroup]="userdetail" nzSpan="24" *ngIf="authorize('User_Management_Admin')">
+      <div nz-row>
+        <div class="user-detail" style="margin-left: 3px;">
+          <div class="user-detail-upper">
+            <div class="user-detail-upper-inner">
+              <div nz-row>
+                <div nz-col class="gutter-row" nzSpan="24">
+                  <div class="inner-box">
+                    <p style="margin: 0">{{userdetailInfo.FirstName + " " + userdetailInfo.MiddleName + " " +userdetailInfo.LastName}} </p>
+                  </div>
+                </div>
+              </div>
+  
+              <div nz-row>
+                <div nz-col class="gutter-row" nzSpan="24">
+                  <div class="inner-box">
+                    <p style="font-size: 14px"> {{userdetailInfo.JobTitle}} Developer III</p>
+                  </div>
+                </div>
+              </div>
+               
+            </div>
+            <app-avatar
+              icon="user"
+              size="65"
+              style="
+                margin-top: -62px;
+                margin-left: 2px;
+                margin-bottom: 60px;
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+                font-size: 40px;
+              "
+              class="ant-avatar ant-avatar-circle ant-avatar-icon"
+            >
+            </app-avatar>
+            <br />
+          </div>
+          <div class="user-detail-lower">
+          <div class="user-detail-lower-inner">
             <div nz-row>
               <div nz-col class="gutter-row" nzSpan="24">
                 <div class="inner-box">
-                  <p style="font-size: 14px">Developer III</p>
+                  <span>{{userdetailInfo.Email}}</span>
                 </div>
               </div>
             </div>
+            <div nz-row>
+              <div nz-col class="gutter-row" nzSpan="24">
+                <div class="inner-box">
+                  <span>{{userdetailInfo.Tel}}</span>
+                </div>
+              </div>
+            </div>
+            <div>
              
-          </div>
-          <app-avatar
-            icon="user"
-            size="65"
-            style="
-              margin-top: -62px;
-              margin-left: 2px;
-              margin-bottom: 60px;
-              width: 80px;
-              height: 80px;
-              line-height: 80px;
-              font-size: 40px;
-            "
-            class="ant-avatar ant-avatar-circle ant-avatar-icon"
-          >
-          </app-avatar>
-          <br />
-        </div>
-      
-      <div class="user-detail-lower">
-        <div class="user-detail-lower-inner">
-          <div nz-row>
-            <div nz-col class="gutter-row" nzSpan="24">
-              <div class="inner-box">
-                <span>{{userdetailInfo.Email}}</span>
-              </div>
+              <nz-switch [ngModelOptions]="{standalone: true}" [ngModel]="userdetailInfo.Status==='Active'? true:false"></nz-switch>
+              
+            
+              
+              
             </div>
           </div>
-          <div nz-row>
-            <div nz-col class="gutter-row" nzSpan="24">
-              <div class="inner-box">
-                <span>{{userdetailInfo.Tel}}</span>
-              </div>
-            </div>
-          </div>
-          <div>
-           
-            <nz-switch [ngModelOptions]="{standalone: true}" [ngModel]="userdetailInfo.Status==='Active'? true:false"></nz-switch>
-            
-          
-            
-            
-          </div>
         </div>
+
+        </div>
+
       </div>
-    </div>
-    </div>
-  </form>
-    
-    </div>
+    </form>
+  </div>
 
 <br />
 <div class="m-5">
@@ -84,10 +83,10 @@
     access to module/s or make them an admin).
   </p>
   <div nz-row nzJustify="end">
-    <div nz-col nzSpan="3">
+    <div nz-col nzSpan="3"  *ngIf="authorize('Create_Group')">
       <button
         nz-button
-        nzType="primary"  *ngIf="authorize('Create_Group')"
+        nzType="primary" 
         (click)="onAddNewRecord()"
         class="createGroupButton" 
       >
@@ -128,7 +127,7 @@
           <div nz-col class="col-pad" nzSpan="3">
             <app-button
               [disabled]="!userGroup.valid"
-              [loading]="loading"  *ngIf="authorize('Create_Group')"
+              [loading]="loading" *ngIf="authorize('Delete_User')"
               (click)="onSaveRecord()"
               type="primary"
             >
@@ -185,4 +184,4 @@
 </div>
 
 </nz-content>
-</nz-layout>
+</nz-layout> 

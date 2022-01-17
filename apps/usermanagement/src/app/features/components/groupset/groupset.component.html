@@ -86,7 +86,7 @@
             </h2>
           </div>
           <div nz-col nzSpan="2"  nzOffset="8" >
-            <button nz-button [nzSize]="'large'" (click)="onAddNewRecord()" nzType="primary" class="createGroupButton">Create group</button>
+            <button nz-button [nzSize]="'large'" *ngIf="authorize('Create_Group')" (click)="onAddNewRecord()" nzType="primary" class="createGroupButton">Create group</button>
           </div>
 
           <nz-modal
@@ -100,7 +100,7 @@
           
           <ng-template #modalContent>
           
-            <form class="flex flex-col gap-5" [formGroup]="groupSet" (ngSubmit)="onSaveGroup()" #form>
+            <form class="flex flex-col gap-5" [formGroup]="groupSet" *ngIf="authorize('Create_Group')" (ngSubmit)="onSaveGroup()" #form>
           
               <div nz-row>
           

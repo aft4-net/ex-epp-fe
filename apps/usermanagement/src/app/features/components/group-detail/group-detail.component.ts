@@ -168,19 +168,19 @@ export class GroupDetailComponent implements OnInit {
       })
   }
 
-  createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
-    this.modal.create({
-      nzTitle: tplTitle,
-      nzContent: tplContent,
-      nzFooter: tplFooter,
-      nzMaskClosable: false,
-      nzClosable: false,
-      nzComponentParams: {
-        value: 'Template Context'
-      },
-      nzOnOk: () => console.log('Click ok')
-    });
-  }
+ // createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
+    //this.modal.create({
+     // nzTitle: tplTitle,
+     // nzContent: tplContent,
+     // nzFooter: tplFooter,
+     // nzMaskClosable: false,
+     // nzClosable: false,
+     // nzComponentParams: {
+      //  value: 'Template Context'
+     // },
+     // nzOnOk: () => console.log('Click ok')
+   /// });
+  //}
 
   createNotification(title: string,type: string, message : string): void {
     this.notification.create(type, title, message);

@@ -13,7 +13,7 @@
                 <button class="defaultButton" *nzSpaceItem nz-button nzType="default" (click)="EditGroupDescription()">
                     Edit Descriptions
                 </button>
-                <button class="defaultButton" *ngIf="authorize('Update_Group')"  *nzSpaceItem nz-button nzType="default" (click)="createGroupDeleteModal()" >
+                <button class="defaultButton" *ngIf="authorize('Update_Group')"   (click)="createGroupDeleteModal()" >
                     Delete Group
                 </button>
             </nz-space>
