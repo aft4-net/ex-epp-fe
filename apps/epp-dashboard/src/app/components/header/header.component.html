@@ -32,7 +32,7 @@
               {{theGroup}}
            </button>
             <button nz-row style="border: none;"   nz-button nzType="default" >
-              <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; "> User Profile</p></a>         
+              <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" ><p style="font-size:14px; "> Employee Profile</p></a>         
             </button>
             <button nz-row style="border: none;"   nz-button nzType="default" nzDanger (click)="logout()">
                 Logout

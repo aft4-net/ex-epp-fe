@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { Observable } from 'rxjs';
 import {AuthenticationService} from './../../../../../../libs/common-services/Authentication.service'
@@ -14,7 +15,7 @@ fullName:any
 thefullName = "";
  theGroup : any;
 
-  constructor(private authService: MsalService,private _authenticationService:AuthenticationService) { 
+  constructor(private authService: MsalService,private _authenticationService:AuthenticationService,private _router:Router) { 
     this.fullName=_authenticationService.getUserFullName();
     this.thefullName = this.fullName;
     const namearray=this.fullName.split(' ');
@@ -31,7 +32,10 @@ thefullName = "";
   ngOnInit(): void {
     this.getUser();
   }
-
+  routetoResourceManagement(){
+    this._authenticationService.setFromViewProfile();
+    this._router.navigate(['resourcemanagement']);
+  }
   
 
   logout() {

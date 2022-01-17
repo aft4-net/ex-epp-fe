@@ -12,7 +12,18 @@
     </div>
   
   <div nz-row  [nzGutter]="20" nzHoverable="true">
-     
+
+
+    <div nz-col [nzSpan]="5" style="padding-top: 2%; ">
+      <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
+        <a (click)="routetoResourceManagement()" style="color: black;" >
+        <nz-card-meta
+        [nzTitle]="avatarTextTemplate"
+        [nzAvatar]="avatarTemplate"
+      ></nz-card-meta>
+      </a>
+      </nz-card>
+
       <ng-template #avatarTemplate>
         <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:green ; font-size: '40px';"></i>
       </ng-template>
