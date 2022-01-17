@@ -21,10 +21,9 @@ import {
   ProjectStatus,
   ProjectStatusService,
 } from '../../../../core';
-import { NavigationEnd, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',

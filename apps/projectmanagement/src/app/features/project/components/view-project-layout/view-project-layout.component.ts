@@ -87,20 +87,23 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
   ngOnInit(): void {
  
     if(!this.permissionService.authorizedPerson("View_Project"))
-      if(this.previousRouteService.getPreviousUrl())
+     { if(this.previousRouteService.getPreviousUrl())
       this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
       else
       this.router.navigateByUrl('/');
-      
+  }
+else{
+  this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{
+    this.projects=response.data;
+    this.pageIndex=response.pagination.pageIndex;
+    this.pageSize=response.pagination.pageSize;
+    this.total=response.pagination.totalRecord
+    this.totalPage=response.pagination.totalPage;
+    this.loading =false;
+    this.projectService.setFristPageOfProjects(response);
 
-    this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{
-      this.projects=response.data;
-      this.pageIndex=response.pagination.pageIndex;
-      this.pageSize=response.pagination.pageSize;
-      this.total=response.pagination.totalRecord
-      this.totalPage=response.pagination.totalPage;
-      this.loading =false;
-      this.projectService.setFristPageOfProjects(response);
+}
+  
   
      });
 
