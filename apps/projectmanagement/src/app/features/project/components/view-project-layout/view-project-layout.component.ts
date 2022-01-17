@@ -77,7 +77,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
   }
 
   }
-
+  
   constructor(
     private  permissionService:PermissionService, private router:Router,
     private previousRouteService:PreviousRouteService,
@@ -101,10 +101,6 @@ else{
     this.totalPage=response.pagination.totalPage;
     this.loading =false;
     this.projectService.setFristPageOfProjects(response);
-
-}
-  
-  
      });
 
      this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{
@@ -173,7 +169,7 @@ else{
 
 
   }
-
+  }
 }
 
 
