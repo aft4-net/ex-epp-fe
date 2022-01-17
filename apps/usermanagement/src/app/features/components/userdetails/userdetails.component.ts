@@ -39,6 +39,7 @@ export class UserdetailsComponent implements OnInit {
   selectedRecord: string | undefined;
   cgm=CustomFormModule;
   userId:any;
+  thePosition : any;
   userdetailInfo:any
   userdetail = new FormGroup({
     UserId: new FormControl(''),
@@ -115,6 +116,7 @@ export class UserdetailsComponent implements OnInit {
       Guid:null
     });
     this.isLogin=_authenticationService.loginStatus();
+    this.thePosition = _authenticationService.position;
   }
   authorize(key:string){
      
