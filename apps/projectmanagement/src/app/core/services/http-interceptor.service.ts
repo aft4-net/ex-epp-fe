@@ -11,17 +11,11 @@ export class  HttpInterceptorService implements HttpInterceptor {
 
   constructor(private authService:AuthenticationService){}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
- 
-    
-      //    const tokenizedReq=req.clone({ headers: req.headers.set( 'Authorization', `Bearer ${window.sessionStorage.getItem('secret')}`)})
-       
-       const  authreq=req.clone({ headers: req.headers.set( 'Authorization',  `Bearer ${localStorage.getItem('userId')}`)})
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {  
+      //    const tokenizedReq=req.clone({ headers: req.headers.set( 'Authorization', `Bearer ${window.sessionStorage.getItem('secret')}`)});
+       const  authreq=req.clone({ headers: req.headers.set( 'Authorization',  `${localStorage.getItem('userId')}`)})
           return next.handle(authreq)
-      
-  
-
-  }
+    }
 }
 
 

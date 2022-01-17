@@ -1,7 +1,9 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from '../app.component';
+import { HttpInterceptorService } from '../core';
 import { ClientProjectComponent } from '../features/client-project/client-project.component';
 import { ViewProjectLayoutComponent } from '../features/project/components/view-project-layout/view-project-layout.component';
 import { ProjectRoutingModule } from '../features/project/project-routing.module';
@@ -37,6 +39,10 @@ import { RemoteEntryComponent } from './entry.component';
       },
     ]),
   ],
-  providers: [],
+  providers: [ {
+    provide:HTTP_INTERCEPTORS,
+    useClass:HttpInterceptorService,
+    multi:true
+  }]
 })
 export class RemoteEntryModule {}

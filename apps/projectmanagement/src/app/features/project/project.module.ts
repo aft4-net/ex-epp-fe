@@ -6,11 +6,11 @@ import { ProjectRoutingModule } from './project-routing.module';
 import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { AddresourceComponent } from './components/addresource/addresource.component';
 import { BreadCrumbComponent } from './components/bread-crumb/bread-crumb.component';
-
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
-
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptorService } from '../../core';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,11 @@ import { AddProjectComponent } from './components/Add-Project/Add-Project.compon
     ProjectRoutingModule
 
   ],
-  exports:[ViewProjectLayoutComponent,AddProjectComponent,BreadCrumbComponent ]
+  exports:[ViewProjectLayoutComponent,AddProjectComponent,BreadCrumbComponent ],
+  providers:[ {
+    provide:HTTP_INTERCEPTORS,
+    useClass:HttpInterceptorService,
+    multi:true
+  }],
 })
 export class ProjectModule { }
