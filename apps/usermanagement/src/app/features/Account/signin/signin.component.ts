@@ -31,17 +31,7 @@ export class SigninComponent implements OnInit {
 
   login() {
    
-    const x: AccountInfo = {
-      homeAccountId:'',
-      username:'FMoges@ExellerentSolutions.com',
-      localAccountId: 'FMoges@ExellerentSolutions.com',
-      tenantId:'',
-      environment:''
-    }
-    this.authService.instance.setActiveAccount(x);
-    this._authenticationService.storeLoginUser(x);
-
-    return;
+    
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
        const data=   this.authService.instance.setActiveAccount(response.account);
