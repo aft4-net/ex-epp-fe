@@ -4,7 +4,7 @@
   <h2 class="font-bold azk">Account</h2>
   
   
-  <form [formGroup]="userdetail" nzSpan="24">
+  <form [formGroup]="userdetail" nzSpan="24" *ngIf="authorize('Employee_Module')>
     <div nz-row>
       <div class="user-detail" style="margin-left: 3px;">
         <div class="user-detail-upper">
@@ -20,7 +20,7 @@
             <div nz-row>
               <div nz-col class="gutter-row" nzSpan="24">
                 <div class="inner-box">
-                  <p style="font-size: 14px">Developer III</p>
+                  <p style="font-size: 14px">{{user.JobTitle }}</p>
                 </div>
               </div>
             </div>
@@ -88,9 +88,9 @@
     <div nz-col nzSpan="3">
       <button
         nz-button
-        nzType="primary"
+        nzType="primary"  *ngIf="authorize('Create_Group')"
         (click)="onAddNewRecord()"
-        class="createGroupButton"
+        class="createGroupButton" 
       >
         Add to group
       </button>
@@ -129,7 +129,7 @@
           <div nz-col class="col-pad" nzSpan="3">
             <app-button
               [disabled]="!userGroup.valid"
-              [loading]="loading"
+              [loading]="loading"  *ngIf="authorize('Create_Group')"
               (click)="onSaveRecord()"
               type="primary"
             >
@@ -140,8 +140,8 @@
       </form>
     </ng-container>
   </nz-modal>
-  <div *ngIf="!isModalVisible" class="azk" style="width: auto">
-    <div nz-row>
+  <div *ngIf="!isModalVisible" class="azk" style="width: auto" >
+    <div nz-row >
       <div nz-col nzSpan="24">
         <nz-table
           #table
@@ -163,7 +163,7 @@
 
               <td>
                 <a
-                  (click)="onDeleteRecord(data.Guid)"
+                *ngIf="authorize('Delete_Group')" (click)="onDeleteRecord(data.Guid)"
                   nzTooltipPlacement="bottom"
                   nz-tooltip
                   nzTooltipTitle="Delete"

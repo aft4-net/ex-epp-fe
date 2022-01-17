@@ -8,6 +8,8 @@ import { ResponseDTO } from "../../../Models/ResponseDTO";
 import { IUserGetModel } from "../../../Models/User/user-get.model";
 import { IUserPostModel } from "../../../Models/User/user-post.model";
 import { AddUserService } from "../../../services/add-user.service";
+import { PermissionService } from "../../../services/permission/permission.service";
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 
 
 @Component({
@@ -20,12 +22,17 @@ export class AddUserComponent implements OnInit, OnDestroy {
   isVisible = false;
   isLoadng = false;
   userfrm: any;
+  isLogin=false;
   private eventsSubscription: Subscription = new Subscription();
   @Input() addUserEvents: Observable<void> = new Observable<void>();
   employeeList: IEmployeeModel[] = [];
   selectedUserValue = '';
   constructor(private userService: AddUserService, 
-    private notifier: NotifierService){;}
+    private _authenticationService:AuthenticationService, 
+    private _permissionService:PermissionService,
+    private notifier: NotifierService){
+      this.isLogin=_authenticationService.loginStatus();
+    }
   
   ngOnInit(): void {
     this.eventsSubscription= this.addUserEvents.subscribe(()=>this.onAddUser());
@@ -33,6 +40,10 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.userfrm = new FormGroup({
         UserName: new FormControl(null, [Validators.required]),
       });
+  }
+  authorize(key:string){
+     
+    return this._permissionService.authorizedPerson(key);
   }
   ngOnDestroy(): void {
       this.eventsSubscription.unsubscribe();

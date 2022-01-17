@@ -10,8 +10,6 @@ import { DatePipe } from '@angular/common';
 })
 export class DashboardComponent implements OnInit {
 
-<<<<<<< HEAD
-
   thePosition : any;
 
   fullName:any;
@@ -27,21 +25,6 @@ export class DashboardComponent implements OnInit {
     this.date = new Date();
       this.thePosition = _authenticationService.position;
     }, 500);
-
-=======
-  date:any;
-  fullName:any
-  permissionList:any[]=[ ];
-  modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,
-    private _permissionService:PermissionService, )  { 
-    this.fullName=_authenticationService.getUserFullName();
-    const namearray=this.fullName.split(' ');
-    this.fullName=namearray[0];
-    this.date = new Date();
-   
- 
->>>>>>> origin
   }
 
   ngOnInit(): void {

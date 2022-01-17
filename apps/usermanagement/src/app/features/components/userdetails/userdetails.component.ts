@@ -99,7 +99,7 @@ export class UserdetailsComponent implements OnInit {
 
   constructor(
     private userDetailService: UserDetailService,
-    private _intialdataService: IntialdataService,
+    //private _intialdataService: IntialdataService,
     private router: Router,
     private modal: NzModalService,
     private notification: NotificationBar,
@@ -121,11 +121,11 @@ export class UserdetailsComponent implements OnInit {
     // return true;
      return this._permissionService.authorizedPerson(key);
    }
-   getPermission(): void {
-    this._intialdataService.getUserPermission().subscribe((res:any)=>{
-      this.permissionList=res.Data;     
-    })
-  }
+  // getPermission(): void {
+   // this._intialdataService.getUserPermission().subscribe((res:any)=>{
+     // this.permissionList=res.Data;     
+   // })
+  //}
   hasDataEntry(value: boolean) {
     this.userDetailService.hasData(value);
   }
@@ -141,7 +141,7 @@ export class UserdetailsComponent implements OnInit {
         this.userdetailInfo = response.Data;
        
       });
-      this.getPermission();
+     // this.getPermission();
       this._permissionService.permissionList=this.permissionList;
       }
 

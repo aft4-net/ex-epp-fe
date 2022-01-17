@@ -19,6 +19,7 @@ import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { PermissionService } from '../../services/permission/permission.service';
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -100,10 +101,14 @@ export class UserDashboardComponent implements OnInit {
     private _router: Router,
     private fb: FormBuilder,
     private addUserService: AddUserService,
+    private _permissionService:PermissionService,
     private notifier: NotifierService, private _authenticationService:AuthenticationService) {
       this.isLogin=_authenticationService.loginStatus();
   }
-
+  authorize(key:string){
+     
+    return this._permissionService.authorizedPerson(key);
+  }
   ngOnInit(): void {
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),

@@ -18,6 +18,7 @@ export interface Permission{
   providedIn: 'root'
 })
 export class PermissionService {
+  [x: string]: any;
   goupPermissions:IPermissionModel[] = [];
   baseUrl = environment.apiUrl + '/Permission/zeroLevel';
   baseUrl2 = environment.apiUrl + '/GroupSetPermission';

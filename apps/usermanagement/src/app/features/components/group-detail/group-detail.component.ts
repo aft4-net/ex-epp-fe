@@ -16,6 +16,8 @@ import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
 import { UserService } from '../../services/user.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+
 
 @Component({
   selector: 'exec-epp-group-detail',
@@ -28,8 +30,9 @@ export class GroupDetailComponent implements OnInit {
   constructor(private groupSetService : GroupSetService, private _router: Router, 
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
+              private _authenticationService:AuthenticationService, 
               private _permissionService:PermissionService, private userService : UserService) {
-
+                this.isLogin=_authenticationService.loginStatus();
               }
   listOfAssignedPermistion:AllPermitionData[]=[]
   permissionResponse?:IPermissionResponseModel;
@@ -38,6 +41,7 @@ export class GroupDetailComponent implements OnInit {
   parentPermission:any;
   isAddToGroupVisible = false;
   isVisible = false;
+  isLogin=false;
   isGroupEditVisible = false;
   isConfirmLoading = false;
   isOkLoading = false;
@@ -94,7 +98,10 @@ export class GroupDetailComponent implements OnInit {
       description: [[],[Validators.required]]
     })
   }
-
+  authorize(key:string){
+     
+     return this._permissionService.authorizedPerson(key);
+   }
   AddUserToGroupControls() {
     this.AddUserToGroupForm = this.fb.group({
       Users: [[],[Validators.required]]
