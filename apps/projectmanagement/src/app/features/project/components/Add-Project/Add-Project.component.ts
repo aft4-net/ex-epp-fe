@@ -212,13 +212,13 @@ export class AddProjectComponent implements OnInit {
     else this.projectCreate.AssignResource = [] as projectResourceType[];
     this.projectService.createProject(this.projectCreate);
 
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('projectmanagement');
   }
 
   onReset() {
     this.userSubmitted = false;
 
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('projectmanagement');
   }
 
   disabledStartDate = (startValue: Date): boolean => {

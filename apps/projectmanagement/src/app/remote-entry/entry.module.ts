@@ -1,11 +1,15 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { ClientProjectComponent } from '../features/client-project/client-project.component';
-import { ViewProjectLayoutComponent } from '../features/project/components/view-project-layout/view-project-layout.component';
+import { AddProjectComponent } from '../features/project/components/Add-Project/Add-Project.component';
 import { ProjectRoutingModule } from '../features/project/project-routing.module';
 import { ProjectModule } from '../features/project/project.module';
+import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 
 import { RemoteEntryComponent } from './entry.component';
 
@@ -13,25 +17,26 @@ import { RemoteEntryComponent } from './entry.component';
   declarations: [RemoteEntryComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
     ProjectModule,
+    ProjectRoutingModule,
+    DemoNgZorroAntdModule,
     RouterModule.forChild([
       {
-        // path: '',
-        // component: AppComponent,
-        // children:[{
-        //   path:'',
-        //   component: ViewProjectLayoutComponent,
-        // }]
         path: '',
-        component: ClientProjectComponent,
+        component: AppComponent,
 
         children: [
           {
-            path: 'client-project',
-            loadChildren: () =>
-              import('../features/project/project.module').then(
-                (m) => m.ProjectModule
-              ),
+            path: '',
+            component: ClientProjectComponent,
+          },
+          {
+             path: 'client-project/add-project',
+             component: AddProjectComponent
           },
         ],
       },
