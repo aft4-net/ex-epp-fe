@@ -43,3 +43,5 @@ Thumbs.db
 
 # Ignore .history folder
 .history/*
+.devcontainer/devcontainer.json
+.devcontainer/Dockerfile
