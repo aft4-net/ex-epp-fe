@@ -396,6 +396,7 @@
           "options": {
             "commands": [
               "nx serve timesheetnew",
+              "nx serve projectmanagement",
               "nx serve eppconfiguration",
               "nx serve resourcemanagement",
               "nx serve usermanagement",
@@ -709,6 +710,134 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/project-management-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "projectmanagement": {
+      "projectType": "application",
+      "root": "apps/projectmanagement",
+      "sourceRoot": "apps/projectmanagement/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/projectmanagement",
+            "index": "apps/projectmanagement/src/index.html",
+            "main": "apps/projectmanagement/src/main.ts",
+            "polyfills": "apps/projectmanagement/src/polyfills.ts",
+            "tsConfig": "apps/projectmanagement/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/projectmanagement/src/favicon.ico",
+              "apps/projectmanagement/src/assets"
+            ],
+            "styles": ["apps/projectmanagement/src/styles.scss"],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/projectmanagement/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/projectmanagement/src/environments/environment.ts",
+                  "with": "apps/projectmanagement/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/projectmanagement/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@nrwl/angular:webpack-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "projectmanagement:build:production"
+            },
+            "development": {
+              "browserTarget": "projectmanagement:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4236
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "projectmanagement:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/projectmanagement/src/**/*.ts",
+              "apps/projectmanagement/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/projectmanagement"],
+          "options": {
+            "jestConfig": "apps/projectmanagement/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "projectmanagement-e2e": {
+      "root": "apps/projectmanagement-e2e",
+      "sourceRoot": "apps/projectmanagement-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/projectmanagement-e2e/cypress.json",
+            "devServerTarget": "projectmanagement:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "projectmanagement:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/projectmanagement-e2e/**/*.{js,ts}"]
           }
         }
       }

@@ -30,6 +30,8 @@ module.exports = {
         resourcemanagement:
           'resourcemanagement@http://localhost:4234/remoteEntry.js',
         timesheetnew: 'timesheetnew@http://localhost:4233/remoteEntry.js',
+        projectmanagement:
+          'projectmanagement@http://localhost:4236/remoteEntry.js',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },

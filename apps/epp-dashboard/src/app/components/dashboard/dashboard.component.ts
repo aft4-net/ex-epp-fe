@@ -8,7 +8,6 @@ import { IntialdataService } from '../../services/intialdata.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   date:any;
   fullName:any
   thePosition : any;
@@ -32,8 +31,6 @@ export class DashboardComponent implements OnInit {
    
   }
    authorize(key:string){
-     
-    // return true;
      return this._permissionService.authorizedPerson(key);
    }
    getPermission(): void {

@@ -58,7 +58,6 @@ export class PageBreadcrumbComponent implements OnInit {
     this._formGenerator.allAddresses=[];
     this._formGenerator.allEmergencyContacts=[];
     this._formGenerator.allFamilyDetails=[];
-    this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']); 
     const currentUrl = this.route;
     this._router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
     this._router.navigate([currentUrl]);

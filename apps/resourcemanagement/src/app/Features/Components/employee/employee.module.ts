@@ -24,9 +24,7 @@ import { PageTitleComponent } from '../../../components/page-title/page-title.co
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-
 //
-
 
 @NgModule({
   declarations: [
@@ -40,27 +38,24 @@ import { PageTitleComponent } from '../../../components/page-title/page-title.co
     AddressViewComponent,
     FamilyDetailViewComponent,
     EmergencycontactViewComponent,
-    PageTitleComponent
-
-
+    PageTitleComponent,
   ],
   imports: [
     CommonModule,
-    
+
     ReactiveFormsModule,
     FormsModule,
     EmployeeRoutingModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
+
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
     CustomFormsControlsModule,
-
   ],
 
-  exports: [EmployeeComponent,SideBarComponent],
+  exports: [EmployeeComponent, SideBarComponent],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
 })
 export class EmployeeModule {}

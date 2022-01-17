@@ -65,6 +65,11 @@ export function MSALInstanceFactory(): IPublicClientApplication {
           loadChildren: () =>
             import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
         },
+       // {
+          //path: 'projectmanagement',
+         // loadChildren: () =>
+           // import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+       // },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
