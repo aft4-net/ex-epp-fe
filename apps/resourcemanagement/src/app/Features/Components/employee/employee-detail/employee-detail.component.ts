@@ -16,6 +16,7 @@ import { listtToFilter } from '../../../Models/listToFilter';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { Employee } from '../../../Models/Employee';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import{AuthenticationService} from './../../../../../../../../libs/common-services/Authentication.service';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -27,11 +28,14 @@ export class EmployeeDetailComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
   employeeByID!: Employee;
+  uemail :any;
+  theEmpguid : any;
 
   constructor(
     private _employeeService : EmployeeService,
     private _form: FormGenerator,
-    private _router: Router
+    private _router: Router,
+    private _authenticationService:AuthenticationService
     ) {}
 
     isdefault = true;
@@ -101,9 +105,29 @@ export class EmployeeDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+     if(this._authenticationService.isFromViewProfile() === 'true'){
+       this.uemail= this._authenticationService.getEmail();
+       this.getUser();
+     }
+   else{
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
+   }
   }
+
+  getUser(){
+    this._authenticationService.getUser(this.uemail);
+   setTimeout(() => {
+     
+    this.theEmpguid = this._authenticationService.empGuid;
+    if( this.theEmpguid !== null){
+      this.Edit(this._authenticationService.empGuid);
+   
+    }
+    
+   }, 500); 
+ }
 
   FillTheFilter() {
     this.holdItJobTitle.length = 0;
@@ -262,7 +286,7 @@ export class EmployeeDetailComponent implements OnInit {
         this.listOfCurrentPageData = response.Data;
         this.pageIndex=response.pagination.PageIndex;
         this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
+        this.totalRecord=response.pagination.TotalRecord;
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
@@ -390,7 +414,8 @@ export class EmployeeDetailComponent implements OnInit {
       this._form.allFamilyDetails=this._employeeService.employeeById?.FamilyDetails?
       this._employeeService.employeeById?.FamilyDetails:[];
     this._employeeService.isdefault=false
-    this._router.navigate(['/resourcemanagement/personal-info']);
+    this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']);
+    
   }
     });
 
