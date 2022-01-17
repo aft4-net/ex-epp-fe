@@ -9,7 +9,6 @@ import { IUserGetModel } from "../../../Models/User/user-get.model";
 import { IUserPostModel } from "../../../Models/User/user-post.model";
 import { AddUserService } from "../../../services/add-user.service";
 import { PermissionService } from "../../../services/permission/permission.service";
-import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 
 
 @Component({
@@ -28,10 +27,10 @@ export class AddUserComponent implements OnInit, OnDestroy {
   employeeList: IEmployeeModel[] = [];
   selectedUserValue = '';
   constructor(private userService: AddUserService, 
-    private _authenticationService:AuthenticationService, 
+   // private _authenticationService:AuthenticationService, 
     private _permissionService:PermissionService,
     private notifier: NotifierService){
-      this.isLogin=_authenticationService.loginStatus();
+     // this.isLogin=_authenticationService.loginStatus();
     }
   
   ngOnInit(): void {

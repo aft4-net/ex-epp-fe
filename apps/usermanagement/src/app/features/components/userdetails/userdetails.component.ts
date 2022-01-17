@@ -19,7 +19,6 @@ import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionService } from '../../services/permission/permission.service';
-import { IntialdataService } from '../../services/intialdata.service';
 
 
 @Component({

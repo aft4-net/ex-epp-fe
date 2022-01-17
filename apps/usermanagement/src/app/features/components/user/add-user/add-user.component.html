@@ -1,5 +1,4 @@
-<nz-layout  *ngIf="isLogin">
-  <nz-content>
+
   <form  [formGroup]="userfrm" *ngIf="authorize('Add_User')" (ngSubmit)="onSaveUser()" #form>
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
@@ -27,5 +26,3 @@
     <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" *ngIf="authorize('Add_User')" (click)="onSaveUser()" style="margin-right:15px">Add</button>
     <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
 </div>
-</nz-content>
-</nz-layout>
