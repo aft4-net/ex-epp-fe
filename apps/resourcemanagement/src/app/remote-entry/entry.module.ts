@@ -25,6 +25,10 @@ import { PersonalAddressesComponent } from '../Features/Components/employee/pers
 import { EmployeeModule } from '../Features/Components/employee/employee.module';
 import { DeviceDetailComponent } from '../Features/Components/device-detail/device-detail.component';
 import { AddEditDeviceDetailComponent } from '../Features/Components/device-detail/add-edit-device-detail/add-edit-device-detail.component';
+import { CommonModule } from '@angular/common';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { CustomFormsControlsModule } from '../Features/Components/custom-forms-controls/custom-forms-controls.module';
+import { EmployeeRoutingModule } from '../Features/Components/employee/employee-routing.module';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
@@ -38,17 +42,18 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   imports: [
     BrowserModule,
     HttpClientModule,
-    BrowserModule,
     DemoNgZorroAntdModule,
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    CommonModule,
+    EmployeeRoutingModule,
 
     RouterModule.forChild([
       {
         path: '',
         component: AppComponent,
-       
+
         children: [
           {
             path: '',
@@ -59,7 +64,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: 'employee/add-employee/personal-info',
             component: PersonalInfoComponent,
           },
-          
+
           {
             path: 'employee/add-employee/personal-address',
             component: PersonalAddressesComponent,
@@ -70,7 +75,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             component: OrganizationDetailComponent,
           },
 
-          { path: 'employee/add-employee/address-view', component: AddressViewComponent },
+          {
+            path: 'employee/add-employee/address-view',
+            component: AddressViewComponent,
+          },
           {
             path: 'employee/add-employee/family-detail',
             component: FamilyDetailComponent,
@@ -84,7 +92,6 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: 'employee/add-employee/emergencycontacts-view',
             component: EmergencycontactViewComponent,
           },
-          
         ],
       },
     ]),
