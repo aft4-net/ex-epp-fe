@@ -4,7 +4,9 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import {PaginatedResult, Project, ProjectService } from '../../../../core';
-
+import {PermissionService} from '../.././../../../../../../libs/common-services//permission.service';
+import {PreviousRouteService}  from '../../../../core/services/previous-route.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -76,10 +78,20 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
 
   }
 
-  constructor(private  projectService:ProjectService,private notification: NzNotificationService
+  constructor(
+    private  permissionService:PermissionService, private router:Router,
+    private previousRouteService:PreviousRouteService,
+    private  projectService:ProjectService,private notification: NzNotificationService
     ) {}
 
   ngOnInit(): void {
+ 
+    if(!this.permissionService.authorizedPerson("View_Project"))
+      if(this.previousRouteService.getPreviousUrl())
+      this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
+      else
+      this.router.navigateByUrl('/');
+      
 
     this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{
       this.projects=response.data;
@@ -89,7 +101,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
       this.totalPage=response.pagination.totalPage;
       this.loading =false;
       this.projectService.setFristPageOfProjects(response);
-   console.log(this.projects)
+  
      });
 
      this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{

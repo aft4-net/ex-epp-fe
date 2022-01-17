@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaginatedResult, Project, ProjectService } from '../../core';
 import { ActiveTabService } from './servicee/active-tab.service';
-
+import {PermissionService} from './../../../../../../libs/common-services//permission.service';
 @Component({
   selector: 'exec-epp-client-project',
   templateUrl: './client-project.component.html',
@@ -11,7 +11,7 @@ import { ActiveTabService } from './servicee/active-tab.service';
 export class ClientProjectComponent implements OnInit  {
 
   activeTabIndex=0;
-  constructor(private router:Router,private projectService:ProjectService,private activeTabService:ActiveTabService) {
+  constructor(  private  permissionService:PermissionService,private router:Router,private projectService:ProjectService,private activeTabService:ActiveTabService) {
 
    }
    clientSelected=true;
@@ -51,4 +51,8 @@ addProjectPage()
  
 }
 
+checkPermmision(key:string)
+{
+ return  this.permissionService.authorizedPerson(key);
+}
 }

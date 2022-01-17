@@ -1,5 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {PermissionService} from '../.././../../../../../../libs/common-services//permission.service';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +13,7 @@ import {
   ClientService,
   Employee,
   EmployeeService,
+  PreviousRouteService,
   Project,
   ProjectCreate,
   projectResourceType,
@@ -19,9 +21,10 @@ import {
   ProjectStatus,
   ProjectStatusService,
 } from '../../../../core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -57,6 +60,8 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private  permissionService:PermissionService, 
+    private previousRouteService:PreviousRouteService,
     private fb: FormBuilder,
     private projectService: ProjectService,
     private modalService: NzModalService,
@@ -67,6 +72,13 @@ export class AddProjectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
+    if(!this.permissionService.authorizedPerson("View_Project"))
+      if(this.previousRouteService.getPreviousUrl())
+      this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
+      else
+      this.router.navigateByUrl('/');
+
     this.createRegistrationForm();
     this.apiCalls();
     this.projectMapper();
@@ -295,5 +307,10 @@ export class AddProjectComponent implements OnInit {
       nzOnOk: () => this.router.navigateByUrl(''),
       nzCancelText: 'No',
     });
+  }
+
+  checkPermmision(key:string)
+  {
+   return  this.permissionService.authorizedPerson(key);
   }
 }

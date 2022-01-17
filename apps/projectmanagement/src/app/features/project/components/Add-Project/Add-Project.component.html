@@ -243,7 +243,7 @@ nz-form
     </div>
   </nz-tab>
 
-  <nz-tab  nzTitle='Resources'[nzDisabled]="validateForm.invalid || disallowResource  " >
+  <nz-tab *ngIf="checkPermmision('Assign_Resource')"  nzTitle='Resources'[nzDisabled]="(validateForm.invalid || disallowResource ) " >
   <div class="tab-content">
     <div class="justify-between" nz-row>
       <div    class="page-title " > Resources   </div>
