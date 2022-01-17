@@ -10,7 +10,7 @@
         </div>
         <div nz-col nzSpan="12" style="text-align: right;">
             <nz-space>
-                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" (click)="EditGroupDescription()">
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" *ngIf="authorize('Create_Group')" (click)="EditGroupDescription()">
                     Edit Descriptions
                 </button>
                 <button class="defaultButton" *ngIf="authorize('Update_Group')"   (click)="createGroupDeleteModal()" >
@@ -147,7 +147,7 @@
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td>{{user.FullName}}</td>
                     <td>
-                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" (click)="createGroupMemeberDeleteModal(user.Guid)" >
+                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" *ngIf="authorize('Delete_Group')" (click)="createGroupMemeberDeleteModal(user.Guid)" >
                           Remove
                         </button>
                     </td>
