@@ -85,7 +85,6 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
     ) {}
 
   ngOnInit(): void {
- 
     if(!this.permissionService.authorizedPerson("View_Project"))
      { if(this.previousRouteService.getPreviousUrl())
       this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
