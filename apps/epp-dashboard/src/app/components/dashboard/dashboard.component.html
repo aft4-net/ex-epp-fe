@@ -15,19 +15,18 @@
 
     <div nz-col [nzSpan]="5" style="padding-top: 2%; ">
       <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
-        <a href="http://localhost:60730/">
         <nz-card-meta
         [nzTitle]="avatarTextTemplate"
-        [nzAvatar]="avatarTemplate"
-      ></nz-card-meta>
-      </a>
+        [nzAvatar]="avatarTemplate"></nz-card-meta>
       </nz-card>
       <ng-template #avatarTemplate>
         <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:green ; font-size: '40px';"></i>
       </ng-template>
       <ng-template #avatarTextTemplate>
+        <a routerLink="resourcemanagement" style="color: black;" >
         <p style="font-size:16px; font-weight: normal;">Employee Information</p>
         <p style="font-size:12px; font-weight: normal;">Add, Edit and View employee Detais</p>
+      </a>
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%; width: 100px; ">
@@ -89,9 +88,10 @@
         <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
       </ng-template>
       <ng-template #confTextTemplate>
-        
-        <p style="font-size:16px; font-weight: normal;">Configuration</p>
-        <p style="font-size:12px; font-weight: normal; ">Add, Edit and View Configuration</p>
+        <a routerLink="eppconfiguration" style="color: black;" >
+          <p style="font-size:16px; font-weight: normal;">Configuration</p>
+          <p style="font-size:12px; font-weight: normal; ">Add, Edit and View Configuration</p>
+        </a>
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">

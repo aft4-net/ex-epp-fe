@@ -22,21 +22,34 @@
         <div nz-col class="gutter-row" [nzSpan]="24">
             <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
-              <thead>
-                <tr>
-                  <th class="table_heading" style="width:30px"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
-                  (nzCheckedChange)="onAllChecked($event)" ></th>
-                  <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
-                    [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                    [nzSortDirections]="column.sortDirections">{{column.name}}</th>
+              <div  *ngIf="employeeViewModel.length > 0; else normalHeader">
+                <thead>
+                  <tr>
+                    <th class="table_heading" style="width:30px"  [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                    (nzCheckedChange)="onAllChecked($event)" ></th>
+                    <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+                      [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                      [nzSortDirections]="column.sortDirections">{{column.name}}</th>
 
-                  <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
-                    [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                    [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                    [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                  <th class="table_heading">Actions</th>
-                </tr>
-              </thead>
+                    <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                      [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                      [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                      [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+                    <th class="table_heading">Actions</th>
+                  </tr>
+                </thead>
+              </div>
+              <ng-template #normalHeader>
+                <thead>
+                  <tr>
+                    <th class="table_heading">Employee</th>
+                    <th class="table_heading">Joining  Date</th>
+                    <th class="table_heading">Job Title</th>
+                    <th class="table_heading">Location</th>
+                    <th class="table_heading">Status</th>
+                  </tr>
+                </thead>
+              </ng-template>
               <tbody>
                 <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                   <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
@@ -53,7 +66,12 @@
                     <a (click)="Delete(employeeView.EmployeeGUid)">
                       <i nz-icon nzType="delete" style="color:black;"></i>
                     </a>
-                    <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
+                    
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
                       <ng-container *nzModalContent>
                         <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar> {{employeeView.FullName}} Edit
@@ -76,10 +94,6 @@
                         </nz-tabset>
                       </ng-container>
                     </nz-modal>
-                  </td>
-                </tr>
-              </tbody>
-            </nz-table>
         </div>
       </div>
       
