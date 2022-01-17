@@ -42,14 +42,10 @@ registerLocaleData(en);
     EmergencycontactEditComponent,
     AddressEditComponent,
     FamilyDetailEditComponent,
-   
-
-
   ],
   imports: [
+    RemoteEntryModule,
     EmployeeRoutingModule,
-    EmployeeModule,
-    DeviceDetailModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -57,7 +53,6 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
-    RemoteEntryModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
