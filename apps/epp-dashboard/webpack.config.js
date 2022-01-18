@@ -31,6 +31,8 @@ module.exports = {
           'resourcemanagement@http://localhost:4234/remoteEntry.js',
         projectmanagement:
           'projectmanagement@http://localhost:4236/remoteEntry.js',
+        projectmanagement:
+          'projectmanagement@http://localhost:4236/remoteEntry.js',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },
