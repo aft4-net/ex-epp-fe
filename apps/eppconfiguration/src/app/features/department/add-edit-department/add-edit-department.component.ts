@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../../models/department';
-import { ResponseDTO } from '../../../Models/response-dto.model';
+import { ResponseDTO } from '../../../models/response-dto.model';
 import { DepartmentService } from '../../../services/department.service';
 
 @Component({
