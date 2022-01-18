@@ -12,6 +12,7 @@ import { OperationalAddressService } from '../../core/services/operational-addre
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NotificationBar } from '../../utils/feedbacks/notification';
 
 @Component({
   selector: 'exec-epp-view-clients',
@@ -79,7 +80,8 @@ export class ViewClientsComponent implements OnInit  {
     private operatingAddressService: OperationalAddressService,
     private fetchclientsService: FetchclientsService,
     private employeeService: EmployeeService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private _notification: NotificationBar,
   ) {}
   ngOnInit(): void {
     this.getClientStatus();
@@ -91,9 +93,21 @@ export class ViewClientsComponent implements OnInit  {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
-    this.notification.error('', '', {
-      
+    this._notification.showNotification({
+
+      type: 'success',
+
+      content: '',
+
+      duration: 1,
+
     });
+    // this.notification.error('', '', {
+    
+
+  
+    //   });
+    
   }
   showModal(): void {
     this.isVisible = true;
