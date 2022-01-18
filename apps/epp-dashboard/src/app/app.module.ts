@@ -60,6 +60,11 @@ export function MSALInstanceFactory(): IPublicClientApplication {
               (m) => m.RemoteEntryModule
             ),
         },
+        {
+          path: 'clientmanagement',
+          loadChildren: () =>
+            import('clientmanagement/Module').then((m) => m.RemoteEntryModule),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),

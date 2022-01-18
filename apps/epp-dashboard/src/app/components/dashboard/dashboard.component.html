@@ -4,7 +4,7 @@
 
   <div   style="margin-bottom: 24px;">
     <p  class="employee-name">Welcome {{fullName}},</p>
-   
+
     </div>
     <div  style="margin-bottom: 18px;">
 
@@ -56,7 +56,7 @@
         <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: green;  font-size: '19px';"></i>
       </ng-template>
       <ng-template #clientTextTemplate>
-        <p style="font-size:14px; ">Clients</p>
+        <p style="font-size:14px; "><a routerLink="clientmanagement">Clients</a></p>
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5">
@@ -101,7 +101,7 @@
         <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: green; font-size: '19px';"></i>
       </ng-template>
       <ng-template #userTextTemplate>
-        
+
         <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; ">User Management</p></a>
       </ng-template>
     </div>
