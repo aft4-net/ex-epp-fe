@@ -17,8 +17,8 @@ export class DashboardComponent implements OnInit {
   modulePermission:any[]=[];
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,private _permissionService:PermissionService )  { 
     this.fullName=_authenticationService.getUserFullName();
-    const namearray=this.fullName.split(' ');
-    this.fullName=namearray[0];
+   // const namearray=this.fullName.split(' ');
+   // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
     this.thePosition = _authenticationService.position;
    
