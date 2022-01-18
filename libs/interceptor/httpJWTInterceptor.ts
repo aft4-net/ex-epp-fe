@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 
 @Injectable()
-export class httpInterceptor implements HttpInterceptor {
+export class httpJWTInterceptor implements HttpInterceptor {
     constructor() { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -12,7 +11,8 @@ export class httpInterceptor implements HttpInterceptor {
         const loggedInUser = JSON.parse(
             localStorage.getItem('loggedInUserInfo') ?? '' 
           ); 
-        const isApiUrl = request.url.startsWith(environment.apiUrl);
+        const baseUrl = 'http://localhost:14696/api/v1'
+        const isApiUrl = request.url.startsWith(baseUrl);
         if (loggedInUser && isApiUrl) {
             request = request.clone({
                 setHeaders: {
