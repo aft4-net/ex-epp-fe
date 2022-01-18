@@ -24,7 +24,7 @@ import { RemoteEntryComponent } from './entry.component';
     CommonModule,
     ProjectModule,
     ProjectRoutingModule,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     RouterModule.forChild([
       {
