@@ -37,138 +37,66 @@
       <br />
       <div nz-row style="margin-top: -10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
-          <nz-table
-            [nzLoading]="loading"
-            nzSize="middle"
-            #rowSelectionTable
-            [nzFrontPagination]="false"
-            [nzData]="employeeViewModel"
-            nzTableLayout="auto"
-            (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-          >
-            <thead>
-              <tr>
-                <th
-                  class="table_heading"
-                  style="width: 30px"
-                  [(nzChecked)]="checked"
-                  [nzIndeterminate]="indeterminate"
-                  (nzCheckedChange)="onAllChecked($event)"
-                ></th>
-                <th
-                  class="table_heading"
-                  *ngFor="let column of listOfColumnsFullName"
-                  [nzSortOrder]="column.sortOrder"
-                  [nzSortFn]="column.sortFn"
-                  [nzSortDirections]="column.sortDirections"
-                >
-                  {{ column.name }}
-                </th>
+          <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+          nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
+          <thead>
+            <tr>
+              <th class="table_heading" style="width:30px"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+              (nzCheckedChange)="onAllChecked($event)" ></th>
+              <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+                [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections">{{column.name}}</th>
 
-                <th
-                  class="table_heading"
-                  nzColumnKey="Job Title"
-                  [nzSortOrder]="listOfColumns[0].sortOrder"
-                  [nzSortFn]="listOfColumns[0].sortFn"
-                  [nzSortDirections]="listOfColumns[0].sortDirections"
-                  [nzFilterMultiple]="listOfColumns[0].filterMultiple"
-                  [nzFilters]="listOfColumns[0].listOfFilter"
-                  [nzFilterFn]="listOfColumns[0].filterFn"
-                >
-                  {{ listOfColumns[0].name }}
-                </th>
-                <th
-                  class="table_heading"
-                  nzColumnKey="Location"
-                  [nzSortOrder]="listOfColumns[1].sortOrder"
-                  [nzSortFn]="listOfColumns[1].sortFn"
-                  [nzSortDirections]="listOfColumns[1].sortDirections"
-                  [nzFilterMultiple]="listOfColumns[1].filterMultiple"
-                  [nzFilters]="listOfColumns[1].listOfFilter"
-                  [nzFilterFn]="listOfColumns[1].filterFn"
-                >
-                  {{ listOfColumns[1].name }}
-                </th>
-
-                <th
-                  class="table_heading"
-                  nzColumnKey="Status"
-                  [nzSortOrder]="listOfColumns[2].sortOrder"
-                  [nzSortFn]="listOfColumns[2].sortFn"
-                  [nzSortDirections]="listOfColumns[2].sortDirections"
-                  [nzFilterMultiple]="listOfColumns[2].filterMultiple"
-                  [nzFilters]="listOfColumns[2].listOfFilter"
-                  [nzFilterFn]="listOfColumns[2].filterFn"
-                >
-                  {{ listOfColumns[2].name }}
-                </th>
-
-                <th class="table_heading">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="
-                  let employeeView of rowSelectionTable.data;
-                  let indexOfelement = index
-                "
-                [ngClass]="
-                  indexOfelement % 2 !== 0
-                    ? 'table_evenrow_heading'
-                    : 'table_oddrow_heading'
-                "
-              >
-                <td
-                  [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)"
-                  (nzCheckedChange)="
-                    onItemChecked(employeeView.EmployeeGUid, $event)
-                  "
-                ></td>
-                <td>{{ employeeView.FullName }}</td>
-                <td>{{ employeeView.JoiningDate | date: 'M/dd/yyyy' }}</td>
-                <td>{{ employeeView.JobTitle }}</td>
-                <td>{{ employeeView.Location }}</td>
-                <td>{{ employeeView.Status }}</td>
-                <td>
-                  <a (click)="Edit(employeeView.EmployeeGUid)">
-                    <i nz-icon nzType="edit" style="color: black"></i>
-                  </a>
-                  &nbsp; &nbsp;
-                  <a (click)="Delete(employeeView.EmployeeGUid)">
-                    <i nz-icon nzType="delete" style="color: black"></i>
-                  </a>
-                  <nz-modal
-                    [(nzVisible)]="isVisible"
-                    nzWidth="700px"
-                    (nzOnCancel)="handleCancel()"
-                    (nzOnOk)="handleOk()"
-                  >
-                    <ng-container *nzModalContent>
-                      <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar>
-                      {{ employeeView.FullName }} Edit
-                      <nz-tabset>
-                        <nz-tab nzTitle="Personal Info">
-                          <exec-epp-personal-info-edit></exec-epp-personal-info-edit>
-                        </nz-tab>
-                        <nz-tab nzTitle="Address">
-                          <exec-epp-address-edit></exec-epp-address-edit>
-                        </nz-tab>
-                        <nz-tab nzTitle="Family Details">
-                          <exec-epp-family-detail-edit></exec-epp-family-detail-edit>
-                        </nz-tab>
-                        <nz-tab nzTitle="Emergency Contacts">
-                          <exec-epp-emergencycontact-edit></exec-epp-emergencycontact-edit>
-                        </nz-tab>
-                        <nz-tab nzTitle="Organization Detail">
-                          <exec-epp-organization-detail-edit></exec-epp-organization-detail-edit>
-                        </nz-tab>
-                      </nz-tabset>
-                    </ng-container>
-                  </nz-modal>
-                </td>
-              </tr>
-            </tbody>
-          </nz-table>
+              <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
+                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+              <th class="table_heading">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+              <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
+              <td>{{employeeView.FullName }} </td>
+              <td>{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
+              <td>{{employeeView.JobTitle }}</td>
+              <td>{{employeeView.Location }}</td>
+              <td>{{employeeView.Status }}</td>
+              <td>
+                <a (click)="Edit(employeeView.EmployeeGUid)">
+                  <i nz-icon nzType="edit" style="color:black;"></i>
+                </a>
+                &nbsp; &nbsp;
+                <a (click)="Delete(employeeView.EmployeeGUid)">
+                  <i nz-icon nzType="delete" style="color:black;"></i>
+                </a>
+                <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
+                  (nzOnOk)="handleOk()">
+                  <ng-container *nzModalContent>
+                    <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar> {{employeeView.FullName}} Edit
+                    <nz-tabset>
+                      <nz-tab nzTitle="Personal Info">
+                        <exec-epp-personal-info-edit></exec-epp-personal-info-edit>
+                      </nz-tab>
+                      <nz-tab nzTitle="Address">
+                        <exec-epp-address-edit></exec-epp-address-edit>
+                      </nz-tab>
+                      <nz-tab nzTitle="Family Details">
+                        <exec-epp-family-detail-edit></exec-epp-family-detail-edit>
+                      </nz-tab>
+                      <nz-tab nzTitle="Emergency Contacts">
+                        <exec-epp-emergencycontact-edit></exec-epp-emergencycontact-edit>
+                      </nz-tab>
+                      <nz-tab nzTitle="Organization Detail">
+                        <exec-epp-organization-detail-edit></exec-epp-organization-detail-edit>
+                      </nz-tab>
+                    </nz-tabset>
+                  </ng-container>
+                </nz-modal>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
         </div>
       </div>
     </div>
