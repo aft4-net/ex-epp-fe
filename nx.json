@@ -41,6 +41,13 @@
       "tags": [],
       "implicitDependencies": ["client-management"]
     },
+    "clientmanagement": {
+      "tags": []
+    },
+    "clientmanagement-e2e": {
+      "tags": [],
+      "implicitDependencies": ["clientmanagement"]
+    },
     "core-model": {
       "tags": []
     },

@@ -6,11 +6,11 @@
     <p  class="employee-name">Welcome {{fullName}}</p>
   </div>
     <div  style="margin-bottom: 17px; margin-left: 2px;">
-        <p  class="designation"> {{thePosition}} <span></span> - {{date | date:'MM / dd / yyyy'}} </p> 
+        <p  class="designation"> {{thePosition}} <span></span> - {{date | date:'MM / dd / yyyy'}} </p>
         <p class="current-time">  </p>
 
     </div>
-  
+
   <div nz-row  [nzGutter]="20" nzHoverable="true">
 
 
@@ -44,7 +44,7 @@
       </ng-template>
       <ng-template #clientTextTemplate >
 
-        <p style="font-size:16px; font-weight: normal;">Clients</p>
+        <p style="font-size:16px; font-weight: normal;"><a routerLink="clientmanagement">Clients</a></p>
         <p style="font-size:12px; font-weight: normal; ">Add, Edit and View clients details</p>
       </ng-template>
     </div>
@@ -76,7 +76,7 @@
       </ng-template>
       <ng-template #projectTextTemplate>
         <a routerLink="projectmanagement" style="color: black;" >
-        <p style="font-size:16px; font-weight: normal;">Projects</p>
+        <p style="font-size:16px; font-weight: normal;">Project Management</p>
         <p style="font-size:12px; font-weight: normal; ">Add, Edit and View project details</p></a>
       </ng-template>
     </div>
