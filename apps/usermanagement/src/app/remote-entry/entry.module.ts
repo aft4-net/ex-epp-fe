@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { GroupDetailComponent } from '../features/components/group-detail/group-detail.component';
 import { GroupsetComponent } from '../features/components/groupset/groupset.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { PermissionComponent } from '../features/components/permission/permission.component';
 import { RemoteEntryComponent } from './entry.component';
@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserDashboardComponent } from '../features/components/user-dashboard/user-dashboard.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
+import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
 
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
@@ -70,6 +71,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
       useFactory: MSALInstanceFactory
     },
     { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     MsalService
     ],
 })
