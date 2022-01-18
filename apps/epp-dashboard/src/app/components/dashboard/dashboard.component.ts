@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   //  this._authenticationService.getUser(this.uemail);
    setTimeout(() => {
      this.thePosition = this._authenticationService.position;
-   }, 500); 
+   }, 1000); 
  }
 
   routetoResourceManagement(){
