@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
 import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserDashboardComponent } from '../features/components/user-dashboard/user-dashboard.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
-import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
