@@ -23,6 +23,7 @@ import { PaginationResult } from '../../../Models/PaginationResult';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -40,7 +41,9 @@ export class EmployeeDetailComponent implements OnInit {
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
     private _router: Router,
-    private _authenticationService:AuthenticationService
+    private _authenticationService:AuthenticationService,
+    private notification: NotificationBar
+
     ) {}
 
   isdefault = true;
@@ -149,6 +152,12 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
    }
+
+   this.notification.showNotification({
+    type: 'success',
+    content: '',
+    duration: 1,
+  });
   }
 
   getUser(){
