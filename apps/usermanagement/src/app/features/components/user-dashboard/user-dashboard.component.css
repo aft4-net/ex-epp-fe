@@ -176,6 +176,15 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   font-weight: 500;
   --antd-wave-shadow-color: #18ffba;  
 }
+.required::after {
+  content: ' *';
+  color: red ;
+}
+.muted {
+  color: #777;
+  font-style: italic;
+
+}
 .right-footer{
   text-align: left;
   align-items: left;
@@ -200,7 +209,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 }
 .modal-footer-btn {
   height: 38px;
-  width: 61px;
+  min-width: 61px;
   border: solid 1px #00a551;
 }
 .clear-btn:hover{

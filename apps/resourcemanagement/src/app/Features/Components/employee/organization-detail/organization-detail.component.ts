@@ -10,12 +10,13 @@ import { CountryService } from '../../../Services/EmployeeOrganization/country.s
 import { DutyBranchModel } from '../../../Models/EmployeeOrganization/DutyBranchModel';
 import { EmployeeOrganization } from '../../../Models/EmployeeOrganization/EmployeeOrganization';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { ICountry } from '../../../Models/EmployeeOrganization/Country';
 import { IDutyBranch } from '../../../Models/EmployeeOrganization/DutyBranch';
 import { LocationPhoneService } from '../../../Services/address/location-phone.service';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { Router } from '@angular/router';
 import { ValidateFutureDate } from '../../../Validators/ValidateFutureDate';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 
 @Component({
   selector: 'exec-epp-organization-detail',
@@ -44,7 +45,8 @@ export class OrganizationDetailComponent implements OnInit {
     private router: Router,
     private _locationPhoneService: LocationPhoneService,
     private employeeService: EmployeeService,
-    private readonly _formGenerator: FormGenerator
+    private readonly _formGenerator: FormGenerator,
+    private notification: NotificationBar
   ) {
     this.isEdit = this._formGenerator.IsEdit;
     this.employeeService.isdefault = false;
@@ -59,6 +61,11 @@ export class OrganizationDetailComponent implements OnInit {
       });
     this.OrganizationSource = this.employeeService.getEmployeeOrganization();
     this.createEmployeeOrganizationForm(this.OrganizationSource);
+     this.notification.showNotification({
+       type: 'success',
+       content: '',
+       duration: 1,
+     });
   }
 
   createEmployeeOrganizationForm(employeeOrganization: EmployeeOrganization) {
