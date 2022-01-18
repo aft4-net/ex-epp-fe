@@ -1,4 +1,5 @@
 import { AddClientStateService, ApiService, Client, PaginatedResult } from '..';
+
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -35,7 +36,7 @@ export class ClientService extends ApiService<Client> {
 
   addClient() {
     this.post(this.addClientStateService.addClientData).subscribe(
-     
+
       (response: any) => {
         console.log("this.addClientStateService.addClientData")
         console.log(this.addClientStateService.addClientData)
