@@ -17,16 +17,16 @@ import {NzInputModule} from "ng-zorro-antd/input"
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import {NzModalModule} from "ng-zorro-antd/modal";
 import { NzInputNumberModule } from "ng-zorro-antd/input-number"
+import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import {NzPopoverModule} from "ng-zorro-antd/popover"
 import {NzSelectModule} from "ng-zorro-antd/select"
 import {NzTableModule} from 'ng-zorro-antd/table';
-
-import { TimesheetRoutingModule } from './timesheet-routing.module' 
 import {ProjectNamePaletComponent} from './components/project-name-palet/project-name-palet.component';
 import {TimesheetComponent} from "./timesheet.component"
 import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
 import {TimesheetHeaderComponent} from './components/timesheet-header/timesheet-header.component';
+import {TimesheetRoutingModule} from './timesheet-routing.module';
 import { TimesheetService } from './services/timesheet.service';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
@@ -59,6 +59,7 @@ import { TimesheetConfigurationComponent } from './components/timesheet-configur
     NzLayoutModule,
     ReactiveFormsModule,
     NzFormModule,
+    NzNotificationModule,
     NzDividerModule,
     NzModalModule,
     NzTableModule,
@@ -67,7 +68,7 @@ import { TimesheetConfigurationComponent } from './components/timesheet-configur
     NzInputNumberModule
   ],
   exports: [TimesheetComponent, TimesheetHeaderComponent],
-  providers: [TimesheetValidationService, TimesheetService],
+  providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {
 }

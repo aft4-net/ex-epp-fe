@@ -130,7 +130,7 @@ export class ViewSubmissionsComponent implements OnInit {
   }
 
   navaigateToTimeSheet() {
-    this.router.navigateByUrl('timesheet');
+    this.router.navigateByUrl('/timesheetnew');
   }
 
   timesheetSubmissionPaginatin(
@@ -215,7 +215,7 @@ export class ViewSubmissionsComponent implements OnInit {
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
       this.state.getTimesheet(this.userId);
-      this.router.navigate(['/timesheet']);
+      this.router.navigate(['/timesheetnew']);
     }
   }
 }
