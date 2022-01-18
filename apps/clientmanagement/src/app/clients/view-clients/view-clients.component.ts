@@ -11,6 +11,7 @@ import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-view-clients',
@@ -90,6 +91,9 @@ export class ViewClientsComponent implements OnInit  {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
+    this.notification.error('', '', {
+      
+    });
   }
   showModal(): void {
     this.isVisible = true;
@@ -123,7 +127,7 @@ export class ViewClientsComponent implements OnInit  {
   }
 
   addClientPage() {
-    this.router.navigateByUrl('clients/add-client');
+    this.router.navigateByUrl('clientmanagement/add-client');
   }
 
   PageSizeChange(pageSize: number) {

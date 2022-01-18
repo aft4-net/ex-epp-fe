@@ -2,7 +2,7 @@
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item>Home</nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a [routerLink]="['/clients']">Clients </a>
+      <a [routerLink]="['/Clients']">Clients </a>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item>Add Clients</nz-breadcrumb-item>
   </nz-breadcrumb>
@@ -13,8 +13,8 @@
 <exec-epp-header-line> </exec-epp-header-line>
 <header>
   <div class="justify-between" nz-row>
-    <div class="page-title"> Enter Client Details </div>
-    <div>
+    <div nz-col nzSpan="21" class="page-title"> Enter Client Details </div>
+    <div nz-col nzSpan="3">
       <button nz-button class="clear-btn" (click)="cancelAddClientPage()"  >   Cancel</button>
       <button type="submit" (click)="addClient()" nz-button> Save </button>
     </div>

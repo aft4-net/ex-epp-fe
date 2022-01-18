@@ -12,6 +12,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
 import { ViewClientsComponent } from '../clients/view-clients/view-clients.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -35,6 +36,7 @@ import { ViewClientsComponent } from '../clients/view-clients/view-clients.compo
       },
     ]),
   ],
-  providers: [NzNotificationService,],
+  providers: [NzNotificationService,
+    NzModalService],
 })
 export class RemoteEntryModule {}
