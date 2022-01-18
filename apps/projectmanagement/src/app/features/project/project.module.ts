@@ -11,6 +11,8 @@ import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
 
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
+import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { AddProjectComponent } from './components/Add-Project/Add-Project.compon
     ReactiveFormsModule,FormsModule,
     CommonModule,
     ProjectRoutingModule,
-    NgZorroModule,
+    // NgZorroModule,
+    // BrowserAnimationsModule,
+    DemoNgZorroAntdModule,
     ProjectRoutingModule
 
   ],

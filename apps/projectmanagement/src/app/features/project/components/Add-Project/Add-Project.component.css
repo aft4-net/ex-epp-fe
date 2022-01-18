@@ -1,3 +1,10 @@
+@import "~ng-zorro-antd/ng-zorro-antd.min.css";
+
+@import "~ng-zorro-antd/style/index.min.css";
+
+@import "~ng-zorro-antd/button/style/index.min.css";
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 ::ng-deep .ant-tabs-nav {
   width: 266px !important;
 
@@ -72,15 +79,15 @@ nz-tab {
 
 
 
- 
+
 
   ::ng-deep .ant-tabs-tab {
     color: #363636 !important;
 
   }
- 
 
-  
+
+
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
 
  box-shadow: inset -2px 0px 0px #DADADA !important;
@@ -92,7 +99,7 @@ nz-tab {
     justify-content: center !important;
   }
 
- 
+
   ::ng-deep .ant-tabs-tab:hover {
     color: #595959 !important;
   }
@@ -102,7 +109,7 @@ nz-tab {
   }
 
 
-  
+
  ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
 
   font-size: 16px !important;
@@ -113,7 +120,7 @@ nz-tab {
 
   color: #595959 !important;
 }
- 
+
 
 
 
@@ -125,7 +132,7 @@ nz-tab {
 
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
 
-  
+
   box-shadow: inset 0px -1px 0px #DADADA !important ;
 
   }

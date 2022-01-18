@@ -20,18 +20,23 @@ export class DashboardComponent implements OnInit {
    // const namearray=this.fullName.split(' ');
    // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    this.thePosition = _authenticationService.position;
-   
- 
+    //this.thePosition = _authenticationService.position;
+  
   }
 
   ngOnInit(): void {
    
-
+    this.getUser();
     this.getPermission();
     this._permissionService.permissionList=this.permissionList;
    
   }
+  getUser(){
+  //  this._authenticationService.getUser(this.uemail);
+   setTimeout(() => {
+     this.thePosition = this._authenticationService.position;
+   }, 500); 
+ }
 
   routetoResourceManagement(){
     this._authenticationService.setFromViewProfile2();
