@@ -21,10 +21,11 @@ import { ErrHandleService } from './error-handle.service';
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
 
    loginStatus(){
+     
        return this.isLogin();
    }
 
-   getUser(email:string){
+   getUser(email:any){
      this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email).subscribe(
       (response) => {
         console.log("empguid is " + response["Guid"]);
@@ -34,6 +35,10 @@ import { ErrHandleService } from './error-handle.service';
     );
    }
     
+   getLoggedInUserAuthToken(email?: string){
+    return this.http.get<any>('http://localhost:14696/api/v1/User/UserAuthToken?email=' + email?.toLowerCase());
+   }
+
    storeLoginUser(user:any){
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
@@ -45,6 +50,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     //this.router.navigateByUrl('');
     window.location.replace('http://localhost:4200/');
+
    }
 
    getEmail(){

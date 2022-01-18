@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +13,7 @@ import { ProjectRoutingModule } from '../features/project/project-routing.module
 import { ProjectModule } from '../features/project/project.module';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { RemoteEntryComponent } from './entry.component';
+import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -24,7 +25,7 @@ import { RemoteEntryComponent } from './entry.component';
     CommonModule,
     ProjectModule,
     ProjectRoutingModule,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     RouterModule.forChild([
       {
@@ -44,6 +45,8 @@ import { RemoteEntryComponent } from './entry.component';
       },
     ]),
   ],
-  providers: [ { provide: NZ_I18N, useValue: en_US }],
+  providers: [ { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true }
+  ],
 })
 export class RemoteEntryModule {}

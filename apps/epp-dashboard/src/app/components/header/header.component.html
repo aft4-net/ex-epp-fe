@@ -9,12 +9,7 @@
       />
     </nz-page-header-title>
     <nz-page-header-extra>
-      <button nz-button nzType="text">
-        <i nz-icon [nzType]="'setting'" [nzTheme]="'outline'"></i>
-      </button>
-      <button nz-button nzType="text">
-        <i nz-icon [nzType]="'question-circle'" [nzTheme]="'outline'"></i>
-      </button>
+   
       <button nz-button nzType="text">
         <nz-badge [nzCount]="12">
           <i nz-icon [nzType]="'bell'" [nzTheme]="'outline'"></i>
@@ -25,14 +20,12 @@
       nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
       <ng-template #contentTemplate>      
         <div  nz-col>
-            <button nz-row style="border: none;"  nz-button nzType="default"  >
-               {{thefullName}}
+            <button nz-row style="border: none; color: black;"  nz-button nzType="default"  >
+               {{thefullName}}  | {{theGroup}}
             </button>
-            <button nz-row style="border: none;"  nz-button nzType="default"  >
-              {{theGroup}}
-           </button>
-            <button nz-row style="border: none;"   nz-button nzType="default" >
-              <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" ><p style="font-size:14px; "> Employee Profile</p></a>         
+           
+            <button nz-row style="border: none; color: green;"   nz-button nzType="default" >
+              <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" ><p style="font-size:14px; "> My Profile</p></a>         
             </button>
             <button nz-row style="border: none;"   nz-button nzType="default" nzDanger (click)="logout()">
                 Logout
