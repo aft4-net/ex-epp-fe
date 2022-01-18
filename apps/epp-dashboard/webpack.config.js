@@ -29,6 +29,8 @@ module.exports = {
           'eppconfiguration@http://localhost:4232/remoteEntry.js',
         resourcemanagement:
           'resourcemanagement@http://localhost:4234/remoteEntry.js',
+        clientmanagement:
+          'clientmanagement@http://localhost:4235/remoteEntry.js',
         projectmanagement:
           'projectmanagement@http://localhost:4236/remoteEntry.js',
         projectmanagement:
