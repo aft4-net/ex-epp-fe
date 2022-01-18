@@ -37,13 +37,11 @@ export class UserToGroupComponent implements OnInit {
 
               this.groupList = r;
               this.userService.getUserGroups(this.selectedUserId).subscribe(
-                  (r: GroupSetModel[]) => {
-                      r.forEach(el => {
+                  (r: ResponseDTO<GroupSetModel[]>) => {
+                      r.Data.forEach(el => {
                           this.selectedGroups.push(el.Guid);
                       });
                       this.groupfrm.setValue({'Groups': this.selectedGroups});
-
-                     
                   },
                   (error: any) => {
                       console.log(error);

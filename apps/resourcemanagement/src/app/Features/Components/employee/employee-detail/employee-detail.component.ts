@@ -9,6 +9,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 
+import{AuthenticationService} from './../../../../../../../../libs/common-services/Authentication.service';
 import { ColumnItem } from '../../../Models/EmployeeColumnItem';
 import { Employee } from '../../../Models/Employee';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
@@ -32,12 +33,15 @@ export class EmployeeDetailComponent implements OnInit {
   @ViewChild('searchInput', { static: true })
   input!: ElementRef;
   employeeByID!: Employee;
+  uemail :any;
+  theEmpguid : any;
 
   constructor(
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
-    private _router: Router
-  ) {}
+    private _router: Router,
+    private _authenticationService:AuthenticationService
+    ) {}
 
   isdefault = true;
   router = '';
@@ -136,9 +140,29 @@ export class EmployeeDetailComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+
+     if(this._authenticationService.isFromViewProfile() === 'true'){
+       this.uemail= this._authenticationService.getEmail();
+       this.getUser();
+     }
+   else{
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
+   }
   }
+
+  getUser(){
+    this._authenticationService.getUser(this.uemail);
+   setTimeout(() => {
+
+    this.theEmpguid = this._authenticationService.empGuid;
+    if( this.theEmpguid !== null){
+      this.Edit(this._authenticationService.empGuid);
+
+    }
+
+   }, 500);
+ }
 
   FillTheFilter() {
     this.holdItJobTitle.length = 0;
@@ -370,22 +394,22 @@ export class EmployeeDetailComponent implements OnInit {
     this._form.employeId = employeeId;
     this._employeeService.getEmployeeData(employeeId).subscribe((data: any) => {
       this._employeeService.setEmployeeDataForEdit(data);
-      if (this._employeeService.employeeById) {
-        this._employeeService.isEdit = true;
-        this._employeeService.save = 'Update';
-        this._form.generateForms;
-        this._form.generateForms(this._employeeService.employeeById);
-        this._form.allAddresses = this._employeeService.employeeById
-          ?.EmployeeAddress
-          ? this._employeeService.employeeById?.EmployeeAddress
-          : [];
-        this._form.allFamilyDetails = this._employeeService.employeeById
-          ?.FamilyDetails
-          ? this._employeeService.employeeById?.FamilyDetails
-          : [];
-        this._employeeService.isdefault = false;
-        this._router.navigate(['/resourcemanagement/personal-info']);
-      }
+
+    if(this._employeeService.employeeById)
+   {
+    this._employeeService.isEdit=true;
+    this._employeeService.save="Update";
+    this._form.generateForms;
+    this._form.generateForms(this._employeeService.employeeById);
+    this._form.allAddresses=this._employeeService.employeeById?.EmployeeAddress?
+      this._employeeService.employeeById?.EmployeeAddress:[];
+      this._form.allFamilyDetails=this._employeeService.employeeById?.FamilyDetails?
+      this._employeeService.employeeById?.FamilyDetails:[];
+    this._employeeService.isdefault=false
+    this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']);
+
+  }
+
     });
   }
   //added by simbo just you can delete
