@@ -23,6 +23,7 @@ import { PaginationResult } from '../../../Models/PaginationResult';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 
 @Component({

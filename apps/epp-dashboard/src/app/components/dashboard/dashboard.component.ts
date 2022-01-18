@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
-import {PermissionService} from './../../../../../../libs/common-services//permission.service';
+import {PermissionListService} from './../../../../../../libs/common-services//permission.service';
 import { IntialdataService } from '../../services/intialdata.service';
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
@@ -15,10 +15,10 @@ export class DashboardComponent implements OnInit {
   thePosition : any;
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,private _permissionService:PermissionService )  { 
+  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,private _permissionService:PermissionListService )  { 
     this.fullName=_authenticationService.getUserFullName();
-    const namearray=this.fullName.split(' ');
-    this.fullName=namearray[0];
+   // const namearray=this.fullName.split(' ');
+   // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
     //this.thePosition = _authenticationService.position;
   
@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
   }
 
    authorize(key:string){
+    
      return this._permissionService.authorizedPerson(key);
    }
    getPermission(): void {
