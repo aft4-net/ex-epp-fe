@@ -22,6 +22,7 @@ import {
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject } from 'rxjs';
+import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -63,7 +64,8 @@ export class AddProjectComponent implements OnInit {
     private clientService: ClientService,
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationBar,
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,15 @@ export class AddProjectComponent implements OnInit {
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
+    this.notification.showNotification({
+
+      type: 'success',
+
+      content: '',
+
+      duration: 1,
+
+    });
   }
 
   projectMapper() {
