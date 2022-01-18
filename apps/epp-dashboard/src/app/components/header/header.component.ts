@@ -26,7 +26,7 @@ thefullName = "";
      this._authenticationService.getUser(this.uemail);
     setTimeout(() => {
       this.theGroup = this._authenticationService.position;
-    }, 500); 
+    }, 1000); 
   }
 
   ngOnInit(): void {
