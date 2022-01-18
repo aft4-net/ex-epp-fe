@@ -64,6 +64,20 @@
                 >
                   {{ column.name }}
                 </th>
+
+                <th
+                  class="table_heading"
+                  *ngFor="let column of listOfColumns"
+                  [nzSortOrder]="column.sortOrder"
+                  [nzSortFn]="column.sortFn"
+                  [nzSortDirections]="column.sortDirections"
+                  [nzFilterMultiple]="column.filterMultiple"
+                  [nzFilters]="column.listOfFilter"
+                  [nzFilterFn]="column.filterFn"
+                >
+                  {{ column.name }}
+                </th>
+
                 <th
                   class="table_heading"
                   nzColumnKey="Job Title"
@@ -101,6 +115,7 @@
                 >
                   {{ listOfColumns[2].name }}
                 </th>
+
                 <th class="table_heading">Actions</th>
               </tr>
             </thead>
