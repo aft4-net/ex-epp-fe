@@ -19,10 +19,10 @@ export class ClientProjectComponent implements OnInit  {
 
 
 
- 
+
      ngOnInit(): void {
-      this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{   
-   
+      this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{
+
         this.projectService.setFristPageOfProjects(response);
        });
 
@@ -30,13 +30,13 @@ export class ClientProjectComponent implements OnInit  {
          this.activeTabIndex=res;
       })
      }
-   
+
 
 
   clientTab()
   {
     this.clientSelected=false;
- 
+
   }
 
   projectTab()
@@ -47,8 +47,8 @@ export class ClientProjectComponent implements OnInit  {
 
 addProjectPage()
 {
-  this.router.navigateByUrl('client-project/add-project');
- 
+  this.router.navigateByUrl('projectmanagement/client-project/add-project');
+
 }
 
 }

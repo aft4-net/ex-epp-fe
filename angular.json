@@ -396,6 +396,7 @@
           "options": {
             "commands": [
               "nx serve projectmanagement",
+              "nx serve projectmanagement",
               "nx serve eppconfiguration",
               "nx serve resourcemanagement",
               "nx serve usermanagement",
