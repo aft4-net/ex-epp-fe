@@ -72,7 +72,8 @@ pipeline{
                   
                  }
             }
-              
+            //clean the workspace after deployment 
+            cleanWs deleteDirs: true, notFailBuild: true 
             }
         }    
         
