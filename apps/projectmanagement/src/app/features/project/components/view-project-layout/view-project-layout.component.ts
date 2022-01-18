@@ -34,7 +34,7 @@ paginatedprojects$!:Observable< PaginatedResult<Project[]>>;
     { label: 'Orange', value: 'Orange' }
   ];
 
-  PageSizeChange(pageSize){
+  PageSizeChange(pageSize:number){
     console.log(pageSize)
     this.pageSize=pageSize
     this.projectService.getWithPagnationResut(this.pageIndex, pageSize,this.searchProject.value)
@@ -93,11 +93,15 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
      });
 
      this.projectService.fristPagantionProjects$.subscribe((response:PaginatedResult<Project[]>)=>{
-      this.projects=response.data;
-      this.pageIndex=response.pagination.pageIndex;
-      this.pageSize=response.pagination.pageSize;
-      this.total=response.pagination.totalRecord
-      this.totalPage=response.pagination.totalPage;
+       if(response.data)
+       {
+        this.projects=response.data;
+        this.pageIndex=response.pagination.pageIndex;
+        this.pageSize=response.pagination.pageSize;
+        this.total=response.pagination.totalRecord
+        this.totalPage=response.pagination.totalPage;
+       }
+
       this.loading =false;
      });
 

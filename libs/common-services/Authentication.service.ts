@@ -16,7 +16,7 @@ import { ErrHandleService } from './error-handle.service';
     url="http://localhost:14696";
   loginCount=0;
   position:string="";
-  empGuid:any;
+  empGuid:string="";
 
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
 
@@ -68,6 +68,14 @@ import { ErrHandleService } from './error-handle.service';
    else{
      return true;
    }
-
+  }
+   isFromViewProfile(){
+    return window.sessionStorage.getItem('fromViewer');
+  }
+  setFromViewProfile(){
+    window.sessionStorage.setItem('fromViewer','true');
+  }
+  setFromViewProfile2(){
+    window.sessionStorage.setItem('fromViewer','false');
   }
     } 
