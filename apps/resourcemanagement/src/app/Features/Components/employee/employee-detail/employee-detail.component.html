@@ -41,7 +41,7 @@
           nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
           <thead>
             <tr>
-              <th class="table_heading" style="width:30px"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+              <th class="table_heading" style="width:30px;"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
               (nzCheckedChange)="onAllChecked($event)" ></th>
               <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                 [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
@@ -49,7 +49,7 @@
 
               <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                 [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter" 
                 [nzFilterFn]="column.filterFn">{{ column.name }}</th>
               <th class="table_heading">Actions</th>
             </tr>

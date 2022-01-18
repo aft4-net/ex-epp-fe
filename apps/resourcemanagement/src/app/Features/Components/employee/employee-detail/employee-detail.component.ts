@@ -44,7 +44,9 @@ export class EmployeeDetailComponent implements OnInit {
     private _authenticationService:AuthenticationService,
     private notification: NotificationBar
 
-    ) {}
+    ) {
+      
+    }
 
   isdefault = true;
   router = '';
@@ -114,10 +116,10 @@ export class EmployeeDetailComponent implements OnInit {
        this.uemail= this._authenticationService.getEmail();
        this.getUser();
      }
-   else{
+     else{
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
-   }
+     }
 
    this.notification.showNotification({
     type: 'success',
@@ -129,13 +131,11 @@ export class EmployeeDetailComponent implements OnInit {
   getUser(){
     this._authenticationService.getUser(this.uemail);
    setTimeout(() => {
-
     this.theEmpguid = this._authenticationService.empGuid;
     if( this.theEmpguid !== null){
-      this.Edit(this._authenticationService.empGuid);
+      this.Edit(this.theEmpguid);
 
     }
-
    }, 500);
  }
 
