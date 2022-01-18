@@ -75,6 +75,13 @@
       "tags": [],
       "implicitDependencies": ["project-management"]
     },
+    "projectmanagement": {
+      "tags": []
+    },
+    "projectmanagement-e2e": {
+      "tags": [],
+      "implicitDependencies": ["projectmanagement"]
+    },
     "resource-management": {
       "tags": []
     },

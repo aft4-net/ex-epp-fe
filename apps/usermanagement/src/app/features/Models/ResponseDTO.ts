@@ -1,4 +1,4 @@
-enum ResponseStatus
+export enum ResponseStatus
 {
     error,
     success,
