@@ -43,7 +43,6 @@ export class EmployeeDetailComponent implements OnInit {
     private _form: FormGenerator,
     private _router: Router,
     private _authenticationService:AuthenticationService,
-    private notification: NotificationBar
 
     ) {}
 
@@ -154,11 +153,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.FeatchAllEmployees();
    }
 
-   this.notification.showNotification({
-    type: 'success',
-    content: '',
-    duration: 1,
-  });
+  
   }
 
   getUser(){
