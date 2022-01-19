@@ -275,7 +275,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 
   .anticon-filter   {
-    color: #52c41a;
+    color: none;
   }
 
 
@@ -297,4 +297,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
   .ant-table-filter-dropdown .ant-checkbox-wrapper+span, .ant-table-filter-dropdown-submenu .ant-checkbox-wrapper+span {
     color: black;
+  }
+  ::ng-deep .ant-table-filter-column{
+    float:left !important;
   }
