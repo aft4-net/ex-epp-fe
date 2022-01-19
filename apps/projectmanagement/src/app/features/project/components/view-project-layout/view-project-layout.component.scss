@@ -1,0 +1,116 @@
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+::ng-deep .ant-table-thead>tr>th {
+
+  background: #F5F5F5 !important;
+}
+
+
+a {
+  padding-right: 0.6vw;
+  color: #262626;
+}
+.ant-btn-primary {
+  color: #262626 !important;
+  background: none !important;
+  border: 1px solid #d9d9d9 !important;
+}
+
+nz-table.table-container.ant-table-wrapper {
+  padding-top: 1%;
+}
+
+
+tr.ant-table-row.ng-star-inserted {
+  height: 56px !important;
+  padding:16px !important;
+}
+.main_container_homepage {
+  padding: 0px 2%;
+}
+
+
+
+::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  content:none !important;
+}
+
+
+
+::ng-deep .ant-tabs-content-holder {
+
+  font-family: SF Pro Display !important;
+
+}
+::ng-deep .ant-table-content {
+  font-size: 16px !important;
+}
+
+.ant-table-column-sorter:active {
+  color: #bfbfbf;
+
+  transition: color .3s;
+}
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+}
+
+
+
+tr.ant-table-row.ng-star-inserted {
+  height: 56px !important;
+  padding:16px !important;
+}
+::ng-deep .ant-table-content {
+  font-size: 16px !important;
+}
+
+.ant-table-column-sorter:active {
+  color: #bfbfbf;
+
+  transition: color .3s;
+}
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+}
+
+
+
+
+
+
+.manage-columns {
+
+  padding-bottom: 10px;
+}
+
+.projects{
+  height: 95vh;
+}
+
+::ng-deep ant-table-filter-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: -40px -8px -4px 40px;
+  padding: 0 4px;
+  color: #bfbfbf;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  transition: all .3s;
+}
+
+.pagination {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #595959;
+
+}

@@ -3,6 +3,7 @@ AddClientStateService,
 Client,
 ClientDetailCreate,
 ClientDetailsService,
+ClientService,
 ClientStatus,
 ClientStatusService,
 Employee,
@@ -38,10 +39,28 @@ export class DetailsFormComponent implements OnInit {
     private clientStatusService: ClientStatusService,
     private addClientStateService: AddClientStateService,
     private clientDetailsService: ClientDetailsService,
+    private _clientService:ClientService
   ) {}
 
   ngOnInit(): void {
     this.createRegistrationForm();
+
+
+    this.validateForm=this.fb.group({
+      clientName: [
+        this._clientService.clientDataById.ClientName,
+
+      ],
+      status: [this._clientService.clientDataById.ClientStatusName],
+      salesPerson: ['Ashnafi Feseha Tesfaye-Developer'],
+      description:[this._clientService.clientDataById.Description],
+    });
+    console.log(this._clientService.clientDataById.SalesPerson);
+    console.log("end of saleperson");
+
+
+
+
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;

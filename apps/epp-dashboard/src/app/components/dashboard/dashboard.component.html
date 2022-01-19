@@ -1,33 +1,36 @@
 
-<div style="background: #f5f5f5;padding-left:9%; position: absolute; padding-bottom: 0%; padding-top: 3%; height: 100%; width: 1730px; ">
 
-  <div   style="margin-bottom: 0px;">
+<div style="background: #f5f5f5;padding-left:6%; padding-right: 6%; position: absolute; padding-bottom: 0%; padding-top: 3%; height: 100%; width: 1730px; ">
+  <div   style="margin-bottom: 10px;">
+
+  <div   style="margin-bottom: 10px;">
     <p  class="employee-name">Welcome {{fullName}},</p>
-   
+  </div>
+    <div  style="margin-bottom: 10px; ">
+        <p  class="designation" style="text-indent: 60px;">  Senior Developer I <span></span>  </p> 
+        <p class="current-time"> - {{date | date:'MM/dd/yyyy'}} </p>
     </div>
-    <div  style="margin-bottom: 17px;">
+  </div>
 
-        <p  class="designation"> Developer I <span></span> - {{date | date:'MM / dd / yyyy'}} </p> 
-        <p class="current-time">  </p>
-
-      </div>
   <div nz-row  [nzGutter]="20" nzHoverable="true">
+
 
     <div nz-col [nzSpan]="5" style="padding-top: 2%; ">
       <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
-        <a href="http://localhost:60730/">
+        <a (click)="routetoResourceManagement()" style="color: black;" >
         <nz-card-meta
         [nzTitle]="avatarTextTemplate"
         [nzAvatar]="avatarTemplate"
       ></nz-card-meta>
       </a>
       </nz-card>
+
       <ng-template #avatarTemplate>
-        <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:green ; font-size: '40px';"></i>
+        <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:#00a551; font-size: '30px';"></i>
       </ng-template>
       <ng-template #avatarTextTemplate>
         <p style="font-size:16px; font-weight: normal;">Employee Information</p>
-        <p style="font-size:12px; font-weight: normal;">Add, Edit and View employee Detais</p>
+   
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%; width: 100px; ">
@@ -38,12 +41,12 @@
       ></nz-card-meta>
       </nz-card>
       <ng-template #clientTemplate>
-        <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
+        <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: #00a551 ;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #clientTextTemplate >
-        
+
         <p style="font-size:16px; font-weight: normal;">Clients</p>
-        <p style="font-size:12px; font-weight: normal; ">Add, Edit and View clients details</p>
+       
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%; padding-right: 7%;" >
@@ -54,14 +57,14 @@
       ></nz-card-meta>
       </nz-card>
       <ng-template #timesheetTemplate>
-        <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
+        <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #timesheetTextTemplate>
         <p style="font-size:16px; font-weight: normal;">Timesheet</p>
-        <p style="font-size:12px; font-weight: normal; ">Manage timesheet</p>
+     
       </ng-template>
     </div>
-    
+
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
@@ -70,11 +73,31 @@
       ></nz-card-meta>
       </nz-card>
       <ng-template #projectTemplate>
-        <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
+        <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #projectTextTemplate>
+        <a routerLink="projectmanagement" style="color: black;" >
         <p style="font-size:16px; font-weight: normal;">Projects</p>
-        <p style="font-size:12px; font-weight: normal; ">Add, Edit and View project details</p>
+       </a>
+      </ng-template>
+    </div>
+
+
+    <div nz-col [nzSpan]="5" style="padding-top: 2%;">
+      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+        <nz-card-meta
+        [nzTitle]="userTextTemplate"
+        [nzAvatar]="userTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #userTemplate>
+        <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: #00a551; font-size: '30px';"></i>
+      </ng-template>
+      <ng-template #userTextTemplate>
+
+        <a routerLink="usermanagement" style="color: black;" >
+          <p style="font-size:16px; font-weight: normal;">User Management</p>
+        </a>
       </ng-template>
     </div>
 
@@ -86,37 +109,14 @@
       ></nz-card-meta>
       </nz-card>
       <ng-template #configurationTemplate>
-        <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
+        <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #confTextTemplate>
-        
+
         <p style="font-size:16px; font-weight: normal;">Configuration</p>
-        <p style="font-size:12px; font-weight: normal; ">Add, Edit and View Configuration</p>
-      </ng-template>
-    </div>
-    <div nz-col [nzSpan]="5" style="padding-top: 2%;">
-      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
-        <nz-card-meta
-        [nzTitle]="userTextTemplate"
-        [nzAvatar]="userTemplate"
-      ></nz-card-meta>
-      </nz-card>
-      <ng-template #userTemplate>
-        <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: green; font-size: '40px';"></i>
-      </ng-template>
-      <ng-template #userTextTemplate>
-        
-        <a routerLink="usermanagement" style="color: black;" >
-          <p style="font-size:16px; font-weight: normal;">User Management</p>
-          <p style="font-size:12px; font-weight: normal; ">Add, Edit and View User's</p>
-          
-        </a>
-      </ng-template>
-    </div>
-</div>
- 
-  <div nz-row [nzGutter]="25" style="padding-top: 2%;"  nzHoverable="true" >
    
-  </div>
+      </ng-template>
+    </div>
+
 </div>
 

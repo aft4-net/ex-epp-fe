@@ -1,12 +1,13 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { Address } from '../../../Models/address.model';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
-import { NzDrawerRef } from 'ng-zorro-antd/drawer';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -21,8 +22,9 @@ export class AddressViewComponent implements OnInit {
   listOfaddress: Address[] = [];
   IsEdit=false;
   editAt=-10;
-  addButton='Add'
-  employeeAddress?:Address
+  addButton='Add';
+
+  employeeAddress?:Address;
   emptyData=[];
   @ViewChild('drawerTemplate')
   drawerTemplate: TemplateRef<{
@@ -33,9 +35,9 @@ export class AddressViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private readonly _formGenerator: FormGenerator,
-    private employeeService:EmployeeService
-  ) {
-   
+    private employeeService: EmployeeService,
+ ) {
+
 
 }
   addaddress(): void {
@@ -123,5 +125,7 @@ export class AddressViewComponent implements OnInit {
    }}
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+ }
 }

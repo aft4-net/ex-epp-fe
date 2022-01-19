@@ -9,6 +9,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
+import {PermissionListService} from '../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 
@@ -78,9 +79,15 @@ export class ViewClientsComponent implements OnInit  {
     private operatingAddressService: OperationalAddressService,
     private fetchclientsService: FetchclientsService,
     private employeeService: EmployeeService,
-    private notification: NzNotificationService
-  ) {}
+    private notification: NzNotificationService,
+    private _permission:PermissionListService
+
+  ) {
+
+  }
+  isdefault=true;
   ngOnInit(): void {
+
     this.getClientStatus();
     this.getLocations();
     this.getSalesPerson();
@@ -90,6 +97,40 @@ export class ViewClientsComponent implements OnInit  {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
+
+  }
+
+  Edit(client: any): void {
+
+
+    this._clientservice.clientId = client.Guid;
+    this._clientservice.getClientEdidtDataById(client.Guid).subscribe((data: any) => {
+      this._clientservice.setClientDataForEdit(data,client.saleperson);
+
+    if(this._clientservice.clientDataById)
+   {
+    //  console.log(this._clientservice.clientDataById.ClientName);
+    this._clientservice.isEdit=true;
+    this._clientservice.save="Update";
+    // this._form.generateForms;
+    //this._form.generateForms(this._employeeService.employeeById);
+    //this._form.allAddresses=this._employeeService.employeeById?.EmployeeAddress?
+      //this._employeeService.employeeById?.EmployeeAddress:[];
+     // this._form.allFamilyDetails=this._employeeService.employeeById?.FamilyDetails?
+     // this._employeeService.employeeById?.FamilyDetails:[];
+    this._clientservice.isdefault=false
+    this.router.navigate(['/clients/add-client/']);
+
+
+  }
+
+    });
+  }
+
+
+  authorizeClient(key:string)
+  {
+    return this._permission.authorizedPerson(key);
   }
   showModal(): void {
     this.isVisible = true;
