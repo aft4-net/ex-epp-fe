@@ -36,8 +36,7 @@ export class AddressViewComponent implements OnInit {
     public form: FormGenerator,
     private readonly _formGenerator: FormGenerator,
     private employeeService: EmployeeService,
-     private _notification: NotificationBar,
-  ) {
+ ) {
 
 
 }
@@ -127,12 +126,6 @@ export class AddressViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-this._notification.showNotification({
-          type: 'success',
-          content: '',
-          duration: 1,
-        });
 
-
-  }
+ }
 }

@@ -10,15 +10,19 @@
 .designation{
   font-size: medium;
   font-weight: bold;
-  margin-left:75.5%;
+  padding-left: 60%;
+  padding-right: 24%;
   margin-top: -3%;
-  margin-right: 0%;
+  text-align:right;
+  
+  
 }
 
 .current-time{
-  font-size: small;
+  font-size: medium;
+  font-weight: bold;
   margin-left: 77%;
-  margin-top: -1.68%;
+  margin-top: -1.60%;
   margin-right: 92px;
 }
 .card-container {
