@@ -38,7 +38,7 @@ import { RemoteEntryComponent } from './entry.component';
             component: ClientProjectComponent,
           },
           {
-             path: 'client-project/add-project',
+             path: 'add-project',
              component: AddProjectComponent,
           },
         ],

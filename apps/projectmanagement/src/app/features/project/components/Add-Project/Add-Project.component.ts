@@ -1,6 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PermissionListService } from '../.././../../../../../../libs/common-services//permission.service';
+
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import {
   ClientService,
   Employee,
   EmployeeService,
+  PermissionService,
   PreviousRouteService,
   Project,
   ProjectCreate,
@@ -54,6 +55,7 @@ export class AddProjectComponent implements OnInit {
   projectNameExitsErrorMessage = '';
   projectStartdDate = {} as Date;
   disallowResource = true;
+  addResourcePermission=false;
 
   resources: projectResourceType[] = [] as projectResourceType[];
 
@@ -61,7 +63,7 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
-    private permissionService: PermissionListService,
+    private permissionService: PermissionService,
     private previousRouteService: PreviousRouteService,
     private fb: FormBuilder,
     private projectService: ProjectService,
@@ -74,12 +76,12 @@ export class AddProjectComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    if (!this.permissionService.authorizedPerson("View_Project"))
-      if (this.previousRouteService.getPreviousUrl())
-        this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
-      else
-        this.router.navigateByUrl('/');
+   
+    // if (!this.permissionService.authorizedPerson("View_Project"))
+    //   if (this.previousRouteService.getPreviousUrl())
+    //     this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
+    //   else
+    //     this.router.navigateByUrl('/');
 
     this.createRegistrationForm();
     this.apiCalls();
@@ -95,6 +97,12 @@ export class AddProjectComponent implements OnInit {
       duration: 1,
 
     });
+
+    this.permissionService.getUserPermission('Assign_Resource').subscribe(res=>{
+    
+      this.addResourcePermission=res
+    }
+      );
   }
 
   projectMapper() {
@@ -320,7 +328,5 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  checkPermmision(key: string) {
-    return this.permissionService.authorizedPerson(key);
-  }
+
 }

@@ -10,16 +10,16 @@ import { PermissionService, ProjectService } from '../../core';
 })
 export class ClientProjectComponent implements OnInit  {
 
-  activeTabIndex=0;
-  creatProjectPermisson=false;
+  
+  creatProjectPermission=false;
   constructor( private  permissionService:PermissionService,private router:Router,
     private projectService:ProjectService) {
 
    }
-   clientSelected=true;
+
      ngOnInit(): void {
       this.permissionService.getUserPermission('Create_Project').subscribe(res=>
-        this.creatProjectPermisson=res);
+        this.creatProjectPermission=res);
 
      }
 
@@ -29,7 +29,7 @@ export class ClientProjectComponent implements OnInit  {
 
 addProjectPage()
 {
-  this.router.navigateByUrl('projectmanagement/client-project/add-project');
+  this.router.navigateByUrl('projectmanagement/add-project');
 
 }
 

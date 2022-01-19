@@ -42,6 +42,7 @@ get userTokenVaue()
 }
 
   getUserPermission(key:string):Observable<boolean>{
+
    return this.permssions$.pipe(
       switchMap((response:any) =>{    
         for(let i=0;i< response.length;i++)  {

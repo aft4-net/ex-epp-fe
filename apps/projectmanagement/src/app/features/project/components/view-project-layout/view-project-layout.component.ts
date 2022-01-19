@@ -72,9 +72,8 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
 
   ngOnInit(): void {
     this.permissionServie.userPrivilage$.subscribe(res=>{
-      if(res!=null)
+      if(res)
       {
-
     if(!this.permissionServie.getUserPermission("view_Project"))
      { if(this.previousRouteService.getPreviousUrl())
       this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
@@ -82,8 +81,10 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
       this.router.navigateByUrl('/');
   }
 else{
-  this.permissionServie.getUserPermission('Edit_Project').subscribe(res=>
-    this.editProjectPermission=res);
+  this.permissionServie.getUserPermission('Edit_Project').subscribe(res=>{
+this.editProjectPermission=res
+  }
+    );
     this.permissionServie.getUserPermission('Delete_Project').subscribe(res=>
       this.deleteProjectPermission=res);
       
