@@ -110,7 +110,7 @@ this.editProjectPermission=res
   valuechangeSearchProject()
   {
     this.searchProject.valueChanges.pipe(
-      debounceTime(2000)
+      debounceTime(3000)
     ).subscribe(()=>{
        if(this.searchProject.value?.length>1)
            {
