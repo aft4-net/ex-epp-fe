@@ -34,6 +34,10 @@ import { ErrHandleService } from './error-handle.service';
     );
    }
     
+   getLoggedInUserAuthToken(email?: string){
+    return this.http.get<any>('http://localhost:14696/api/v1/User/UserAuthToken?email=' + email?.toLowerCase());
+   }
+
    storeLoginUser(user:any){
     console.log("sdsddddddddddddddddddddddddd",user)
     window.sessionStorage.removeItem('name');

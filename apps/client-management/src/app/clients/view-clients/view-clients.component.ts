@@ -9,6 +9,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
+import {PermissionService} from '../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 
@@ -78,7 +79,8 @@ export class ViewClientsComponent implements OnInit  {
     private operatingAddressService: OperationalAddressService,
     private fetchclientsService: FetchclientsService,
     private employeeService: EmployeeService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private _permission: PermissionService
   ) {}
   ngOnInit(): void {
     this.getClientStatus();
@@ -90,6 +92,19 @@ export class ViewClientsComponent implements OnInit  {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
+  }
+  authorizeClient(key:string)
+  {
+    return this._permission.authorizedPerson(key);
+
+  }
+  authorizeClientEdit(key:string)
+  {
+    return this._permission.authorizedPerson(key);
+  }
+  authorizeClientDelete(key:string)
+  {
+    return this._permission.authorizedPerson(key);
   }
   showModal(): void {
     this.isVisible = true;

@@ -1,6 +1,6 @@
 <exec-epp-bread-crumb> </exec-epp-bread-crumb>
 <section class="addProject ">
-<nz-tabset class="side-nav p-2" [nzTabPosition]="position">
+<nz-tabset class="side-nav p-2" [nzTabPosition]="position" *ngIf="createPermisson">
   <nz-tab class="side-nav-tab" nzSelected nzTitle='Project Details'>
     <div class="tab-content">
       <div class="justify-between" nz-row>

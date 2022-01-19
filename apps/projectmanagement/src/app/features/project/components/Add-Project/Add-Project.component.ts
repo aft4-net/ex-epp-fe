@@ -56,6 +56,7 @@ export class AddProjectComponent implements OnInit {
   projectStartdDate = {} as Date;
   disallowResource = true;
   addResourcePermission=false;
+  createPermisson=false;
 
   resources: projectResourceType[] = [] as projectResourceType[];
 
@@ -77,32 +78,43 @@ export class AddProjectComponent implements OnInit {
 
   ngOnInit(): void {
    
-    // if (!this.permissionService.authorizedPerson("View_Project"))
-    //   if (this.previousRouteService.getPreviousUrl())
-    //     this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
-    //   else
-    //     this.router.navigateByUrl('/');
+    this.permissionService.getUserPermission("Create_Project").subscribe(res=>{
+      if(!res)
+      {
+        if (this.previousRouteService.getPreviousUrl())
+        this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
+      else
+        this.router.navigateByUrl('/projectmanagement');
+      }else
+      this.createPermisson=true;
+    })
+  
+  
+  if(this.createPermisson)       
+{
+  this.createRegistrationForm();
+  this.apiCalls();
+  this.projectMapper();
+  this.typeChanged();
+  this.validateParojectNameWithClient();
+  this.notification.showNotification({
 
-    this.createRegistrationForm();
-    this.apiCalls();
-    this.projectMapper();
-    this.typeChanged();
-    this.validateParojectNameWithClient();
-    this.notification.showNotification({
+    type: 'success',
 
-      type: 'success',
+    content: '',
 
-      content: '',
+    duration: 1,
 
-      duration: 1,
+  });
 
-    });
+  this.permissionService.getUserPermission('Assign_Resource').subscribe(res=>{
+  
+    this.addResourcePermission=res
+  }
+    );
 
-    this.permissionService.getUserPermission('Assign_Resource').subscribe(res=>{
-    
-      this.addResourcePermission=res
-    }
-      );
+}
+   
   }
 
   projectMapper() {
