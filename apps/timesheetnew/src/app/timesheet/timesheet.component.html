@@ -8,6 +8,6 @@
     [weekFirstDate]="(timesheet$ | async)?.FromDate ?? null"
     [weekLastDate]="(timesheet$ | async)?.ToDate ?? null">
   </app-timesheet-header>
-  <nz-divider class="hidden sm:flex sm:m-2"></nz-divider>
+  <nz-divider></nz-divider>
   <router-outlet></router-outlet>
 </div>
