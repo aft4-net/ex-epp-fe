@@ -12,9 +12,7 @@ export class IntialdataService {
   baseUrl2 = environment.apiUrl + '/Permission/module';
  
   constructor(private http: HttpClient) { 
-
-  
-  }
+}
 
   getUserPermission(){
     
