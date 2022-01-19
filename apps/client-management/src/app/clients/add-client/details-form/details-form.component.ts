@@ -44,22 +44,7 @@ export class DetailsFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.createRegistrationForm();
-
-
-    this.validateForm=this.fb.group({
-      clientName: [
-        this._clientService.clientDataById.ClientName,
-
-      ],
-      status: [this._clientService.clientDataById.ClientStatusName],
-      salesPerson: ['Ashnafi Feseha Tesfaye-Developer'],
-      description:[this._clientService.clientDataById.Description],
-    });
-    console.log(this._clientService.clientDataById.SalesPerson);
-    console.log("end of saleperson");
-
-
-
+    this.setValue();
 
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
@@ -98,6 +83,17 @@ export class DetailsFormComponent implements OnInit {
           this.clientDetailCreate
         );
       } else this.addClientStateService.restAddClientDetails();
+    });
+  }
+  setValue(){
+    this.validateForm=this.fb.group({
+      clientName: [
+        this._clientService.clientDataById.ClientName,
+
+      ],
+      status: [this._clientService.clientDataById.ClientStatusName],
+      salesPerson: [this._clientService.clientDataById.SalesPersonGuid],
+      description:[this._clientService.clientDataById.Description],
     });
   }
 
