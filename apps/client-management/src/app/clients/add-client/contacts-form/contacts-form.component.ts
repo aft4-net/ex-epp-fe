@@ -1,4 +1,4 @@
-import { AddClientStateService, ClientContactCreate } from '../../../core';
+import { AddClientStateService, ClientContactCreate, ClientService } from '../../../core';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -45,13 +45,18 @@ export class ContactsFormComponent implements OnInit {
     private fb: FormBuilder,
     private modal: NzModalService,
     private _countryService: CountryCodeService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private _clientService:ClientService
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
 
   }
 
   ngOnInit(): void {
+    if(this._clientService.isEdit && this._clientService.clientDataById)
+    {
+
+    }
     this.listData = this.addClientStateService.addClientData.ClientContacts;
     this.addContactForm = this.fb.group({
 ContactPersonName: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(70)]],
