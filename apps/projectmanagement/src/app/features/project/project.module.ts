@@ -11,9 +11,11 @@ import { ViewProjectLayoutComponent } from './components/view-project-layout/vie
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptorService } from '../../core';
+import { ClientProjectComponent } from '../client-project/client-project.component';
 
 @NgModule({
   declarations: [
+   ClientProjectComponent, 
    ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent
   ],
   imports: [

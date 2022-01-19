@@ -1,6 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {PermissionService} from '../.././../../../../../../libs/common-services//permission.service';
+import { PermissionListService } from '../.././../../../../../../libs/common-services//permission.service';
 import {
   FormBuilder,
   FormGroup,
@@ -25,6 +25,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
+import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -60,30 +61,40 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
-    private  permissionService:PermissionService, 
-    private previousRouteService:PreviousRouteService,
+    private permissionService: PermissionListService,
+    private previousRouteService: PreviousRouteService,
     private fb: FormBuilder,
     private projectService: ProjectService,
     private modalService: NzModalService,
     private clientService: ClientService,
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private notification: NotificationBar,
+  ) { }
 
   ngOnInit(): void {
-    
-    if(!this.permissionService.authorizedPerson("View_Project"))
-      if(this.previousRouteService.getPreviousUrl())
-      this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
+
+    if (!this.permissionService.authorizedPerson("View_Project"))
+      if (this.previousRouteService.getPreviousUrl())
+        this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
       else
-      this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/');
 
     this.createRegistrationForm();
     this.apiCalls();
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
+    this.notification.showNotification({
+
+      type: 'success',
+
+      content: '',
+
+      duration: 1,
+
+    });
   }
 
   projectMapper() {
@@ -164,9 +175,9 @@ export class AddProjectComponent implements OnInit {
           for (let i = 0; i < this.projects.length; i++) {
             if (
               this.validateForm.controls.client.value ==
-                this.projects[i].Client.Guid &&
+              this.projects[i].Client.Guid &&
               this.validateForm.controls.projectName.value.toLowerCase() ===
-                this.projects[i].ProjectName.toString().toLowerCase()
+              this.projects[i].ProjectName.toString().toLowerCase()
             ) {
               found = true;
 
@@ -258,7 +269,7 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-  handleEndOpenChange(open: boolean): void {}
+  handleEndOpenChange(open: boolean): void { }
 
   //Getter methods
 
@@ -309,8 +320,7 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
-  checkPermmision(key:string)
-  {
-   return  this.permissionService.authorizedPerson(key);
+  checkPermmision(key: string) {
+    return this.permissionService.authorizedPerson(key);
   }
 }

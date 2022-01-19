@@ -6,7 +6,7 @@ import { ErrHandleService } from './error-handle.service';
 @Injectable({
     providedIn: 'root',
   })
-  export class PermissionService {
+  export class PermissionListService {
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };

@@ -16,6 +16,7 @@ import { listtToFilter } from '../../Models/listToFilter';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionService } from '../../services/permission/permission.service';
 import { GroupSetService } from '../../services/group-set.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 //import { IntialdataService } from '../../../../../services/intialdata.service';
 
 @Component({
@@ -73,7 +74,7 @@ export class GroupsetComponent implements OnInit {
   constructor(
     //private _intialdataService: IntialdataService,
     private _authenticationService:AuthenticationService, 
-    private _permissionService:PermissionService,
+    private _permissionService:PermissionListService,
     private groupSetService: GroupSetService,
     private router: Router,
     private notification: NotificationBar,

@@ -25,7 +25,7 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     ProjectCreateComponent,
-    ClientProjectComponent,
+  
      HeaderComponent
   ],
   imports: [
@@ -33,13 +33,12 @@ registerLocaleData(en);
     NzIconModule ,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     BrowserModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     HttpClientModule,
     BrowserModule,
-    NgZorroModule,
+  //  NgZorroModule,
     DemoNgZorroAntdModule,
     RemoteEntryModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
