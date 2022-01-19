@@ -1,6 +1,6 @@
 .table_heading
 {
-background-color: #b8fab8 !important;
+background-color: none !important;
 font-weight: 700;
 }
 
@@ -22,7 +22,7 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: none !important;
 }
 tr:nth-child(even) {background: #F9FFF9}
 

@@ -197,7 +197,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background: #fff;
     // height: auto;
     // float: left;
-    padding: 0;  
+    padding: 0;
     // margin: 10px  -117px;
 
   }
@@ -207,7 +207,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 
   .ant-table-footer, .ant-table-thead>tr>th {
-    background: #E8FFE8 !important;
+    background: none !important;
     color: #262626;
   }
   .ant-table {
@@ -278,12 +278,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #52c41a;
   }
 
-   
+
   .anticon.active {
     color: #52c41a;
   }
 
-  
+
   .ant-checkbox-checked .ant-checkbox-inner {
     background-color: #52c41a;
     border-color: black;
