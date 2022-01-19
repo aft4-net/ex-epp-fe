@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ActiveTabService } from './active-tab.service';
+import { PermissionService } from './permission.service';
 
-describe('ActiveTabService', () => {
-  let service: ActiveTabService;
+describe('PermissionService', () => {
+  let service: PermissionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ActiveTabService);
+    service = TestBed.inject(PermissionService);
   });
 
   it('should be created', () => {

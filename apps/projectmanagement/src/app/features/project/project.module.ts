@@ -6,28 +6,31 @@ import { ProjectRoutingModule } from './project-routing.module';
 import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { AddresourceComponent } from './components/addresource/addresource.component';
 import { BreadCrumbComponent } from './components/bread-crumb/bread-crumb.component';
-
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
-
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
-import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptorService } from '../../core';
+import { ClientProjectComponent } from '../client-project/client-project.component';
 
 @NgModule({
   declarations: [
+   ClientProjectComponent, 
    ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent
   ],
   imports: [
     ReactiveFormsModule,FormsModule,
     CommonModule,
     ProjectRoutingModule,
-    // NgZorroModule,
-    // BrowserAnimationsModule,
-    DemoNgZorroAntdModule,
+    NgZorroModule,
     ProjectRoutingModule
 
   ],
-  exports:[ViewProjectLayoutComponent,AddProjectComponent,BreadCrumbComponent ]
+  exports:[ViewProjectLayoutComponent,AddProjectComponent,BreadCrumbComponent ],
+  providers:[ {
+    provide:HTTP_INTERCEPTORS,
+    useClass:HttpInterceptorService,
+    multi:true
+  }],
 })
 export class ProjectModule { }

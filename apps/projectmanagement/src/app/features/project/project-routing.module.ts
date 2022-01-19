@@ -5,7 +5,7 @@ import { AddProjectComponent } from './components/Add-Project/Add-Project.compon
 
 const routes: Routes = [
  
-  { path: 'client-project/add-project', component: AddProjectComponent},  
+  { path: 'add-project', component: AddProjectComponent},  
 ]
 @NgModule({
   imports: [RouterModule.forChild(routes)],

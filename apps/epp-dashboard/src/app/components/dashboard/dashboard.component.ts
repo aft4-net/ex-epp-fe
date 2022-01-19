@@ -28,7 +28,8 @@ export class DashboardComponent implements OnInit {
    
     this.getUser();
     this.getPermission();
-    this._permissionService.permissionList=this.permissionList;
+    // this._permissionService.permissionList=this.permissionList;
+    // console.log(this.permissionList);
    
   }
   getUser(){
@@ -44,12 +45,14 @@ export class DashboardComponent implements OnInit {
   }
 
    authorize(key:string){
+
     
      return this._permissionService.authorizedPerson(key);
    }
    getPermission(): void {
     this._intialdataService.getUserPermission().subscribe((res:any)=>{
-      this.permissionList=res.Data;      
+      this.permissionList=res.Data;  
+      this._permissionService.permissionList=this.permissionList;
     })
     this._intialdataService.getModulePermission().subscribe((res:any)=>{
       this.modulePermission=res.Data;
