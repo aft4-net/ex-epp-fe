@@ -10,6 +10,7 @@ export interface Client {
   SalesPerson: Employee;
   SalesPersonGuid: string;
   ClientName: string;
+  OperatingAddressCountry:string;
   ClientStatusName: string;
   ClientStatusGuid: string;
   Description: string;

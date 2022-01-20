@@ -10,7 +10,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
-import { PermissionService} from '../../../../../../../libs/common-services/permission.service';
+import { PermissionListService} from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -38,7 +38,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     private modal: NzModalService,
     private timesheetStateService: TimesheetStateService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService,
-    private readonly _permissionService: PermissionService
+    private readonly _permissionService: PermissionListService
   ) { }
 
   ngOnInit(): void {
