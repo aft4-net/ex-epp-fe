@@ -22,9 +22,9 @@ background-color: none !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #F5F5F5 !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: none}
 
 a {
   padding-right: 0.6vw;
