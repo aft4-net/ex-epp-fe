@@ -32,7 +32,6 @@ export class FamilyDetailViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private employeeService: EmployeeService,
-    private notification: NotificationBar
   ) {}
 
   addfamilies(): void {
@@ -111,10 +110,6 @@ export class FamilyDetailViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.listOfFamilies;
-    this.notification.showNotification({
-      type: 'success',
-      content: '',
-      duration: 1,
-    });
+    
   }
 }

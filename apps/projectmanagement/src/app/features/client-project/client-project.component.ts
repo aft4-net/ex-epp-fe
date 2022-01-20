@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PaginatedResult, Project, ProjectService } from '../../core';
-import { ActiveTabService } from './servicee/active-tab.service';
+import { PermissionService, ProjectService } from '../../core';
+
 
 @Component({
   selector: 'exec-epp-client-project',
@@ -10,45 +10,28 @@ import { ActiveTabService } from './servicee/active-tab.service';
 })
 export class ClientProjectComponent implements OnInit  {
 
-  activeTabIndex=0;
-  constructor(private router:Router,private projectService:ProjectService,private activeTabService:ActiveTabService) {
+  
+  creatProjectPermission=false;
+  constructor( private  permissionService:PermissionService,private router:Router,
+    private projectService:ProjectService) {
 
    }
-   clientSelected=true;
 
-
-
-
- 
      ngOnInit(): void {
-      this.projectService.getWithPagnationResut(1,10).subscribe((response:PaginatedResult<Project[]>)=>{   
-   
-        this.projectService.setFristPageOfProjects(response);
-       });
+      this.permissionService.getUserPermission('Create_Project').subscribe(res=>
+        this.creatProjectPermission=res);
 
-      this.activeTabService.isClientTabActiv$.subscribe(res=>{
-         this.activeTabIndex=res;
-      })
      }
-   
 
 
-  clientTab()
-  {
-    this.clientSelected=false;
- 
-  }
 
-  projectTab()
-{
-  this.clientSelected=false;
 
-}
 
 addProjectPage()
 {
-  this.router.navigateByUrl('client-project/add-project');
- 
+  this.router.navigateByUrl('projectmanagement/add-project');
+
 }
+
 
 }

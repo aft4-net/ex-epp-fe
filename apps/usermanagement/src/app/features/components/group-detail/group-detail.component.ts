@@ -16,6 +16,9 @@ import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
 import { UserService } from '../../services/user.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+
 
 @Component({
   selector: 'exec-epp-group-detail',
@@ -28,8 +31,11 @@ export class GroupDetailComponent implements OnInit {
   constructor(private groupSetService : GroupSetService, private _router: Router, 
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
-              private _permissionService:PermissionService, private userService : UserService) {
-
+              private _authenticationService:AuthenticationService, 
+              private _authpermissionService:PermissionListService,
+              private _permissionService:PermissionService,
+              private userService : UserService) {
+                this.isLogin=_authenticationService.loginStatus();
               }
   listOfAssignedPermistion:AllPermitionData[]=[]
   permissionResponse?:IPermissionResponseModel;
@@ -38,6 +44,7 @@ export class GroupDetailComponent implements OnInit {
   parentPermission:any;
   isAddToGroupVisible = false;
   isVisible = false;
+  isLogin=false;
   isGroupEditVisible = false;
   isConfirmLoading = false;
   isOkLoading = false;
@@ -85,7 +92,7 @@ export class GroupDetailComponent implements OnInit {
       console.log(result)
     } );
     this.FeatchAllGroupsUsers();
-    this._permissionService.PermissionList=[];
+    this._permissionService.Permission=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
   }
@@ -94,7 +101,10 @@ export class GroupDetailComponent implements OnInit {
       description: [[],[Validators.required]]
     })
   }
-
+  authorize(key:string){
+    // alert(key)
+     return this._authpermissionService.authorizedPerson(key);
+   }
   AddUserToGroupControls() {
     this.AddUserToGroupForm = this.fb.group({
       Users: [[],[Validators.required]]
@@ -161,19 +171,19 @@ export class GroupDetailComponent implements OnInit {
       })
   }
 
-  createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
-    this.modal.create({
-      nzTitle: tplTitle,
-      nzContent: tplContent,
-      nzFooter: tplFooter,
-      nzMaskClosable: false,
-      nzClosable: false,
-      nzComponentParams: {
-        value: 'Template Context'
-      },
-      nzOnOk: () => console.log('Click ok')
-    });
-  }
+ // createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
+    //this.modal.create({
+     // nzTitle: tplTitle,
+     // nzContent: tplContent,
+     // nzFooter: tplFooter,
+     // nzMaskClosable: false,
+     // nzClosable: false,
+     // nzComponentParams: {
+      //  value: 'Template Context'
+     // },
+     // nzOnOk: () => console.log('Click ok')
+   /// });
+  //}
 
   createNotification(title: string,type: string, message : string): void {
     this.notification.create(type, title, message);

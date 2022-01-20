@@ -61,10 +61,15 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             ),
         },
         // {
-        //   path: 'projectmanagement',
+        //   path: 'clientmanagement',
         //   loadChildren: () =>
-        //     import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+        //     import('clientmanagement/Module').then((m) => m.RemoteEntryModule),
         // },
+        {
+        path: 'projectmanagement',
+        loadChildren: () =>
+        import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
