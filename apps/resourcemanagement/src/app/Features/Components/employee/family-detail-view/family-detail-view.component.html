@@ -30,12 +30,13 @@
           nz-button
           nzType="primary"
           (click)="addfamilies()"
+          [hidden]="canAddFamilyDetail"
         >
           <span>Add Family Details</span>
         </button>
       </div>
     </div>
-
+    <br/>
     <nz-table
       class="table"
       #rowSelectionTable

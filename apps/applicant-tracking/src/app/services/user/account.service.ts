@@ -34,6 +34,7 @@ export class AccountService {
       return this.http.post<ResponseDTO<SignInResponse>>(environment.apiUrl + '/Signin/Sign-In', signInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
+            
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
             this.loggedInUser = user.Data;
             this.userSubject.next(user.Data);

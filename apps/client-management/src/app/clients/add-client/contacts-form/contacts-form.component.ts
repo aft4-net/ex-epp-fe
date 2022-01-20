@@ -16,7 +16,7 @@ export class ContactsFormComponent implements OnInit {
   isVisible=false;
   countries: string[] = [];
   footer = null;
-  modalTitle: string
+  modalTitle: string | undefined
 
   listofCodes: { value: string; label: string }[] = [];
 

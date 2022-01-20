@@ -25,11 +25,11 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
-     this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email).subscribe(
+     this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
-        console.log("empguid is " + response["Guid"]);
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
-       this.empGuid = response["Guid"];
+        //console.log("empguid is " + response["Guid"]);
+       //this.position  = response["EmployeeOrganization"]["JobTitle"];
+       //this.empGuid = response["Guid"];
       }
     );
    }
