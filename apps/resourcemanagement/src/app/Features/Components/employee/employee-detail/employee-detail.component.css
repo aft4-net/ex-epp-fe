@@ -112,3 +112,12 @@ tr.ant-table-row.ng-star-inserted {
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
+.anticon-filter   {
+  color: none;
+}
+::ng-deep .ant-table-filter-column{
+      float:left !important;
+ }
+ ::ng-deep .ant-table-column-sorters {
+      float: left !important;
+   }
