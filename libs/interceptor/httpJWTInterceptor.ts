@@ -10,9 +10,9 @@ export class httpJWTInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         
         const loggedInUser = JSON.parse(
-            localStorage.getItem('loggedInUserInfo') ?? '' 
+            localStorage.getItem('loggedInUserInfo') ?? '{}' 
           ); 
-        const baseUrl = 'http://localhost:14696/api/v1'
+        const baseUrl = 'http://localhost:14696/api/v1';
         const isApiUrl = request.url.startsWith(baseUrl);
         if (loggedInUser && isApiUrl) {
             request = request.clone({
