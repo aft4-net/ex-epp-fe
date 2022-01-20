@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';

@@ -29,7 +29,7 @@ import { TimesheetValidationService } from '../../services/timesheet-validation.
 import { differenceInCalendarDays } from 'date-fns';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 
 export const startingDateCriteria = {} as {

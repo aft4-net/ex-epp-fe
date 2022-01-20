@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DayAndDateService } from '../../services/day-and-date.service';
 

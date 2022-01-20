@@ -10,7 +10,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
-import { PermissionListService} from '../../../../../../../libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'app-project-name-palet',
