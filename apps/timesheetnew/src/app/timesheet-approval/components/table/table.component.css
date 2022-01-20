@@ -44,3 +44,6 @@ div.is-green {
 
   background: #F5F5F5 !important;
 }
+::ng-deep .ant-table-column-sorters {
+  float: left !important;
+}

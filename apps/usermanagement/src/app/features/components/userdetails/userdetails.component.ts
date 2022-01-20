@@ -19,6 +19,7 @@ import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { UserDetailService } from '../../Services/user-detail.service';
 
 
@@ -107,7 +108,8 @@ export class UserdetailsComponent implements OnInit {
     private _permissionService:PermissionService,
     private validator: FormValidator,
     private route: ActivatedRoute,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private authPermission:PermissionListService
   ) {
     this.userdetail = _fb.group({
       Name: '',
@@ -120,7 +122,7 @@ export class UserdetailsComponent implements OnInit {
   authorize(key:string){
      
     // return true;
-     return this._permissionService.authorizedPerson(key);
+     return this.authPermission.authorizedPerson(key);
    }
   // getPermission(): void {
    // this._intialdataService.getUserPermission().subscribe((res:any)=>{

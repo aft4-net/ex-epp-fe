@@ -1,17 +1,17 @@
 .table_heading
 {
-background-color: #b8fab8 !important;
+background-color: #F5F5F5 !important;
 font-weight: 700;
 }
 
 .table_evenrow_heading
 {
-background-color: #E8FFE8 !important;
+background-color: none !important;
 }
 
 .table_oddrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .inner-content {
@@ -22,9 +22,9 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #F5F5F5 !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: white}
 
 a {
   padding-right: 0.6vw;
@@ -127,7 +127,7 @@ button.userstatus:hover {
 }
 
 button.namebutton button.namebutton:hover button.namebutton:active {
-  border:0px solid; 
+  border:0px solid;
   color: black;
 }
 
@@ -174,7 +174,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: rgba(0,0,0,.85);
   margin-bottom: 2px;
   font-weight: 500;
-  --antd-wave-shadow-color: #18ffba;  
+  --antd-wave-shadow-color: #18ffba;
 }
 .required::after {
   content: ' *';
@@ -196,9 +196,9 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   border-color: #00a551;
   text-shadow: 0 -1px 0 rgba(0,0,0,.12);
   box-shadow: 0 2px 0 rgba(0,0,0,.045);
-  
+
 }
-.ant-btn-primary[disabled],.ant-btn-primary[disabled]:active, 
+.ant-btn-primary[disabled],.ant-btn-primary[disabled]:active,
 .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover,.modal-footer-btn[disabled] {
   color: rgba(0,0,0,.25);
   border-color: #d9d9d9;
