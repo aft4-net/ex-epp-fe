@@ -15,7 +15,7 @@ export class IntialdataService {
 }
 
   getUserPermission(){
-    alert(this.userEmail)
+   
     return this.http.get(this.baseUrl);
   }
   getModulePermission(){
