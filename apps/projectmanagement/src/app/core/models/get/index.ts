@@ -7,3 +7,4 @@ export * from './projectResource'
 export * from  './PaginatedResult';
 export * from './Pagination';
 export * from './employee';
+export * from './permission';

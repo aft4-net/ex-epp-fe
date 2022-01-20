@@ -7,7 +7,7 @@
             Users
           </h2></div>
           <div nz-col nzSpan="12" style="text-align: right;">
-            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" (click)="onAddUser()">
+            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" *ngIf="authorize('Add_User')" (click)="onAddUser()">
               Add User
             </button>
           </div>  
@@ -125,7 +125,7 @@
     <ng-container *nzModalContent>
    
 
- <form  [formGroup]="userfrm" (ngSubmit)="onSaveUser()" #form>
+ <form  [formGroup]="userfrm" *ngIf="authorize('Add_User')" (ngSubmit)="onSaveUser()" #form>
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
             <div class="label required">Employee
@@ -140,7 +140,7 @@
       formControlName="UserName"
       placeholder="Select employee"
     >
-     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.JobTitle  !== 'undefined' && employee.EmployeeOrganization?.JobTitle != null ? '- '+ employee.EmployeeOrganization.JobTitle: '')"></nz-option>
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.JobTitle  !== 'undefined' && employee.EmployeeOrganization?.JobTitle !== null ? '- '+ employee.EmployeeOrganization.JobTitle: '')"></nz-option>
     </nz-select>
               </nz-form-control>
             </nz-form-item>
@@ -167,7 +167,7 @@
 </form>
 <div class="right-footer">
     <button nz-button nzType="default"  class="default modal-footer-btn l-btn clear-btn" (click)="handleCancel()" [disabled]="userfrm.invalid">Clear</button>
-    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="loadingOnSave" [disabled]="userfrm.invalid" (click)="onSaveUser()">Add</button>
+    <button nz-button nzType="primary" class="primary modal-footer-btn" [nzLoading]="loading" [disabled]="userfrm.invalid" *ngIf="authorize('Add_User')" (click)="onSaveUser()">Add</button>
 </div>
 
 </ng-container>

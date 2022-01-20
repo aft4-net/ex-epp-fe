@@ -8,3 +8,4 @@ export interface ClientContact {
   CreatedDate: Date;
   CreatedbyUserGuid: string;
 }
+

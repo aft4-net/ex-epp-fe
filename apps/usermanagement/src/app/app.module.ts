@@ -6,7 +6,7 @@ import { EppdashboardComponent } from './features/components/eppdashboard/eppdas
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { RemoteEntryModule } from './remote-entry/entry.module';
@@ -22,7 +22,7 @@ import { UserToGroupComponent } from './features/components/user/user-to-group/u
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { UserdetailsComponent } from './features/components/userdetails/userdetails.component';
-
+import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
 registerLocaleData(en);
 @NgModule({
   declarations: [
@@ -48,14 +48,14 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
-    RemoteEntryModule,
+    RemoteEntryModule, 
     CustomFormModule,
     RouterModule.forRoot([
 
     ], { initialNavigation: 'enabledBlocking' }),
   ],
   providers   : [
-    { provide: NZ_I18N, useValue: en_US }
+    { provide: NZ_I18N, useValue: en_US }, 
   ],
   bootstrap: [AppComponent],
 })
