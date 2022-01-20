@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../models/department';
 import { Pagination } from '../../models/pagination';
 import { DepartmentService } from '../../services/department.service';
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-device-detail',
@@ -12,7 +13,8 @@ import { DepartmentService } from '../../services/department.service';
 export class DepartmentComponent implements OnInit {
   listOfDepartments: Department[] = [];
   pagination!: Pagination;
-  constructor(private departmentService: DepartmentService, private toastrService: ToastrService) { }
+  constructor(private departmentService: DepartmentService, private toastrService: ToastrService,private _permissionService:PermissionListService,
+    ) { }
 
   ngOnInit(): void {
     this.getDepartments();
@@ -38,4 +40,8 @@ export class DepartmentComponent implements OnInit {
       this.listOfDepartments = this.listOfDepartments.filter((d) => d.Guid !== id);
     })
   }
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key);
+  }
+
 }
