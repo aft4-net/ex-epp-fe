@@ -32,12 +32,12 @@
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24">
-              <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
                 <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
                     <tr >
-                      <th *ngFor="let column of listOfColumnsUser"
+                      <th   *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
                       <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"

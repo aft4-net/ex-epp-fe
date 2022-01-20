@@ -13,17 +13,11 @@ import { PermissionListService } from '../../../../../../libs/common-services/pe
 export class DepartmentComponent implements OnInit {
   listOfDepartments: Department[] = [];
   pagination!: Pagination;
-  constructor(private departmentService: DepartmentService, 
-    private toastrService: ToastrService,
-    private _permissionService:PermissionListService) { }
+  constructor(private departmentService: DepartmentService, private toastrService: ToastrService,private _permissionService:PermissionListService,
+    ) { }
 
   ngOnInit(): void {
     this.getDepartments();
-  }
-  authorize(key:string){
-    return true;
-    
-    //return this._permissionService.authorizedPerson(key);
   }
 
   getDepartments() {
@@ -46,4 +40,8 @@ export class DepartmentComponent implements OnInit {
       this.listOfDepartments = this.listOfDepartments.filter((d) => d.Guid !== id);
     })
   }
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key);
+  }
+
 }

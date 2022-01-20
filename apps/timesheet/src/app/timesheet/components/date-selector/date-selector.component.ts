@@ -22,6 +22,7 @@ export class DateSelectorComponent implements OnInit {
   constructor(
     private readonly _dayAndDateService: DayAndDateService,
     private readonly _permissionService: PermissionListService
+
     ) { }
 
   ngOnInit(): void {

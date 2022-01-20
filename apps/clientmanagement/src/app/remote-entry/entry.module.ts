@@ -1,5 +1,4 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AddClientComponent } from '../clients/add-client/add-client.component';
 import { AppComponent } from '../app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
