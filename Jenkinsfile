@@ -55,6 +55,8 @@ pipeline{
                             sh "docker tag resource-management:latest blens/rm"
                             sh "docker tag project-management:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
+                            sh "docker tag usermanagement:latest blens/um"
+                            sh "docker tag epp-dashboard:latest blens/epp-dash"
                            
                             
                             sh "docker push blens/eppfe"
@@ -62,6 +64,8 @@ pipeline{
                             sh "docker push blens/rm"
                             sh "docker push blens/pm"
                             sh "docker push blens/at"
+                            sh "docker push blens/um"
+                            sh "docker push blens/epp-dash"
                             
                             }
                  sshagent(credentials : ['staging']) {
