@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
    // const namearray=this.fullName.split(' ');
    // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    //this.thePosition = _authenticationService.position;
+    this.thePosition = _authenticationService.position;
   
   }
 update(){
@@ -29,7 +29,7 @@ update(){
 }
   ngOnInit(): void {
    
-    this.getUser();
+   // this.getUser();
     this._commonData.getPermission();
    
   }

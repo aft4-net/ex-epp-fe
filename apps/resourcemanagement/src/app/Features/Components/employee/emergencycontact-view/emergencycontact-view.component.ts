@@ -137,17 +137,15 @@ export class EmergencycontactViewComponent implements OnInit {
     });
   }
 
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key)
+  }
+
   ngOnInit(): void {
     this.notification.showNotification({
       type: 'success',
       content: '',
       duration: 1,
     });
-    if(this._permissionService.authorizedPerson('Create_Employee') || 
-    this._permissionService.authorizedPerson('Update_Employee')|| 
-    this._permissionService.authorizedPerson('Employee_Admin'))
-    {
-        this.canAddEmergencyContactDetail = true;
-    }
   }
 }

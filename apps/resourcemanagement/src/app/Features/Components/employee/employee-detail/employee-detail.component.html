@@ -63,7 +63,7 @@
               [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
               {{ listOfColumns[2].name }}
             </th>  
-              <th class="table_heading" [hidden]="!canViewEmployee || !canDeleteEmployee">Actions</th>
+              <th class="table_heading" *ngIf="authorize('View_Employee') || authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -74,12 +74,12 @@
               <td>{{employeeView.JobTitle }}</td>
               <td>{{employeeView.Location }}</td>
               <td>{{employeeView.Status }}</td>
-              <td [hidden]="!canViewEmployee || !canDeleteEmployee">
-                <a (click)="Edit(employeeView.EmployeeGUid)" [hidden]="!canViewEmployee">
-                  <i nz-icon nzType="edit" style="color:black;"></i>
+              <td *ngIf="(authorize('View_Employee') || authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
+                <a (click)="Edit(employeeView.EmployeeGUid)">
+                  <i nz-icon nzType="edit" style="color:black;" *ngIf="(authorize('View_Employee') || authorize('Employee_Admin') || authorize('Update_Employee'))"></i>
                 </a>
                 &nbsp; &nbsp;
-                <a (click)="Delete(employeeView.EmployeeGUid)" [hidden]="!canDeleteEmployee">
+                <a (click)="Delete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete Employee') || authorize('Employee_Admin'))">
                   <i nz-icon nzType="delete" style="color:black;"></i>
                 </a>
                 <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"

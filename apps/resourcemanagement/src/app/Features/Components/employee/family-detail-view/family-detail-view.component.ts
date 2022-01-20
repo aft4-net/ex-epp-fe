@@ -112,14 +112,12 @@ export class FamilyDetailViewComponent implements OnInit {
     }
   }
 
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key)
+  }
+
   ngOnInit(): void {
     this.listOfFamilies;
-    if(this._permissionService.authorizedPerson('Create_Employee') || 
-       this._permissionService.authorizedPerson('Update_Employee')|| 
-       this._permissionService.authorizedPerson('Employee_Admin'))
-    {
-      this.canAddFamilyDetail = true;
-    }
     this.notification.showNotification({
       type: 'success',
       content: '',
