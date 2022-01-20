@@ -343,14 +343,21 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
   }
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
+      let found=false;
       this.listOfPermistion[index].Childs.forEach(element => {
-       alert(element.Name)
+        if(guid==element.Guid&& element.Name=="Admin"){
+          found=true;
+          this.updateAllPermissionChecked(event,index)
+        }
       });
+     if(!found){
       this.selectedPermissionList = [
         ...this.selectedPermissionList,
         { Guid: guid },
       ];
+     }
     } else {
+      
       let count = 0;
       this.selectedPermissionList.forEach((element) => {
         if (element.Guid == guid) {
@@ -378,14 +385,8 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
     const wordLists = word.split(' ');
     wordLists.forEach((element) => {
       try {
-        let titleCase='';
-        if(element=="for" || element=="to"){
-           titleCase = element[0].toLowerCase() + element.substr(1).toLowerCase();
-        }
-        else{
-           titleCase = element[0].toUpperCase() + element.substr(1).toLowerCase();
-        }
-
+        const titleCase =
+        element[0].toUpperCase() + element.substr(1).toLowerCase();
       fullPhrase = fullPhrase + ' ' + titleCase;
       } catch (error) {
         console.log();

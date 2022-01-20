@@ -207,7 +207,6 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
-    alert(groupUserId);
     const modal: NzModalRef = this.modal.create({
     nzTitle: 'Remove user form group',
     nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group.The user will not have the permission that are provied to the group. <br/>" +
@@ -336,8 +335,12 @@ export class GroupDetailComponent implements OnInit {
     let fullPhrase="";
    const wordLists=word.split(" ");
    wordLists.forEach(element => {
-   const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
-   fullPhrase= fullPhrase+ " "+ titleCase
+   try {
+    const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
+    fullPhrase= fullPhrase+ " "+ titleCase
+   } catch (error) {
+     console.log();
+   }
    });
    return fullPhrase
  }
