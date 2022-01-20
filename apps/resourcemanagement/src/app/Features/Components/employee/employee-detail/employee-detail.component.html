@@ -67,7 +67,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+            <tr *ngFor="let employeeView of employeeViewModel ; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
               <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
               <td>{{employeeView.FullName }} </td>
               <td>{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
