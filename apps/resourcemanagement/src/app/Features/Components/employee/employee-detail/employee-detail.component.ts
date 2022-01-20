@@ -25,7 +25,7 @@ import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
-
+import { PermissionListService } from 'libs/common-services/permission.service';
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -41,13 +41,15 @@ export class EmployeeDetailComponent implements OnInit {
   constructor(
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
-    private _router: Router,
-    private _authenticationService:AuthenticationService,
+    private _router: Router, 
+    private _permissionService: PermissionListService,
+    private _authenticationService:AuthenticationService
 
     ) {
       
     }
-
+  canViewEmployee = false;
+  canDeleteEmployee = false;
   isdefault = true;
   router = '';
   checked = false;
@@ -120,8 +122,16 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
      }
-
-  
+    if(this._permissionService.authorizedPerson('View_Employee')||
+      this._permissionService.authorizedPerson('Employee_Admin'))
+    {
+      this.canViewEmployee = true;
+    }
+    if(this._permissionService.authorizedPerson('Delete Employee')||
+       this._permissionService.authorizedPerson('Employee_Admin'))
+    {
+      this.canDeleteEmployee = true;
+    }
   }
 
   getUser(){

@@ -63,23 +63,23 @@
               [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
               {{ listOfColumns[2].name }}
             </th>  
-              <th class="table_heading">Actions</th>
+              <th class="table_heading" [hidden]="!canViewEmployee || !canDeleteEmployee">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let employeeView of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+            <tr *ngFor="let employeeView of employeeViewModel ; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
               <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
               <td>{{employeeView.FullName }} </td>
               <td>{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
               <td>{{employeeView.JobTitle }}</td>
               <td>{{employeeView.Location }}</td>
               <td>{{employeeView.Status }}</td>
-              <td>
-                <a (click)="Edit(employeeView.EmployeeGUid)">
+              <td [hidden]="!canViewEmployee || !canDeleteEmployee">
+                <a (click)="Edit(employeeView.EmployeeGUid)" [hidden]="!canViewEmployee">
                   <i nz-icon nzType="edit" style="color:black;"></i>
                 </a>
                 &nbsp; &nbsp;
-                <a (click)="Delete(employeeView.EmployeeGUid)">
+                <a (click)="Delete(employeeView.EmployeeGUid)" [hidden]="!canDeleteEmployee">
                   <i nz-icon nzType="delete" style="color:black;"></i>
                 </a>
                 <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"

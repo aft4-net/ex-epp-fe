@@ -181,7 +181,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -190,7 +190,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
@@ -199,7 +199,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -213,7 +213,7 @@ export class UserDashboardComponent implements OnInit {
     this.holdItDepartment.length = 0;
     this.userList$.subscribe(
        val => {
-           if(val.length > 0){
+        if(val.length > 0){
           this.userList = val
           for(let i=0; i < this.userList.length;i++){
             if(this.holdItDepartment.findIndex(x=>x.text === this.userList[i].Department.trim()) === -1 ){
@@ -250,10 +250,7 @@ export class UserDashboardComponent implements OnInit {
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
-
-          if(this.userList.length > 0) {
-            this.PopulateFilterColumns();
-          }
+          this.PopulateFilterColumns();
         }
         else{
           this.PopulateFilterColumns();
