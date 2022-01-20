@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
+import {AuthenticationService} from './../../../../libs/common-services/Authentication.service';
 @Component({
   selector: 'exec-epp-root',
   templateUrl: './app.component.html',

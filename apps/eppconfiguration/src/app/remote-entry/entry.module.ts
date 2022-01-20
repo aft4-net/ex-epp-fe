@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {  MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import {TimesheetConfigurationComponent} from '../timesheet-configuration/timesheet-configuration-component'
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 export function MSALInstanceFactory(): IPublicClientApplication 
 {return new PublicClientApplication({
@@ -28,6 +29,12 @@ export function MSALInstanceFactory(): IPublicClientApplication
       {
         path: '',
         component: AppComponent,
+        children: [
+          {
+            path:'timesheet',
+            component: TimesheetConfigurationComponent
+          }
+    ]
       },
     ]),
   ],

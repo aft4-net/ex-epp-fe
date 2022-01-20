@@ -9,10 +9,11 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoteEntryModule } from './remote-entry/entry.module';
+import {TimesheetConfigurationComponent} from './timesheet-configuration/timesheet-configuration-component'
 
 registerLocaleData(en);
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,TimesheetConfigurationComponent],
   imports: [
     BrowserModule,
     FormsModule,
