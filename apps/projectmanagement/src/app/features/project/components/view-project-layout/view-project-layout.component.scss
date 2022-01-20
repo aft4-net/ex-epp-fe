@@ -1,8 +1,12 @@
-.table_heading
-{
-background-color: #E8FFE8 !important;
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+::ng-deep .ant-table-thead>tr>th {
+
+  background: #F5F5F5 !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+
 
 a {
   padding-right: 0.6vw;
@@ -17,9 +21,7 @@ a {
 nz-table.table-container.ant-table-wrapper {
   padding-top: 1%;
 }
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-  background:none !important;
-}
+
 
 tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
@@ -35,18 +37,8 @@ tr.ant-table-row.ng-star-inserted {
   content:none !important;
 }
 
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color:#00A551 !important;
-  font-size: 16px !important;
-}
-::ng-deep .ant-tabs-tab:hover {
-  color: #262626 !important;
-}
-::ng-deep .ant-tabs-ink-bar {
 
-  background:#00A551 !important;
 
-}
 ::ng-deep .ant-tabs-content-holder {
 
   font-family: SF Pro Display !important;
@@ -72,11 +64,6 @@ tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
   padding:16px !important;
 }
-
-
-
-
-
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
 }
@@ -92,19 +79,9 @@ tr.ant-table-row.ng-star-inserted {
 }
 
 
-::ng-deep .ant-table-pagination.ant-pagination {
 
-   display: none !important;
-}
-.ant-pagination {
-  float: right;
-  padding: 15px 0px 15px 15px;
 
-}
 
-* {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
 
 ::ng-deep .ant-table-column-sorters {
   margin-left: 5px;
@@ -122,4 +99,27 @@ tr.ant-table-row.ng-star-inserted {
 
 .projects{
   height: 95vh;
+}
+
+::ng-deep ant-table-filter-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: -40px -8px -4px 40px;
+  padding: 0 4px;
+  color: #bfbfbf;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  transition: all .3s;
+}
+
+.pagination {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #595959;
+
 }

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,6 +28,7 @@ import { AddEditDeviceDetailComponent } from '../Features/Components/device-deta
 import { CommonModule } from '@angular/common';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { CustomFormsControlsModule } from '../Features/Components/custom-forms-controls/custom-forms-controls.module';
+import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { EmployeeRoutingModule } from '../Features/Components/employee/employee-routing.module';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -102,6 +103,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       useFactory: MSALInstanceFactory,
     },
     { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     MsalService,
   ],
 })

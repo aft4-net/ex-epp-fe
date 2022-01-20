@@ -1,8 +1,10 @@
 import { AddClientStateService, ApiService, Client, PaginatedResult } from '..';
+
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { ClientContact } from '../models/get/client-contact';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,13 @@ export class ClientService extends ApiService<Client> {
     PaginatedResult<Client[]>
   >({} as PaginatedResult<Client[]>);
   fristPagantionClients$ = this.fristPagantionClientsSource.asObservable();
-
+  public clientId="";
+  public isdefault = true;
+  public clientDataById!:Client;
+  public clientContact:ClientContact[]=[];
+  client!: Client;
+  isEdit!: boolean;
+  save = 'Save';
   constructor(
     protected httpClient: HttpClient,
     private notification: NzNotificationService,
@@ -20,7 +28,10 @@ export class ClientService extends ApiService<Client> {
   ) {
     super(httpClient);
   }
-
+  setClientDataForEdit(client: Client) {
+    this.clientDataById = client;
+    this.clientContact=[...this.clientDataById.ClientContacts]
+  }
   getFirsttPageValue() {
     return this.fristPagantionClientsSource.value;
   }
@@ -33,9 +44,13 @@ export class ClientService extends ApiService<Client> {
     return 'ClientDetails';
   }
 
+  getResourceEditUrl():string{
+    return 'SelectClientById';
+  }
+
   addClient() {
     this.post(this.addClientStateService.addClientData).subscribe(
-     
+
       (response: any) => {
         console.log("this.addClientStateService.addClientData")
         console.log(this.addClientStateService.addClientData)

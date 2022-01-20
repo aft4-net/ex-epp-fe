@@ -1,25 +1,41 @@
-
 <nz-layout>
   <nz-content>
     <nz-divider nzType="horizontal"></nz-divider>
-    <div style="margin-top: -40px;" class="inner-content">
+    <div style="margin-top: -40px" class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="8">
-          <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
-            <input type="text" #searchInput nz-input placeholder="Search" [(ngModel)]="fullname" (change)="searchEmployees()" />
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input
+              type="text"
+              #searchInput
+              nz-input
+              placeholder="Search"
+              [(ngModel)]="fullname"
+              (change)="searchEmployees()"
+            />
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
+            <button nz-button nzSearch (click)="searchEmployees()">
+              <i nz-icon nzType="search"></i>
+            </button>
           </ng-template>
         </div>
       </div>
-      <div  nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
-        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
-        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+      <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
+        <p>
+          Showing {{ beginingRow }} - {{ lastRow }} of {{ totalRecord }} entries
+        </p>
+        <nz-pagination
+          [nzDisabled]="loading"
+          [nzPageSize]="pageSize"
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="totalRecord"
+          nzSimple
+          (nzPageIndexChange)="PageIndexChange($event)"
+        ></nz-pagination>
       </div>
-      <br/>
-      <div nz-row style="margin-top:-10px">
+      <br />
+      <div nz-row style="margin-top: -10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
             <nz-table nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
@@ -82,7 +98,6 @@
             </nz-table>
         </div>
       </div>
-
     </div>
   </nz-content>
 </nz-layout>
