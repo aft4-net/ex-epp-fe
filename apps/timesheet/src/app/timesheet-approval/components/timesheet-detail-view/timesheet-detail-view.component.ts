@@ -27,7 +27,10 @@ export class TimesheetDetailViewComponent implements OnInit {
 
     ngOnInit(): void {
     }
-
+  isComment(comment:string)
+  {
+    return comment===null || comment===''?true:false;
+  }
   getNote(note:string)
   {
     return note!==null?note:"N/A";

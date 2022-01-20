@@ -8,7 +8,7 @@ import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { IUserModel } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../Services/user.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AddUserService } from '../../services/add-user.service';

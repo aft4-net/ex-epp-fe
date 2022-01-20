@@ -1,18 +1,19 @@
+import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
-import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
-export function MSALInstanceFactory(): IPublicClientApplication 
+export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
    auth: {
      clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
@@ -25,10 +26,10 @@ export function MSALInstanceFactory(): IPublicClientApplication
   imports: [
     BrowserModule,
     DemoNgZorroAntdModule,
-    
+
 
     HttpClientModule,
-    
+
     BrowserAnimationsModule,
     RouterModule.forRoot(
       [

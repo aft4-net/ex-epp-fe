@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import {PermissionService} from './../../../../../../libs/common-services//permission.service';
 import { IntialdataService } from '../../services/intialdata.service';
-import { NzMarks } from 'ng-zorro-antd/slider';
 @Component({
   selector: 'exec-epp-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,53 +9,26 @@ import { NzMarks } from 'ng-zorro-antd/slider';
 })
 export class DashboardComponent implements OnInit {
 
+  date:any;
   fullName:any
   permissionList:any[]=[ ];
   modulePermission:any[]=[];
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,
-    private _permissionService:PermissionService)  { 
+    private _permissionService:PermissionService, )  { 
     this.fullName=_authenticationService.getUserFullName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0];
-    }
-
-  hGutter = 16;
-  vGutter = 16;
-  count = 4;
-  array = new Array(this.count);
-  marksHGutter: NzMarks = {
-    8: '8',
-    16: '16',
-    24: '24',
-    32: '32',
-    40: '40',
-    48: '48'
-  };
-  marksVGutter: NzMarks = {
-    8: '8',
-    16: '16',
-    24: '24',
-    32: '32',
-    40: '40',
-    48: '48'
-  };
-  marksCount: NzMarks = {
-    2: '2',
-    3: '3',
-    4: '4',
-    6: '6',
-    8: '8',
-    12: '12'
-  };
-  reGenerateArray(count: number): void {
-    this.array = new Array(count);
-  } 
+    this.date = new Date();
+   
+ 
+  }
 
   ngOnInit(): void {
    
 
     this.getPermission();
     this._permissionService.permissionList=this.permissionList;
+   
   }
    authorize(key:string){
      

@@ -8,7 +8,7 @@ import { ColumnItem } from '../../Models/ColumnItem';
 import { FormValidator } from '../../../utils/validator';
 import { GroupParams } from '../../Models/User/GroupParams';
 import { GroupSetModel } from '../../Models/group-set.model';
-import { GroupSetService } from '../../services/group-set.service';
+import { GroupSetService } from '../../Services/group-set.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { PaginationResult } from '../../Models/PaginationResult';
