@@ -25,9 +25,8 @@
       <div nz-col nzSpan="21">
         <h1>Personal Addresses</h1>
       </div>
-
       <div nz-col nzSpan="3">
-        <button class="addButton" [hidden]="!canAddAddressDetail" nz-button (click)="addaddress()">
+        <button class="addButton" *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" nz-button (click)="addaddress()">
           <span>Add Address</span>
         </button>
       </div>
