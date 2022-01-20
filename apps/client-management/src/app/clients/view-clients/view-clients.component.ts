@@ -83,7 +83,7 @@ export class ViewClientsComponent implements OnInit  {
     private _permission:PermissionListService
 
   ) {
-
+   
   }
   isdefault=true;
   ngOnInit(): void {
@@ -100,16 +100,16 @@ export class ViewClientsComponent implements OnInit  {
 
   }
 
-  Edit(client: any): void {
+  Edit(clientId: string): void {
 
 
-    this._clientservice.clientId = client.Guid;
-    this._clientservice.getClientEdidtDataById(client.Guid).subscribe((data: any) => {
-      this._clientservice.setClientDataForEdit(data,client.saleperson);
+    this._clientservice.clientId = clientId;
+    this._clientservice.getClientEdidtDataById(clientId).subscribe((data: any) => {
+      this._clientservice.setClientDataForEdit(data);
 
     if(this._clientservice.clientDataById)
    {
-    //  console.log(this._clientservice.clientDataById.ClientName);
+     console.log(this._clientservice.clientDataById.ClientName);
     this._clientservice.isEdit=true;
     this._clientservice.save="Update";
     // this._form.generateForms;
