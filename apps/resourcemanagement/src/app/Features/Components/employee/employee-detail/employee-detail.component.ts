@@ -132,6 +132,8 @@ export class EmployeeDetailComponent implements OnInit {
     {
       this.canDeleteEmployee = true;
     }
+
+    
   }
 
   getUser(){

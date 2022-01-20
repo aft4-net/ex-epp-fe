@@ -13,14 +13,12 @@
 
       <!-- *ngIf="router !=='/employee/add-employee/personal-info'" -->
       <!-- *ngIf="_employeeService.isdefault && router !== '/device-detail'" -->
-      <div nz-col nzSpan="2"  *ngIf="authorize('Create_Employee')">
-        <button *ngIf="activeRoute('/resourcemanagement')"
-         
+      <div nz-col nzSpan="2" *ngIf="authorize('Create_Employee')">
+        <button
+          *ngIf="activeRoute('/resourcemanagement')"
           nz-button
           class="addButton"
           (click)="addEmployee()"
-        
-       
         >
           Add Employee
         </button>
