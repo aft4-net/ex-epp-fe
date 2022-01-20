@@ -66,7 +66,6 @@ export class UserdetailsComponent implements OnInit {
 
   public listOfTypes: [UserDetail] | [] = [];
   public listOfGroups: [GroupData] | [] =[];
-  permissionList:any[]=[ ];
   selectedSoFar = [];
   listUserGroups: Array<any> = [];
   public membershipList: [GroupData] | [] =[];
@@ -144,7 +143,7 @@ export class UserdetailsComponent implements OnInit {
        
       });
      // this.getPermission();
-      this._permissionService.permissionList=this.permissionList;
+      //._permissionService.permissionList=this.permissionList;
       }
 
   onAddNewRecord(): void {

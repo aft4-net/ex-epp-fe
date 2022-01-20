@@ -82,13 +82,6 @@
       "tags": [],
       "implicitDependencies": ["projectmanagement"]
     },
-    "resource-management": {
-      "tags": []
-    },
-    "resource-management-e2e": {
-      "tags": [],
-      "implicitDependencies": ["resource-management"]
-    },
     "resourcemanagement": {
       "tags": []
     },
@@ -102,6 +95,13 @@
     "timesheet-e2e": {
       "tags": [],
       "implicitDependencies": ["timesheet"]
+    },
+    "timesheetnew": {
+      "tags": []
+    },
+    "timesheetnew-e2e": {
+      "tags": [],
+      "implicitDependencies": ["timesheetnew"]
     },
     "usermanagement": {
       "tags": []

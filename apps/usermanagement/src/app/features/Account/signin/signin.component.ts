@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AccountInfo, AuthenticationResult } from '@azure/msal-browser';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 
 
@@ -13,7 +14,10 @@ import {AuthenticationService} from './../../../../../../../libs/common-services
 })
 export class SigninComponent implements OnInit {
 
-      constructor(private _authenticationService:AuthenticationService,private authService: MsalService, private router: Router) {}
+      constructor(private _authenticationService:AuthenticationService,
+        private authService: MsalService, 
+        private notification: NotificationBar,
+        private router: Router) {}
   
   ngOnInit(): void {
     
@@ -37,11 +41,29 @@ export class SigninComponent implements OnInit {
        const data=   this.authService.instance.setActiveAccount(response.account);
       
        if(response.account?.username){
-        this._authenticationService.storeLoginUser(response.account)
+        this._authenticationService.getLoggedInUserAuthToken(response.account?.username).subscribe(
+          (res) => {            
+            if(res.Data && res.Data.Token){
+              localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
+            }
+            this._authenticationService.storeLoginUser(response.account);
+            this.router.navigateByUrl('');
+          },
+          (error) => {
+            this.logout();
+            if ([401].includes(error.status)) {
+              this.notification.showNotification({
+                type: 'error',
+                content: "Unauthorized, please contact admin",
+                duration: 5000,
+              });
+            }
+          }
+        ); 
         
         
        // window.location.reload();
-        this.router.navigateByUrl('user-dashboard');
+        //this.router.navigateByUrl('user-dashboard');
        }
        else{
         this.router.navigateByUrl('usermanagement');
@@ -51,10 +73,10 @@ export class SigninComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+      this.authService.logout();
       window.sessionStorage.clear();
-    window.location.reload();
-
+      localStorage.removeItem('loggedInUserInfo');
+      window.location.reload();
   }
 }
 

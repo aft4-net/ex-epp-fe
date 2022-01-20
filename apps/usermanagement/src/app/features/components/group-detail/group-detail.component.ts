@@ -17,6 +17,7 @@ import { UserService } from '../../services/user.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 
 @Component({
@@ -31,7 +32,9 @@ export class GroupDetailComponent implements OnInit {
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
               private _authenticationService:AuthenticationService, 
-              private _permissionService:PermissionService, private userService : UserService) {
+              private _authpermissionService:PermissionListService,
+              private _permissionService:PermissionService,
+              private userService : UserService) {
                 this.isLogin=_authenticationService.loginStatus();
               }
   listOfAssignedPermistion:AllPermitionData[]=[]
@@ -89,7 +92,7 @@ export class GroupDetailComponent implements OnInit {
       console.log(result)
     } );
     this.FeatchAllGroupsUsers();
-    this._permissionService.PermissionList=[];
+    this._permissionService.Permission=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
   }
@@ -99,8 +102,8 @@ export class GroupDetailComponent implements OnInit {
     })
   }
   authorize(key:string){
-     
-     return this._permissionService.authorizedPerson(key);
+    // alert(key)
+     return this._authpermissionService.authorizedPerson(key);
    }
   AddUserToGroupControls() {
     this.AddUserToGroupForm = this.fb.group({
@@ -214,7 +217,6 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
-    alert(groupUserId);
     const modal: NzModalRef = this.modal.create({
     nzTitle: 'Remove user form group',
     nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group.The user will not have the permission that are provied to the group. <br/>" +
@@ -339,12 +341,25 @@ export class GroupDetailComponent implements OnInit {
       });
     });
   }
+  //change char
   firstLetterUperCaseWord(word: string) {
     let fullPhrase="";
    const wordLists=word.split(" ");
    wordLists.forEach(element => {
-   const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
-   fullPhrase= fullPhrase+ " "+ titleCase
+   try {
+    let titleCase='';
+       if(element=="for" || element =="to"){
+         titleCase =
+        element[0].toLowerCase() + element.substr(1).toLowerCase();
+       }
+       else{
+         titleCase =
+        element[0].toUpperCase() + element.substr(1).toLowerCase();
+       }
+    fullPhrase= fullPhrase+ " "+ titleCase
+   } catch (error) {
+     console.log();
+   }
    });
    return fullPhrase
  }

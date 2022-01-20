@@ -28,7 +28,7 @@ export class EmergencycontactViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private _employeeService: EmployeeService,
-    private notification: NotificationBar
+    private notification :NotificationBar
   ) {
     if (_employeeService.employeeById) {
       this.form.allEmergencyContacts = _employeeService.employeeById
@@ -136,9 +136,13 @@ export class EmergencycontactViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.notification.showNotification({
+
       type: 'success',
-      content: '',
+
+      content: 'Groups loaded successfully',
+
       duration: 1,
+
     });
   }
 }
