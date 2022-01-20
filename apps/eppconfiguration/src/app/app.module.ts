@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { DepartmentModule } from './features/department/department.module';
+import { ToastrModule } from 'ngx-toastr';
 
 registerLocaleData(en);
 @NgModule({
@@ -24,6 +25,7 @@ registerLocaleData(en);
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
     RemoteEntryModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers   : [
