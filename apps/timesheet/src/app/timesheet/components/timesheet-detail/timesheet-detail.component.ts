@@ -29,7 +29,7 @@ import { TimesheetValidationService } from '../../services/timesheet-validation.
 import { differenceInCalendarDays } from 'date-fns';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
-import { PermissionService } from 'libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 
 export const startingDateCriteria = {} as {
@@ -127,7 +127,7 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService,
-    private readonly _permissionService: PermissionService
+    private readonly _permissionService: PermissionListService
   ) {
     this.timesheetStateService.setTimesheetPageTitle("Manage my Timesheet");
     this.date = this.timesheetStateService.date;
