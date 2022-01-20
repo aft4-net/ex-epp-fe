@@ -24,6 +24,7 @@ pipeline{
               sh 'node -v'
               sh 'git status' 
               sh 'git checkout develop || git checkout -b develop origin/develop'
+              sh 'git pull'
               sh 'npm install'
               sh 'npm run build-all'
             }
