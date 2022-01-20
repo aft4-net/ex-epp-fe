@@ -228,9 +228,10 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 }
 
 ::ng-deep .ant-table-column-sorters {
-  margin-left: 5px;
+  margin-left: 10px;
   margin-right: 5px;
   display: flow-root !important;
+  position: relative;
 }
 
 ::ng-deep .ant-table-filter-column {
@@ -238,4 +239,13 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 }
 .l-btn{
   margin-right: 10px !important;
+}
+
+.ant-table-column-sorter {
+  color: #bfbfbf;
+  font-size: 0;
+  transition: color .3s;
+  margin-left: 7px !important;
+  display: flex;
+  flex: 2;
 }
