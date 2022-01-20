@@ -37,34 +37,34 @@
                 <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
                     <tr >
-                      <th *ngFor="let column of listOfColumnsUser"
+                      <th  class="table_heading" *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"
+                      <th style="text-align:center !important" class="table_heading" *ngFor="let column of listOfColumnsLastActivityDate"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th  *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                      <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                         [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                         [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                         [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                      <th style="text-align:justify !important" >Actions</th>
+                      <th style="text-align:justify !important" class="table_heading">Actions</th>
                     </tr>
                   </thead>
                 </div>
                 <ng-template #normalHeader>
                   <thead>
                     <tr>
-                      <th >Name</th>
-                      <th >Last Activity Date</th>
-                      <th >Department</th>
-                      <th >Role</th>
-                      <th >Status</th>
-                      <th >Actions</th>
+                      <th class="table_heading">Name</th>
+                      <th class="table_heading">Last Activity Date</th>
+                      <th class="table_heading">Department</th>
+                      <th class="table_heading">Role</th>
+                      <th class="table_heading">Status</th>
+                      <th class="table_heading">Actions</th>
                     </tr>
                   </thead>
                 </ng-template>
                 <tbody>
-                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" >
+                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
                     <td style="padding-left: 0"> 
                       <button nz-button  nzType="link" (click)="ShowDetail(user.UserId)">
                         {{user.FullName }}
