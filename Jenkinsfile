@@ -24,8 +24,8 @@ pipeline{
                  sh 'npm -v'
              }
          steps{
-              sh 'git status'
               sh 'node -v'
+              sh 'git status' 
               sh 'npm -v'
               sh 'npm install'
               sh 'npm run build-all'
