@@ -29,8 +29,8 @@
           <tr *ngFor="let data of basicTable.data">
             <td>{{ data.Name }}</td>
             <td>
-              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/department/edit/{{data.Guid}}" *ngIf="authorize('Update_Department')"></i>
-              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department')"
+              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/department/edit/{{data.Guid}}" *ngIf="authorize('Update_Department') || authorize('Configuration_Module')"></i>
+              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department') || authorize('Configuration_Module')"
                 (click)="deleteHandler(data.Guid)"></i>
             </td>
           </tr>
