@@ -1,0 +1,88 @@
+::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 1.6em;
+  background-color: rgba(0,0,0,.06);
+  transform: translateY(-50%);
+  transition: background-color .3s;
+  content: '';
+  display: none;
+}
+::ng-deep .ant-modal-header {
+  padding: 16px 24px;
+  color: rgba(0,0,0,.85);
+  background: #fff;
+  border-bottom: 0px solid #f0f0f0;
+  border-radius: 0px 0px 0 0;
+}
+ ::ng-deep .ant-modal-title {
+left: 0px;
+top: 0px;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+text-align: center;
+letter-spacing: -0.3px;
+color: #262626;
+flex: none;
+order: 0;
+flex-grow: 0;
+}
+.table{
+  width: 100%;
+  text-align: left;
+  border-radius: 4px 4px 0 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #FAFAFA;
+  border-radius: 4px 4px 0px 0px;
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 1px 0px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+::ng-deep .ant-modal-content
+{
+  align-items: center;
+
+}
+::ng-deep .overflow-scroll{
+overflow: hidden;
+}
+
+::ng-deep .ant-table-pagination-right {
+  display: none;
+}
+.approveButton{
+  background-color: #00A551;
+  font-weight: 500;
+  margin-left: 0px;
+  color: white;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI',  Roboto,   Oxygen,   Ubuntu,    Cantarell,    'Open Sans',    'Helvetica Neue', sans-serif
+
+}
+
+.requestForReviewButton{
+  background-color: #fff;
+  margin-left: 8px;
+  border: 1px solid #00A551;
+  font-weight: 500;
+  color: #00A551;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+.textArea{
+width: 670px;
+height: 170px;
+}
+::ng-deep .ant-input:hover,:focus{
+  border-color: gray;
+}
+.commentLabel{
+  font-weight: 500;
+}

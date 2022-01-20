@@ -8,14 +8,14 @@ import { environment } from '../../environments/environment';
 export class IntialdataService {
 
   userEmail=window.sessionStorage.getItem('username');
-  baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail}`;
+  baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
   baseUrl2 = environment.apiUrl + '/Permission/module';
  
   constructor(private http: HttpClient) { 
 }
 
   getUserPermission(){
-    
+    alert(this.userEmail)
     return this.http.get(this.baseUrl);
   }
   getModulePermission(){
