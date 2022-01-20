@@ -343,11 +343,21 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
   }
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
+      let found=false;
+      this.listOfPermistion[index].Childs.forEach(element => {
+        if(guid==element.Guid&& element.Name=="Admin"){
+          found=true;
+          this.updateAllPermissionChecked(event,index)
+        }
+      });
+     if(!found){
       this.selectedPermissionList = [
         ...this.selectedPermissionList,
         { Guid: guid },
       ];
+     }
     } else {
+      
       let count = 0;
       this.selectedPermissionList.forEach((element) => {
         if (element.Guid == guid) {
