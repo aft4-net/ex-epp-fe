@@ -13,25 +13,28 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   date:any;
   fullName:any
+  actions='Add_Employee';
   thePosition : any;
- 
+  userEmail=window.sessionStorage.getItem('username')+'';
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
     this.fullName=_authenticationService.getUserFullName();
    // const namearray=this.fullName.split(' ');
    // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    //this.thePosition = _authenticationService.position;
+    this.thePosition = _authenticationService.position;
   
   }
-
+update(){
+  this.actions='Update_Employee'
+}
   ngOnInit(): void {
    
-    this.getUser();
+   // this.getUser();
     this._commonData.getPermission();
    
   }
   getUser(){
-    //this._authenticationService.getUser(this.useremail);
+    this._authenticationService.getUser(this.userEmail);
    setTimeout(() => {
      this.thePosition = this._authenticationService.position;
    }, 1000); 
