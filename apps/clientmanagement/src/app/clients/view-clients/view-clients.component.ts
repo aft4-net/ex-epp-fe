@@ -102,7 +102,11 @@ export class ViewClientsComponent implements OnInit  {
       duration: 1,
 
     });
+    // this.notification.error('', '', {
     
+
+  
+    //   });
     
   }
   showModal(): void {
