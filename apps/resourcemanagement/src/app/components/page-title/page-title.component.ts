@@ -43,6 +43,9 @@ export class PageTitleComponent implements OnInit {
 
   dateofBirth = new Date('2021-11-17 14:29:03.107');
   isSaveButtonHidden  = false;
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key)
+  }
   ngOnInit(): void {
     if(this._permissionService.authorizedPerson('Create_Employee') ||
        this._permissionService.authorizedPerson('Update_Employee') ||
