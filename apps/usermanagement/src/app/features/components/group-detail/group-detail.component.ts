@@ -341,6 +341,7 @@ export class GroupDetailComponent implements OnInit {
       });
     });
   }
+  //change char
   firstLetterUperCaseWord(word: string) {
     let fullPhrase="";
    const wordLists=word.split(" ");
