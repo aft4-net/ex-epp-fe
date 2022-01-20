@@ -346,7 +346,15 @@ export class GroupDetailComponent implements OnInit {
    const wordLists=word.split(" ");
    wordLists.forEach(element => {
    try {
-    const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
+    let titleCase='';
+       if(element=="for" || element =="to"){
+         titleCase =
+        element[0].toLowerCase() + element.substr(1).toLowerCase();
+       }
+       else{
+         titleCase =
+        element[0].toUpperCase() + element.substr(1).toLowerCase();
+       }
     fullPhrase= fullPhrase+ " "+ titleCase
    } catch (error) {
      console.log();
