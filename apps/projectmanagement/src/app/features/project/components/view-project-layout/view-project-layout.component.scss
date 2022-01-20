@@ -1,5 +1,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+.table_heading
+{
+background-color: none !important;
+font-weight: 700;
+}
 
 
 ::ng-deep .ant-table-thead>tr>th {
@@ -7,6 +12,11 @@
   background: #F5F5F5 !important;
 }
 
+.table_heading
+{
+background-color: none !important;
+}
+tr:nth-child(even) {background: #F9FFF9}
 
 a {
   padding-right: 0.6vw;
@@ -122,4 +132,12 @@ tr.ant-table-row.ng-star-inserted {
   line-height: 24px;
   color: #595959;
 
+* {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+::ng-deep .ant-table-column-sorters {
+  float: left;
+}
+::ng-deep .ant-table-filter-column{
+  float:left !important;
 }

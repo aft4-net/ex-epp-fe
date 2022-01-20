@@ -1,6 +1,6 @@
 .table_heading
 {
-background-color: #b8fab8 ;
+background-color: none ;
 font-weight: 700;
 
 }
@@ -23,7 +23,7 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color:none !important;
 }
 tr:nth-child(even) {background: #F9FFF9}
 
@@ -121,4 +121,7 @@ tr.ant-table-row.ng-star-inserted {
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
+}
+.anticon-filter   {
+  color: none;
 }

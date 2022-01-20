@@ -48,7 +48,7 @@ export class EmployeeDetailComponent implements OnInit {
     ) {
       
     }
-  canViewEmployeeDetail = false;
+  canViewEmployee = false;
   canDeleteEmployee = false;
   isdefault = true;
   router = '';
@@ -122,8 +122,16 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
      }
-
-  
+    if(this._permissionService.authorizedPerson('View_Employee')||
+      this._permissionService.authorizedPerson('Employee_Admin'))
+    {
+      this.canViewEmployee = true;
+    }
+    if(this._permissionService.authorizedPerson('Delete Employee')||
+       this._permissionService.authorizedPerson('Employee_Admin'))
+    {
+      this.canDeleteEmployee = true;
+    }
   }
 
   getUser(){

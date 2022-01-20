@@ -22,7 +22,6 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
         console.log('this.permissionList')
           this._commonData.permissionList.forEach(element => {
             console.log(this._commonData.permissionList)
-            console.log(element.KeyValue);
               if(element.KeyValue==key){
                   found= true;
               }

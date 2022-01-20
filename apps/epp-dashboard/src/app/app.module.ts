@@ -60,6 +60,17 @@ export function MSALInstanceFactory(): IPublicClientApplication {
               (m) => m.RemoteEntryModule
             ),
         },
+        {
+          path: 'timesheetnew',
+          loadChildren: () => import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
+          data: { breadcrumb: 'Timesheet' }
+        },
+       // {
+          //path: 'projectmanagement',
+         // loadChildren: () =>
+           // import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+       // },
+
         // {
         //   path: 'clientmanagement',
         //   loadChildren: () =>
