@@ -4,7 +4,7 @@ import { EmployeeService } from '../../Features/Services/Employee/EmployeeServic
 import { Router } from '@angular/router';
 import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
 import { Employee } from '../../Features/Models/Employee';
-import { PermissionService } from '../../../../../../libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 @Component({
   selector: 'exec-epp-page-breadcrumb',
   templateUrl: './page-breadcrumb.component.html',
@@ -19,7 +19,7 @@ export class PageBreadcrumbComponent implements OnInit {
   route = '';
 
   constructor(
-    private _permissionService: PermissionService ,
+    private _permissionService: PermissionListService ,
     public _employeeService: EmployeeService,
     private _router: Router,
     private _formGenerator: FormGenerator
@@ -32,6 +32,7 @@ export class PageBreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     console.log('gggg', this.route);
     this.activeRoute(this.route);
+    alert(this._permissionService.authorizedPerson('Employee_Admin'))
     if(this._permissionService.authorizedPerson('Create_Employee')||
        this._permissionService.authorizedPerson('Employee_Admin'))
     {

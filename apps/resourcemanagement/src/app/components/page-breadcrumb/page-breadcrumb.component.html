@@ -19,7 +19,7 @@
           nz-button
           class="addButton"
           (click)="addEmployee()"
-          [hidden]="!canAddEmployee"
+          [hidden]="canAddEmployee"
         >
           Add Employee
         </button>

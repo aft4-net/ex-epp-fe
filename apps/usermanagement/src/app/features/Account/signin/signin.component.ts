@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AccountInfo, AuthenticationResult } from '@azure/msal-browser';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 
 
@@ -13,7 +14,10 @@ import {AuthenticationService} from './../../../../../../../libs/common-services
 })
 export class SigninComponent implements OnInit {
 
-      constructor(private _authenticationService:AuthenticationService,private authService: MsalService, private router: Router) {}
+      constructor(private _authenticationService:AuthenticationService,
+        private authService: MsalService, 
+        private notification: NotificationBar,
+        private router: Router) {}
   
   ngOnInit(): void {
     
@@ -46,8 +50,13 @@ export class SigninComponent implements OnInit {
             this.router.navigateByUrl('');
           },
           (error) => {
-            if(error.error.Message === "Unauthorized"){
-              this.logout();
+            this.logout();
+            if ([401].includes(error.status)) {
+              this.notification.showNotification({
+                type: 'error',
+                content: "Unauthorized, please contact admin",
+                duration: 5000,
+              });
             }
           }
         ); 
@@ -68,7 +77,6 @@ export class SigninComponent implements OnInit {
       window.sessionStorage.clear();
       localStorage.removeItem('loggedInUserInfo');
       window.location.reload();
-
   }
 }
 

@@ -8,7 +8,7 @@ import { FamilyDetailComponent } from '../family-detail/family-detail.component'
 import { FamilyDetails } from '../../../Models/FamilyDetails';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
-import { PermissionService } from 'libs/common-services/permission.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -35,7 +35,7 @@ export class FamilyDetailViewComponent implements OnInit {
     public form: FormGenerator,
     private employeeService: EmployeeService,
     private notification: NotificationBar,
-    private _permissionService: PermissionService
+    private _permissionService: PermissionListService
   ) {}
 
   addfamilies(): void {

@@ -8,7 +8,7 @@ import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
-import { PermissionService } from 'libs/common-services/permission.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -39,7 +39,7 @@ export class AddressViewComponent implements OnInit {
     private readonly _formGenerator: FormGenerator,
     private employeeService: EmployeeService,
     private notification: NotificationBar,
-    private _permissionService: PermissionService) {
+    private _permissionService: PermissionListService) {
 
   }
   addaddress(): void {

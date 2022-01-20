@@ -25,7 +25,7 @@ import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
-
+import { PermissionListService } from 'libs/common-services/permission.service';
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -42,14 +42,14 @@ export class EmployeeDetailComponent implements OnInit {
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
     private _router: Router, 
-    private _permissionService: PermissionService,
-    private _router: Router,
+    private _permissionService: PermissionListService,
     private _authenticationService:AuthenticationService
 
     ) {
       
     }
-
+  canViewEmployeeDetail = false;
+  canDeleteEmployee = false;
   isdefault = true;
   router = '';
   checked = false;

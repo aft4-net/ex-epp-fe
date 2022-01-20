@@ -16,7 +16,7 @@ import { ICountry } from '../../Features/Models/EmployeeOrganization/Country';
 import { Nationality } from '../../Features/Models/Nationality';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { PermissionService } from '../../../../../../libs/common-services/permission.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
 @Component({
   selector: 'exec-epp-page-title',
   templateUrl: './page-title.component.html',
@@ -30,7 +30,7 @@ export class PageTitleComponent implements OnInit {
     private _router: Router,
     private _employeeService: EmployeeService,
     private notification: NzNotificationService,
-    private _permissionService: PermissionService
+    private _permissionService: PermissionListService
   ) {
     this.save = this._employeeService.save;
   }
