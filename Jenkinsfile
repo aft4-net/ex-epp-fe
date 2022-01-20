@@ -23,8 +23,7 @@ pipeline{
          steps{
               sh 'node -v'
               sh 'git status' 
-              sh 'git checkout develop || git checkout -b develop origin/develop'
-              sh 'git pull'
+              sh 'git branch -D develop && git checkout -b develop origin/develop'
               sh 'npm install'
               sh 'npm run build-all'
             }
