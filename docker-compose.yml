@@ -21,4 +21,3 @@ services:
     image: blens/rm:latest
     ports:
       - "4205:80"
-  

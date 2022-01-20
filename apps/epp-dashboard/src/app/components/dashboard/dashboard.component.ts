@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import {PermissionService} from './../../../../../../libs/common-services//permission.service';
 import { IntialdataService } from '../../services/intialdata.service';
-import { DatePipe } from '@angular/common';
 @Component({
   selector: 'exec-epp-dashboard',
   templateUrl: './dashboard.component.html',
@@ -53,6 +52,9 @@ export class DashboardComponent implements OnInit {
     });
     })
 }
+
+
+
 }
 
 
