@@ -19,9 +19,6 @@ pipeline{
         {
             when {
                  branch 'develop'
-                 sh 'git status'
-                 sh 'node -v'
-                 sh 'npm -v'
              }
          steps{
               sh 'node -v'
