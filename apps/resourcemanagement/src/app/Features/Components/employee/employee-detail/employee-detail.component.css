@@ -112,12 +112,16 @@ tr.ant-table-row.ng-star-inserted {
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
+
+::ng-deep .ant-table-column-sorters {
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flow-root !important;
+}
+
+::ng-deep .ant-table-filter-column {
+  display: inline-flex !important;
+}
 .anticon-filter   {
   color: none;
 }
-::ng-deep .ant-table-filter-column{
-      float:left !important;
- }
- ::ng-deep .ant-table-column-sorters {
-      float: left !important;
-   }

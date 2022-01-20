@@ -27,7 +27,7 @@
       </div>
 
       <div nz-col nzSpan="3">
-        <button class="addButton" nz-button (click)="addaddress()">
+        <button class="addButton" [hidden]="!canAddAddressDetail" nz-button (click)="addaddress()">
           <span>Add Address</span>
         </button>
       </div>
