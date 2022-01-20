@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SelectMultipleControlValueAccessor } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { PermissionService } from 'libs/common-services/permission.service';
+import { PermissionListService} from '../../../../../../../libs/common-services/permission.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
@@ -23,7 +23,7 @@ export class TimesheetDetailViewComponent implements OnInit {
     constructor(private timesheetService:TimesheetService,
       private notification: NzNotificationService,
       private _router: Router,
-      Private _permissionService:PermissionService,) {
+      Private readonly _permissionService:PermissionListService,) {
 
     }
 
