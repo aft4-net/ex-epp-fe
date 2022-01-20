@@ -27,11 +27,8 @@ getPermission(): void {
     this.permissionList=this.permissionList;
     this._intialdataService.getModulePermission().subscribe((res:any)=>{
       this.modulePermission=res.Data;
-      console.log(2)
+     
       this.modulePermission.forEach(parent => {
-        console.log('permissionList')
-        console.log(this.permissionList)
-        console.log('permissionList')
         this.permissionList.forEach(child => {
             if(parent.PermissionCode==child.ParentCode){
              

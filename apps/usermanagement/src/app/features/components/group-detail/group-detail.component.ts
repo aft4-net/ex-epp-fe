@@ -341,12 +341,21 @@ export class GroupDetailComponent implements OnInit {
       });
     });
   }
+  //change char
   firstLetterUperCaseWord(word: string) {
     let fullPhrase="";
    const wordLists=word.split(" ");
    wordLists.forEach(element => {
    try {
-    const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
+    let titleCase='';
+       if(element=="for" || element =="to"){
+         titleCase =
+        element[0].toLowerCase() + element.substr(1).toLowerCase();
+       }
+       else{
+         titleCase =
+        element[0].toUpperCase() + element.substr(1).toLowerCase();
+       }
     fullPhrase= fullPhrase+ " "+ titleCase
    } catch (error) {
      console.log();
