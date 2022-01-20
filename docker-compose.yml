@@ -26,7 +26,7 @@ services:
     ports:
       - "4206:80"
   epp-dashboard:
-    image: blens/epp
+    image: blens/epp-dash
     ports:
       - "4207:80"
 
