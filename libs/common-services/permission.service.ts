@@ -15,13 +15,9 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
 
 }
       authorizedPerson(key:string){
-        let found=false;
-        console.log('permissionList')
-        console.log(this._commonData.permissionList)
-        this._commonData.countere()
-        console.log('this.permissionList')
+        let found=false; 
           this._commonData.permissionList.forEach(element => {
-            console.log(this._commonData.permissionList)
+           
               if(element.KeyValue==key){
                   found= true;
               }

@@ -72,7 +72,9 @@ export class PageBreadcrumbComponent implements OnInit {
      
 
   }
-
+authorize(key:string){
+return this._permissionService.authorizedPerson(key)
+}
   
   activeRoute(routePath: string) {
     if(this.route== '')

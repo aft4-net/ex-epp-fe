@@ -1,18 +1,18 @@
 .table_heading
 {
-background-color: none ;
+background-color: #F5F5F5 ;
 font-weight: 700;
 
 }
 
 .table_evenrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .table_oddrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .inner-content {
@@ -23,9 +23,9 @@ background-color: white !important;
 
 .table_heading
 {
-background-color:white !important;
+background-color:#F5F5F5 !important;
 }
-tr:nth-child(even) {background: white}
+tr:nth-child(even) {background: none}
 
 a {
   padding-right: 0.6vw;
