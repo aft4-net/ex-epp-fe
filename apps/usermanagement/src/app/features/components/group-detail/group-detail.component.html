@@ -57,8 +57,8 @@
                 nzTableLayout="auto">
                 <thead>
                   <tr>
-                    <th class="table_heading">User</th>
-                    <th class="table_heading">Options</th>
+                    <th >User</th>
+                    <th >Options</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -128,23 +128,23 @@
                 <div *ngIf="groupUserList.length > 0; else normalHeader">
                   <thead>
                     <tr>
-                      <th class="table_heading" *ngFor="let column of listOfColumn"
+                      <th  *ngFor="let column of listOfColumn"
                           [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                           [nzSortDirections]="column.sortDirections">{{column.title}}</th>
-                      <th class="table_heading">Options</th>
+                      <th >Options</th>
                     </tr>
                   </thead>
                 </div>
                 <ng-template #normalHeader>
                   <thead>
                     <tr>
-                      <th class="table_heading">Name</th>
-                      <th class="table_heading">Options</th>
+                      <th >Name</th>
+                      <th >Options</th>
                     </tr>
                   </thead>
                 </ng-template>
                 <tbody>
-                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;">
                     <td>{{user.FullName}}</td>
                     <td>
                         <button class="removeButton" nz-button [nzSize]="size" nzType="link" *ngIf="authorize('Delete_Group')" (click)="createGroupMemeberDeleteModal(user.Guid)" >
