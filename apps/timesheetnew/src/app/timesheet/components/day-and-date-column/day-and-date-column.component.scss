@@ -1,0 +1,113 @@
+.entries-overflow .hide-more{
+    display:none;
+}
+
+.show-scroll-bar{
+   overflow-y: scroll;
+   overflow-x: hidden;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.show-scroll-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .show-scroll-bar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+.date-column-timesheet .add-btn{
+    color: #00A551;
+}
+
+.date-column-with-highlight {
+    @media screen and (min-width: 1024px) {
+        .date-column-timesheet {
+           min-height: 72vh;
+           height: 72vh;
+        }
+
+        .entries-col{
+            min-height: 35vh;
+            height: 56vh;
+        }
+    }
+
+    &:hover {
+        border-width: 2px;
+        border-color: #00A551;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    }
+
+    &:hover .date-column-highlight {
+        opacity: 1;
+    }
+}
+
+.date-column-with-highlight-today {
+    @media screen and (min-width: 1024px) {
+        .date-column-timesheet {
+           min-height: 72vh;
+           height: 72vh;
+        }
+
+        .entries-col{
+            min-height: 35vh;
+            height: 56vh;
+        }
+    }
+
+    &:hover {
+        border-width: 2px;
+        border-color: #00A551;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    }
+
+    &:hover .date-column-highlight {
+        opacity: 1;
+    }
+
+    .date-and-hour {
+        border-color: #8C8C8C;
+    }
+}
+
+.date-column-with-no-highlight {
+    @media screen and (min-width: 1024px) {
+      background-color: #FAFAFA;
+        .date-column-timesheet {
+           min-height: 72vh;
+           height: 72vh;
+        }
+        .entries-col{
+            min-height: 35vh;
+            height: 56vh;
+        }
+    }
+}
+
+.date-column-with-no-highlight-today {
+    @media screen and (min-width: 1024px) {
+        background-color: #FAFAFA;
+        .date-column-timesheet {
+            min-height: 72vh;
+            height: 72vh;
+        }
+        .entries-col{
+            min-height: 35vh;
+            height: 56vh;
+        }
+    }
+
+    .date-and-hour {
+        border-color: #8C8C8C;
+    }
+}
+
+.more-txt{
+    margin: left 0px !important;
+    align-self:start !important;
+}
+
