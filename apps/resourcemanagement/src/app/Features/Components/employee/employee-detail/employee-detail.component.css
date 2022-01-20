@@ -1,13 +1,13 @@
 .table_heading
 {
-background-color: #b8fab8 ;
+background-color: none ;
 font-weight: 700;
 
 }
 
 .table_evenrow_heading
 {
-background-color: #E8FFE8 !important;
+background-color: white !important;
 }
 
 .table_oddrow_heading
@@ -23,9 +23,9 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color:white !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: white}
 
 a {
   padding-right: 0.6vw;
@@ -112,3 +112,12 @@ tr.ant-table-row.ng-star-inserted {
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
+.anticon-filter   {
+  color: none;
+}
+::ng-deep .ant-table-filter-column{
+      float:left !important;
+ }
+ ::ng-deep .ant-table-column-sorters {
+      float: left !important;
+   }

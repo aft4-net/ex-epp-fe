@@ -16,7 +16,7 @@
           <!-- <i nz-icon nzType="right" nzTheme="outline" class="mt-8 ml-6"></i> -->
        </div>
 
-       <div *ngIf="authorize('Approve_timesheet') && authorize('Reject_TimeSheet')" class="right-buttons mt-4 flex ml-96 pl-10">
+       <div *ngIf="authorize('Timesheet_Admin') && authorize('Reject_TimeSheet')" class="right-buttons mt-4 flex ml-96 pl-10">
         <button [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button  class="mr-2">View Submision</button>
         <button [routerLink]="['/timesheet-approval']" nzSize="large" nz-button >Approve Timesheet</button>
        </div>
