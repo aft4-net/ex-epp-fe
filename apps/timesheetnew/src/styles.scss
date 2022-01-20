@@ -1,0 +1,254 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
+
+@import '~ng-zorro-antd/ng-zorro-antd.min.css';
+$primary-color: #00a551;
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('assets/fonts/sf-pro-display/SFPRODISPLAYREGULAR.OTF');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('assets/fonts/sf-pro-display/SFPRODISPLAYMEDIUM.OTF');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('assets/fonts/sf-pro-display/SFPRODISPLAYBOLD.OTF');
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  font-family: 'SF Pro Display';
+}
+
+/* For Very small screen size. eg. Mobile*/
+@media screen and (max-width: 640px) {
+  .ant-drawer-content-wrapper {
+    margin-top: 3.8rem;
+    border-top-left-radius: 15px;
+    width: inherit !important;
+  }
+}
+
+app-timesheet-header {
+  margin-left: 24px;
+}
+
+app-timesheet-header.md\:flex {
+  margin-left: 24px;
+}
+
+.timesheetapproval-controllers,
+.timesheetapproval-tab {
+  .ant-table-filter-trigger.active {
+    color: #00a551;
+  }
+
+  .ant-dropdown-menu-item-selected,
+  .ant-dropdown-menu-submenu-title-selected {
+    color: #00a551;
+    background-color: #f5f5f5;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #00a551;
+    border-color: #00a551;
+  }
+
+  .ant-checkbox-input:focus + .ant-checkbox-inner,
+  .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+  .ant-checkbox:hover .ant-checkbox-inner {
+    border-color: #00a551;
+  }
+
+  .ant-btn-link:focus,
+  .ant-btn-link:hover {
+    color: #00a551;
+  }
+  .ant-btn-primary:focus,
+  .ant-btn-primary:hover {
+    border-color: #00a551;
+    background: #00a551;
+  }
+  .ant-table-column-sorter-down.active,
+  .ant-table-column-sorter-up.active {
+    color: #00a551;
+  }
+  .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: #00a551;
+  }
+
+  .ant-input-affix-wrapper-focused,
+  .ant-input-affix-wrapper:focus {
+    border-color: #00a551;
+    box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
+  }
+
+  .ant-tabs-tab-btn:active,
+  .ant-tabs-tab-btn:focus,
+  .ant-tabs-tab-remove:active,
+  .ant-tabs-tab-remove:focus,
+  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:active,
+  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus,
+  .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:active,
+  .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus {
+    color: #00a551;
+  }
+  .ant-tabs-tab:hover {
+    color: #00a551;
+  }
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background-color: #00a551;
+}
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before {
+  border: 1px solid #00a551;
+}
+.ant-picker-today-btn,
+.ant-picker-today-btn:hover {
+  color: #00a551;
+}
+.ant-picker-header-view button:hover {
+  color: #00a551;
+}
+.ant-picker-focused,
+.ant-picker:hover {
+  border-color: #00a551;
+}
+.ant-picker-focused {
+  box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
+}
+
+.ant-drawer-content {
+  border-top-left-radius: 15px;
+}
+
+.ant-popover-inner-content {
+  padding: 0;
+}
+
+#edit:hover {
+  background-color: #dcffdc;
+  border-radius: 2px 2px 0 0;
+}
+
+#delete:hover {
+  background-color: #dcffdc;
+  border-radius: 0 0 2px 2px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .ant-popover-inner {
+    flex-direction: row !important;
+    width: 800px !important;
+    justify-content: top;
+    position: fixed;
+    margin-left: -0px;
+  }
+}
+
+.delete-conform-modal {
+  width: 328px !important;
+
+  .ant-modal-content {
+    border: 0.5px solid #00a551;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    width: 328px;
+    height: 220px;
+    background: #ffffff;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .ant-modal-body {
+    font-family: SF Pro Display;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .yes-delete-btn {
+    background-color: #00a551 !important;
+    border: #00a551;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 16px;
+
+    position: static;
+    width: 109px;
+    height: 38px;
+    left: 74px;
+    top: 0px;
+    color: #ffffff !important;
+    font-family: SF Pro Display;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .cancel {
+    border: 0.5px solid #00a551;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 16px;
+
+    position: static;
+    width: auto;
+    height: 38px;
+    left: 74px;
+    top: 0px;
+
+    font-family: SF Pro Display;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #00a551;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.ant-table-column-sorters {
+  float: left;
+}
+.ant-table-column-title {
+  padding-right: 9.56px;
+}
+
+.ant-table tfoot > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table-thead > tr > th {
+  padding: 12px;
+  line-height: 24px;
+}
+.ant-table-filter-column {
+  float: left;
+}
+
+.ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  display: none;
+}
