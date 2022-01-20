@@ -1,33 +1,19 @@
 
 
-<div style="background: #f5f5f5;padding-left:14%; position: absolute; padding-bottom: 0%; padding-top: 8%; height: 100%; width: 100%; ">
+<div style="background: #f5f5f5;padding-left:14%; position: absolute; padding-bottom: 0%; padding-top: 8%; height: 100%; width: 1730px; ">
 
   <div   style="margin-bottom: 0px;">
     <p  class="employee-name">Welcome {{fullName}},</p>
    
     </div>
-    <div  style="margin-bottom: 2px;">
+    <div  style="margin-bottom: 17px; margin-left: 2px;">
 
-        <p  class="designation"> Developer III - </p> <span></span>
-        <p class="current-time"> 12/24/2021 </p>
+        <p  class="designation"> Developer III <span></span> - {{date | date:'MM / dd / yyyy'}} </p> 
+        <p class="current-time">  </p>
 
       </div>
-  <div nz-row  [nzGutter]="17" nzHoverable="true">
-    <div nz-col [nzSpan]="5" style="padding-top: 2%; padding-right: 7%;" >
-      <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
-        <nz-card-meta
-        [nzTitle]="timesheetTextTemplate"
-        [nzAvatar]="timesheetTemplate"
-      ></nz-card-meta>
-      </nz-card>
-      <ng-template #timesheetTemplate>
-        <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
-      </ng-template>
-      <ng-template #timesheetTextTemplate>
-        <p style="font-size:16px; font-weight: bolder;">Timesheet</p>
-        <p style="font-size:12px; ">Add, Edit and View Time Sheet</p>
-      </ng-template>
-    </div>
+  <div nz-row  [nzGutter]="20" nzHoverable="true">
+
     <div nz-col [nzSpan]="5" style="padding-top: 2%; ">
       <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
         <a href="http://localhost:60730/">
@@ -42,10 +28,10 @@
       </ng-template>
       <ng-template #avatarTextTemplate>
         <p style="font-size:16px; font-weight: bolder;">Employee Information</p>
-        <p style="font-size:12px; ">Add, Edit and View Employee Information</p>
+        <p style="font-size:12px; ">Add, Edit and View employee Detais</p>
       </ng-template>
     </div>
-    <div nz-col [nzSpan]="5" style="padding-top: 2%; width: 100px;">
+    <div nz-col [nzSpan]="5" style="padding-top: 2%; width: 100px; ">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
         [nzTitle]="clientTextTemplate"
@@ -58,9 +44,25 @@
       <ng-template #clientTextTemplate >
         
         <p style="font-size:16px; font-weight: bolder;">Clients</p>
-        <p style="font-size:12px; ">Add, Edit and View Clients Information</p>
+        <p style="font-size:12px; ">Add, Edit and View clients details</p>
       </ng-template>
     </div>
+    <div nz-col [nzSpan]="5" style="padding-top: 2%; padding-right: 7%;" >
+      <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
+        <nz-card-meta
+        [nzTitle]="timesheetTextTemplate"
+        [nzAvatar]="timesheetTemplate"
+      ></nz-card-meta>
+      </nz-card>
+      <ng-template #timesheetTemplate>
+        <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
+      </ng-template>
+      <ng-template #timesheetTextTemplate>
+        <p style="font-size:16px; font-weight: bolder;">Timesheet</p>
+        <p style="font-size:12px; ">Manage timesheet</p>
+      </ng-template>
+    </div>
+    
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
@@ -85,10 +87,12 @@
       ></nz-card-meta>
       </nz-card>
       <ng-template #configurationTemplate>
-        <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: green;  font-size: '19px';"></i>
+        <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
       </ng-template>
       <ng-template #confTextTemplate>
-        <p style="font-size:14px; ">Configuration</p>
+        
+        <p style="font-size:16px; font-weight: bolder;">Configuration</p>
+        <p style="font-size:12px; ">Add, Edit and View Configuration</p>
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">
@@ -99,11 +103,15 @@
       ></nz-card-meta>
       </nz-card>
       <ng-template #userTemplate>
-        <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: green; font-size: '19px';"></i>
+        <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: green; font-size: '40px';"></i>
       </ng-template>
       <ng-template #userTextTemplate>
         
-        <a routerLink="usermanagement" routerLinkActive="router-link-active" ><p style="font-size:14px; ">User Management</p></a>
+        <a routerLink="usermanagement"  >
+          <p style="font-size:16px; font-weight: bolder;">User Management</p>
+          <p style="font-size:12px; ">Add, Edit and View User's</p>
+          
+        </a>
       </ng-template>
     </div>
 </div>

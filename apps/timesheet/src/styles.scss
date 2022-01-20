@@ -5,16 +5,31 @@
 @import 'tailwindcss/utilities';
 
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
+$primary-color: #00A551;
 
 @font-face {
   font-family: "SF Pro Display";
-  src: url("assets/fonts/SFPRODISPLAYREGULAR.OTF");
-  font-weight: normal;
+  src: url("assets/fonts/sf-pro-display/SFPRODISPLAYREGULAR.OTF");
+  font-weight: 400;
+  font-style: normal;
 }
 
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("assets/fonts/sf-pro-display/SFPRODISPLAYMEDIUM.OTF");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("assets/fonts/sf-pro-display/SFPRODISPLAYBOLD.OTF");
+  font-weight: 700;
+  font-style: normal;
+}
 
 body {
-  // font-family: "SF Pro Display";
+  font-family: "SF Pro Display";
 }
 /* For Very small screen size. eg. Mobile*/
 .ant-drawer-content-wrapper {
@@ -34,6 +49,71 @@ app-timesheet-header {
 
 app-timesheet-header.md\:flex {
   margin-left: 24px;
+}
+
+.timesheetapproval-controllers, .timesheetapproval-tab {
+  .ant-table-filter-trigger.active {
+    color: #00a551;
+  }
+
+  .ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected {
+    color: #00a551;
+    background-color: #F5F5F5;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #00a551;
+    border-color: #00a551;
+  }
+
+  .ant-checkbox-input:focus+.ant-checkbox-inner, .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
+    border-color: #00a551;
+  }
+
+  .ant-btn-link:focus, .ant-btn-link:hover {
+    color: #00a551;
+  }
+  .ant-btn-primary:focus, .ant-btn-primary:hover {
+    border-color: #00a551;
+    background: #00a551;
+  }
+  .ant-table-column-sorter-down.active, .ant-table-column-sorter-up.active {
+    color: #00A551;
+  }
+  .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: #00A551;
+  }
+
+  .ant-input-affix-wrapper-focused, .ant-input-affix-wrapper:focus {
+    border-color: #00a551;
+    box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
+  }
+
+  .ant-tabs-tab-btn:active, .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:active, .ant-tabs-tab-remove:focus, .ant-tabs>.ant-tabs-nav .ant-tabs-nav-add:active, .ant-tabs>.ant-tabs-nav .ant-tabs-nav-add:focus, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-add:active, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-add:focus {
+    color: #00a551;
+  }
+  .ant-tabs-tab:hover {
+    color: #00a551;
+  }
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background-color: #00a551;
+}
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before {
+  border: 1px solid #00a551;
+}
+.ant-picker-today-btn, .ant-picker-today-btn:hover {
+  color: #00A551;
+}
+.ant-picker-header-view button:hover {
+  color: #00a551;
+}
+.ant-picker-focused, .ant-picker:hover {
+  border-color: #00A551;
+}
+.ant-picker-focused {
+  box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
 }
 
 /* For medium and big screen sizes like Tab and Desktop*/
