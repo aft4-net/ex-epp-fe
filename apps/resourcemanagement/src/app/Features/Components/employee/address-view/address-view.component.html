@@ -10,7 +10,7 @@
       </div>
 
       <div nz-col nzSpan="3">
-        <button class="addButton" nz-button (click)="addaddress()">
+        <button class="addButton" [hidden]="!canAddAddressDetail" nz-button (click)="addaddress()">
           <span>Add Address</span>
         </button>
       </div>
@@ -57,7 +57,7 @@
       </tbody>
     </nz-table>
     <div nz-col nzSpan="3">
-      <button class="addButtonwhenNodata"  nz-button (click)="addaddress()">
+      <button class="addButtonwhenNodata" nz-button (click)="addaddress()">
         <span> Add Address</span>
       </button>
     </div>
@@ -67,13 +67,13 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   [nzWidth]="'36%'"
-  [nzTitle]="addButton +' Address'"
+  [nzTitle]="addButton + ' Address'"
   [nzFooter]="null"
   (nzOnCancel)="exitModal()"
   (nzOnOk)="handleOk()"
-  nzMaskClosable="true"
+  nzMaskClosable="false"
 >
-  <ng-container *nzModalContent class ="layer">
+  <ng-container *nzModalContent class="layer">
     <div class="overflow-scroll">
       <exec-epp-address-detail-group></exec-epp-address-detail-group>
     </div>
@@ -82,9 +82,9 @@
       class="saveButton"
       (click)="add()"
       [disabled]="!form.addressForm.valid"
-      [title]="form.addressForm.invalid?'Enter valid personal detail.':''"
+      [title]="form.addressForm.invalid ? 'Enter valid personal detail.' : ''"
     >
-      {{addButton}}
+      {{ addButton }}
     </button>
     &nbsp;
     <button nz-button class="cancelButton" (click)="resetForm()">Clear</button>

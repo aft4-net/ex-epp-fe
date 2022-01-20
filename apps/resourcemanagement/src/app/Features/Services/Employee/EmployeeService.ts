@@ -194,7 +194,7 @@ export class EmployeeService {
             },
           };
           return this.paginatedResult;
-        })
+        }),
       );
   }
 

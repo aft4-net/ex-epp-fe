@@ -1,12 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { Address } from '../../../Models/address.model';
 import { AddressNewComponent } from '../address-new/address-new.component';
 import { Data } from '@angular/router';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
-import { NzDrawerRef } from 'ng-zorro-antd/drawer';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { PermissionService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -15,14 +17,16 @@ import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 })
 export class AddressViewComponent implements OnInit {
   isVisible = false;
+  canAddAddressDetail = false;
   isConfirmLoading = false;
   confirmModal?: NzModalRef;
   editId: string | null = null;
   listOfaddress: Address[] = [];
   IsEdit=false;
   editAt=-10;
-  addButton='Add'
-  employeeAddress?:Address
+  addButton='Add';
+
+  employeeAddress?:Address;
   emptyData=[];
   @ViewChild('drawerTemplate')
   drawerTemplate: TemplateRef<{
@@ -33,11 +37,11 @@ export class AddressViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private readonly _formGenerator: FormGenerator,
-    private employeeService:EmployeeService
-  ) {
-   
+    private employeeService: EmployeeService,
+    private notification: NotificationBar,
+    private _permissionService: PermissionService) {
 
-}
+  }
   addaddress(): void {
     this.form.generateAddressForm();
     this.isVisible = true;
@@ -123,5 +127,17 @@ export class AddressViewComponent implements OnInit {
    }}
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.notification.showNotification({
+          type: 'success',
+          content: '',
+          duration: 1,
+        });
+    if(this._permissionService.authorizedPerson('Create_Employee') || 
+    this._permissionService.authorizedPerson('Update_Employee')|| 
+    this._permissionService.authorizedPerson('Employee_Admin'))
+    {
+        this.canAddAddressDetail = true;
+    }    
+  }
 }

@@ -16,7 +16,9 @@ permissionList:any[]=[ ];
 constructor(private http: HttpClient, private errHandler: ErrHandleService) {}
       authorizedPerson(key:string){
         let found=false;
+
           this.permissionList.forEach(element => {
+              alert(element.KeyValue==key)
               if(element.KeyValue==key){
                   found= true;
               }

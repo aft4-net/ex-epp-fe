@@ -28,8 +28,8 @@ import { ErrHandleService } from './error-handle.service';
      this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email).subscribe(
       (response) => {
         //console.log("empguid is " + response["Guid"]);
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
-       this.empGuid = response["Guid"];
+       //this.position  = response["EmployeeOrganization"]["JobTitle"];
+       //this.empGuid = response["Guid"];
       }
     );
    }

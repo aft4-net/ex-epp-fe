@@ -11,6 +11,7 @@
       <div nz-col nzSpan="4">
         <button
           class="addButton"
+          [hidden]="!canAddEmergencyContactDetail"
           nz-button
           nzType="primary"
           (click)="addemergencycontact()"

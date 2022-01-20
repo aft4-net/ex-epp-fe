@@ -11,7 +11,7 @@
         </div>
         <div nz-col nzSpan="2">
 
-          <button nz-button (click)="saveNext()" class="saveButton">{{save}}</button>
+          <button nz-button [hidden]="!isSaveButtonHidden" (click)="saveNext()" class="saveButton">{{save}}</button>
         </div>
       </div>
     </div>

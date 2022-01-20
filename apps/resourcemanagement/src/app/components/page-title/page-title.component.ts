@@ -16,7 +16,7 @@ import { ICountry } from '../../Features/Models/EmployeeOrganization/Country';
 import { Nationality } from '../../Features/Models/Nationality';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-
+import { PermissionService } from '../../../../../../libs/common-services/permission.service';
 @Component({
   selector: 'exec-epp-page-title',
   templateUrl: './page-title.component.html',
@@ -29,7 +29,8 @@ export class PageTitleComponent implements OnInit {
     private _formGenerator: FormGenerator,
     private _router: Router,
     private _employeeService: EmployeeService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private _permissionService: PermissionService
   ) {
     this.save = this._employeeService.save;
   }
@@ -41,8 +42,15 @@ export class PageTitleComponent implements OnInit {
   emergencyContacts: IEmergencyContact[] = [];
 
   dateofBirth = new Date('2021-11-17 14:29:03.107');
-
-  ngOnInit(): void {}
+  isSaveButtonHidden  = false;
+  ngOnInit(): void {
+    if(this._permissionService.authorizedPerson('Create_Employee') ||
+       this._permissionService.authorizedPerson('Update_Employee') ||
+       this._permissionService.authorizedPerson('Employee_Admin'))
+    {
+      this.isSaveButtonHidden = true;
+    }
+  }
 
   saveNext() {
     if (!this._formGenerator.personalDetailsForm.valid) {

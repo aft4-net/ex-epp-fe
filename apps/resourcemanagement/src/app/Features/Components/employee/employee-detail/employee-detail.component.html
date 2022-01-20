@@ -21,21 +21,20 @@
       <br/>
       <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
-            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+            <nz-table nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" >
               <thead>
                 <tr>
-                  <th class="table_heading" style="width:30px"   [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                  <th class="table_heading" style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                   (nzCheckedChange)="onAllChecked($event)" ></th>
                   <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                     [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-
                   <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                     [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                     [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                     [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                  <th class="table_heading">Actions</th>
+                  <th class="table_heading" [hidden]="canViewEmployeeDetail || canDeleteEmployee">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,12 +45,12 @@
                   <td>{{employeeView.JobTitle }}</td>
                   <td>{{employeeView.Location }}</td>
                   <td>{{employeeView.Status }}</td>
-                  <td>
-                    <a (click)="Edit(employeeView.EmployeeGUid)">
+                  <td [hidden]="canViewEmployeeDetail || canDeleteEmployee">
+                    <a (click)="Edit(employeeView.EmployeeGUid)" [hidden]="canViewEmployeeDetail">
                       <i nz-icon nzType="edit" style="color:black;"></i>
                     </a>
                     &nbsp; &nbsp;
-                    <a (click)="Delete(employeeView.EmployeeGUid)">
+                    <a (click)="Delete(employeeView.EmployeeGUid)" [hidden]="canDeleteEmployee">
                       <i nz-icon nzType="delete" style="color:black;"></i>
                     </a>
                     <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
@@ -83,7 +82,7 @@
             </nz-table>
         </div>
       </div>
-      
+
     </div>
   </nz-content>
 </nz-layout>

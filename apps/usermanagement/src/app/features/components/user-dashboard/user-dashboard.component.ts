@@ -8,17 +8,17 @@ import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { IUserModel } from '../../Models/User/UserList';
 import { UserParams } from '../../Models/User/UserParams';
-import { UserService } from '../../services/user.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
-import { AddUserService } from '../../services/add-user.service';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
-import { ResponseDTO } from '../../Models/ResponseDTO';
+import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
 import { IEmployeeModel } from '../../Models/employee.model';
 import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { UserService } from '../../services/user.service';
+import { AddUserService } from '../../services/add-user.service';
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -27,7 +27,6 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 export class UserDashboardComponent implements OnInit {
 
   userfrm: any;
-  isLoadng = false;
   employeeList: IEmployeeModel [] = []
   selectedUserValue = '';
   isUserModalVisible=false;
@@ -66,7 +65,8 @@ export class UserDashboardComponent implements OnInit {
   userListDepartment: NzTableFilterList=[];
   userListLastActivityDate: NzTableFilterList=[];
   userListFullName : NzTableFilterList=[];
-
+  fullName = '';
+  loadingOnSave = false;
   listOfColumns!: ColumnItem<IUserModel>[];
 
   listOfColumnsUser: ColumnItem<IUserModel>[] = [
@@ -107,6 +107,7 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
+      GroupsOnUser: new FormControl([]),
     });
     this.groupfrm = new FormGroup({
       Groups: new FormControl([], Validators.required),
@@ -174,7 +175,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -183,7 +184,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
@@ -192,7 +193,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -206,7 +207,7 @@ export class UserDashboardComponent implements OnInit {
     this.holdItDepartment.length = 0;
     this.userList$.subscribe(
        val => {
-           if(val.length > 0){
+        if(val.length > 0){
           this.userList = val
           for(let i=0; i < this.userList.length;i++){
             if(this.holdItDepartment.findIndex(x=>x.text === this.userList[i].Department.trim()) === -1 ){
@@ -243,10 +244,7 @@ export class UserDashboardComponent implements OnInit {
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
-
-          if(this.userList.length > 0) {
-            this.PopulateFilterColumns();
-          }
+          this.PopulateFilterColumns();
         }
         else{
           this.PopulateFilterColumns();
@@ -350,16 +348,17 @@ export class UserDashboardComponent implements OnInit {
   }
   onAddUser()
   {
-    this.selectedUserValue = '';
     this.isUserModalVisible = true;
-    this.isLoadng = true;
 
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
+       
         this.employeeList= r.Data;
-        this.isLoadng =false;
-        this.userfrm.reset();
         this.FeatchAllUsers();
+        this.addUserService.getGroups().subscribe(
+          (r:  GroupSetModel[]) => {
+              this.groupList = r;
+          });
       },
       (error: any)=>{
         console.log(error);
@@ -367,28 +366,31 @@ export class UserDashboardComponent implements OnInit {
       }
     )
   }
-  AddToGroup(userId: string)  {
+  AddToGroup(userId: string, fullName: string)  {
     this.selectedUserId = userId;
-    
+    this.fullName = fullName;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
-    this.isLoadng = true;
+    this.loadingOnSave = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
             this.groupList = r;
+            if(userId === '') 
+            return;
+            
             this.addUserService.getUserGroups(userId).subscribe(
-                (r: GroupSetModel[]) => {
-                    r.forEach(el => {
+                (r: ResponseDTO<GroupSetModel[]>) => {
+                    r.Data.forEach(el => {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
-                    this.isLoadng = false;
+                    this.loadingOnSave = false;
                 },
                 (error: any) => {
                     console.log(error);
                 }
             );
-            this.isLoadng = false;
+            this.loadingOnSave = false;
         },
         (error: any) => {
             console.log(error);
@@ -397,8 +399,9 @@ export class UserDashboardComponent implements OnInit {
     );
 }
 onSaveGroups() {
+
   this.selectedGroups = [];
-  this.isLoadng = true;
+  this.loadingOnSave = true;
       const x = this.groupfrm.get('Groups').value;
       
       x.forEach((el: string) => {
@@ -406,12 +409,18 @@ onSaveGroups() {
       });
 
   this.addUserService.addGroups(this.selectedUserId, this.selectedGroups).subscribe(
-      () => {
+      (r: ResponseDTO<any>) => {
+        if( r.ResponseStatus == ResponseStatus.error)
+       {
+         this.onShowError('Some error has occured. Review your inputs and try again');
+         this.loadingOnSave = false;
+         return;
+       }
           this.notifier.notify(
               NotificationType.success,
               'User is created successfully'
           );
-          this.isLoadng = false;
+          this.loadingOnSave = false;
           this.isGroupModalVisible = false;
           this.selectedGroups = [];
           this.groupfrm.reset();
@@ -430,17 +439,17 @@ handleGroupCancel() {
     const errMsg = 'Some error occured. Please review your input and try again. ';
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
-    this.isLoadng = false;
+    this.loadingOnSave = false;
   }
   onSaveUser()
   {
     if(this.selectedUserValue == null || '')
       this.onShowError('Select employee');
-
-    this.isLoadng = true;
+    this.loadingOnSave = true;
     const empId = this.selectedUserValue;
     this.addUserService.getEmployeeById(empId).subscribe(
       (res: ResponseDTO<IEmployeeModel>) => {
+        const selectedGroups = this.userfrm.get('GroupsOnUser').value;
         const user: IUserPostModel =   {
 
           EmployeeId : res.Data.Guid,
@@ -449,18 +458,27 @@ handleGroupCancel() {
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
-          UserName: res.Data.EmployeeOrganization?.CompaynEmail
-        }
+          UserName: res.Data.EmployeeOrganization?.CompaynEmail,
+          GroupIds: selectedGroups?selectedGroups:[]
+        };
+        
 
         this.addUserService.add(user).subscribe(
-          () => {
+          (r: ResponseDTO<any>) => {
+            if( r.ResponseStatus == ResponseStatus.error)
+            {
+              this.onShowError('Some error has occured. Review your inputs and try again');
+              this.loadingOnSave = false;
+              return;
+            }
             this.notifier.notify(
               NotificationType.success,
               'User is created successfully'
             );
-            this.isLoadng = false;
+            this.loadingOnSave = false;
             this.isUserModalVisible = false;
             this.selectedUserValue = '';
+            this.userfrm.reset();
             this.FeatchAllUsers();
           },
           (err: any) => this.onShowError(err)

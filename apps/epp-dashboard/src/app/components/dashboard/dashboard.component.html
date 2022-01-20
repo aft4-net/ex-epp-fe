@@ -3,11 +3,11 @@
 
   <div   style="margin-bottom: 0px;">
     <p  class="employee-name">Welcome {{fullName}},</p>
-   
+
     </div>
     <div  style="margin-bottom: 17px;">
 
-        <p  class="designation"> Developer I <span></span> - {{date | date:'MM / dd / yyyy'}} </p> 
+        <p  class="designation"> Developer I <span></span> - {{date | date:'MM / dd / yyyy'}} </p>
         <p class="current-time">  </p>
 
       </div>
@@ -40,7 +40,7 @@
         <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
       </ng-template>
       <ng-template #clientTextTemplate >
-        
+
         <p style="font-size:16px; font-weight: normal;">Clients</p>
         <p style="font-size:12px; font-weight: normal; ">Add, Edit and View clients details</p>
       </ng-template>
@@ -60,7 +60,7 @@
         <p style="font-size:12px; font-weight: normal; ">Manage timesheet</p>
       </ng-template>
     </div>
-    
+
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
@@ -72,13 +72,14 @@
         <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: green;  font-size: '40px';"></i>
       </ng-template>
       <ng-template #projectTextTemplate>
+        <a routerLink="projectmanagement" style="color: black;" >
         <p style="font-size:16px; font-weight: normal;">Projects</p>
-        <p style="font-size:12px; font-weight: normal; ">Add, Edit and View project details</p>
+        <p style="font-size:12px; font-weight: normal; ">Add, Edit and View project details</p></a>
       </ng-template>
     </div>
 
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">
-      <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+      <nz-card style="background-color: #fdfcfc; height: 110%;"s nzHoverable="true" nzSize="small">
         <nz-card-meta
         [nzTitle]="confTextTemplate"
         [nzAvatar]="configurationTemplate"
@@ -105,18 +106,16 @@
         <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: green; font-size: '40px';"></i>
       </ng-template>
       <ng-template #userTextTemplate>
-        
         <a routerLink="usermanagement" style="color: black;" >
           <p style="font-size:16px; font-weight: normal;">User Management</p>
           <p style="font-size:12px; font-weight: normal; ">Add, Edit and View User's</p>
-          
         </a>
       </ng-template>
     </div>
 </div>
- 
+
   <div nz-row [nzGutter]="25" style="padding-top: 2%;"  nzHoverable="true" >
-   
+
   </div>
 </div>
 
