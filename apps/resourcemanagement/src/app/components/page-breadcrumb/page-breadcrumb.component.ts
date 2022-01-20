@@ -32,7 +32,6 @@ export class PageBreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     console.log('gggg', this.route);
     this.activeRoute(this.route);
-    alert(this._permissionService.authorizedPerson('Employee_Admin'))
     if(this._permissionService.authorizedPerson('Create_Employee')||
        this._permissionService.authorizedPerson('Employee_Admin'))
     {
