@@ -17,12 +17,10 @@ count=23;
 constructor(private _intialdataService: IntialdataService,private http: HttpClient, private errHandler: ErrHandleService) {
   
 }
-countere(){
-  console.log(this.count)
-}
+
 getPermission(): void {
   this._intialdataService.getUserPermission().subscribe((res:any)=>{
-   console.log(1)
+  
     this.permissionList=res.Data;  
     this.permissionList=this.permissionList;
     this._intialdataService.getModulePermission().subscribe((res:any)=>{
