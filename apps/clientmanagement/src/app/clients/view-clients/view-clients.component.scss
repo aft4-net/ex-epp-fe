@@ -1,8 +1,5 @@
 
-.table_heading
-{
-background-color: #B4DFB4 !important;
-}
+
 
 tr:nth-child(even) {background: #F9FFF9}
 .page-title {
@@ -71,15 +68,15 @@ header {
   float: right;
   padding-right: 15px;
 
-  
+
 }
 ::ng-deep.manageColumns{
-  
+
   display:flex;
   float:right;
   padding-left: 980px;
-  
- 
+
+
 }
 
 .main-content {
@@ -109,4 +106,8 @@ header {
   color: white;
   height: 40px;
 
+}
+
+::ng-deep .table_heading {
+  background-color: #fafafa !important;
 }
