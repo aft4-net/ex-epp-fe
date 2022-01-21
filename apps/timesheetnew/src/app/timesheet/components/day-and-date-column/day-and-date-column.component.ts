@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { findIndex, map } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
@@ -52,7 +53,11 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   disabled = false
   isFutureDate=false;
 
-  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
+  constructor(
+    private timesheetService: TimesheetService, 
+    public elRef: ElementRef,
+    private readonly _permissionService: PermissionListService
+  ) {}
 
   clickEventType = ClickEventType.none;
 
@@ -175,7 +180,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     }
   }
 
-
   timesheetApprovalForaProject(projectId: string) {
     if (!this.timesheetApprovals) {
       return null;
@@ -190,11 +194,16 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       return timesheetApprovals[0];
     }
   }
+
   checkForFutureDate(curr:any){
     let now = new Date();
     if ( curr>now) {
       this.isFutureDate = true;
     }
     return this.isFutureDate;
+  }
+
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
   }
 }
