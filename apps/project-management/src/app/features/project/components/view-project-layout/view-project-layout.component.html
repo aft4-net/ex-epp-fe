@@ -1,7 +1,7 @@
-<div nz-row class="justify-between" > 
+<div nz-row class="justify-between ml-1 w-8 h-4" >
     <div  class="ml-1 search" >
       <nz-input-group [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
-        <input [formControl]="searchProject" type="text" nz-input placeholder="Search " />
+        <input class="ml-1 w-8 h-4" [formControl]="searchProject" type="text" nz-input placeholder="Search " />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
@@ -11,7 +11,7 @@
     </div>
 
 </div>
-<section class="projects" > 
+<section class="projects" >
 <nz-table class="mt-3" [nzData]="projects" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
   [nzPageSize]=" pageSize " [nzPageIndex]="pageIndex" (nzPageIndexChange)="PageIndexChange($event)"
   [nzLoading]="loading">

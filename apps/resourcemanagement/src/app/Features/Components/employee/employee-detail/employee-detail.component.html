@@ -3,9 +3,10 @@
     <nz-divider nzType="horizontal"></nz-divider>
     <div style="margin-top: -40px" class="inner-content">
       <div nz-row>
-        <div nz-col class="gutter-row" [nzSpan]="8">
+        <div nz-col class="gutter-row " [nzSpan]="8">
           <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
             <input
+              class="serch ml-1 w-72 h-8"
               type="text"
               #searchInput
               nz-input
@@ -57,12 +58,12 @@
                 [nzFilters]="listOfColumns[1].listOfFilter" [nzFilterFn]="listOfColumns[1].filterFn">
                 {{ listOfColumns[1].name }}
               </th>
-              
+
               <th class="table_heading" nzColumnKey="Status" [nzSortOrder]="listOfColumns[2].sortOrder" [nzSortFn]="listOfColumns[2].sortFn"
               [nzSortDirections]="listOfColumns[2].sortDirections" [nzFilterMultiple]="listOfColumns[2].filterMultiple"
               [nzFilters]="listOfColumns[2].listOfFilter" [nzFilterFn]="listOfColumns[2].filterFn">
               {{ listOfColumns[2].name }}
-            </th>  
+            </th>
               <th class="table_heading" *ngIf="authorize('View_Employee') || authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
             </tr>
           </thead>
