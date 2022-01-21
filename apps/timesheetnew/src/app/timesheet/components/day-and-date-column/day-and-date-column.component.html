@@ -27,7 +27,6 @@
             fill="#595959" />
         </svg>
       </div>
-
       <div #entries *ngFor="let timeEntry of timeEntries;let i=index" class="w-full">
         <app-project-name-palet [timeEntry]="timeEntry"
           [timesheetApproval]="timesheetApprovalForaProject(timeEntry.ProjectId)"
