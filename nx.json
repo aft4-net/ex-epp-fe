@@ -41,6 +41,13 @@
       "tags": [],
       "implicitDependencies": ["client-management"]
     },
+    "clientmanagement": {
+      "tags": []
+    },
+    "clientmanagement-e2e": {
+      "tags": [],
+      "implicitDependencies": ["clientmanagement"]
+    },
     "core-model": {
       "tags": []
     },
@@ -68,12 +75,12 @@
       "tags": [],
       "implicitDependencies": ["project-management"]
     },
-    "resource-management": {
+    "projectmanagement": {
       "tags": []
     },
-    "resource-management-e2e": {
+    "projectmanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["resource-management"]
+      "implicitDependencies": ["projectmanagement"]
     },
     "resourcemanagement": {
       "tags": []
@@ -88,6 +95,13 @@
     "timesheet-e2e": {
       "tags": [],
       "implicitDependencies": ["timesheet"]
+    },
+    "timesheetnew": {
+      "tags": []
+    },
+    "timesheetnew-e2e": {
+      "tags": [],
+      "implicitDependencies": ["timesheetnew"]
     },
     "usermanagement": {
       "tags": []

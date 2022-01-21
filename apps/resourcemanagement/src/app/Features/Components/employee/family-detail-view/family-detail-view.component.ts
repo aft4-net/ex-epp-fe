@@ -8,6 +8,7 @@ import { FamilyDetailComponent } from '../family-detail/family-detail.component'
 import { FamilyDetails } from '../../../Models/FamilyDetails';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-family-detail-view',
@@ -16,6 +17,7 @@ import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks
 })
 export class FamilyDetailViewComponent implements OnInit {
   isVisible = false;
+  canAddFamilyDetail = false;
   footer = null;
   isConfirmLoading = false;
   checked = false;
@@ -32,7 +34,8 @@ export class FamilyDetailViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private employeeService: EmployeeService,
-    private notification: NotificationBar
+    private notification: NotificationBar,
+    private _permissionService: PermissionListService
   ) {}
 
   addfamilies(): void {
@@ -109,6 +112,10 @@ export class FamilyDetailViewComponent implements OnInit {
     }
   }
 
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key)
+  }
+
   ngOnInit(): void {
     this.listOfFamilies;
     this.notification.showNotification({
@@ -116,5 +123,6 @@ export class FamilyDetailViewComponent implements OnInit {
       content: '',
       duration: 1,
     });
+
   }
 }

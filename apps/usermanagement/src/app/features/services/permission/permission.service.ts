@@ -18,6 +18,7 @@ export interface Permission{
   providedIn: 'root'
 })
 export class PermissionService {
+  [x: string]: any;
   goupPermissions:IPermissionModel[] = [];
   baseUrl = environment.apiUrl + '/Permission/zeroLevel';
   baseUrl2 = environment.apiUrl + '/GroupSetPermission';
@@ -38,11 +39,11 @@ export class PermissionService {
   addGroupPermission(data:any){
     this.http.get<Permission>(this.baseUrl5 + data.GroupSetId).subscribe((res:any)=>{
       this.PermissionList=res.Data
-      let i=0;
+     
       this.PermissionList.forEach((element) => {
         this.http.delete(this.baseUrl6 + element.Guid).subscribe((data:any)=>{
         
-          console.log(++i)
+         console.log()
         })
       });
     })

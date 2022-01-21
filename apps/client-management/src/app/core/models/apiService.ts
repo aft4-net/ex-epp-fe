@@ -1,9 +1,10 @@
+import { Client, PaginatedResult, Pagination } from '.';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PaginatedResult, Pagination } from '.';
 
 import{AllDataResponse} from './get/AllDataResponse';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResponseDTO } from './get/response-dto';
 import { ResponseMessage } from './get/response-message';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
@@ -12,12 +13,28 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export abstract class ApiService<T> {
+
   public readonly APIUrl = environment.baseApiUrl + this.getResourceUrl();
+
+
 
   constructor(protected httpClient: HttpClient) {
   }
 
   abstract getResourceUrl(): string;
+
+
+  // getClientEdidtDataById(id:string){
+  //   return this.httpClient.get('http://localhost:14696/api/v1/ClientDetails/SelectClientById?clientId='  + id);
+
+  // }
+  getClientEdidtDataById(clientId: string): Observable<Client> {
+    return this.httpClient
+      .get<ResponseDTO<Client>>(
+        'http://localhost:14696/api/v1/ClientDetails/SelectClientById?clientId=' + clientId
+      )
+      .pipe(map((result) => result.Data));
+  }
 
   getAll(): Observable<Array<T>> {
 

@@ -36,12 +36,12 @@ export class CompanyContactsFormComponent implements OnInit {
   contactDetail = {} as Employee;
   listofContactNames = getNames();
 clientalreadyExist=false;
-  @Input() isVisible: boolean;
+  @Input() isVisible: boolean | undefined;
   @Input() editable: boolean = false;
 
   countries: string[] = [];
   footer = null;
-  modalTitle: string
+  modalTitle: string | undefined
 
   listofCodes: { value: string; label: string }[] = [];
 

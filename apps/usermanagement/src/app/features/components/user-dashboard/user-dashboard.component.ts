@@ -17,8 +17,12 @@ import { IUserPostModel } from '../../Models/User/user-post.model';
 import { GroupSetModel } from '../../Models/group-set.model';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { UserService } from '../../services/user.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { AddUserService } from '../../services/add-user.service';
+import { UserService } from '../../services/user.service';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
 @Component({
   selector: 'exec-epp-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -68,7 +72,7 @@ export class UserDashboardComponent implements OnInit {
   fullName = '';
   loadingOnSave = false;
   listOfColumns!: ColumnItem<IUserModel>[];
-
+  confirmModal?: NzModalRef;
   listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
       name: 'Name',
@@ -100,10 +104,15 @@ export class UserDashboardComponent implements OnInit {
     private _router: Router,
     private fb: FormBuilder,
     private addUserService: AddUserService,
-    private notifier: NotifierService, private _authenticationService:AuthenticationService) {
+    private _permissionService:PermissionListService,private notify: NzNotificationService,
+    private notifier: NotifierService, private _authenticationService:AuthenticationService,
+    private modal: NzModalService) {
       this.isLogin=_authenticationService.loginStatus();
   }
-
+  authorize(key:string){
+    
+    return this._permissionService.authorizedPerson(key);
+  }
   ngOnInit(): void {
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
@@ -175,7 +184,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Department',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.length - b.Department.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
             filterMultiple: true,
             listOfFilter:this.userListDepartment,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
@@ -184,7 +193,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Role',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.length - b.JobTitle.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter: this.userListJobTitle,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
@@ -193,7 +202,7 @@ export class UserDashboardComponent implements OnInit {
             name: 'Status',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.length - b.Status.length,
+            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.userListStatus,
             filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
@@ -207,7 +216,7 @@ export class UserDashboardComponent implements OnInit {
     this.holdItDepartment.length = 0;
     this.userList$.subscribe(
        val => {
-           if(val.length > 0){
+        if(val.length > 0){
           this.userList = val
           for(let i=0; i < this.userList.length;i++){
             if(this.holdItDepartment.findIndex(x=>x.text === this.userList[i].Department.trim()) === -1 ){
@@ -244,10 +253,7 @@ export class UserDashboardComponent implements OnInit {
           this.userListDepartment= this.holdItDepartment,
           this.userListStatus=this.holdItStatus,
           this.userListJobTitle =this.holdItJobTitle
-
-          if(this.userList.length > 0) {
-            this.PopulateFilterColumns();
-          }
+          this.PopulateFilterColumns();
         }
         else{
           this.PopulateFilterColumns();
@@ -508,4 +514,31 @@ handleGroupCancel() {
   handleCancel(): void {
     this.userfrm.reset();
   }
+
+  createNotification(title: string,type: string, message : string): void {
+    this.notify.create(type, title, message);
+  }
+
+  showConfirm(userGuid : string): void {
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Do you Want to delete the user?',
+      nzContent: 'Once you delete the user you can not undo the deletion',
+      nzOkText: 'Delete User',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.userService.RemoveUser(userGuid).subscribe(
+          (result) => {
+            this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+            if(this.userDashboardForm.value.userName != '')
+            {
+              this.SearchUsersByUserName();
+            }
+            else 
+            {
+              this.FeatchAllUsers();
+            }
+          })
+      });
+    }
 }

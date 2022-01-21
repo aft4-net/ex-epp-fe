@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { PermissionService } from 'libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DayAndDateService } from '../../services/day-and-date.service';
 
@@ -21,7 +21,8 @@ export class DateSelectorComponent implements OnInit {
   CounterLastWeek = 0;
   constructor(
     private readonly _dayAndDateService: DayAndDateService,
-    private readonly _permissionService: PermissionService
+    private readonly _permissionService: PermissionListService
+
     ) { }
 
   ngOnInit(): void {

@@ -8,6 +8,7 @@ import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-address-view',
@@ -16,6 +17,7 @@ import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 })
 export class AddressViewComponent implements OnInit {
   isVisible = false;
+  canAddAddressDetail = false;
   isConfirmLoading = false;
   confirmModal?: NzModalRef;
   editId: string | null = null;
@@ -36,11 +38,10 @@ export class AddressViewComponent implements OnInit {
     public form: FormGenerator,
     private readonly _formGenerator: FormGenerator,
     private employeeService: EmployeeService,
-     private notification: NotificationBar,
-  ) {
+    private notification: NotificationBar,
+    private _permissionService: PermissionListService) {
 
-
-}
+  }
   addaddress(): void {
     this.form.generateAddressForm();
     this.isVisible = true;
@@ -126,13 +127,16 @@ export class AddressViewComponent implements OnInit {
    }}
   }
 
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key)
+  }
+
   ngOnInit(): void {
-this.notification.showNotification({
+    this.notification.showNotification({
           type: 'success',
           content: '',
           duration: 1,
         });
-
-
+       
   }
 }

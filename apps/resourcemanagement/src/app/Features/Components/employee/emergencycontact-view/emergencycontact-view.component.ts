@@ -6,6 +6,7 @@ import { Data } from '@angular/router';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-emergencycontact-view',
@@ -14,6 +15,7 @@ import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks
 })
 export class EmergencycontactViewComponent implements OnInit {
   footer = null;
+  canAddEmergencyContactDetail = false;
   isVisible = false;
   isConfirmLoading = false;
   listOfData: any[] = [];
@@ -28,7 +30,8 @@ export class EmergencycontactViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private _employeeService: EmployeeService,
-    private notification: NotificationBar
+    private notification: NotificationBar,
+    private _permissionService: PermissionListService
   ) {
     if (_employeeService.employeeById) {
       this.form.allEmergencyContacts = _employeeService.employeeById
@@ -132,6 +135,10 @@ export class EmergencycontactViewComponent implements OnInit {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
         }).catch(() => console.log('Error.')),
     });
+  }
+
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key)
   }
 
   ngOnInit(): void {

@@ -100,6 +100,7 @@ export class EmployeeService {
   }
 
   add(employee: Employee) {
+    delete employee.guid;
     return this.http.post(this.baseUrl, employee);
   }
 
@@ -194,7 +195,7 @@ export class EmployeeService {
             },
           };
           return this.paginatedResult;
-        })
+        }),
       );
   }
 
