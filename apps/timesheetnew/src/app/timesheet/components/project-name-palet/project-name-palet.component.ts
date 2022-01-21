@@ -131,7 +131,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     this.isVisible1 = false;
   }
 
-  handleCancel() {
+  handleCancel() {debugger;
     this.isVisible1 = false;
   }
 
