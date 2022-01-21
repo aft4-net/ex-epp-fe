@@ -18,8 +18,7 @@ background-color: none !important;
 .inner-content {
     padding: 40px;
     background: #fff;
-    height: 100%;
-}
+   }
 
 .table_heading
 {
@@ -77,6 +76,9 @@ tr.ant-table-row.ng-star-inserted {
 
   transition: color .3s;
 }
+::ng-deep .ant-input-search{
+  width:300px !important;
+}
 
 ::ng-deep .ant-table {
   border: 1px solid #ddd !important;
@@ -113,15 +115,12 @@ tr.ant-table-row.ng-star-inserted {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-::ng-deep .ant-table-column-sorters {
-  margin-left: 5px;
-  margin-right: 5px;
-  display: flow-root !important;
-}
-
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
 }
 .anticon-filter   {
   color: none;
+}
+::ng-deep .ant-table-column-sorters {
+  float: left !important;
 }

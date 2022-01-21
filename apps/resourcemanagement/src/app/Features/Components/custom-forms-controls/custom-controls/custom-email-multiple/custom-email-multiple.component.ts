@@ -54,7 +54,7 @@ export class CustomEmailMultipleComponent implements OnInit {
         } else if (event.action == ExcelControlResponseType.ExcelRemove) {
             this.remove(event.data as number)
         } else {
-            alert('Invalid action')
+           console.log()
         }
     }
 

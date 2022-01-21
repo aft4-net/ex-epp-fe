@@ -15,7 +15,7 @@
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
             <nz-input-group [nzPrefix]="suffixIconButton">
-              <input type="text" #userNameInput formControlName="userName" nz-input placeholder="Search here" (change)="SearchUsersByUserName()" />
+              <input class="ml-1 w-72 h-8" type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
               <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchUsersByUserName()">
@@ -37,34 +37,34 @@
                 <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
                     <tr >
-                      <th  class="table_heading" *ngFor="let column of listOfColumnsUser"
+                      <th   *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="text-align:center !important" class="table_heading" *ngFor="let column of listOfColumnsLastActivityDate"
+                      <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                      <th  *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                         [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                         [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                         [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                      <th style="text-align:justify !important" class="table_heading">Actions</th>
+                      <th style="text-align:justify !important" >Actions</th>
                     </tr>
                   </thead>
                 </div>
                 <ng-template #normalHeader>
                   <thead>
                     <tr>
-                      <th class="table_heading">Name</th>
-                      <th class="table_heading">Last Activity Date</th>
-                      <th class="table_heading">Department</th>
-                      <th class="table_heading">Role</th>
-                      <th class="table_heading">Status</th>
-                      <th class="table_heading">Actions</th>
+                      <th >Name</th>
+                      <th >Last Activity Date</th>
+                      <th >Department</th>
+                      <th >Role</th>
+                      <th >Status</th>
+                      <th >Actions</th>
                     </tr>
                   </thead>
                 </ng-template>
                 <tbody>
-                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                  <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" >
                     <td style="padding-left: 0"> 
                       <button nz-button  nzType="link" (click)="ShowDetail(user.UserId)">
                         {{user.FullName }}
@@ -101,7 +101,7 @@
                           <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="Remove(user.UserId)">
+                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
                         </nz-space>
@@ -119,7 +119,7 @@
       [nzWidth]="'410px'" 
       [(nzVisible)]="isUserModalVisible"
        [nzFooter]="null" 
-       nzTitle="Add User" 
+       nzTitle="Add User from Employee" 
       (nzOnCancel)="isUserModalVisible=false"
         >
     <ng-container *nzModalContent>

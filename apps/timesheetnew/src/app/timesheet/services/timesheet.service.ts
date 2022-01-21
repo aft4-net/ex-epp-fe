@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { Project } from '../../models/project';
-import { environment } from 'apps/timesheet/src/environments/environment';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

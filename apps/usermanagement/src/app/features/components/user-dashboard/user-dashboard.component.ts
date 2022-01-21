@@ -20,6 +20,8 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { AddUserService } from '../../services/add-user.service';
 import { UserService } from '../../services/user.service';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -70,7 +72,7 @@ export class UserDashboardComponent implements OnInit {
   fullName = '';
   loadingOnSave = false;
   listOfColumns!: ColumnItem<IUserModel>[];
-
+  confirmModal?: NzModalRef;
   listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
       name: 'Name',
@@ -102,8 +104,9 @@ export class UserDashboardComponent implements OnInit {
     private _router: Router,
     private fb: FormBuilder,
     private addUserService: AddUserService,
-    private _permissionService:PermissionListService,
-    private notifier: NotifierService, private _authenticationService:AuthenticationService) {
+    private _permissionService:PermissionListService,private notify: NzNotificationService,
+    private notifier: NotifierService, private _authenticationService:AuthenticationService,
+    private modal: NzModalService) {
       this.isLogin=_authenticationService.loginStatus();
   }
   authorize(key:string){
@@ -511,4 +514,31 @@ handleGroupCancel() {
   handleCancel(): void {
     this.userfrm.reset();
   }
+
+  createNotification(title: string,type: string, message : string): void {
+    this.notify.create(type, title, message);
+  }
+
+  showConfirm(userGuid : string): void {
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Do you Want to delete the user?',
+      nzContent: 'Once you delete the user you can not undo the deletion',
+      nzOkText: 'Delete User',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.userService.RemoveUser(userGuid).subscribe(
+          (result) => {
+            this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+            if(this.userDashboardForm.value.userName != '')
+            {
+              this.SearchUsersByUserName();
+            }
+            else 
+            {
+              this.FeatchAllUsers();
+            }
+          })
+      });
+    }
 }

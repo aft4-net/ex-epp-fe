@@ -6,6 +6,7 @@ import { TimesheetValidationService } from '../../services/timesheet-validation.
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { UserPermissionStateService } from '../../state/user-permission-state.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Component({

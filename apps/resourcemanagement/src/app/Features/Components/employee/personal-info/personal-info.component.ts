@@ -16,6 +16,7 @@ import { Nationality } from '../../../Models/Nationality';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 
 
 @Component({
@@ -74,7 +75,10 @@ isEdit = false
 
   constructor(private fb: FormBuilder,private employeeService:EmployeeService,
     private readonly _form: FormGenerator,
-    private _locationPhoneService: LocationPhoneService,private msg: NzMessageService) {
+    private _locationPhoneService: LocationPhoneService,
+    private msg: NzMessageService,
+    private notification : NotificationBar
+    ) {
 
      this.isEdit = this._form.IsEdit
 
@@ -107,6 +111,15 @@ isEdit = false
     this.currentemployee = this.employeeService.getPersonalInfo();
     this.fillCurrentEmployee(this.currentemployee);
 
+    this.notification.showNotification({
+
+      type: 'success',
+
+      content: 'Groups loaded successfully',
+
+      duration: 1,
+
+    });
 
   }
 
