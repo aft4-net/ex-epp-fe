@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NotificationBar } from '../../utils/feedbacks/notification';
-
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 @Component({
   selector: 'exec-epp-view-clients',
   templateUrl: './view-clients.component.html',
@@ -82,6 +82,7 @@ export class ViewClientsComponent implements OnInit  {
     private employeeService: EmployeeService,
     private notification: NzNotificationService,
     private _notification: NotificationBar,
+    private authPermission:PermissionListService
   ) {}
   ngOnInit(): void {
     this.getClientStatus();
@@ -108,6 +109,10 @@ export class ViewClientsComponent implements OnInit  {
   
     //   });
     
+  }
+  authorize(key:string){
+   // alert(this.authPermission.authorizedPerson(key))
+    return this.authPermission.authorizedPerson(key);
   }
   showModal(): void {
     this.isVisible = true;
