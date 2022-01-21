@@ -16,7 +16,6 @@ import { OperationalAddressService } from '../../core/services/operational-addre
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
-
 @Component({
   selector: 'exec-epp-view-clients',
   templateUrl: './view-clients.component.html',
@@ -86,12 +85,17 @@ export class ViewClientsComponent implements OnInit  {
     private employeeService: EmployeeService,
     private notification: NzNotificationService,
     private _notification: NotificationBar,
+<<<<<<< HEAD
     private _permission:PermissionListService,
    private _commonData:CommonDataService
   ) {
 
 _commonData.getPermission()
   }
+=======
+    private authPermission:PermissionListService
+  ) {}
+>>>>>>> 09512114bd32c357cddb00b427cda6c4ca54bb2b
   ngOnInit(): void {
     this.getClientStatus();
     this.getLocations();
@@ -129,6 +133,10 @@ _commonData.getPermission()
     }
 
 
+  }
+  authorize(key:string){
+   // alert(this.authPermission.authorizedPerson(key))
+    return this.authPermission.authorizedPerson(key);
   }
   showModal(): void {
     this.isVisible = true;
