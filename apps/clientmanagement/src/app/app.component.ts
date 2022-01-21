@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'clientmanagement';
+
+  constructor()
+  {
+    debugger;
+    alert('client component')
+
+  }
 }
