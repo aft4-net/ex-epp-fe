@@ -141,3 +141,7 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep .ant-table-filter-column{
   float:left !important;
 }
+
+::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
+  padding: 8px !important;
+}
