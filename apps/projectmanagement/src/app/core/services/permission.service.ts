@@ -16,7 +16,7 @@ export class PermissionService {
   userPrivilage$=this. userTokenSource.asObservable();
   userEmail=window.sessionStorage.getItem('username');
   baseUrl1 = `${environment.baseApiUrl}UserGroups/GetPermissionsByUserEmail?email=${this.userEmail}`;
-  baseUrl2=`${environment.baseApiUrl}User/UserAuthToken?email=${this.userEmail}`;
+  baseUrl2=`${environment.baseApiUrl}User/UserAuthToken?email=${this.userEmail?.toLowerCase()}`;
   constructor(private http: HttpClient) { 
 }
 
