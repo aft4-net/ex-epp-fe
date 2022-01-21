@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableLike } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -20,9 +20,23 @@ export class DepartmentService {
     return this.http.get<ResponseDTO<Department>>(this.baseUrl + "Department/Get?id="+ id);
   }
 
-  getDepartments(index: number): Observable<Pagination> {
+  getDepartments(index: number, searchKey: string, sortBy: string, sortOrder: string): Observable<Pagination> {
     index = index ?? 1;
-    return this.http.get<Pagination>(this.baseUrl + "Department?pageindex="+index);
+
+    let params = new HttpParams()
+      .append('PageIndex', `${index}`);
+    if(searchKey) {
+      params= params.append('searchKey', `${searchKey}`);
+    }
+    if(sortBy) {
+      params = params.append('sortBy', `${sortBy}`);
+    }
+    
+    if(sortOrder) {
+      params =params.append('sortOrder',`${sortOrder}`);
+    }
+
+    return this.http.get<Pagination>(this.baseUrl + "Department?"+params.toString());
   }
 
   addDepartment(department: Department): Observable<ResponseDto<Department>> {
