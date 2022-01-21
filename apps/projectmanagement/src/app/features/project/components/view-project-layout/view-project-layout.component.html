@@ -1,6 +1,6 @@
-<div nz-row class="justify-between" > 
+<div nz-row class="justify-between" >
     <div  class="ml-1 search" >
-      <nz-input-group [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
+      <nz-input-group class="ml-1 w-72 h-8" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
         <input [formControl]="searchProject" type="text" nz-input placeholder="Search " />
       </nz-input-group>
       <ng-template #suffixIconSearch>
@@ -11,8 +11,8 @@
     </div>
 
 </div>
-<section class="projects" *ngIf="!intiaload"> 
-  <nz-table   [nzData]="projects"   #basicTable  nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false"  
+<section class="projects" *ngIf="!intiaload">
+  <nz-table   [nzData]="projects"   #basicTable  nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false"
  class="mt-3"  >
 
   <thead>
@@ -68,7 +68,7 @@
             </svg>
             </a>
 
-          
+
       </td>
     </tr>
   </tbody>
