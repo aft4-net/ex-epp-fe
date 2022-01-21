@@ -1,4 +1,3 @@
-<nz-layout  *ngIf="isLogin">
 <nz-content>
     <nz-divider nzType="horizontal"></nz-divider>
     <div  style="margin-top: -40px;" class="inner-content">
@@ -10,10 +9,10 @@
         </div>
         <div nz-col nzSpan="12" style="text-align: right;">
             <nz-space>
-                <button class="defaultButton" *ngIf="authorize('Update_Group')" *nzSpaceItem nz-button nzType="default" (click)="EditGroupDescription()">
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" (click)="EditGroupDescription()">
                     Edit Descriptions
                 </button>
-                <button class="defaultButton"  *ngIf="authorize('Delete_Group')"  (click)="createGroupDeleteModal()" >
+                <button class="defaultButton" *nzSpaceItem nz-button nzType="default" (click)="createGroupDeleteModal()" >
                     Delete Group
                 </button>
             </nz-space>
@@ -147,7 +146,7 @@
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;">
                     <td>{{user.FullName}}</td>
                     <td>
-                        <button class="removeButton" nz-button [nzSize]="size" nzType="link"  (click)="createGroupMemeberDeleteModal(user.Guid)" >
+                        <button class="removeButton" nz-button [nzSize]="size" nzType="link" (click)="createGroupMemeberDeleteModal(user.Guid)" >
                           Remove
                         </button>
                     </td>
@@ -178,4 +177,3 @@
       </div>
     </div>
 </nz-content>
-</nz-layout>

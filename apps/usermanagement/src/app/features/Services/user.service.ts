@@ -62,4 +62,12 @@ export class UserService {
       })
     );
   }
+
+  RemoveUser(userGuid : string) : Observable<ResponseDTO<any>> {
+    return this.http.delete<ResponseDTO<any>>(this.baseUrl + '?userGuid=' + userGuid).pipe(
+      map((result: any) => {
+        return result;
+      })
+    );
+  }
 }
