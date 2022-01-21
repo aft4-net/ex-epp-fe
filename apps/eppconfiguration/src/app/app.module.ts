@@ -11,12 +11,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import {TimesheetConfigurationComponent} from './timesheet-configuration/timesheet-configuration-component'
 import { DepartmentModule } from './features/department/department.module';
-import {ToastrService, ToastrModule } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
+import { RoleModule } from './features/role/role.module';
+
 registerLocaleData(en);
 @NgModule({
   declarations: [AppComponent,TimesheetConfigurationComponent],
   imports: [
     DepartmentModule,
+    RoleModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

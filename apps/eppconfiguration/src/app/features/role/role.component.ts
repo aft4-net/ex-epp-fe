@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Department } from '../../models/department';
+import { Role } from '../../models/role';
 import { Pagination } from '../../models/pagination';
-import { DepartmentService } from '../../services/department.service';
+import { RoleService } from '../../services/role.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 
 @Component({
-  selector: 'exec-epp-department',
-  templateUrl: './department.component.html',
-  styleUrls: ['./department.component.scss']
+  selector: 'exec-epp-role',
+  templateUrl: './role.component.html',
+  styleUrls: ['./role.component.scss']
 })
-export class DepartmentComponent implements OnInit {
-  listOfDepartments: Department[] = [];
+export class RoleComponent implements OnInit {
+  listOfRoles: Role[] = [];
   isAddModalVisible = false;
   isConfirmLoading = false;
   pageIndex = 1;
@@ -19,25 +19,25 @@ export class DepartmentComponent implements OnInit {
   sortBy!: string;
   sortOrder!: string;
   pagination!: Pagination;
-  constructor(private departmentConfigService: DepartmentService, 
+  constructor(private roleConfigService: RoleService, 
    // private toastrService: ToastrService,
     private _permissionService:PermissionListService,
     ) { }
 
   ngOnInit(): void {
-    this.getDepartments();
+    this.getRoles();
   }
 
-  getPaginatedDepartments() {
-    this.departmentConfigService.getDepartments(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
+  getPaginatedRoles() {
+    this.roleConfigService.getRoles(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      this.listOfDepartments=response.Data;
+      this.listOfRoles=response.Data;
     });
   }
 
-  getDepartments() {
+  getRoles() {
     this.pageIndex = 1;
-    this.getPaginatedDepartments();
+    this.getPaginatedRoles();
   }
 
   showModal(): void {
@@ -59,17 +59,17 @@ export class DepartmentComponent implements OnInit {
 
   pageIndexChange(index: number) {
     this.pageIndex = index;
-    this.getPaginatedDepartments();
+    this.getPaginatedRoles();
   }
 
   onSearchChange() {
-    this.getPaginatedDepartments();
+    this.getPaginatedRoles();
   }
 
   deleteHandler(id: string) {
-    this.departmentConfigService.deleteDepartment(id).subscribe((response) => {
-      //this.toastrService.success(response.message, "Department");
-      this.listOfDepartments = this.listOfDepartments.filter((d) => d.Guid !== id);
+    this.roleConfigService.deleteRole(id).subscribe((response) => {
+      //this.toastrService.success(response.message, "Role");
+      this.listOfRoles = this.listOfRoles.filter((d) => d.Guid !== id);
     })
   }
   authorize(key:string){
