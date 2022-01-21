@@ -26,7 +26,7 @@
       <div nz-col nzSpan="4">
         <button
           class="addButton"
-          [hidden]="!canAddEmergencyContactDetail"
+          *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))"
           nz-button
           nzType="primary"
           (click)="addemergencycontact()"

@@ -30,7 +30,7 @@
           nz-button
           nzType="primary"
           (click)="addfamilies()"
-          [hidden]="canAddFamilyDetail"
+          *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))"
         >
           <span>Add Family Details</span>
         </button>
