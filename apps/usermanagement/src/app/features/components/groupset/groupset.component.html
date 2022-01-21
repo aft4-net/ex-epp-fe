@@ -189,19 +189,19 @@
               nzTableLayout="auto">
               <thead>
                 <tr>
-                  <th class="table_heading" *ngFor="let column of listOfColumnsFullName"
+                  <th  *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                     [nzSortDirections]="column.sortDirections">{{column.name}}</th>
 
-                  <th class="table_heading" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                  <th  *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                     [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                     [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                     [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                  <th class="table_heading">Actions</th>
+                  <th >Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" [ngClass]="indexOfelement % 2  !== 0 ? 'table_evenrow_heading' : 'table_oddrow_heading'">
+                <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" >
                   <td>{{group.Name}}</td>  
                   <td>
                     <button nz-button  style="border:0px; color: green;" nzType="link" [nzSize]="size"
