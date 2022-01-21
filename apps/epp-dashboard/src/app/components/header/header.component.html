@@ -1,55 +1,42 @@
 <div class="page-header" style="background: white">
   <nz-page-header style="padding: 4px 24px;   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);">
-    <nz-page-header-title >
+    <nz-page-header-title class="flex flex-row">
       <img style="height: 22px" src="assets/icon_navigation_apps_24px.png" />
+     <a href="http://localhost:4200/">
       <img style="height: 22.48px; padding-left: 12px" src="assets/Union.png"/>
+     </a>
       <a href="http://localhost:4200/">
-      <img
-        style="height: 28.15px; padding-left: 6.37px"
-        src="assets/Enterprise_Project_portfolio.png"
-      />
-    </a>
+        <img style="height: 30.15px; padding-left: 6.37px" src="assets/Enterprise_Project_portfolio.png" />
+      </a>
+      
     </nz-page-header-title>
-    
-    <nz-page-header-extra>
-      <div nz-row>
-        <div nz-col nzSpan="8"> 
-          <button nz-button nzType="text" style=" background-color: #FFFFFF;" >
-          <nz-badge [nzCount]="12"style="margin-right: 15px; margin-top:6px; "><span></span>
-            <i nz-icon [nzType]="'bell'" [nzTheme]="'outline'" style="margin-top: 9px; height: 40px" ></i>
-          </nz-badge>
-        </button>
-      </div>
-      <div nz-col nzSpan="8">
-
-      </div>
-        <div nz-col nzSpan="8">
+    <nz-page-header-extra class="flex flex-row">
+   
+      <button nz-button nzType="text" style="background-color: #fff;">
+        <nz-badge [nzCount]="12" >
+          <i nz-icon [nzType]="'bell'" [nzTheme]="'outline'" style="size: 20%;"></i>
+        </nz-badge>
+      </button>
+ 
+      <button nz-button nzType="primary" nzDanger nzShape="circle"    nzPopoverTrigger="click" 
+      nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
+      <ng-template #contentTemplate>      
+        <div  nz-col>
+            <button nz-row style="border: none; color: black;"  nz-button nzType="default"  >
+               {{thefullName}}  | {{theGroup}}
+            </button>
+           
+            <button nz-row style="border: none; color: #00a551"   nz-button nzType="default" >
+              <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" ><p style="font-size:14px; "> My Profile</p></a>         
+            </button>
+            <button nz-row style="size: 2%;" class="logBtn"  nz-button nzType="default" nzDanger (click)="logout()">
+                Logout
+            </button>
           
-          <button nz-button nzType="primary" nzDanger nzShape="circle"    nzPopoverTrigger="click" 
-          nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right" style="margin-right: 5px; margin-top: 13px; " >
-          {{fullName}} </button>
-          <ng-template #contentTemplate>      
-            <div  nz-col>
-                <button nz-row style="border: none; color: black;"  nz-button nzType="default"  >
-                   {{thefullName}}  {{theGroup}}
-                </button>
-               
-                <button nz-row style="border: none; color: green;"   nz-button nzType="default" >
-                  <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" >
-                    <p style="font-size:14px; "> My Profile</p></a>         
-                </button>
-                <button nz-row style="border: none;"   nz-button nzType="default" nzDanger (click)="logout()">
-                    Logout
-                </button>
-              
-               
-            </div>
-    
-          </ng-template>
-
+           
         </div>
-      </div>
-  
+
+      </ng-template>
     </nz-page-header-extra>
   </nz-page-header>
 </div>
