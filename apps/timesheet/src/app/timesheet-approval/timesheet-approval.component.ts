@@ -107,7 +107,8 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
 
-    filteredClientNamesList = [{ text: 'Excellerent1', value: 'Excellerent1', checked: false }];
+    filteredClientNamesList = [{ text: 'Excellerent1', value: 'Excellerent1', checked: false },
+    { text: 'Excellerent2', value: 'Excellerent2', checked: false }];
     // response
     TimesheetApprovalResponse!: TimesheetApproval[];
     totalResponse!: number;
@@ -479,6 +480,7 @@ sortDirectionMethod() {
     console.log(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
     console.log("This"+this.timeSheetApprovalAwaiting);
+    this.qtyofItemsSelected=0;
   }
 
 
