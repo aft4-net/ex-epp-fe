@@ -24,7 +24,7 @@ registerLocaleData(en);
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
     RemoteEntryModule,
-    ToastrModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers   : [

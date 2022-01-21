@@ -34,10 +34,6 @@ export function MSALInstanceFactory(): IPublicClientApplication
         path: '',
         component: AppComponent,
       },
-      {
-        path: 'department',
-        component: DepartmentComponent
-      },
     ]),
   ],
   providers: [

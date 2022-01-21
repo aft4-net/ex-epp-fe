@@ -17,24 +17,24 @@ export class DepartmentService {
   constructor(private http: HttpClient) { }
 
   getDepartment(id: string): Observable<ResponseDTO<Department>> {
-    return this.http.get<ResponseDTO<Department>>(this.baseUrl + "Departments/Get?id="+ id);
+    return this.http.get<ResponseDTO<Department>>(this.baseUrl + "Department/Get?id="+ id);
   }
 
   getDepartments(index: number): Observable<Pagination> {
     index = index ?? 1;
-    return this.http.get<Pagination>(this.baseUrl + "Departments?pageindex="+index);
+    return this.http.get<Pagination>(this.baseUrl + "Department?pageindex="+index);
   }
 
   addDepartment(department: Department): Observable<ResponseDto<Department>> {
-    return this.http.post<ResponseDto<Department>>(this.baseUrl + "Departments", department);
+    return this.http.post<ResponseDto<Department>>(this.baseUrl + "Department", department);
   }
 
   updateDepartment(department: Department, id: string): Observable<ResponseDto<Department>> {
     department.Guid = id;
-    return this.http.put<ResponseDto<Department>>(this.baseUrl + "Departments", department);
+    return this.http.put<ResponseDto<Department>>(this.baseUrl + "Department", department);
   }
 
   deleteDepartment(id: string): Observable<ResponseDto<Department>> {
-    return this.http.delete<ResponseDto<Department>>(this.baseUrl + "Departments/?id="+ id);
+    return this.http.delete<ResponseDto<Department>>(this.baseUrl + "Department/?id="+ id);
   }
 }
