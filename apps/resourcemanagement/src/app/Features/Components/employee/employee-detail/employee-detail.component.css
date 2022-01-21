@@ -117,6 +117,7 @@ tr.ant-table-row.ng-star-inserted {
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
+  float:left !important;
 }
 .anticon-filter   {
   color: none;

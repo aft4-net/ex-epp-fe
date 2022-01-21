@@ -231,6 +231,12 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   margin-left: 5px;
   margin-right: 5px;
   display: flow-root !important;
+  float::ng-deep .ant-table-filter-column{
+    float:left !important;
+  }
+  ::ng-deep .ant-table-column-sorters {
+    float: left !important;
+  }
 }
 
 ::ng-deep .ant-table-filter-column {
