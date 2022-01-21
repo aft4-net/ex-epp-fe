@@ -1,6 +1,8 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AddClientComponent } from './add-client/add-client.component';
+import { AppComponent } from '../app.component';
+import { BillingAddressFormComponent } from './add-client/loacations-form/billing-address-form/billing-address-form.component';
 import { ClientsRoutingModule } from './clients-routing.module';
 import { CommonModule } from '@angular/common';
 import { CompanyContactsFormComponent } from './add-client/company-contacts-form/company-contacts-form.component';
@@ -10,8 +12,6 @@ import { LoacationsFormComponent } from './add-client/loacations-form/loacations
 import { NgModule } from '@angular/core';
 import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { OperatingAddressFormComponent } from './add-client/loacations-form/operating-address-form/operating-address-form.component';
-import { BillingAddressFormComponent } from './add-client/loacations-form/billing-address-form/billing-address-form.component';
-
 import { SharedModule } from '../shared/shared.module';
 import { SortPipe } from '../core/pipes/sort.pipe';
 import { ViewClientsComponent } from './view-clients/view-clients.component';
@@ -26,6 +26,7 @@ import { ViewClientsComponent } from './view-clients/view-clients.component';
     AddClientComponent,
     OperatingAddressFormComponent,
     BillingAddressFormComponent,
+    AppComponent,
     SortPipe
   ],
   imports: [
