@@ -1,4 +1,4 @@
-<div class="p-3 pl-16 border-b-2 header-title"> 
+<div class="p-3 pl-0 header-title"> 
   <nz-layout class="inner-layout">
     <nz-sider  *ngIf="isLogin" [style.box-shadow]="{'box-shadow': 'inset -2px 0px 0px #DADADA'}"
       nzWidth="228px" nzHight="715px" class="inner-side-bar" nzTheme="light">
@@ -9,12 +9,17 @@
         <li nz-menu-item [nzSelected]='activePath("/role")'>
           <i nz-icon nzType="apartment" nzTheme="outline"></i> <a [routerLink]="['/eppconfiguration/role']" >Role</a>  
         </li>
-        <li nz-menu-item [nzSelected]='activePath("/Designationer/Department")'>
-          <i nz-icon nzType="field-time" nzTheme="outline"></i><a [routerLink]="['/eppconfiguration/department']" >TimeSheet</a>  
+        <li nz-menu-item [nzSelected]='activePath("/Designationer/TimeSheet")'>
+          <i nz-icon nzType="field-time" nzTheme="outline"></i><a [routerLink]="['/eppconfiguration/timesheet']" >TimeSheet</a>  
         </li>
       </ul>
     </nz-sider>
     <nz-content class="inner-content" nzWidth="978px" nzHeight="715px">
+
+    
+     
+        
+        
       <router-outlet></router-outlet>  
     </nz-content>
   </nz-layout>

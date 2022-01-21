@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PermissionService, ProjectService } from '../../core';
-
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-client-project',
@@ -13,7 +13,7 @@ export class ClientProjectComponent implements OnInit  {
   
   creatProjectPermission=false;
   constructor( private  permissionService:PermissionService,private router:Router,
-    private projectService:ProjectService) {
+    private projectService:ProjectService,private permissionList:PermissionListService) {
 
    }
 
@@ -24,7 +24,9 @@ export class ClientProjectComponent implements OnInit  {
      }
 
 
-
+authorize(key:string){
+  return this.permissionList.authorizedPerson(key)
+}
 
 
 addProjectPage()

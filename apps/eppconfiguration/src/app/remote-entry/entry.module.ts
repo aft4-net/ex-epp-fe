@@ -9,7 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {  MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import {TimesheetConfigurationComponent} from '../timesheet-configuration/timesheet-configuration-component'
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+import { ToastrService,ToastrModule } from 'ngx-toastr';
 import { DepartmentComponent } from '../features/department/department.component';
 import { RoleComponent } from '../features/role/role.component';
 import { AddEditRoleComponent } from '../features/role/add-edit-role/add-edit-role.component';
@@ -27,10 +29,19 @@ export function MSALInstanceFactory(): IPublicClientApplication
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+     
+    }),
     RouterModule.forChild([
       {
         path: '',
         component: AppComponent,
+        children: [
+          {
+            path:'timesheet',
+            component: TimesheetConfigurationComponent
+          }
+    ]
       },
 
       {
@@ -48,6 +59,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
     ]),
   ],
   providers: [
+    ToastrService,
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory

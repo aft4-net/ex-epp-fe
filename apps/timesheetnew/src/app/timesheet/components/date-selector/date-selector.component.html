@@ -19,12 +19,11 @@
                 </h1>
         </div>
 
-        <div *ngIf="!authorize('Approve_timesheet') && !authorize('Reject_TimeSheet')"
-                class="right-buttons mt-4 flex pl-10">
-                <button [routerLink]="['/timesheetnew/view-submissions']" nzSuccess nzSize="large" nz-button
+        <div class="right-buttons mt-4 flex pl-10">
+                <button  [routerLink]="['/timesheetnew/view-submissions']" nzSuccess nzSize="large" nz-button
                         class="mr-2">View
                         Submision</button>
-                <button [routerLink]="['/timesheetnew/timesheet-approval']" nzSize="large" nz-button>Approve
+                <button  [routerLink]="['/timesheetnew/timesheet-approval']" nzSize="large" nz-button>Approve
                         Timesheet</button>
         </div>
 </div>

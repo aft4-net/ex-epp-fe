@@ -34,7 +34,8 @@ export class GroupDetailComponent implements OnInit {
               private _authenticationService:AuthenticationService, 
               private _authpermissionService:PermissionListService,
               private _permissionService:PermissionService,
-              private userService : UserService) {
+              private userService : UserService,
+               private _pauthService:PermissionListService,) {
                 this.isLogin=_authenticationService.loginStatus();
               }
   listOfAssignedPermistion:AllPermitionData[]=[]
@@ -102,7 +103,7 @@ export class GroupDetailComponent implements OnInit {
     })
   }
   authorize(key:string){
-    // alert(key)
+  
      return this._authpermissionService.authorizedPerson(key);
    }
   AddUserToGroupControls() {
@@ -197,7 +198,6 @@ export class GroupDetailComponent implements OnInit {
     nzFooter: [
       {
           label: 'Cancel',
-          shape: 'round',
           onClick: () =>{
             modal.destroy()
           } 
@@ -395,4 +395,5 @@ export class GroupDetailComponent implements OnInit {
   this.AddUserToGroupForm.reset();
   this.AddUserToGroupForm.controls["Users"].markAsPristine()
  }
+
 }

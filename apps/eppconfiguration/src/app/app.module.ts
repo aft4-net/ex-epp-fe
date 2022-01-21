@@ -9,13 +9,14 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoteEntryModule } from './remote-entry/entry.module';
+import {TimesheetConfigurationComponent} from './timesheet-configuration/timesheet-configuration-component'
 import { DepartmentModule } from './features/department/department.module';
 import { ToastrModule } from 'ngx-toastr';
 import { RoleModule } from './features/role/role.module';
 
 registerLocaleData(en);
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,TimesheetConfigurationComponent],
   imports: [
     DepartmentModule,
     RoleModule,
@@ -31,7 +32,8 @@ registerLocaleData(en);
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers   : [
-    { provide: NZ_I18N, useValue: en_US }
+    { provide: NZ_I18N, useValue: en_US },
+    ToastrService
   ],
   bootstrap: [AppComponent],
 })
