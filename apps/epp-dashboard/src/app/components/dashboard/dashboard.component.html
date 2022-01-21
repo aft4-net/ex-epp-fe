@@ -1,7 +1,6 @@
 
 
-<div style="background: #f5f5f5;padding-left:6%; padding-right: 6%; position: absolute; padding-bottom: 0%;
- padding-top: 3%; height: 100%; width: 1518px; ">
+<div style="background: #f5f5f5;padding-left:6%; padding-right: 6%; position: absolute; padding-bottom: 0%; padding-top: 3%; height: 100%; width: 1730px; ">
   <div   style="margin-bottom: 10px;">
 
   <div   style="margin-bottom: 10px;">
@@ -18,21 +17,19 @@
 
     <div nz-col [nzSpan]="5" style="padding-top: 2%; ">
       <nz-card  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
-        <a (click)="routetoResourceManagement()" style="color: black;" >
         <nz-card-meta
         [nzTitle]="avatarTextTemplate"
-        [nzAvatar]="avatarTemplate"
-      ></nz-card-meta>
-      </a>
+        [nzAvatar]="avatarTemplate"></nz-card-meta>
       </nz-card>
 
       <ng-template #avatarTemplate>
         <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:#00a551; font-size: '30px';"></i>
       </ng-template>
       <ng-template #avatarTextTemplate>
-        <p style="font-size:16px; font-weight: normal;">Employee Information</p>
-   
-      </ng-template>
+        <a routerLink="resourcemanagement" style="color: black;" >
+          <p style="font-size:16px; font-weight: normal;">Employee Information</p>
+        </a>
+        </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%; width: 100px; ">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
@@ -45,8 +42,10 @@
         <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: #00a551 ;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #clientTextTemplate >
-
-        <p style="font-size:16px; font-weight: normal;">Clients</p>
+        <a routerLink="clientmanagement" style="color: black;" >
+          <p style="font-size:16px; font-weight: normal;">Clients</p>
+         </a>
+       
        
       </ng-template>
     </div>
@@ -61,7 +60,10 @@
         <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #timesheetTextTemplate>
-        <p style="font-size:16px; font-weight: normal;">Timesheet</p>
+        <a routerLink="timesheetnew" style="color: black;" >
+          <p style="font-size:16px; font-weight: normal;">Timesheet</p>
+         </a>
+       
      
       </ng-template>
     </div>
@@ -78,12 +80,10 @@
       </ng-template>
       <ng-template #projectTextTemplate>
         <a routerLink="projectmanagement" style="color: black;" >
-        <p style="font-size:16px; font-weight: normal;">Projects</p>
+        <p style="font-size:16px; font-weight: normal;">Project Management</p>
        </a>
       </ng-template>
     </div>
-
-
     <div nz-col [nzSpan]="5" style="padding-top: 2%;">
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
@@ -95,7 +95,6 @@
         <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: #00a551; font-size: '30px';"></i>
       </ng-template>
       <ng-template #userTextTemplate>
-
         <a routerLink="usermanagement" style="color: black;" >
           <p style="font-size:16px; font-weight: normal;">User Management</p>
         </a>
@@ -113,8 +112,10 @@
         <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #confTextTemplate>
-
-        <p style="font-size:16px; font-weight: normal;">Configuration</p>
+        <a routerLink="eppconfiguration" style="color: black;" >
+          <p style="font-size:16px; font-weight: normal;">Configuration</p>
+        </a>
+       
    
       </ng-template>
     </div>
