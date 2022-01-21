@@ -1,7 +1,10 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TimesheetApproval, TimesheetApprovalProjectDetails } from '../models/timesheetModels';
 
+import { CommonDataService } from 'libs/common-services/commonData.service';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
@@ -11,6 +14,7 @@ import { PaginatedResult } from '../models/PaginatedResult';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { delay } from 'rxjs/operators';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -20,12 +24,13 @@ import { delay } from 'rxjs/operators';
 export class TimesheetApprovalComponent implements OnInit {
   private fristPagantionProjectsSource=  new BehaviorSubject<TimesheetApproval[]>([]);
 fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
-  tabselected=1;
+  tabselected = 1;
   date = null;
   bulkCheck = true;
   statusColumn = true;
   cols: TemplateRef<any>[] = [];
-  currentNameSubject$ = new BehaviorSubject(true);
+   currentNameSubject =  new BehaviorSubject<boolean>(true);
+   currentNameSubject$ = this.currentNameSubject.asObservable();
 
   qtyofItemsSelected = 0
   searchProject = new FormControl();
@@ -88,6 +93,10 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
   resources: any;
 
   // variables for generic method
+    // variables for generic method
+    // variables for generic method
+  // variables for generic method
+    supervisorId!: string | null;
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
@@ -113,21 +122,38 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
     totalResponse!: number;
     totalPageResponse!: number;
     onwaiting=1;
+  loggedInUserInfo?: any;
   // end of generic variables
 
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
     private http: HttpClient,
-    private notification:NzNotificationService
+    private notification:NzNotificationService,
+    public _commonData:CommonDataService,
+    private _permissionService:PermissionListService,
   ) { }
 
 
 
   ngOnInit(): void {
     this.initialDataforTab();
+    this.getCurrentUser();
+    this._commonData.getPermission();
 
   }
+getCurrentUser(){
+  if(localStorage.getItem('loggedInUserInfo')){
+    // eslint-disable-next-line prefer-const
+    this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
+    const user = JSON.parse(this.loggedInUserInfo);
+    this.supervisorId = user['EmployeeGuid'];
+  }
+}
+authorize(key:string){
+     
+  return this._permissionService.authorizedPerson(key);
+}
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
     searchKey: string,sortBy: string, week: string, sort: string ,status:string,projectName?: string[],
@@ -147,12 +173,11 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
       .getTimesheetApprovalPagination(
 
+
         this.pageIndexG,
 
          this.pageSizeG,
-
-         null,
-
+         this.supervisorId,
          this.searchKeyG,
 
          this.sortByG,
@@ -217,6 +242,7 @@ initialDataforTab() {
 
   onAllTabClick() {
     this.stateReset();
+    this.currentNameSubject.next(false);
     this.statusG = '';
 
     this.timesheetSubmissionPagination(this.pageIndexG,
@@ -237,7 +263,7 @@ initialDataforTab() {
   onAwaitingTabClick() {
     this.stateReset();
     this.statusG = 'Requested';
-
+    this.currentNameSubject.next(true);
     this.timesheetSubmissionPagination(this.pageIndexG,
 
       this.pageSizeG,
@@ -255,6 +281,7 @@ initialDataforTab() {
   }
 
   onApprovedTabClick() {
+    this.currentNameSubject.next(false);
     this.stateReset();
     this.statusG = 'Approved';
 
@@ -274,6 +301,7 @@ initialDataforTab() {
   }
 
   onReviewTabClick() {
+    this.currentNameSubject.next(false);
     this.stateReset();
     this.statusG = 'Rejected';
 
@@ -317,10 +345,10 @@ test() {
   onTabSelected(tab: any) {
     console.log(tab);
     if (tab === 1) {
-      this.currentNameSubject$.next(true);
+      this.currentNameSubject.next(true);
     }
     else {
-      this.currentNameSubject$.next(false);
+      this.currentNameSubject.next(false);
     }
   }
 onItemCheckStatusChange(event: number){
@@ -508,7 +536,7 @@ sortDirectionMethod() {
     if(this.tabselected==0)
     {
       console.log("jijisjssss");
-
+this.currentNameSubject.next(false);
       this.timesheetSubmissionPagination(this.pageIndexG,
 
         this.pageSizeG,
@@ -527,6 +555,7 @@ sortDirectionMethod() {
     {
 
       console.log("tab 1 selected")
+      
       this.timesheetSubmissionPagination(this.pageIndexG,
 
         this.pageSizeG,
@@ -544,6 +573,7 @@ sortDirectionMethod() {
     }
     else if(this.tabselected==2)
     {
+      this.currentNameSubject.next(false);
       console.log("tab 2 selected")
       this.timesheetSubmissionPagination(this.pageIndexG,
 
@@ -563,6 +593,7 @@ sortDirectionMethod() {
     else if(this.tabselected==3)
     {
       console.log("tab 3 selected")
+      this.currentNameSubject.next(false);
       this.timesheetSubmissionPagination(this.pageIndexG,
 
         this.pageSizeG,

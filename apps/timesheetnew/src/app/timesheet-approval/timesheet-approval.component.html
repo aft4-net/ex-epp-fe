@@ -18,19 +18,23 @@
 </div>
 
 <div nz-row class="controllers timesheetapproval-controllers">
-    <div *ngIf="currentNameSubject$ | async" style="margin-right: 12px;" nz-col>
-        <button class="approveButton" nz-button nzType="default"
-        [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
-        [ngClass]="{
-          'is-blue': qtyofItemsSelected <= 0,
-          'is-yellow': qtyofItemsSelected > 0
+  <ng-container *ngIf="authorize('Approve_Timesheet')">
+    <div *ngIf="currentNameSubject$| async" style="margin-right: 12px;" nz-col>
+      <button class="approveButton" nz-button nzType="default"
+      [disabled]="qtyofItemsSelected <= 0" (click)="onApprove()"
+      [ngClass]="{
+        'is-blue': qtyofItemsSelected <= 0,
+        'is-yellow': qtyofItemsSelected > 0
 
-        }">
-          Bulk Approval
+      }">
+        Bulk Approval
 
-        </button>
-    </div>
+      </button>
+  </div>
 
+  </ng-container>
+  
+    
     <div nz-col nzSpan="10" class="ml-1" style="margin-right:12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  [(ngModel)]="searchKeyGBinded" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search by employee name" />
