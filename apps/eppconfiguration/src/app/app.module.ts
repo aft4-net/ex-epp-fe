@@ -11,12 +11,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { DepartmentModule } from './features/department/department.module';
 import { ToastrModule } from 'ngx-toastr';
+import { RoleModule } from './features/role/role.module';
 
 registerLocaleData(en);
 @NgModule({
   declarations: [AppComponent],
   imports: [
     DepartmentModule,
+    RoleModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

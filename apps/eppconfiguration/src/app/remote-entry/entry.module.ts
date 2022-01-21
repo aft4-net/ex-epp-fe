@@ -11,6 +11,8 @@ import {  MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { DepartmentComponent } from '../features/department/department.component';
+import { RoleComponent } from '../features/role/role.component';
+import { AddEditRoleComponent } from '../features/role/add-edit-role/add-edit-role.component';
 export function MSALInstanceFactory(): IPublicClientApplication 
 {return new PublicClientApplication({
    auth: {
@@ -30,6 +32,19 @@ export function MSALInstanceFactory(): IPublicClientApplication
         path: '',
         component: AppComponent,
       },
+
+      {
+        path: 'department',
+        component: DepartmentComponent
+      },
+      {
+        path: 'role',
+        component: RoleComponent
+      },
+      {
+        path: 'role/add',
+        component: AddEditRoleComponent
+      }
     ]),
   ],
   providers: [
