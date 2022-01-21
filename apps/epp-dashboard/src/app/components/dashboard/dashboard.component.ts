@@ -29,7 +29,7 @@ update(){
 }
   ngOnInit(): void {
    
-   // this.getUser();
+    this.getUser();
     this._commonData.getPermission();
    
   }
@@ -37,7 +37,7 @@ update(){
     this._authenticationService.getUser(this.userEmail);
    setTimeout(() => {
      this.thePosition = this._authenticationService.position;
-   }, 2000); 
+   }, 1000); 
  }
 
   routetoResourceManagement(){
