@@ -1,4 +1,4 @@
-<div *ngIf="authorize('GetTimeEntries')" class="{{ projectNamePaletClass }}" (click)="onProjectNamePaletClicked()">
+<div *ngIf="authorize('View_Timesheet')" class="{{ projectNamePaletClass }}" (click)="onProjectNamePaletClicked()">
   <div class="mt-2 mb-0 pb-2 w-full flex justify-between h-14 pt-2">
     <h2 class="font-sans font-normal text-base ml-2">
       {{ project?.name }}
@@ -22,11 +22,11 @@
 
 <ng-template #palet_popover>
   <div class="edit-delete w-20 mt-12">
-    <button *ngIf="authorize('Update_TimeEntry')" class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button (click)="showFormDrawer()"
+    <button *ngIf="authorize('Edit_Timesheet')" class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button (click)="showFormDrawer()"
       id="edit" [disabled]="startingDateCriteria.isBeforeThreeWeeks">
       Edit
     </button>
-    <button *ngIf="authorize('Delete_TimeEntry')" class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button id="delete"
+    <button *ngIf="authorize('Delete_Timesheet')" class="w-20 h-10 border-none font-sans font-normal  hover:text-black" nz-button id="delete"
       (click)="showDeleteModal()" [disabled]="startingDateCriteria.isBeforeThreeWeeks">
       Delete
     </button>

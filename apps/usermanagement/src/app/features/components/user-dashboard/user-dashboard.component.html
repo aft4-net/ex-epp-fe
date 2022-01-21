@@ -95,13 +95,14 @@
                     <ng-template #contentTemplate>
                       <div>
                         <nz-space nzDirection="vertical">
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
+                          <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
+                          <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="showConfirm(user.UserId)">
+                         
+                            <button class="actionButtons"  *ngIf="authorize('Delete_User')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
                         </nz-space>

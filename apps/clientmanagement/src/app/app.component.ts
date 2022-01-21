@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
+
 @Component({
   selector: 'exec-epp-root',
   templateUrl: './app.component.html',
@@ -11,12 +13,12 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    
- 
+
+
     alert("intial")
         this._commonData.getPermission();
-      } 
-    
-    
-  
+      }
+
+
+
 }
