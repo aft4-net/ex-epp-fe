@@ -88,10 +88,6 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
   resources: any;
 
   // variables for generic method
-    // variables for generic method
-    // variables for generic method
-  // variables for generic method
-    supervisorId!: string | null;
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
@@ -130,14 +126,9 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
   ngOnInit(): void {
     this.initialDataforTab();
-    this.getCurrentUser();
 
   }
-getCurrentUser(){
-  if(localStorage.getItem("supervisorId")){
-    this.supervisorId = localStorage.getItem("supervisorId");
-  }
-}
+
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
     searchKey: string,sortBy: string, week: string, sort: string ,status:string,projectName?: string[],
     clientName?: string[]) {
@@ -156,11 +147,12 @@ getCurrentUser(){
 
       .getTimesheetApprovalPagination(
 
-
         this.pageIndexG,
 
          this.pageSizeG,
-         this.supervisorId,
+
+         null,
+
          this.searchKeyG,
 
          this.sortByG,

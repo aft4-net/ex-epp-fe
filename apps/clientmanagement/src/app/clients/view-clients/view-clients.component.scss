@@ -110,3 +110,9 @@ header {
   height: 40px;
 
 }
+::ng-deep .ant-table-filter-column{
+  float:left !important;
+}
+::ng-deep .ant-table-column-sorters {
+  float: left !important;
+}

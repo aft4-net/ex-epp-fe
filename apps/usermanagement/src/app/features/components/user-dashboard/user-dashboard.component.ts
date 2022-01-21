@@ -523,6 +523,9 @@ handleGroupCancel() {
     this.confirmModal = this.modal.confirm({
       nzTitle: 'Do you Want to delete the user?',
       nzContent: 'Once you delete the user you can not undo the deletion',
+      nzOkText: 'Delete User',
+      nzOkType: 'primary',
+      nzOkDanger: true,
       nzOnOk: () =>
         this.userService.RemoveUser(userGuid).subscribe(
           (result) => {
