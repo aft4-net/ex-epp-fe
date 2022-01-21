@@ -76,6 +76,9 @@ tr.ant-table-row.ng-star-inserted {
 
   transition: color .3s;
 }
+::ng-deep .ant-input-search{
+  width:300px !important;
+}
 
 ::ng-deep .ant-table {
   border: 1px solid #ddd !important;
