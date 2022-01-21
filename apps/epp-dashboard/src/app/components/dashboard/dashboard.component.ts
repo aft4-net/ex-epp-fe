@@ -29,7 +29,7 @@ update(){
 }
   ngOnInit(): void {
    
-   // this.getUser();
+    this.getUser();
     this._commonData.getPermission();
    
   }
