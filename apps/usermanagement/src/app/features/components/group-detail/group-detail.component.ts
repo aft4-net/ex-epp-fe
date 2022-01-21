@@ -197,7 +197,6 @@ export class GroupDetailComponent implements OnInit {
     nzFooter: [
       {
           label: 'Cancel',
-          shape: 'round',
           onClick: () =>{
             modal.destroy()
           } 
