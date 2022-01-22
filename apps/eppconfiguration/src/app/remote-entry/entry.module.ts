@@ -38,24 +38,23 @@ export function MSALInstanceFactory(): IPublicClientApplication
         component: AppComponent,
         children: [
           {
-            path:'timesheet',
+            path:'',
             component: TimesheetConfigurationComponent
+          },
+          {
+            path: 'department',
+            component: DepartmentComponent
+          },
+          {
+            path: 'role',
+            component: RoleComponent
+          },
+          {
+            path: 'role/add',
+            component: AddEditRoleComponent
           }
-    ]
+        ]
       },
-
-      {
-        path: 'department',
-        component: DepartmentComponent
-      },
-      {
-        path: 'role',
-        component: RoleComponent
-      },
-      {
-        path: 'role/add',
-        component: AddEditRoleComponent
-      }
     ]),
   ],
   providers: [

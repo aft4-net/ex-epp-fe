@@ -41,7 +41,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of basicTable.data">
+          <tr *ngFor="let data of listOfRoles">
             <td>{{ data.Name }}</td>
             <td>
               <i nz-icon nzType="edit" nzTheme="outline" routerLink="/role/edit/{{data.Guid}}" *ngIf="authorize('Update_Role')"></i>

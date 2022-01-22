@@ -10,16 +10,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import {TimesheetConfigurationComponent} from './timesheet-configuration/timesheet-configuration-component'
-import { DepartmentModule } from './features/department/department.module';
 import { ToastrModule } from 'ngx-toastr';
-import { RoleModule } from './features/role/role.module';
+import { DepartmentComponent } from './features/department/department.component';
+import { RoleComponent } from './features/role/role.component';
+import { AddEditRoleComponent } from './features/role/add-edit-role/add-edit-role.component';
 
 registerLocaleData(en);
 @NgModule({
-  declarations: [AppComponent,TimesheetConfigurationComponent],
+  declarations: [AppComponent,TimesheetConfigurationComponent, DepartmentComponent, RoleComponent, AddEditRoleComponent],
   imports: [
-    DepartmentModule,
-    RoleModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
@@ -33,7 +32,6 @@ registerLocaleData(en);
   ],
   providers   : [
     { provide: NZ_I18N, useValue: en_US },
-    ToastrService
   ],
   bootstrap: [AppComponent],
 })

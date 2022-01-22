@@ -13,23 +13,7 @@
       </nz-form-control>
     </nz-form-item>
     </div>
-    <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" (click)="showModal()">
-      <span>Add Department</span>
-    </button>
-    <nz-modal
-      [(nzVisible)]="isAddModalVisible"
-      [nzTitle]="modalTitle"
-      [nzContent]="modalContent"
-      [nzFooter]="null"
-      (nzOnCancel)="handleCancel()"
-    >
-      <ng-template #modalTitle>Add/Edit Department</ng-template>
-      <ng-template #modalContent>
-        <exec-epp-add-edit-department></exec-epp-add-edit-department>
-      </ng-template>
-    </nz-modal>
-    </div>
+
   </div>
   <div nz-row>
     <div nz-col nzSpan="24">
