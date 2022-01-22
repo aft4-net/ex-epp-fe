@@ -5,6 +5,7 @@ import { TimesheetConfigurationStateService } from './state/timesheet-configurat
 import { TimesheetStateService } from './state/timesheet-state.service';
 import { UserPermissionStateService } from './state/user-permission-state.service';
 import { CommonDataService } from '../../../../../libs/common-services/commonData.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -26,7 +27,8 @@ export class TimesheetComponent implements OnInit {
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
     private userPermissionStateService: UserPermissionStateService,
-    private commonDataService: CommonDataService
+    private commonDataService: CommonDataService,
+    private notification: NzNotificationService
   ) {
     this.userId = localStorage.getItem("userId");
     this.userPermissionList$ = this.userPermissionStateService.permissionList$;
@@ -44,5 +46,7 @@ export class TimesheetComponent implements OnInit {
 
   ngOnInit(): void {
     this.commonDataService.getPermission();
+    
+    this.notification.info('', 'Welcome to Timesheet', {nzDuration: 1, nzPauseOnHover: false });
   }
 }
