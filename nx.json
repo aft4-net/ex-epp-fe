@@ -48,6 +48,13 @@
       "tags": [],
       "implicitDependencies": ["clientmanagement"]
     },
+    "configurationmodule": {
+      "tags": []
+    },
+    "configurationmodule-e2e": {
+      "tags": [],
+      "implicitDependencies": ["configurationmodule"]
+    },
     "core-model": {
       "tags": []
     },

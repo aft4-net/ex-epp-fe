@@ -1,5 +1,3 @@
-
-
 import { AppComponent } from './app.component';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -65,8 +63,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
         },
         {
           path: 'timesheetnew',
-          loadChildren: () => import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
-          data: { breadcrumb: 'Timesheet' }
+          loadChildren: () =>
+            import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
+          data: { breadcrumb: 'Timesheet' },
         },
         {
           path: 'clientmanagement',
@@ -74,9 +73,16 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             import('clientmanagement/Module').then((m) => m.RemoteEntryModule),
         },
         {
-        path: 'projectmanagement',
-        loadChildren: () =>
-        import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+          path: 'projectmanagement',
+          loadChildren: () =>
+            import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+        },
+        {
+          path: 'configurationmodule',
+          loadChildren: () =>
+            import('configurationmodule/Module').then(
+              (m) => m.RemoteEntryModule
+            ),
         },
       ],
       { initialNavigation: 'enabledBlocking' }
