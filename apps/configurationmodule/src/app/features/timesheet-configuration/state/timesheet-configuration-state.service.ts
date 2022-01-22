@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 //import { TimesheetConfiguration } from '../../models/timesheetModels';
 //import { TimesheetService } from '../services/timesheet.service';
-import {TimesheetConfiguration} from '../../../../../timesheet/src/app/models/timesheetModels'
-import { TimesheetService } from '../../../../../timesheet/src/app/timesheet/services/timesheet.service';
+import {TimesheetConfiguration} from '../../../../../../timesheet/src/app/models/timesheetModels'
+import { TimesheetService } from '../../../../../../timesheet/src/app/timesheet/services/timesheet.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class TimesheetConfigurationStateService {
 
   getTimesheetConfiguration() {
     this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
-      var timesheetConfig : TimesheetConfiguration = response ?? this.defaultTimesheetConfig;
+      const timesheetConfig : TimesheetConfiguration = response ?? this.defaultTimesheetConfig;
 
       timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? this.defaultTimesheetConfig.StartOfWeeks;
       timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? this.defaultTimesheetConfig.WorkingDays;

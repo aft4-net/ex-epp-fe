@@ -7,3 +7,5 @@ declare module 'timesheetnew/Module';
 declare module 'clientmanagement/Module';
 declare module 'projectmanagement/Module';
 declare module 'projectmanagement/Module';
+
+declare module 'configurationmodule/Module';
