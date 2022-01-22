@@ -1,6 +1,5 @@
 import { Component,  OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { GroupSetService } from '../../Services/group-set.service';
 import { GroupSetModel } from '../../Models/group-set.model';
 import { Observable, of } from 'rxjs';
 import { GroupParams } from '../../Models/User/GroupParams';
@@ -11,13 +10,14 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
-import { PermissionService } from '../../services/permission/permission.service';
 import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
 import { UserService } from '../../Services/user.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { PermissionService } from '../../services/permission/permission.service';
+import { GroupSetService } from '../../services/group-set.service';
 
 
 @Component({
