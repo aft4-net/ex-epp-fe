@@ -31,7 +31,10 @@ export class RoleComponent implements OnInit {
   getPaginatedRoles() {
     this.roleConfigService.getRoles(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      this.listOfRoles=response.Data;
+      // this.listOfRoles=response.Data;
+      this.listOfRoles = [];
+      this.listOfRoles = [...response.Data];
+      console.log("list of roles is : ", this.listOfRoles);
     });
   }
 
