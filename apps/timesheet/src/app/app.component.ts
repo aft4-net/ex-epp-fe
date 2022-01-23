@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'timesheetnew';
+  title = 'timesheet';
 
   constructor() {
     let userId = "c0b74644-b81a-4c33-a6b0-672ba4bc8cb2";

@@ -96,12 +96,12 @@
       "tags": [],
       "implicitDependencies": ["resourcemanagement"]
     },
-    "timesheetnew": {
+    "timesheet": {
       "tags": []
     },
-    "timesheetnew-e2e": {
+    "timesheet-e2e": {
       "tags": [],
-      "implicitDependencies": ["timesheetnew"]
+      "implicitDependencies": ["timesheet"]
     },
     "usermanagement": {
       "tags": []

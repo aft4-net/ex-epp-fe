@@ -9,7 +9,7 @@ sharedMappings.register(path.join(__dirname, '../../tsconfig.base.json'), [
 
 module.exports = {
   output: {
-    uniqueName: 'timesheetnew',
+    uniqueName: 'timesheet',
     publicPath: 'auto',
   },
   optimization: {
@@ -23,10 +23,10 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'timesheetnew',
+      name: 'timesheet',
       filename: 'remoteEntry.js',
       exposes: {
-        './Module': 'apps/timesheetnew/src/app/remote-entry/entry.module.ts',
+        './Module': 'apps/timesheet/src/app/remote-entry/entry.module.ts',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },
