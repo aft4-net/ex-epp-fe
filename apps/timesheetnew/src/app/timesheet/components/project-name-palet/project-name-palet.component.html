@@ -7,7 +7,8 @@
       [hidden]="startingDateCriteria.isBeforeThreeWeeks">
       <i nz-icon nzType="ellipsis" nzTheme="outline" nz-popover nzPopoverPlacement="right"
         [(nzPopoverVisible)]="popoverVisible" nzPopoverTrigger="focus" (click)="showPopover()"
-        [nzPopoverContent]="palet_popover" [hidden]="startingDateCriteria.isBeforeThreeWeeks"></i>
+        [nzPopoverContent]="palet_popover" [hidden]="startingDateCriteria.isBeforeThreeWeeks"
+        nzPopoverOverlayClassName="popover-edit-delete"></i>
       <h2>{{ timeEntry?.Hour }} Hrs</h2>
     </div>
   </div>
