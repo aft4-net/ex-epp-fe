@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'exec-epp-timesheetnew-entry',
+  selector: 'exec-epp-timesheet-entry',
   template: `<div class="remote-entry">
-    <h2>timesheetnew's Remote Entry Component</h2>
+    <h2>timesheet's Remote Entry Component</h2>
   </div>`,
   styles: [
     `

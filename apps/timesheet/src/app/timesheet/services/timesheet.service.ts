@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { Project } from '../../models/project';
-import { environment } from 'apps/timesheet/src/environments/environment';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -327,13 +327,13 @@ export class TimesheetService {
                 text: response.Data.Filters.ClientFilter[i].ClientName,
                 value: response.Data.Filters.ClientFilter[i].Guid,
               });
-             
+
             for (let i = 0; i < response.Data.Filters.StatusFilter.length; i++)
               statusFilter.push({
                 text: response.Data.Filters.StatusFilter[i],
                 value: response.Data.Filters.StatusFilter[i],
               });
-            
+
             for (let i = 0; i < response.Data.Filters.ProjectFilter.length; i++)
               projectNameFliter.push({
                 text: response.Data.Filters.ProjectFilter[i].ProjectName,
@@ -355,14 +355,14 @@ export class TimesheetService {
         })
       );
   }
- 
+
 
   getTimesheetApprovalPagination(
 
     pageindex: number,
 
     pageSize: number,
-
+    supervisorId: string | null,
     searchKey?: string,
 
     SortBy?: string,
@@ -383,6 +383,10 @@ export class TimesheetService {
       .append('PageIndex', `${pageindex}`)
 
       .append('PageSize', `${pageSize}`);
+      if(supervisorId){
+        params = params.append('id',`${supervisorId}`);
+      }
+
       if(searchKey){
 
      params= params.append('searchKey', `${searchKey}`);
