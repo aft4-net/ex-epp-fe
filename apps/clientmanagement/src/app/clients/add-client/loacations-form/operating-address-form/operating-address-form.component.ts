@@ -1,15 +1,21 @@
+import { AddClientStateService, OperatingAddressCreate } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddClientStateService, OperatingAddressCreate } from 'apps/client-management/src/app/core';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+
+import { CityInStateService } from '../../../../core/services/CityInState.service';
+import { CityService } from '../../../../core/services/city.service';
+import { StateService } from '../../../../core/services/State.service';
+
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityService } from 'apps/client-management/src/app/core/services/city.service';
+
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
+
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { StateService } from 'apps/client-management/src/app/core/services/State.service';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+
+
 
 @Component({
   selector: 'exec-epp-operating-address-form',
@@ -88,7 +94,7 @@ export class OperatingAddressFormComponent implements OnInit {
       else{
        this.isClearButtonActive=true;
       }
-    
+
     });
   }
 
@@ -122,6 +128,11 @@ export class OperatingAddressFormComponent implements OnInit {
         this.forms.value
       ]
       this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+      console.log("checking the lcoation")
+      console.log(this.addClientStateService.addClientData.OperatingAddress)
+      console.log("checking the lcoation")
+
+
      }
     this.isVisible = false;
     this.forms.reset();
@@ -134,7 +145,7 @@ export class OperatingAddressFormComponent implements OnInit {
         }
       });
     }
-   
+
   }
   getSelectedCountry() {
     this.selectedCountry = this.forms.value['Country'];
@@ -165,7 +176,7 @@ export class OperatingAddressFormComponent implements OnInit {
     this.selectedState = this.forms.value['State'];
     if(!this.found){
       this.forms.controls['City'].setValue(null);
-     
+
      }
     this.getCityInState();
   }
@@ -204,7 +215,7 @@ export class OperatingAddressFormComponent implements OnInit {
         this.patchValues(this.operatingAddress[count]);
       }
     }
-   
+
   }
   patchValues(data: any) {
     this.forms.patchValue({
