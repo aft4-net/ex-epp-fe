@@ -28,9 +28,22 @@
   }
 }
 
-::ng-deep .edit-delete .ant-popover-inner-content {
+::ng-deep .popover-edit-delete .ant-popover-inner-content {
   padding: 0;
 }
+
+::ng-deep .popover-edit-delete .ant-popover-inner-content #edit:hover {
+  background-color: #dcffdc;
+  border-color: #dcffdc;
+  border-radius: 2px 2px 0 0;
+}
+
+::ng-deep .popover-edit-delete .ant-popover-inner-content #delete:hover {
+  background-color: #dcffdc;
+  border-color: #dcffdc;
+  border-radius: 0 0 2px 2px;
+}
+
 
 ::ng-deep .delete-conform-modal {
     width: 328px !important;
