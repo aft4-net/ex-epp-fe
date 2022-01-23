@@ -333,7 +333,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   searchEmployees() {
-    if (this.fullname.length > 2 || this.fullname == '') {
+    if (this.fullname.length > 2 || this.fullname != '') {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
         (response: PaginationResult<IEmployeeViewModel[]>) => {

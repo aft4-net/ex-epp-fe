@@ -9,10 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {  MsalService, MSAL_INSTANCE} from '@azure/msal-angular';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import {TimesheetConfigurationComponent} from '../timesheet-configuration/timesheet-configuration-component'
+//import {TimesheetConfigurationComponent} from '../timesheet-configuration/timesheet-configuration-component'
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { ToastrService,ToastrModule } from 'ngx-toastr';
 import { DepartmentComponent } from '../features/department/department.component';
+import { RoleComponent } from '../features/role/role.component';
+import { AddEditRoleComponent } from '../features/role/add-edit-role/add-edit-role.component';
+import { TimesheetConfigurationComponent } from '../features/timesheet-configuration/timesheet-configuration-component';
+import { SettimesheetComponent } from '../features/settimesheet/settimesheet.component';
 export function MSALInstanceFactory(): IPublicClientApplication 
 {return new PublicClientApplication({
    auth: {
@@ -38,8 +42,24 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'timesheet',
             component: TimesheetConfigurationComponent
+          },
+          {
+            path: '',
+            component: DepartmentComponent
+          },
+          {
+            path: 'role',
+            component: RoleComponent
+          },
+          {
+            path: 'role/add',
+            component: AddEditRoleComponent
+          },
+          {
+            path: 'set',
+            component: SettimesheetComponent
           }
-    ]
+        ]
       },
     ]),
   ],

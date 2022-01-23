@@ -1,4 +1,5 @@
 import { AppComponent } from './app.component';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
@@ -62,8 +63,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
         },
         {
           path: 'timesheetnew',
-          loadChildren: () => import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
-          data: { breadcrumb: 'Timesheet' }
+          loadChildren: () =>
+            import('timesheetnew/Module').then((m) => m.RemoteEntryModule),
+          data: { breadcrumb: 'Timesheet' },
         },
         {
           path: 'clientmanagement',
@@ -71,9 +73,16 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             import('clientmanagement/Module').then((m) => m.RemoteEntryModule),
         },
         {
-        path: 'projectmanagement',
-        loadChildren: () =>
-        import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+          path: 'projectmanagement',
+          loadChildren: () =>
+            import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+        },
+        {
+          path: 'configurationmodule',
+          loadChildren: () =>
+            import('configurationmodule/Module').then(
+              (m) => m.RemoteEntryModule
+            ),
         },
       ],
       { initialNavigation: 'enabledBlocking' }
