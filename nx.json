@@ -96,13 +96,6 @@
       "tags": [],
       "implicitDependencies": ["resourcemanagement"]
     },
-    "timesheet": {
-      "tags": []
-    },
-    "timesheet-e2e": {
-      "tags": [],
-      "implicitDependencies": ["timesheet"]
-    },
     "timesheetnew": {
       "tags": []
     },

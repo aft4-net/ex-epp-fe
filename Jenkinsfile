@@ -51,7 +51,7 @@ pipeline{
                         
                             {
                             sh "docker tag client-management:latest blens/eppfe"
-                            sh "docker tag timesheet:latest blens/ts"
+                            sh "docker tag timesheetnew:latest blens/ts"
                             sh "docker tag resource-management:latest blens/rm"
                             sh "docker tag project-management:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"

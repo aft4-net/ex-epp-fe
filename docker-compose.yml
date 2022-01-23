@@ -13,7 +13,7 @@ services:
     image: blens/pm:latest
     ports:
       - "4203:80"
-  timesheet:
+  timesheetnew:
     image: blens/ts:latest
     ports:
       - "4204:80"
