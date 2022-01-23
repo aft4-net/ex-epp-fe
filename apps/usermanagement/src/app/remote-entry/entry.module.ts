@@ -18,7 +18,7 @@ import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserDashboardComponent } from '../features/components/user-dashboard/user-dashboard.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
-
+import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/lib/components/unauthorize/unauthorize.component'
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
    auth: {
@@ -60,7 +60,8 @@ export function MSALInstanceFactory(): IPublicClientApplication
           },
           {
             path:'sign_in',component:SigninComponent
-          }
+          },
+          {path:'unauthorize',component:UnauthorizeComponent}
         ]
       },
     ]),
@@ -74,5 +75,6 @@ export function MSALInstanceFactory(): IPublicClientApplication
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     MsalService
     ],
+   
 })
 export class RemoteEntryModule {}

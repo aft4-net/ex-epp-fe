@@ -114,6 +114,9 @@ export class UserDashboardComponent implements OnInit {
     return this._permissionService.authorizedPerson(key);
   }
   ngOnInit(): void {
+   if(!this.authorize('View_User')){
+    this._router.navigateByUrl('usermanagement/unauthorize')
+   }
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
       GroupsOnUser: new FormControl([]),
