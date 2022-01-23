@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddClientStateService, OperatingAddressCreate } from 'apps/client-management/src/app/core';
+//import { AddClientStateService, OperatingAddressCreate } from ' apps/client-management/src/app/core';
+import { AddClientStateService, OperatingAddressCreate } from '../../../../core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityService } from 'apps/client-management/src/app/core/services/city.service';
+import { CityService } from  '../../../../core/services/city.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
+import { CityInStateService } from '../../../../core/services/CityInState.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { StateService } from 'apps/client-management/src/app/core/services/State.service';
+import { StateService } from '../../../../core/services/State.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({

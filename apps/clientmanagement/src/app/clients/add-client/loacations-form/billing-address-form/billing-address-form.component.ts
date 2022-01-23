@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
+import { AddClientStateService, BillingAddressCreate } from '../../../../core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityService } from 'apps/client-management/src/app/core/services/city.service';
+import { CityService } from '../../../../core/services/city.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
+import { CityInStateService } from '../../../../core/services/CityInState.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { StateService } from 'apps/client-management/src/app/core/services/State.service';
+import { StateService } from '../../../../core/services/State.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
@@ -134,6 +134,7 @@ export class BillingAddressFormComponent implements OnInit {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
       this.addStateClientService.updateBillingAddress(this.billingAddressess);
+      
       this.tabledata=['']
       this.IsEdit=false;
       this.editAt=-1;
@@ -145,6 +146,9 @@ export class BillingAddressFormComponent implements OnInit {
         this.forms.value
       ]
       this.addStateClientService.updateBillingAddress(this.billingAddressess);
+      
+      console.log(this.billingAddressess)
+      
      }
     this.isVisible = false;
     this.forms.reset();
