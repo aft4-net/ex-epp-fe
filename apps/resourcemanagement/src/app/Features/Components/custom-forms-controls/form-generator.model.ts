@@ -434,6 +434,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setPresonalDetail(employee: Employee) {
+
         if(employee.EmployeeNumber) {
             this._setEmployeeIdNumber(
                 employee.EmployeeNumber,
@@ -702,9 +703,10 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
-
+      
         this._regenerateForm()
         if(employee) {
+            
             this._isEdit = true
             this._setPresonalDetail(employee)
             if(employee.EmployeeOrganization) {
