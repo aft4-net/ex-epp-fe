@@ -2,22 +2,23 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router } from '@angular/router';
 import { Observable, fromEvent, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+
 import{AuthenticationService} from './../../../../../../../../libs/common-services/Authentication.service';
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
+import { Employee } from '../../../Models/Employee';
 import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
+import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
+import { PaginationResult } from '../../../Models/PaginationResult';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
-import { PaginationResult } from '../../../Models/PaginationResult';
-import { Employee } from '../../../Models/Employee';
-import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
-import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
-import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-employee-detail',

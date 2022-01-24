@@ -25,12 +25,12 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     ProjectCreateComponent,
-  
-     HeaderComponent
+
+    HeaderComponent
   ],
   imports: [
     ProjectModule,
-    NzIconModule ,
+    NzIconModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -38,18 +38,17 @@ registerLocaleData(en);
     // BrowserAnimationsModule,
     HttpClientModule,
     BrowserModule,
-  //  NgZorroModule,
+    //  NgZorroModule,
     DemoNgZorroAntdModule,
     RemoteEntryModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [ {
-    provide:HTTP_INTERCEPTORS,
-    useClass:HttpInterceptorService,
-    multi:true
-  },{ provide: NZ_I18N, useValue: en_US }],
-  exports:[AppComponent],
- 
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: NZ_I18N, useValue: en_US }
+  ],
+  exports: [AppComponent],
+
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

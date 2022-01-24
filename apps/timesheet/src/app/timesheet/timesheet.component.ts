@@ -47,6 +47,6 @@ export class TimesheetComponent implements OnInit {
   ngOnInit(): void {
     this.commonDataService.getPermission();
     
-    this.notification.info('', 'Welcome to Timesheet', {nzDuration: 1, nzPauseOnHover: false });
+    this.notification.info('', '', {nzDuration: 1, nzPauseOnHover: false });
   }
 }
