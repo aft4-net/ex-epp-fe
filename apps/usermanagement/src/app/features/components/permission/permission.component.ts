@@ -5,10 +5,11 @@ import {
   IPermissionResponseModel,
 } from '../../Models/User/Permission-get.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
 
 export interface GroupCheckBoxItem {
   label: string;
@@ -45,6 +46,7 @@ goupPermissions:IPermissionModel[] = [];
   selectedPermissionList: SelecttedPermission[] = [];
   groupId: any;
   constructor(
+    public _commonData:CommonDataService,
     private _notification: NzNotificationService,
     private route: ActivatedRoute,
     private _permissionService: PermissionService,
@@ -343,11 +345,21 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
   }
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
+      let found=false;
+      this.listOfPermistion[index].Childs.forEach(element => {
+        if(guid==element.Guid&& element.Name=="Admin"){
+          found=true;
+          this.updateAllPermissionChecked(event,index)
+        }
+      });
+     if(!found){
       this.selectedPermissionList = [
         ...this.selectedPermissionList,
         { Guid: guid },
       ];
+     }
     } else {
+
       let count = 0;
       this.selectedPermissionList.forEach((element) => {
         if (element.Guid == guid) {
@@ -375,8 +387,15 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
     const wordLists = word.split(' ');
     wordLists.forEach((element) => {
       try {
-        const titleCase =
+        let titleCase='';
+       if(element=="for" || element =="to"){
+         titleCase =
+        element[0].toLowerCase() + element.substr(1).toLowerCase();
+       }
+       else{
+         titleCase =
         element[0].toUpperCase() + element.substr(1).toLowerCase();
+       }
       fullPhrase = fullPhrase + ' ' + titleCase;
       } catch (error) {
         console.log();
@@ -406,6 +425,7 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
           data.Message
         );
         this.isLoding=false;
+        this._commonData.getPermission();
       });
   }
 

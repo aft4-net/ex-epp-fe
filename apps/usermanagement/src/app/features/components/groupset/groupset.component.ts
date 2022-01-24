@@ -8,12 +8,16 @@ import { ColumnItem } from '../../Models/ColumnItem';
 import { FormValidator } from '../../../utils/validator';
 import { GroupParams } from '../../Models/User/GroupParams';
 import { GroupSetModel } from '../../Models/group-set.model';
-import { GroupSetService } from '../../Services/group-set.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { UserParams } from '../../Models/User/UserParams';
 import { listtToFilter } from '../../Models/listToFilter';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+import { PermissionService } from '../../Services/permission/permission.service';
+import { GroupSetService } from '../../Services/group-set.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+//import { IntialdataService } from '../../../../../services/intialdata.service';
 
 @Component({
   selector: 'exec-epp-groupset',
@@ -48,7 +52,7 @@ export class GroupsetComponent implements OnInit {
   beginingRow !: number;
   lastRow !: number;
   groupName!: string;
-
+  isLogin=false;
   listOfColumns!: ColumnItem<GroupSetModel>[];
 
   listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
@@ -68,13 +72,26 @@ export class GroupsetComponent implements OnInit {
 
 
   constructor(
+    //private _intialdataService: IntialdataService,
+    private _authenticationService:AuthenticationService, 
+    private _permissionService:PermissionListService,
     private groupSetService: GroupSetService,
     private router: Router,
     private notification: NotificationBar,
     private validator: FormValidator,
     private fb: FormBuilder
-  ) {}
-
+  ) {
+  this.isLogin=_authenticationService.loginStatus();
+}
+authorize(key:string){
+     
+  return this._permissionService.authorizedPerson(key);
+}
+// getPermission(): void {
+ // this._intialdataService.getUserPermission().subscribe((res:any)=>{
+   // this.permissionList=res.Data;     
+ // })
+//}
   onAddNewRecord(): void {
     this.resetForm();
     this.isVisible = true;
