@@ -206,4 +206,8 @@ export class EmployeeService {
       )
       .pipe(map((result) => result.Data));
   }
+
+  getUser(email:string){
+    return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
+   }
 }

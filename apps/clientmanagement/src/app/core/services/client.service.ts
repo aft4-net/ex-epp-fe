@@ -39,7 +39,7 @@ export class ClientService extends ApiService<Client> {
 
       (response: any) => {
         console.log("this.addClientStateService.addClientData")
-        console.log(this.addClientStateService.addClientData)
+        console.log(this.addClientStateService.addClientData.BillingAddress)
         console.log('this.addClientStateService.addClientData')
         if (response.ResponseStatus.toString().toLowerCase() == 'error') {
           this.notification.error(

@@ -17,12 +17,6 @@ import { Component } from '@angular/core';
 })
 export class RemoteEntryComponent {
   constructor() {
-    let loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
-    let userId = "";
-    if (loggedInUserInfo) {
-      userId = loggedInUserInfo["EmployeeGuid"];
-    }
-
-    localStorage.setItem("userId", userId);
+    
   }
 }
