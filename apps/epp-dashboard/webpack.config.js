@@ -34,8 +34,6 @@ module.exports = {
           'clientmanagement@http://localhost:4235/remoteEntry.js',
         projectmanagement:
           'projectmanagement@http://localhost:4236/remoteEntry.js',
-        projectmanagement:
-          'projectmanagement@http://localhost:4236/remoteEntry.js',
         configurationmodule:
           'configurationmodule@http://localhost:4232/remoteEntry.js',
       },

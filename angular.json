@@ -756,7 +756,7 @@
           "options": {
             "commands": [
               "nx build projectmanagement --with-deps",
-              "docker build -f Dockerfile.project-management. -t projectmanagement"
+              "docker build -f Dockerfile.project-management . -t projectmanagement"
             ],
             "parallel": false
           }
@@ -889,6 +889,16 @@
       "sourceRoot": "apps/resourcemanagement/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build resourcemanagement --with-deps",
+              "docker build -f Dockerfile.resource-management . -t resourcemanagement"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -1017,6 +1027,16 @@
       "sourceRoot": "apps/timesheet/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build timesheet --with-deps",
+              "docker build -f Dockerfile.timesheet . -t timesheet"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
