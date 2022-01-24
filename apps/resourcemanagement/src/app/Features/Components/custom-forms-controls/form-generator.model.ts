@@ -434,7 +434,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setPresonalDetail(employee: Employee) {
-        console.log("wewe "+ employee.EmployeeNumber);
+
         if(employee.EmployeeNumber) {
             this._setEmployeeIdNumber(
                 employee.EmployeeNumber,
@@ -704,7 +704,6 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     generateForms(employee?: Employee) {
       
-        console.log("wewe2 " );
         this._regenerateForm()
         if(employee) {
             
