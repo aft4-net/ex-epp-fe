@@ -16,16 +16,19 @@ import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
+import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { PaginationResult } from '../../../Models/PaginationResult';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
-import { PermissionListService } from 'libs/common-services/permission.service';
+
+
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -41,12 +44,12 @@ export class EmployeeDetailComponent implements OnInit {
   constructor(
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
-    private _router: Router, 
+    private _router: Router,
     private _permissionService: PermissionListService,
     private _authenticationService:AuthenticationService
 
     ) {
-      
+
     }
   canViewEmployee = false;
   canDeleteEmployee = false;
@@ -143,7 +146,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.holdItJobTitle.length = 0;
     this.holdItStatus.length = 0;
     this.holdItCountry.length = 0;
-    this.employeeViewModels$.subscribe((val) => 
+    this.employeeViewModels$.subscribe((val) =>
     {
       if (val.length > 0) {
         this.employeeViewModel = val;
