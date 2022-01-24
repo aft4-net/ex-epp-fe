@@ -48,6 +48,13 @@
       "tags": [],
       "implicitDependencies": ["clientmanagement"]
     },
+    "configurationmodule": {
+      "tags": []
+    },
+    "configurationmodule-e2e": {
+      "tags": [],
+      "implicitDependencies": ["configurationmodule"]
+    },
     "core-model": {
       "tags": []
     },
@@ -95,13 +102,6 @@
     "timesheet-e2e": {
       "tags": [],
       "implicitDependencies": ["timesheet"]
-    },
-    "timesheetnew": {
-      "tags": []
-    },
-    "timesheetnew-e2e": {
-      "tags": [],
-      "implicitDependencies": ["timesheetnew"]
     },
     "usermanagement": {
       "tags": []
