@@ -17,8 +17,8 @@ export class AddEditDepartmentComponent implements OnInit {
   department!: Department;
   isEdit!: boolean;
   
-  constructor(private fb: FormBuilder, private departmentService: DepartmentService,
-        private toastr: ToastrService,
+  constructor(private fb: FormBuilder, private departmentConfigService: DepartmentService,
+        // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class AddEditDepartmentComponent implements OnInit {
     this.createDepartmentForm();
     if (this.id !== null) {
       this.isEdit = true;
-      this.departmentService.getDepartment(this.id).subscribe((response: ResponseDTO<Department>) => {
+      this.departmentConfigService.getDepartment(this.id).subscribe((response: ResponseDTO<Department>) => {
         console.log("the response is  = ", response);
         this.department = response.Data;
         this.departmentForm.patchValue(this.department);
@@ -52,9 +52,9 @@ export class AddEditDepartmentComponent implements OnInit {
 
   saveForm() {
     if (this.departmentForm.valid) {
-      this.departmentService.addDepartment(this.departmentForm.value).subscribe((response)=>{
+      this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
         this.departmentForm.reset();
-        this.toastr.success("Successfully Added", "Department")
+        // this.toastr.success("Successfully Added", "Department")
       });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -63,16 +63,16 @@ export class AddEditDepartmentComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      this.toastr.error("Error", "Form is not valid");
+      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
   updateForm() {
     if (this.departmentForm.valid) {
-      this.departmentService.updateDepartment(this.departmentForm.value, this.id ?? "")
+      this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
         .subscribe((response)=>{
           // this.departmentForm.reset();
-          this.toastr.success("Successfully Updated", "Department")
+          // this.toastr.success("Successfully Updated", "Department")
         });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -81,7 +81,7 @@ export class AddEditDepartmentComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      this.toastr.error("Error", "Form is not valid");
+      // this.toastr.error("Error", "Form is not valid");
     }
   }
 

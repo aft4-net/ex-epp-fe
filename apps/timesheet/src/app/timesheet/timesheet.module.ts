@@ -67,7 +67,7 @@ import { TimesheetConfigurationComponent } from './components/timesheet-configur
     NzPaginationModule,
     NzInputNumberModule
   ],
-  exports: [TimesheetHeaderComponent],
+  exports: [TimesheetComponent, TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {

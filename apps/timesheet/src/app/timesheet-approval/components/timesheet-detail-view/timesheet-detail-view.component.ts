@@ -23,7 +23,7 @@ export class TimesheetDetailViewComponent implements OnInit {
     constructor(private timesheetService:TimesheetService,
       private notification: NzNotificationService,
       private _router: Router,
-      Private readonly _permissionService:PermissionListService,) {
+      private readonly _permissionService:PermissionListService,) {
 
     }
 

@@ -2,8 +2,12 @@
   <nz-page-header style="padding: 4px 24px;   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);">
     <nz-page-header-title class="flex flex-row">
       <img style="height: 22px" src="assets/icon_navigation_apps_24px.png" />
+     <a href="http://localhost:4200/">
       <img style="height: 22.48px; padding-left: 12px" src="assets/Union.png"/>
-      <img style="height: 30.15px; padding-left: 6.37px" src="assets/Enterprise_Project_portfolio.png" />
+     </a>
+      <a href="http://localhost:4200/">
+        <img style="height: 30.15px; padding-left: 6.37px" src="assets/Enterprise_Project_portfolio.png" />
+      </a>
       
     </nz-page-header-title>
     <nz-page-header-extra class="flex flex-row">
@@ -25,7 +29,7 @@
             <button nz-row style="border: none; color: #00a551"   nz-button nzType="default" >
               <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" ><p style="font-size:14px; "> My Profile</p></a>         
             </button>
-            <button nz-row style="size: 2%;" class="logBtn"  nz-button nzType="default" nzDanger (click)="logout()">
+            <button nz-row style="size: 2%; border: none;" class="logBtn"  nz-button nzType="default" nzDanger (click)="logout()">
                 Logout
             </button>
           

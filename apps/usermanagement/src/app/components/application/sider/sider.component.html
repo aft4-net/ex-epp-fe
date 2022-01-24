@@ -8,6 +8,7 @@
         <span class="numberCircle {{userSubmitCheck===true?'done':'notdone'}}">
           <span>{{userSubmitCheck===true?'✓':1}}</span>
         </span> 
+        
         <a [routerLink]="['/application/personal-information']" >User</a>  
       </li>
       <li nz-menu-item [nzSelected]='activePath("/application/area-of-interest")'>

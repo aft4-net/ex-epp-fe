@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import {PaginatedResult, PermissionService, Project, ProjectService } from '../../../../core';
 import {PreviousRouteService}  from '../../../../core/services/previous-route.service'
+import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -65,6 +66,7 @@ this.projectService.getWithPagnationResut(index, 10,this.searchProject.value)
   }
   
   constructor(
+    private permissionList:PermissionListService,
     private  permissionServie:PermissionService, private router:Router,
     private previousRouteService:PreviousRouteService,
     private  projectService:ProjectService,private notification: NzNotificationService
@@ -153,6 +155,10 @@ this.editProjectPermission=res
  
            }
     })
+  }
+
+  authorize(key:string){
+    return this.permissionList.authorizedPerson(key)
   }
 }
 

@@ -53,14 +53,14 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     } else {
       this.projectNamePaletClass = "project-name-palet";
     }
-    if(this.timesheetApproval){
-      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[2].valueOf()){
-        this.isRejected=true;
-        this.isApproved=false;
+    if (this.timesheetApproval) {
+      if (this.timesheetApproval.ProjectId == this.timeEntry?.ProjectId && this.timesheetApproval.Status === Object.values(ApprovalStatus)[2].valueOf()) {
+        this.isRejected = true;
+        this.isApproved = false;
       }
-      else if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
-        this.isRejected=false;
-        this.isApproved=true;
+      else if (this.timesheetApproval.ProjectId == this.timeEntry?.ProjectId && this.timesheetApproval.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+        this.isRejected = false;
+        this.isApproved = true;
       }
       else {
         this.isRejected = false;
@@ -88,7 +88,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
 
-    if(this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+    if (this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
       this.clickEventType = ClickEventType.none;
       return;
     }
@@ -131,7 +131,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     this.isVisible1 = false;
   }
 
-  handleCancel() {
+  handleCancel() {debugger;
     this.isVisible1 = false;
   }
 
@@ -142,9 +142,10 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       });
     }
   }
-  authorize(key: string){
-      return this._permissionService.authorizedPerson(key);
-    }
- }
+  
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
+  }
+}
 
 
