@@ -44,10 +44,12 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
     window.sessionStorage.removeItem('email');
+    window.sessionStorage.removeItem('fromViewer');
 
     window.sessionStorage.setItem("name",user.name);
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
+    window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
     window.location.replace('http://localhost:4200/');
    }
