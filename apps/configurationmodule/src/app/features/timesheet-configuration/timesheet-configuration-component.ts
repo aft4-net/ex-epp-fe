@@ -17,6 +17,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TimesheetStateService } from 'apps/timesheet/src/app/timesheet/state/timesheet-state.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { TimesheetConfiguration } from 'apps/timesheet/src/app/models/timesheetModels';
+import { PermissionListService } from 'libs/common-services/permission.service';
 //import { TimesheetStateService } from '../../state/timesheet-state.service';
 
 @Component({
@@ -47,7 +48,8 @@ export class TimesheetConfigurationComponent implements OnInit {
   constructor(
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService
+    private timesheetStateService: TimesheetStateService,
+    private _permissionService:PermissionListService
   ) { 
     this.timesheetStateService.setTimesheetPageTitle("Configuration");
   }
@@ -139,5 +141,8 @@ export class TimesheetConfigurationComponent implements OnInit {
     }
 
     return workingDays;
+  }
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key);
   }
 }

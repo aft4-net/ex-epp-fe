@@ -11,7 +11,7 @@ import { EmergencycontactEditComponent } from './Features/Components/employee/em
 import { EmployeeDetailComponent } from './Features/Components/employee/employee-detail/employee-detail.component';
 import { EmployeeRoutingModule } from './Features/Components/employee/employee-routing.module';
 import { FamilyDetailEditComponent } from './Features/Components/employee/employee-edit/family-detail-edit/family-detail-edit.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { OrganizationDetailEditComponent } from './Features/Components/employee/employee-edit/organization-detail-edit/organization-detail-edit.component';
 import { PageBreadcrumbComponent } from './components/page-breadcrumb/page-breadcrumb.component';
@@ -28,6 +28,7 @@ import { RemoteEntryModule } from './remote-entry/entry.module';
 import { EmployeeModule } from './Features/Components/employee/employee.module';
 import { DeviceDetailModule } from './Features/Components/device-detail/device-detail.module';
 import { DeviceDetailComponent } from './Features/Components/device-detail/device-detail.component';
+import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
 registerLocaleData(en);
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ registerLocaleData(en);
     ToastrModule.forRoot(),
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
