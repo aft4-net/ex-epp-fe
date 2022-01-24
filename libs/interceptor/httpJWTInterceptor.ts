@@ -14,7 +14,7 @@ export class httpJWTInterceptor implements HttpInterceptor {
           ); 
         const baseUrl = environment.apiUrl;
         const isApiUrl = request.url.startsWith(baseUrl);
-        if (loggedInUser && isApiUrl) {
+        if ((Object.keys(loggedInUser).length > 0) && isApiUrl) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${loggedInUser.Token}`
