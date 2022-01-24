@@ -1,5 +1,5 @@
 <div class="main-content" style="margin: 0px 24px;padding-top: 24px; padding-bottom: 58px;">
-  <h1>Roles</h1>
+  <h1>Departments</h1>
   <div nz-row>
     <div nz-col nzSpan="18">
     <nz-form-item>
@@ -14,38 +14,32 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" (click)="showModal()">
-      <span>Add Role</span>
-    </button>
-    <nz-modal
-      [(nzVisible)]="isAddModalVisible"
-      [nzTitle]="modalTitle"
-      [nzContent]="modalContent"
-      [nzFooter]="null"
-      (nzOnCancel)="handleCancel()"
-    >
-      <ng-template #modalTitle>Add/Edit Role</ng-template>
-      <ng-template #modalContent>
-        <exec-epp-add-edit-role></exec-epp-add-edit-role>
-      </ng-template>
+
+    <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+    <nz-modal [(nzVisible)]="isAddModalVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <ng-container *nzModalContent>
+        <p>Content one</p>
+        <p>Content two</p>
+        <p>Content three</p>
+      </ng-container>
     </nz-modal>
     </div>
   </div>
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #basicTable [nzData]="listOfRoles" [nzShowPagination]="false">
+      <nz-table #basicTable [nzData]="listOfDepartments" [nzShowPagination]="false">
         <thead>
           <tr>
             <th>Name</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let data of listOfRoles">
+        <tbody *ngIf="authorize('Update_Department') || authorize('Delete_Department')">
+          <tr *ngFor="let data of basicTable.data">
             <td>{{ data.Name }}</td>
             <td>
-              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/role/edit/{{data.Guid}}" *ngIf="authorize('Update_Role')"></i>
-              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Role')"
+              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/department/edit/{{data.Guid}}" *ngIf="authorize('Update_Department')"></i>
+              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department')"
                 (click)="deleteHandler(data.Guid)"></i>
             </td>
           </tr>
