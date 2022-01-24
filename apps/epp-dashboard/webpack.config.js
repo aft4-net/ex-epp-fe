@@ -25,8 +25,6 @@ module.exports = {
     new ModuleFederationPlugin({
       remotes: {
         usermanagement: 'usermanagement@http://localhost:4231/remoteEntry.js',
-        eppconfiguration:
-          'eppconfiguration@http://localhost:4232/remoteEntry.js',
         resourcemanagement:
           'resourcemanagement@http://localhost:4234/remoteEntry.js',
         timesheet: 'timesheet@http://localhost:4233/remoteEntry.js',

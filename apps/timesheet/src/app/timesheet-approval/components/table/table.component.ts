@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
@@ -70,8 +71,8 @@ export class TableComponent {
   @Output() FilterByProject  = new EventEmitter<Array<string>>();
   @Output() FilterByClient  = new EventEmitter<Array<string>>();
 
-
   @Output() isApprovedReturned=new EventEmitter<boolean>();
+
   listOfSelection = [
     {
       text: 'Select All Row',
@@ -86,7 +87,8 @@ updateTimesheetAfterStatusChanged(row:boolean)
    this.isApprovedReturned.emit(row);
 
 }
-  constructor(private readonly timesheetService:TimesheetService)
+  constructor(private readonly timesheetService:TimesheetService,
+              private readonly _permissionService: PermissionListService)
   {}
 
   updateCheckedSet(id: string, checked: boolean): void {
@@ -178,6 +180,9 @@ updateTimesheetAfterStatusChanged(row:boolean)
    filterByClient(event:string[]){
 
      this.FilterByClient.emit(event);
+    }
+    authorize(key: string){
+      return this._permissionService.authorizedPerson(key);
     }
 }
 

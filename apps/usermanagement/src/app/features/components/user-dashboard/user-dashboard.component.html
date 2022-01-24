@@ -1,8 +1,8 @@
 <nz-layout  *ngIf="isLogin">
     <nz-content>
-      
+
       <div style="margin-top: -20px;" class="inner-content">
-        <div nz-row>  
+        <div nz-row>
           <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
           </h2></div>
@@ -10,15 +10,15 @@
             <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" *ngIf="authorize('Add_User')" (click)="onAddUser()">
               Add User
             </button>
-          </div>  
+          </div>
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="8">
             <nz-input-group [nzPrefix]="suffixIconButton">
-              <input class="ml-1 w-72 h-8" type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
+              <input class="ml-1 w-48 h-8" type="text" #userNameInput formControlName="userName" nz-input (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="default" style="border-width: 0px;margin-left:50px;" (click)="SearchUsersByUserName()">
+              <button nz-button nzType="default" style="border-width: 0px;margin-left:530px;" (click)="SearchUsersByUserName()">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>
@@ -37,7 +37,7 @@
                 <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
                     <tr >
-                      <th   *ngFor="let column of listOfColumnsUser"
+                      <th *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
                       <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"
@@ -65,12 +65,12 @@
                 </ng-template>
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" >
-                    <td style="padding-left: 0"> 
+                    <td style="padding-left: 0">
                       <button nz-button  nzType="link" (click)="ShowDetail(user.UserId)">
                         {{user.FullName }}
                       </button>
                     </td>
-                    <td style="text-align:center !important"> 
+                    <td style="text-align:center !important">
                       <div *ngIf="(user.LastActivityDate | date:'MMM dd, yyyy') === 'Jan 01, 0001'; then thenBlock; else elseBlock"></div>
                         <ng-template style="text-align: center !important;" #thenBlock>
                           {{"N/A"}}
@@ -101,7 +101,7 @@
                           <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                         
+
                             <button class="actionButtons"  *ngIf="authorize('Delete_User')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
@@ -116,15 +116,15 @@
       </div>
 
 
-      <nz-modal 
-      [nzWidth]="'410px'" 
+      <nz-modal
+      [nzWidth]="'410px'"
       [(nzVisible)]="isUserModalVisible"
-       [nzFooter]="null" 
-       nzTitle="Add User from Employee" 
+       [nzFooter]="null"
+       nzTitle="Add User from Employee"
       (nzOnCancel)="isUserModalVisible=false"
         >
     <ng-container *nzModalContent>
-   
+
 
  <form  [formGroup]="userfrm" *ngIf="authorize('Add_User')" (ngSubmit)="onSaveUser()" #form>
     <div nz-row>
@@ -174,7 +174,7 @@
 </ng-container>
   </nz-modal>
 
-<nz-modal 
+<nz-modal
 [nzWidth]="'410px'"
 [(nzVisible)]="isGroupModalVisible"
 [nzTitle]="modalTitle"
@@ -186,7 +186,7 @@
  </h4> <span class="muted"> - {{ fullName }}</span></ng-template>
 
 <ng-template #modalContent>
- 
+
   <form  [formGroup]="groupfrm" (ngSubmit)="onSaveGroups()" #form>
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
@@ -210,7 +210,7 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="default"  class="default modal-footer-btn clear-btn l-btn" (click)="handleGroupCancel()" 
+    <button nz-button nzType="default"  class="default modal-footer-btn clear-btn l-btn" (click)="handleGroupCancel()"
     [disabled]="groupfrm.invalid"
     style="margin-right:15px">Clear</button>
     <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loadingOnSave">
@@ -223,5 +223,4 @@
 
     </nz-content>
   </nz-layout>
-  
-    
+

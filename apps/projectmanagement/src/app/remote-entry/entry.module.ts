@@ -31,25 +31,23 @@ import { RemoteEntryComponent } from './entry.component';
       {
         path: '',
         component: AppComponent,
-
         children: [
           {
             path: '',
             component: ClientProjectComponent,
           },
           {
-             path: 'add-project',
-             component: AddProjectComponent,
+            path: 'add-project',
+            component: AddProjectComponent,
           },
         ],
       },
     ]),
   ],
-  providers: [ {
-    provide:HTTP_INTERCEPTORS,
-    useClass:HttpInterceptorService,
-    multi:true
-  },{ provide: NZ_I18N, useValue: en_US }]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: NZ_I18N, useValue: en_US }
+  ]
 
 })
-export class RemoteEntryModule {}
+export class RemoteEntryModule { }
