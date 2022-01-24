@@ -136,6 +136,16 @@
       "sourceRoot": "apps/clientmanagement/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build clientmanagement --with-deps",
+              "docker build -f Dockerfile.client-management . -t clientmanagement"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -264,6 +274,16 @@
       "sourceRoot": "apps/configurationmodule/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build configurationmodule --with-deps",
+              "docker build -f Dockerfile.configuration . -t configurationmodule"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -731,6 +751,16 @@
       "sourceRoot": "apps/projectmanagement/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build projectmanagement --with-deps",
+              "docker build -f Dockerfile.project-management. -t projectmanagement"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
