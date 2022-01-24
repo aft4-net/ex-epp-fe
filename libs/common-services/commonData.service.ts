@@ -37,8 +37,6 @@ getPermission(): void {
     });
     })
   })
-  console.log('permissions')
-  console.log(this.permissionList)
-  console.log('permissions')
+
 }
     } 

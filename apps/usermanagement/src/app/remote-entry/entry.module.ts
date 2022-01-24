@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';

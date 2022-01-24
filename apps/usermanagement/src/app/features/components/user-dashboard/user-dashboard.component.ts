@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { Data, Router, RouterLink } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap, timeInterval } from 'rxjs/operators';
 import { ColumnItem } from '../../Models/ColumnItem';
 import { listtToFilter } from '../../Models/listToFilter';
 import { PaginationResult } from '../../Models/PaginationResult';
@@ -115,8 +115,10 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     return this._permissionService.authorizedPerson(key);
   }
   ngAfterContentInit() {
+    setTimeout(() => {
     if(!this.authorize('View_User')&&this.isLogin)
     this._router.navigateByUrl('usermanagement/unauthorize')
+    }, 1000);
   }
  
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
