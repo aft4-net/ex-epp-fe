@@ -143,3 +143,7 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep .ant-table-filter-open{
   color:#595959 !important;
  }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}

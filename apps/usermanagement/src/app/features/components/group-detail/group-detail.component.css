@@ -201,3 +201,7 @@ tr.ant-table-row.ng-star-inserted {
   margin-left: 8px;
   margin-bottom: 6px;
 }
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}

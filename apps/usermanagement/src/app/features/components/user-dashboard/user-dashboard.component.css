@@ -238,3 +238,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 .l-btn{
   margin-right: 10px !important;
 }
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}
