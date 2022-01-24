@@ -3,10 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
 
-const routes: Routes = [
- 
-  { path: 'add-project', component: AddProjectComponent},  
-]
+const routes: Routes = [];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule,],

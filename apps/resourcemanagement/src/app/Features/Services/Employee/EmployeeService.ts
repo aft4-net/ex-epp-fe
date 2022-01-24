@@ -4,7 +4,7 @@ import { Employee } from '../../Models/Employee';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { EmployeeOrganization } from '../../Models/EmployeeOrganization/EmployeeOrganization';
 import { IEmployeeViewModel } from '../../Models/Employee/EmployeeViewModel';
 import { EmployeeParams } from '../../Models/Employee/EmployeeParams';
@@ -195,7 +195,7 @@ export class EmployeeService {
             },
           };
           return this.paginatedResult;
-        }),
+        })
       );
   }
 
