@@ -122,15 +122,20 @@ export class EmployeeDetailComponent implements OnInit {
    return this._permissionService.authorizedPerson(key)
  }
 
- getUser(){
-   this._authenticationService.getUser(this.uemail);
-    setTimeout(() => {
-    this.theEmpguid = this._authenticationService.empGuid;
-    if( this.theEmpguid !== null){
-      this.Edit(this.theEmpguid);
 
-    }
-    }, 500);
+
+  getUser(){
+    console.log('response'+this.uemail)
+    this._employeeService.getUser(this.uemail).subscribe((response:any)=>{
+      this.theEmpguid=response.Guid;
+      if( this.theEmpguid !== null){
+        this.Edit(this.theEmpguid);
+  
+      }
+      console.log('response22')
+      console.log(this.theEmpguid)
+      console.log('response')
+    });
   }
 
 
@@ -403,20 +408,65 @@ export class EmployeeDetailComponent implements OnInit {
     }
   }
 
-  Edit(employeeId:string):void
-  {
-    this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
-      this._employeeService.setEmployeeDataForEdit(data);
-      this._form.generateForms(this._employeeService.employeeById)
-    });
-   if(this._employeeService.employeeById)
-   {
-    this._employeeService.isEdit=true;
-    this._employeeService.save="Update";
-    this._router.navigate(['/employee/add-employee/personal-info']);
-  }
-}
+  // Edit(employeeId:string):void
+  // {
+    // this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
+    //   console.log('xxxxx'+ data.);
+    //   this._employeeService.setEmployeeDataForEdit(data);
+    //   this._form.generateForms(this._employeeService.employeeById)
+    //   if(this._employeeService.employeeById)
+    //   {
+    //       this._employeeService.isEdit=true;
+    //       this._employeeService.save="Update";
+    //       this._router.navigate(['employee/add-employee/personal-info']);
+    //     }
+    // });
+    // //alert(this._employeeService.employeeByI  
+    
+   
+  //}
   //added by simbo just you can delete
+
+  Edit(employeeId:string):void
+
+  {
+
+    this._form.employeId=employeeId;
+
+    this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
+
+      this._employeeService.setEmployeeDataForEdit(data);
+
+    if(this._employeeService.employeeById)
+
+   {
+
+    this._employeeService.isEdit=true;
+
+    this._employeeService.save="Update";
+
+    this._form.generateForms;
+
+    this._form.generateForms(this._employeeService.employeeById);
+
+    this._form.allAddresses=this._employeeService.employeeById?.EmployeeAddress?
+
+      this._employeeService.employeeById?.EmployeeAddress:[];
+
+      this._form.allFamilyDetails=this._employeeService.employeeById?.FamilyDetails?
+
+      this._employeeService.employeeById?.FamilyDetails:[];
+
+    this._employeeService.isdefault=false
+
+    this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']);
+
+   
+
+  }
+
+    });
+  }
 
   handleOk(): void {
     this.isConfirmLoading = true;
