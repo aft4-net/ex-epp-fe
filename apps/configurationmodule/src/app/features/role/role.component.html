@@ -40,10 +40,10 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="authorize('View_Role')">
           <tr *ngFor="let data of listOfRoles">
             <td>{{ data.Name }}</td>
-            <td>
+            <td *ngIf="authorize('Update_Role') || authorize('Delete_Role') ">
               <i nz-icon nzType="edit" nzTheme="outline" routerLink="/role/edit/{{data.Guid}}" *ngIf="authorize('Update_Role')"></i>
               <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Role')"
                 (click)="deleteHandler(data.Guid)"></i>
