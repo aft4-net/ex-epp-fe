@@ -39,7 +39,7 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    storeLoginUser(user:any){
-    console.log("sdsddddddddddddddddddddddddd",user)
+    
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');

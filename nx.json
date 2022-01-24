@@ -89,6 +89,9 @@
       "tags": [],
       "implicitDependencies": ["resourcemanagement"]
     },
+    "shared-components": {
+      "tags": []
+    },
     "timesheet": {
       "tags": []
     },
