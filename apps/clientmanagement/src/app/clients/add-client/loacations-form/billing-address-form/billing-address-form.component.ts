@@ -1,14 +1,21 @@
+import { AddClientStateService, BillingAddressCreate } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { AddClientStateService, BillingAddressCreate } from 'apps/client-management/src/app/core';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityService } from 'apps/client-management/src/app/core/services/city.service';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { CityInStateService } from 'apps/client-management/src/app/core/services/CityInState.service';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { StateService } from 'apps/client-management/src/app/core/services/State.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+
+import { CityInStateService } from '../../../../core/services/CityInState.service';
+import { CityService } from '../../../../core/services/city.service';
+import { StateService } from '../../../../core/services/State.service';
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+
+
 
 @Component({
   selector: 'exec-epp-billing-address-form',
@@ -86,7 +93,7 @@ export class BillingAddressFormComponent implements OnInit {
   ngOnInit(): void {
     console.log("data="+ this.data)
     this.billingAddressess = this.addStateClientService.addClientData.BillingAddress;
-   
+
     this.forms.valueChanges.subscribe(x => {
       if(this.forms.value['Name']!='' ||
       this.forms.value['Country']!='' ||
@@ -100,7 +107,7 @@ export class BillingAddressFormComponent implements OnInit {
       else{
        this.isClearButtonActive=true;
       }
-    
+
     });
   }
 
@@ -111,7 +118,7 @@ export class BillingAddressFormComponent implements OnInit {
   get Name() {
     return this.forms.controls.Name as FormControl;
   }
-  
+
   get Affliation() {
     return this.forms.controls.Affliation as FormControl;
   }
@@ -125,10 +132,10 @@ export class BillingAddressFormComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible = false;
-    
+
   }
- 
- 
+
+
   submitForm() {
     if (this.forms.valid) {
       if(this.IsEdit){
@@ -139,7 +146,7 @@ export class BillingAddressFormComponent implements OnInit {
       this.editAt=-1;
       }
      else{
-    
+
       this.billingAddressess =[
         ...this.billingAddressess,
         this.forms.value
@@ -157,7 +164,7 @@ export class BillingAddressFormComponent implements OnInit {
         }
       });
     }
-   
+
   }
   getSelectedCountry() {
     this.selectedCountry = this.forms.value['Country'];
@@ -188,7 +195,7 @@ export class BillingAddressFormComponent implements OnInit {
     this.selectedState = this.forms.value['State'];
     if(!this.found){
       this.forms.controls['City'].setValue(null);
-     
+
      }
     this.getCityInState();
   }
@@ -228,7 +235,7 @@ export class BillingAddressFormComponent implements OnInit {
         this.addStateClientService.updateBillingAddress(this.billingAddressess);
       }
     }
-   
+
   }
   patchValues(data: any) {
     this.forms.patchValue({

@@ -18,10 +18,10 @@ import { GroupSetModel } from '../../Models/group-set.model';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { AddUserService } from '../../services/add-user.service';
-import { UserService } from '../../services/user.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { UserService } from '../../Services/user.service';
+import { AddUserService } from '../../services/add-user.service';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -31,7 +31,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 export class UserDashboardComponent implements OnInit {
 
   userfrm: any;
-  employeeList: IEmployeeModel [] = []
+  employeeList: IEmployeeModel [] = [] 
   selectedUserValue = '';
   isUserModalVisible=false;
 

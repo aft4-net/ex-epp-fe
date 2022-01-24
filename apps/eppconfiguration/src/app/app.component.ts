@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
+import {AuthenticationService} from './../../../../libs/common-services/Authentication.service';
+import { CommonDataService } from '../../../../libs/common-services/commonData.service';
 @Component({
   selector: 'exec-epp-root',
   templateUrl: './app.component.html',
@@ -13,9 +14,10 @@ export class AppComponent implements OnInit{
   checker1= false;
   counter = 1;
   title = 'eppconfiguration';
-  constructor(private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){}
+  constructor(public _commonData:CommonDataService, private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){}
 
   ngOnInit(): void {
+    this._commonData.getPermission();
     this.isLogin=this._authenticationService.loginStatus();
     if(!this.isLogin){
      // window.location.reload();

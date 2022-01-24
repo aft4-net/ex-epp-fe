@@ -30,6 +30,14 @@ const routes: Routes = [
         }
       }
     ]
+  },
+  {
+    path: 'timesheet-approval',
+    loadChildren: () =>
+      import('../timesheet-approval/timesheet-approval.module').then(
+        (m) => m.TimesheetApprovalModule
+      ),
+    data: { breadcrumb: 'Timesheet-approval' },
   }
 ]
 

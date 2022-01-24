@@ -130,7 +130,7 @@ export class ViewSubmissionsComponent implements OnInit {
   }
 
   navaigateToTimeSheet() {
-    this.router.navigateByUrl('timesheet');
+    this.router.navigateByUrl('/timesheet');
   }
 
   timesheetSubmissionPaginatin(

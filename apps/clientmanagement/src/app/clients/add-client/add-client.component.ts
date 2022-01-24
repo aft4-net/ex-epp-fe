@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
+import { AddClientStateService } from '../../core/State/add-client-state.service';
+import { ClientService } from '../../core/services/client.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { ValidtyAddClientForms } from '../../core';
-import { ClientService } from '../../core/services/client.service';
-import { AddClientStateService } from '../../core/State/add-client-state.service';
 
 @Component({
   selector: 'exec-epp-add-client',
@@ -54,7 +55,9 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientContactsForm &&
       this.validateAddClientFormState?.clientContactsForm
     ) {
-      this.router.navigateByUrl('clients');
+      console.log("checking the client")
+      console.log(this.addClientState.addClientData)
+      this.router.navigateByUrl('clientmanagement');
       this.clientService.addClient();
     }
     // eslint-disable-next-line no-empty
@@ -112,11 +115,11 @@ export class AddClientComponent implements OnInit {
         nzOkDanger: true,
 
         nzOnOk: () => {
-          this.router.navigateByUrl('clients');
+          this.router.navigateByUrl('clientmanagement');
           this.addClientState.restAddClientState();
         },
       });
-    else this.router.navigateByUrl('clients');
+    else this.router.navigateByUrl('clientmanagement');
   }
   ClientContacTab() {
     if (this.contactDetailsTabEnabled == false) {
@@ -134,12 +137,12 @@ export class AddClientComponent implements OnInit {
       if (this.contactDetailsTabEnabled) this.activeTabIndex = 5;
       else this.activeTabIndex = 3;
     } else {
-     
+
       this.locationTabEnabled = false;
       if (this.contactDetailsTabEnabled == true) this.activeTabIndex = 3;
       else this.activeTabIndex = -3;
 
     }
-    
+
   }
 }

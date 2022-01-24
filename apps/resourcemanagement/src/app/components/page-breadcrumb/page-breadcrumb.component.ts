@@ -31,7 +31,7 @@ export class PageBreadcrumbComponent implements OnInit {
 
   ngOnInit(): void {
   
-    this.activeRoute(this.route);
+   
     if(this._permissionService.authorizedPerson('Create_Employee')||
        this._permissionService.authorizedPerson('Employee_Admin'))
     {
@@ -64,10 +64,13 @@ export class PageBreadcrumbComponent implements OnInit {
     this._formGenerator.allEmergencyContacts=[];
     this._formGenerator.allFamilyDetails=[];
     const currentUrl = this.route;
-    this._router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
-    this._router.navigate([currentUrl]);
-  
-    });
+    if(this.authorize('Create_Employee')){
+      this._router.navigateByUrl('/', { skipLocationChange: false }).then(() => {
+        this._router.navigate([currentUrl]);
+      
+        });
+    }
+   
      
 
   }

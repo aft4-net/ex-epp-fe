@@ -21,6 +21,9 @@ pipeline{
                  branch 'develop'
              }
          steps{
+              sh 'node -v'
+              sh 'git status' 
+              sh 'git branch -D develop && git checkout -b develop origin/develop'
               sh 'npm install'
               sh 'npm run build-all'
             }
@@ -53,6 +56,8 @@ pipeline{
                             sh "docker tag project-management:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
                             sh "docker tag usermanagement:latest blens/um"
+                            sh "docker tag epp-dashboard:latest blens/epp-dash"
+                           
                             
                             sh "docker push blens/eppfe"
                             sh "docker push blens/ts"
@@ -60,6 +65,8 @@ pipeline{
                             sh "docker push blens/pm"
                             sh "docker push blens/at"
                             sh "docker push blens/um"
+                            sh "docker push blens/epp-dash"
+                            
                             }
                  sshagent(credentials : ['staging']) {
                  
@@ -72,7 +79,8 @@ pipeline{
                   
                  }
             }
-              
+            //clean the workspace after deployment 
+            cleanWs deleteDirs: true, notFailBuild: true 
             }
         }    
         

@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { findIndex, map } from 'rxjs/operators';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
-import { TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
+import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
@@ -50,9 +51,13 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   isSubmitted: boolean | undefined;
   startingDateCriteria = startingDateCriteria
   disabled = false
-  isFutureDate=false;
+  isFutureDate = false;
 
-  constructor(private timesheetService: TimesheetService, public elRef: ElementRef) {}
+  constructor(
+    private timesheetService: TimesheetService,
+    public elRef: ElementRef,
+    private readonly _permissionService: PermissionListService
+  ) { }
 
   clickEventType = ClickEventType.none;
 
@@ -76,7 +81,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       this.disabled = true;
     }
     else if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
-      if (this.date.valueOf() === today.valueOf()){
+      if (this.date.valueOf() === today.valueOf()) {
         this.dateColumnHighlightClass = "date-column-with-no-highlight-today";
       }
       else {
@@ -153,7 +158,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     });
   }
 
-  scrollTimeEntriesBottom(el:any){
+  scrollTimeEntriesBottom(el: any) {
     const myElement = document.getElementById(el);
     myElement!.scroll({ top: myElement!.scrollHeight, behavior: 'smooth' });
     //myElement!.scrollTop = myElement!.scrollHeight - myElement!.clientHeight;
@@ -165,7 +170,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
     const isOverflowing = elem!.clientHeight < elem!.scrollHeight;
 
-    if(isOverflowing){
+    if (isOverflowing) {
       elem!.classList.remove("entries-overflow");
       elem!.classList.add("show-scroll-bar");
     }
@@ -174,7 +179,6 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       elem!.classList.remove("show-scroll-bar");
     }
   }
-
 
   timesheetApprovalForaProject(projectId: string) {
     if (!this.timesheetApprovals) {
@@ -190,11 +194,32 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       return timesheetApprovals[0];
     }
   }
-  checkForFutureDate(curr:any){
+
+  checkForFutureDate(curr: any) {
     let now = new Date();
-    if ( curr>now) {
+    if (curr > now) {
       this.isFutureDate = true;
     }
     return this.isFutureDate;
+  }
+
+  timesheetApproved() {
+    if (!this.timesheetApprovals) {
+      return false;
+    }
+
+    for (let tsa of this.timesheetApprovals) {
+      if (tsa.Status === Object.values(ApprovalStatus)[1].valueOf()){
+        continue;
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
   }
 }

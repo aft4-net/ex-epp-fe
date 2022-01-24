@@ -18,7 +18,7 @@
               <input class="ml-1 w-72 h-8" type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="default" style="border-width: 0px;" (click)="SearchUsersByUserName()">
+              <button nz-button nzType="default" style="border-width: 0px;margin-left:50px;" (click)="SearchUsersByUserName()">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>
@@ -95,13 +95,14 @@
                     <ng-template #contentTemplate>
                       <div>
                         <nz-space nzDirection="vertical">
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
+                          <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
+                          <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                          <button class="actionButtons" *nzSpaceItem [nzSize]="size" nz-button nzType="default" (click)="showConfirm(user.UserId)">
+                         
+                            <button class="actionButtons"  *ngIf="authorize('Delete_User')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
                         </nz-space>
