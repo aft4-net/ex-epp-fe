@@ -51,4 +51,7 @@ div.is-green {
 ::ng-deep .ant-table-filter-column{
   float:left !important;
 }
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
 
