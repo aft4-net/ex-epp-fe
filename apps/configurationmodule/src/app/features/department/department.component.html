@@ -13,7 +13,17 @@
       </nz-form-control>
     </nz-form-item>
     </div>
+    <div nz-col nzSpan="6">
 
+    <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+    <nz-modal [(nzVisible)]="isAddModalVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <ng-container *nzModalContent>
+        <p>Content one</p>
+        <p>Content two</p>
+        <p>Content three</p>
+      </ng-container>
+    </nz-modal>
+    </div>
   </div>
   <div nz-row>
     <div nz-col nzSpan="24">
