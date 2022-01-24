@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PermissionService } from './core/services/permission.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { CommonDataService } from './../../../../libs/common-services/commonData.service';
 
 @Component({
   selector: 'exec-epp-root',
@@ -9,17 +10,12 @@ import { PermissionService } from './core/services/permission.service';
 export class AppComponent implements OnInit {
   title = 'projectmanagement';
 
-
-
-  constructor(private permissionService:PermissionService)
-  {
-
+  constructor(private commonDataService: CommonDataService, private notification: NzNotificationService) {
   }
 
   ngOnInit(): void {
+    this.commonDataService.getPermission();
 
-  this.permissionService.setUserPermissions();
-
+    this.notification.info('', '', {nzDuration: 1, nzPauseOnHover: false });
   }
-
 }

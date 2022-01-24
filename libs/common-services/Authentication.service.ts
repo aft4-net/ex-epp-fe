@@ -27,7 +27,7 @@ import { ErrHandleService } from './error-handle.service';
    getUser(email:string){
      this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
-        //console.log("empguid is " + response["Guid"]);
+        console.log(response);
        this.position  = response["EmployeeOrganization"]["JobTitle"];
        this.empGuid = response["Guid"];
       }
@@ -39,15 +39,17 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    storeLoginUser(user:any){
-    console.log("sdsddddddddddddddddddddddddd",user)
+    
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
     window.sessionStorage.removeItem('email');
+    window.sessionStorage.removeItem('fromViewer');
 
     window.sessionStorage.setItem("name",user.name);
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
+    window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
     window.location.replace('http://localhost:4200/');
    }

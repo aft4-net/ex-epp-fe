@@ -3,7 +3,6 @@ import { AuthenticationService } from './../../../../../../libs/common-services/
 import {PermissionListService} from './../../../../../../libs/common-services/permission.service';
 import {CommonDataService} from './../../../../../../libs/common-services/commonData.service';
 import { IntialdataService } from '../../services/intialdata.service';
-import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
 @Component({
   selector: 'exec-epp-dashboard',
@@ -21,7 +20,7 @@ export class DashboardComponent implements OnInit {
    // const namearray=this.fullName.split(' ');
    // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    this.thePosition = _authenticationService.position;
+    //this.thePosition = _authenticationService.position;
   
   }
 update(){
@@ -29,15 +28,20 @@ update(){
 }
   ngOnInit(): void {
    
-   // this.getUser();
-    this._commonData.getPermission();
-   
+    this.getUser();
+    this._commonData.getPermission();   
   }
   getUser(){
-    this._authenticationService.getUser(this.userEmail);
-   setTimeout(() => {
-     this.thePosition = this._authenticationService.position;
-   }, 2000); 
+    console.log('response'+this.userEmail)
+    this._intialdataService.getUser(this.userEmail).subscribe((response:any)=>{
+      this.thePosition=response.EmployeeOrganization.JobTitle;
+      console.log('response22')
+      console.log(this.thePosition)
+      console.log('response')
+    });
+  //  setTimeout(() => {
+  //    this.thePosition = this._authenticationService.position;
+  //  }, 2000); 
  }
 
   routetoResourceManagement(){

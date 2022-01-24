@@ -1,4 +1,3 @@
-//import { OperatingAddress } from 'apps/client-management/src/app/core/models/post/OperatingAddress';
 
 import { BillingAddress } from './billing-address';
 import { ClientContact } from './client-contact';
@@ -10,6 +9,7 @@ export interface Client {
   SalesPerson: Employee;
   SalesPersonGuid: string;
   ClientName: string;
+  OperatingAddressCountry:string;
   ClientStatusName: string;
   ClientStatusGuid: string;
   Description: string;

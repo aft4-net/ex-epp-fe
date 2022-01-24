@@ -3,17 +3,20 @@ import { ClientService, ClientStatusService, EmployeeService } from '../../core/
 import { Component, OnInit } from '@angular/core';
 
 import { AllDataResponse } from '../../core/models/get/AllDataResponse';
+import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
+import { ElementSchemaRegistry } from '@angular/compiler';
 import { FetchclientsService } from '../../core/services/fetchclients.service';
 import { FormControl } from '@angular/forms';
+import { NotificationBar } from '../../utils/feedbacks/notification';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { NotificationBar } from '../../utils/feedbacks/notification';
-import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
+
 @Component({
   selector: 'exec-epp-view-clients',
   templateUrl: './view-clients.component.html',
@@ -21,6 +24,7 @@ import { PermissionListService } from '../../../../../../libs/common-services/pe
 })
 
 export class ViewClientsComponent implements OnInit  {
+  isAddButtonDisabled = false;
   isVisible = false;
 
   paginatedprojects$!: Observable<PaginatedResult<Client[]>>;
@@ -82,9 +86,19 @@ export class ViewClientsComponent implements OnInit  {
     private employeeService: EmployeeService,
     private notification: NzNotificationService,
     private _notification: NotificationBar,
-    private authPermission:PermissionListService
-  ) {}
+    private _permission:PermissionListService,
+   private _commonData:CommonDataService
+  ) {
+
+_commonData.getPermission()
+  }
   ngOnInit(): void {
+    this.isAddButtonDisabled=this._permission.authorizedPerson('Create_Client');
+    console.log(this.isAddButtonDisabled);
+    console.log("button check");
+
+    // authorized=false isdabled = false
+
     this.getClientStatus();
     this.getLocations();
     this.getSalesPerson();
@@ -104,16 +118,25 @@ export class ViewClientsComponent implements OnInit  {
 
     });
     // this.notification.error('', '', {
-    
 
-  
+
+
     //   });
-    
+
   }
-  authorize(key:string){
-   // alert(this.authPermission.authorizedPerson(key))
-    return this.authPermission.authorizedPerson(key);
+  authorizedPerson(key:string){
+    return this._permission.authorizedPerson(key);
+    // if(key==='Create_Client')
+    // {
+    //   this.isAddButtonDisabled=true;
+    // }
+    // else{
+    //   this.isAddButtonDisabled=false;
+    // }
+
+
   }
+
   showModal(): void {
     this.isVisible = true;
   }

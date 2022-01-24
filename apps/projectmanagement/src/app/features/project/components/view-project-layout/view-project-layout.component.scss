@@ -16,7 +16,7 @@ font-weight: 700;
 {
 background-color: none !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: none}
 
 a {
   padding-right: 0.6vw;
@@ -88,15 +88,9 @@ tr.ant-table-row.ng-star-inserted {
   border: 1px solid #ddd !important;
 }
 
-
-
-
-
-
 ::ng-deep .ant-table-column-sorters {
   margin-left: 5px;
   margin-right: 5px;
-  display: flow-root !important;
 }
 
 ::ng-deep .ant-table-filter-column {
@@ -140,4 +134,16 @@ tr.ant-table-row.ng-star-inserted {
 }
 ::ng-deep .ant-table-filter-column{
   float:left !important;
+}
+
+::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
+  padding: 8px !important;
+}
+
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
 }

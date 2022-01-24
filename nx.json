@@ -48,6 +48,13 @@
       "tags": [],
       "implicitDependencies": ["clientmanagement"]
     },
+    "configurationmodule": {
+      "tags": []
+    },
+    "configurationmodule-e2e": {
+      "tags": [],
+      "implicitDependencies": ["configurationmodule"]
+    },
     "core-model": {
       "tags": []
     },
@@ -57,13 +64,6 @@
     "epp-dashboard-e2e": {
       "tags": [],
       "implicitDependencies": ["epp-dashboard"]
-    },
-    "eppconfiguration": {
-      "tags": []
-    },
-    "eppconfiguration-e2e": {
-      "tags": [],
-      "implicitDependencies": ["eppconfiguration"]
     },
     "ng-zorro": {
       "tags": []
@@ -89,19 +89,15 @@
       "tags": [],
       "implicitDependencies": ["resourcemanagement"]
     },
+    "shared-components": {
+      "tags": []
+    },
     "timesheet": {
       "tags": []
     },
     "timesheet-e2e": {
       "tags": [],
       "implicitDependencies": ["timesheet"]
-    },
-    "timesheetnew": {
-      "tags": []
-    },
-    "timesheetnew-e2e": {
-      "tags": [],
-      "implicitDependencies": ["timesheetnew"]
     },
     "usermanagement": {
       "tags": []
