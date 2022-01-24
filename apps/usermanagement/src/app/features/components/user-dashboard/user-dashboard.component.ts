@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router, RouterLink } from '@angular/router';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { fromEvent, Observable, of } from 'rxjs';
@@ -28,7 +28,7 @@ import { AddUserService } from '../../services/add-user.service';
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
-export class UserDashboardComponent implements OnInit {
+export class UserDashboardComponent implements AfterViewInit, OnInit  {
 
   userfrm: any;
   employeeList: IEmployeeModel [] = [] 
@@ -106,6 +106,7 @@ export class UserDashboardComponent implements OnInit {
     private addUserService: AddUserService,
     private _permissionService:PermissionListService,private notify: NzNotificationService,
     private notifier: NotifierService, private _authenticationService:AuthenticationService,
+    
     private modal: NzModalService) {
       this.isLogin=_authenticationService.loginStatus();
   }
@@ -113,10 +114,15 @@ export class UserDashboardComponent implements OnInit {
     
     return this._permissionService.authorizedPerson(key);
   }
-  ngOnInit(): void {
-   if(!this.authorize('View_User')){
+  ngAfterContentInit() {
+    if(!this.authorize('View_User')&&this.isLogin)
     this._router.navigateByUrl('usermanagement/unauthorize')
-   }
+  }
+ 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+
+  ngOnInit(): void {
+ 
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
       GroupsOnUser: new FormControl([]),
@@ -307,6 +313,8 @@ export class UserDashboardComponent implements OnInit {
       this.SearchUsersByUserName()
       })
     ).subscribe();
+  
+    
   }
 
   PageIndexChange(index: any): void {

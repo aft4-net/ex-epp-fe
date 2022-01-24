@@ -39,7 +39,7 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    storeLoginUser(user:any){
-    console.log("sdsddddddddddddddddddddddddd",user)
+    
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
@@ -48,7 +48,6 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem("name",user.name);
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
-    //this.router.navigateByUrl('');
     window.location.replace('http://localhost:4200/');
    }
 
