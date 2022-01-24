@@ -37,7 +37,7 @@
                 <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
                     <tr >
-                      <th   *ngFor="let column of listOfColumnsUser"
+                      <th *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
                       <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"
