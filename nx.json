@@ -34,13 +34,6 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
-    "client-management": {
-      "tags": []
-    },
-    "client-management-e2e": {
-      "tags": [],
-      "implicitDependencies": ["client-management"]
-    },
     "clientmanagement": {
       "tags": []
     },
@@ -74,13 +67,6 @@
     },
     "ng-zorro": {
       "tags": []
-    },
-    "project-management": {
-      "tags": []
-    },
-    "project-management-e2e": {
-      "tags": [],
-      "implicitDependencies": ["project-management"]
     },
     "projectmanagement": {
       "tags": []

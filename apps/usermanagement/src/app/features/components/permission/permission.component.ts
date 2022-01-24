@@ -5,7 +5,7 @@ import {
   IPermissionResponseModel,
 } from '../../Models/User/Permission-get.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';

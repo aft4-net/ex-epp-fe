@@ -18,7 +18,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { UserDetailService } from '../../Services/user-detail.service';
 
