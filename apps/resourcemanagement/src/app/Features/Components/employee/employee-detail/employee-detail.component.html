@@ -20,7 +20,7 @@
       <br/>
       <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
-            <nz-table  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+            <nz-table [nzLoading]="loading"  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
               <div *ngIf="employeeViewModel.length > 0; else normalHeader">
                 <thead>
