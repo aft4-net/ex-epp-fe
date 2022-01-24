@@ -662,11 +662,10 @@
           "options": {
             "commands": [
               "nx serve configurationmodule",
-              "nx serve timesheetnew",
+              "nx serve timesheet",
               "nx serve clientmanagement",
               "nx serve projectmanagement",
               "nx serve projectmanagement",
-              "nx serve eppconfiguration",
               "nx serve resourcemanagement",
               "nx serve usermanagement",
               "nx serve epp-dashboard"
@@ -697,134 +696,6 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/epp-dashboard-e2e/**/*.{js,ts}"]
-          }
-        }
-      }
-    },
-    "eppconfiguration": {
-      "projectType": "application",
-      "root": "apps/eppconfiguration",
-      "sourceRoot": "apps/eppconfiguration/src",
-      "prefix": "exec-epp",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:webpack-browser",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/eppconfiguration",
-            "index": "apps/eppconfiguration/src/index.html",
-            "main": "apps/eppconfiguration/src/main.ts",
-            "polyfills": "apps/eppconfiguration/src/polyfills.ts",
-            "tsConfig": "apps/eppconfiguration/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/eppconfiguration/src/favicon.ico",
-              "apps/eppconfiguration/src/assets"
-            ],
-            "styles": ["apps/eppconfiguration/src/styles.scss"],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "apps/eppconfiguration/webpack.config.js"
-            }
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "10mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "1mb",
-                  "maximumError": "10mb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "apps/eppconfiguration/src/environments/environment.ts",
-                  "with": "apps/eppconfiguration/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all",
-              "customWebpackConfig": {
-                "path": "apps/eppconfiguration/webpack.prod.config.js"
-              }
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@nrwl/angular:webpack-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "eppconfiguration:build:production"
-            },
-            "development": {
-              "browserTarget": "eppconfiguration:build:development"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "port": 4232
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "eppconfiguration:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/eppconfiguration/src/**/*.ts",
-              "apps/eppconfiguration/src/**/*.html"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/eppconfiguration"],
-          "options": {
-            "jestConfig": "apps/eppconfiguration/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "eppconfiguration-e2e": {
-      "root": "apps/eppconfiguration-e2e",
-      "sourceRoot": "apps/eppconfiguration-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/eppconfiguration-e2e/cypress.json",
-            "devServerTarget": "eppconfiguration:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "eppconfiguration:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/eppconfiguration-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -1267,18 +1138,8 @@
       "sourceRoot": "apps/timesheet/src",
       "prefix": "exec-epp",
       "architect": {
-        "deploy": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              "nx build timesheet --with-deps",
-              "docker build -f Dockerfile.timesheet . -t timesheet"
-            ],
-            "parallel": false
-          }
-        },
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/timesheet",
@@ -1292,7 +1153,10 @@
               "apps/timesheet/src/assets"
             ],
             "styles": ["apps/timesheet/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/timesheet/webpack.config.js"
+            }
           },
           "configurations": {
             "production": {
@@ -1305,7 +1169,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "1mb",
-                  "maximumError": "10mb"
+                  "maximumError": "10kb"
                 }
               ],
               "fileReplacements": [
@@ -1314,7 +1178,10 @@
                   "with": "apps/timesheet/src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "apps/timesheet/webpack.prod.config.js"
+              }
             },
             "development": {
               "buildOptimizer": false,
@@ -1328,7 +1195,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nrwl/angular:webpack-server",
           "configurations": {
             "production": {
               "browserTarget": "timesheet:build:production"
@@ -1337,7 +1204,10 @@
               "browserTarget": "timesheet:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4233
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -1386,134 +1256,6 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/timesheet-e2e/**/*.{js,ts}"]
-          }
-        }
-      }
-    },
-    "timesheetnew": {
-      "projectType": "application",
-      "root": "apps/timesheetnew",
-      "sourceRoot": "apps/timesheetnew/src",
-      "prefix": "exec-epp",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:webpack-browser",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/timesheetnew",
-            "index": "apps/timesheetnew/src/index.html",
-            "main": "apps/timesheetnew/src/main.ts",
-            "polyfills": "apps/timesheetnew/src/polyfills.ts",
-            "tsConfig": "apps/timesheetnew/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/timesheetnew/src/favicon.ico",
-              "apps/timesheetnew/src/assets"
-            ],
-            "styles": ["apps/timesheetnew/src/styles.scss"],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "apps/timesheetnew/webpack.config.js"
-            }
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "10mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "1mb",
-                  "maximumError": "10kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "apps/timesheetnew/src/environments/environment.ts",
-                  "with": "apps/timesheetnew/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all",
-              "customWebpackConfig": {
-                "path": "apps/timesheetnew/webpack.prod.config.js"
-              }
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@nrwl/angular:webpack-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "timesheetnew:build:production"
-            },
-            "development": {
-              "browserTarget": "timesheetnew:build:development"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "port": 4233
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "timesheetnew:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/timesheetnew/src/**/*.ts",
-              "apps/timesheetnew/src/**/*.html"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/timesheetnew"],
-          "options": {
-            "jestConfig": "apps/timesheetnew/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "timesheetnew-e2e": {
-      "root": "apps/timesheetnew-e2e",
-      "sourceRoot": "apps/timesheetnew-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/timesheetnew-e2e/cypress.json",
-            "devServerTarget": "timesheetnew:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "timesheetnew:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/timesheetnew-e2e/**/*.{js,ts}"]
           }
         }
       }
