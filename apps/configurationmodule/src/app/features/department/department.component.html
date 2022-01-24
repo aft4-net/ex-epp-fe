@@ -1,0 +1,60 @@
+<div class="main-content" style="margin: 0px 24px;padding-top: 24px; padding-bottom: 58px;">
+  <h1>Departments</h1>
+  <div nz-row>
+    <div nz-col nzSpan="18">
+    <nz-form-item>
+      <nz-form-control class="search" [nzSm]="14" [nzXs]="24" nzErrorTip="Please input search!">
+        <nz-input-group nzSearch [nzSuffix]="suffixIconSearch" >
+          <input  [(ngModel)]="searchValue" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <i nz-icon nzType="search"></i>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    </div>
+    <div nz-col nzSpan="6">
+
+    <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+    <nz-modal [(nzVisible)]="isAddModalVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <ng-container *nzModalContent>
+        <p>Content one</p>
+        <p>Content two</p>
+        <p>Content three</p>
+      </ng-container>
+    </nz-modal>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-table #basicTable [nzData]="listOfDepartments" [nzShowPagination]="false">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.Name }}</td>
+            <td>
+              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/department/edit/{{data.Guid}}" *ngIf="authorize('Update_Department')"></i>
+              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department')"
+                (click)="deleteHandler(data.Guid)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <div class="pagination" style="float: right; display: inline-flex; margin-top: 16px;" *ngIf="this.pagination">
+        Showing {{ this.pagination.PageSize * (this.pagination.PageIndex -1) + 1 }}-
+        {{ this.pagination.PageSize * (this.pagination.PageIndex) > this.pagination.TotalRecord ? this.pagination.TotalRecord : this.pagination.PageSize * (this.pagination.PageIndex) }} of 
+        {{this.pagination.TotalRecord}} entries
+        <nz-pagination [nzPageSize]="this.pagination.PageSize" [nzPageIndex]="1" 
+          [nzTotal]="this.pagination.TotalRecord"
+          nzSimple
+         (nzPageIndexChange)="pageIndexChange($event)"
+         ></nz-pagination>
+      </div>
+    </div>
+  </div>
+</div>

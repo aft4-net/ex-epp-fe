@@ -1,15 +1,21 @@
-import { JsonPipe } from '@angular/common';
-import { JsonpClientBackend } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'exec-epp-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: 'exec-epp-timesheet-entry',
+  template: `<div class="remote-entry">
+    <h2>timesheet's Remote Entry Component</h2>
+  </div>`,
+  styles: [
+    `
+      .remote-entry {
+        background-color: #143055;
+        color: white;
+        padding: 5px;
+      }
+    `,
+  ],
 })
-export class AppComponent {
-  title = 'timesheet';
-
+export class RemoteEntryComponent {
   constructor() {
     let loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
     let userId = "";
