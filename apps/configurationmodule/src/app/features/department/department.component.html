@@ -34,7 +34,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="authorize('Update_Department') || authorize('Delete_Department')">
           <tr *ngFor="let data of basicTable.data">
             <td>{{ data.Name }}</td>
             <td>
