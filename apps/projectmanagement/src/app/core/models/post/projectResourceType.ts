@@ -1,5 +1,4 @@
 export interface projectResourceType{
-    employeeId:string,
-    assignedDate:Date;
-
+    EmployeeGuid:string,
+    AssignDate:Date;
 }
