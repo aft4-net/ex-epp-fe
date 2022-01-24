@@ -234,6 +234,10 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
+
+}
+::ng-deep .ant-table-filter-trigger.active{
+  color:#595959;
 }
 .l-btn{
   margin-right: 10px !important;
