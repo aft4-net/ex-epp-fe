@@ -28,7 +28,7 @@ services:
   configurationmodule:
     image: blens/configuration
     ports:
-      - '4232: 80'
+      - '4232:80'
   epp-dashboard:
     image: blens/epp-dash
     ports:
