@@ -102,8 +102,8 @@ export class AddresourceComponent implements OnInit {
       this.isModalVisible = false;
 
       this.resources.push({
-        employeeId: this.addResorceForm.controls.resource.value.Guid,
-        assignedDate: this.addResorceForm.controls.assignDate.value
+        EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
+        AssignDate: this.addResorceForm.controls.assignDate.value
       })
 
       this.addProjectResourceEvent.emit(this.resources)
@@ -173,7 +173,7 @@ export class AddresourceComponent implements OnInit {
 
       this.projectResources.map(s => s.employee.Guid === this.asignedResourseToEdit.employee.Guid ? s : this.asignedResourseToEdit)
 
-      this.resources.map(s => s.employeeId == this.asignedResourseToEdit.employee.Guid ? s :
+      this.resources.map(s => s.EmployeeGuid == this.asignedResourseToEdit.employee.Guid ? s :
         {
           employeeId: this.editResorceForm.controls.resource.value.Guid,
           assignedDate: this.editResorceForm.controls.assignDate.value,
@@ -181,10 +181,10 @@ export class AddresourceComponent implements OnInit {
       )
 
       for (let i = 0; i < this.resources.length; i++) {
-        if (this.resources[i].employeeId == this.asignedResourseToEdit.employee.Guid) {
+        if (this.resources[i].EmployeeGuid == this.asignedResourseToEdit.employee.Guid) {
           this.resources[i] = {
-            employeeId: this.editResorceForm.controls.resource.value.Guid,
-            assignedDate: this.editResorceForm.controls.assignDate.value
+            EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
+            AssignDate: this.editResorceForm.controls.assignDate.value
           };
 
           this.addProjectResourceEvent.emit(this.resources);
@@ -214,7 +214,7 @@ export class AddresourceComponent implements OnInit {
       this.employees.push(projectResourece.employee);
     this.sortEmployees();
     this.projectResources = this.projectResources.filter(s => s.employee.Guid !== id);
-    this.resources = this.resources.filter(s => s.employeeId != id);
+    this.resources = this.resources.filter(s => s.EmployeeGuid != id);
     this.addProjectResourceEvent.emit(this.resources);
 
   }
