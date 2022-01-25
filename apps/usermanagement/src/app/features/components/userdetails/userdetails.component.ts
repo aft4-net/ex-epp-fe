@@ -14,11 +14,13 @@ import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { UserDetailService } from '../../services/user-detail.service';
+//import { UserDetailService } from '../../services/user-detail.service';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-
+import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { UserDetailService } from '../../services/user-detail.service';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class UserdetailsComponent implements OnInit {
   selectedRecord: string | undefined;
   cgm=CustomFormModule;
   userId:any;
+  thePosition : any;
   userdetailInfo:any
   userdetail = new FormGroup({
     UserId: new FormControl(''),
@@ -64,7 +67,6 @@ export class UserdetailsComponent implements OnInit {
 
   public listOfTypes: [UserDetail] | [] = [];
   public listOfGroups: [GroupData] | [] =[];
-
   selectedSoFar = [];
   listUserGroups: Array<any> = [];
   public membershipList: [GroupData] | [] =[];
@@ -98,13 +100,16 @@ export class UserdetailsComponent implements OnInit {
 
   constructor(
     private userDetailService: UserDetailService,
+    //private _intialdataService: IntialdataService,
     private router: Router,
     private modal: NzModalService,
     private notification: NotificationBar,
     private _authenticationService:AuthenticationService, 
+    private _permissionService:PermissionService,
     private validator: FormValidator,
     private route: ActivatedRoute,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private authPermission:PermissionListService
   ) {
     this.userdetail = _fb.group({
       Name: '',
@@ -112,8 +117,18 @@ export class UserdetailsComponent implements OnInit {
       Guid:null
     });
     this.isLogin=_authenticationService.loginStatus();
+    this.thePosition = _authenticationService.position;
   }
-
+  authorize(key:string){
+     
+    // return true;
+     return this.authPermission.authorizedPerson(key);
+   }
+  // getPermission(): void {
+   // this._intialdataService.getUserPermission().subscribe((res:any)=>{
+     // this.permissionList=res.Data;     
+   // })
+  //}
   hasDataEntry(value: boolean) {
     this.userDetailService.hasData(value);
   }
@@ -129,6 +144,8 @@ export class UserdetailsComponent implements OnInit {
         this.userdetailInfo = response.Data;
        
       });
+     // this.getPermission();
+      //._permissionService.permissionList=this.permissionList;
       }
 
   onAddNewRecord(): void {

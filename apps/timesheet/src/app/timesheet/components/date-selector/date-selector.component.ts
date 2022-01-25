@@ -1,6 +1,8 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DayAndDateService } from '../../services/day-and-date.service';
+import { UserPermissionStateService } from '../../state/user-permission-state.service';
 
 @Component({
   selector: 'app-date-selector',
@@ -19,7 +21,8 @@ export class DateSelectorComponent implements OnInit {
   CounterNextWeek = 0;
   CounterLastWeek = 0;
   constructor(
-    private readonly _dayAndDateService: DayAndDateService
+    private readonly _dayAndDateService: DayAndDateService,
+    private readonly _permissionService: PermissionListService
     ) { }
 
   ngOnInit(): void {
@@ -41,5 +44,8 @@ export class DateSelectorComponent implements OnInit {
   valueChangedLastWeek() {
     this.CounterLastWeek = this.CounterLastWeek;
     this.valueChangeLastWeek.emit(this.CounterLastWeek);
+  }
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
   }
 }

@@ -34,12 +34,19 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
-    "client-management": {
+    "clientmanagement": {
       "tags": []
     },
-    "client-management-e2e": {
+    "clientmanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["client-management"]
+      "implicitDependencies": ["clientmanagement"]
+    },
+    "configurationmodule": {
+      "tags": []
+    },
+    "configurationmodule-e2e": {
+      "tags": [],
+      "implicitDependencies": ["configurationmodule"]
     },
     "core-model": {
       "tags": []
@@ -54,19 +61,22 @@
     "ng-zorro": {
       "tags": []
     },
-    "project-management": {
+    "projectmanagement": {
       "tags": []
     },
-    "project-management-e2e": {
+    "projectmanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["project-management"]
+      "implicitDependencies": ["projectmanagement"]
     },
-    "resource-management": {
+    "resourcemanagement": {
       "tags": []
     },
-    "resource-management-e2e": {
+    "resourcemanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["resource-management"]
+      "implicitDependencies": ["resourcemanagement"]
+    },
+    "shared-components": {
+      "tags": []
     },
     "timesheet": {
       "tags": []

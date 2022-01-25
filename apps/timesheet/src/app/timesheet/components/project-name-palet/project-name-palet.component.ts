@@ -10,6 +10,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -31,14 +32,15 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   startingDateCriteria = startingDateCriteria
   isApproved = false;
   isRejected = false;
- 
+
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService,
     private timesheetStateService: TimesheetStateService,
-    private readonly _clientAndProjectStateService: ClientAndProjectStateService
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService,
+    private readonly _permissionService: PermissionListService
   ) { }
-  
+
   ngOnInit(): void {
   }
 
@@ -51,14 +53,14 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     } else {
       this.projectNamePaletClass = "project-name-palet";
     }
-    if(this.timesheetApproval){
-      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[2].valueOf()){
-        this.isRejected=true;
-        this.isApproved=false;
+    if (this.timesheetApproval) {
+      if (this.timesheetApproval.ProjectId == this.timeEntry?.ProjectId && this.timesheetApproval.Status === Object.values(ApprovalStatus)[2].valueOf()) {
+        this.isRejected = true;
+        this.isApproved = false;
       }
-      else if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
-        this.isRejected=false;
-        this.isApproved=true;
+      else if (this.timesheetApproval.ProjectId == this.timeEntry?.ProjectId && this.timesheetApproval.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+        this.isRejected = false;
+        this.isApproved = true;
       }
       else {
         this.isRejected = false;
@@ -86,7 +88,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
 
-    if(this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+    if (this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
       this.clickEventType = ClickEventType.none;
       return;
     }
@@ -94,7 +96,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
-    }    
+    }
 
     this.clickEventType = ClickEventType.showFormDrawer;
     let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
@@ -140,6 +142,10 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       });
     }
   }
- }
   
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
+  }
+}
+
 

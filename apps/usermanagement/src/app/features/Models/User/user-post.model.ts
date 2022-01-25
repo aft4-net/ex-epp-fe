@@ -6,4 +6,5 @@ export interface IUserPostModel {
   Tel: string;
   Email: string;
   UserName: string;
+  GroupIds: string []
 }

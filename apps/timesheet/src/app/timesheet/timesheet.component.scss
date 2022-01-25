@@ -73,3 +73,16 @@
     background-color: #00A551;
     color:#F5F5F5
 }
+
+@media (min-width: 640px) {
+    ::ng-deep .ant-divider-horizontal {
+        display: flex;
+        margin: 0.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    ::ng-deep .ant-divider-horizontal {
+        display: none;
+    }
+}

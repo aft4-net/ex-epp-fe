@@ -11,6 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 interface ColumnItem {
   name: string;
@@ -104,7 +105,8 @@ export class ViewSubmissionsComponent implements OnInit {
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
-    private state: TimesheetStateService
+    private state: TimesheetStateService,
+    private _permissionService:PermissionListService
   ) {
     this.state.setTimesheetPageTitle("View Submissions");
   }
@@ -130,7 +132,7 @@ export class ViewSubmissionsComponent implements OnInit {
   }
 
   navaigateToTimeSheet() {
-    this.router.navigateByUrl('timesheet');
+    this.router.navigateByUrl('/timesheet');
   }
 
   timesheetSubmissionPaginatin(
@@ -217,5 +219,8 @@ export class ViewSubmissionsComponent implements OnInit {
       this.state.getTimesheet(this.userId);
       this.router.navigate(['/timesheet']);
     }
+  }
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
   }
 }

@@ -1,5 +1,5 @@
 
-  <form  [formGroup]="userfrm" (ngSubmit)="onSaveUser()" #form>
+  <form  [formGroup]="userfrm" *ngIf="authorize('Add_User')" (ngSubmit)="onSaveUser()" #form>
     <div nz-row>
         <div nz-col nzSpan="24" class="forDes">
             <div class="label">Employee
@@ -23,6 +23,6 @@
     </div><br>
 </form>
 <div class="right-footer">
-    <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" (click)="onSaveUser()" style="margin-right:15px">Add</button>
+    <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" *ngIf="!authorize('Add_User')" (click)="onSaveUser()" style="margin-right:15px">Add</button>
     <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
 </div>
