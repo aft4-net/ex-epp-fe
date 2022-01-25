@@ -16,10 +16,10 @@
                 </div>
               </div>
   
-              <div nz-row>
+              <div nz-row >
                 <div nz-col class="gutter-row" nzSpan="24">
                   <div class="inner-box">
-                    <p style="font-size: 14px"> {{userdetailInfo.JobTitle }}</p>
+                    <p style="font-size: 14px"> {{thePosition.JobTitle }}</p> 
                   </div>
                 </div>
               </div>
@@ -97,8 +97,8 @@
   <nz-modal
     [(nzVisible)]="isModalVisible"
     [nzTitle]="isUpdateMode ? 'Edit Look Up' : 'Add New'"
-    nzWidth="35%"
-    class="max-modal-width"
+    nzWidth="420px"
+    class="max-modal-width"  
     [nzFooter]="null"
     (nzOnCancel)="handleCancel()"
   >

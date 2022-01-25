@@ -203,7 +203,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     return this.isFutureDate;
   }
 
-  timesheetApproved() {debugger;
+  timesheetApproved() {
     if (!this.timesheetApprovals) {
       return false;
     }

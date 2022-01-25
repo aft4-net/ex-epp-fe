@@ -27,10 +27,15 @@ activePath(routePath: string) {
   return this.route == routePath;
 }
 
-constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){}
+constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){
+  this._commonData.getPermission();
+}
 
 ngOnInit(): void {
-  this._commonData.getPermission();
+  console.log()
+}
+ngAfterContentInit() {
+ 
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
    // window.location.reload();
@@ -46,7 +51,6 @@ ngOnInit(): void {
     }
   }
 }
-
 isLoggedIn(): boolean {
   return this.authService.instance.getActiveAccount() != null;
 }
