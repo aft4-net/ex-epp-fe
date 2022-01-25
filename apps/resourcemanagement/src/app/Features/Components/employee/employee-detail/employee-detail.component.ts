@@ -109,10 +109,10 @@ export class EmployeeDetailComponent implements OnInit {
       this.uemail= this._authenticationService.getEmail();
       this.getUser();
     }
-    else{
+  //  else{
       this.employeeViewModel as IEmployeeViewModel[];
       this.FeatchAllEmployees();
-    }
+    //}
     this.notification.showNotification({
       type:'success',
       content:'',
