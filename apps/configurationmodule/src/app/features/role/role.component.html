@@ -47,7 +47,7 @@
             <td>
               <i nz-icon nzType="edit" style="cursor: pointer;" nzTheme="outline" (click)="showEditModal(data.Guid)" *ngIf="authorize('Update_Role')"></i>
               <i style="padding-left: 15px; cursor: pointer;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Role')"
-                (click)="deleteHandler(data.Guid)"></i>
+                (click)="showDeleteConfirm(data.Guid, data.Name)"></i>
             </td>
           </tr>
         </tbody>
