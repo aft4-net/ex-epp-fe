@@ -98,7 +98,7 @@
                           <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
+                          <button class="actionButtons" *ngIf="authorize('Add_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
 
