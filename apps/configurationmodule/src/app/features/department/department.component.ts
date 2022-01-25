@@ -4,6 +4,7 @@ import { Department } from '../../models/department';
 import { Pagination } from '../../models/pagination';
 import { DepartmentService } from '../../services/department.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-department',
@@ -24,6 +25,7 @@ export class DepartmentComponent implements OnInit {
   constructor(private departmentConfigService: DepartmentService, 
    // private toastrService: ToastrService,
     private _permissionService:PermissionListService,
+    private modal: NzModalService
     ) { }
 
   ngOnInit(): void {
@@ -93,6 +95,19 @@ export class DepartmentComponent implements OnInit {
 
   onSearchChange() {
     this.getPaginatedDepartments();
+  }
+
+  showDeleteConfirm(id: string, name: string) {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this Department?',
+      nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteHandler(id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
   deleteHandler(id: string) {
