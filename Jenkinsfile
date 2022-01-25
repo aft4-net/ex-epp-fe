@@ -73,9 +73,9 @@ pipeline{
                  
                   
                   
-                  sh "sudo docker-compose down"
-                  sh "sudo docker system prune -af"
-                  sh "sudo docker-compose up -d "
+                  sh "docker-compose down"
+                  sh "docker system prune -af"
+                  sh "docker-compose up -d "
                   
                  }
             }
