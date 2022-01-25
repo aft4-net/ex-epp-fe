@@ -9,7 +9,7 @@ import { ResponseDTO } from "../../../Models/ResponseDTO";
 import { IUserGetModel } from "../../../Models/User/user-get.model";
 import { IUserPostModel } from "../../../Models/User/user-post.model";
 import { AddUserService } from "../../../services/add-user.service";
-import { PermissionService } from "../../../Services/permission/permission.service";
+import { PermissionService } from "../../../services/permission/permission.service";
 
 
 @Component({
