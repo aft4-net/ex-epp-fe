@@ -21,7 +21,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     RoleComponent, 
     AddEditRoleComponent,
     DepartmentComponent,
-    AddEditDepartmentComponent
+    AddEditDepartmentComponent,
   ],
   imports: [
     BrowserModule,

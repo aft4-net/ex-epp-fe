@@ -12,7 +12,7 @@ import {AuthenticationService} from './../../../../libs/common-services/Authenti
 })
 export class AppComponent implements OnInit {
   title = 'configurationmodule';
-  isLogin=true;
+  isLogin=false;
   route='';
   constructor( private router: Router, private notification: NzNotificationService,
     public _commonData:CommonDataService,
@@ -21,6 +21,12 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     this.notification.info('', '', {nzDuration: 1, nzPauseOnHover: false });
+    this._commonData.getPermission();
+    this.isLogin=this._authenticationService.loginStatus();
+    if(!this.isLogin){
+    // window.location.reload();
+      this.router.navigateByUrl('usermanagement/sign_in');
+    }
   }
   activePath(routePath: string) {
     if (this.route === '') this.route = this.router.url;
