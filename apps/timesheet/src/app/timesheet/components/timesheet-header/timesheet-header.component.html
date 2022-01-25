@@ -24,7 +24,7 @@
       </ng-template>
 
     </div>
-    <div *ngIf="authorize('Request_ForReview')" class="total-hours-completed justify-start items-start ml-0 mt-1" nz-tooltip
+    <div *ngIf="authorize('Submit_Timesheet')" class="total-hours-completed justify-start items-start ml-0 mt-1" nz-tooltip
       [nzTooltipTitle]="notSubmittedTooltip">
       <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg"
         nz-button (click)="onRequestForApproval()">{{btnText}}</button>

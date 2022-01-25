@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../../models/role';
 import { ResponseDTO } from '../../../models/response-dto.model';
 import { RoleService } from '../../../services/role.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-add-edit-role',
@@ -20,7 +21,8 @@ export class AddEditRoleComponent implements OnInit {
   
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         // private toastr: ToastrService,
-        private activatedRoute: ActivatedRoute) { }
+        private activatedRoute: ActivatedRoute,
+        private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -90,6 +92,9 @@ export class AddEditRoleComponent implements OnInit {
 
   resetForm() {
     this.roleForm.reset();
+  }
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key);
   }
 
 }

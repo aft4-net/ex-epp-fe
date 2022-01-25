@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../../models/department';
 import { ResponseDTO } from '../../../models/response-dto.model';
@@ -20,7 +21,8 @@ export class AddEditDepartmentComponent implements OnInit {
   
   constructor(private fb: FormBuilder, private departmentConfigService: DepartmentService,
         // private toastr: ToastrService,
-        private activatedRoute: ActivatedRoute) { }
+        private activatedRoute: ActivatedRoute,
+        private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -90,6 +92,9 @@ export class AddEditDepartmentComponent implements OnInit {
 
   resetForm() {
     this.departmentForm.reset();
+  }
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key);
   }
 
 }

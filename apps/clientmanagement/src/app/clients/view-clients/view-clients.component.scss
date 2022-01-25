@@ -1,7 +1,7 @@
 
 
 
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: none}
 .page-title {
   font-family: SF Pro Display;
   font-style: normal;
@@ -111,3 +111,27 @@ header {
 ::ng-deep .table_heading {
   background-color: #fafafa !important;
 }
+.ant-input-affix-wrapper {
+  position: relative;
+  width: 21vw !important;
+
+}
+::ng-deep .ant-table-filter-column {
+  display: inline-flex !important;
+  float:left !important;
+}
+.anticon-filter   {
+  color: none;
+}
+::ng-deep .ant-table-column-sorters {
+   float: left !important;
+}
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}
+
+

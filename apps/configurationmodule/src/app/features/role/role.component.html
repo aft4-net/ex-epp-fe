@@ -41,7 +41,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="authorize('View_Role')">
           <tr *ngFor="let data of listOfRoles">
             <td>{{ data.Name }}</td>
             <td>

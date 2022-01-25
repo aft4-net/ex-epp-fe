@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit {
   route='';
   constructor( private router: Router, private notification: NzNotificationService,
     public _commonData:CommonDataService,
-    private _authenticationService:AuthenticationService,) {
+    private _authenticationService:AuthenticationService,
+    private _permissionService:PermissionListService) {
 
   }
   ngOnInit() {
@@ -31,6 +33,9 @@ export class AppComponent implements OnInit {
   activePath(routePath: string) {
     if (this.route === '') this.route = this.router.url;
     return this.route == routePath;
+  }
+  authorize(key:string){
+    return this._permissionService.authorizedPerson(key);
   }
 
 }

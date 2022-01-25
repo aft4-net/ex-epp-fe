@@ -27,7 +27,7 @@
         <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:#00a551; font-size: '30px';"></i>
       </ng-template>
       <ng-template #avatarTextTemplate>
-        <a routerLink="resourcemanagement" style="color: black;" >
+        <a style="color: black;" (click)="routetoResourceManagement()">
           <p style="font-size:16px; font-weight: normal;">Employee Information</p>
         </a>
         </ng-template>
@@ -61,7 +61,7 @@
         <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
       </ng-template>
       <ng-template #timesheetTextTemplate>
-        <a routerLink="timesheetnew" style="color: black;" >
+        <a routerLink="timesheet" style="color: black;" >
           <p style="font-size:16px; font-weight: normal;">Timesheet</p>
          </a>
        

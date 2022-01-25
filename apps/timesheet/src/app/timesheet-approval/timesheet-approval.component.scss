@@ -79,7 +79,7 @@ button.is-yellow {
   font-family: SF Pro Display;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
   color: #FFFFFF;
 
@@ -96,14 +96,3 @@ button.is-yellow {
 
 }
 
-.ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected {
-  color: #262626;
-
-}
-::ng-deep .ant-table-filter-trigger.active {
-  color: #00A551 !important;
-}
-::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #00A551;
-  border-color: #00A551;
-}

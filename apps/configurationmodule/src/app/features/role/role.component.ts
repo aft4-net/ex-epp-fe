@@ -4,6 +4,7 @@ import { Role } from '../../models/role';
 import { Pagination } from '../../models/pagination';
 import { RoleService } from '../../services/role.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
+import { CommonDataService } from 'libs/common-services/commonData.service';
 
 @Component({
   selector: 'exec-epp-role',
@@ -23,11 +24,13 @@ export class RoleComponent implements OnInit {
 
   constructor(private roleConfigService: RoleService, 
    // private toastrService: ToastrService,
+   public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
     ) { }
 
   ngOnInit(): void {
     this.getRoles();
+    this._commonData.getPermission();
   }
 
   getPaginatedRoles() {

@@ -9,15 +9,23 @@ import { PermissionService } from './permission.service';
 @Injectable({
   providedIn: 'root'
 })
-export class  HttpInterceptorService implements HttpInterceptor {
+export class HttpInterceptorService implements HttpInterceptor {
 
-  constructor(private authService:AuthenticationService,private permissionService:PermissionService){}
+  constructor() { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {   
-    if(this.authService.isLogin())
-    req=req.clone({ headers: req.headers.set( 'Authorization',  `Bearer ${ this.permissionService.userTokenVaue}`)})
-          return next.handle(req)
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const loggedInUser = JSON.parse(
+      localStorage.getItem('loggedInUserInfo') ?? '{}'
+    );
+    if (loggedInUser){
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${loggedInUser.Token}`
+        }
+      })
     }
+    return next.handle(req)
+  }
 }
 
 
