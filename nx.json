@@ -34,13 +34,6 @@
       "tags": [],
       "implicitDependencies": ["applicant-tracking"]
     },
-    "client-management": {
-      "tags": []
-    },
-    "client-management-e2e": {
-      "tags": [],
-      "implicitDependencies": ["client-management"]
-    },
     "clientmanagement": {
       "tags": []
     },
@@ -65,22 +58,8 @@
       "tags": [],
       "implicitDependencies": ["epp-dashboard"]
     },
-    "eppconfiguration": {
-      "tags": []
-    },
-    "eppconfiguration-e2e": {
-      "tags": [],
-      "implicitDependencies": ["eppconfiguration"]
-    },
     "ng-zorro": {
       "tags": []
-    },
-    "project-management": {
-      "tags": []
-    },
-    "project-management-e2e": {
-      "tags": [],
-      "implicitDependencies": ["project-management"]
     },
     "projectmanagement": {
       "tags": []
@@ -96,19 +75,15 @@
       "tags": [],
       "implicitDependencies": ["resourcemanagement"]
     },
+    "shared-components": {
+      "tags": []
+    },
     "timesheet": {
       "tags": []
     },
     "timesheet-e2e": {
       "tags": [],
       "implicitDependencies": ["timesheet"]
-    },
-    "timesheetnew": {
-      "tags": []
-    },
-    "timesheetnew-e2e": {
-      "tags": [],
-      "implicitDependencies": ["timesheetnew"]
     },
     "usermanagement": {
       "tags": []

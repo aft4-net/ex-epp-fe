@@ -13,8 +13,6 @@ import {
   ClientService,
   Employee,
   EmployeeService,
-  PermissionService,
-  PreviousRouteService,
   Project,
   ProjectCreate,
   projectResourceType,
@@ -27,6 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
+import { PermissionListService } from 'libs/common-services/permission.service';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -55,8 +54,8 @@ export class AddProjectComponent implements OnInit {
   projectNameExitsErrorMessage = '';
   projectStartdDate = {} as Date;
   disallowResource = true;
-  addResourcePermission=false;
-  createPermisson=false;
+  addResourcePermission = false;
+  createPermisson = false;
 
   resources: projectResourceType[] = [] as projectResourceType[];
 
@@ -64,8 +63,6 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
-    private permissionService: PermissionService,
-    private previousRouteService: PreviousRouteService,
     private fb: FormBuilder,
     private projectService: ProjectService,
     private modalService: NzModalService,
@@ -74,47 +71,29 @@ export class AddProjectComponent implements OnInit {
     private projectStatusService: ProjectStatusService,
     private router: Router,
     private notification: NotificationBar,
+    private _permissionService: PermissionListService
   ) { }
 
   ngOnInit(): void {
-   
-    this.permissionService.getUserPermission("Create_Project").subscribe(res=>{
-      if(!res)
-      {
-        if (this.previousRouteService.getPreviousUrl())
-        this.router.navigateByUrl(this.previousRouteService.getPreviousUrl());
-      else
-        this.router.navigateByUrl('/projectmanagement');
-      }else
-      this.createPermisson=true;
-    })
-  
-  
-  if(this.createPermisson)       
-{
-  this.createRegistrationForm();
-  this.apiCalls();
-  this.projectMapper();
-  this.typeChanged();
-  this.validateParojectNameWithClient();
-  this.notification.showNotification({
 
-    type: 'success',
+    this.createRegistrationForm();
+    this.apiCalls();
+    this.projectMapper();
+    this.typeChanged();
+    this.validateParojectNameWithClient();
+    this.notification.showNotification({
 
-    content: '',
+      type: 'success',
 
-    duration: 1,
+      content: '',
 
-  });
+      duration: 1,
 
-  this.permissionService.getUserPermission('Assign_Resource').subscribe(res=>{
-  
-    this.addResourcePermission=res
+    });
   }
-    );
 
-}
-   
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
   }
 
   projectMapper() {
@@ -133,9 +112,23 @@ export class AddProjectComponent implements OnInit {
           this.validateForm.controls.projectType.value;
         this.projectCreate.ProjectStatusGuid =
           this.validateForm.controls.status.value.Guid;
-        this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
         this.projectCreate.Description =
           this.validateForm.controls.description.value;
+
+          if (this.projectCreate.ProjectType=='Internal')
+          {
+            for (let i = 0; i < this.clients.length; i++) {
+              if (
+                this.clients[i].ClientName.toLowerCase() ===
+                'Excellerent'.toString().toLowerCase()
+              ) {
+                this.projectCreate.ClientGuid = this.clients[i].Guid;
+              }
+            }
+          }
+          else{
+            this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
+          }
 
         if (this.validateForm.controls.status.value.AllowResource) {
           this.disallowResource = false;
@@ -235,7 +228,7 @@ export class AddProjectComponent implements OnInit {
           Validators.maxLength(70),
         ],
       ],
-      client: [null, [Validators.required]],
+      client: ['Excellerent', [Validators.required]],
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],

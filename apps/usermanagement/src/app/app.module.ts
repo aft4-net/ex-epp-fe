@@ -1,4 +1,5 @@
 import { AppComponent } from './app.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
@@ -56,7 +57,9 @@ registerLocaleData(en);
   ],
   providers   : [
     { provide: NZ_I18N, useValue: en_US }, 
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true }
   ],
+ 
   bootstrap: [AppComponent],
 })
 export class AppModule {}

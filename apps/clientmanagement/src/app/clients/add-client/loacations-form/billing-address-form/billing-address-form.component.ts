@@ -188,6 +188,9 @@ export class BillingAddressFormComponent implements OnInit {
         this.forms.value
       ]
       this.addStateClientService.updateBillingAddress(this.billingAddressess);
+
+      console.log(this.billingAddressess)
+
      }
     }
     this.isVisible = false;

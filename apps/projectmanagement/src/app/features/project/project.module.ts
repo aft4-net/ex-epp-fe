@@ -26,11 +26,7 @@ import { ClientProjectComponent } from '../client-project/client-project.compone
     ProjectRoutingModule
 
   ],
-  exports:[ViewProjectLayoutComponent,AddProjectComponent,BreadCrumbComponent ],
-  providers:[ {
-    provide:HTTP_INTERCEPTORS,
-    useClass:HttpInterceptorService,
-    multi:true
-  }],
+  exports:[ViewProjectLayoutComponent, AddProjectComponent, BreadCrumbComponent ],
+  providers:[],
 })
 export class ProjectModule { }

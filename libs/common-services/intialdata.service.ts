@@ -18,8 +18,6 @@ export class IntialdataService {
   getUserPermission(){
     return this.http.get(this.baseUrl).pipe(
       map((response:any)=>{
-        console.log(response);
-        console.log("checking the response")
         return response;
       })
     );
