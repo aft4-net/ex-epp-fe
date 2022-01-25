@@ -60,12 +60,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
         path: '',
         component: AppComponent,
 
-
         children: [
           {
             path: '',
             component: EmployeeDetailComponent,
-           
           },
 
           {

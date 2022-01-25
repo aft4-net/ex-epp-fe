@@ -67,7 +67,7 @@ export class UserDetailService {
     this.dataSource.next(value);
   }
   get(): Observable<any> {
-    return this.http.get<any>('http://localhost:14696/api/v1/GroupSet').pipe(
+    return this.http.get<any>(`${environment.apiUrl}/GroupSet`).pipe(
       catchError(this.errHandler.formatErrors)
     );
   }

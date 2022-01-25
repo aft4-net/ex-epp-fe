@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,8 @@ import { PermissionListService } from 'libs/common-services/permission.service';
 })
 export class AddEditRoleComponent implements OnInit {
   roleForm!: FormGroup;
-  id!: string | null;
+  @Input() id!: string | null;
+  @Output() update = new EventEmitter<string>();
   role!: Role;
   isEdit!: boolean;
   
@@ -24,7 +25,7 @@ export class AddEditRoleComponent implements OnInit {
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.createRoleForm();
     if (this.id !== null) {
       this.isEdit = true;
@@ -55,6 +56,7 @@ export class AddEditRoleComponent implements OnInit {
   saveForm() {
     if (this.roleForm.valid) {
       this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
+        this.update.emit("save");
         this.roleForm.reset();
         // this.toastr.success("Successfully Added", "Role")
       });
@@ -73,6 +75,7 @@ export class AddEditRoleComponent implements OnInit {
     if (this.roleForm.valid) {
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
         .subscribe((response)=>{
+          this.update.emit("update");
           // this.roleForm.reset();
           // this.toastr.success("Successfully Updated", "Role")
         });
