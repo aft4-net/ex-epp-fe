@@ -15,6 +15,12 @@ import { OperatingAddress } from '../../core/models/get/operating-address';
 import { OperationalAddressService } from '../../core/services/operational-address.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
+import { UpdateBillingAddress } from '../../core/models/update/UpdateBillingAddress';
+import { UpdateClient } from '../../core/models/update/UpdateClient';
+import { UpdateClientContact } from '../../core/models/update/UpdateClientContact';
+import { UpdateClientStateService } from '../../core/State/update-client-state.service';
+import { UpdateCompanyContact } from '../../core/models/update/UpdateCompanyContact';
+import { UpdateOperatingAddress } from '../../core/models/update/UpdateOperatingAddress';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -77,6 +83,13 @@ export class ViewClientsComponent implements OnInit  {
   allClients!: Client[];
   totalData: Client[]= [];
   totalData1: Client[]= [];
+  clientEdit:UpdateClient={} as UpdateClient;
+  ClientContactsEdit:UpdateClientContact []=[];
+  CompanyContactsEdit:UpdateCompanyContact[]=[];
+  OperatingAddressEdit:UpdateOperatingAddress []=[];
+  BillingAddressEdit:UpdateBillingAddress []=[];
+  clientDataByID!:any;
+  employeesEdit:Employee[]=[];
   constructor(
     private router: Router,
     private _clientservice: ClientService,
@@ -87,7 +100,8 @@ export class ViewClientsComponent implements OnInit  {
     private notification: NzNotificationService,
     private _notification: NotificationBar,
     private _permission:PermissionListService,
-   private _commonData:CommonDataService
+   private _commonData:CommonDataService,
+   private _editClientService:UpdateClientStateService
   ) {
 
 _commonData.getPermission()
@@ -124,6 +138,125 @@ _commonData.getPermission()
     //   });
 
   }
+
+  Edit(client: any): void {
+    if(client)
+   {
+
+   this.setClient(client);
+   this._editClientService.isDefault=false;
+  this._editClientService.isEdit=true;
+  this._editClientService.updateClientcomapanyContacts(this.employeesEdit);
+  this._editClientService.updateClient(this.clientEdit);
+  this._editClientService.save='Update';
+  this._editClientService.breadCrumb='Edit Clients';
+  this._editClientService.titlePage='Edit Client';
+  this._editClientService.formTitle='Edit Client Details';
+  this._editClientService.isAdd=false;
+  this.router.navigate(['clientmanagement/add-client/']);
+  // clientmanagement/add-client
+  }
+  }
+  setClient(client:Client){
+    if(client.ClientContacts)
+    {
+      this.setContact(client.ClientContacts);
+    }
+    if(client.CompanyContacts)
+    {
+      this.setContactCompany(client.CompanyContacts);
+    }
+    if(client.OperatingAddress)
+    {
+      this.setOperatingAddress(client.OperatingAddress);
+    }
+    if(client.BillingAddress)
+    {
+      this.setBillingAddress(client.BillingAddress);
+    }
+  this.clientEdit.Guid=client.Guid;
+  this.clientEdit.ClientName=client.ClientName;
+  this.clientEdit.ClientStatusGuid=client.ClientStatusGuid;
+  this.clientEdit.SalesPersonGuid=client.SalesPersonGuid;
+  this.clientEdit.Description=client.Description;
+  this.clientEdit.ClientContacts=this.ClientContactsEdit;
+  this.clientEdit.CompanyContacts=this.CompanyContactsEdit;
+  this.clientEdit.OperatingAddress=this.OperatingAddressEdit;
+  this.clientEdit.BillingAddress=this.BillingAddressEdit;
+
+  }
+  setContact(ClientContacts:any[]){
+   for(let i=0;i<ClientContacts.length;i++)
+   {
+     const contact={
+      Guid:ClientContacts[i].Guid,
+      ContactPersonName: ClientContacts[i].ContactPersonName,
+      Email: ClientContacts[i].Email,
+      PhoneNumber: ClientContacts[i].PhoneNumber,
+      PhoneNumberPrefix:ClientContacts[i].PhoneNumberPrefix+''
+     }
+     this.ClientContactsEdit.push(contact);
+   }
+  }
+  setContactCompany(comapanyContacts:any[])
+  {
+    for(let i=0;i<comapanyContacts.length;i++)
+    {
+      const contactPersonGuid={
+        Guid:comapanyContacts[i].Guid,
+        ContactPersonGuid:comapanyContacts[i].EmployeeID
+      }
+      this.CompanyContactsEdit.push(contactPersonGuid);
+      this.employeesEdit.push(comapanyContacts[i].Employee)
+    }
+  }
+  setOperatingAddress(OperatingAddress:any[])
+  {
+    for(let i=0;i<OperatingAddress.length;i++)
+    {
+      const opAddr={
+        Guid:OperatingAddress[i].Guid,
+        Country:OperatingAddress[i].Country,
+        City:OperatingAddress[i].City,
+        State:OperatingAddress[i].State,
+        ZipCode:OperatingAddress[i].ZipCode,
+        Address:OperatingAddress[i].Address,
+      }
+      this.OperatingAddressEdit.push(opAddr);
+    }
+  }
+  setBillingAddress(BillingAddress:any[]){
+    for(let i=0;i<BillingAddress.length;i++)
+    {
+      const blAddr={
+        Guid:BillingAddress[i].Guid,
+        Name : BillingAddress[i].Name,
+        Affliation : BillingAddress[i].Affliation,
+        Country:BillingAddress[i].Country,
+        City:BillingAddress[i].City,
+        State:BillingAddress[i].State,
+        ZipCode:BillingAddress[i].ZipCode,
+        Address:BillingAddress[i].Address,
+      }
+      this.BillingAddressEdit.push(blAddr);
+    }
+  }
+  DeleteClient(client:any){
+    this._clientservice.deleteClient(client.Guid).subscribe(
+      (res:any)=>{
+        if(res.ResponseStatus==='Success')
+        {
+         this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
+         );
+         this.router.navigateByUrl('clients');
+        }
+
+       },
+      err=>{
+        this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
+      }
+    );
+   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
     // if(key==='Create_Client')
@@ -170,6 +303,13 @@ _commonData.getPermission()
 
   addClientPage() {
     this.router.navigateByUrl('clientmanagement/add-client');
+    this._editClientService.isEdit=false;
+    this._editClientService.save='Save';
+    this._editClientService.breadCrumb='Add Clients';
+    this._editClientService.titlePage='Add Client';
+    this._editClientService.formTitle='Enter Client Details';
+    this._editClientService.isAdd=true;
+    this._editClientService.restUpdateClientState();
   }
 
   PageSizeChange(pageSize: number) {
