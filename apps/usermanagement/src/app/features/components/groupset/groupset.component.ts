@@ -14,7 +14,7 @@ import { PaginationResult } from '../../Models/PaginationResult';
 import { UserParams } from '../../Models/User/UserParams';
 import { listtToFilter } from '../../Models/listToFilter';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-import { PermissionService } from '../../Services/permission/permission.service';
+import { PermissionService } from '../../services/permission/permission.service';
 import { GroupSetService } from '../../Services/group-set.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 //import { IntialdataService } from '../../../../../services/intialdata.service';
