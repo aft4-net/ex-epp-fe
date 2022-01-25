@@ -22,4 +22,7 @@ export class IntialdataService {
     
     return this.http.get(this.baseUrl2);
   }
+  getUser(email:string){
+   return this.http.get<any>(environment.apiUrl+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
+  }
 }

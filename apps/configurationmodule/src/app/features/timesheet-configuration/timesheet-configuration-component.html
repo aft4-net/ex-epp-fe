@@ -71,5 +71,5 @@
             </div>
         </div>
     </div>
-    <button class="w-32 h-10 mt-6 rounded-sm bg-green-500 hover:bg-green-600 pt-2 pr-4 pb-2 pl-4 font-medium not-italic text-white">Save Changes</button>
+    <button *ngIf="authorize('Create_Timesheet_Configuration') || authorize('Update_Timesheet_Configuration')" class="w-32 h-10 mt-6 rounded-sm bg-green-500 hover:bg-green-600 pt-2 pr-4 pb-2 pl-4 font-medium not-italic text-white">Save Changes</button>
 </form>

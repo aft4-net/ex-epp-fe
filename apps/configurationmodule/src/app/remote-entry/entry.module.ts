@@ -12,6 +12,9 @@ import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 
 import { RemoteEntryComponent } from './entry.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -44,6 +47,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       },
     ]),
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
+  ],
 })
 export class RemoteEntryModule {}

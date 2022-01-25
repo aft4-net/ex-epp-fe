@@ -25,7 +25,7 @@
                 <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
                     class="text-danger-error">
                   <div *ngIf="(groupSet.get('Name')?.errors?.['required'])">
-                      Group's name is required. 
+                      Group's name is required.
                   </div>
                   <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
                       Group's name must be at least 2 characters long.
@@ -69,9 +69,9 @@
 
 <ng-template #modalFooter>
   <div style="text-align: left;">
-    <button nz-button nzType="default" class="foo" [disabled]="(!(groupSet?.dirty))"  class="defaultBtn" (click)="resetForm()">Clear</button> 
+    <button nz-button nzType="default" class="foo" [disabled]="(!(groupSet?.dirty))"  class="defaultBtn" (click)="resetForm()">Clear</button>
     <button nz-button nzType="primary" class="foo" [disabled]="groupSet.invalid" *ngIf="authorize('Create_Group')" (click)="onSaveGroup()">Create Group</button>
-    
+
   </div>
 </ng-template>
 </nz-modal>
@@ -97,13 +97,13 @@
           (nzOnCancel)="handleCancel()"
           >
           <ng-template #modalTitle class="backChange"><h4>Create group</h4></ng-template>
-          
+
           <ng-template #modalContent>
-          
+
             <form class="flex flex-col gap-5" [formGroup]="groupSet" *ngIf="authorize('Create_Group')" (ngSubmit)="onSaveGroup()" #form>
-          
+
               <div nz-row>
-          
+
                   <div nz-col nzSpan="24" class="forDes">
                     <!-- <p>When you create the group, you'll be able to add users
                         to it and configure its access or associate job positions
@@ -116,7 +116,7 @@
                           <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
                               class="text-danger-error">
                             <div *ngIf="(groupSet.get('Name')?.errors?.['required'])">
-                                Group's name is required. 
+                                Group's name is required.
                             </div>
                             <div *ngIf="groupSet.get('Name')?.errors?.['minlength'] && !(groupSet.get('Name')?.errors?.['required'])">
                                 Group's name must be at least 2 characters long.
@@ -128,7 +128,7 @@
                                 Invalid Group's name.
                             </div>
                           </div>
-          
+
                         </nz-form-control>
                       </nz-form-item>
                   </div>
@@ -155,9 +155,9 @@
                 </div>
               </div>
           </form>
-          
+
           </ng-template>
-          
+
           <ng-template #modalFooter>
             <button nz-button nzType="default" class="defaultBtn" (click)="resetForm()">Clear</button>
             <button nz-button nzType="primary" [disabled]="groupSet.invalid" *ngIf="authorize('Create_Group')" (click)="onSaveGroup()">Create Group</button>
@@ -168,10 +168,10 @@
       <div [formGroup]="groupDashboardForm" nz-row >
         <div nz-col class="gutter-row" [nzSpan]="8" >
           <nz-input-group nzSearch [nzSize]="'small'"  [nzPrefix]="suffixIconButton">
-            <input class="ml-1 w-72 h-8" type="text" style="border: 0ch;"  #searchInput formControlName="groupName" nz-input placeholder="Search here" (change)="SearchgroupsByName()" />
+            <input class="ml-1 w-48 h-8" type="text" style="border: 0ch;"  #searchInput formControlName="groupName" nz-input (change)="SearchgroupsByName()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button style="border: 0ch;" nzSearch   (click)="SearchgroupsByName()">
+            <button nz-button style="border: 0ch;margin-left:530px;" nzSearch   (click)="SearchgroupsByName()">
               <i nz-icon nzType="search"></i>
             </button>
           </ng-template>
@@ -202,12 +202,12 @@
               </thead>
               <tbody>
                 <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" >
-                  <td>{{group.Name}}</td>  
+                  <td>{{group.Name}}</td>
                   <td>
                     <button nz-button  style="border:0px; color: green;" nzType="link" [nzSize]="size"
                       (click)="ShowDetail(group.Guid)">Show Detail
                     </button>
-                  </td>                
+                  </td>
                 </tr>
               </tbody>
             </nz-table>

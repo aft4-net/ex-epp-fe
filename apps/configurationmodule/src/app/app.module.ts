@@ -13,6 +13,9 @@ import { AddEditRoleComponent } from './features/role/add-edit-role/add-edit-rol
 import { DepartmentComponent } from './features/department/department.component';
 import { AddEditDepartmentComponent } from './features/department/add-edit-department/add-edit-department.component';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     RoleComponent, 
     AddEditRoleComponent,
     DepartmentComponent,
-    AddEditDepartmentComponent
+    AddEditDepartmentComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,9 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     NzNotificationModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

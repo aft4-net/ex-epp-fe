@@ -1,7 +1,5 @@
 <div class="main-content">
       <div class="content">
-        <h2 *ngIf="this.isEdit">Edit Role</h2>
-        <h2 *ngIf="!this.isEdit">Add Role</h2>
   <form nz-form (ngSubmit)="submitForm()" [nzLayout]="'vertical'" [formGroup]="roleForm">
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="Name" nzRequired>Name</nz-form-label>
@@ -10,10 +8,10 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item nz-row>
+    <nz-form-item nz-row *ngIf="authorize('Update_Role') || authorize('Create_Role')">
       <nz-form-control [nzSpan]="14">
-        <button nz-button nzType="primary" type="submit" *ngIf="isEdit">Update</button>
-        <button nz-button nzType="primary" type="submit" *ngIf="!isEdit">Save</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Role')">Update</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="!isEdit && authorize('Create_Role')">Save</button>
         <button nz-button nzType="default" style="margin-left: 24px;" (click)="resetForm()">Reset</button>
       </nz-form-control>
     </nz-form-item>
