@@ -14,32 +14,39 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-
-    <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
-    <nz-modal [(nzVisible)]="isAddModalVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-      <ng-container *nzModalContent>
-        <p>Content one</p>
-        <p>Content two</p>
-        <p>Content three</p>
-      </ng-container>
+      <button nz-button nzType="primary" style="float: right" (click)="showAddModal()">
+        <span>Add Department</span>
+      </button>
+    <nz-modal
+      [(nzVisible)]="isAddModalVisible"
+      [nzTitle]="modalTitle"
+      [nzContent]="modalContent"
+      [nzFooter]="null"
+      (nzOnCancel)="handleCancel()"
+    >
+      <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Department</ng-template>
+      <ng-template #modalContent>
+        <exec-epp-add-edit-department [id]="idForEdit" (update)="update($event)"></exec-epp-add-edit-department>
+      </ng-template>
     </nz-modal>
     </div>
   </div>
+
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #basicTable [nzData]="listOfDepartments" [nzShowPagination]="false">
+      <nz-table #basicTable [nzData]="listOfDepartments" [nzShowPagination]="false" [nzFrontPagination]=false>
         <thead>
           <tr>
-            <th>Name</th>
+            <th [nzSortFn]="true" (nzSortOrderChange)="nameSortOrderChange($event)">Name</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of basicTable.data">
+          <tr *ngFor="let data of listOfDepartments">
             <td>{{ data.Name }}</td>
             <td>
-              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/department/edit/{{data.Guid}}" *ngIf="authorize('Update_Department')"></i>
-              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department')"
+              <i nz-icon nzType="edit" style="cursor: pointer;" nzTheme="outline" (click)="showEditModal(data.Guid)" *ngIf="authorize('Update_Department')"></i>
+              <i style="padding-left: 15px; cursor: pointer;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department')"
                 (click)="deleteHandler(data.Guid)"></i>
             </td>
           </tr>
