@@ -83,7 +83,7 @@ export class PageTitleComponent implements OnInit {
         this._formGenerator.save();
       }
 
-      this._router.navigate(['']);
+      this._router.navigate(['resourcemanagement']);
     }
   }
   Cancel() {
