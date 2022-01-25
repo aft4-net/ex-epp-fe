@@ -4,6 +4,7 @@ import { Role } from '../../models/role';
 import { Pagination } from '../../models/pagination';
 import { RoleService } from '../../services/role.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
+import { CommonDataService } from 'libs/common-services/commonData.service';
 
 @Component({
   selector: 'exec-epp-role',
@@ -19,13 +20,17 @@ export class RoleComponent implements OnInit {
   sortBy!: string;
   sortOrder!: string;
   pagination!: Pagination;
+  idForEdit: string | null = null;
+
   constructor(private roleConfigService: RoleService, 
    // private toastrService: ToastrService,
+   public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
     ) { }
 
   ngOnInit(): void {
     this.getRoles();
+    this._commonData.getPermission();
   }
 
   getPaginatedRoles() {
@@ -43,7 +48,16 @@ export class RoleComponent implements OnInit {
     this.getPaginatedRoles();
   }
 
-  showModal(): void {
+  update(value: string) {
+    this.getPaginatedRoles();
+  }
+
+  showAddModal(): void {
+    this.isAddModalVisible = true;
+  }
+
+  showEditModal(Guid: string): void {
+    this.idForEdit = Guid;
     this.isAddModalVisible = true;
   }
 
@@ -51,6 +65,7 @@ export class RoleComponent implements OnInit {
     this.isConfirmLoading = true;
     setTimeout(() => {
       this.isAddModalVisible = false;
+      this.idForEdit = null;
       this.isConfirmLoading = false;
     }, 1000);
   }
@@ -58,10 +73,24 @@ export class RoleComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isAddModalVisible = false;
+    this.idForEdit = null;
   }
 
   pageIndexChange(index: number) {
     this.pageIndex = index;
+    this.getPaginatedRoles();
+  }
+
+  nameSortOrderChange(event: any) {
+    this.sortBy = "Name";
+    if (event === 'ascend')
+      this.sortOrder = "Ascending";
+    else if (event === 'descend')
+      this.sortOrder = "Descending";
+    else {
+      this.sortOrder = "";
+      this.sortBy = "";
+    }
     this.getPaginatedRoles();
   }
 
@@ -72,11 +101,11 @@ export class RoleComponent implements OnInit {
   deleteHandler(id: string) {
     this.roleConfigService.deleteRole(id).subscribe((response) => {
       //this.toastrService.success(response.message, "Role");
-      this.listOfRoles = this.listOfRoles.filter((d) => d.Guid !== id);
+      // this.listOfRoles = this.listOfRoles.filter((d) => d.Guid !== id);
+      this.getPaginatedRoles();
     })
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
   }
-
 }

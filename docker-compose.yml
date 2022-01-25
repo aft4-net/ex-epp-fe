@@ -3,30 +3,33 @@ version: '3.4'
 services:
   applicant-tracking:
     image: blens/at:latest
-    ports: 
-      - "4201:80"
+    ports:
+      - '4237:80'
   client-management:
-    image: blens/eppfe:latest
-    ports: 
-      - "4202:80"
+    image: blens/cm:latest
+    ports:
+      - '4235:80'
   project-management:
     image: blens/pm:latest
     ports:
-      - "4203:80"
+      - '4236:80'
   timesheet:
     image: blens/ts:latest
     ports:
-      - "4204:80"
+      - '4233:80'
   resource-management:
     image: blens/rm:latest
     ports:
-      - "4205:80"
+      - '4234:80'
   usermanagement:
     image: blens/um:latest
     ports:
-      - "4206:80"
+      - '4231:80'
+  configurationmodule:
+    image: blens/configuration
+    ports:
+      - '4232:80'
   epp-dashboard:
     image: blens/epp-dash
     ports:
-      - "4207:80"
-
+      - '4200:80'

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PermissionListService } from 'libs/common-services/permission.service';
@@ -14,7 +14,8 @@ import { DepartmentService } from '../../../services/department.service';
 })
 export class AddEditDepartmentComponent implements OnInit {
   departmentForm!: FormGroup;
-  id!: string | null;
+  @Input() id!: string | null;
+  @Output() update = new EventEmitter<string>();
   department!: Department;
   isEdit!: boolean;
   
@@ -24,7 +25,7 @@ export class AddEditDepartmentComponent implements OnInit {
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.createDepartmentForm();
     if (this.id !== null) {
       this.isEdit = true;
@@ -55,6 +56,7 @@ export class AddEditDepartmentComponent implements OnInit {
   saveForm() {
     if (this.departmentForm.valid) {
       this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
+        this.update.emit("save");
         this.departmentForm.reset();
         // this.toastr.success("Successfully Added", "Department")
       });
@@ -73,6 +75,7 @@ export class AddEditDepartmentComponent implements OnInit {
     if (this.departmentForm.valid) {
       this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
         .subscribe((response)=>{
+          this.update.emit("update");
           // this.departmentForm.reset();
           // this.toastr.success("Successfully Updated", "Department")
         });

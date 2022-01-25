@@ -141,6 +141,7 @@ export class BillingAddressFormComponent implements OnInit {
       if(this.IsEdit){
       this.billingAddressess[this.editAt]=this.forms.value;
       this.addStateClientService.updateBillingAddress(this.billingAddressess);
+      
       this.tabledata=['']
       this.IsEdit=false;
       this.editAt=-1;
@@ -152,6 +153,9 @@ export class BillingAddressFormComponent implements OnInit {
         this.forms.value
       ]
       this.addStateClientService.updateBillingAddress(this.billingAddressess);
+      
+      console.log(this.billingAddressess)
+      
      }
     this.isVisible = false;
     this.forms.reset();

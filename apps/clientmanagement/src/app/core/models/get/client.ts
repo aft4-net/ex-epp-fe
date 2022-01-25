@@ -1,4 +1,3 @@
-//import { OperatingAddress } from 'apps/client-management/src/app/core/models/post/OperatingAddress';
 
 import { BillingAddress } from './billing-address';
 import { ClientContact } from './client-contact';
