@@ -72,12 +72,13 @@ pipeline{
                  sshagent(credentials : ['staging']) {
                  
                   
+                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.116.78.75:."  
                   
-                  sh "docker-compose down"
-                  sh "docker system prune -af"
-                  sh "docker-compose up -d "
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose down"
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker system prune -af"
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose up -d "
                   
-                 }
+                 
             }
             //clean the workspace after deployment 
             cleanWs deleteDirs: true, notFailBuild: true 
