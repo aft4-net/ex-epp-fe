@@ -13,12 +13,12 @@
           </div>  
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
-          <div nz-col class="gutter-row" [nzSpan]="8">
-            <nz-input-group [nzPrefix]="suffixIconButton">
-              <input class="ml-1 w-72 h-8" type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
+          <div nz-col class="gutter-row" [nzSpan]="6">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input  type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="default" style="border-width: 0px;margin-left:50px;" (click)="SearchUsersByUserName()">
+              <button nz-button nzType="default" (click)="SearchUsersByUserName()">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>

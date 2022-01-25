@@ -191,80 +191,32 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
-    const modal: NzModalRef = this.modal.create({
+    const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
     nzContent: 'Users in this group will lose all permissions related to the group.' + 
                 "Deleting a group can't be undone",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Delete Group',
-        type: 'primary',
-        danger: true,
-        disabled: false,
-        loading: false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      }]
+    nzOkText: 'Delete Group',
+    nzOkType: 'primary',
+    nzOkDanger: true,
+    nzOnOk: () => {
+      this.DeleteGroup();
+      modal.destroy()
+      }
     });
   }
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
-    const modal: NzModalRef = this.modal.create({
+    const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Remove user form group',
-    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group.The user will not have the permission that are provied to the group. <br/>" +
+    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
                 "Removing a user can't be undone",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Remove User',
-        type: 'primary',
-        danger: true,
-        disabled: false,
-        loading: false,
-        onClick: () => {
-          this.RemoveUserFromGroup(groupUserId);
-          modal.destroy()
-        }
-      }]
-    });
-  }
-
-  createEditGroupDescriptionModal(): void {
-    const modal: NzModalRef = this.modal.create({
-    nzTitle: "Edit group's description",
-    nzContent: "Edit the group's description to organize your groups better on the list. You can't edit the group's name.",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          shape: 'round',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Delete Group',
-        type: 'primary',
-        danger: true,
-        disabled: true,
-        loading: false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      }]
+    nzOkText: 'Remove User',
+    nzOkType: 'primary',
+    nzOkDanger: true,
+    nzOnOk: () => {
+        this.RemoveUserFromGroup(groupUserId);
+        modal.destroy()
+      }
     });
   }
 

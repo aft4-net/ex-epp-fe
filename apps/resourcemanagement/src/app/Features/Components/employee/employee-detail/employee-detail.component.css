@@ -122,13 +122,41 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep .ant-table-column-sorters {
   float: left !important;
 }
-
-::ng-deep .ant-table-column-sorters {
-  margin-left: 5px;
-  margin-right: 5px;
-  display: flow-root !important;
+.l-btn{
+  margin-right: 10px !important;
 }
+::ng-deep .ant-table-column-sorters {
+  flex: auto;
+  align-items: center;
+  justify-content: space-between;
+  display: flex !important;
+}
+
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
+}
+
+::ng-deep.ant-btn-primary,.ant-btn-primar:active,
+         .ant-btn-primary:hover,.ant-btn-primary:focus {
+  background-color: #00A551 !important;
+  border-color: #00A551 !important;
+  color: white;
+}
+
+::ng-deep.ant-btn-link,.ant-btn-link:active, 
+         .ant-btn-link:hover,ant-btn-link:focus {
+  background-color: white !important;
+  color: #00A551 !important;
+}
+
+::ng-deep.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00A551 !important;
+  border-color: #00A551 !important;
+  color: black !important;
+}
+
+::ng-deep.ant-dropdown-menu-item-selected,
+         .ant-dropdown-menu-submenu-title-selected {
+  color: black;
 }

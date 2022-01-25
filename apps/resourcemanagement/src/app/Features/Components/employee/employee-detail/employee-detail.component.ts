@@ -104,6 +104,7 @@ export class EmployeeDetailComponent implements OnInit {
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void {
+    
     if(this._authenticationService.isFromViewProfile() === 'true'){
       this.uemail= this._authenticationService.getEmail();
       this.getUser();
@@ -129,6 +130,7 @@ export class EmployeeDetailComponent implements OnInit {
     console.log('response'+this.uemail)
     this._employeeService.getUser(this.uemail).subscribe((response:any)=>{
       this.theEmpguid=response.Guid;
+      console.log("GUid " + this.theEmpguid )
       if( this.theEmpguid !== null){
         this.Edit(this.theEmpguid);
   
@@ -348,7 +350,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   searchEmployees() {
-    if(this.fullname.length > 2 || this.fullname != ""){
+    if(this.fullname.length > 3 || this.fullname != ""){
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams)
       .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
@@ -406,7 +408,7 @@ export class EmployeeDetailComponent implements OnInit {
        }
       );
       this.searchStateFound=true;
-    }
+    } 
   }
 
   // Edit(employeeId:string):void
@@ -431,7 +433,6 @@ export class EmployeeDetailComponent implements OnInit {
   Edit(employeeId:string):void
 
   {
-
     this._form.employeId=employeeId;
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
@@ -459,9 +460,7 @@ export class EmployeeDetailComponent implements OnInit {
       this._employeeService.employeeById?.FamilyDetails:[];
 
     this._employeeService.isdefault=false
-
     this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']);
-
    
 
   }
