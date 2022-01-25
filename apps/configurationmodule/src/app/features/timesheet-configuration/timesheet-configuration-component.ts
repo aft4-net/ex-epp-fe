@@ -2,23 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-//import {TimesheetConfiguration} from '../../../../timesheet/src/app/models/timesheetModels'
-import { TimesheetConfigurationStateService } from './state/timesheet-configuration-state.service';
-//import { TimesheetConfigurationStateService } from '../../../../timesheet/src/app/timesheet/state/timesheet-configuration-state.service';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-//import { TimesheetStateService } from '../../../../timesheet/src/app/timesheet/state/timesheet-state.service';
-
-
-//import { TimesheetConfiguration } from '../../../models/timesheetModels';
-//import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { TimesheetStateService } from 'apps/timesheet/src/app/timesheet/state/timesheet-state.service';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { TimesheetConfiguration } from 'apps/timesheet/src/app/models/timesheetModels';
+import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { PermissionListService } from 'libs/common-services/permission.service';
-//import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { TimesheetConfiguration } from '../../models/timesheetModels';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -48,14 +34,11 @@ export class TimesheetConfigurationComponent implements OnInit {
   constructor(
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-    private timesheetStateService: TimesheetStateService,
     private _permissionService:PermissionListService
   ) { 
-    this.timesheetStateService.setTimesheetPageTitle("Configuration");
   }
 
   ngOnInit(): void {
-    this.timesheetStateService.setApproval(true);
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
     this.timesheetConfig$.subscribe(tsc => {
