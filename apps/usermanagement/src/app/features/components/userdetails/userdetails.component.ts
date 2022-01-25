@@ -20,7 +20,7 @@ import { CustomFormModule } from '../../../shared/modules/forms/custom-form.modu
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionService } from '../../services/permission/permission.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { UserDetailService } from '../../Services/user-detail.service';
+import { UserDetailService } from '../../services/user-detail.service';
 
 
 @Component({
