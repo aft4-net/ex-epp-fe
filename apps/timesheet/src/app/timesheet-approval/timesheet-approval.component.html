@@ -88,7 +88,7 @@
       </nz-tab>
 
       <nz-tab nzTitle="Request for review" (nzClick)="onReviewTabClick()">
-        <exec-epp-table [ProjectName]="filteredProjectNamesList" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
+        <exec-epp-table [ProjectName]="filteredProjectNamesLists" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
