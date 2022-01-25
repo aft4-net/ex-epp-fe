@@ -10,7 +10,7 @@
         <div nz-col nzSpan="12" style="text-align: right;">
             <nz-space>
               <div *ngIf="authorize('Update_Group')" style="padding-left: 5px;">
-                <button class="defaultButton"   nz-button nzType="default" (click)="EditGroupDescription()" >
+                <button class="defaultButton"  nz-button nzType="default" (click)="EditGroupDescription()">
                     Edit Descriptions
                 </button>
               </div>
@@ -31,7 +31,7 @@
                     <br /> <br />
                     <div class="right-footer">
                       <nz-space>
-                        <button *nzSpaceItem nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+                        <button *nzSpaceItem nz-button nzType="default" [disabled]="groupDescriptionEditForm.invalid" (click)="handleCancel()">Clear</button>
                         <button id="editgroupdescriptionbutton" [disabled]="groupDescriptionEditForm.invalid" *nzSpaceItem nz-button nzType="primary" class="editGroup" (click)="SaveGroupDescription()">Save Changes</button>
                       </nz-space>
                     </div>
@@ -110,7 +110,7 @@
                         <div class="right-footer">
                           <label class="footerText">Displaying 20 users. Update search criteria for better results.</label>
                           <nz-space>
-                            <button *nzSpaceItem nz-button nzType="default" (click)="CancelAddUserToGroup()">Cancel</button>
+                            <button *nzSpaceItem nz-button nzType="default" [disabled]="AddUserToGroupForm.invalid" (click)="CancelAddUserToGroup()">Clear</button>
                             <button id="addUserToGroupbutton" [disabled]="AddUserToGroupForm.invalid" *nzSpaceItem nz-button nzType="primary" class="editGroup">Save Changes</button>
                           </nz-space>
                         </div>
