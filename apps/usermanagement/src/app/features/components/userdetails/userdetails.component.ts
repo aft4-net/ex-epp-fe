@@ -13,13 +13,14 @@ import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTableFilterList, NzTableModule } from 'ng-zorro-antd/table';
 //import { UserDetailService } from '../../services/user-detail.service';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { UserDetailService } from '../../Services/user-detail.service';
+import { IUserModel } from '../../Models/User/UserList';
 
 
 @Component({
@@ -34,13 +35,15 @@ export class UserdetailsComponent implements OnInit {
   loading = false;
   nzSwitch=true;
   isLogin=false;
+  userList : IUserModel[] = [];
+  userListJobTitle : NzTableFilterList=[];
   public userDetals: [UserDetail] | [] = [];
   isRecordUpdated = false;
   selectedRecord: string | undefined;
   cgm=CustomFormModule;
   userId:any;
   thePosition : any;
-  userdetailInfo:any
+  userdetailInfo:any 
   userdetail = new FormGroup({
     UserId: new FormControl(''),
     FullName: new FormControl(''),
@@ -141,6 +144,7 @@ export class UserdetailsComponent implements OnInit {
     this.userDetailService.getUserById(this.userId)
       .subscribe(async (response:any) => {
         this.userdetailInfo = response.Data;
+        this.thePosition = response.Data.userListJobTitle; 
 
       });
      // this.getPermission();
