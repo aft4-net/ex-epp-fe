@@ -72,11 +72,11 @@ pipeline{
                  sshagent(credentials : ['staging']) {
                  
                   
-                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.116.78.75:."  
+                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.218.150.53:."  
                   
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose down"
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker system prune -af"
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose up -d "
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose down"
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker system prune -af"
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose up -d "
                   
                  }
             }
