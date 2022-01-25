@@ -16,7 +16,6 @@ import { listtToFilter } from '../../Models/listToFilter';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { GroupSetService } from '../../Services/group-set.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-//import { IntialdataService } from '../../../../../services/intialdata.service';
 
 @Component({
   selector: 'exec-epp-groupset',

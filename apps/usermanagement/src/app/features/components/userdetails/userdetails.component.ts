@@ -14,7 +14,6 @@ import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
 import { NzTableFilterList, NzTableModule } from 'ng-zorro-antd/table';
-//import { UserDetailService } from '../../services/user-detail.service';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
