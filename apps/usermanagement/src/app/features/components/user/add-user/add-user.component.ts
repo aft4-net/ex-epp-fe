@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { PermissionListService } from "libs/common-services/permission.service";
 //import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { Observable, Subscription } from "rxjs";
 import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
@@ -9,7 +10,6 @@ import { ResponseDTO } from "../../../Models/ResponseDTO";
 import { IUserGetModel } from "../../../Models/User/user-get.model";
 import { IUserPostModel } from "../../../Models/User/user-post.model";
 import { AddUserService } from "../../../services/add-user.service";
-import { PermissionService } from "../../../services/permission/permission.service";
 
 
 @Component({
@@ -18,7 +18,7 @@ import { PermissionService } from "../../../services/permission/permission.servi
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit, OnDestroy {
-  
+
   isVisible = false;
   isLoadng = false;
   userfrm: any;
@@ -27,13 +27,13 @@ export class AddUserComponent implements OnInit, OnDestroy {
   @Input() addUserEvents: Observable<void> = new Observable<void>();
   employeeList: IEmployeeModel[] = [];
   selectedUserValue = '';
-  constructor(private userService: AddUserService, 
-    //private _authenticationService:AuthenticationService, 
-    private _permissionService:PermissionService,
+  constructor(private userService: AddUserService,
+    //private _authenticationService:AuthenticationService,
+    private _permissionService:PermissionListService,
     private notifier: NotifierService){
       //this.isLogin=_authenticationService.loginStatus();
     }
-  
+
   ngOnInit(): void {
     this.eventsSubscription= this.addUserEvents.subscribe(()=>this.onAddUser());
     this.eventsSubscription.add();
@@ -42,7 +42,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
       });
   }
   authorize(key:string){
-     
+
     return this._permissionService.authorizedPerson(key);
   }
   ngOnDestroy(): void {
