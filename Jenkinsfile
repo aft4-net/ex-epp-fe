@@ -78,7 +78,7 @@ pipeline{
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker system prune -af"
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose up -d "
                   
-                 
+                 }
             }
             //clean the workspace after deployment 
             cleanWs deleteDirs: true, notFailBuild: true 
