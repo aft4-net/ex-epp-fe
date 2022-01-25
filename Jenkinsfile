@@ -72,7 +72,7 @@ pipeline{
                  sshagent(credentials : ['staging']) {
                  
                   
-                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.218.150.53:."  
+                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.218.150.53:/home/ubuntu/deployment/ /home/ubuntu/deployment"  
                   
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose down"
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker system prune -af"
