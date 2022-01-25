@@ -24,7 +24,7 @@ import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
     RoleComponent, 
     AddEditRoleComponent,
     DepartmentComponent,
-    AddEditDepartmentComponent
+    AddEditDepartmentComponent,
   ],
   imports: [
     BrowserModule,
