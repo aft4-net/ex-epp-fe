@@ -4,7 +4,8 @@ import { Role } from '../../models/role';
 import { Pagination } from '../../models/pagination';
 import { RoleService } from '../../services/role.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
-import { CommonDataService } from 'libs/common-services/commonData.service';
+import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-role',
@@ -26,6 +27,7 @@ export class RoleComponent implements OnInit {
    // private toastrService: ToastrService,
    public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
+    private modal: NzModalService
     ) { }
 
   ngOnInit(): void {
@@ -96,6 +98,19 @@ export class RoleComponent implements OnInit {
 
   onSearchChange() {
     this.getPaginatedRoles();
+  }
+
+  showDeleteConfirm(id: string, name: string) {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this Role?',
+      nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteHandler(id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
   deleteHandler(id: string) {
