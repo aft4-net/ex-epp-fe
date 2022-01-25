@@ -1,4 +1,4 @@
-import { AddClientStateService, OperatingAddressCreate } from '../../../../core';
+import { AddClientStateService, OperatingAddressCreate, UpdateClientStateService, UpdateOperatingAddress } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -55,7 +55,8 @@ export class OperatingAddressFormComponent implements OnInit {
     private _city: CityService,
     private _cityInState: CityInStateService,
     private  addClientStateService:AddClientStateService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private  updateClientStateService:UpdateClientStateService,
   ) {
     this.forms = _fb.group({
       Country: ['',Validators.required],
@@ -81,8 +82,16 @@ export class OperatingAddressFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("data="+ this.data)
-    this. operatingAddress = this.addClientStateService.addClientData.OperatingAddress;
+    if(this.updateClientStateService.isEdit && this.updateClientStateService.UpdateClientData.OperatingAddress!==null)
+    {
+     this. operatingAddress = this.updateClientStateService.UpdateClientData.OperatingAddress;
+
+    }
+    else{
+      console.log("data="+ this.data)
+      this. operatingAddress = this.addClientStateService.addClientData.OperatingAddress;
+    }
+
     this.forms.valueChanges.subscribe(x => {
       if(this.forms.value['Country']!='' ||
       this.forms.value['City']!='' ||
@@ -118,9 +127,36 @@ export class OperatingAddressFormComponent implements OnInit {
     if (this.forms.valid) {
       if(this.IsEdit){
       this.operatingAddress[this.editAt]=this.forms.value;
-      this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+      if(this.updateClientStateService.isEdit)
+      {
+        const opAddress={
+          Guid:this.updateClientStateService.UpdateClientData.OperatingAddress[this.editAt].Guid,
+          Country:this.operatingAddress[this.editAt].Country,
+          City:this.operatingAddress[this.editAt].City,
+          State:this.operatingAddress[this.editAt].State,
+          ZipCode:this.operatingAddress[this.editAt].ZipCode,
+          Address: this.operatingAddress[this.editAt].Address,
+        } as UpdateOperatingAddress;
+        this.updateClientStateService.UpdateClientData.OperatingAddress[this.editAt]=opAddress;
+
+      }else{
+        this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+      }
+
       this.IsEdit=false;
       this.editAt=-1;
+      }
+      else{
+        if(this.updateClientStateService.isEdit)
+        {
+          const opAddress={
+            Country:this.forms.controls.Country.value,
+            City:this.forms.controls.City.value,
+            State:this.forms.controls.State.value,
+            ZipCode:this.forms.controls.ZipCode.value,
+            Address: this.forms.controls.Address.value,
+          } as UpdateOperatingAddress;
+          this.updateClientStateService.UpdateClientData.OperatingAddress.push(opAddress);
       }
      else{
       this.operatingAddress =[
@@ -133,7 +169,7 @@ export class OperatingAddressFormComponent implements OnInit {
       console.log("checking the lcoation")
 
 
-     }
+     }}
     this.isVisible = false;
     this.forms.reset();
     this.isClearButtonActive=true;

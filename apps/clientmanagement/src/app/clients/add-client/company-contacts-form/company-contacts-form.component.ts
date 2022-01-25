@@ -3,6 +3,8 @@ import {
   CompanyContactCreate,
   Employee,
   EmployeeService,
+  UpdateClientStateService,
+  UpdateCompanyContact,
 } from '../../../core';
 import { Component, Input, OnInit } from '@angular/core';
 import {
@@ -56,6 +58,7 @@ clientalreadyExist=false;
   editAt=-1;
   found=false;
   clientExist='';
+  updateCompContacts:UpdateCompanyContact[]=[];
   constructor(
     private employeeService: EmployeeService,
     private _companyContactService: CompanyContactService,
@@ -63,7 +66,8 @@ clientalreadyExist=false;
     private fb: FormBuilder,
     private modal: NzModalService,
     private _countryService: CountryCodeService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private updateClientStateService: UpdateClientStateService
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
   }
@@ -73,8 +77,29 @@ clientalreadyExist=false;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
+    this.updateCompContacts=this.updateClientStateService.UpdateClientData.CompanyContacts;
+    if(this.updateClientStateService.isEdit && this.updateClientStateService
+         .UpdateClientData!==null
+      )
+      {
+        for(let i=0;i<this.updateClientStateService.getClientcomapanyContacts.length;i++)
+        {
+          const compContact={
+            companyContactName:this.updateClientStateService.getClientcomapanyContacts[i].Name,
+            emailAdress:this.updateClientStateService.getClientcomapanyContacts[i].Email,
+            phoneNumber:this.updateClientStateService.getClientcomapanyContacts[i].PhoneNumberPrefix,
+            PhoneNumberPrefix:this.updateClientStateService.getClientcomapanyContacts[i].PhoneNumberPrefix,
+          }
+          this.listData.push(compContact);
 
-    this.listData = this.addClientStateService.getClientcomapanyContacts ;
+        }
+
+      }
+
+    else{
+      this.listData = this.addClientStateService.getClientcomapanyContacts ;
+    }
+
     this.addContactForm = this.fb.group({
       companyContactName: ['', [Validators.required]],
       phoneNumber: ['', []],
@@ -93,6 +118,7 @@ clientalreadyExist=false;
     this.isVisible = true;
   }
   submitForm(): void {
+    this.getClientContact();
     if (this.addContactForm.valid) {
       this.listData.forEach((value: any, index: any) => {
         if (value.companyContactName==this.addContactForm.value['companyContactName'])
@@ -105,13 +131,27 @@ clientalreadyExist=false;
       if(!this.IsEdit){
        if(!this.clientalreadyExist){
         this.listData = [...this.listData, this.addContactForm.value];
+        if(this.updateClientStateService.isEdit){
+          const contactPerson ={
+            ContactPersonGuid:this.contactDetail.Guid
+          } as UpdateCompanyContact
+          this.updateCompContacts.push(contactPerson);
+
+        this.updateClientStateService.updateCompanyContacts(this.updateCompContacts);
+        this.updateClientStateService.updateClientcomapanyContacts(this.listData);
+      }
+      else{
         this.comapanyContacts.push({
           ContactPersonGuid: this.contactDetail.Guid,
         });
-        this.isVisible = false;
+
         this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
         this.addClientStateService.updateClientcomapanyContacts(this.listData);
-        this.addContactForm.reset();
+
+
+      }
+      this.isVisible = false;
+      this.addContactForm.reset();
        }
        else{
          this.clientExist="Exist."
@@ -121,10 +161,24 @@ clientalreadyExist=false;
      else{
         this.listData[this.editAt]=this.addContactForm.value;
         this.IsEdit=false;
+        if(this.updateClientStateService.UpdateClientData.CompanyContacts.length>0)
+        {
+          this.updateCompContacts.push({
+            Guid:this.updateCompContacts[this.editAt].Guid,
+            ContactPersonGuid: this.contactDetail.Guid,
+          });
+
+          this.updateClientStateService.updateCompanyContacts(this.updateCompContacts);
+          this.updateClientStateService.updateClientcomapanyContacts(this.listData);
+          console.log(this.updateClientStateService.getClientcomapanyContacts)
+        }
+        else{
+          this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+          this.addClientStateService.updateClientcomapanyContacts(this.listData);
+        }
         this.editAt=-1;
         this.isVisible = false;
-        this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-        this.addClientStateService.updateClientcomapanyContacts(this.listData);
+
         this.addContactForm.reset();
       }
 

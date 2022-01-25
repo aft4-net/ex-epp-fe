@@ -1,4 +1,4 @@
-import { AddClientStateService, ClientContactCreate } from '../../../core';
+import { AddClientStateService, ClientContactCreate, UpdateClientContact, UpdateClientStateService } from '../../../core';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -39,20 +39,41 @@ export class ContactsFormComponent implements OnInit {
   IsEdit=false;
   editAt=-1;
   found=false;
+  updateContacts:UpdateClientContact[]=[];
   // ContactPersonName= new FormControl('');
 
   constructor(
     private fb: FormBuilder,
     private modal: NzModalService,
     private _countryService: CountryCodeService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private updateClientStateService: UpdateClientStateService,
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
 
   }
 
   ngOnInit(): void {
+
+    this.updateContacts=this.updateClientStateService.UpdateClientData.ClientContacts;
+    if(this.updateClientStateService.isEdit && this.updateClientStateService.UpdateClientData.ClientContacts!==null)
+
+    {
+      for(let i=0;i<this.updateClientStateService.UpdateClientData.ClientContacts.length;i++)
+      {
+        const clientContact={
+          ContactPersonName:this.updateClientStateService.UpdateClientData.ClientContacts[i].ContactPersonName,
+          Email:this.updateClientStateService.UpdateClientData.ClientContacts[i].Email,
+          PhoneNumber:this.updateClientStateService.UpdateClientData.ClientContacts[i].PhoneNumber,
+          PhoneNumberPrefix:this.updateClientStateService.UpdateClientData.ClientContacts[i].PhoneNumberPrefix,
+        }
+        this.listData.push(clientContact);
+
+      }
+    }
+else{
     this.listData = this.addClientStateService.addClientData.ClientContacts;
+}
     this.addContactForm = this.fb.group({
 ContactPersonName: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(70)]],
 PhoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(9), Validators.maxLength(15)]],
@@ -82,15 +103,37 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
     if (this.addContactForm.valid) {
       if(this.IsEdit){
         this.listData[this.editAt]=this.addContactForm.value;
-        this.addClientStateService.updateClientContacts(this.listData);
+        if(this.updateClientStateService.isEdit)
+        {
+          this.updateContacts[this.editAt].ContactPersonName=this.addContactForm.controls
+          .ContactPersonName.value;
+          this.updateContacts[this.editAt].Email=this.addContactForm.controls
+          .Email.value;
+          this.updateContacts[this.editAt].PhoneNumber=this.addContactForm.controls
+          .PhoneNumber.value;
+          this.updateContacts[this.editAt].PhoneNumberPrefix=this.addContactForm.controls
+          .PhoneNumberPrefix.value;
+
+          this.updateClientStateService.updateClientContacts(this.updateContacts);
+        }else{
+          this.addClientStateService.updateClientContacts(this.listData);
+        }
+
         this.IsEdit=false;
         this.editAt=-1;
         }
-        else
+        else{
+        if(this.updateClientStateService.isEdit)
         {
+          this.listData = [...this.listData, this.addContactForm.value];
+          this.updateContacts = [...this.updateContacts, this.addContactForm.value];
+          this.updateClientStateService.updateClientContacts(this.updateContacts);
+        }else{
           this.listData = [...this.listData, this.addContactForm.value];
           this.addClientStateService.updateClientContacts(this.listData);
         }
+      }
+
       this.addContactForm.reset();
       this.isClearButtonActive=true;
       this.isVisible = false;

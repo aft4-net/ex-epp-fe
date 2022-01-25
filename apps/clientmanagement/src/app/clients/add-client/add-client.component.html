@@ -4,19 +4,19 @@
     <nz-breadcrumb-item>
       <a [routerLink]="['/Clients']">Clients </a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Add Clients</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{updateClientState.breadCrumb}}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <div nz-row>
-    <div class="page-title"> Add Client </div>
+    <div class="page-title"> {{updateClientState.titlePage}} </div>
   </div>
 </header>
 <exec-epp-header-line> </exec-epp-header-line>
 <header>
   <div class="justify-between" nz-row>
-    <div nz-col nzSpan="21" class="page-title"> Enter Client Details </div>
+    <div nz-col nzSpan="21" class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col nzSpan="3">
       <button nz-button class="clear-btn" (click)="cancelAddClientPage()"  >   Cancel</button>
-      <button type="submit" (click)="addClient()" nz-button> Save </button>
+      <button type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
     </div>
   </div>
 </header>
@@ -100,7 +100,7 @@
       </span>
     </ng-template>
     <div class="tab-content">
-      
+
     </div>
   </nz-tab>
 
