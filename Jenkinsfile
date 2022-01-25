@@ -73,7 +73,7 @@ pipeline{
                  
                   
                   sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.218.150.53:/home/ubuntu/deployment"  
-                  
+                  sh "cd deployment/"
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose down"
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker system prune -af"
                   sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose up -d "
