@@ -112,10 +112,10 @@ tr.ant-table-row.ng-star-inserted {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-::ng-deep .ant-table-filter-column {
+/* ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
   float:left !important;
-}
+} */
 .anticon-filter   {
   color: none;
 }
@@ -135,6 +135,17 @@ tr.ant-table-row.ng-star-inserted {
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
+  margin-left: 5px;
+  margin-right: 5px;
+
+}
+
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
 }
 
 ::ng-deep.ant-btn-primary,.ant-btn-primar:active,

@@ -190,7 +190,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   align-items: left;
   margin-left: 0px;
 }
-.ant-btn-primary {
+::ng-deep .ant-btn-primary {
   color: #fff;
   background-color: #00a551;
   border-color: #00a551;
@@ -234,6 +234,10 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
+
+}
+::ng-deep .ant-table-filter-trigger.active{
+  color:#595959;
 }
 .l-btn{
   margin-right: 10px !important;
@@ -262,3 +266,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
          .ant-dropdown-menu-submenu-title-selected {
   color: black;
 }
+
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }

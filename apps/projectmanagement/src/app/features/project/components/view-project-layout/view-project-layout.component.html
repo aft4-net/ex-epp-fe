@@ -35,8 +35,8 @@
           <td>{{ data.ProjectStatus.StatusName }}</td>
           <td>{{ data.Supervisor?.Name }} </td>
           <td>
-            <a href="">
-              <i nz-icon nzType="edit" style="color:black;" *ngIf="authorize('Edit_Project')"></i>
+            <a href="" *ngIf="authorize('Update_Project')">
+              <i nz-icon nzType="edit" style="color:black;" ></i>
             </a>
             &nbsp; &nbsp;
             <a href="" *ngIf="authorize('Delete_Project') ">

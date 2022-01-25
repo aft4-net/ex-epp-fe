@@ -13,7 +13,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
-  userId: string | null = null;
+  userId: string = "";
   userPermissionList$: Observable<any[]> = new Observable();
 
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
@@ -30,7 +30,14 @@ export class TimesheetComponent implements OnInit {
     private commonDataService: CommonDataService,
     private notification: NzNotificationService
   ) {
-    this.userId = localStorage.getItem("userId");
+    let loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
+    this.userId = "";
+    if (loggedInUserInfo) {
+      this.userId = loggedInUserInfo["EmployeeGuid"];
+    }
+
+    localStorage.setItem("userId", this.userId);
+    
     this.userPermissionList$ = this.userPermissionStateService.permissionList$;
 
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;

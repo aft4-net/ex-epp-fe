@@ -50,22 +50,24 @@ pipeline{
                         withDockerRegistry([ credentialsId: "dockerhubID-Blen", url: "" ]) 
                         
                             {
-                            sh "docker tag client-management:latest blens/eppfe"
+                            sh "docker tag clientmanagement:latest blens/cm"
                             sh "docker tag timesheet:latest blens/ts"
                             sh "docker tag resource-management:latest blens/rm"
-                            sh "docker tag project-management:latest blens/pm"
+                            sh "docker tag projectmanagement:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
                             sh "docker tag usermanagement:latest blens/um"
                             sh "docker tag epp-dashboard:latest blens/epp-dash"
+                            sh "docker tag configurationmodule:latest blens/configuration"
                            
                             
-                            sh "docker push blens/eppfe"
+                            sh "docker push blens/cm"
                             sh "docker push blens/ts"
                             sh "docker push blens/rm"
                             sh "docker push blens/pm"
                             sh "docker push blens/at"
                             sh "docker push blens/um"
                             sh "docker push blens/epp-dash"
+                            sh "docker push blens/configuration"
                             
                             }
                  sshagent(credentials : ['staging']) {

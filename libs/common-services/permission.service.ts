@@ -16,7 +16,6 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
 }
       authorizedPerson(key:string){
         let found=false; 
-        // console.log(this._commonData.permissionList)
           this._commonData.permissionList.forEach(element => {
            
               if(element.KeyValue==key){

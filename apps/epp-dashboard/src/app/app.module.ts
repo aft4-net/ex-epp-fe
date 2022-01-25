@@ -3,13 +3,15 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
+import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
+
 import {
   IPublicClientApplication,
   PublicClientApplication,
@@ -89,6 +91,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       useFactory: MSALInstanceFactory,
     },
     { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     MsalService,
   ],
   bootstrap: [AppComponent],
