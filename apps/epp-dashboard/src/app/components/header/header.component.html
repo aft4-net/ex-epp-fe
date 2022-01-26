@@ -18,7 +18,7 @@
         </nz-badge>
       </button>
  
-      <button nz-button  nzDanger nzShape="circle"    nzPopoverTrigger="click" 
+      <button nz-button class="userIcon" nz-primary nzDanger nzShape="circle"    nzPopoverTrigger="click" 
       nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
       <ng-template #contentTemplate>      
         <div  nz-col>
@@ -29,7 +29,7 @@
             <button nz-row style="border: none; color: #00a551"   nz-button nzType="default" >
               <a  (click)="routetoResourceManagement()" routerLinkActive="router-link-active" ><p style="font-size:14px; "> My Profile</p></a>         
             </button>
-            <button nz-row style="size: 2%; border: none;" class="logBtn"  nz-button nzType="default" nzDanger (click)="logout()">
+            <button nz-row style="size: 2%; border: none;" class="logBtn logout"  nz-button nzType="default" nzDanger (click)="logout()">
                 Logout
             </button>
           
