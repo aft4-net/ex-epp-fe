@@ -196,7 +196,7 @@ export class GroupDetailComponent implements OnInit {
     nzContent: 'Users in this group will lose all permissions related to the group.' +
                 "Deleting a group can't be undone",
     nzOkText: 'Delete Group',
-    nzOkType: 'primary',
+    nzOkType: 'default',
     nzOkDanger: true,
     nzOnOk: () => {
       this.DeleteGroup();
@@ -211,7 +211,7 @@ export class GroupDetailComponent implements OnInit {
     nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
                 "Removing a user can't be undone",
     nzOkText: 'Remove User',
-    nzOkType: 'primary',
+    nzOkType: 'default',
     nzOkDanger: true,
     nzOnOk: () => {
         this.RemoveUserFromGroup(groupUserId);

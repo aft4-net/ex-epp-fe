@@ -61,12 +61,13 @@
                   <td>{{employeeView.Location }}</td>
                   <td>{{employeeView.Status }}</td>
                   <td *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
-                    <div (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
-                      <i nz-icon nzType="edit" style="color:black;"></i>
-                    </div>
-                    &nbsp; &nbsp;
-                    <div (click)="Delete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete Employee') || authorize('Employee_Admin'))">
-                      <i nz-icon nzType="delete" style="color:black;"></i>
+                    <div nz-row>
+                      <div nz-col nzSpan="6" (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
+                        <i nz-icon nzType="edit" style="color:black;"></i>
+                      </div>
+                      <div nz-col nzSpan="6" (click)="Delete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete Employee') || authorize('Employee_Admin'))">
+                        <i nz-icon nzType="delete" style="color:black;"></i>
+                      </div>
                     </div>
                     <!-- <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">

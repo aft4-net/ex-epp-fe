@@ -265,3 +265,18 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 ::ng-deep .ant-table-filter-open{
   color:#595959 !important;
  }
+
+::ng-deep.ant-table-column-sorter-up,
+          .ant-table-column-sorter-down,
+          .ant-table-column-sorter-down.active,
+          .ant-table-column-sorter-up.active {
+  color: #595959 !important;
+}
+
+::ng-deep.ant-checkbox-inner {
+  border-color: black !important;
+}
+
+::ng-deep.anticon {
+  color:#595959 !important;
+}
