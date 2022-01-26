@@ -272,8 +272,15 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: #262626;
 }
 
-.ant-table-column-sorter-down.active,
- .ant-table-column-sorter-up.active {
+
+::ng-deep.ant-table-column-sorter-up,
+          .ant-table-column-sorter-down,
+          .ant-table-column-sorter-down.active,
+          .ant-table-column-sorter-up.active {
   color: #595959 !important;
 }
 
+
+::ng-deep.anticon {
+  color:#595959 !important;
+}

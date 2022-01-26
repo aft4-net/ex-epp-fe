@@ -9,6 +9,12 @@
    
 }
 
+::ng-deep.ant-btn-dangerous,.ant-btn-dangerous:focus, .ant-btn-dangerous:hover {
+  background-color: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: white !important;
+}
+
 
 .header {
   display: flex;
