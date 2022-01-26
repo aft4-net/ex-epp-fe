@@ -108,11 +108,12 @@ export class EmployeeDetailComponent implements OnInit {
     if(this._authenticationService.isFromViewProfile() === 'true'){
       this.uemail= this._authenticationService.getEmail();
       this.getUser();
+      return;
     }
-    else{
+  //  else{
       this.employeeViewModel as IEmployeeViewModel[];
       this.FeatchAllEmployees();
-    }
+    //}
     this.notification.showNotification({
       type:'success',
       content:'',
