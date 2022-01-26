@@ -108,6 +108,7 @@ export class EmployeeDetailComponent implements OnInit {
     if(this._authenticationService.isFromViewProfile() === 'true'){
       this.uemail= this._authenticationService.getEmail();
       this.getUser();
+      return;
     }
   //  else{
       this.employeeViewModel as IEmployeeViewModel[];
@@ -460,7 +461,7 @@ export class EmployeeDetailComponent implements OnInit {
       this._employeeService.employeeById?.FamilyDetails:[];
 
     this._employeeService.isdefault=false
-    this._router.navigate(['/resourcemanagement/employee/add-employee/personal-info']);
+    this._router.navigate(['/resourcemanagement/myprofile']);
    
 
   }

@@ -65,6 +65,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: 'employee/add-employee/personal-info',
             component: PersonalInfoComponent,
           },
+          {
+            path: 'myprofile',
+            component: PersonalInfoComponent,
+          },
 
           {
             path: 'employee/add-employee/personal-address',
