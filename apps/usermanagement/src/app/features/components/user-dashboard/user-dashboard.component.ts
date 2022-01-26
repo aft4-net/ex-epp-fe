@@ -440,7 +440,7 @@ onSaveGroups() {
        }
           this.notifier.notify(
               NotificationType.success,
-              'User is created successfully'
+              'User has added to group successfully'
           );
           this.loadingOnSave = false;
           this.isGroupModalVisible = false;
