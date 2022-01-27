@@ -23,8 +23,9 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
    auth: {
-     clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-      redirectUri: 'http://localhost:4200'}});}
+    clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
+    redirectUri: 'https://18.218.150.53:4200',
+    }});}
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [

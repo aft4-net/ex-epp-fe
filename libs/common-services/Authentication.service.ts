@@ -13,7 +13,8 @@ import { ErrHandleService } from './error-handle.service';
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    url="http://localhost:14696";
+    url=environment.apiUrl;
+    user:any
   loginCount=0;
   position:string="";
   empGuid:string="";
@@ -25,17 +26,19 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
-     this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
-       
+       this.user=response;
        this.position  = response["EmployeeOrganization"]["JobTitle"];
        this.empGuid = response["Guid"];
+       
       }
     );
+    return email;
    }
     
    getLoggedInUserAuthToken(email?: string){
-    return this.http.get<any>('http://localhost:14696/api/v1/User/UserAuthToken?email=' + email?.toLowerCase());
+    return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
@@ -51,7 +54,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('http://localhost:4200/');
+    window.location.replace('https://18.218.150.53:4200/');
    }
 
    getEmail(){

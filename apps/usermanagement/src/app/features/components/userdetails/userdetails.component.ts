@@ -18,7 +18,7 @@ import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { UserDetailService } from '../../Services/user-detail.service';
+import { UserDetailService } from '../../services/user-detail.service';
 import { IUserModel } from '../../Models/User/UserList';
 
 
@@ -82,6 +82,7 @@ export class UserdetailsComponent implements OnInit {
   getAllUserGroups() {
     this.userDetailService.getAllUserGroupsByUserId(this.userId).subscribe((res) => {
       this.listUserGroups = res.Data;
+      console.log(this.listUserGroups)
     });
   }
   getAllGroupList(){
@@ -120,7 +121,7 @@ export class UserdetailsComponent implements OnInit {
       Guid:null
     });
     this.isLogin=_authenticationService.loginStatus();
-    //this.thePosition = _authenticationService.position;
+    
   }
   authorize(key:string){
 
@@ -147,13 +148,15 @@ export class UserdetailsComponent implements OnInit {
       .subscribe(async (response:any) => {
         console.log(response);
         this.userdetailInfo = response.Data;
-        this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
-          console.log('user')
-          console.log(res)
-          console.log('user')
-          this.thePosition =this.route.snapshot.paramMap.get('role');
-        });
         //this.thePosition = response.Data.userListJobTitle; 
+    this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
+     this.thePosition=res.EmployeeOrganization;
+      console.log('test')
+      console.log(this.thePosition)
+      console.log('test')
+    });
+      
+     
       });
 
      // this.thePosition = this.route.snapshot.paramMap.get('role');
