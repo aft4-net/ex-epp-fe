@@ -178,7 +178,3 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep.ant-checkbox-inner {
   border-color: black !important;
 }
-
-::ng-deep.anticon {
-  color:#595959 !important;
-}
