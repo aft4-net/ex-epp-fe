@@ -23,10 +23,10 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 import { environment } from 'libs/environments/environment'
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
-   auth: {
+  auth: {
     clientId: environment.clientId,
     redirectUri: environment.redirectUri,
-    }});}
+  }});}
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
