@@ -13,7 +13,7 @@ import { ErrHandleService } from './error-handle.service';
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    url="http://localhost:14696";
+    url=environment.apiUrl;
     user:any
   loginCount=0;
   position:string="";
@@ -26,7 +26,7 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
-    this.http.get<any>(this.url+'/api/v1/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
        this.user=response;
        this.position  = response["EmployeeOrganization"]["JobTitle"];
@@ -38,7 +38,7 @@ import { ErrHandleService } from './error-handle.service';
    }
     
    getLoggedInUserAuthToken(email?: string){
-    return this.http.get<any>('http://localhost:14696/api/v1/User/UserAuthToken?email=' + email?.toLowerCase());
+    return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
