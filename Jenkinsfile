@@ -34,7 +34,7 @@ pipeline{
              }
          steps{
               sh 'npm -v'
-              sh 'npm install --no-optional'
+              sh 'npm install'
               sh 'npm run deploy'
             }
         }   
