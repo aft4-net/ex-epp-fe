@@ -260,7 +260,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             jobTitle: [null, validateRequired],
             businessUnit: [null, validateRequired],
             department: [null, validateRequired],
-            reportingManager: [null, validateRequired],
+            reportingManager: [null],
             employeementType: [null, validateRequired],
             joiningDate: [null, validateRequired],
             terminationDate: [null],

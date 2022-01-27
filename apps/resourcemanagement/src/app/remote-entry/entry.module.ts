@@ -33,7 +33,7 @@ import { EmployeeRoutingModule } from '../Features/Components/employee/employee-
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
+      clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
       redirectUri: 'https://18.218.150.53:4200/',
     },
   });
@@ -63,6 +63,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
           {
             path: 'employee/add-employee/personal-info',
+            component: PersonalInfoComponent,
+          },
+          {
+            path: 'myprofile',
             component: PersonalInfoComponent,
           },
 

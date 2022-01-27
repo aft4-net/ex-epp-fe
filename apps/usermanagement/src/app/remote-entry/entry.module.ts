@@ -23,7 +23,7 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
    auth: {
-     clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
+     clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
       redirectUri: 'https://18.218.150.53:4200'}});}
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -60,9 +60,9 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'group-detail/:id',component:GroupDetailComponent
           },
           {
-            path:'sign_in',component:SigninComponent
+            path:'sign_in', component:SigninComponent
           },
-          {path:'unauthorize',component:UnauthorizeComponent}
+          {path:'unauthorize', component:UnauthorizeComponent}
         ]
       },
     ]),

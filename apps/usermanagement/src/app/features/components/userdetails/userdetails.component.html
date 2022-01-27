@@ -19,7 +19,7 @@
               <div nz-row >
                 <div nz-col class="gutter-row" nzSpan="24">
                   <div class="inner-box">
-                    <p style="font-size: 14px"> {{thePosition.JobTitle }}</p> 
+                    <p style="font-size: 14px"> {{thePosition?.JobTitle }}</p> 
                   </div>
                 </div>
               </div>
@@ -155,7 +155,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of table?.data">
+            <tr *ngFor="let data of table.data">
               <td>{{ getGroupName(data?.GroupSetGuid) }}</td>
               <td>{{ data?.CreatedDate | date }}</td>
 
