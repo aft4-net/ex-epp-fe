@@ -54,7 +54,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('http://localhost:4200/');
+    window.location.replace('https://18.218.150.53:4200/');
    }
 
    getEmail(){
