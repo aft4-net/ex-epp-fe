@@ -22,7 +22,7 @@ pipeline{
              }
          steps{
               sh 'node -v'
-              sh 'git checkout origin/develop'
+              sh 'git checkout  develop '
               sh 'npm install'
               sh 'npm run deploy'
             }
