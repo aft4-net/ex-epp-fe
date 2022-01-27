@@ -18,11 +18,11 @@ pipeline{
         stage('npm build')
         {
             when {
-                 branch 'develop'
+                 branch 'epp-module-integration'
              }
          steps{
               sh 'node -v'
-              sh 'git checkout -b epp-module-integration origin/develop'
+              sh 'git checkout origin/develop'
               sh 'npm install'
               sh 'npm run deploy'
             }
