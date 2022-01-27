@@ -22,9 +22,9 @@ pipeline{
              }
          steps{
               sh 'node -v'
-              sh 'git branch -D develop && git checkout -b develop origin/develop'
+              sh 'git checkout -b develop origin/develop'
               sh 'npm install'
-              sh 'npm run build-all'
+              sh 'npm run deploy'
             }
         }    
         stage('npm deploy')
@@ -41,7 +41,7 @@ pipeline{
         {
            when {
                 
-                branch 'master'  
+                branch 'develop'  
             
             }
             steps{
