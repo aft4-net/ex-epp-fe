@@ -33,7 +33,8 @@ pipeline{
                  branch 'master'
              }
          steps{
-             sh 'git checkout -b release origin/master'
+              sh 'npm cache clear'
+              sh 'npm cache verify'
               sh 'npm install'
               sh 'npm run deploy'
             }
