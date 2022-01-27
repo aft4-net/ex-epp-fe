@@ -33,7 +33,7 @@ pipeline{
                  branch 'master'
              }
          steps{
-             sh 'git branch -D release && git checkout -b release origin/master'
+             sh 'git checkout -b release origin/master'
               sh 'npm install'
               sh 'npm run deploy'
             }
