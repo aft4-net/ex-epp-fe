@@ -440,7 +440,7 @@ onSaveGroups() {
        }
           this.notifier.notify(
               NotificationType.success,
-              'User is created successfully'
+              'User has added to group successfully'
           );
           this.loadingOnSave = false;
           this.isGroupModalVisible = false;
@@ -537,7 +537,7 @@ handleGroupCancel() {
       nzTitle: 'Do you Want to delete the user?',
       nzContent: 'Once you delete the user you can not undo the deletion',
       nzOkText: 'Delete User',
-      nzOkType: 'primary',
+      nzOkType: 'default',
       nzOkDanger: true,
       nzOnOk: () =>
         this.userService.RemoveUser(userGuid).subscribe(

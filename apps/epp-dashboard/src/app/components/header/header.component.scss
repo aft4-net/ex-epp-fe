@@ -9,6 +9,17 @@
    
 }
 
+::ng-deep.userIcon,.userIcon:focus, .userIcon:hover {
+  background-color: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: white !important;
+}
+
+.logout,.logout:active,.logout:hover {
+  background-color: unset !important;
+  border-color:unset !important;
+  color: #ff4d4f !important;
+}
 
 .header {
   display: flex;

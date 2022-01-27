@@ -61,6 +61,7 @@
                   <td>{{employeeView.Location }}</td>
                   <td>{{employeeView.Status }}</td>
                   <td *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
+
                     <span (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
                       <i nz-icon nzType="edit" style="color:black;"></i>
                     </span>
@@ -68,6 +69,7 @@
                     <span (click)="Delete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete Employee') || authorize('Employee_Admin'))">
                       <i nz-icon nzType="delete" style="color:black;"></i>
                     </span>
+
                     <!-- <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
                       <ng-container *nzModalContent>
