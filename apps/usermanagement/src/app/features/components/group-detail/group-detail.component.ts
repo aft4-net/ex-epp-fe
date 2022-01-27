@@ -16,8 +16,8 @@ import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { PermissionService } from '../../services/permission/permission.service';
-import { GroupSetService } from '../../services/group-set.service';
+import { GroupSetService } from '../../Services/group-set.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 
 
 @Component({
@@ -26,12 +26,12 @@ import { GroupSetService } from '../../services/group-set.service';
   styleUrls: ['./group-detail.component.css']
 })
 export class GroupDetailComponent implements OnInit {
- 
+
   groupParams =  new GroupParams();
-  constructor(private groupSetService : GroupSetService, private _router: Router, 
+  constructor(private groupSetService : GroupSetService, private _router: Router,
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
-              private _authenticationService:AuthenticationService, 
+              private _authenticationService:AuthenticationService,
               private _authpermissionService:PermissionListService,
               private _permissionService:PermissionService,
               private userService : UserService,
@@ -89,7 +89,7 @@ export class GroupDetailComponent implements OnInit {
     this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
-      this.groupDetail  = result 
+      this.groupDetail  = result
       console.log(result)
     } );
     this.FeatchAllGroupsUsers();
@@ -103,7 +103,7 @@ export class GroupDetailComponent implements OnInit {
     })
   }
   authorize(key:string){
-  
+
      return this._authpermissionService.authorizedPerson(key);
    }
   AddUserToGroupControls() {
@@ -191,87 +191,39 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
-    const modal: NzModalRef = this.modal.create({
+    const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
-    nzContent: 'Users in this group will lose all permissions related to the group.' + 
+    nzContent: 'Users in this group will lose all permissions related to the group.' +
                 "Deleting a group can't be undone",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Delete Group',
-        type: 'primary',
-        danger: true,
-        disabled: false,
-        loading: false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      }]
+    nzOkText: 'Delete Group',
+    nzOkType: 'default',
+    nzOkDanger: true,
+    nzOnOk: () => {
+      this.DeleteGroup();
+      modal.destroy()
+      }
     });
   }
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
-    const modal: NzModalRef = this.modal.create({
+    const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Remove user form group',
-    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group.The user will not have the permission that are provied to the group. <br/>" +
+    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
                 "Removing a user can't be undone",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Remove User',
-        type: 'primary',
-        danger: true,
-        disabled: false,
-        loading: false,
-        onClick: () => {
-          this.RemoveUserFromGroup(groupUserId);
-          modal.destroy()
-        }
-      }]
-    });
-  }
-
-  createEditGroupDescriptionModal(): void {
-    const modal: NzModalRef = this.modal.create({
-    nzTitle: "Edit group's description",
-    nzContent: "Edit the group's description to organize your groups better on the list. You can't edit the group's name.",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          shape: 'round',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Delete Group',
-        type: 'primary',
-        danger: true,
-        disabled: true,
-        loading: false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      }]
+    nzOkText: 'Remove User',
+    nzOkType: 'default',
+    nzOkDanger: true,
+    nzOnOk: () => {
+        this.RemoveUserFromGroup(groupUserId);
+        modal.destroy()
+      }
     });
   }
 
   DeleteGroup(): void {
     this.groupSetService.DeleteGroup(this.groupId).subscribe(
       (result) => {
-        this.createNotification('Deleting group',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message); 
+        this.createNotification('Deleting group',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
         this._router.navigateByUrl('usermanagement/group');
       }
     )
@@ -295,7 +247,7 @@ export class GroupDetailComponent implements OnInit {
       this.handleCancel();
       this.createNotification('Updating group description',x.ResponseStatus.toString().toLocaleLowerCase(), x.Message);
       this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
-        this.groupDetail  = result 
+        this.groupDetail  = result
         console.log(result)
       } );
     });
@@ -317,7 +269,7 @@ export class GroupDetailComponent implements OnInit {
            indeterminate:false,
            checkAll:false
         }
-      
+
         element.Childs.forEach((element1:any) => {
           this.childPermissions=[...this.childPermissions,{
             Guid:element1.Guid,
@@ -331,7 +283,7 @@ export class GroupDetailComponent implements OnInit {
             checkAll:false
          }]
         }
-       
+
         );
         this.listOfAssignedPermistion=[...this.listOfAssignedPermistion,{
           Parent:this.parentPermission,
@@ -374,7 +326,7 @@ export class GroupDetailComponent implements OnInit {
     this.groupUsers.UserGuidCollection = this.AddUserToGroupForm.value.Users;
     this.groupSetService.AddUsersToGroup(this.groupUsers).subscribe((result) => {
       this.isAddToGroupVisible=false;
-      this.createNotification('Adding Users',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message); 
+      this.createNotification('Adding Users',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
       this.FeatchAllGroupsUsers();
     });
  }

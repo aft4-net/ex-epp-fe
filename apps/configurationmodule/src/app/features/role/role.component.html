@@ -14,9 +14,9 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" (click)="showModal()">
-      <span>Add Role</span>
-    </button>
+      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Role')" (click)="showAddModal()">
+        <span>Add Role</span>
+      </button>
     <nz-modal
       [(nzVisible)]="isAddModalVisible"
       [nzTitle]="modalTitle"
@@ -24,29 +24,30 @@
       [nzFooter]="null"
       (nzOnCancel)="handleCancel()"
     >
-      <ng-template #modalTitle>Add/Edit Role</ng-template>
+      <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Role</ng-template>
       <ng-template #modalContent>
-        <exec-epp-add-edit-role></exec-epp-add-edit-role>
+        <exec-epp-add-edit-role [id]="idForEdit" (update)="update($event)"></exec-epp-add-edit-role>
       </ng-template>
     </nz-modal>
     </div>
   </div>
+
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #basicTable [nzData]="listOfRoles" [nzShowPagination]="false">
+      <nz-table #basicTable [nzData]="listOfRoles" [nzShowPagination]="false" [nzFrontPagination]=false>
         <thead>
           <tr>
-            <th>Name</th>
+            <th [nzSortFn]="true" (nzSortOrderChange)="nameSortOrderChange($event)">Name</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody *ngIf="authorize('View_Role')">
           <tr *ngFor="let data of listOfRoles">
             <td>{{ data.Name }}</td>
-            <td *ngIf="authorize('Update_Role') || authorize('Delete_Role') ">
-              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/role/edit/{{data.Guid}}" *ngIf="authorize('Update_Role')"></i>
-              <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Role')"
-                (click)="deleteHandler(data.Guid)"></i>
+            <td>
+              <i nz-icon nzType="edit" style="cursor: pointer;" nzTheme="outline" (click)="showEditModal(data.Guid)" *ngIf="authorize('Update_Role')"></i>
+              <i style="padding-left: 15px; cursor: pointer;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Role')"
+                (click)="showDeleteConfirm(data.Guid, data.Name)"></i>
             </td>
           </tr>
         </tbody>

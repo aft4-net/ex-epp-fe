@@ -14,10 +14,8 @@ import { PaginationResult } from '../../Models/PaginationResult';
 import { UserParams } from '../../Models/User/UserParams';
 import { listtToFilter } from '../../Models/listToFilter';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-import { PermissionService } from '../../services/permission/permission.service';
-import { GroupSetService } from '../../services/group-set.service';
+import { GroupSetService } from '../../Services/group-set.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-//import { IntialdataService } from '../../../../../services/intialdata.service';
 
 @Component({
   selector: 'exec-epp-groupset',
@@ -73,7 +71,7 @@ export class GroupsetComponent implements OnInit {
 
   constructor(
     //private _intialdataService: IntialdataService,
-    private _authenticationService:AuthenticationService, 
+    private _authenticationService:AuthenticationService,
     private _permissionService:PermissionListService,
     private groupSetService: GroupSetService,
     private router: Router,
@@ -84,12 +82,12 @@ export class GroupsetComponent implements OnInit {
   this.isLogin=_authenticationService.loginStatus();
 }
 authorize(key:string){
-     
+
   return this._permissionService.authorizedPerson(key);
 }
 // getPermission(): void {
  // this._intialdataService.getUserPermission().subscribe((res:any)=>{
-   // this.permissionList=res.Data;     
+   // this.permissionList=res.Data;
  // })
 //}
   onAddNewRecord(): void {
@@ -113,7 +111,7 @@ authorize(key:string){
           content: 'Group added successfully',
           duration: 5000,
         });
-        this.FeatchAllgroups();        
+        this.FeatchAllgroups();
         this.isVisible = false;
       },
       (err: any) => {
@@ -123,10 +121,10 @@ authorize(key:string){
           duration: 5000,
         });
         console.log('error:' + err.error.Message);
-        
+
       }
     );
-     
+
     this.groupSet.reset();
   }
   ngOnInit(): void {
@@ -161,11 +159,11 @@ authorize(key:string){
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
-        this.loading = false;    
+        this.loading = false;
       }
       else
       {
-        this.loading = false;  
+        this.loading = false;
         this.groupList = [];
         this.groupList$=of([]);
 

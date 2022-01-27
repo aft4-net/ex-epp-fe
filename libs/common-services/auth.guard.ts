@@ -5,9 +5,9 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { filter, pairwise } from 'rxjs/operators';
 
 import { AuthenticationService } from './Authentication.service';
-import { CommonDataService } from './commonData.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PermissionListService } from './permission.service';
@@ -16,12 +16,17 @@ import { PermissionListService } from './permission.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private commonService: CommonDataService,
-    private permission: PermissionListService,
-  ) {}
+    private permission: PermissionListService
+  ) {
+    this.currentPath();
+  }
+  currentPath() {
+    return this.router.url;
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -38,16 +43,16 @@ export class AuthGuard implements CanActivate {
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
     if (this.authService.isLogin()) {
       const userRole = this.permission.authorizedPerson(route.data.role);
-     
+
       // route.data.role.indexOf(userRole) === -1
       if (!userRole) {
-        this.router.navigate(['']);
-        return false;
+      // this was commented out b/c there is a problem with the list it is returning
+       //this.router.navigate(['']);
+       // return false;
       }
       return true;
     }
-
-    this.router.navigate(['']);
+    this.router.navigate(['/usermanagement/sign_in']);
     return false;
   }
 }

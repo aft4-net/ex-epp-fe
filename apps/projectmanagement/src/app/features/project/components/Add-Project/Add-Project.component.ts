@@ -112,9 +112,23 @@ export class AddProjectComponent implements OnInit {
           this.validateForm.controls.projectType.value;
         this.projectCreate.ProjectStatusGuid =
           this.validateForm.controls.status.value.Guid;
-        this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
         this.projectCreate.Description =
           this.validateForm.controls.description.value;
+
+          if (this.projectCreate.ProjectType=='Internal')
+          {
+            for (let i = 0; i < this.clients.length; i++) {
+              if (
+                this.clients[i].ClientName.toLowerCase() ===
+                'Excellerent'.toString().toLowerCase()
+              ) {
+                this.projectCreate.ClientGuid = this.clients[i].Guid;
+              }
+            }
+          }
+          else{
+            this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
+          }
 
         if (this.validateForm.controls.status.value.AllowResource) {
           this.disallowResource = false;
@@ -214,7 +228,7 @@ export class AddProjectComponent implements OnInit {
           Validators.maxLength(70),
         ],
       ],
-      client: [null, [Validators.required]],
+      client: ['Excellerent', [Validators.required]],
       projectType: ['External', [Validators.required]],
       status: [null, [Validators.required]],
       supervisor: [null, [Validators.required]],

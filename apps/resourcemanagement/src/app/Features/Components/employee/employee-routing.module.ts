@@ -27,7 +27,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: ['Create_Employee'] },
   },
-
+  {
+    path: 'myprofile',
+    component: PersonalInfoComponent,
+  },
   {
     path: 'employee/add-employee/Organization-Detail',
     component: OrganizationDetailComponent,
