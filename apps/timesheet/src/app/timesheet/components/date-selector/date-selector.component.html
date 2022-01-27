@@ -20,10 +20,10 @@
         </div>
 
         <div class="right-buttons mt-4 flex pl-10">
-                <button  [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button
+                <button *ngIf="authorize('View_Timesheet_Submissions')" [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button
                         class="mr-2">View
                         Submision</button>
-                <button  [routerLink]="['/timesheet/timesheet-approval']" nzSize="large" nz-button>Approve
+                <button *ngIf="authorize('Approve_Timesheet')" [routerLink]="['/timesheet/timesheet-approval']" nzSize="large" nz-button>Approve
                         Timesheet</button>
         </div>
 </div>
