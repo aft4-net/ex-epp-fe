@@ -68,7 +68,7 @@
 
           <td>
             <div nz-row>
-              <div
+              <a
                 nz-col
                 nzSpan="2"
                 class="editable-cell"
@@ -76,13 +76,13 @@
                 (click)="startEdit(i)"
               >
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </div>
+            </a>
               &nbsp; &nbsp;
-              <div nz-col nzSpan="2">
-                <a nz-popconfirm (click)="showConfirm(i)"
+              <a nz-col nzSpan="2"
+                 nz-popconfirm (click)="showConfirm(i)"
                   ><i nz-icon nzType="delete" nzTheme="outline"></i
-                ></a>
-              </div>
+                >
+                  </a>
             </div>
           </td>
         </tr>

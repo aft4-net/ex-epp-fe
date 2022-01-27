@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-//import { TimesheetConfiguration } from '../../models/timesheetModels';
-//import { TimesheetService } from '../services/timesheet.service';
-import {TimesheetConfiguration} from '../../../../../../timesheet/src/app/models/timesheetModels'
-import { TimesheetService } from '../../../../../../timesheet/src/app/timesheet/services/timesheet.service';
+import { TimesheetConfiguration } from './../models/timesheetModels';
+import { ConfigurationService } from './../services/configuration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +16,10 @@ export class TimesheetConfigurationStateService {
   private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>(this.defaultTimesheetConfig);
   timesheetConfiguration$ = this.timesheetConfigurationSource.asObservable();
 
-  constructor(private timesheetService: TimesheetService) { }
+  constructor(private configurationService: ConfigurationService) { }
 
   getTimesheetConfiguration() {
-    this.timesheetService.getTimeSheetConfiguration().subscribe(response => {
+    this.configurationService.getTimeSheetConfiguration().subscribe(response => {
       const timesheetConfig : TimesheetConfiguration = response ?? this.defaultTimesheetConfig;
 
       timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? this.defaultTimesheetConfig.StartOfWeeks;
@@ -29,11 +27,13 @@ export class TimesheetConfigurationStateService {
       timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? this.defaultTimesheetConfig.WorkingHours;
 
       this.timesheetConfigurationSource.next(timesheetConfig);
+    }, error => {
+      console.log(error);
     });
   }
 
   addTimesheetConfiguration(timesheetConfig: TimesheetConfiguration) {
-    this.timesheetService.addTimeSheetConfiguration(timesheetConfig).subscribe(response => {
+    this.configurationService.addTimeSheetConfiguration(timesheetConfig).subscribe(response => {
       if(!response) {
         return;
       }

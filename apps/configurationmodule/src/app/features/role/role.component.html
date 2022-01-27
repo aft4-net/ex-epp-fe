@@ -14,7 +14,7 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" (click)="showAddModal()">
+      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Role')" (click)="showAddModal()">
         <span>Add Role</span>
       </button>
     <nz-modal
@@ -47,7 +47,7 @@
             <td>
               <i nz-icon nzType="edit" style="cursor: pointer;" nzTheme="outline" (click)="showEditModal(data.Guid)" *ngIf="authorize('Update_Role')"></i>
               <i style="padding-left: 15px; cursor: pointer;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Role')"
-                (click)="deleteHandler(data.Guid)"></i>
+                (click)="showDeleteConfirm(data.Guid, data.Name)"></i>
             </td>
           </tr>
         </tbody>
