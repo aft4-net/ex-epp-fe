@@ -5,11 +5,11 @@ import {
   IPermissionResponseModel,
 } from '../../Models/User/Permission-get.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { PermissionService } from '../../services/permission/permission.service';
 import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
+import { PermissionService } from '../../services/permission/permission.service';
 
 export interface GroupCheckBoxItem {
   label: string;
@@ -55,20 +55,20 @@ goupPermissions:IPermissionModel[] = [];
   ) {}
 
   ngOnInit(): void {
- 
+
     this.groupId = this.route.snapshot.paramMap.get('id');
     this._permissionService.goupPermissions.forEach(element => {
       this.selectedPermissionList = [
         ...this.selectedPermissionList,
         { Guid: element.Guid },
       ];
-      
+
     });
     this._permissionService.getPermission().subscribe((reponse: any) => {
       this.permissionResponse = reponse;
       this.permissionData = this.permissionResponse?.Data;
       this.permissionData.forEach((element: any) => {
-        
+
         this.parentPermission = {
           Guid: element.Parent.Guid,
           PermissionCode: element.Parent.PermissionCode,
@@ -109,7 +109,7 @@ goupPermissions:IPermissionModel[] = [];
         ];
         this.childPermissions = [];
         let index=0;
- 
+
         this.listOfPermistion.forEach(element => {
           if (this.listOfPermistion[index].Childs.every((item) => !item.checked)) {
             this.listOfPermistion[index].Parent.checkAll = false;
@@ -123,13 +123,13 @@ goupPermissions:IPermissionModel[] = [];
             this.listOfPermistion[index].Parent.indeterminate = true;
             this.listOfPermistion[index].Parent.checkAll = false;
           }
-         
+
           index++;
         });
        this.checkWhileAllSelected();
-        
+
       });
-     
+
       this.listCheckBox?.push({
         label: this.permissionData[0].Childs[0].KeyValue,
         value: this.permissionData[0].Childs[0].KeyValue,
@@ -204,7 +204,7 @@ goupPermissions:IPermissionModel[] = [];
                     if (element3.Guid == element4.Guid) {
                       element4.checked = true;
                       this.listOfPermistion[count].Childs[count2].checked=true;
-                     
+
                     }
                     count2++;
                   });
@@ -213,7 +213,7 @@ goupPermissions:IPermissionModel[] = [];
               count++;
             });
           });
-       
+
       });
     }
   }
@@ -226,7 +226,7 @@ goupPermissions:IPermissionModel[] = [];
     if (event) {
       this.countSelectedModule++;
       this.listOfPermistion[i].Parent.indeterminate = false;
-     
+
       this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
         (item) => ({
           ...item,
@@ -268,7 +268,7 @@ goupPermissions:IPermissionModel[] = [];
         });
       });
     }
-    
+
     if(this.countSelectedModule==this.listOfPermistion.length){
       this.allModuleCecked=true;
       this.allModuleIntermidate=false
@@ -288,9 +288,9 @@ goupPermissions:IPermissionModel[] = [];
 
   checkAll(event:any){
 
- 
+
 for (let i = 0; i < this.listOfPermistion.length; i++) {
-  
+
     this.indeterminate = false;
     if (event) {
       this.listOfPermistion[i].Parent.indeterminate = false;
@@ -319,7 +319,7 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
       });
     } else {
       this.listOfPermistion[i].Parent.checkAll = false;
-     
+
       this.listOfPermistion[i].Childs = this.listOfPermistion[i].Childs.map(
         (item) => ({
           ...item,
@@ -335,13 +335,13 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
           count++;
         });
       });
-    
+
   }
   this.checkWhileAllSelected();
 }
-    
 
-   
+
+
   }
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
@@ -399,7 +399,7 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
       fullPhrase = fullPhrase + ' ' + titleCase;
       } catch (error) {
         console.log();
-        
+
       }
     });
     if(wordLists.length==0){
@@ -439,7 +439,7 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
     return bool;
   }
   cancelPermission(){
-   
+
     this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
   }
   checkWhileAllSelected(){
@@ -449,13 +449,13 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
       this.listOfPermistion.forEach(element => {
         if(element.Parent.indeterminate){
           interm++;
-          
+
         }
         if(element.Parent.checkAll){
          check++;
-         
+
         }
-     
+
            if(check==this.listOfPermistion.length){
             this.allModuleCecked=true;
             this.allModuleIntermidate=false

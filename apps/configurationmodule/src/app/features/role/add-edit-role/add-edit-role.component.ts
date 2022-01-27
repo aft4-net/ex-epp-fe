@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../../models/role';
 import { ResponseDTO } from '../../../models/response-dto.model';
 import { RoleService } from '../../../services/role.service';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-add-edit-role',

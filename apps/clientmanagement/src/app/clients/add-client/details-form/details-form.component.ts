@@ -7,6 +7,8 @@ ClientStatus,
 ClientStatusService,
 Employee,
 EmployeeService,
+UpdateClient,
+UpdateClientStateService,
 } from '../../../core';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -28,6 +30,7 @@ export class DetailsFormComponent implements OnInit {
   clients = [] as Client[];
   clientStatuses = [] as ClientStatus[];
   clientDetailCreate: ClientDetailCreate = {} as ClientDetailCreate;
+  updateClient: UpdateClient = {} as UpdateClient;
   options: string[] = [];
   selectedValue = '';
   clientNameExistErrorMessage='';
@@ -38,10 +41,12 @@ export class DetailsFormComponent implements OnInit {
     private clientStatusService: ClientStatusService,
     private addClientStateService: AddClientStateService,
     private clientDetailsService: ClientDetailsService,
+    private updateClientState: UpdateClientStateService,
   ) {}
 
   ngOnInit(): void {
     this.createRegistrationForm();
+    this.setValue();
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
@@ -65,10 +70,33 @@ export class DetailsFormComponent implements OnInit {
     });
 
     this.validateForm.valueChanges.subscribe(() => {
+      if(this.updateClientState.isEdit)
+      {
+        if (this.validateForm.valid) {
+          this.updateClient.ClientName =
+            this.validateForm.controls.clientName.value;
+          this.updateClient.SalesPersonGuid =this.validateForm.controls.salesPerson.value;
+          this.updateClient.ClientStatusGuid =
+            this.validateForm.controls.status.value;
+          this.updateClient.Description =
+            this.validateForm.controls.description.value;
+            this.updateClient.Guid=this.updateClientState.UpdateClientData.Guid;
+            this.updateClient.ClientContacts=this.updateClientState.UpdateClientData.ClientContacts;
+            this.updateClient.CompanyContacts=this.updateClientState.UpdateClientData.CompanyContacts;
+            this.updateClient.OperatingAddress=this.updateClientState.UpdateClientData.OperatingAddress;
+            this.updateClient.BillingAddress=this.updateClientState.UpdateClientData.BillingAddress;
+
+          this.updateClientState.updateClient(
+            this.updateClient
+          );
+        }
+
+      }
+else{
       if (this.validateForm.valid) {
         this.clientDetailCreate.ClientName =
           this.validateForm.controls.clientName.value;
-        this.clientDetailCreate.SalesPersonGuid =this.validateForm.controls.salesPerson.value.Guid;
+        this.clientDetailCreate.SalesPersonGuid =this.validateForm.controls.salesPerson.value;
         this.clientDetailCreate.ClientStatusGuid =
           this.validateForm.controls.status.value;
         this.clientDetailCreate.Description =
@@ -79,7 +107,23 @@ export class DetailsFormComponent implements OnInit {
           this.clientDetailCreate
         );
       } else this.addClientStateService.restAddClientDetails();
+    }
     });
+  }
+  setValue(){
+    if(this.updateClientState.isEdit && this.updateClientState.UpdateClientData!==null)
+    {
+      this.validateForm=this.fb.group({
+        clientName: [
+          this.updateClientState.UpdateClientData.ClientName,
+
+        ],
+        status: [this.updateClientState.UpdateClientData.ClientStatusGuid],
+        salesPerson: [this.updateClientState.UpdateClientData.SalesPersonGuid],
+        description:[this.updateClientState.UpdateClientData.Description],
+      });
+    }
+
   }
 
   checkClientName() {

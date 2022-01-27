@@ -14,6 +14,7 @@ import { ErrHandleService } from './error-handle.service';
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
     url=environment.apiUrl;
+    user:any
   loginCount=0;
   position:string="";
   empGuid:string="";
@@ -27,11 +28,13 @@ import { ErrHandleService } from './error-handle.service';
    getUser(email:string){
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
-        console.log(response);
+       this.user=response;
        this.position  = response["EmployeeOrganization"]["JobTitle"];
        this.empGuid = response["Guid"];
+       
       }
     );
+    return email;
    }
     
    getLoggedInUserAuthToken(email?: string){
