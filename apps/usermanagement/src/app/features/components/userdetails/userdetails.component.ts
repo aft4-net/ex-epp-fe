@@ -81,6 +81,7 @@ export class UserdetailsComponent implements OnInit {
   getAllUserGroups() {
     this.userDetailService.getAllUserGroupsByUserId(this.userId).subscribe((res) => {
       this.listUserGroups = res.Data;
+      console.log(this.listUserGroups)
     });
   }
   getAllGroupList(){
@@ -118,7 +119,7 @@ export class UserdetailsComponent implements OnInit {
       Guid:null
     });
     this.isLogin=_authenticationService.loginStatus();
-    this.thePosition = _authenticationService.position;
+    
   }
   authorize(key:string){
 
@@ -143,8 +144,15 @@ export class UserdetailsComponent implements OnInit {
     this.userDetailService.getUserById(this.userId)
       .subscribe(async (response:any) => {
         this.userdetailInfo = response.Data;
-        this.thePosition = response.Data.userListJobTitle; 
-
+        //this.thePosition = response.Data.userListJobTitle; 
+    this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
+     this.thePosition=res.EmployeeOrganization;
+      console.log('test')
+      console.log(this.thePosition)
+      console.log('test')
+    });
+      
+     
       });
      // this.getPermission();
       //._permissionService.permissionList=this.permissionList;
