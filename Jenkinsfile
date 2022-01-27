@@ -33,7 +33,7 @@ pipeline{
                  branch 'master'
              }
          steps{
-              sh 'npm cache clear'
+              sh 'npm cache clear --force'
               sh 'npm cache verify'
               sh 'npm install'
               sh 'npm run deploy'
