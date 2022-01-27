@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Employee } from '@exec-epp/core-models';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { environment } from "../environments/environment";
+import { environment } from "./../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 
 @Injectable({
@@ -54,7 +54,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('https://18.218.150.53:4200/');
+    window.location.replace(`${environment.redirectUri}/`);
    }
 
    getEmail(){
