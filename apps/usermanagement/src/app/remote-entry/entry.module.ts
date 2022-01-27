@@ -24,7 +24,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
    auth: {
      clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
-      redirectUri: 'https://18.218.150.53:4200'}});}
+      redirectUri: 'https://18.218.150.53:4200/usermanagement/sign_in'}});}
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
