@@ -14,7 +14,7 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" (click)="showAddModal()">
+      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Department')" (click)="showAddModal()">
         <span>Add Department</span>
       </button>
     <nz-modal
@@ -41,13 +41,13 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="authorize('View_Department')" >
           <tr *ngFor="let data of listOfDepartments">
             <td>{{ data.Name }}</td>
             <td>
               <i nz-icon nzType="edit" style="cursor: pointer;" nzTheme="outline" (click)="showEditModal(data.Guid)" *ngIf="authorize('Update_Department')"></i>
               <i style="padding-left: 15px; cursor: pointer;" nz-icon nzType="delete" nzTheme="outline" *ngIf="authorize('Delete_Department')"
-                (click)="deleteHandler(data.Guid)"></i>
+                (click)="showDeleteConfirm(data.Guid, data.Name)"></i>
             </td>
           </tr>
         </tbody>

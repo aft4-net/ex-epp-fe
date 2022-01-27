@@ -4,6 +4,7 @@ import { PaginatedResult, Pagination } from '.';
 import{AllDataResponse} from './get/AllDataResponse';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResponseDTO } from './get/response-dto';
 import { ResponseMessage } from './get/response-message';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
@@ -42,6 +43,13 @@ export abstract class ApiService<T> {
   getById(id: string): Observable<T> {
     return this.httpClient.get<T>(this.APIUrl + "/" + id);
   }
+  updateClient(client:any)
+  {
+    return this.httpClient.put<T>(environment.baseApiUrl+'ClientDetails/EditClient', client);
+  }
+  deleteClient(id: string): Observable<ResponseDTO<any>> {
+   return this.httpClient.delete<ResponseDTO<any>>(`${this.APIUrl}/${id}`);
+ }
 
 
   post(resource: any) {

@@ -80,9 +80,9 @@ isEdit = false
     private notification : NotificationBar
     ) {
 
-     this.isEdit = this._form.IsEdit
+     this.isEdit = this._form.IsEdit;
 
-      this.employeeService.isdefault=false
+      this.employeeService.isdefault=false;
     }
 
   ngOnInit(): void {
