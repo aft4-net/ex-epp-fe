@@ -74,4 +74,9 @@ export class UserDetailService {
   getUserById(id:string){
     return this.http.get(`${environment.apiUrl}/user/${id}`);
   }
+  getUser(email:string){
+   return this.http.get<any>(`${environment.apiUrl}/Employee/GetEmployeeSelectionByEmail?employeeEmail=` + email.toLowerCase())
+   
+   }
+    
 }
