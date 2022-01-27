@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormValidator } from '../../../utils/validator';
 import { environment } from '../../../../environments/environment';
@@ -76,6 +76,7 @@ export class UserdetailsComponent implements OnInit {
   getAllGroupSetsByUserId() {
     this.userDetailService.getGroupSetByUserId(this.userId).subscribe((res) => {
       this.fetchedGroupName = res.Data;
+      console.log(res);
     });
   }
   getAllUserGroups() {
@@ -88,6 +89,7 @@ export class UserdetailsComponent implements OnInit {
       this.userDetailService.get().subscribe(
       (res) => {
         this.listOfGroups = res.Data;
+        
       }
       // (err) => this.onShowError(err)
     );
@@ -142,7 +144,9 @@ export class UserdetailsComponent implements OnInit {
     this.getAllGroupList();
     this.getAllUserGroups();
     this.userDetailService.getUserById(this.userId)
+
       .subscribe(async (response:any) => {
+        console.log(response);
         this.userdetailInfo = response.Data;
         //this.thePosition = response.Data.userListJobTitle; 
     this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
@@ -154,6 +158,9 @@ export class UserdetailsComponent implements OnInit {
       
      
       });
+
+     // this.thePosition = this.route.snapshot.paramMap.get('role');
+
      // this.getPermission();
       //._permissionService.permissionList=this.permissionList;
       }
@@ -243,6 +250,7 @@ export class UserdetailsComponent implements OnInit {
     this.loading = true;
     this.router.navigate(['']);
     this.loading = false;
+    
   }
 
   resetForm() {

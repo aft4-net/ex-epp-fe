@@ -61,9 +61,9 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'group-detail/:id',component:GroupDetailComponent
           },
           {
-            path:'sign_in',component:SigninComponent
+            path:'sign_in', component:SigninComponent
           },
-          {path:'unauthorize',component:UnauthorizeComponent}
+          {path:'unauthorize', component:UnauthorizeComponent}
         ]
       },
     ]),
