@@ -19,14 +19,7 @@
                 </h1>
         </div>
 
-        <!-- <div class="right-buttons mt-4 flex pl-10">
-                <button *ngIf="authorize('View_Timesheet_Submissions')" [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button
-                        class="mr-2">View Submision</button>
-                        
-                <button matBadge={{totalResponse}} MatBadgePosition = 'above after' *ngIf="authorize('Approve_Timesheet')" [routerLink]="['/timesheet/timesheet-approval']"  nzSuccess nzSize="large" nz-button class="mr-2"  >        
-                Approve Timesheet <sup>{{totalResponse}}</sup>
-                </button>
-        </div> -->
+       
         <div class="right-buttons mt-4 flex pl-10">
                 <div *ngIf="authorize('View_Timesheet_Submissions')">
                         <button [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button
