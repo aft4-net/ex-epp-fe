@@ -18,14 +18,13 @@ pipeline{
         stage('npm build')
         {
             when {
-                 branch 'develop'
+                 branch 'epp-module-integration'
              }
          steps{
               sh 'node -v'
-              sh 'git status' 
-              sh 'git branch -D develop && git checkout -b develop origin/develop'
+              sh 'git checkout origin/develop'
               sh 'npm install'
-              sh 'npm run build-all'
+              sh 'npm run deploy'
             }
         }    
         stage('npm deploy')
@@ -42,7 +41,7 @@ pipeline{
         {
            when {
                 
-                branch 'master'  
+                branch 'develop'  
             
             }
             steps{
@@ -73,11 +72,11 @@ pipeline{
                  sshagent(credentials : ['staging']) {
                  
                   
-                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.116.78.75:."  
+                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.218.150.53:/home/ubuntu/deployment"  
                   
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose down"
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker system prune -af"
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.116.78.75 sudo docker-compose up -d "
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose -f /home/ubuntu/deployment/docker-compose.yml down"
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker system prune -af"
+                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose -f /home/ubuntu/deployment/docker-compose.yml up -d "
                   
                  }
             }

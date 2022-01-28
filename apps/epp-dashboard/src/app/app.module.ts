@@ -21,8 +21,8 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-      redirectUri: 'http://18.116.78.75:4206',
+      clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
+      redirectUri: 'https://18.218.150.53:4200/',
     },
   });
 }
