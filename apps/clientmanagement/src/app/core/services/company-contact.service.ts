@@ -1,4 +1,4 @@
-import { ApiService } from 'apps/project-management/src/app/core/models/apiService';
+import { ApiService } from 'apps/projectmanagement/src/app/core/models/apiService';
 import { CompanyContact } from './../models/get/company-contact';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
