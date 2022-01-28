@@ -11,14 +11,11 @@
 .controllers {
   margin-left: 24px;
 }
-.tab {
-//     margin-top: -10px;
-}
 
 ::ng-deep .ant-tabs-nav-list {
   margin-left: auto;
   margin-right: 24px;
-  //margin-bottom: 1rem;
+ 
 }
 
 nz-date-picker {
@@ -59,10 +56,6 @@ button.is-yellow {
   border-color: #00A551;
 
 }
-.approveButton{
-
-
-}
 
 @media screen and (min-width: 1050px) {
   .tab {
@@ -74,16 +67,7 @@ button.is-yellow {
     width: 745px;
   }
 }
-::ng-deep .ant-btn {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #FFFFFF;
 
-}
 button.is-yellow {
 
   color: #00A551;

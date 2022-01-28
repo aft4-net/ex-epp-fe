@@ -19,11 +19,26 @@
                 </h1>
         </div>
 
-        <div class="right-buttons mt-4 flex pl-10">
+        <!-- <div class="right-buttons mt-4 flex pl-10">
                 <button *ngIf="authorize('View_Timesheet_Submissions')" [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button
-                        class="mr-2">View
-                        Submision</button>
-                <button *ngIf="authorize('Approve_Timesheet')" [routerLink]="['/timesheet/timesheet-approval']" nzSize="large" nz-button>Approve
-                        Timesheet</button>
+                        class="mr-2">View Submision</button>
+                        
+                <button matBadge={{totalResponse}} MatBadgePosition = 'above after' *ngIf="authorize('Approve_Timesheet')" [routerLink]="['/timesheet/timesheet-approval']"  nzSuccess nzSize="large" nz-button class="mr-2"  >        
+                Approve Timesheet <sup>{{totalResponse}}</sup>
+                </button>
+        </div> -->
+        <div class="right-buttons mt-4 flex pl-10">
+                <div *ngIf="authorize('View_Timesheet_Submissions')">
+                        <button [routerLink]="['/timesheet/view-submissions']" nzSuccess nzSize="large" nz-button
+                                class="mr-2">
+                                View Submision
+                        </button>
+                </div>
+                <div *ngIf="authorize('Approve_Timesheet') || authorize('Reject_Timesheet')">
+                        <button [routerLink]="['/timesheet/timesheet-approval']" nzSize="large" nz-button>
+                                Approve Timesheet
+                        </button>
+                        <div class="timesheet-to-approve">{{totalResponse}}</div>
+                </div>
         </div>
 </div>
