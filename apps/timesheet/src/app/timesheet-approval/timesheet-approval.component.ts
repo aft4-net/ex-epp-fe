@@ -209,19 +209,16 @@ authorize(key:string){
     this.timeSheetService
 
       .getTimesheetApprovalPagination(
-
-
-        this.pageIndexG,
-
+         this.pageIndexG,
          this.pageSizeG,
          this.supervisorId,
          this.searchKeyG,
-
          this.sortByG,
-
          this.projectNameG,
-
-         this.clientNameG,this.weekG,this.sortG,this.statusG
+         this.clientNameG,
+         this.weekG,
+         this.sortG,
+         this.statusG
 
       )
 
@@ -269,7 +266,6 @@ initialDataforTab() {
   }
 
   onApprovedTabClick() {
-    
     this.stateReset();
     this.statusG = 'Approved';
     this.UpdateData();
@@ -453,17 +449,15 @@ sortDirectionMethod() {
 
   UpdateData()
   {
-    this.timesheetSubmissionPagination(this.pageIndexG,
-
-      this.pageSizeG,
-
-      this.searchKeyG,
-
-      this.sortByG,
-
-     this.weekG,this.sortG,this.statusG,
+    this.timesheetSubmissionPagination(
+     this.pageIndexG,
+     this.pageSizeG,
+     this.searchKeyG,
+     this.sortByG,
+     this.weekG,
+     this.sortG,
+     this.statusG,
      this.projectNameG,
-
      this.clientNameG);
 
   }

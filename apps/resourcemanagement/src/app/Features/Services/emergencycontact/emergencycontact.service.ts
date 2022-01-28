@@ -23,7 +23,7 @@ export class EmergencycontactService {
 
   constructor(private http: HttpClient) {}
 
-  readonly baseURL = environment.apiUrl +'/EmergencyContact';
+  readonly baseURL = `${environment.apiUrl}/EmergencyContact`;
 
   putEmergencycontact() {
     return this.http.put(
