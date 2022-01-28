@@ -34,7 +34,7 @@ pipeline{
              }
          steps{
               sh 'npm -v'
-              sh 'git checkout -b develop origin/develop'
+              //sh 'git checkout -b develop origin/develop'
               sh 'npm install'
               sh 'npm run deploy'
             }
