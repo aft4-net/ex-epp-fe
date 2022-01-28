@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
+import { environment } from 'libs/environments/environment';
 
 @Component({
   selector: 'exec-epp-page-header',
@@ -14,6 +15,7 @@ export class HeaderComponent implements OnInit {
   fullName: any;
   thefullName = '';
   theGroup: any;
+  redirectUrl = environment.redirectUri;
 
   constructor(
     private authService: MsalService,
