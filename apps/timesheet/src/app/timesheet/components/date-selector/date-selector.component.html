@@ -31,7 +31,7 @@
                         <button [routerLink]="['/timesheet/timesheet-approval']" nzSize="large" nz-button>
                                 Approve Timesheet
                         </button>
-                        <div class="timesheet-to-approve">{{totalResponse}}</div>
+                        <div *ngIf="totalResponse > 0" class="timesheet-to-approve">{{totalResponse}}</div>
                 </div>
         </div>
 </div>
