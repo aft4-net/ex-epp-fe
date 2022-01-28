@@ -20,7 +20,6 @@ export class EmpphotoService {
           'Accept': 'application/json'
         })
       };
-
     this.http.post(`${environment.apiUrl}/EmployeePhoto`, formData,httpOptions).subscribe(data => {
       console.log(data);
     }
