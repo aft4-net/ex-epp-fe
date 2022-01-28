@@ -516,7 +516,7 @@ handleGroupCancel() {
   }
   
   ShowDetail(userId: string) {
-    this._router.navigateByUrl('/usermanagement/userdetails/'+userId);
+    this._router.navigateByUrl('/usermanagement/userdetails/'+ userId);
   }
   
   handleOk(): void {

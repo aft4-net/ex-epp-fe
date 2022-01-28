@@ -32,7 +32,7 @@
                     <div class="right-footer">
                       <nz-space>
                         <button *nzSpaceItem nz-button nzType="default" [disabled]="groupDescriptionEditForm.invalid" (click)="handleCancel()">Clear</button>
-                        <button id="editgroupdescriptionbutton" [disabled]="groupDescriptionEditForm.invalid" *nzSpaceItem nz-button nzType="primary" class="editGroup" (click)="SaveGroupDescription()">Save Changes</button>
+                        <button id="editgroupdescriptionbutton" [disabled]="groupDescriptionEditForm.invalid" *nzSpaceItem nz-button nzType="primary" [ngClass]="groupDescriptionEditForm.invalid ? 'disableSaveUser' : 'editGroup'" (click)="SaveGroupDescription()">Save Changes</button>
                       </nz-space>
                     </div>
                   </form>

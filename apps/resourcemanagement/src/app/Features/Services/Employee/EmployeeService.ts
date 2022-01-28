@@ -11,6 +11,7 @@ import { EmployeeParams } from '../../Models/Employee/EmployeeParams';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { Result } from 'postcss';
 import { Pagination } from '../../Models/Pagination';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ import { Pagination } from '../../Models/Pagination';
 export class EmployeeService {
   public isdefault = true;
 
-  baseUrl = 'http://localhost:14696/api/v1/Employee';
+  baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
 
   private employeeSource = new BehaviorSubject<Employee>({} as Employee);
