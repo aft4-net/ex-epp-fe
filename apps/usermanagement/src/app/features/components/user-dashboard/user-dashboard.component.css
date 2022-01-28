@@ -214,7 +214,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: white;
 }
 
-::ng-deep.ant-btn-primary,.ant-btn-primary:active,
+.userlist.ant-btn-primary,.ant-btn-primary:active,
          .ant-btn-primary:hover,.ant-btn-primary:focus {
   background-color: #00A551 !important;
   border-color: #00A551 !important;
