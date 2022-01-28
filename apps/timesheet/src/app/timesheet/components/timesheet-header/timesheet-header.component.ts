@@ -93,7 +93,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       }
 
       for (let i = 0; i < this.timesheetApprovals.length; i++) {
-        if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf()) {
+        if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf() || this.resubmitClicked || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf()) {
           this.btnText = "Resubmit Timesheet";
           if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], timesheetConfig)) {
             this.validForApproal = true;
@@ -111,10 +111,6 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
           break;
         }
 
-        if (this.resubmitClicked || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf()) {
-          this.btnText = "Submitted";
-          this.timeSheetStatus = "submitted-class";
-        }
       }
     }
     else {
