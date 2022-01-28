@@ -23,7 +23,7 @@ pipeline{
          steps{
               sh 'node -v'
               sh 'git branch'
-              sh 'git branch -D develop && git checkout -b origin/develop'
+              sh 'git checkout -b develop origin/develop'
               sh 'npm install'
               sh 'npm run deploy'
             }
