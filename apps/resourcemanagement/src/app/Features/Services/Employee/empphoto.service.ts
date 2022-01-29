@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
+import { environment } from 'libs/environments/environment';
 import { Result } from 'postcss';
 
 @Injectable({
@@ -19,8 +20,7 @@ export class EmpphotoService {
           'Accept': 'application/json'
         })
       };
-
-    this.http.post("http://localhost:14696/api/v1/EmployeePhoto", formData,httpOptions).subscribe(data => {
+    this.http.post(`${environment.apiUrl}/EmployeePhoto`, formData,httpOptions).subscribe(data => {
       console.log(data);
     }
     );

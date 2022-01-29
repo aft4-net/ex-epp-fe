@@ -17,6 +17,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
+import { environment } from 'libs/environments/environment';
 
 
 @Component({
@@ -58,7 +59,7 @@ export class PersonalInfoComponent implements OnInit {
     formatsAllowed: ".jpg,.png",
     maxSize: 2,
     uploadAPI: {
-      url:"http://localhost:14696/api/v1/EmployeePhoto"
+      url:`${environment.apiUrl}/EmployeePhoto`
     },
     replaceTexts: {
       selectFileBtn: 'Select Photo',

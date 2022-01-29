@@ -1,13 +1,14 @@
-import { ApiService } from 'apps/project-management/src/app/core/models/apiService';
+import { ApiService } from 'apps/projectmanagement/src/app/core/models/apiService';
 import { CompanyContact } from './../models/get/company-contact';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {environment} from 'libs/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyContactService extends ApiService<CompanyContact> {
-  CompanyAPI="http://localhost:14696/api/v1/Employees";
+  CompanyAPI=`${environment.apiUrl}/Employees`;
 
   constructor(protected httpClient: HttpClient ) {
     super(httpClient);

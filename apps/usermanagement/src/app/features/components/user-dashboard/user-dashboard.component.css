@@ -207,11 +207,24 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   box-shadow: none;
   outline: none;
 }
-.ant-btn-primar:active,
+.ant-btn-primary:active,
          .ant-btn-primary:hover,.ant-btn-primary:focus {
   background-color: #20b367 !important;
   border-color: #20b367 !important;
   color: white;
+}
+
+::ng-deep.ant-btn-primary,.ant-btn-primary:active,
+         .ant-btn-primary:hover,.ant-btn-primary:focus {
+  background-color: #00A551 !important;
+  border-color: #00A551 !important;
+  color: white;
+}
+
+::ng-deep.ant-btn-link,.ant-btn-link:active, 
+         .ant-btn-link:hover,ant-btn-link:focus {
+  background-color: white !important;
+  color: #00A551 !important;
 }
 
 .modal-footer-btn {
@@ -275,8 +288,4 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 
 ::ng-deep.ant-checkbox-inner {
   border-color: black !important;
-}
-
-::ng-deep.anticon {
-  color:#595959 !important;
 }

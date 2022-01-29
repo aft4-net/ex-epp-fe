@@ -22,9 +22,10 @@ pipeline{
              }
          steps{
               sh 'node -v'
-              sh 'git branch -D develop && git checkout -b develop origin/develop'
+              sh 'git branch'
+              sh 'git checkout -b develop origin/develop'
               sh 'npm install'
-              sh 'npm run build-all'
+              sh 'npm run deploy'
             }
         }    
         stage('npm deploy')
@@ -43,7 +44,7 @@ pipeline{
         {
            when {
                 
-                branch 'master'  
+                branch 'develop'  
             
             }
             steps{
@@ -53,7 +54,7 @@ pipeline{
                             {
                             sh "docker tag clientmanagement:latest blens/cm"
                             sh "docker tag timesheet:latest blens/ts"
-                            sh "docker tag resource-management:latest blens/rm"
+                            sh "docker tag resourcemanagement:latest blens/rm"
                             sh "docker tag projectmanagement:latest blens/pm"
                             sh "docker tag applicant-tracking:latest blens/at"
                             sh "docker tag usermanagement:latest blens/um"

@@ -20,12 +20,13 @@ import { UserDashboardComponent } from '../features/components/user-dashboard/us
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/lib/components/unauthorize/unauthorize.component'
+import { environment } from 'libs/environments/environment'
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
-   auth: {
-    clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
-    redirectUri: 'https://18.218.150.53:4200',
-    }});}
+  auth: {
+    clientId: environment.clientId,
+    redirectUri: environment.redirectUri,
+  }});}
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
@@ -61,9 +62,9 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'group-detail/:id',component:GroupDetailComponent
           },
           {
-            path:'sign_in',component:SigninComponent
+            path:'sign_in', component:SigninComponent
           },
-          {path:'unauthorize',component:UnauthorizeComponent}
+          {path:'unauthorize', component:UnauthorizeComponent}
         ]
       },
     ]),
