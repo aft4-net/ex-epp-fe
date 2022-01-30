@@ -17,32 +17,32 @@ services:
   applicant-tracking:
     image: blens/at:latest
     ports:
-      - '3237:80'
+      - '4237:80'
   client-management:
     image: blens/cm:latest
     ports:
-      - '3235:80'
+      - '4235:80'
   project-management:
     image: blens/pm:latest
     ports:
-      - '3236:80'
+      - '4236:80'
   timesheet:
     image: blens/ts:latest
     ports:
-      - '3233:80'
+      - '4233:80'
   resource-management:
     image: blens/rm:latest
     ports:
-      - '3234:80'
+      - '4234:80'
   usermanagement:
     image: blens/um:latest
     ports:
-      - '3231:80'
+      - '4231:80'
   configurationmodule:
     image: blens/configuration
     ports:
-      - '3232:80'
+      - '4232:80'
   epp-dashboard:
     image: blens/epp-dash
     ports:
-      - '3200:80'
+      - '4200:80'
