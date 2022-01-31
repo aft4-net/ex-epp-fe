@@ -305,6 +305,9 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   }
 
   ngAfterViewInit() {
+    if(!this.input?.nativeElement){
+      return;
+    }
     fromEvent<any>(this.input.nativeElement,'keyup')
     .pipe(
       map(event => event.target.value),
