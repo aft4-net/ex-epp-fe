@@ -423,10 +423,10 @@ _commonData.getPermission()
         this.AllData = response;
         this.clientsdata = response.data;
         this.unfilteredData = response.data;
-        this.pageIndex = response.pagination.pageIndex;
-        this.pageSize = response.pagination.pageSize;
-        this.total = response.pagination.totalRecord;
-        this.totalPage = response.pagination.totalPage;
+        this.pageIndex = response.pagination?.pageIndex;
+        this.pageSize = response.pagination?.pageSize;
+        this.total = response.pagination?.totalRecord;
+        this.totalPage = response.pagination?.totalPage;
         this.loading = false;
       }
     );
@@ -576,8 +576,9 @@ getClientStatus() {
 getLocations(){
   this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
     this.locations = res.data;
-
-      });
+  }, error => {
+    console.log(error);
+  });
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
