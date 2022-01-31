@@ -35,7 +35,6 @@ import { ViewClientsComponent } from './view-clients/view-clients.component';
     SharedModule,
     ClientsRoutingModule,
     CommonModule,
-    ClientsRoutingModule,
     NgZorroModule
   ],
   exports: [],
