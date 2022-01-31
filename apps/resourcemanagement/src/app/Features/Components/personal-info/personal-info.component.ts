@@ -16,6 +16,7 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { FormGenerator } from '../custom-forms-controls/form-generator.model';
 import { convertStringsToSelectOptions } from '../../Services/supporting-services/basic-data.collection';
+import { environment } from 'libs/environments/environment';
 
 @Component({
   selector: 'exec-epp-personal-info',
@@ -56,7 +57,7 @@ export class PersonalInfoComponent implements OnInit {
     formatsAllowed: ".jpg,.png",
     maxSize: 2,
     uploadAPI: {
-      url:"http://localhost:14696/api/v1/EmployeePhoto"
+      url:`${environment.apiUrl}/EmployeePhoto`
     },
     replaceTexts: {
       selectFileBtn: 'Select Photo',

@@ -9,6 +9,7 @@ import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
 import { Address } from '../../Models/address.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'libs/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class EmergencycontactService {
 
   constructor(private http: HttpClient) {}
 
-  readonly baseURL = 'http://localhost:14696/api/v1/EmergencyContact';
+  readonly baseURL = `${environment.apiUrl}/EmergencyContact`;
 
   putEmergencycontact() {
     return this.http.put(

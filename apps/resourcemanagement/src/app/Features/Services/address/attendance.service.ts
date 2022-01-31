@@ -5,12 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../../Models/response-dto.model';
+import { environment } from 'libs/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AttendanceService {
-  url = 'http://localhost:14696/api/v1/PersonalAddress';
+  url = `${environment.apiUrl}/PersonalAddress`;
 
   addressIn = {
     Guid: '6fa85f64-5717-4562-b3fc-2c963f66afa6',
