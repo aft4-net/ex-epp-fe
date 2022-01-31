@@ -25,6 +25,8 @@ setUserPermissions()
   this.setUserPrevilage();
   this.http.get(this.baseUrl1).subscribe((res:any)=>{
   this.permssionSource.next(res.Data);   
+  }, error => {
+    console.log(error);
   })
 }
 

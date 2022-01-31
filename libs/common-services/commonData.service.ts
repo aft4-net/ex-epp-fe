@@ -36,6 +36,8 @@ getPermission(): void {
         });
     });
     })
+  }, error => {
+    console.log(error);
   })
 
 }
