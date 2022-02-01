@@ -14,12 +14,12 @@ import { ViewClientsComponent } from '../clients/view-clients/view-clients.compo
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+import { ClientsModule } from '../clients/clients.module';
 
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
     BrowserModule,
-    ClientsRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -29,7 +29,6 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
       {
         path: '',
         component: AppComponent,
-
         children: [
           { path: '', component: ViewClientsComponent },
           { path: 'add-client', component: AddClientComponent },

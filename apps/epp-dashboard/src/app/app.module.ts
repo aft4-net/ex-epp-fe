@@ -18,14 +18,7 @@ import {
 } from '@azure/msal-browser';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
-export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication({
-    auth: {
-      clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
-      redirectUri: 'https://18.218.150.53:4200/',
-    },
-  });
-}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,13 +79,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     ),
   ],
   providers: [
-    {
-      provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory,
-    },
+   
     { provide: NZ_I18N, useValue: en_US },
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
-    MsalService,
+   
   ],
   bootstrap: [AppComponent],
 })

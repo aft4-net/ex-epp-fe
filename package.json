@@ -19,11 +19,14 @@
     "postcss:build": "postcss apps/passport/src/styles.pcss -o apps/passport/src/styles.scss",
     "postcss:epp": "postcss apps/epp/src/styles.pcss -o apps/epp/src/styles.scss",
     "prestart": "npm run postcss:build && npm run postcss:epp",
-    "build-all": "nx run-many --target=build --all ",
+    "build-all": "nx run-many --stats-json --target=build --all ",
     "deploy": "nx run-many --target=deploy --all ",
     "serve:all": "nx run-many --target serve --all",
     "start:all": "concurrently \"npm run start:epp-dashboard\" \"npm run start:usermanagement\" \"npm run start:timesheet\" \"npm run start:clientmanagement\" \"npm run start:configurationmodule\" \"npm run start:projectmanagement\" \"npm run start:resourcemanagement\"",
-    "serve:dist": "concurrently  \"serve dist/epp-dashboard -l 4200 -s\" \"serve dist/usermanagement -l 4231 -s\" \"serve dist/timesheet -l 4233 -s\" \"serve dist/clientmanagement -l 4235 -s\" \"serve dist/configurationmodule -l 4232 -s\""
+    "serve:dist": "concurrently  \"serve dist/epp-dashboard -l 4200 -s\" \"serve dist/usermanagement -l 4231 -s\" \"serve dist/timesheet -l 4233 -s\" \"serve dist/clientmanagement -l 4235 -s\" \"serve dist/configurationmodule -l 4232 -s\"",
+    "analyze:clientManagement" : "webpack-bundle-analyzer dist/apps/clientmanagement/stats.json",
+    "analyze:projectManagement" : "webpack-bundle-analyzer dist/apps/projectmanagement/stats.json"
+
   },
   "private": true,
   "dependencies": {
@@ -77,7 +80,7 @@
     "@types/node": "14.14.33",
     "@typescript-eslint/eslint-plugin": "~4.28.3",
     "@typescript-eslint/parser": "~4.28.3",
-    "cypress": "^8.3.0",
+    "cypress": "^8.7.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
@@ -88,6 +91,7 @@
     "prettier": "^2.3.1",
     "tailwindcss": "^2.2.16",
     "ts-jest": "27.0.3",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

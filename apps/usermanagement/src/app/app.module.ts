@@ -24,7 +24,19 @@ import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { UserdetailsComponent } from './features/components/userdetails/userdetails.component';
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
+import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import { environment } from 'libs/environments/environment';
+import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 registerLocaleData(en);
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: (`${environment.clientId}`),
+      redirectUri:(`${environment.redirectUri}`)
+    },
+  });
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +69,10 @@ registerLocaleData(en);
   ],
   providers   : [
     { provide: NZ_I18N, useValue: en_US }, 
-    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
+    {provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,},
+      MsalService,
   ],
  
   bootstrap: [AppComponent],

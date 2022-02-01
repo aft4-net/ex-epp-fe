@@ -19,6 +19,8 @@ export class UserPermissionStateService {
   getUserPermission() {
     this.initialDataService.getUserPermission().subscribe((response: any) => {
       this.permissionListSource.next(response.Data);
+    }, error => {
+      console.log(error);
     });
   }
 

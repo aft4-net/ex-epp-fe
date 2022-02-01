@@ -186,6 +186,9 @@ _commonData.getPermission()
 
   }
   setContact(ClientContacts:any[]){
+    if(!ClientContacts?.length){
+      return;
+    }
    for(let i=0;i<ClientContacts.length;i++)
    {
      const contact={
@@ -200,6 +203,9 @@ _commonData.getPermission()
   }
   setContactCompany(comapanyContacts:any[])
   {
+    if(!comapanyContacts?.length){
+      return;
+    }
     for(let i=0;i<comapanyContacts.length;i++)
     {
       const contactPersonGuid={
@@ -212,6 +218,9 @@ _commonData.getPermission()
   }
   setOperatingAddress(OperatingAddress:any[])
   {
+    if(!OperatingAddress?.length){
+      return;
+    }
     for(let i=0;i<OperatingAddress.length;i++)
     {
       const opAddr={
@@ -226,6 +235,9 @@ _commonData.getPermission()
     }
   }
   setBillingAddress(BillingAddress:any[]){
+    if(!BillingAddress?.length){
+      return;
+    }
     for(let i=0;i<BillingAddress.length;i++)
     {
       const blAddr={
@@ -348,7 +360,7 @@ _commonData.getPermission()
    else{
     this.pageIndex = index;
     this.loading = true;
-    if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
+    if (this.searchProject.value?.length && this.searchProject.value?.length > 1 && this.searchStateFound == true) {
       this._clientservice
         .getWithPagnationResut(index, 10, this.searchProject.value)
         .subscribe((response: PaginatedResult<Client[]>) => {
@@ -372,7 +384,7 @@ _commonData.getPermission()
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
-          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+          if((this.searchAddressList.length && this.searchAddressList.length > 0) || (this.searchstatusList.length && this.searchstatusList.length > 0) || (this.searchsalesPersonList.length && this.searchsalesPersonList.length > 0)){
             this.search(
               this.searchAddressList,
               this.searchstatusList,
@@ -411,10 +423,10 @@ _commonData.getPermission()
         this.AllData = response;
         this.clientsdata = response.data;
         this.unfilteredData = response.data;
-        this.pageIndex = response.pagination.pageIndex;
-        this.pageSize = response.pagination.pageSize;
-        this.total = response.pagination.totalRecord;
-        this.totalPage = response.pagination.totalPage;
+        this.pageIndex = response.pagination?.pageIndex;
+        this.pageSize = response.pagination?.pageSize;
+        this.total = response.pagination?.totalRecord;
+        this.totalPage = response.pagination?.totalPage;
         this.loading = false;
       }
     );
@@ -425,7 +437,7 @@ _commonData.getPermission()
       this._clientservice
         .getWithPagnationResut(1, 10, this.searchProject.value)
         .subscribe((response: PaginatedResult<Client[]>) => {
-          if (response?.data.length > 0) {
+          if (response?.data?.length && response?.data.length > 0) {
             this.loading = false;
             this.AllData = response;
             this.clientsdata = response.data;
@@ -465,6 +477,9 @@ _commonData.getPermission()
 
   findlistofNames(): void {
     this.listofNames = [''];
+    if(!this.clientStatuses?.length){
+      return;
+    }
     for (let i = 0; i < this.clientStatuses.length; i++) {
       this.nameofclient = this.clientStatuses[i].StatusName;
       this.listofNames.push(this.nameofclient);
@@ -493,6 +508,9 @@ _commonData.getPermission()
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
+    if(!this.employees.length){
+      return;
+    }
     for (let i = 0; i < this.employees.length; i++) {
       this.namesofSalesPerson = this.employees[i].Name;
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
@@ -519,6 +537,9 @@ _commonData.getPermission()
 
   findlistOfLocation(): void {
     this.listOfLocation = [''];
+    if(!this.locations?.length){
+      return;
+    }
     for (let i = 0; i < this.locations.length; i++) {
       this.nameOfLocation = this.locations[i].Country;
       this.listOfLocation.push(this.nameOfLocation);
@@ -555,8 +576,9 @@ getClientStatus() {
 getLocations(){
   this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
     this.locations = res.data;
-
-      });
+  }, error => {
+    console.log(error);
+  });
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
@@ -580,7 +602,7 @@ getSalesPerson(){
     this.searchAddressList = searchAddressList;
 
     this.searchsalesPersonList = searchsalesPersonList;
-    if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+    if((this.searchAddressList?.length && this.searchAddressList.length > 0) || (this.searchstatusList?.length && this.searchstatusList.length> 0) || (this.searchsalesPersonList?.length && this.searchsalesPersonList.length> 0)){
       this.isFilter =true;
       this.totalData =[];
       this.loading = true;
@@ -593,18 +615,18 @@ getSalesPerson(){
         this.loading = false;
 
         const filterFunc = (item: Client) =>
-          (this.searchAddressList.length
+          (this.searchAddressList?.length
             ? this.searchAddressList.some(
                 (address) =>
                   item.OperatingAddress[0].Country.indexOf(address) !== -1
               )
             : true) &&
-          (this.searchstatusList.length
+          (this.searchstatusList?.length
             ? this.searchstatusList.some(
                 (name) => item.ClientStatusName.indexOf(name) !== -1
               )
             : true) &&
-          (this.searchsalesPersonList.length
+          (this.searchsalesPersonList?.length
             ? this.searchsalesPersonList.some(
                 (name) => item.SalesPerson.Name.indexOf(name) !== -1
               )

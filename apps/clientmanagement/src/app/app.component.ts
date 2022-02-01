@@ -13,12 +13,6 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
-
-    alert("intial")
-        this._commonData.getPermission();
-      }
-
-
-
+    this._commonData.getPermission();
+  }
 }
