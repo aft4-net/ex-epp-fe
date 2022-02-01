@@ -17,17 +17,9 @@ export class httpJWTInterceptor implements HttpInterceptor {
         if ((Object.keys(loggedInUser).length > 0) && isApiUrl) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: `Bearer ${loggedInUser.Token}`,
-                    ReferrerPolicy: "no-referrer"
+                    Authorization: `Bearer ${loggedInUser.Token}`
                 }
             }); 
-        }
-        else {
-            request = request.clone({
-                setHeaders: {
-                    ReferrerPolicy: "no-referrer"
-                }
-            });
         }
 
         return next.handle(request);
