@@ -27,7 +27,8 @@ activePath(routePath: string) {
   return this.route == routePath;
 }
 
-constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){
+constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService, 
+   private router: Router, private authService: MsalService){
   this._commonData.getPermission();
 }
 
