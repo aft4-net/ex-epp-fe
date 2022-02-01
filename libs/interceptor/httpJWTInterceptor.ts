@@ -19,14 +19,14 @@ export class httpJWTInterceptor implements HttpInterceptor {
                 setHeaders: {
                     Authorization: `Bearer ${loggedInUser.Token}`,
                     ReferrerPolicy: "no-referrer"
-                }             
+                }
             }); 
         }
         else {
             request = request.clone({
                 setHeaders: {
                     ReferrerPolicy: "no-referrer"
-                }             
+                }
             });
         }
 
