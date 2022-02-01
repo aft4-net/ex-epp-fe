@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // apiUrl : 'http://localhost:14696/api/v1',
-  // clientId: '4f5a6105-5df8-4945-941c-ca513b55caab', 
+  // clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
   // redirectUri: 'http://localhost:4200/'
   apiUrl: 'http://localhost:14696/api/v1',
   clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
