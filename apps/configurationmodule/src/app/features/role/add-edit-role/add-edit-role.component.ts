@@ -2,10 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Role } from '../../../models/role';
+import { Role, RolePostModel } from '../../../models/role';
 import { ResponseDTO } from '../../../models/response-dto.model';
 import { RoleService } from '../../../services/role.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { DepartmentService } from '../../../services/department.service';
+import { Department } from '../../../models/department';
 
 @Component({
   selector: 'exec-epp-add-edit-role',
@@ -16,21 +18,23 @@ export class AddEditRoleComponent implements OnInit {
   roleForm!: FormGroup;
   @Input() id!: string | null;
   @Output() update = new EventEmitter<string>();
-  role!: Role;
+  role!: RolePostModel;
   isEdit!: boolean;
+  departments: Department[] = [];
   
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
+        private departmentService: DepartmentService,
         // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.getAllDepartments();
     this.createRoleForm();
     if (this.id !== null) {
       this.isEdit = true;
-      this.roleConfigService.getRole(this.id).subscribe((response: ResponseDTO<Role>) => {
-        console.log("the response is  = ", response);
+      this.roleConfigService.getRole(this.id).subscribe((response: ResponseDTO<RolePostModel>) => {
         this.role = response.Data;
         this.roleForm.patchValue(this.role);
       });
@@ -42,6 +46,7 @@ export class AddEditRoleComponent implements OnInit {
   createRoleForm() {
     this.roleForm = this.fb.group({
       Name: [null, Validators.required],
+      DepartmentGuid: [null, Validators.required]
     })
   }
 
@@ -95,6 +100,12 @@ export class AddEditRoleComponent implements OnInit {
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
+  }
+
+  getAllDepartments() {
+    this.departmentService.getAllDepartments().subscribe((response) => {
+      this.departments = response.Data;
+    })
   }
 
 }
