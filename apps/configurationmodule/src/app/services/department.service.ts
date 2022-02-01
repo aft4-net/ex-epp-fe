@@ -20,6 +20,10 @@ export class DepartmentService {
     return this.http.get<ResponseDTO<Department>>(this.baseUrl + "Department/Get?id="+ id);
   }
 
+  getAllDepartments(): Observable<ResponseDTO<any>> {
+    return this.http.get<ResponseDTO<any>>(this.baseUrl + "Department/GetAll");
+  }
+
   getDepartments(index: number, searchKey: string, sortBy: string, sortOrder: string): Observable<Pagination> {
     index = index ?? 1;
 

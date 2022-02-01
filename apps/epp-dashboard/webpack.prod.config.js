@@ -24,12 +24,12 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       remotes: {
-        usermanagement: 'usermanagement@https://18.218.150.53/:4231/remoteEntry.js',
-        resourcemanagement: 'resourcemanagement@https://18.218.150.53/:4234/remoteEntry.js',
-        timesheet: 'timesheet@https://18.218.150.53/:4233/remoteEntry.js',
-        clientmanagement: 'clientmanagement@https://18.218.150.53/:4235/remoteEntry.js',
-        projectmanagement: 'projectmanagement@https://18.218.150.53/:4236/remoteEntry.js',
-        configurationmodule: 'configurationmodule@https://18.218.150.53/:4232/remoteEntry.js',
+        usermanagement: 'usermanagement@https://18.218.150.53:4231/remoteEntry.js',
+        resourcemanagement: 'resourcemanagement@https://18.218.150.53:4234/remoteEntry.js',
+        timesheet: 'timesheet@https://18.218.150.53:4233/remoteEntry.js',
+        clientmanagement: 'clientmanagement@https://18.218.150.53:4235/remoteEntry.js',
+        projectmanagement: 'projectmanagement@https://18.218.150.53:4236/remoteEntry.js',
+        configurationmodule: 'configurationmodule@https://18.218.150.53:4232/remoteEntry.js',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },

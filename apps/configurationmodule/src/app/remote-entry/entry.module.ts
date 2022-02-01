@@ -31,7 +31,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
         component: AppComponent,
         children: [
           {
-            path: '',
+            path: 'department',
             component: DepartmentComponent
           },
           {

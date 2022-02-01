@@ -30,7 +30,6 @@ export class AddEditDepartmentComponent implements OnInit {
     if (this.id !== null) {
       this.isEdit = true;
       this.departmentConfigService.getDepartment(this.id).subscribe((response: ResponseDTO<Department>) => {
-        console.log("the response is  = ", response);
         this.department = response.Data;
         this.departmentForm.patchValue(this.department);
       });
