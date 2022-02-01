@@ -1,0 +1,56 @@
+<section class="projects">
+  <div *ngIf="authorize('View_Project')">
+    <div nz-row class="justify-between">
+      <div class="ml-1 search">
+        <nz-input-group class="ml-1 w-72 h-8" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
+          <input [formControl]="searchProject" type="text" nz-input placeholder="Search " />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <i nz-icon nzType="search"></i>
+        </ng-template>
+
+        <ng-template>Try</ng-template>
+      </div>
+
+    </div>
+
+    <nz-table [nzData]="projects" #basicTable nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false"
+      class="mt-3">
+
+      <thead>
+        <tr>
+          <th class="table_heading" nzColumnKey="name" [nzSortFn]="true">Projects</th>
+          <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true">Clients</th>
+          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true">Status</th>
+          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true">Supervisor</th>
+          <th *ngIf="authorize('Edit_Project') || authorize('Delete_Project')  " class="table_heading"
+            nzColumnKey="email">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let data of  basicTable.data">
+          <td>{{ data.ProjectName }}</td>
+          <td>{{ data.Client.ClientName }}</td>
+          <td>{{ data.ProjectStatus.StatusName }}</td>
+          <td>{{ data.Supervisor?.Name }} </td>
+          <td>
+            <a *ngIf="authorize('Update_Project')">
+              <i nz-icon nzType="edit" style="color:black;" ></i>
+            </a>
+            &nbsp; &nbsp;
+            <a *ngIf="authorize('Delete_Project') ">
+              <i nz-icon nzType="delete" style="color:black;"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <span class="pagination" *ngIf="total > pageSize" nz-row class="pagination  flex justify-end">
+      Showing {{pageIndex}} - {{totalPage}} of {{total}} entries
+      <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+      </nz-pagination>
+    </span>
+  </div>
+</section>

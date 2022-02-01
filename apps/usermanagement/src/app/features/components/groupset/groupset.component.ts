@@ -8,12 +8,14 @@ import { ColumnItem } from '../../Models/ColumnItem';
 import { FormValidator } from '../../../utils/validator';
 import { GroupParams } from '../../Models/User/GroupParams';
 import { GroupSetModel } from '../../Models/group-set.model';
-import { GroupSetService } from '../../Services/group-set.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { UserParams } from '../../Models/User/UserParams';
 import { listtToFilter } from '../../Models/listToFilter';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+import { GroupSetService } from '../../Services/group-set.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-groupset',
@@ -48,7 +50,7 @@ export class GroupsetComponent implements OnInit {
   beginingRow !: number;
   lastRow !: number;
   groupName!: string;
-
+  isLogin=false;
   listOfColumns!: ColumnItem<GroupSetModel>[];
 
   listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
@@ -68,13 +70,26 @@ export class GroupsetComponent implements OnInit {
 
 
   constructor(
+    //private _intialdataService: IntialdataService,
+    private _authenticationService:AuthenticationService,
+    private _permissionService:PermissionListService,
     private groupSetService: GroupSetService,
     private router: Router,
     private notification: NotificationBar,
     private validator: FormValidator,
     private fb: FormBuilder
-  ) {}
+  ) {
+  this.isLogin=_authenticationService.loginStatus();
+}
+authorize(key:string){
 
+  return this._permissionService.authorizedPerson(key);
+}
+// getPermission(): void {
+ // this._intialdataService.getUserPermission().subscribe((res:any)=>{
+   // this.permissionList=res.Data;
+ // })
+//}
   onAddNewRecord(): void {
     this.resetForm();
     this.isVisible = true;
@@ -96,7 +111,7 @@ export class GroupsetComponent implements OnInit {
           content: 'Group added successfully',
           duration: 5000,
         });
-        this.FeatchAllgroups();        
+        this.FeatchAllgroups();
         this.isVisible = false;
       },
       (err: any) => {
@@ -106,10 +121,10 @@ export class GroupsetComponent implements OnInit {
           duration: 5000,
         });
         console.log('error:' + err.error.Message);
-        
+
       }
     );
-     
+
     this.groupSet.reset();
   }
   ngOnInit(): void {
@@ -144,11 +159,11 @@ export class GroupsetComponent implements OnInit {
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
-        this.loading = false;    
+        this.loading = false;
       }
       else
       {
-        this.loading = false;  
+        this.loading = false;
         this.groupList = [];
         this.groupList$=of([]);
 

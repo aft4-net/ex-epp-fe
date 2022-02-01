@@ -6,19 +6,20 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormValidator } from '../../../utils/validator';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { MessageBar } from '../../../utils/feedbacks/message';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { UserDetailService } from '../../services/user-detail.service';
+import { NzTableFilterList, NzTableModule } from 'ng-zorro-antd/table';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { UserDetailService } from '../../services/user-detail.service';
+import { IUserModel } from '../../Models/User/UserList';
 
 
 @Component({
@@ -33,12 +34,15 @@ export class UserdetailsComponent implements OnInit {
   loading = false;
   nzSwitch=true;
   isLogin=false;
+  userList : IUserModel[] = [];
+  userListJobTitle : NzTableFilterList=[];
   public userDetals: [UserDetail] | [] = [];
   isRecordUpdated = false;
   selectedRecord: string | undefined;
   cgm=CustomFormModule;
   userId:any;
-  userdetailInfo:any
+  thePosition : any;
+  userdetailInfo:any 
   userdetail = new FormGroup({
     UserId: new FormControl(''),
     FullName: new FormControl(''),
@@ -64,26 +68,28 @@ export class UserdetailsComponent implements OnInit {
 
   public listOfTypes: [UserDetail] | [] = [];
   public listOfGroups: [GroupData] | [] =[];
-
   selectedSoFar = [];
   listUserGroups: Array<any> = [];
   public membershipList: [GroupData] | [] =[];
 
 
-  getAllGroupSetsByUserId() { 
+  getAllGroupSetsByUserId() {
     this.userDetailService.getGroupSetByUserId(this.userId).subscribe((res) => {
       this.fetchedGroupName = res.Data;
+      console.log(res);
     });
   }
-  getAllUserGroups() { 
+  getAllUserGroups() {
     this.userDetailService.getAllUserGroupsByUserId(this.userId).subscribe((res) => {
       this.listUserGroups = res.Data;
+      console.log(this.listUserGroups)
     });
   }
   getAllGroupList(){
       this.userDetailService.get().subscribe(
       (res) => {
         this.listOfGroups = res.Data;
+        
       }
       // (err) => this.onShowError(err)
     );
@@ -98,13 +104,16 @@ export class UserdetailsComponent implements OnInit {
 
   constructor(
     private userDetailService: UserDetailService,
+    //private _intialdataService: IntialdataService,
     private router: Router,
     private modal: NzModalService,
     private notification: NotificationBar,
-    private _authenticationService:AuthenticationService, 
+    private _authenticationService:AuthenticationService,
+    private _permissionService:PermissionListService,
     private validator: FormValidator,
     private route: ActivatedRoute,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private authPermission:PermissionListService
   ) {
     this.userdetail = _fb.group({
       Name: '',
@@ -112,8 +121,18 @@ export class UserdetailsComponent implements OnInit {
       Guid:null
     });
     this.isLogin=_authenticationService.loginStatus();
+    
   }
+  authorize(key:string){
 
+    // return true;
+     return this.authPermission.authorizedPerson(key);
+   }
+  // getPermission(): void {
+   // this._intialdataService.getUserPermission().subscribe((res:any)=>{
+     // this.permissionList=res.Data;
+   // })
+  //}
   hasDataEntry(value: boolean) {
     this.userDetailService.hasData(value);
   }
@@ -125,10 +144,25 @@ export class UserdetailsComponent implements OnInit {
     this.getAllGroupList();
     this.getAllUserGroups();
     this.userDetailService.getUserById(this.userId)
+
       .subscribe(async (response:any) => {
+        console.log(response);
         this.userdetailInfo = response.Data;
-       
+        //this.thePosition = response.Data.userListJobTitle; 
+    this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
+     this.thePosition=res.EmployeeOrganization;
+      console.log('test')
+      console.log(this.thePosition)
+      console.log('test')
+    });
+      
+     
       });
+
+     // this.thePosition = this.route.snapshot.paramMap.get('role');
+
+     // this.getPermission();
+      //._permissionService.permissionList=this.permissionList;
       }
 
   onAddNewRecord(): void {
@@ -137,7 +171,7 @@ export class UserdetailsComponent implements OnInit {
     //this.validation.controls.isMultitpleEntry.setValue(true);
     this.isUpdateMode = false;
   }
-  
+
   onSaveRecord(): void {
     const dataToPost = this.userGroup.value;
     dataToPost.UserGuid = this.userId;
@@ -178,7 +212,7 @@ export class UserdetailsComponent implements OnInit {
         duration: 5000,
       });
       this.isRecordUpdated = true;
-     
+
     }
     this.userdetail.reset();
     this.validation.controls.isMultitpleEntry.setValue(true);
@@ -188,7 +222,7 @@ export class UserdetailsComponent implements OnInit {
     this.isModalVisible = false;
   }
 
-  onDisplayRecord(id: string) { 
+  onDisplayRecord(id: string) {
     this.isModalVisible = true;
     this.isUpdateMode = true;
     this.selectedRecord = id;
@@ -198,8 +232,8 @@ export class UserdetailsComponent implements OnInit {
       //FullName: toDisplayRow.FullName,
       //JobTitle: toDisplayRow.JobTitle,
       //Email: toDisplayRow.Email,
-      //PhoneNo: toDisplayRow.PhoneNo, 
-      //Status: toDisplayRow.Status, 
+      //PhoneNo: toDisplayRow.PhoneNo,
+      //Status: toDisplayRow.Status,
     });
    }
    clickSwitch(): void {
@@ -216,6 +250,7 @@ export class UserdetailsComponent implements OnInit {
     this.loading = true;
     this.router.navigate(['']);
     this.loading = false;
+    
   }
 
   resetForm() {

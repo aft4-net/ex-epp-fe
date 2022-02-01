@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { PermissionService } from 'libs/common-services/permission.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
+import { UserPermissionStateService } from '../../state/user-permission-state.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Component({
@@ -43,7 +44,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private readonly _permissionService: PermissionService
+    private readonly _permissionService: PermissionListService
   ) { }
 
   ngOnInit(): void {
@@ -92,7 +93,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
       }
 
       for (let i = 0; i < this.timesheetApprovals.length; i++) {
-        if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf()) {
+        if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf() || this.resubmitClicked || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf()) {
           this.btnText = "Resubmit Timesheet";
           if (this.timesheetValidationService.isValidForApproval(this.timeEntries ?? [], timesheetConfig)) {
             this.validForApproal = true;
@@ -110,10 +111,6 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
           break;
         }
 
-        if (this.resubmitClicked || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf() || this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[0].valueOf()) {
-          this.btnText = "Submitted";
-          this.timeSheetStatus = "submitted-class";
-        }
       }
     }
     else {

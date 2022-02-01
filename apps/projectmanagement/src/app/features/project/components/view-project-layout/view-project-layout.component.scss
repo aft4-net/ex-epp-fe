@@ -1,0 +1,147 @@
+.table_heading
+{
+background-color: none !important;
+font-weight: 700;
+}
+
+
+::ng-deep .ant-table-thead>tr>th {
+
+  background: #F5F5F5 !important;
+}
+
+.table_heading
+{
+background-color: none !important;
+}
+tr:nth-child(even) {background: none}
+
+a {
+  padding-right: 0.6vw;
+  color: #262626;
+}
+.ant-btn-primary {
+  color: #262626 !important;
+  background: none !important;
+  border: 1px solid #d9d9d9 !important;
+}
+
+nz-table.table-container.ant-table-wrapper {
+  padding-top: 1%;
+}
+
+
+tr.ant-table-row.ng-star-inserted {
+  height: 56px !important;
+  padding:16px !important;
+}
+.main_container_homepage {
+  padding: 0px 2%;
+}
+
+
+
+::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  content:none !important;
+}
+
+
+
+::ng-deep .ant-tabs-content-holder {
+
+  font-family: SF Pro Display !important;
+
+}
+::ng-deep .ant-table-content {
+  font-size: 16px !important;
+}
+
+.ant-table-column-sorter:active {
+  color: #bfbfbf;
+
+  transition: color .3s;
+}
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+}
+
+
+
+tr.ant-table-row.ng-star-inserted {
+  height: 56px !important;
+  padding:16px !important;
+}
+::ng-deep .ant-table-content {
+  font-size: 16px !important;
+}
+
+.ant-table-column-sorter:active {
+  color: #bfbfbf;
+
+  transition: color .3s;
+}
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+}
+
+::ng-deep .ant-table-column-sorters {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+::ng-deep .ant-table-filter-column {
+  display: inline-flex !important;
+}
+.manage-columns {
+
+  padding-bottom: 10px;
+}
+
+.projects{
+  height: 95vh;
+}
+
+::ng-deep ant-table-filter-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: -40px -8px -4px 40px;
+  padding: 0 4px;
+  color: #bfbfbf;
+  font-size: 12px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  transition: all .3s;
+}
+
+.pagination {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #595959;
+}
+* {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+::ng-deep .ant-table-column-sorters {
+  float: left;
+}
+::ng-deep .ant-table-filter-column{
+  float:left !important;
+}
+
+::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
+  padding: 8px !important;
+}
+
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}

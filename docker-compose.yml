@@ -1,32 +1,48 @@
 version: '3.4'
 
 services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - "/etc/nginx:/etc/nginx"
+    ports:
+      - "4200:4200"
+      - "4231:4231"
+      - "4232:4232"
+      - "4233:4233"
+      - "4234:4234"
+      - "4235:4235"
+      - "4236:4236"
+      - "4237:4237"
   applicant-tracking:
     image: blens/at:latest
-    ports: 
-      - "4201:80"
+    ports:
+      - '3237:80'
   client-management:
-    image: blens/eppfe:latest
-    ports: 
-      - "4202:80"
+    image: blens/cm:latest
+    ports:
+      - '3235:80'
   project-management:
     image: blens/pm:latest
     ports:
-      - "4203:80"
+      - '3236:80'
   timesheet:
     image: blens/ts:latest
     ports:
-      - "4204:80"
+      - '3233:80'
   resource-management:
     image: blens/rm:latest
     ports:
-      - "4205:80"
+      - '3234:80'
   usermanagement:
     image: blens/um:latest
     ports:
-      - "4206:80"
+      - '3231:80'
+  configurationmodule:
+    image: blens/configuration
+    ports:
+      - '3232:80'
   epp-dashboard:
     image: blens/epp-dash
     ports:
-      - "4207:80"
-
+      - '3200:80'

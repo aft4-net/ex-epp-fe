@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, provideRoutes } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
+import { CommonDataService } from '../../../../libs/common-services/commonData.service';
 import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
 interface RouteLinks {
   name: string;
@@ -26,9 +27,15 @@ activePath(routePath: string) {
   return this.route == routePath;
 }
 
-constructor(private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){}
+constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService,  private router: Router, private authService: MsalService){
+  this._commonData.getPermission();
+}
 
 ngOnInit(): void {
+  console.log()
+}
+ngAfterContentInit() {
+ 
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
    // window.location.reload();
@@ -44,7 +51,6 @@ ngOnInit(): void {
     }
   }
 }
-
 isLoggedIn(): boolean {
   return this.authService.instance.getActiveAccount() != null;
 }

@@ -1,0 +1,140 @@
+
+
+
+tr:nth-child(even) {background: none}
+.page-title {
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+::ng-deep.ml-1{
+  padding-left: 9px;
+}
+header {
+  padding: 0px 2%;
+}
+
+.main_container_homepage {
+  padding: 0px 2%;
+  padding-bottom: 2rem;
+  margin-bottom: 2.3rem;
+  margin-top: 1.2rem;
+  height: 85vh;
+}
+
+
+
+.page-title {
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+
+header {
+  padding: 0px 2%;
+}
+
+.main_container_homepage {
+  padding: 0px 2%;
+  padding-bottom: 2rem;
+  margin-bottom: 2.3rem;
+  margin-top: 1.2rem;
+  height: 85vh;
+}
+
+::ng-deep .ant-btn {
+  background-color: #00A551;
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+
+}
+
+::ng-deep .pagination {
+  display: flex;
+  float: right;
+  padding-right: 15px;
+
+
+}
+::ng-deep.manageColumns{
+
+  display:flex;
+  float:right;
+  padding-left: 980px;
+
+
+}
+
+.main-content {
+  height:110vh;
+ }
+
+
+::ng-deep .ant-btn:not([disabled]):hover {
+  background: #03da6b !important;
+  color: white;
+}
+
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+
+}
+::ng-deep  .ant-table-wrapper {
+
+  padding-left: 25px;
+  padding-right:25px;
+
+}
+
+.addButton {
+  background-color: #00A551;
+  color: white;
+  height: 40px;
+
+}
+
+::ng-deep .table_heading {
+  background-color: #fafafa !important;
+}
+.ant-input-affix-wrapper {
+  position: relative;
+  width: 21vw !important;
+
+}
+::ng-deep .ant-table-filter-column {
+  display: inline-flex !important;
+  float:left !important;
+}
+.anticon-filter   {
+  color: none;
+}
+::ng-deep .ant-table-column-sorters {
+   float: left !important;
+}
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}
+
+::ng-deep .ant-col-24 {
+
+  float: right !important;
+}

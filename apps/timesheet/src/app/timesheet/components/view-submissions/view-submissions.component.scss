@@ -130,5 +130,15 @@ font-size: 16px;
 }
 
 ::ng-deep .ant-table-column-sorters {
-    float: none;
+  float: left !important;
+}
+::ng-deep .ant-table-filter-column{
+  float:left !important;
+}
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+ ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
 }

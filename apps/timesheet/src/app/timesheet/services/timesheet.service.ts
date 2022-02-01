@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { Project } from '../../models/project';
-import { environment } from 'apps/timesheet/src/environments/environment';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -327,13 +327,13 @@ export class TimesheetService {
                 text: response.Data.Filters.ClientFilter[i].ClientName,
                 value: response.Data.Filters.ClientFilter[i].Guid,
               });
-             
+
             for (let i = 0; i < response.Data.Filters.StatusFilter.length; i++)
               statusFilter.push({
                 text: response.Data.Filters.StatusFilter[i],
                 value: response.Data.Filters.StatusFilter[i],
               });
-            
+
             for (let i = 0; i < response.Data.Filters.ProjectFilter.length; i++)
               projectNameFliter.push({
                 text: response.Data.Filters.ProjectFilter[i].ProjectName,
@@ -355,14 +355,14 @@ export class TimesheetService {
         })
       );
   }
- 
+
 
   getTimesheetApprovalPagination(
 
     pageindex: number,
 
     pageSize: number,
-
+    supervisorId: string | null,
     searchKey?: string,
 
     SortBy?: string,
@@ -383,6 +383,10 @@ export class TimesheetService {
       .append('PageIndex', `${pageindex}`)
 
       .append('PageSize', `${pageSize}`);
+      if(supervisorId){
+        params = params.append('id',`${supervisorId}`);
+      }
+
       if(searchKey){
 
      params= params.append('searchKey', `${searchKey}`);
@@ -445,5 +449,81 @@ params =params.append('status', `${status}` );
     return this.http.put<TimesheetApprovalResponse>(
       this.baseUrl + 'TimesheetProjectStatus', approval,{ headers: headers });
     }
+
+  getProjectsList(){
+      let  projectFliter: { text: string; value: string ; checked:boolean;}[] = [] as {
+        text: string;
+        value: string;
+        checked:boolean;
+      }[];
+      let listOfProjects: any[] = [];
+      let filteredProjectArray = [];
+      return this.http.get(`${this.baseUrl}GetApprovalProjectDetails`).pipe(
+        map((response: any) => {
+         
+    for (let i = 0; i < response.Data.length; i++) {
+      listOfProjects.push( response.Data[i].ProjectName);
+     filteredProjectArray = listOfProjects.filter((item, pos) => {
+        return listOfProjects.indexOf(item) == pos;
+      });
+
+      listOfProjects = filteredProjectArray.filter((item) => item);
+    }
+
+    for (let i = 0; i < listOfProjects.length; i++) {
+      projectFliter.push({
+        text: listOfProjects[i],
+        value: listOfProjects[i],
+        checked: true,
+      });
+    }
+
+   projectFliter = projectFliter.filter(
+      (word) => word
+    );
+
+          return projectFliter;
+  
+        })
+      );
+    }
+
+    
+  getClientsList(){
+    let cleintFliter: { text: string; value: string ; checked:boolean;}[] = [] as {
+      text: string;
+      value: string;
+      checked:boolean;
+    }[];
+    let listOfClients: any[] = [];
+    let filteredClientArray = [];
+    return this.http.get(`${this.baseUrl}GetApprovalClientDetails`).pipe(
+      map((response: any) => {
+        for (let i = 0; i < response.Data.length; i++) {
+          listOfClients.push( response.Data[i].ClientName);
+         filteredClientArray = listOfClients.filter((item, pos) => {
+            return listOfClients.indexOf(item) == pos;
+          });
+    
+          listOfClients = filteredClientArray.filter((item) => item);
+        }
+    
+        for (let i = 0; i < listOfClients.length; i++) {
+          cleintFliter.push({
+            text: listOfClients[i],
+            value: listOfClients[i],
+            checked: true,
+          });
+        }
+    
+        cleintFliter = cleintFliter.filter(
+          (word) => word
+        );
+        return cleintFliter;
+
+      })
+    );
+  }
+  
 
 }

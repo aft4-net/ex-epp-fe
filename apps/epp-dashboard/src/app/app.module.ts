@@ -1,32 +1,34 @@
-import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
+import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
 
-export function MSALInstanceFactory(): IPublicClientApplication
-{return new PublicClientApplication({
-   auth: {
-     clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-      redirectUri: 'http://18.116.78.75:4206'}});}
+import {
+  IPublicClientApplication,
+  PublicClientApplication,
+} from '@azure/msal-browser';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+
+
 @NgModule({
-  declarations: [AppComponent, DashboardComponent
-  ,HeaderComponent,
-  FooterComponent
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     DemoNgZorroAntdModule,
-
 
     HttpClientModule,
 
@@ -42,16 +44,46 @@ export function MSALInstanceFactory(): IPublicClientApplication
           loadChildren: () =>
             import('usermanagement/Module').then((m) => m.RemoteEntryModule),
         },
+        {
+          path: 'resourcemanagement',
+          loadChildren: () =>
+            import('resourcemanagement/Module').then(
+              (m) => m.RemoteEntryModule
+            ),
+        },
+        {
+          path: 'timesheet',
+          loadChildren: () =>
+            import('timesheet/Module').then((m) => m.RemoteEntryModule),
+          data: { breadcrumb: 'Timesheet' },
+        },
+        {
+          path: 'clientmanagement',
+          loadChildren: () =>
+            import('clientmanagement/Module').then((m) => m.RemoteEntryModule),
+        },
+        {
+          path: 'projectmanagement',
+          loadChildren: () =>
+            import('projectmanagement/Module').then((m) => m.RemoteEntryModule),
+        },
+        {
+          path: 'configurationmodule',
+          loadChildren: () =>
+            import('configurationmodule/Module').then(
+              (m) => m.RemoteEntryModule
+            ),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
   ],
-  providers: [{
-    provide: MSAL_INSTANCE,
-    useFactory: MSALInstanceFactory
-  },
-  {provide: NZ_I18N, useValue: en_US},
-  MsalService ],
+  providers: [
+   
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
+   
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

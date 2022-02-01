@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { PermissionListService } from "libs/common-services/permission.service";
 import { Observable, Subscription } from "rxjs";
 import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
 
@@ -16,23 +17,32 @@ import { AddUserService } from "../../../services/add-user.service";
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit, OnDestroy {
-  
+
   isVisible = false;
   isLoadng = false;
   userfrm: any;
+  isLogin=false;
   private eventsSubscription: Subscription = new Subscription();
   @Input() addUserEvents: Observable<void> = new Observable<void>();
   employeeList: IEmployeeModel[] = [];
   selectedUserValue = '';
-  constructor(private userService: AddUserService, 
-    private notifier: NotifierService){;}
-  
+  constructor(private userService: AddUserService,
+    //private _authenticationService:AuthenticationService,
+    private _permissionService:PermissionListService,
+    private notifier: NotifierService){
+      //this.isLogin=_authenticationService.loginStatus();
+    }
+
   ngOnInit(): void {
     this.eventsSubscription= this.addUserEvents.subscribe(()=>this.onAddUser());
     this.eventsSubscription.add();
     this.userfrm = new FormGroup({
         UserName: new FormControl(null, [Validators.required]),
       });
+  }
+  authorize(key:string){
+
+    return this._permissionService.authorizedPerson(key);
   }
   ngOnDestroy(): void {
       this.eventsSubscription.unsubscribe();
@@ -42,7 +52,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.selectedUserValue = '';
     this.isVisible = true;
     this.isLoadng = true;
-    alert('inner subscriber');
 
     console.log('addUser');
     this.userService.getEmployeesNotInUsers().subscribe(
@@ -81,7 +90,8 @@ export class AddUserComponent implements OnInit, OnDestroy {
           LastName: res.Data.GrandFatherName,
           Tel: res.Data.MobilePhone,
           Email: res.Data.PersonalEmail,
-          UserName:res.Data?.EmployeeOrganization?.CompaynEmail
+          UserName:res.Data?.EmployeeOrganization?.CompaynEmail,
+          GroupIds: []
         }
 
         this.userService.add(user).subscribe(
