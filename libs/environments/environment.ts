@@ -5,8 +5,9 @@
 export const environment = {
   production: true,
   apiUrl : 'http://localhost:14696/api/v1',
-  clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-  redirectUri: 'http://localhost:4200/'
+  clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
+  redirectUriAfetrLogin : 'http://localhost:4200/',
+   redirectUri: 'http://localhost:4200/usermanagement/sign_in'
 };
 
 /*

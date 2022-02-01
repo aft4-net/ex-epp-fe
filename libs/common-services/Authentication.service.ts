@@ -54,9 +54,9 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace(environment.redirectUri);
+    window.location.replace(environment.redirectUriAfetrLogin);
    }
-
+   
    getEmail(){
      return window.sessionStorage.getItem('username');
    }
