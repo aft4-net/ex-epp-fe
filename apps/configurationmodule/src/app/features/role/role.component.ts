@@ -41,7 +41,6 @@ export class RoleComponent implements OnInit {
       // this.listOfRoles=response.Data;
       this.listOfRoles = [];
       this.listOfRoles = [...response.Data];
-      console.log("list of roles is : ", this.listOfRoles);
     });
   }
 

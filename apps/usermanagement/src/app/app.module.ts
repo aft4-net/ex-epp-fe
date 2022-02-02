@@ -13,7 +13,6 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { RouterModule } from '@angular/router';
 import { SiderComponent } from './components/application/sider/sider.component';
-import { SigninComponent } from './features/Account/signin/signin.component';
 import { PermissionComponent } from './features/components/permission/permission.component';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { GroupsetComponent } from './features/components/groupset/groupset.component';
@@ -26,14 +25,14 @@ import { UserdetailsComponent } from './features/components/userdetails/userdeta
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { environment } from 'libs/environments/environment';
-import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
+import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
 registerLocaleData(en);
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: (`${environment.clientId}`),
-      redirectUri:(`${environment.redirectUri}`)
+      clientId: `${environment.clientId}`,
+      redirectUri:`${environment.redirectUri}`
     },
   });
 }
@@ -63,6 +62,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     DemoNgZorroAntdModule,
     RemoteEntryModule, 
     CustomFormModule,
+    MsalModule,
     RouterModule.forRoot([
 
     ], { initialNavigation: 'enabledBlocking' }),
@@ -70,9 +70,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   providers   : [
     { provide: NZ_I18N, useValue: en_US }, 
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
-    {provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory,},
-      MsalService,
+    {provide: MSAL_INSTANCE, useFactory: MSALInstanceFactory},
+     
   ],
  
   bootstrap: [AppComponent],
