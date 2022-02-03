@@ -289,7 +289,7 @@ export class UserdetailsComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Successfully removed user from group',
+          content: 'Successfully removed user from group',  
           duration: 5000,
         });
         this.getUsers();
