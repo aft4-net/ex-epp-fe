@@ -12,7 +12,7 @@ export class errorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if ([401].includes(err.status) && JSON.stringify(this.accountService.userInfo) != JSON.stringify({})) {
-                this.accountService.signOut();
+               // this.accountService.signOut();
             }
             const error = err.error?.Message || err.statusText;
             console.log(err);
