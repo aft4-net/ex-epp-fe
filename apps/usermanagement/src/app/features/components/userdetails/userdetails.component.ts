@@ -184,7 +184,7 @@ export class UserdetailsComponent implements OnInit {
         this.isModalVisible = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'You have successfully added group to user.',
+          content: 'User successfully added to group',
           duration: 5000,
         });
 
@@ -208,7 +208,7 @@ export class UserdetailsComponent implements OnInit {
       this.isModalVisible = false;
       this.notification.showNotification({
         type: 'success',
-        content: 'You have successfully added group to user.',
+        content: 'User successfully added to group',
         duration: 5000,
       });
       this.isRecordUpdated = true;
