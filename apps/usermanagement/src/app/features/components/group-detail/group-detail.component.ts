@@ -1,6 +1,5 @@
 import { Component,  OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { GroupSetService } from '../../services/group-set.service';
 import { GroupSetModel } from '../../Models/group-set.model';
 import { Observable, of } from 'rxjs';
 import { GroupParams } from '../../Models/User/GroupParams';
@@ -11,8 +10,15 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
-import { PermissionService } from '../../services/permission/permission.service';
 import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
+import { UserService } from '../../Services/user.service';
+import { ResponseDTO } from '../../../models/ResponseDTO';
+import { GroupUsers } from '../../Models/Group/GroupUsres';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { GroupSetService } from '../../Services/group-set.service';
+import { PermissionService } from '../../services/permission/permission.service';
+
 
 @Component({
   selector: 'exec-epp-group-detail',
@@ -20,21 +26,26 @@ import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
   styleUrls: ['./group-detail.component.css']
 })
 export class GroupDetailComponent implements OnInit {
- 
+
   groupParams =  new GroupParams();
-  constructor(private groupSetService : GroupSetService, private _router: Router, 
+  constructor(private groupSetService : GroupSetService, private _router: Router,
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
-              private _permissionService:PermissionService) {
-
+              private _authenticationService:AuthenticationService,
+              private _authpermissionService:PermissionListService,
+              private _permissionService:PermissionService,
+              private userService : UserService,
+               private _pauthService:PermissionListService,) {
+                this.isLogin=_authenticationService.loginStatus();
               }
   listOfAssignedPermistion:AllPermitionData[]=[]
   permissionResponse?:IPermissionResponseModel;
   permissionData?:any;
   childPermissions:IPermissionModel[]=[];
   parentPermission:any;
-  
+  isAddToGroupVisible = false;
   isVisible = false;
+  isLogin=false;
   isGroupEditVisible = false;
   isConfirmLoading = false;
   isOkLoading = false;
@@ -57,6 +68,12 @@ export class GroupDetailComponent implements OnInit {
   lastRow !: number;
   groupdescription : any;
   groupDescriptionEditForm !: FormGroup;
+  AddUserToGroupForm !: FormGroup;
+  groupUsers : GroupUsers= {
+    GroupGuid: "",
+    UserGuidCollection: [],
+  };
+  usersNotAssignedGroup !: IGroupUsersView[];
   listOfColumn = [
     {
       title: 'Name',
@@ -69,19 +86,29 @@ export class GroupDetailComponent implements OnInit {
 
   ngOnInit() {
     this.createGroupDescriptionControls();
+    this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
-      this.groupDetail  = result 
+      this.groupDetail  = result
       console.log(result)
     } );
-    this.FeatchAllGroupsUsers()
-    this._permissionService.PermissionList=[];
+    this.FeatchAllGroupsUsers();
+    this._permissionService.Permission=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
   }
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
       description: [[],[Validators.required]]
+    })
+  }
+  authorize(key:string){
+
+     return this._authpermissionService.authorizedPerson(key);
+   }
+  AddUserToGroupControls() {
+    this.AddUserToGroupForm = this.fb.group({
+      Users: [[],[Validators.required]]
     })
   }
 
@@ -95,7 +122,7 @@ export class GroupDetailComponent implements OnInit {
         this.listOfCurrentPageData = response.Data;
         this.pageIndex=response.pagination.PageIndex;
         this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
+        this.totalRecord=response.pagination.TotalRecord;
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
@@ -138,85 +165,65 @@ export class GroupDetailComponent implements OnInit {
       this.loading = false;
   }
 
-  RemoveUserFromGroup(userId : string) {
-
+  RemoveUserFromGroup(groupUserId : string) {
+      this.groupSetService.RemoveUserFromGroup(groupUserId).subscribe((result) => {
+        this.createNotification('Removing User',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+        this.FeatchAllGroupsUsers();
+      })
   }
 
-  createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
-    this.modal.create({
-      nzTitle: tplTitle,
-      nzContent: tplContent,
-      nzFooter: tplFooter,
-      nzMaskClosable: false,
-      nzClosable: false,
-      nzComponentParams: {
-        value: 'Template Context'
-      },
-      nzOnOk: () => console.log('Click ok')
-    });
-  }
+ // createTplModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>): void {
+    //this.modal.create({
+     // nzTitle: tplTitle,
+     // nzContent: tplContent,
+     // nzFooter: tplFooter,
+     // nzMaskClosable: false,
+     // nzClosable: false,
+     // nzComponentParams: {
+      //  value: 'Template Context'
+     // },
+     // nzOnOk: () => console.log('Click ok')
+   /// });
+  //}
 
   createNotification(title: string,type: string, message : string): void {
     this.notification.create(type, title, message);
   }
 
   createGroupDeleteModal(): void {
-    const modal: NzModalRef = this.modal.create({
+    const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
-    nzContent: 'Users in this group will lose all permissions related to the group.' + 
+    nzContent: 'Users in this group will lose all permissions related to the group.' +
                 "Deleting a group can't be undone",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          shape: 'round',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Delete Group',
-        type: 'primary',
-        danger: true,
-        disabled: false,
-        loading: false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      }]
+    nzOkText: 'Delete Group',
+    nzOkType: 'default',
+    nzOkDanger: true,
+    nzOnOk: () => {
+      this.DeleteGroup();
+      modal.destroy()
+      }
     });
   }
 
-  createEditGroupDescriptionModal(): void {
-    const modal: NzModalRef = this.modal.create({
-    nzTitle: "Edit group's description",
-    nzContent: "Edit the group's description to organize your groups better on the list. You can't edit the group's name.",
-    nzFooter: [
-      {
-          label: 'Cancel',
-          shape: 'round',
-          onClick: () =>{
-            modal.destroy()
-          } 
-      },
-      {
-        label: 'Delete Group',
-        type: 'primary',
-        danger: true,
-        disabled: true,
-        loading: false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      }]
+  createGroupMemeberDeleteModal(groupUserId :string): void {
+    const modal: NzModalRef = this.modal.confirm({
+    nzTitle: 'Remove user form group',
+    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
+                "Removing a user can't be undone",
+    nzOkText: 'Remove User',
+    nzOkType: 'default',
+    nzOkDanger: true,
+    nzOnOk: () => {
+        this.RemoveUserFromGroup(groupUserId);
+        modal.destroy()
+      }
     });
   }
 
   DeleteGroup(): void {
     this.groupSetService.DeleteGroup(this.groupId).subscribe(
       (result) => {
-        this.createNotification('Deleting group',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message); 
+        this.createNotification('Deleting group',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
         this._router.navigateByUrl('usermanagement/group');
       }
     )
@@ -240,7 +247,7 @@ export class GroupDetailComponent implements OnInit {
       this.handleCancel();
       this.createNotification('Updating group description',x.ResponseStatus.toString().toLocaleLowerCase(), x.Message);
       this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
-        this.groupDetail  = result 
+        this.groupDetail  = result
         console.log(result)
       } );
     });
@@ -262,7 +269,7 @@ export class GroupDetailComponent implements OnInit {
            indeterminate:false,
            checkAll:false
         }
-      
+
         element.Childs.forEach((element1:any) => {
           this.childPermissions=[...this.childPermissions,{
             Guid:element1.Guid,
@@ -276,7 +283,7 @@ export class GroupDetailComponent implements OnInit {
             checkAll:false
          }]
         }
-       
+
         );
         this.listOfAssignedPermistion=[...this.listOfAssignedPermistion,{
           Parent:this.parentPermission,
@@ -286,12 +293,25 @@ export class GroupDetailComponent implements OnInit {
       });
     });
   }
+  //change char
   firstLetterUperCaseWord(word: string) {
     let fullPhrase="";
    const wordLists=word.split(" ");
    wordLists.forEach(element => {
-   const titleCase=  element[0].toUpperCase() + element.substr(1).toLowerCase()
-   fullPhrase= fullPhrase+ " "+ titleCase
+   try {
+    let titleCase='';
+       if(element=="for" || element =="to"){
+         titleCase =
+        element[0].toLowerCase() + element.substr(1).toLowerCase();
+       }
+       else{
+         titleCase =
+        element[0].toUpperCase() + element.substr(1).toLowerCase();
+       }
+    fullPhrase= fullPhrase+ " "+ titleCase
+   } catch (error) {
+     console.log();
+   }
    });
    return fullPhrase
  }
@@ -300,4 +320,32 @@ export class GroupDetailComponent implements OnInit {
    this.isGroupEditVisible = false;
    this.groupDescriptionEditForm.reset();
  }
+
+ AddUserToGroup() {
+    this.groupUsers.GroupGuid = this.groupId;
+    this.groupUsers.UserGuidCollection = this.AddUserToGroupForm.value.Users;
+    this.groupSetService.AddUsersToGroup(this.groupUsers).subscribe((result) => {
+      this.isAddToGroupVisible=false;
+      this.createNotification('Adding Users',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+      this.FeatchAllGroupsUsers();
+    });
+ }
+
+ CloseAddUserToGroup() {
+  this.isAddToGroupVisible = false;
+ }
+
+ ShowAddUserToGroupModal() {
+  this.isAddToGroupVisible = true;
+  this.userService.LoadUsersNotAssignedToGroup(this.groupId).subscribe(
+    (result: ResponseDTO<IGroupUsersView[]> | any)=> {
+      this.usersNotAssignedGroup = result.Data;
+    });
+ }
+
+ CancelAddUserToGroup() {
+  this.AddUserToGroupForm.reset();
+  this.AddUserToGroupForm.controls["Users"].markAsPristine()
+ }
+
 }

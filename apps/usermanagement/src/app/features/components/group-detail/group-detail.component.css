@@ -1,17 +1,17 @@
 .table_heading
 {
-background-color: #b8fab8 !important;
+background-color: #F5F5F5 !important;
 font-weight: 700;
 }
 
 .table_evenrow_heading
 {
-background-color: #E8FFE8 !important;
+background-color: none !important;
 }
 
 .table_oddrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .inner-content {
@@ -22,9 +22,9 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #F5F5F5 !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: none}
 
 a {
   padding-right: 0.6vw;
@@ -165,8 +165,15 @@ tr.ant-table-row.ng-star-inserted {
 
 .editGroup {
   color: #fff;
-  background-color: #00a551;
-  border-color: #00a551;
+  background-color: #00a551 !important;
+  border-color: #00a551 !important;
+}
+
+.disableSaveUser {
+    border-color: #d9d9d9;
+    background: #f5f5f5;
+    text-shadow: none;
+    box-shadow: none;
 }
 .assign-access{
   margin-top: 10px;
@@ -178,10 +185,40 @@ tr.ant-table-row.ng-star-inserted {
   margin-left: 0px;
 }
 
-.ant-btn-primary[disabled],.ant-btn-primary[disabled]:active, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
+.primary[disabled],.ant-btn-primary[disabled],.ant-btn-primary[disabled]:active, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
   color: rgba(0,0,0,.25);
   border-color: #d9d9d9;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
   text-shadow: none;
   box-shadow: none;
+}
+
+.UserCountPerGroup {
+  margin-top: 4px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.footerText {
+  font-weight: 400;
+  font-size: 12px;
+  color: #8c8c8c;
+  float: left;
+  margin-left: 8px;
+  margin-bottom: 6px;
+}
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
+  background-color:#00A551;
+  border-color:#00A551;
+}
+::ng-deep .ant-table-filter-open{
+  color:#595959 !important;
+ }
+
+
+::ng-deep .ant-btn-dangerous,.ant-btn-dangerous:hover,.ant-btn-dangerous:active {
+  background-color: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: white !important;
 }

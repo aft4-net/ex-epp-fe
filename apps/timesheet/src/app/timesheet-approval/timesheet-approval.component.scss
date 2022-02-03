@@ -11,14 +11,11 @@
 .controllers {
   margin-left: 24px;
 }
-.tab {
-//     margin-top: -10px;
-}
 
 ::ng-deep .ant-tabs-nav-list {
   margin-left: auto;
   margin-right: 24px;
-  //margin-bottom: 1rem;
+ 
 }
 
 nz-date-picker {
@@ -57,10 +54,6 @@ button.is-blue {
 button.is-yellow {
   color: #00A551;
   border-color: #00A551;
-  
-}
-.approveButton{
-
 
 }
 
@@ -74,3 +67,16 @@ button.is-yellow {
     width: 745px;
   }
 }
+
+button.is-yellow {
+
+  color: #00A551;
+
+  border-color: #00A551;
+
+  background-color: white;;
+
+
+
+}
+

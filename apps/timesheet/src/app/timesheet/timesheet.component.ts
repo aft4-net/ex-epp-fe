@@ -3,6 +3,9 @@ import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from 
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from './state/timesheet-configuration-state.service';
 import { TimesheetStateService } from './state/timesheet-state.service';
+import { UserPermissionStateService } from './state/user-permission-state.service';
+import { CommonDataService } from '../../../../../libs/common-services/commonData.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -10,7 +13,8 @@ import { TimesheetStateService } from './state/timesheet-state.service';
   styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
-  userId: string | null = null;
+  userId: string = "";
+  userPermissionList$: Observable<any[]> = new Observable();
 
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
   timesheet$: Observable<Timesheet | null> = new Observable();
@@ -22,10 +26,20 @@ export class TimesheetComponent implements OnInit {
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-  ) {}
+    private userPermissionStateService: UserPermissionStateService,
+    private commonDataService: CommonDataService,
+    private notification: NzNotificationService
+  ) {
+    let loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
+    this.userId = "";
+    if (loggedInUserInfo) {
+      this.userId = loggedInUserInfo["EmployeeGuid"];
+    }
 
-  ngOnInit(): void {
-    this.userId = localStorage.getItem("userId");
+    localStorage.setItem("userId", this.userId);
+    
+    this.userPermissionList$ = this.userPermissionStateService.permissionList$;
+
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
@@ -33,6 +47,13 @@ export class TimesheetComponent implements OnInit {
 
     this.approval$  = this.timesheetStateService.approval$;
 
+    this.userPermissionStateService.getUserPermission();
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
+  }
+
+  ngOnInit(): void {
+    this.commonDataService.getPermission();
+    
+    this.notification.info('', '', {nzDuration: 1, nzPauseOnHover: false });
   }
 }

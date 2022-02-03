@@ -1,0 +1,28 @@
+
+  <form  [formGroup]="userfrm" *ngIf="authorize('Add_User')" (ngSubmit)="onSaveUser()" #form>
+    <div nz-row>
+        <div nz-col nzSpan="24" class="forDes">
+            <div class="label">Employee
+            <span style="color:red; font-weight:bold">&nbsp;*</span>
+            </div>
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24" >
+              <nz-select
+      [(ngModel)]="selectedUserValue"
+      nzShowSearch
+      [nzShowArrow]="true"
+      name = "UserName"
+      formControlName="UserName"
+      
+    >
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName"></nz-option>
+    </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div><br>
+</form>
+<div class="right-footer">
+    <button nz-button nzType="primary" [nzLoading]="isLoadng" [disabled]="userfrm.invalid" *ngIf="!authorize('Add_User')" (click)="onSaveUser()" style="margin-right:15px">Add</button>
+    <button nz-button nzType="default"  class="defaultBtn" (click)="handleCancel()">Clear</button>
+</div>

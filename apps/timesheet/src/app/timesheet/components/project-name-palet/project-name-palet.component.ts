@@ -10,6 +10,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'app-project-name-palet',
@@ -29,16 +30,17 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   clickEventType = ClickEventType.none;
   popoverVisible = false;
   startingDateCriteria = startingDateCriteria
-  isApproved=false;
+  isApproved = false;
   isRejected = false;
- 
+
   constructor(private timesheetService: TimesheetService,
     private readonly _dayAndDateService: DayAndDateService,
     private modal: NzModalService,
     private timesheetStateService: TimesheetStateService,
-    private readonly _clientAndProjectStateService: ClientAndProjectStateService
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService,
+    private readonly _permissionService: PermissionListService
   ) { }
-  
+
   ngOnInit(): void {
   }
 
@@ -46,19 +48,23 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     if (this.timeEntry) {
       this.project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string)
     }
-    if (this.timesheetApproval && this.timesheetApproval.Status != ApprovalStatus.Rejected) {
+    if (this.timesheetApproval && this.timesheetApproval.Status === Object.values(ApprovalStatus)[1].valueOf()) {
       this.projectNamePaletClass = "project-name-palet-approved";
     } else {
       this.projectNamePaletClass = "project-name-palet";
     }
-    if(this.timesheetApproval){
-      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[2].valueOf()){
-        this.isRejected=true;
-        this.isApproved=false;
+    if (this.timesheetApproval) {
+      if (this.timesheetApproval.ProjectId == this.timeEntry?.ProjectId && this.timesheetApproval.Status === Object.values(ApprovalStatus)[2].valueOf()) {
+        this.isRejected = true;
+        this.isApproved = false;
       }
-      if(this.timesheetApproval.ProjectId==this.timeEntry?.ProjectId && this.timesheetApproval.Status===Object.values(ApprovalStatus)[1].valueOf()){
-        this.isRejected=false;
-        this.isApproved=true;
+      else if (this.timesheetApproval.ProjectId == this.timeEntry?.ProjectId && this.timesheetApproval.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+        this.isRejected = false;
+        this.isApproved = true;
+      }
+      else {
+        this.isRejected = false;
+        this.isApproved = false;
       }
     }
   }
@@ -73,7 +79,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
     this.paletEllipsisClicked.emit(timeEntryEvent);
-    this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status === ApprovalStatus.Rejected : true;
+    this.popoverVisible = this.timesheetApproval ? this.timesheetApproval.Status !== Object.values(ApprovalStatus)[1].valueOf() : true;
   }
 
   onProjectNamePaletClicked() {
@@ -82,19 +88,18 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.clickEventType = ClickEventType.showFormDrawer;
-    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
+    if (this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
+      this.clickEventType = ClickEventType.none;
+      return;
+    }
 
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
     }
-    /*
-    if (!this.checkTimeOverThreeWeeks()) {
-      this.clickEventType = ClickEventType.none;
-      return;
-    }
-    //*/
+
+    this.clickEventType = ClickEventType.showFormDrawer;
+    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     this.projectNamePaletClicked.emit(timeEntryEvent);
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
@@ -137,6 +142,10 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       });
     }
   }
- }
   
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
+  }
+}
+
 

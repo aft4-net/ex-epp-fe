@@ -1,0 +1,10 @@
+FROM node:14.15.0-alpine as install-stage
+WORKDIR /app
+COPY ./dist/apps/epp-dashboard .
+
+FROM nginx:stable-alpine as production-stage
+COPY nginx.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=install-stage /app /usr/share/nginx/html
+EXPOSE 80

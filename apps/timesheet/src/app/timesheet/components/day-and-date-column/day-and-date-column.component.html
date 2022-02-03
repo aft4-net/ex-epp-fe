@@ -1,22 +1,21 @@
-<div class="{{ dateColumnHighlightClass }} flex justify-center items-center rounded-md border border-gray-300 mr-2 mt-2 sm:mb-10 h-100">
+<div class="{{ dateColumnHighlightClass }} flex justify-center items-center rounded-md border border-gray-300 mr-2 mt-2 sm:mb-10">
   <div class="date-column-timesheet  w-full">
-    <div #col class="flex justify-between border-b mt-2 pb-2">
+    <div #col class="date-and-hour flex justify-between border pt-2 pb-2">
       <div class="flex bg-gray-100 rounded ml-2 ">
-        
         <h1 class="date   font-sans text-base  text-gray-500 ml-2 font-semibold  m-2" style="font-size: 1.2rem;"> {{item}} {{dates1}}</h1>
       </div>
 
-      <h3 class="hour mt-2 mr-2 font-sans text-base  text-gray-500 font-bold">{{ totalHours }} Hrs</h3>
+      <h3 *ngIf="totalHours > 0" class="hour mt-2 mr-2 font-sans text-base  text-gray-500 font-bold">{{ totalHours }} Hrs</h3>
     </div>
-    <div (click)="showFormDrawer()" class="cursor-pointer flex justify-center items-center border pt-2 pb-2 ml-2 mr-2 mt-6"
+    <div *ngIf="!timesheetApproved() && authorize('Edit_Timesheet')" (click)="showFormDrawer()" class="add-btn cursor-pointer flex justify-center items-center border pt-2 pb-2 ml-2 mr-2 mt-4"
       [hidden]="disabled">
-      <svg class="text-green-600 text-xl" viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em"
+      <svg class="text-xl" viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em"
         height="1em" data-icon="plus-circle" aria-hidden="true">
         <path
           d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 472c0 4.4-3.6 8-8 8H544v152c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V544H328c-4.4 0-8-3.6-8-8v-48c0-4.4 3.6-8 8-8h152V328c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v152h152c4.4 0 8 3.6 8 8v48z">
         </path>
       </svg>
-      <p class="text-sm ml-2 text-green-600">Add</p>
+      <p class="text-sm m-0 ml-2">Add</p>
     </div>
 
     <div [id]="item" class="entries-overflow  entries-col">
@@ -28,7 +27,6 @@
             fill="#595959" />
         </svg>
       </div>
-
       <div #entries *ngFor="let timeEntry of timeEntries;let i=index" class="w-full">
         <app-project-name-palet [timeEntry]="timeEntry"
           [timesheetApproval]="timesheetApprovalForaProject(timeEntry.ProjectId)"

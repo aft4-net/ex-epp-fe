@@ -1,0 +1,20 @@
+<div class="main-content">
+      <div class="content">
+  <form nz-form (ngSubmit)="submitForm()" [nzLayout]="'vertical'" [formGroup]="departmentForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="Name" nzRequired>Name</nz-form-label>
+      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Please input Name!">
+        <input nz-input id="Name" placeholder="Name" formControlName="Name" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nz-row *ngIf="authorize('Update_Department') || authorize('Create_Department')">
+      <nz-form-control [nzSpan]="14">
+        <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Department')">Update</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="!isEdit && authorize('Create_Department')">Save</button>
+        <button nz-button nzType="default" style="margin-left: 24px;" (click)="resetForm()">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+</div>

@@ -5,17 +5,25 @@
   font-size: medium;
   font-weight: bold;
   margin-top: 0%;
+  margin-bottom: 20px;
 }
 .designation{
   font-size: medium;
   font-weight: bold;
-  margin-left: 69%;
+  padding-left: 60%;
+  padding-right: 24%;
   margin-top: -3%;
+  text-align:right;
+  
+  
 }
+
 .current-time{
-  font-size: small;
-  margin-left: 77%;
-  margin-top: -1.68%;
+  font-size: medium;
+  font-weight: normal;
+  margin-left: 76.5%;
+  margin-top: -1.76%;
+  margin-right: 92px;
 }
 .card-container {
   flex-wrap: wrap;
@@ -48,3 +56,5 @@ p {
 .nz-icon {
   margin-right: 10px;
 }
+
+

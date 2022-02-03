@@ -35,6 +35,10 @@ import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { differenceInCalendarDays } from 'date-fns';
+import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
+import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
+
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean;
@@ -58,17 +62,14 @@ export class TimesheetDetailComponent implements OnInit {
   disableToDate = false;
   disableClient = false;
   disableProject = false;
-  timesheetConfig: TimesheetConfiguration = {
-    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [],
-    WorkingHours: {Min: 0, Max: 24},
-  };
+  timesheetConfig: TimesheetConfiguration = this.timesheetConfigurationStateService.defaultTimesheetConfig;
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
   timesheet: Timesheet | null = null;
   timesheet$: Observable<Timesheet | null> = new Observable();
   timeEntries: TimeEntry[] | null = null;
   timeEntries$: Observable<TimeEntry[] | null> = new Observable();
   timesheetApprovals: TimesheetApproval[] | null = [];
+  timesheetApproval: TimesheetApproval | null = null;
   timesheetReview: TimeEntry[] | null = [];
   timesheetApproval: TimesheetApproval | null = null;
   timesheetApprovals$: Observable<TimesheetApproval[] | null> =
@@ -134,8 +135,10 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private readonly _clientAndProjectStateService: ClientAndProjectStateService
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService,
+    private readonly _permissionService: PermissionListService
   ) {
+    this.timesheetStateService.setTimesheetPageTitle("Manage my Timesheet");
     this.date = this.timesheetStateService.date;
     this.curr = this.timesheetStateService.date;
 
@@ -190,11 +193,7 @@ export class TimesheetDetailComponent implements OnInit {
 
 
     this.timesheetConfig$.subscribe((tsc) =>{
-      this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [],
-        WorkingHours: {Min: 0, Max: 24}
-      };
+      this.timesheetConfig = tsc ?? this.timesheetConfigurationStateService.defaultTimesheetConfig;
       this.startingWeek(this.timesheetConfig.StartOfWeeks);
     });
     this.timesheet$.subscribe((ts) => (this.timesheet = ts ?? null));
@@ -347,7 +346,6 @@ export class TimesheetDetailComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-
       }
     );
   }
@@ -448,14 +446,6 @@ export class TimesheetDetailComponent implements OnInit {
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
-<<<<<<< HEAD
-    if (this.userId) {
-      this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
-    }
-
-    this.checkForCurrentWeek();
-    this.checkTimeOverThreeWeeks(this.firstday1);
-=======
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
       }
@@ -464,7 +454,6 @@ export class TimesheetDetailComponent implements OnInit {
       this.checkTimeOverThreeWeeks(this.firstday1);
 
     });
->>>>>>> ee30abf5ef627d7447f14508935415d9dfb63a36
   }
 
   selectedDateCanceled(curr: any) {
@@ -653,6 +642,8 @@ export class TimesheetDetailComponent implements OnInit {
         this.disableToDate = true;
         this.disableClient = true;
         this.disableProject = true;
+
+        this.timesheetApproval = this.timesheetApprovals?.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId)[0] ?? null;
       }
 
       this.initializeClient();
@@ -1120,4 +1111,7 @@ export class TimesheetDetailComponent implements OnInit {
       date.valueOf() > new Date().valueOf()
     );
   };
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
+  }
 }

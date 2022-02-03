@@ -1,0 +1,155 @@
+.inner-content {
+  padding: 40px;
+  background: #fff;
+  height: 100%;
+}
+.abcd {
+    margin: 18px;
+  }
+  .efgh {
+    gap: 5px;
+  }
+  .azk{
+    margin: 20px;
+  }
+  .user-detail{
+    margin: 10px 20px;
+    width: 100%;
+    height: 150px;
+  }
+  .user-detail-upper{
+    padding: 30px;
+    line-height: auto;
+    top: 48px;
+    margin-top: -18px;
+    margin-left: 15px;
+    bottom: 8px;
+  
+    padding: 30px;
+  height: 80px;
+  border: 1px solid #bfbfbf;
+  line-height: 20px;
+  }
+  .user-detail-upper-inner{
+    padding-left: 98px;
+    font-size: 14px;
+  }
+  .user-detail-lower{
+    margin-left: 16px;
+    padding: 30px;
+    height: 80px;
+    border: 1px solid #bfbfbf;
+    line-height: 20px;
+  }
+  .user-detail-lower-inner{
+    padding-left: 98px;
+    padding-top: 16px;
+    margin-top: -40px;
+    line-height: 20px;
+    left: 21px;
+  }
+  
+  
+  .label {
+      font-size: 14px;
+      line-height: 24px;
+      color: rgba(0,0,0,.85);
+      margin-bottom: 2px;
+      --antd-wave-shadow-color: #18ffba;  
+    }
+    .required::after {
+     content: ' *';
+     color: red;
+     font-weight: bold;
+    }
+    .forDes {
+      width: 90%;
+      color:rgba(0,0,0,.65);
+      text-align: justify;
+      margin-top: -25px; 
+    }
+    
+  span{
+    color: #796c6c;
+  }
+    
+  
+    
+    .text-danger-error{
+      color: #ff4d4f;
+      display: block;
+      font-size: 14px;
+    }
+    
+    .ant-modal-header {
+      padding: 16px 24px;
+      color: rgba(0,0,5,.21);
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
+      border-radius: 2px 2px 0 0;
+    }
+    
+    h4 {
+      margin: 0;
+      color: rgba(0,0,0,.85);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 22px;
+      word-wrap: break-word;
+    }
+    
+    .ant-input:hover {
+      border-color: #00a551;
+      border-right-width: 1px !important;
+    }
+    
+    .ant-input:focus {
+      outline: none !important;
+      border:0.2px solid #00a551;
+      box-shadow: 0 0 2.5px #00a551;
+    }
+    
+    .ant-btn-primary {
+      color: #fff;
+      background-color: #00a551;
+      border-color: #00a551;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.12);
+      box-shadow: 0 2px 0 rgba(0,0,0,.045);
+    }
+    
+    .createGroupButton {
+      position: relative;
+      float: right;
+      margin-top: 10px;
+      margin-right: 27px;
+    }
+    
+  
+  
+    .nz-divider {
+      color: #333;
+      font-weight: normal;
+    }
+    .ngStyle{ 
+      width: '100%' }
+      .nz-avatar {
+        margin-top: 16px;
+        margin-right: 16px;
+      }
+  
+      h2 {
+        display: flex;
+        align-items: center;
+      }
+  
+  .jjjj{
+    margin-left: 19px;
+  }
+
+  ::ng-deep .ant-switch-checked{
+    background-color: #00a551;
+    border-color: #00a551;
+  }
+  .add-button{
+    background-color: #00a551;
+  }

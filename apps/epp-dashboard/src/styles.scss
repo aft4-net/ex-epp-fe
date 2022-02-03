@@ -1,7 +1,12 @@
-.ant-btn-primary {
-    background-color: #52c41a;
-  }
+/* You can add global styles to this file, and also import other style files */
 
+/* Import tailwindcss files */
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
 
 @import "~ng-zorro-antd/style/index.min.css"; /* Import base styles */
 @import "~ng-zorro-antd/button/style/index.min.css";  /* Import one component's styles */
+
+
+
