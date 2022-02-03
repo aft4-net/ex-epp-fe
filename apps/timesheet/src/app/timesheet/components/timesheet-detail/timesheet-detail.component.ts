@@ -29,6 +29,7 @@ import { TimesheetValidationService } from '../../services/timesheet-validation.
 import { differenceInCalendarDays } from 'date-fns';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 
 export const startingDateCriteria = {} as {
@@ -125,7 +126,8 @@ export class TimesheetDetailComponent implements OnInit {
     private timesheetValidationService: TimesheetValidationService,
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private readonly _clientAndProjectStateService: ClientAndProjectStateService
+    private readonly _clientAndProjectStateService: ClientAndProjectStateService,
+    private readonly _permissionService: PermissionListService
   ) {
     this.timesheetStateService.setTimesheetPageTitle("Manage my Timesheet");
     this.date = this.timesheetStateService.date;
@@ -242,7 +244,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? {
         StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [], 
+        WorkingDays: [],
         WorkingHours: {Min: 0, Max: 24}
       }
 
@@ -261,14 +263,14 @@ export class TimesheetDetailComponent implements OnInit {
       this.checkForCurrentWeek();
       this.checkTimeOverThreeWeeks(this.firstday1);
 
-    });    
+    });
   }
 
   lastastWeek(count: any) {
     this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? {
         StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [], 
+        WorkingDays: [],
         WorkingHours: {Min: 0, Max: 24}
       }
 
@@ -350,7 +352,7 @@ export class TimesheetDetailComponent implements OnInit {
         : false;
   }
 
- 
+
 
   getTimeSheetApproval(guid: string) {
     this.timesheetService.getTimeSheetApproval(guid).subscribe((response) => {
@@ -424,7 +426,7 @@ export class TimesheetDetailComponent implements OnInit {
     this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? {
         StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-        WorkingDays: [], 
+        WorkingDays: [],
         WorkingHours: {Min: 0, Max: 24}
       }
 
@@ -438,7 +440,7 @@ export class TimesheetDetailComponent implements OnInit {
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
       }
-      
+
       this.checkForCurrentWeek();
       this.checkTimeOverThreeWeeks(this.firstday1);
 
@@ -485,7 +487,7 @@ export class TimesheetDetailComponent implements OnInit {
           this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
         }
       }
-    }, 500);    
+    }, 500);
   }
 
   calculateWeeklyTotalHours() {
@@ -631,7 +633,7 @@ export class TimesheetDetailComponent implements OnInit {
         this.disableToDate = true;
         this.disableClient = true;
         this.disableProject = true;
-        
+
         this.timesheetApproval = this.timesheetApprovals?.filter(tsa => tsa.ProjectId === this.timeEntry?.ProjectId)[0] ?? null;
       }
 
@@ -1100,4 +1102,7 @@ export class TimesheetDetailComponent implements OnInit {
       date.valueOf() > new Date().valueOf()
     );
   };
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
+  }
 }

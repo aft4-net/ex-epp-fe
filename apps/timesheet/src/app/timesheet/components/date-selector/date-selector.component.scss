@@ -1,19 +1,46 @@
-/*
-@media screen and (min-width: 1024px) {
-    .date{
-        margin-left: 22%;
-    }
+.right-buttons .ant-btn {
+  border-color: #00a551;
+  color: #00a551;
+}
+
+::ng-deep .date-selector .ant-btn {
+  width: 5rem;
+  height: 2.25rem;
+}
+
+::ng-deep .date-selector .ant-btn-icon-only {
+  width: 2rem;
+}
+
+::ng-deep .date-selector .ant-btn-lg {
+  width: 10rem;
+  height: 2.5rem;
+}
+
+::ng-deep .date-selector .ant-picker {
+  height: 2.25rem;
+}
+
+@media (min-width: 640px) {
+  ::ng-deep .date-selector .ant-picker {
+    margin-left: 3rem;
   }
-  
+}
 
-  @media screen and (min-width: 1280px) {
-    .date{
-        margin-left: 25%;
-    }
-  }*/
-
-
-  .right-buttons .ant-btn{
-    border-color: #00a551;
-    color: #00a551;
+@media (min-width: 640px) {
+  ::ng-deep .date-selector .ant-picker {
+    margin-left: 2rem;
   }
+}
+.timesheet-to-approve {
+  position: relative;
+  height: 1.5625rem;
+  width: 1.5625rem;
+  border-radius: 50%;
+  background: #ff4d4f;
+  color: white;
+  font-size: 1.1em;
+  text-align: center;
+  left: 9rem;
+  top: -3.2rem;
+}

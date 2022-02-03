@@ -1,7 +1,10 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TimesheetApproval, TimesheetApprovalProjectDetails } from '../models/timesheetModels';
 
+import { CommonDataService } from 'libs/common-services/commonData.service';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
@@ -11,6 +14,7 @@ import { PaginatedResult } from '../models/PaginatedResult';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { delay } from 'rxjs/operators';
+import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -19,13 +23,14 @@ import { delay } from 'rxjs/operators';
 })
 export class TimesheetApprovalComponent implements OnInit {
   private fristPagantionProjectsSource=  new BehaviorSubject<TimesheetApproval[]>([]);
-fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
-  tabselected=1;
+   fristPagantionProjects$ = this.fristPagantionProjectsSource.asObservable();
+  tabselected = 1;
   date = null;
   bulkCheck = true;
   statusColumn = true;
   cols: TemplateRef<any>[] = [];
-  currentNameSubject$ = new BehaviorSubject(true);
+   currentNameSubject =  new BehaviorSubject<boolean>(true);
+   currentNameSubject$ = this.currentNameSubject.asObservable();
 
   qtyofItemsSelected = 0
   searchProject = new FormControl();
@@ -88,6 +93,10 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
   resources: any;
 
   // variables for generic method
+    // variables for generic method
+    // variables for generic method
+  // variables for generic method
+    supervisorId!: string | null;
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
@@ -100,34 +109,77 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
     weekGBinded: Date | null = null;
     weekG = '';
     projectNameG?:  string[];
-    clientNameG?: string[];
-    filteredProjectNamesList = [
-      { text: 'Application Tracking', value: 'Application Tracking', checked: false }
-  ,{ text: 'Project Management', value: 'Project Management', checked: false }];
+    clientNameG?: string[];  
 
 
-
-    filteredClientNamesList = [{ text: 'Excellerent1', value: 'Excellerent1', checked: false }];
+    filteredClientNamesList: { text: string; value: string ; checked:boolean;}[] = [] as {
+      text: string;
+      value: string;
+      checked:boolean;
+    }[];
     // response
     TimesheetApprovalResponse!: TimesheetApproval[];
     totalResponse!: number;
     totalPageResponse!: number;
     onwaiting=1;
+  loggedInUserInfo?: any; 
+  filteredProjectNamesLists: { text: string; value: string ; checked:boolean;}[] = [] as {
+    text: string;
+    value: string;
+    checked:boolean;
+  }[];
   // end of generic variables
 
   constructor(
     private router: Router,
     private timeSheetService: TimesheetService,
     private http: HttpClient,
-    private notification:NzNotificationService
+    private notification:NzNotificationService,
+    public _commonData:CommonDataService,
+    private _permissionService:PermissionListService,
   ) { }
 
 
 
   ngOnInit(): void {
-    this.initialDataforTab();
+    this.getCurrentUser();
+    this.initialDataforTab();    
+    this._commonData.getPermission();
+    this.getProjectsList();
+    this.getClientsList();
 
   }
+getCurrentUser(){
+  if(localStorage.getItem('loggedInUserInfo')){
+    // eslint-disable-next-line prefer-const
+    this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
+    const user = JSON.parse(this.loggedInUserInfo);
+    this.supervisorId = user['EmployeeGuid'];
+  }
+}
+getProjectsList() {
+  const names = this.timeSheetService.getProjectsList().subscribe(
+    result => {
+      this.filteredProjectNamesLists=result;
+      console.log(result);
+    }
+  )
+  
+}
+
+getClientsList() {
+  const names = this.timeSheetService.getClientsList().subscribe(
+    result => {
+      this.filteredClientNamesList=result;
+      console.log(result);
+    }
+  )
+  
+}
+authorize(key:string){
+     
+  return this._permissionService.authorizedPerson(key);
+}
 
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
     searchKey: string,sortBy: string, week: string, sort: string ,status:string,projectName?: string[],
@@ -142,22 +194,31 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
     this.weekG = week;
     this.sortG = sort;
     this.statusG = status;
+    if(this.authorize('Timesheet_Admin')){
+      this.supervisorId = ''
+    }
+   else{
+      if(localStorage.getItem('loggedInUserInfo')){
+        // eslint-disable-next-line prefer-const
+        this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
+        const user = JSON.parse(this.loggedInUserInfo);
+        this.supervisorId = user['EmployeeGuid'];
+      }
+    }
 
     this.timeSheetService
 
       .getTimesheetApprovalPagination(
-
-        this.pageIndexG,
-
+         this.pageIndexG,
          this.pageSizeG,
-
+         this.supervisorId,
          this.searchKeyG,
-
          this.sortByG,
-
          this.projectNameG,
-
-         this.clientNameG,this.weekG,this.sortG,this.statusG
+         this.clientNameG,
+         this.weekG,
+         this.sortG,
+         this.statusG
 
       )
 
@@ -181,112 +242,43 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
   PageIndexChangeG(index: number): void {
     this.pageIndexG = index;
-    this.timesheetSubmissionPagination(this.pageIndexG,
-
-      this.pageSizeG,
-
-      this.searchKeyG,
-
-      this.sortByG,
-
-     this.weekG,this.sortG,this.statusG,
-     this.projectNameG,
-
-     this.clientNameG);
+    this.UpdateData();
     this.loading = false;
   }
 
 initialDataforTab() {
   this.statusG = 'Requested';
 
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
+  this.UpdateData();
 }
 
   onAllTabClick() {
-    this.stateReset();
+    this.stateReset();   
     this.statusG = '';
-
-    this.timesheetSubmissionPagination(this.pageIndexG,
-
-      this.pageSizeG,
-
-      this.searchKeyG,
-
-      this.sortByG,
-
-     this.weekG,this.sortG,this.statusG,
-     this.projectNameG,
-
-     this.clientNameG);
+    this.UpdateData();
 
   }
 
   onAwaitingTabClick() {
     this.stateReset();
     this.statusG = 'Requested';
-
-    this.timesheetSubmissionPagination(this.pageIndexG,
-
-      this.pageSizeG,
-
-      this.searchKeyG,
-
-      this.sortByG,
-
-     this.weekG,this.sortG,this.statusG,
-     this.projectNameG,
-
-     this.clientNameG);
-
-
+    this.UpdateData();
   }
 
   onApprovedTabClick() {
     this.stateReset();
     this.statusG = 'Approved';
-
-    this.timesheetSubmissionPagination(this.pageIndexG,
-
-      this.pageSizeG,
-
-      this.searchKeyG,
-
-      this.sortByG,
-
-     this.weekG,this.sortG,this.statusG,
-     this.projectNameG,
-
-     this.clientNameG);
+    this.UpdateData();
 
   }
 
   onReviewTabClick() {
+   
     this.stateReset();
     this.statusG = 'Rejected';
+    this.UpdateData();
 
-    this.timesheetSubmissionPagination(this.pageIndexG,
-
-      this.pageSizeG,
-
-      this.searchKeyG,
-
-      this.sortByG,
-
-     this.weekG,this.sortG,this.statusG,
-     this.projectNameG,
-
-     this.clientNameG);
+   
 
   }
 
@@ -309,18 +301,18 @@ test() {
 
   getweek(result: Date): void {
     console.log('week: ');
-  }
+     }
 
 
-  onTabSelected(tab: any) {
-    console.log(tab);
-    if (tab === 1) {
-      this.currentNameSubject$.next(true);
+  onTabSelected(tab: any) {    
+    if (tab == 1) {
+      this.currentNameSubject.next(true);     
     }
     else {
-      this.currentNameSubject$.next(false);
+      this.currentNameSubject.next(false);
     }
   }
+
 onItemCheckStatusChange(event: number){
   this.qtyofItemsSelected = event;
 }
@@ -364,62 +356,21 @@ sortDirectionMethod() {
   sorter(sortIndex: string) {
     this.sortDirectionMethod();
     this.sortByG = sortIndex;
-
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
+    this.UpdateData();
   }
 
   FilterByProject(ProjectName:string[]) {
-    this.sortDirectionMethod();
-    //p?:Array<{ key: string; value: string[] }>;
-
-      //this.projectNameG?.push({"ProjectName":ProjectName});
+    this.sortDirectionMethod();   
 
     this.projectNameG = ProjectName;
-    console.log(ProjectName);
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
+   
+    this.UpdateData();
   }
+
   FilterByClient(ProjectName:string[]) {
-    this.sortDirectionMethod();
-    //p?:Array<{ key: string; value: string[] }>;
-
-      //this.projectNameG?.push({"ProjectName":ProjectName});
-
+    this.sortDirectionMethod(); 
     this.clientNameG = ProjectName;
-    console.log(ProjectName);
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
+    this.UpdateData();
   }
 
 
@@ -456,7 +407,7 @@ sortDirectionMethod() {
   }
   statusChanged(row:any)
   {
-   // alert("grand parent");
+  
    if(this.tabselected===1)
    {
     this.onAwaitingTabClick();
@@ -468,31 +419,27 @@ sortDirectionMethod() {
   }
   onApprove(){
 
-    for (const element of this.setOfCheckedId) {
-      console.log(element);
-      this.arrayOfCheckedId.push(element);
-      console.log(this.arrayOfCheckedId);
+    for (const element of this.setOfCheckedId) {     
+      this.arrayOfCheckedId.push(element);     
     }
 
-    this.timesheetBulkApproval(this.arrayOfCheckedId);
-    console.log("Approved"+this.arrayOfCheckedId);
-    console.log(this.arrayOfCheckedId);
+    this.timesheetBulkApproval(this.arrayOfCheckedId);    
     this.arrayOfCheckedId.length=0;
-    console.log("This"+this.timeSheetApprovalAwaiting);
+    this.qtyofItemsSelected = 0;    
   }
 
 
     onSearchChange() {
       if(this.searchKeyGBinded) {
-        if(this.searchKeyGBinded.length < 2) {
-          this.searchKeyG = '';
-        } else {
+        if(this.searchKeyGBinded.length >= 2) {
           this.searchKeyG = this.searchKeyGBinded
+          this.UpdateData();
+        } 
+        else {
+          this.searchKeyG = '';
+          this.UpdateData();
         }
-      } else {
-        this.searchKeyG = '';
-      }
-      this.UpdateData();
+      }    
     }
 
   onWeekChange() {
@@ -502,82 +449,16 @@ sortDirectionMethod() {
 
   UpdateData()
   {
-
-    if(this.tabselected==0)
-    {
-      console.log("jijisjssss");
-
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
-      // this.timesheetApprovalPaginationAll(1,10,'',this.searchKeyG?this.searchKeyG:'');
-    }
-    else if(this.tabselected==1)
-    {
-
-      console.log("tab 1 selected")
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
-      // this.timesheetSubmissionPaginationAwaiting(1,10,'Requested',this.searchKeyG?this.searchKeyG:'');
-
-    }
-    else if(this.tabselected==2)
-    {
-      console.log("tab 2 selected")
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
-      // this.timesheetSubmissionPaginationApproved(1,10,'Approved',this.searchKeyG?this.searchKeyG:'');
-
-    }
-    else if(this.tabselected==3)
-    {
-      console.log("tab 3 selected")
-      this.timesheetSubmissionPagination(this.pageIndexG,
-
-        this.pageSizeG,
-
-        this.searchKeyG,
-
-        this.sortByG,
-
-       this.weekG,this.sortG,this.statusG,
-       this.projectNameG,
-
-       this.clientNameG);
-      // this.timesheetSubmissionPaginationReview(1,10,'Rejected',this.searchKeyG?this.searchKeyG:'');
-
-    }
-
-
+    this.timesheetSubmissionPagination(
+     this.pageIndexG,
+     this.pageSizeG,
+     this.searchKeyG,
+     this.sortByG,
+     this.weekG,
+     this.sortG,
+     this.statusG,
+     this.projectNameG,
+     this.clientNameG);
 
   }
 }

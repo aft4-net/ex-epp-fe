@@ -1,4 +1,4 @@
-<section id="submissionHistory" class="mb-20">
+<section *ngIf="authorize('View_Timesheet_Submissions')" id="submissionHistory" class="mb-20">
   <span nz-row>
     <a nzSm="4" nzXs="4" (click)="navaigateToTimeSheet()">
       <svg width="76" height="24" viewBox="0 0 76 24" fill="none">

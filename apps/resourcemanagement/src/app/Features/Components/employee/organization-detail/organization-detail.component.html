@@ -1,0 +1,30 @@
+
+<div class="breadcrumb">
+  <nz-breadcrumb>
+    <div nz-row>
+      <div nz-col nzSpan="22">
+        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Resources</nz-breadcrumb-item> <br />
+        <h3>Employees</h3>
+        <ng-template #employees>
+          <h3>Employees</h3>
+        </ng-template>
+      </div>
+
+    </div>
+  </nz-breadcrumb>
+  </div>
+<exec-epp-page-title></exec-epp-page-title>
+<div nz-row>
+  <div nz-col nzSpan="4">
+    <exec-epp-side-bar [active]="4"> </exec-epp-side-bar>
+  </div>
+  <div nz-col nzSpan="13" class="inner-content">
+    <div class="page-title">
+        <h2> Organizational Detail</h2>
+    </div>
+    <exec-epp-organizational-details-group></exec-epp-organizational-details-group>
+   
+  </div>
+</div>
+

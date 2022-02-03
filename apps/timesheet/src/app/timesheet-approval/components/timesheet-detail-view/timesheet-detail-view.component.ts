@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SelectMultipleControlValueAccessor } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { PermissionListService} from '../../../../../../../libs/common-services/permission.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
@@ -21,13 +22,17 @@ export class TimesheetDetailViewComponent implements OnInit {
 
     constructor(private timesheetService:TimesheetService,
       private notification: NzNotificationService,
-      private _router: Router) {
+      private _router: Router,
+      private readonly _permissionService:PermissionListService,) {
 
     }
 
     ngOnInit(): void {
     }
-
+  isComment(comment:string)
+  {
+    return comment===null || comment===''?true:false;
+  }
   getNote(note:string)
   {
     return note!==null?note:"N/A";
@@ -102,8 +107,9 @@ export class TimesheetDetailViewComponent implements OnInit {
       }
     });
     this.exitModal();
-
   }
-
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
+  }
   }
 

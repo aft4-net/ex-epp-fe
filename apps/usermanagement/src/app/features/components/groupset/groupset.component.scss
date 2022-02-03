@@ -4,7 +4,7 @@
     color: rgba(0,0,0,.85);
     margin-bottom: 2px;
     font-weight: 500;
-    --antd-wave-shadow-color: #18ffba;  
+    --antd-wave-shadow-color: #18ffba;
   }
   .required::after {
    content: ' *';
@@ -15,33 +15,33 @@
     width: 90%;
     color:rgba(0,0,0,.65);
     text-align: justify;
-    margin-top: -25px; 
+    margin-top: -25px;
   }
-  
+
   span {
     font-weight: 400;
     font-size: 12px;
     color: #8c8c8c;
   }
-  
+
   span::-moz-selection { background: #00a551; color: white; }
   span::selection { background: #00a551; color: white; }
-  
+
   .label::-moz-selection { background: #00a551; color: white; }
   .label::selection { background: #00a551; color: white; }
-  
+
   p::-moz-selection { background: #00a551; color: white; }
   p::selection { background: #00a551; color: white; }
-  
+
   input::-moz-selection { background: #00a551; color: white; }
   input::selection { background: #00a551; color: white; }
-  
+
   textarea::-moz-selection { background: #00a551; color: white; }
   textarea::selection { background: #00a551; color: white; }
-  
+
   h4::-moz-selection { background: #00a551; color: white; }
   h4::selection { background: #00a551; color: white; }
-  
+
   .text-danger-error{
     color: #ff4d4f;
     display: block;
@@ -68,18 +68,18 @@
     line-height: 22px;
     word-wrap: break-word;
   }
-  
+
   .ant-input:hover {
     border-color: #00a551;
     border-right-width: 1px !important;
   }
-  
+
   .ant-input:focus {
     outline: none !important;
     border:0.2px solid #00a551;
     box-shadow: 0 0 2.5px #00a551;
   }
-  
+
   .ant-btn-primary {
     color: #fff;
     background-color: #00a551;
@@ -87,20 +87,20 @@
     text-shadow: 0 -1px 0 rgba(0,0,0,.12);
     box-shadow: 0 2px 0 rgba(0,0,0,.045);
   }
-  
+
   .createGroupButton {
     position: relative;
     float: right;
     margin-top: 0px;
     margin-right: 0px;
   }
-  
+
   .ant-btn-primary:focus, .ant-btn-primary:hover {
     color: #fff;
     background-color: #1db360;
     border-color: #1db360;
   }
-  
+
   .defaultBtn:focus, .defaultBtn:hover {
     color: #1db360;
     border-color: #1db360;
@@ -108,18 +108,18 @@
 
   .table_heading
 {
-background-color: #b8fab8 !important;
+background-color: none !important;
 font-weight: 700;
 }
 
 .table_evenrow_heading
 {
-background-color: #E8FFE8 !important;
+background-color: none !important;
 }
 
 .table_oddrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .inner-content {
@@ -130,9 +130,9 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #F5F5F5 !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: none}
 
 a {
   padding-right: 0.6vw;
@@ -272,3 +272,15 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: #262626;
 }
 
+
+::ng-deep.ant-table-column-sorter-up,
+          .ant-table-column-sorter-down,
+          .ant-table-column-sorter-down.active,
+          .ant-table-column-sorter-up.active {
+  color: #595959 !important;
+}
+
+
+::ng-deep.anticon {
+  color:#595959 !important;
+}
