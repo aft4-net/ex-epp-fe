@@ -1,11 +1,10 @@
 import {
 ApprovalStatus,
+StartOfWeek,
 TimeEntry,
 Timesheet,
 TimesheetApproval,
 TimesheetConfiguration,
-
-import {  ApprovalStatus,  StartOfWeek,  TimeEntry,  Timesheet,  TimesheetApproval,  TimesheetConfiguration,
 } from '../../../models/timesheetModels';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
@@ -28,6 +27,7 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import {
   Observable,
 } from 'rxjs';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { Project } from '../../../models/project';
 import { TimeEntryFormData } from '../../../models/timeEntryFormData';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
@@ -35,10 +35,6 @@ import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { differenceInCalendarDays } from 'date-fns';
-import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
-import { PermissionListService } from 'libs/common-services/permission.service';
-
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean;
@@ -71,9 +67,8 @@ export class TimesheetDetailComponent implements OnInit {
   timesheetApprovals: TimesheetApproval[] | null = [];
   timesheetApproval: TimesheetApproval | null = null;
   timesheetReview: TimeEntry[] | null = [];
-  timesheetApproval: TimesheetApproval | null = null;
-  timesheetApprovals$: Observable<TimesheetApproval[] | null> =
-    new Observable();
+  timesheetApprovals$: Observable<TimesheetApproval[] | null> =  new Observable();
+
   timeEntry: TimeEntry | null = null;
   weeklyTotalHours: number = 0;
 
