@@ -1,4 +1,4 @@
-export interface SignInResponse {
+export interface LogInResponse {
     Guid: string;
     FirstName: string | undefined;
     LastName: string| undefined;

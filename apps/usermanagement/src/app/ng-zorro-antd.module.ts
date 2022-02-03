@@ -68,6 +68,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { SharedModule } from './shared/modules/shared.module';
 
 
 @NgModule({
@@ -140,7 +141,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzWaveModule,
     NzResizableModule,
     NzPipesModule,
-    NzSpaceModule
+    NzSpaceModule,
+    SharedModule
   ]
 })
 export class DemoNgZorroAntdModule {

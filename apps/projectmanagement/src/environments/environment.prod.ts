@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseApiUrl: 'https://3.138.163.97:3030/api/v1/',
+  baseApiUrl: ' https://epp-be.excellerentsolutions.com/api/v1/',
 };
 
