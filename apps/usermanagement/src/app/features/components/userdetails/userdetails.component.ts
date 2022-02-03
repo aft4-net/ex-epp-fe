@@ -275,7 +275,7 @@ export class UserdetailsComponent implements OnInit {
   showConfirmation(guid: string | null): void {
     this.modal.confirm({
       nzTitle: 'Confirm',
-      nzContent: 'Are you sure you want to delete this entry?',
+      nzContent: 'Are you sure you want to remove this user from group?',
       nzOnOk: () => {
         this.deleteItem(guid);
       },
@@ -289,7 +289,7 @@ export class UserdetailsComponent implements OnInit {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
-          content: 'Successfully deleted group from user.',
+          content: 'Successfully removed user from group',
           duration: 5000,
         });
         this.getUsers();
