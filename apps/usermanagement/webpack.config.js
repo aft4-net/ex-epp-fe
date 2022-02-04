@@ -25,7 +25,7 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'usermanagement',
       filename: 'remoteEntry.js',
-      exposes: {
+      exposes: { 
         './Module': 'apps/usermanagement/src/app/remote-entry/entry.module.ts',
       },
       shared: {
