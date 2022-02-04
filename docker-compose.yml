@@ -5,8 +5,9 @@ services:
     image: nginx:latest
     volumes:
       - "/etc/nginx:/etc/nginx"
+      - "/etc/letsencrypt:/etc/letsencrypt"
     ports:
-      - "4200:4200"
+      - "443:443"
       - "4231:4231"
       - "4232:4232"
       - "4233:4233"

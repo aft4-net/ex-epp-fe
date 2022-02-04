@@ -8,6 +8,15 @@
       </nz-form-control>
     </nz-form-item>
 
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="department">Department</nz-form-label>
+      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="please select department">
+        <nz-select nzPlaceHolder="Select department" formControlName="DepartmentGuid">
+          <nz-option *ngFor="let department of departments" nzLabel="{{department.Name}}" nzValue="{{department.Guid}}"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
     <nz-form-item nz-row *ngIf="authorize('Update_Role') || authorize('Create_Role')">
       <nz-form-control [nzSpan]="14">
         <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Role')">Update</button>

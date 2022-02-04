@@ -1,5 +1,5 @@
 import { AppComponent } from './app.component';
-
+import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
@@ -9,16 +9,19 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
+import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
+import { Configuration } from 'msal';
 
-import {
-  IPublicClientApplication,
-  PublicClientApplication,
-} from '@azure/msal-browser';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
-
-
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
+      redirectUri: 'https://epp-fe.excellerentsolutions.com/',
+    },
+  });
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +85,11 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
    
     { provide: NZ_I18N, useValue: en_US },
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
-   
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    MsalService
   ],
   bootstrap: [AppComponent],
 })
