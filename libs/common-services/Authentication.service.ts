@@ -56,7 +56,7 @@ import { ErrHandleService } from './error-handle.service';
     //this.router.navigateByUrl('');
     window.location.replace('https://epp-fe.excellerentsolutions.com/');
    }
-
+   
    getEmail(){
      return window.sessionStorage.getItem('username');
    }
