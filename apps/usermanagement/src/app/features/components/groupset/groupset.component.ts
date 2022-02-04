@@ -14,7 +14,7 @@ import { PaginationResult } from '../../Models/PaginationResult';
 import { UserParams } from '../../Models/User/UserParams';
 import { listtToFilter } from '../../Models/listToFilter';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-import { GroupSetService } from './../../services/group-set.service';
+import { GroupSetService } from '././../../services/group-set.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({
