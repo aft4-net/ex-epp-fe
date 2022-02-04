@@ -6,6 +6,7 @@ import { GroupSetModel } from "../../../Models/group-set.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
 import { AddUserService } from "../../../services/add-user.service";
 
+
 @Component({
   selector: 'exec-epp-add-group',
   templateUrl: './user-to-group.component.html',
@@ -57,7 +58,7 @@ export class UserToGroupComponent implements OnInit {
 
   }
   onShowError(err: any) {
-      let errMsg = 'Some error occured. Please review your input and try again. ';
+      const errMsg = 'Some error occured. Please review your input and try again. ';
       this.notifier.notify(NotificationType.error, errMsg);
       this.isLoadng = false;
   }

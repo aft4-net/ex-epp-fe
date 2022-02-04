@@ -117,7 +117,8 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   ngAfterContentInit() {
     setTimeout(() => {
     if(!this.authorize('View_User')&&this.isLogin)
-    this._router.navigateByUrl('usermanagement/unauthorize')
+    //this._router.navigateByUrl('usermanagement/unauthorize')
+    console.log();
     }, 100);
   }
  
