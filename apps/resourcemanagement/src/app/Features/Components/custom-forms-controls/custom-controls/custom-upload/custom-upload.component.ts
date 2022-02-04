@@ -8,6 +8,7 @@ import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpRes
 import { Observable } from "rxjs";
 import { environment } from "libs/environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
+import { Router } from "@angular/router";
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -47,13 +48,18 @@ export class CustomUploadComponent implements OnInit {
     file: File | undefined ; 
     employeeguid= "";   
     userEmail=window.sessionStorage.getItem('username')+'';
+    empImg : any;
 
-    constructor(private http: HttpClient, private _employeeService : EmployeeService) {
+    constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router) {
     }
 
     ngOnInit(): void {
+      if(this._employeeService.empNum === 'ec0001'){
+        this.empImg = null;
+      }
      console.log("this was the email on init "+ this.userEmail + " and EmpNum " + this._employeeService.empNum);
       this.getUser(this.userEmail);
+      this.getUserImg(this._employeeService.empNum);
     }
 
     
@@ -82,7 +88,7 @@ export class CustomUploadComponent implements OnInit {
         console.log(err);
       },
       ()=>{
-        
+        this._router.navigate(['resourcemanagement']);
         console.log("completed");
       });
      
@@ -90,8 +96,15 @@ export class CustomUploadComponent implements OnInit {
     getUser(email:string){
       return this.http.get<any>(environment.apiUrl+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' 
       + email.toLowerCase()).subscribe((response:any)=>{
-        console.log("and this was the guid "+ response.Guid);
         this.employeeguid = response.EmployeeNumber;
+      });
+     }
+
+     getUserImg(empNumber:string){
+      return this.http.get<any>(environment.apiUrl+'/EmployeePhoto?id=' 
+      + empNumber).subscribe((response:any)=>{
+        this.empImg = response.Data;
+        console.log("this is it "+ this.empImg);
       });
      }
     
