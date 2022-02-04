@@ -62,14 +62,6 @@ export class PageTitleComponent implements OnInit {
         this._formGenerator.personalDetailsForm
       );
       this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
-    } else if (this._formGenerator.allAddresses.length === 0) {
-      alert('A minimum of one address required. Please enter your address(es)');
-      this._router.navigate(['resourcemanagement/employee/add-employee/address-view']);
-    } else if (this._formGenerator.allEmergencyContacts.length === 0) {
-      alert(
-        'A minimum of one emergency contact is required. Please enter your emergency contact(s)'
-      );
-      this._router.navigate(['resourcemanagement/employee/add-employee/emergencycontacts-view']);
     } else if (!this._formGenerator.organizationalForm.valid) {
       alert('Please enter a valid  Organizational detail');
       this._formGenerator.errorMessageforOrganizationDetails(
