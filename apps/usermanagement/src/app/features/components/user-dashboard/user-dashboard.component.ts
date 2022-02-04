@@ -20,8 +20,8 @@ import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { UserService } from '././../../services/user.service';
-import { AddUserService } from '././../../services/add-user.service';
+import { UserService } from '../../services/user.service';
+import { AddUserService } from '../../services/add-user.service';
 
 
 @Component({

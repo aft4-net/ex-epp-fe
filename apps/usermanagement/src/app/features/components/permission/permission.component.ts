@@ -9,7 +9,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
-import { PermissionService } from '././../../services/permission/permission.service';
+import { PermissionService } from '../../services/permission/permission.service';
 
 export interface GroupCheckBoxItem {
   label: string;
