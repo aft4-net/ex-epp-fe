@@ -16,7 +16,7 @@ import { CustomFormModule } from '../../../shared/modules/forms/custom-form.modu
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { IUserModel } from '../../Models/User/UserList';
-import { AddUserService } from '../../services/add-user.service';
+import { AddUserService } from './../../services/add-user.service';
 import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
 import { GroupSetModel } from '../../Models/group-set.model';
