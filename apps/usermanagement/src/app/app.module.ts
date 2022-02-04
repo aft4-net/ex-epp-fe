@@ -26,6 +26,13 @@ import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTIntercep
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { environment } from 'libs/environments/environment';
 import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
+import { SharedModule } from './shared/modules/shared.module';
+//import { PageTemplateModule } from './shared/modules/templates/page-template.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserManagementModule } from './modules/userManagment/user-management.module';
+
+
+
 registerLocaleData(en);
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -61,8 +68,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
     RemoteEntryModule, 
-    CustomFormModule,
+    SharedModule,
     MsalModule,
+    BrowserAnimationsModule,
+    UserManagementModule,
     RouterModule.forRoot([
 
     ], { initialNavigation: 'enabledBlocking' }),
