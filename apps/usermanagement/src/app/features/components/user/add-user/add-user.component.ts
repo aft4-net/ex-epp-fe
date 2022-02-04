@@ -6,10 +6,9 @@ import { NotificationType, NotifierService } from "../../../../shared/services/n
 
 import { IEmployeeModel } from "../../../Models/employee.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
-import { IUserGetModel } from "../../../Models/User/user-get.model";
+
 import { IUserPostModel } from "../../../Models/User/user-post.model";
 import { AddUserService } from "../../../services/add-user.service";
-
 
 @Component({
   selector: 'exec-epp-add-user',
