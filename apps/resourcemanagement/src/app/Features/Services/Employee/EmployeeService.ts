@@ -18,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class EmployeeService {
   public isdefault = true;
+  public empNum="ec0001";
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}

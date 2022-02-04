@@ -81,9 +81,10 @@ export class PageTitleComponent implements OnInit {
         this._formGenerator.updateOneEmployee();
       } else {
         this._formGenerator.save();
+        this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
       }
 
-      this._router.navigate(['resourcemanagement']);
+    //  this._router.navigate(['resourcemanagement']);
     }
   }
   Cancel() {

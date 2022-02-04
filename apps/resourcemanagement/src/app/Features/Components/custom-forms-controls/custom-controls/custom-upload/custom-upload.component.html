@@ -5,7 +5,7 @@
   </div>
   <div class="profile-buttons-container">
     <div class="profile-button-container">
-      <nz-upload nzAction="http://localhost:14696/api/v1/EmployeePhoto">
+      <nz-upload [nzCustomRequest]="customUploadReq"  [nzName]="'file'">
         <button
           class="profile-button-add"
           disabled>
@@ -22,5 +22,6 @@
         Delete
       </button>
     </div>
+    
   </div>
 </div>

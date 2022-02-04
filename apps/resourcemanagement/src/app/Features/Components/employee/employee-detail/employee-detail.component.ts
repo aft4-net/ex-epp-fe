@@ -438,6 +438,8 @@ export class EmployeeDetailComponent implements OnInit {
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
 
+      this._employeeService.empNum = data.EmployeeNumber;
+      
       this._employeeService.setEmployeeDataForEdit(data);
 
     if(this._employeeService.employeeById)
