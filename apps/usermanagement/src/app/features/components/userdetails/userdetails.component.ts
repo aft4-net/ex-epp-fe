@@ -20,7 +20,7 @@ import { AddUserService } from './../../services/add-user.service';
 import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
 import { GroupSetModel } from '../../Models/group-set.model';
-import { UserDetailService } from '../../Services/user-detail.service';
+import { UserDetailService } from './../../services/user-detail.service';
 
 
 
