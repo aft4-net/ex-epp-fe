@@ -26,6 +26,7 @@ import { CustomPhoneNumberComponent } from "./custom-controls/custom-phone/custo
 import { CustomSelectMultipleComponent } from "./custom-controls/custom-select-multiple/custom-select-multiple.component";
 import { CustomSelectComponent } from "./custom-controls/custom-select/custom-select.component";
 import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom-text-box.component";
+
 import { CustomUploadComponent } from "./custom-controls/custom-upload/custom-upload.component";
 import { ExcelButtonsMultipleControlsComponent } from "./custom-buttons/excel-buttons-multiple-controls/excel-buttons-multiple-controls.component";
 
