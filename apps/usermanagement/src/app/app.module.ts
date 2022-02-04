@@ -33,6 +33,7 @@ import { UserManagementModule } from './modules/userManagment/user-management.mo
 
 
 
+
 registerLocaleData(en);
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -57,7 +58,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     GroupDetailComponent,
     AddUserComponent,
     UserToGroupComponent,
-    UserdetailsComponent
+    UserdetailsComponent,
+    
   ],
   imports: [
     BrowserModule,
