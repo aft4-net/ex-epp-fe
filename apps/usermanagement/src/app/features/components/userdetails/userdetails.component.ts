@@ -15,12 +15,13 @@ import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { UserDetailService } from '../../services/user-detail.service';
 import { IUserModel } from '../../Models/User/UserList';
 import { AddUserService } from '../../services/add-user.service';
 import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
 import { GroupSetModel } from '../../Models/group-set.model';
+import { UserDetailService } from '../../Services/user-detail.service';
+
 
 
 
