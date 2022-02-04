@@ -14,8 +14,8 @@
         </button>
       </nz-upload>
     </div>
-    <div class="profile-button-container">
-      <button
+    <div class="profile-button-container" *ngIf="removeImg">
+      <button 
         class="profile-button-delete"
         disabled>
         <i nz-icon nzType="delete"></i>

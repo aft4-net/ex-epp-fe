@@ -49,6 +49,7 @@ export class CustomUploadComponent implements OnInit {
     employeeguid= "";   
     userEmail=window.sessionStorage.getItem('username')+'';
     empImg : any;
+    removeImg = true;
 
     constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router) {
     }
@@ -57,6 +58,7 @@ export class CustomUploadComponent implements OnInit {
       if(this._employeeService.empNum === 'ec0001'){
         this.empImg = null;
       }
+     
      console.log("this was the email on init "+ this.userEmail + " and EmpNum " + this._employeeService.empNum);
       this.getUser(this.userEmail);
       this.getUserImg(this._employeeService.empNum);
@@ -105,6 +107,9 @@ export class CustomUploadComponent implements OnInit {
       + empNumber).subscribe((response:any)=>{
         this.empImg = response.Data;
         console.log("this is it "+ this.empImg);
+        if(this.empImg == null){
+          this.removeImg = false;
+        }
       });
      }
     
