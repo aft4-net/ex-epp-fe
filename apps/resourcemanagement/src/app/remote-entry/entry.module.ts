@@ -34,7 +34,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
-      redirectUri: 'https://18.218.150.53:4200/',
+      redirectUri: 'https://epp-fe.excellerentsolutions.com/',
     },
   });
 }
