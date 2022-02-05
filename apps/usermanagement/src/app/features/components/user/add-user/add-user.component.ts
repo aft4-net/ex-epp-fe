@@ -3,10 +3,13 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { PermissionListService } from "libs/common-services/permission.service";
 import { Observable, Subscription } from "rxjs";
 import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
+
 import { IEmployeeModel } from "../../../Models/employee.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
+import { IUserGetModel } from "../../../Models/User/user-get.model";
 import { IUserPostModel } from "../../../Models/User/user-post.model";
-import { AddUserService } from "../../../../features/services/add-user.service";
+import { AddUserService } from "../../../services/add-user.service";
+
 
 @Component({
   selector: 'exec-epp-add-user',

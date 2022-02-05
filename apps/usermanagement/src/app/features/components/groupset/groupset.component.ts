@@ -11,8 +11,10 @@ import { GroupSetModel } from '../../Models/group-set.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { PaginationResult } from '../../Models/PaginationResult';
+import { UserParams } from '../../Models/User/UserParams';
+import { listtToFilter } from '../../Models/listToFilter';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
-import { GroupSetService } from '../../../features/services/group-set.service';
+import { GroupSetService } from '../../Services/group-set.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 @Component({

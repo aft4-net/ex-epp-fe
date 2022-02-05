@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { UserRoutingModule } from './user-routing.module';
 import { SharedModule } from '../../shared/modules/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +10,6 @@ import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 
 @NgModule({
   declarations: [
-
   ],
   imports: [
     FormsModule,

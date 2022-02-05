@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, provideRoutes } from '@angular/router';
-
+//import { ApplicantGeneralInfoService } from '../../../services/applicant/applicant-general-info.service';
+//import { AreasOfInterestService } from '../../../services/applicant/areas-of-interest.service';
+//import { EducationService } from '../../../services/applicant/education.service';
+//import { AccountService } from '../../../services/user/account.service';
 
 interface RouteLinks {
   name: string;

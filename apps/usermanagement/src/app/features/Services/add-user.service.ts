@@ -3,16 +3,15 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { IEmployeeModel } from '../Models/employee.model';
-import { GroupSetModel } from '../Models/group-set.model';
-import { IUserGetModel } from '../Models/User/user-get.model';
-import { IUserPostModel } from '../Models/User/user-post.model';
-import { ResponseDTO } from '../Models/ResponseDTO';
+import { IEmployeeModel } from '../../features/Models/employee.model';
+import { GroupSetModel } from '../../features/Models/group-set.model';
+import { IUserGetModel } from '../../features/Models/User/user-get.model';
+import { IUserPostModel } from '../../features/Models/User/user-post.model';
+import { ResponseDTO } from '../../features/Models/ResponseDTO';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class AddUserService {
   
   httpOptions = {

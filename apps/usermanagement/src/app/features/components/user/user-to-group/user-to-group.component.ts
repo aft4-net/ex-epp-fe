@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
+
 import { GroupSetModel } from "../../../Models/group-set.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
-import { AddUserService } from "../../../../features/services/add-user.service";
-
+import { AddUserService } from "../../../services/add-user.service";
 
 @Component({
   selector: 'exec-epp-add-group',
@@ -57,7 +57,7 @@ export class UserToGroupComponent implements OnInit {
 
   }
   onShowError(err: any) {
-      const errMsg = 'Some error occured. Please review your input and try again. ';
+      let errMsg = 'Some error occured. Please review your input and try again. ';
       this.notifier.notify(NotificationType.error, errMsg);
       this.isLoadng = false;
   }

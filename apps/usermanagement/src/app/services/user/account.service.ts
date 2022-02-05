@@ -6,31 +6,30 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { PersonalInformation } from '../../models/personal-information';
 import { ResponseDTO } from '../../models/ResponseDTO';
-import { LogInRequest } from '../../models/user/logInRequest';
-import { LogInResponse } from '../../models/user/logInResponse';
-
+import { SignInRequest } from '../../models/user/signInRequest';
+import { SignInResponse } from '../../models/user/signInResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AccountService {
-  private userSubject :BehaviorSubject<LogInResponse|any>;
-  public user: Observable<LogInResponse>;
+  private userSubject :BehaviorSubject<SignInResponse|any>;
+  public user: Observable<SignInResponse>;
   loggedInUser:any;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
+    this.userSubject = new BehaviorSubject<SignInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
     this.user = this.userSubject.asObservable();
   }
 
-  public get userInfo(): LogInResponse {
+  public get userInfo(): SignInResponse {
       return this.userSubject.value;
   }
 
-  signIn(logInRequest: LogInRequest) {
+  signIn(signInRequest: SignInRequest) {
     
-      return this.http.post<ResponseDTO<LogInResponse>>(environment + '/user/login', logInRequest).pipe(
+      return this.http.post<ResponseDTO<SignInResponse>>(environment + '/Signin/Sign-In', signInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));
@@ -42,5 +41,6 @@ export class AccountService {
         }
       ));
   };
+  
 
 }

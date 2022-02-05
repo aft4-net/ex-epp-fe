@@ -13,6 +13,7 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { RouterModule } from '@angular/router';
 import { SiderComponent } from './components/application/sider/sider.component';
+import { PermissionComponent } from './features/components/permission/permission.component';
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { GroupsetComponent } from './features/components/groupset/groupset.component';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
@@ -26,14 +27,7 @@ import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-b
 import { environment } from 'libs/environments/environment';
 import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
 import { SharedModule } from './shared/modules/shared.module';
-//import { PageTemplateModule } from './shared/modules/templates/page-template.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserManagementModule } from './modules/userManagment/user-management.module';
-import { PermissionComponent } from './features/components/permission/permission.component';
-
-
-
-
+import { LogInComponent } from './features/Account/user/login/login.component';
 registerLocaleData(en);
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -59,7 +53,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     AddUserComponent,
     UserToGroupComponent,
     UserdetailsComponent,
-    
+    LogInComponent
   ],
   imports: [
     BrowserModule,
@@ -70,10 +64,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
     RemoteEntryModule, 
-    SharedModule,
     MsalModule,
-    BrowserAnimationsModule,
-    UserManagementModule,
+    SharedModule,
     RouterModule.forRoot([
 
     ], { initialNavigation: 'enabledBlocking' }),

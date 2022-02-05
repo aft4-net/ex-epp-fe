@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
 import { AppComponent } from '../app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,12 +14,13 @@ import { NgModule } from '@angular/core';
 import { PermissionComponent } from '../features/components/permission/permission.component';
 import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
-import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserDashboardComponent } from '../features/components/user-dashboard/user-dashboard.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/lib/components/unauthorize/unauthorize.component'
 import { environment } from 'libs/environments/environment'
+import { LogInComponent } from '../features/Account/user/login/login.component';
+import { SigninComponent } from '../features/Account/signin/signin.component';
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
   auth: {
@@ -34,7 +34,6 @@ export function MSALInstanceFactory(): IPublicClientApplication
     BrowserModule,
     DemoNgZorroAntdModule,
     FormsModule,
-
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
@@ -62,7 +61,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
             path:'group-detail/:id',component:GroupDetailComponent
           },
           {
-            path:'sign_in', component:SigninComponent
+            path:'login', component:SigninComponent
           },
           {path:'unauthorize', component:UnauthorizeComponent}
         ]
