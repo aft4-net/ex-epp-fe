@@ -1,10 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NotificationType, NotifierService } from "../../../../shared/services/notifier.service";
-
 import { GroupSetModel } from "../../../Models/group-set.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
-import { AddUserService } from "././../../../services/add-user.service";
+import { AddUserService } from "../../../../features/services/add-user.service";
 
 
 @Component({

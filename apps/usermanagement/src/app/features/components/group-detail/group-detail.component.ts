@@ -11,13 +11,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { AllPermitionData, IPermissionModel, IPermissionResponseModel } from '../../Models/User/Permission-get.model';
 import { GroupSetDescription } from '../../Models/Group/GroupSetDescription';
-import { UserService } from './../../services/user.service';
+import { UserService } from './../../../features/services/user.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { GroupUsers } from '../../Models/Group/GroupUsres';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { PermissionService } from '../../services/permission/permission.service';
-import { GroupSetService } from '../../services/group-set.service';
+import { PermissionService } from '../../../features/services/permission/permission.service';
+import { GroupSetService } from '../../../features/services/group-set.service';
 
 
 
