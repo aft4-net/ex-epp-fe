@@ -1,9 +1,10 @@
-import { AddClientStateService, ClientContactCreate, UpdateClientContact, UpdateClientStateService } from '../../../core';
+import { AddClientStateService,ClientContactService, ClientContactCreate, UpdateClientContact, UpdateClientStateService } from '../../../core';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-contacts-form',
@@ -16,7 +17,7 @@ export class ContactsFormComponent implements OnInit {
   isVisible=false;
   countries: string[] = [];
   footer = null;
-  modalTitle: string | undefined
+  modalTitle: string={} as string;
 
   listofCodes: { value: string; label: string }[] = [];
 
@@ -46,7 +47,10 @@ export class ContactsFormComponent implements OnInit {
     private fb: FormBuilder,
     private modal: NzModalService,
     private _countryService: CountryCodeService,
+    private contactService: ClientContactService,
+    private notification: NzNotificationService,
     private addClientStateService: AddClientStateService,
+
     private updateClientStateService: UpdateClientStateService,
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
@@ -74,7 +78,7 @@ export class ContactsFormComponent implements OnInit {
 else{
     this.listData = this.addClientStateService.addClientData.ClientContacts;
 }
-    this.addContactForm = this.fb.group({
+this.addContactForm = this.fb.group({
 ContactPersonName: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(70)]],
 PhoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(9), Validators.maxLength(15)]],
 PhoneNumberPrefix:['+251',[Validators.required]],
@@ -94,6 +98,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       }
 
     });
+
   }
   showModal(): void {
     this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Client Contact'
@@ -115,25 +120,28 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
           .PhoneNumberPrefix.value;
 
           this.updateClientStateService.updateClientContacts(this.updateContacts);
-        }else{
+        }
+        else
+        {
           this.addClientStateService.updateClientContacts(this.listData);
         }
-
         this.IsEdit=false;
         this.editAt=-1;
         }
-        else{
-        if(this.updateClientStateService.isEdit)
+        else
         {
-          this.listData = [...this.listData, this.addContactForm.value];
-          this.updateContacts = [...this.updateContacts, this.addContactForm.value];
-          this.updateClientStateService.updateClientContacts(this.updateContacts);
-        }else{
-          this.listData = [...this.listData, this.addContactForm.value];
-          this.addClientStateService.updateClientContacts(this.listData);
-        }
-      }
+          if(this.updateClientStateService.isEdit)
+          {
+            this.listData = [...this.listData, this.addContactForm.value];
+            this.updateContacts = [...this.updateContacts, this.addContactForm.value];
+            this.updateClientStateService.updateClientContacts(this.updateContacts);
+          }
+          else{
+            this.listData = [...this.listData, this.addContactForm.value];
+            this.addClientStateService.updateClientContacts(this.listData);
+          }
 
+        }
       this.addContactForm.reset();
       this.isClearButtonActive=true;
       this.isVisible = false;
@@ -179,21 +187,32 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
   exitModal() {
     this.isVisible = false;
     this.addContactForm.reset();
+    this.editAt=-1;
     this.IsEdit=false;
   }
   handleClear(): void {
     this.addContactForm.reset();
+    this.editAt=-1;
     this.isClearButtonActive=true;
   }
   removeItem(element: any) {
     this.listData.forEach((value: any, index: any) => {
       if (value == element) {
         this.listData.splice(index, 1);
-        this.addClientStateService.updateClientContacts(this.listData);
+        this.updateContacts.splice(index, 1);
+        if(this.updateClientStateService.isEdit)
+        {
+          this.updateClientStateService.updateClientContacts(this.updateContacts);
+        }
+        else
+        {
+          this.addClientStateService.updateClientContacts(this.listData);
+
+        }
       }
     });
   }
-  showDeleteConfirm(element: any): void {
+  showDeleteConfirm(element: any,i:number): void {
     this.modal.confirm({
       nzTitle: 'Are you sure, you want to cancel this contact?',
       nzContent: '<b style="color: red;"></b>',
@@ -201,7 +220,30 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        this.removeItem(element);
+        if(typeof this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid!=='undefined')
+        {
+        this.contactService.DeleteContact(this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid).subscribe(
+          (res:any)=>{
+            if(res.ResponseStatus==='Success')
+            {
+             this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
+             );
+             this.removeItem(element);
+
+            }
+
+           },
+          ()=>{
+            this.notification.error("Contact was not Deleted",'',{nzPlacement:'bottomRight'})
+          }
+
+        );
+        }
+        else{
+          this.removeItem(element);
+          this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
+          );
+        }
       },
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),

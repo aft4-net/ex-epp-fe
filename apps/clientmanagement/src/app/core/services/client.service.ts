@@ -1,4 +1,4 @@
-import { AddClientStateService, ApiService, Client, PaginatedResult } from '..';
+import { AddClientStateService, ApiService, Client, PaginatedResult, UpdateClientStateService } from '..';
 
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Injectable({
   providedIn: 'root',
 })
-export class ClientService extends ApiService<Client> {
+export class ClientService extends ApiService<any> {
   private fristPagantionClientsSource = new BehaviorSubject<
     PaginatedResult<Client[]>
   >({} as PaginatedResult<Client[]>);
@@ -17,7 +17,9 @@ export class ClientService extends ApiService<Client> {
   constructor(
     protected httpClient: HttpClient,
     private notification: NzNotificationService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private updateClientStateService: UpdateClientStateService
+
   ) {
     super(httpClient);
   }
@@ -57,5 +59,14 @@ export class ClientService extends ApiService<Client> {
         this.addClientStateService.restAddClientState();
       }
     );
+  }
+  updateClient()
+  {
+    return this.update(this.updateClientStateService.UpdateClientData);
+
+  }
+  DeleteClient(id:string|number)
+  {
+    return this.delete(id);
   }
 }

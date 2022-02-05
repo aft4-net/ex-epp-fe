@@ -47,13 +47,11 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState$ =
         this.addClientState.validateAddClientFormState();
 
-
       this.addClientState
         .validateAddClientFormState()
         .subscribe((res: ValidtyAddClientForms) => {
           this.validateAddClientFormState = res;
         });
-
     }
 
   }
@@ -74,14 +72,18 @@ export class AddClientComponent implements OnInit {
         this.validateAddClientFormState?.clientContactsForm &&
         this.updateClientState.UpdateClientData!=null
       ) {
-        console.log('updating')
-        console.log(this.updateClientState.UpdateClientData);
-        this.clientService.updateClient(this.updateClientState.UpdateClientData).subscribe(
-          ()=>{
+
+        this.clientService.updateClient().subscribe(
+          (res:any)=>{
+          if(res.ResponseStatus==='Success')
+          {
+            console.log('updating')
+            console.log(this.updateClientState.UpdateClientData);
             this.notification.success('Client Updated Successfully', '', {
               nzPlacement: 'bottomRight',
             });
-            this.router.navigateByUrl('clients');
+            this.router.navigateByUrl('clientmanagement');
+          }
           },
           ()=>{
             this.notification.error('Client not Updated!', '', {
@@ -123,15 +125,14 @@ export class AddClientComponent implements OnInit {
           });
         }
       }
-
     }
+
     else{
-    this.addClientState
+      this.addClientState
       .validateAddClientFormState()
       .subscribe((res: ValidtyAddClientForms) => {
         this.validateAddClientFormState = res;
       });
-
 
     if (
       this.validateAddClientFormState?.clientDetailsForm &&
@@ -139,10 +140,9 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientContactsForm &&
       this.validateAddClientFormState?.clientContactsForm
     ) {
-      console.log("checking the client")
-      console.log(this.addClientState.addClientData)
       this.router.navigateByUrl('clientmanagement');
       this.clientService.addClient();
+
     }
     // eslint-disable-next-line no-empty
     else {
@@ -207,6 +207,7 @@ export class AddClientComponent implements OnInit {
         nzOkDanger: true,
 
         nzOnOk: () => {
+          console.log('in cancel')
           this.router.navigateByUrl('clientmanagement');
           this.addClientState.restAddClientState();
         },
