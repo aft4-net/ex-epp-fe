@@ -40,7 +40,7 @@ ngAfterContentInit() {
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
    // window.location.reload();
-    this.router.navigateByUrl('usermanagement/login');
+    this.router.navigateByUrl('usermanagement/sign_in');
   }
   else{
     if(this._authenticationService.loginCount==0){

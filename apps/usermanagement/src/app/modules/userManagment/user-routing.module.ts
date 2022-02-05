@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SiderComponent } from '../../components/application/sider/sider.component';
 import { AuthorizationCheck } from '../../services/autherization/authorizationCheck';
-import { LogInComponent } from '../../features/Account/user/login/login.component';
+import { aoiGuard } from '../../services/navigationGuard/userGuard';
+import { educationGuard } from '../../services/navigationGuard/groupGuard';
+import { SigninComponent } from '../../features/Account/signin/signin.component';
 
 const routes: Routes = [
   {
@@ -12,7 +14,7 @@ const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'user' },
       {
         path: 'personal-information',
-        component: LogInComponent,
+        component: SigninComponent,
         canActivate: [AuthorizationCheck]
       },
     ],

@@ -16,7 +16,7 @@ import { FormValidator } from 'apps/usermanagement/src/app/utils/validator';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LogInComponent {
+export class LoginComponent {
   showPassword = false;
   loading = false;
   loginForm = new FormGroup({

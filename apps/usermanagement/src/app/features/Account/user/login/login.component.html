@@ -28,22 +28,16 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
-    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="login()">
+    <app-button  class="login-button"  type="primary" (click)="login()">
       Sign in
     </app-button>
   </form>
 
   <div class="info">
     Don't have an account?
-    <a [routerLink]="['/user/signup']"> Sign up </a>
+    
   </div>
   <ng-template #passwordSuffixIcon>
-    <i
-      class="clickable-icon"
-      (click)="togglePasswordView()"
-      nz-icon
-      [nzType]="!showPassword ? 'eye-invisible' : 'eye'"
-      nzTheme="outline"
-    ></i>
+   
   </ng-template>
 </nz-card>
