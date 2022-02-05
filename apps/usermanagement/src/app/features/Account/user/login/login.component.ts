@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import {AbstractControl,FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from 'apps/usermanagement/src/app/services/user/account.service';
-import { NotificationBar } from 'apps/usermanagement/src/app/utils/feedbacks/notification';
-import { FormValidator } from 'apps/usermanagement/src/app/utils/validator';
+import { AccountService } from '../../../Services/logIn/account.service';
+import { NotificationBar } from '../../../../utils/feedbacks/notification';
+import { FormValidator } from '../../../../utils/validator';
 
 
 @Component({

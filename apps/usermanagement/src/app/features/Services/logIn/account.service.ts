@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { PersonalInformation } from '../../models/personal-information';
-import { ResponseDTO } from '../../models/ResponseDTO';
-import { LogInRequest } from '../../models/user/logInRequest';
-import { LogInResponse } from '../../models/user/logInResponse';
+import { environment } from '../../../../environments/environment';
+import { ResponseDTO } from '../../../models/ResponseDTO';
+import { LogInRequest } from '../../../models/user/logInRequest';
+import { LogInResponse } from '../../../models/user/logInResponse';
 
 
 @Injectable({

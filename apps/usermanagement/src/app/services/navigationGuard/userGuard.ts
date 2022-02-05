@@ -3,7 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { PersonalInformation } from '../../models/personal-information';
 import { NotificationBar } from '../../utils/feedbacks/notification';
 import { ApplicantGeneralInfoService } from '../applicant/applicant-general-info.service';
-import { AccountService } from '../user/account.service';
+import { AccountService } from '../../features/Services/logIn/account.service';
 
 @Injectable({ providedIn: 'root' })
 export class aoiGuard implements CanActivate {

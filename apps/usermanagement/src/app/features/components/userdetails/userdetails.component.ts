@@ -6,14 +6,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormValidator } from '../../../utils/validator';
-import { environment } from '../../../../environments/environment';
-import { AccountService } from '../../../services/user/account.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { MessageBar } from '../../../utils/feedbacks/message';
-import { NzTableFilterList, NzTableModule } from 'ng-zorro-antd/table';
+import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
