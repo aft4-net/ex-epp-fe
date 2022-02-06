@@ -1,7 +1,7 @@
 <h3 class="w-96 h-9 mt-6 ml-6 font-semibold text-xl  text-red-500">Work timing settings</h3>
 
 <form [formGroup]="timesheetConfigForm" (ngSubmit)="saveTimesheetConfiguration()" class="mt-4 ml-6">
-    <div class="w-3/5 pt-8 pr-10 pb-8 pl-10 rounded-lg border-gray-400 border">
+    <div class="w-4/6 pt-8 pr-10 pb-8 pl-10 rounded-lg border-gray-400 border">
         <div class="flex flex-row content-center">
             <h5 class="mt-auto mb-auto font-medium text-base text-right not-italic">Start of Week: </h5>
             <nz-select id="startOfWeekk" formControlName="startOfWeek" class="ml-8 w-80 h-9 rounded-sm border-gray-300">
@@ -16,7 +16,7 @@
         </div>
         <nz-divider></nz-divider>
         <div class="flex flex-row content-center">
-            <h5 class="mt-auto mb-auto font-medium text-base not-italic">Work Week: </h5>
+            <h5 class="mt-auto mb-auto font-medium text-base not-italic">Work Week:</h5>
             <div formGroupName="workingDays" class="ml-6">
                 <label class="ml-6">
                         <input type="checkbox" name="Monday" formControlName="monday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
@@ -71,5 +71,5 @@
             </div>
         </div>
     </div>
-    <button *ngIf="authorize('Create_Timesheet_Configuration') || authorize('Update_Timesheet_Configuration')" class="w-32 h-10 mt-6 rounded-sm bg-green-500 hover:bg-green-600 pt-2 pr-4 pb-2 pl-4 font-medium not-italic text-white">Save Changes</button>
+    <button *ngIf="authorize('Update_Timesheet_Configuration')" class="w-32 h-10 mt-6 rounded-sm bg-green-500 hover:bg-green-600 pt-2 pr-4 pb-2 pl-4 font-medium not-italic text-white">Save Changes</button>
 </form>

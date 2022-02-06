@@ -8,7 +8,7 @@ import { IEmployeeModel } from "../../../Models/employee.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
 import { IUserGetModel } from "../../../Models/User/user-get.model";
 import { IUserPostModel } from "../../../Models/User/user-post.model";
-import { AddUserService } from "../../../services/add-user.service";
+import { AddUserService } from "../../../Services/add-user.service";
 
 
 @Component({
