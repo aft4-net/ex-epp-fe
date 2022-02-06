@@ -201,6 +201,36 @@ export class EmployeeService {
       );
   }
 
+  SearchEmployeeDataforFilter(
+    employeeParams: EmployeeParams
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboard',
+        {
+          params: {
+            searhKey: "",
+            pageIndex: employeeParams.pageIndex,
+            pageSize: "10000",
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+         /* this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };*/
+          return result.Data;
+        })
+      );
+  }
+
   getEmployeeData(employeeId: string): Observable<Employee> {
     return this.http
       .get<ResponseDTO<Employee>>(
