@@ -18,7 +18,7 @@ import { UserDetail, GroupData } from '../../Models/User/UserDetail';
 import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { UserDetailService } from '../../services/user-detail.service';
+import { UserDetailService } from '../../Services/user-detail.service';
 import { IUserModel } from '../../Models/User/UserList';
 
 

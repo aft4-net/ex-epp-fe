@@ -15,12 +15,13 @@ import {
 } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
-import { CompanyContactService } from '../../../core/services/company-contact.service';
+import { CompanyContactService } from '../../../core/';
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { extractPhoneNumber } from '../../../shared/phonePrefixExtractor/phone-prefix-extractor';
 import { getNames } from '../../../shared/Data/contacts';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-company-contacts-form',
@@ -38,12 +39,12 @@ export class CompanyContactsFormComponent implements OnInit {
   contactDetail = {} as Employee;
   listofContactNames = getNames();
 clientalreadyExist=false;
-  @Input() isVisible: boolean | undefined;
+  @Input() isVisible!: boolean;
   @Input() editable = false;
 
   countries: string[] = [];
   footer = null;
-  modalTitle: string | undefined
+  modalTitle: string={} as string;
 
   listofCodes: { value: string; label: string }[] = [];
 
@@ -61,13 +62,15 @@ clientalreadyExist=false;
   updateCompContacts:UpdateCompanyContact[]=[];
   constructor(
     private employeeService: EmployeeService,
-    private _companyContactService: CompanyContactService,
-    private http: HttpClient,
     private fb: FormBuilder,
     private modal: NzModalService,
     private _countryService: CountryCodeService,
+    private notification: NzNotificationService,
+    private companyService: CompanyContactService,
     private addClientStateService: AddClientStateService,
+
     private updateClientStateService: UpdateClientStateService
+
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
   }
@@ -78,47 +81,31 @@ clientalreadyExist=false;
       this.employees = response;
     });
     this.updateCompContacts=this.updateClientStateService.UpdateClientData.CompanyContacts;
-    if(this.updateClientStateService.isEdit && this.updateClientStateService
-         .UpdateClientData!==null
+    if(this.updateClientStateService.isEdit && this.updateClientStateService.getClientcomapanyContacts!=null
       )
       {
-        for(let i=0;i<this.updateClientStateService.getClientcomapanyContacts.length;i++)
-        {
-          const compContact={
-            companyContactName:this.updateClientStateService.getClientcomapanyContacts[i].Name,
-            emailAdress:this.updateClientStateService.getClientcomapanyContacts[i].Email,
-            phoneNumber:this.updateClientStateService.getClientcomapanyContacts[i].PhoneNumberPrefix,
-            PhoneNumberPrefix:this.updateClientStateService.getClientcomapanyContacts[i].PhoneNumberPrefix,
-          }
-          this.listData.push(compContact);
 
-        }
+          this.listData=this.updateClientStateService.getClientcomapanyContacts;
 
       }
+      else
+      {
+        this.listData = this.addClientStateService.getClientcomapanyContacts ;
+      }
+         this.addContactForm = this.fb.group({
+        companyContactName: ['', [Validators.required]],
+        phoneNumber: ['', []],
+        phoneNumberPrefix: ['+251', []],
 
-    else{
-      this.listData = this.addClientStateService.getClientcomapanyContacts ;
-    }
-
-    this.addContactForm = this.fb.group({
-      companyContactName: ['', [Validators.required]],
-      phoneNumber: ['', []],
-      phoneNumberPrefix: ['+251', []],
-
-      emailAdress: ['', []],
-    });
-
-    this.employeeService.getAll().subscribe((response: Employee[]) => {
-      this.employees = response;
-    });
+        emailAdress: ['', []],
+      });
   }
 
   showModal(): void {
-    this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Client Contact'
+    this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Company Contact'
     this.isVisible = true;
   }
   submitForm(): void {
-    this.getClientContact();
     if (this.addContactForm.valid) {
       this.listData.forEach((value: any, index: any) => {
         if (value.companyContactName==this.addContactForm.value['companyContactName'])
@@ -129,8 +116,16 @@ clientalreadyExist=false;
 
       });
       if(!this.IsEdit){
+
        if(!this.clientalreadyExist){
-        this.listData = [...this.listData, this.addContactForm.value];
+
+         const contactPerson={
+           Name:this.addContactForm.controls.companyContactName.value,
+           Email:this.addContactForm.controls.emailAdress.value,
+           Phone:this.addContactForm.controls.phoneNumber.value,
+           PhoneNumberPrefix:this.addContactForm.controls.phoneNumber.value,
+         } as Employee;
+        this.listData = [...this.listData, contactPerson];
         if(this.updateClientStateService.isEdit){
           const contactPerson ={
             ContactPersonGuid:this.contactDetail.Guid
@@ -140,18 +135,18 @@ clientalreadyExist=false;
         this.updateClientStateService.updateCompanyContacts(this.updateCompContacts);
         this.updateClientStateService.updateClientcomapanyContacts(this.listData);
       }
-      else{
+      else
+      {
+
         this.comapanyContacts.push({
           ContactPersonGuid: this.contactDetail.Guid,
         });
-
         this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
         this.addClientStateService.updateClientcomapanyContacts(this.listData);
-
-
       }
-      this.isVisible = false;
-      this.addContactForm.reset();
+        this.isVisible = false;
+
+        this.addContactForm.reset();
        }
        else{
          this.clientExist="Exist."
@@ -159,26 +154,39 @@ clientalreadyExist=false;
        }
       }
      else{
-        this.listData[this.editAt]=this.addContactForm.value;
-        this.IsEdit=false;
+
+        this.listData[this.editAt].Name=this.addContactForm.controls.companyContactName.value;
+        this.listData[this.editAt].Email=this.addContactForm.controls.emailAdress.value;
+        this.listData[this.editAt].Phone=this.addContactForm.controls.phoneNumber.value;
+        this.listData[this.editAt].PhoneNumberPrefix=this.addContactForm.controls.phoneNumber.value;
+
         if(this.updateClientStateService.UpdateClientData.CompanyContacts.length>0)
         {
-          this.updateCompContacts.push({
-            Guid:this.updateCompContacts[this.editAt].Guid,
-            ContactPersonGuid: this.contactDetail.Guid,
-          });
+
+           if(typeof this.updateCompContacts[this.editAt].Guid!=='undefined')
+          {
+            this.updateCompContacts[this.editAt]. ContactPersonGuid=this.contactDetail.Guid;
+
+          }
+          else
+          {
+
+            const contactPerson ={
+              ContactPersonGuid:this.contactDetail.Guid
+            } as UpdateCompanyContact
+            this.updateCompContacts.push(contactPerson);
+          }
 
           this.updateClientStateService.updateCompanyContacts(this.updateCompContacts);
           this.updateClientStateService.updateClientcomapanyContacts(this.listData);
-          console.log(this.updateClientStateService.getClientcomapanyContacts)
         }
         else{
-          this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-          this.addClientStateService.updateClientcomapanyContacts(this.listData);
+        this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+        this.addClientStateService.updateClientcomapanyContacts(this.listData);
         }
+        this.IsEdit=false;
         this.editAt=-1;
         this.isVisible = false;
-
         this.addContactForm.reset();
       }
 
@@ -228,7 +236,6 @@ clientalreadyExist=false;
   }
   patchValues(data: any) {
     const phonePrefix=extractPhoneNumber(data.phoneNumberPrefix)
-
     this.addContactForm.patchValue({
       companyContactName: data.companyContactName,
       phoneNumber: data.phoneNumber,
@@ -243,29 +250,34 @@ clientalreadyExist=false;
   }
   exitModal() {
     this.isVisible = false;
+    {
+      this.editAt=-1;
+      this.addContactForm.reset();
+    }
+
   }
   handleClear(): void {
     console.log('Button cancel clicked!');
-
+    this.addContactForm.reset();
     this.addContactForm.reset();
   }
-  removeItem(element: Employee) {
-    this.listData.forEach((value: Employee, index: any) => {
-      if (value == element)
-      {
-        this.listData.splice(index, 1);
-        this.comapanyContacts.slice(index,1);
-      }
-    });
+  removeItem(element: Employee,i:number) {
+   this.listData=this.listData.filter(x=>x!==this.listData[i]);
+   this.comapanyContacts=this.comapanyContacts.filter(x=>x!==this.comapanyContacts[i]);
+   this.updateCompContacts=this.updateCompContacts.filter(x=>x!==this.updateCompContacts[i]);
+    if(this.updateClientStateService.isEdit)
+    {
+      this.updateClientStateService.updateCompanyContacts(this.updateCompContacts);
+      this.updateClientStateService.updateClientcomapanyContacts(this.listData);
+    }
+    else{
+      this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
+      this.addClientStateService.updateClientcomapanyContacts(this.listData);
+    }
 
-    this.comapanyContacts.forEach((value: CompanyContactCreate, index: any) => {
-      if (value.ContactPersonGuid == element.Guid)
-        this.listData.splice(index, 1);
-    });
-    this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-    this.addClientStateService.updateClientcomapanyContacts(this.listData);
   }
-  showDeleteConfirm(element: any): void {
+  showDeleteConfirm(element: any,i:number): void {
+
     this.modal.confirm({
       nzTitle: 'Are you sure, you want to cancel this contact?',
       nzContent: '<b style="color: red;"></b>',
@@ -273,19 +285,38 @@ clientalreadyExist=false;
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        this.removeItem(element);
+        if(typeof this.updateClientStateService.UpdateClientData.CompanyContacts[i].Guid!=='undefined')
+        {
+        this.companyService.DeleteCompany(this.updateClientStateService.UpdateClientData.CompanyContacts[i].Guid).subscribe(
+          (res:any)=>{
+            if(res.ResponseStatus==='Success')
+            {
+             this.notification.success("Company Deleted Successfully","",{nzPlacement:'bottomRight'}
+             );
+             this.removeItem(element,i);
+
+            }
+
+           },
+          ()=>{
+            this.notification.error("Company was not Deleted",'',{nzPlacement:'bottomRight'})
+          }
+
+        );
+        }
+        else{
+          this.removeItem(element,i);
+          this.notification.success("Company Deleted Successfully","",{nzPlacement:'bottomRight'}
+          );
+        }
       },
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
     });
   }
-
   deleteBackEnd(element: any) {}
 
   getClientContact() {
-    console.log(this.addContactForm.value.companyContactName);
-
-
     this.contactDetail = this.getClientDetails(
       this.addContactForm.value.companyContactName
     );
@@ -303,6 +334,9 @@ clientalreadyExist=false;
   getClientDetails(name: string) {
     for (let i = 0; i < this.employees.length; i++) {
       if (this.employees[i].Name +'-'+this.employees[i].Role === name) {
+        console.log('employee')
+        console.log(this.employees[i])
+
         return this.employees[i];
       }
     }
