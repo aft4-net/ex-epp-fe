@@ -20,7 +20,7 @@
     </div>
 
     <div>
-        <nz-table #basicTable>
+        <nz-table #countryTable [nzData]="(countries$ | async) ?? []">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -28,24 +28,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Ethiopia</td>
-                    <td>
-                        <i nz-icon nzType="edit" nzTheme="outline"></i>
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <i nz-icon nzType="delete" nzTheme="outline"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Ethiopia</td>
-                    <td>
-                        <i nz-icon nzType="edit" nzTheme="outline"></i>
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <i nz-icon nzType="delete" nzTheme="outline"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Ethiopia</td>
+                <tr *ngFor="let country of countryTable.data">
+                    <td>{{ country.Name }}</td>
                     <td>
                         <i nz-icon nzType="edit" nzTheme="outline"></i>
                         <nz-divider nzType="vertical"></nz-divider>
