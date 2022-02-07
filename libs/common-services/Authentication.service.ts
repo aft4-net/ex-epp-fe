@@ -54,7 +54,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('https://localhost:4200/');
+    window.location.replace('https://epp-fe.excellerentsolutions.com/');
    }
    
    getEmail(){
