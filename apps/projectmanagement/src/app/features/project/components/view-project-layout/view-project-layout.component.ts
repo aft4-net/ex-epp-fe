@@ -3,8 +3,9 @@ import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { PaginatedResult, PermissionService, Project, ProjectService } from '../../../../core';
+import { PaginatedResult,AddProjectStateService, PermissionService, Project, ProjectDetail, ProjectService, EditProjectStateService } from '../../../../core';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -60,6 +61,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
+    private  editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
     private notification: NzNotificationService
@@ -127,6 +129,10 @@ export class ViewProjectLayoutComponent implements OnInit {
 
   authorize(key: string) {
     return this.permissionList.authorizedPerson(key)
+  }
+  editProject(data:Project)
+  {
+    this.editProjectStateService.editProjectState(data);
   }
 }
 

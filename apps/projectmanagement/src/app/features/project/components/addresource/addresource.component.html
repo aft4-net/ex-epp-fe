@@ -1,4 +1,14 @@
-<div class="mb-3">
+<div class="justify-between" nz-row>
+  <div class="page-title "> Resources </div>
+
+  <button  *ngIf="isOnEditstate" (click)="onReset()" class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
+  py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
+       Cancel
+     </button>
+
+</div>
+
+  <div class="mb-3">
   <a nz-col nzSpan="10" (click)="showModal()">
     <svg
       width="136"
@@ -22,6 +32,7 @@
     </svg>
   </a>
 </div>
+
 
 <div *ngIf="projectResources.length < 1">
   <div class="center">
@@ -69,19 +80,19 @@
   <tbody>
     <tr *ngFor="let resource of projectResources">
       <td>
-        {{ resource.employee.Name | titlecase }} - {{ resource.employee.Role }}
+        {{ resource.Employee.Name | titlecase }} - {{ resource.Employee.Role }}
       </td>
-      <td>{{ resource.assignedDate | date: 'shortDate' }}</td>
+      <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
 
       <td>
         <a
           class="text-black mr-3"
-          (click)="editResource(resource.employee.Guid)"
+          (click)="editResource(resource.Employee.Guid)"
         >
         <i nz-icon nzType="edit" style="color:black;" ></i>
         </a>
         &nbsp; &nbsp;
-        <a class="text-black" (click)="removeResource(resource.employee.Guid)">
+        <a class="text-black" (click)="removeResource(resource.Employee.Guid)">
           <i nz-icon nzType="delete" style="color: black"></i>
         </a>
       </td>
@@ -197,9 +208,9 @@
             >
               <nz-option
                 *ngIf="asignedResourseToEdit"
-                [nzValue]="asignedResourseToEdit?.employee"
-                nzLabel="{{ asignedResourseToEdit.employee.Name }}-{{
-                  asignedResourseToEdit.employee.Role
+                [nzValue]="asignedResourseToEdit?.Employee"
+                nzLabel="{{ asignedResourseToEdit.Employee.Name }}-{{
+                  asignedResourseToEdit.Employee.Role
                 }}"
               ></nz-option>
               <nz-option

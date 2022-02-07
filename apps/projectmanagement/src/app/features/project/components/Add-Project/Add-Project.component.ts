@@ -1,5 +1,5 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {
   FormBuilder,
@@ -15,24 +15,29 @@ import {
   EmployeeService,
   Project,
   ProjectCreate,
+  ProjectDetail,
   projectResourceType,
   ProjectService,
   ProjectStatus,
   ProjectStatusService,
+  AddProjectStateService,
+  EditProjectStateService
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';
+
+import { map } from 'rxjs/operators';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css'],
 })
-export class AddProjectComponent implements OnInit {
+export class AddProjectComponent implements OnInit , OnDestroy  {
   position: NzTabPosition = 'left';
   projectStatus!: boolean;
   selectedStatus!: string;
@@ -44,7 +49,7 @@ export class AddProjectComponent implements OnInit {
   validateForm!: FormGroup;
   userSubmitted!: boolean;
   currentDate = Date.now.toString();
-  projectCreate: ProjectCreate = {} as ProjectCreate;
+  projectCreate: ProjectDetail = {} as ProjectDetail;
   clients = [] as Client[];
   employees = [] as Employee[];
   projects = [] as Project[];
@@ -56,13 +61,15 @@ export class AddProjectComponent implements OnInit {
   disallowResource = true;
   addResourcePermission = false;
   createPermisson = false;
-
+  isOnEditstate=false;
   resources: projectResourceType[] = [] as projectResourceType[];
 
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private projectCreateState:AddProjectStateService,
+     private editProjectStateService:EditProjectStateService, 
     private fb: FormBuilder,
     private projectService: ProjectService,
     private modalService: NzModalService,
@@ -73,24 +80,51 @@ export class AddProjectComponent implements OnInit {
     private notification: NotificationBar,
     private _permissionService: PermissionListService
   ) { }
+  ngOnDestroy(): void {
+    this.projectCreateState.restAddProjectDetails();
+    this.editProjectStateService.restUpdateProjectState();
+  }
 
   ngOnInit(): void {
-
+   this.isOnEditstate=this.editProjectStateService.isOnEditstate;
     this.createRegistrationForm();
-    this.apiCalls();
     this.projectMapper();
+    this.apiCalls();
     this.typeChanged();
     this.validateParojectNameWithClient();
-    this.notification.showNotification({
-
-      type: 'success',
-
-      content: '',
-
-      duration: 1,
-
-    });
+     if( this.isOnEditstate)
+     this. setValueForUpdate();
   }
+
+ setValueForUpdate()
+ {
+  
+  this.validateForm.controls.projectName.setValue(this.editProjectStateService.projectEditData.ProjectName);
+  this.validateForm.controls.supervisor.setValue(this.editProjectStateService.projectEditData.SupervisorGuid);
+  this.validateForm.controls.projectType.setValue(this.editProjectStateService.projectEditData.ProjectType);
+  this.validateForm.controls.status.setValue(this.editProjectStateService.projectEditData.ProjectStatus.Guid);
+  this.validateForm.controls.client.setValue(this.editProjectStateService.projectEditData.Client.Guid);
+  this.validateForm.controls.startValue.setValue(this.editProjectStateService.projectEditData.StartDate);
+  this.validateForm.controls.endValue.setValue(this.editProjectStateService.projectEditData.EndDate);
+
+
+  console.log(this.editProjectStateService.projectEditData.ProjectStatus);
+  // this.validateForm.controls.description.setValue(this.editProjectStateService.projectEditData.);
+
+
+
+// this.projectCreate.SupervisorGuid =
+//   this.validateForm.controls.supervisor.value;
+// this.projectCreate.StartDate =
+//   this.validateForm.controls.startValue.value;
+// this.projectCreate.ProjectType =
+//   this.validateForm.controls.projectType.value;
+// this.projectCreate.ProjectStatusGuid =
+//   this.validateForm.controls.status.value.Guid;
+// this.projectCreate.Description =
+//   this.validateForm.controls.description.value;
+ }
+   
 
   authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
@@ -111,7 +145,7 @@ export class AddProjectComponent implements OnInit {
         this.projectCreate.ProjectType =
           this.validateForm.controls.projectType.value;
         this.projectCreate.ProjectStatusGuid =
-          this.validateForm.controls.status.value.Guid;
+          this.validateForm.controls.status.value;
         this.projectCreate.Description =
           this.validateForm.controls.description.value;
 
@@ -130,13 +164,23 @@ export class AddProjectComponent implements OnInit {
             this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
           }
 
-        if (this.validateForm.controls.status.value.AllowResource) {
+      const status=this.projectStatuses.find(p=>p.Guid==this.validateForm.controls.status.value);
+         if(status)
+        if ( status.AllowResource) 
           this.disallowResource = false;
-        } else {
+         else 
           this.disallowResource = true;
-        }
+        
+
+        
+        if (this.validateForm.controls.endValue.value != null)
+        this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
+      else this.projectCreate.EndDate = '';
+        this.projectCreateState.updateProjectDetails(this.projectCreate)
+
       } else {
-        this.projectCreate = {} as ProjectCreate;
+        this.projectCreateState.updateProjectDetails({} as ProjectCreate)
+      
       }
     });
   }
@@ -158,6 +202,12 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  checkClientInternal(client:string) {
+    if(client ==="Excellerent")
+             return true;
+             else 
+             return false;
+  }
   apiCalls() {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
@@ -169,6 +219,16 @@ export class AddProjectComponent implements OnInit {
 
     this.projectStatusService.getAll().subscribe((res) => {
       this.projectStatuses = res;
+
+      if(!this.isOnEditstate)
+        for (let i = 0; i < this.projectStatuses .length; i++) {
+          if (this.projectStatuses [i].StatusName == 'Active') {   
+            this.validateForm.controls.status.setValue(this.projectStatuses [i]);
+            break;
+          }
+        }
+  
+    
     });
 
     this.projectService.getProjects().subscribe((response: Project[]) => {
@@ -195,7 +255,7 @@ export class AddProjectComponent implements OnInit {
               found = true;
 
               this.projectNameExitsErrorMessage =
-                'Project name already exists by  this ' +
+                'Project name already exists by  this ' +
                 this.projects[i].Client.ClientName +
                 ' client';
 
@@ -236,19 +296,24 @@ export class AddProjectComponent implements OnInit {
       endValue: [null],
       description: [''],
     });
+
+
   }
 
-  onSubmit() {
-    if (this.validateForm.controls.endValue.value != null)
-      this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
-    else this.projectCreate.EndDate = '';
+  createProject() {
 
-    if (this.validateForm.controls.status.value.AllowResource == true)
-      this.projectCreate.AssignResource = this.resources;
-    else this.projectCreate.AssignResource = [] as projectResourceType[];
-    this.projectService.createProject(this.projectCreate);
+
+    // if (this.validateForm.controls.status.value.AllowResource == true)
+    //   this.projectCreate.AssignResource = this.resources;
+    // else this.projectCreate.AssignResource = [] as projectResourceType[];
+     this.projectService.createProject();
 
     this.router.navigateByUrl('projectmanagement');
+  }
+
+  updateProject()
+  {
+
   }
 
   onReset() {
@@ -332,6 +397,9 @@ export class AddProjectComponent implements OnInit {
       nzCancelText: 'No',
     });
   }
+
+
+
 
 
 }

@@ -37,6 +37,16 @@
 
 }
 
+::ng-deep .ant-btn-primary  {
+  background: #00a551;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #FFFFFF;
+}
+
+
 
 
 .redAstrics {
@@ -45,12 +55,20 @@
 }
 
 .page-title {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 20px;
+  line-height: 28px;
+  /* or 140% */
+
+  display: flex;
+  align-items: center;
+
+  /* Body Text/ Shade 1 */
 
   color: #262626;
+
 }
 
 .tab-content {
@@ -67,7 +85,10 @@ nz-tab {
   font-size: 16px;
 }
 
-
+.error-block
+{
+  color: red;
+}
 
 
 
@@ -156,5 +177,26 @@ nz-tab {
   color: white;
 }
 
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: black;
+
+  text-shadow: 0 0 .25px currentColor;
+}
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background: #DCFFDC;
+}
 
 
+.site-page-header
+ {
+   height: 77px;
+ }
+
+ header { 
+  padding: 0px 1.6%;
+}
+
+   
+hr { display: block; height: 1px;
+  border: 0; border-top: 1px solid #ccc;
+  margin: 1em 0; padding: 0; }

@@ -35,7 +35,7 @@
           <td>{{ data.ProjectStatus.StatusName }}</td>
           <td>{{ data.Supervisor?.Name }} </td>
           <td>
-            <a *ngIf="authorize('Update_Project')">
+            <a *ngIf="authorize('Update_Project')" (click)="editProject(data)" >
               <i nz-icon nzType="edit" style="color:black;" ></i>
             </a>
             &nbsp; &nbsp;

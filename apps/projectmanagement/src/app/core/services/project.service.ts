@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 import { PaginatedResult, Project, ProjectCreate } from '../models';
 
 import { environment } from '../../../environments/environment';
+import { AddProjectStateService } from '../state';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Proje
 fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
-  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) { 
+  constructor(private addProjectState:AddProjectStateService , protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) { 
     super(httpClient);
   }
 
@@ -47,11 +49,11 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
 
 
-  createProject(data:ProjectCreate)
+  createProject()
    {
- console.log(data)
 
-     this.post(data).subscribe
+
+     this.post(this.addProjectState.projectData).subscribe
          ((error)=>{
            this.notification.success('Project Added successfully','');  
            
