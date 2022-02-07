@@ -5,8 +5,6 @@ import { AuthorizationCheck } from '../../services/autherization/authorizationCh
 import { aoiGuard } from '../../services/navigationGuard/userGuard';
 import { educationGuard } from '../../services/navigationGuard/groupGuard';
 import { SigninComponent } from '../../features/Account/signin/signin.component';
-import { LoginComponent } from '../../features/Account/user/login/login.component';
-import { unAuthorizedCheck } from '../../services/autherization/unAuthorizedCheck';
 
 const routes: Routes = [
   {
@@ -18,9 +16,7 @@ const routes: Routes = [
         path: 'personal-information',
         component: SigninComponent,
         canActivate: [AuthorizationCheck]
-
       },
-      { path: 'login', component: LoginComponent, canActivate: [unAuthorizedCheck] },
     ],
   },
 ];

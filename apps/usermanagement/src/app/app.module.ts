@@ -30,7 +30,6 @@ import { SharedModule } from './shared/modules/shared.module';
 //import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserManagementModule } from './modules/userManagment/user-management.module';
-import { LoginComponent } from './features/Account/user/login/login.component';
 
 
 
@@ -58,8 +57,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     GroupDetailComponent,
     AddUserComponent,
     UserToGroupComponent,
-    UserdetailsComponent,
-    LoginComponent
+    UserdetailsComponent
   ],
   imports: [
     BrowserModule,
