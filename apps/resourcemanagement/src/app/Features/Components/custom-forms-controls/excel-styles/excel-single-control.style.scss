@@ -35,9 +35,9 @@
 }
 
 .form-item ::ng-deep .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-has-success .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-has-warning .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-is-validating .ant-form-item-children-icon {
-    position: relative;
+    position: absolute;
     top: 50%;
-    right: 3.5vw;
+    left: 21.7vw;
     z-index: 1;
     width: 32px;
     height: 20px;
