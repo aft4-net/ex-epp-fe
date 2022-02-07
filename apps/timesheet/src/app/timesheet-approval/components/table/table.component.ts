@@ -167,10 +167,7 @@ updateTimesheetAfterStatusChanged(row:boolean)
     const date =this.entryDate;
     this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
       (entries)=>{this.timesheetEntries=entries;
-        console.log("=================");
-        console.log(row);
-        console.log("=================");
-      });
+            });
   }
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;
