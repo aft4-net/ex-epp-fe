@@ -135,6 +135,15 @@ header {
 }
 
 
-
-
-
+.client-detail-wrapper{
+  display: flex;
+}
+.contact-detail-wrapper{
+  display: flex;
+}
+.location-wrapper {
+  display: flex;
+}
+::ng-deep th.table_heading.ant-table-cell {
+  background-color: #fafafa !important;
+}
