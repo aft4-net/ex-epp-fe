@@ -14,11 +14,6 @@
     width: 28rem !important;
 }
 
-::ng-deep .ant-input-group-addon:last-child {
-    border: none !important;
-    background-color: rgba($color: #FFFFFF, $alpha: 0.0) !important;
-}
-
 .excel-link-button {
     outline: 0 !important;
     border: none !important;
@@ -70,3 +65,14 @@
     line-height: 1;
     content: '*';
   }
+
+  
+.multiple-entry-item ::ng-deep .ant-input-group-addon:last-child {
+    border: none !important;
+    background-color: white !important;
+}
+
+.exec-buttons-multiple-controls {
+    border: none !important;
+    background-color: white !important;
+}

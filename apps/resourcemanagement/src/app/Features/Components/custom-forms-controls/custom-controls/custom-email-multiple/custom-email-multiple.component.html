@@ -7,7 +7,9 @@
         </nz-form-label>
         <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessages[i]"
         nzHasFeedback>
-      <nz-input-group [nzAddOnAfter]="suffixTemplate">
+      <nz-input-group
+        class="input-group multiple-entry-item"
+        [nzAddOnAfter]="suffixTemplate" >
         <input [formControl]="getControl(i)" 
           class="excel-single-control"
           nzPlaceHolder="example@domain.ext" (ngModelChange)="onChange(i)" nz-input />

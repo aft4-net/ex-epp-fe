@@ -6,7 +6,9 @@
     </nz-form-label>
     <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessages[i]"
       nzHasFeedback>
-      <nz-input-group [nzAddOnBefore]="prefixTemplate" [nzAddOnAfter]="suffixTemplate">
+      <nz-input-group
+        class="input-group multiple-entry-item"
+        [nzAddOnBefore]="prefixTemplate" [nzAddOnAfter]="suffixTemplate">
         <input class="excel-phone-control" [formControl]="getControl(i)" nzPlaceHolder="Smith" (ngModelChange)="onChange(i)"
           nz-input />
         <ng-template #prefixTemplate>
