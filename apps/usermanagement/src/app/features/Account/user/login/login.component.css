@@ -12,9 +12,7 @@
 .login-welcome-text{
   width:500px;
   height:64px;
-  margin-top:-135px;
-  margin-bottom:39px;
-  margin-left: 140px;
+
   font:SF Pro Display Semibold;
   font-style:normal;
   font-weight:600;
@@ -27,6 +25,9 @@
   font-size: 24px;
   line-height: 32px;
   text-align: center;
+  font:SF Pro Display Semibold;
+  font-style:normal;
+  color:#1a202c
 }
 
 .info {

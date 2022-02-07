@@ -32,11 +32,13 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  login() {
+
+
+  signin() {
     this.loading = true;
     this.accountService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        this.router.navigateByUrl('application/personal-information');
+        this.router.navigateByUrl('');
         window.location.reload();
         this.loading = false;
       },

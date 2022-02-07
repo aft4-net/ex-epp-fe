@@ -1,8 +1,6 @@
 <nz-card class="card-view">
   <div class="title">
-     <div class="login-welcome-text">
     <p > Welcome,<br > Login to your account </p>
-</div>
 </div>
   <form [formGroup]="loginForm">
     <app-input
@@ -32,7 +30,7 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
-    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="login()">
+    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="signin()">
       Sign in
     </app-button>
   </form>
