@@ -5,6 +5,7 @@ import { ApiService } from '../models/apiService';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AssignedResoureEdit, AssignResoureCreate } from '../models';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,12 +23,18 @@ export class AssignResourceService extends ApiService<AssignResource> {
     const params = new HttpParams()
     .set('projectGuid', projectId)
     return  this.httpClient.get(environment.baseApiUrl+'AssignResource/ByProject'+"?"+params.toString()).pipe(map((response:any)=>{ 
-    
-      console.log(response.Data)
+  
       return response.Data;     
   }));
   }
-
+  updateAssignResource(resourseEdit:AssignedResoureEdit)
+  {
+  return this.httpClient.put(environment.baseApiUrl+'AssignResource',resourseEdit)
+  }
   
+  addResource(resource:AssignResoureCreate)
+  {
+    return this.httpClient.post(environment.baseApiUrl+'AssignResource',resource)
+  }
 
 }

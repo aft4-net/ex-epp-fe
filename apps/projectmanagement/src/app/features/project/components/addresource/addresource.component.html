@@ -80,7 +80,7 @@
   <tbody>
     <tr *ngFor="let resource of projectResources">
       <td>
-        {{ resource.Empolyee.Name | titlecase }} - {{ resource.Empolyee.Role }}
+        {{ resource.Empolyee?.Name | titlecase }} - {{ resource.Empolyee?.Role }}
       </td>
       <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
 
@@ -92,7 +92,7 @@
         <i nz-icon nzType="edit" style="color:black;" ></i>
         </a>
         &nbsp; &nbsp;
-        <a class="text-black" (click)="removeResource(resource.Empolyee.Guid)">
+        <a class="text-black" (click)="removeResource(resource)">
           <i nz-icon nzType="delete" style="color: black"></i>
         </a>
       </td>

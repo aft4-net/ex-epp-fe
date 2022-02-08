@@ -54,6 +54,11 @@ projectResourceList$=this.projectResourceList.asObservable();
     this. assignResoursceService.getResourceOfProject(data.Guid).subscribe((d:AssignResource[])=>this.updateProjectList(d));
     this.router.navigateByUrl('projectmanagement/edit-project');
   }
+
+  updateAssignResources()
+  {
+    this. assignResoursceService.getResourceOfProject( this.projectEditData.Guid).subscribe((d:AssignResource[])=>this.updateProjectList(d));
+  }
   
   restUpdateProjectState()
   {

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProjectResource,AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, EditProjectStateService, AssignResource } from '../../../../core';
+import { ProjectResource,AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, EditProjectStateService, AssignResource, AssignResourceService, AssignedResoureEdit } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 ;
 
 
@@ -22,6 +23,8 @@ export class AddresourceComponent implements OnInit {
   editResorceForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
+  private  notification: NzNotificationService,
+    private assignResourceService:AssignResourceService,
     private router:Router,
     private editProjectStateService:EditProjectStateService, 
     private projectCreateState:AddProjectStateService,
@@ -93,6 +96,7 @@ export class AddresourceComponent implements OnInit {
       if(this.isOnEditstate)
       this.editProjectStateService.projectResourceList$.subscribe(res=>{
         this.projectResources=res;
+        
       })
     
 
@@ -109,21 +113,43 @@ export class AddresourceComponent implements OnInit {
 
   addResource() {
     if (this.addResorceForm.valid) {
-      this.projectResources.push({
-        Empolyee: this.addResorceForm.controls.resource.value,AssignDate: this.addResorceForm.controls.assignDate.value
-      });
+
+      if(this.isOnEditstate)
+      {
+        this.assignResourceService.addResource(     {
+          EmployeeGuid :this.addResorceForm.controls.resource.value.Guid,
+          ProjectGuid:this.editProjectStateService.projectEditData.Guid,
+          AssignDate:this.addResorceForm.controls.assignDate.value
+        }).subscribe(res=>{
+         
+          this.editProjectStateService.updateAssignResources();
+       
+          this.addResorceForm.reset();
+          this.notification.success("Project's resource Added successfully",'')  
+        },error=>{
+          this.notification.error("Project's resource add fail",'');
+          this.addResorceForm.reset();  
+        })
+        
+      }else
+      {
+        this.resources.push({
+          EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
+          AssignDate: this.addResorceForm.controls.assignDate.value
+        })
+        this.projectResources.push({
+          Empolyee: this.addResorceForm.controls.resource.value,AssignDate: this.addResorceForm.controls.assignDate.value
+        });
+      }
+   
       this.isModalVisible = false;
 
-      this.resources.push({
-        EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
-        AssignDate: this.addResorceForm.controls.assignDate.value
-      })
-
+   
       
     this.projectCreateState.updateAssignResource(this.resources);
       this.sortEmployees();
       this.employees = this.employees.filter(s => s.Guid !== this.addResorceForm.controls.resource.value.Guid);
-      this.addResorceForm.reset();
+  
     } else {
       Object.values(this.addResorceForm.controls).forEach(control => {
         if (control.invalid) {
@@ -177,6 +203,19 @@ export class AddresourceComponent implements OnInit {
   submitEditdValue() {
 
     if (this.editResorceForm.valid) {
+  
+      if( this.isOnEditstate)
+      {
+      
+      this.assignResourceService.updateAssignResource({
+        Guid:this.asignedResourseToEdit.Guid ,
+      EmployeeGuid:this.editResorceForm.controls.resource.value.Guid,
+      ProjectGuid:this.editProjectStateService.projectEditData.Guid,
+      AssignDate: this.editResorceForm.controls.assignDate.value
+      })
+
+        }
+
       if (this.asignedResourseToEdit.Empolyee.Guid != this.editResorceForm.controls.resource.value.Guid) {
         this.employees.push(this.asignedResourseToEdit.Empolyee);
         this.employees = this.employees.filter(s => s.Guid !== this.editResorceForm.controls.resource.value.EmployeeGUid);
@@ -193,7 +232,7 @@ export class AddresourceComponent implements OnInit {
           assignedDate: this.editResorceForm.controls.assignDate.value,
         }
       )
-
+      if(!this.isOnEditstate) 
       for (let i = 0; i < this.resources.length; i++) {
         if (this.resources[i].EmployeeGuid == this.asignedResourseToEdit.Empolyee.Guid) {
           this.resources[i] = {
@@ -223,17 +262,35 @@ export class AddresourceComponent implements OnInit {
 
   }
 
-  removeResource(id: string) {
-    const projectResourece = this.projectResources.find(s => s.Empolyee.Guid == id);
-    if (projectResourece)
-      this.employees.push(projectResourece.Empolyee);
-    this.sortEmployees();
-    this.projectResources = this.projectResources.filter(s => s.Empolyee.Guid !== id);
-    this.resources = this.resources.filter(s => s.EmployeeGuid != id);
-
+  removeResource(resource:AssignResource ) {
+   
+    if(this.isOnEditstate)
+   { 
+  
+     this.assignResourceService.delete(resource.Guid??"").subscribe(res=>{
+    this.removeResourceFromtable(resource.Empolyee.Guid);
+      this.notification.success("Project's resource removed successfully",'')  
+    },error=>{
+      this.notification.error("Project's resource remove fail",'')  
+    })
+   }
+   else{ 
     this.projectCreateState.updateAssignResource(this.resources);
+    this.removeResourceFromtable(resource.Empolyee.Guid);
+  
+   }
+    
+}
 
-  }
+removeResourceFromtable(id:string)
+{
+  const projectResourece = this.projectResources.find(s => s.Empolyee.Guid == id);
+  if (projectResourece)
+  this.employees.push(projectResourece.Empolyee);
+this.sortEmployees();
+this.projectResources = this.projectResources.filter(s => s.Empolyee.Guid !== id);
+this.resources = this.resources.filter(s => s.EmployeeGuid != id);
+}
 
   sortEmployees() {
     this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
