@@ -21,7 +21,7 @@ import { PermissionListService } from '../../../../../../../libs/common-services
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { UserService } from '../../Services/user.service';
-import { AddUserService } from '../../services/add-user.service';
+import { AddUserService } from '../../Services/add-user.service';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -117,8 +117,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   ngAfterContentInit() {
     setTimeout(() => {
     if(!this.authorize('View_User')&&this.isLogin)
-    //this._router.navigateByUrl('usermanagement/unauthorize')
-    console.log();
+    this._router.navigateByUrl('usermanagement/unauthorize')
     }, 100);
   }
  

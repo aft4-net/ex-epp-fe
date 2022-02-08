@@ -1,4 +1,4 @@
-<nz-modal *ngIf="authorize('Timesheet_Admin')" class="modal"
+<nz-modal *ngIf="authorize('Approve_Timesheet') || authorize('Timesheet_Admin')" class="modal"
   [nzVisible]="isDialogVisible"
   nzTitle="{{timesheetDetail?.EmployeeName}}, {{timesheetDetail?.FromDate| date:'MMM dd'}} - {{ timesheetDetail?.ToDate | date}}"
   [nzFooter]="null"

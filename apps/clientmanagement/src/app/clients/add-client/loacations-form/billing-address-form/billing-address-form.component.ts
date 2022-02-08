@@ -1,4 +1,4 @@
-import { AddClientStateService, BillingAddressCreate, UpdateBillingAddress, UpdateClientStateService } from '../../../../core';
+import { AddClientStateService, BillingAddressCreate, BillingAddressService, UpdateBillingAddress, UpdateClientStateService } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -6,6 +6,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { CityInStateService } from '../../../../core/services/CityInState.service';
 import { CityService } from '../../../../core/services/city.service';
 import { StateService } from '../../../../core/services/State.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 
@@ -22,9 +23,8 @@ import { StateService } from '../../../../core/services/State.service';
   templateUrl: './billing-address-form.component.html',
   styleUrls: ['./billing-address-form.component.scss'],
 })
-export class BillingAddressFormComponent implements OnInit {
-  confirmModal?: NzModalRef;
-  billingAddressess: BillingAddressCreate[] = [];
+export class BillingAddressFormComponent implements OnInit {confirmModal?: NzModalRef;
+  billingAddressess: any[] = [];
   tabledata:any=[];
   isVisible = false;
   isOkLoading = false;
@@ -56,8 +56,10 @@ export class BillingAddressFormComponent implements OnInit {
     private _city: CityService,
     private _cityInState: CityInStateService,
     private  addStateClientService:AddClientStateService,
-    private modal: NzModalService,
     private  updateStateClientService:UpdateClientStateService,
+    private notification:NzNotificationService,
+    private billingAddressService:BillingAddressService,
+    private modal: NzModalService
   ) {
     this.forms = _fb.group({
       Name: ['',
@@ -92,14 +94,15 @@ export class BillingAddressFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("data="+ this.data)
     if(this.updateStateClientService.isEdit && this.updateStateClientService.UpdateClientData.BillingAddress!==null)
     {
      this.billingAddressess = this.updateStateClientService.UpdateClientData.BillingAddress;
 
-    }else{
-    this.billingAddressess = this.addStateClientService.addClientData.BillingAddress;
     }
+    else{
+      this.billingAddressess = this.addStateClientService.addClientData.BillingAddress;
+    }
+
     this.forms.valueChanges.subscribe(x => {
       if(this.forms.value['Name']!='' ||
       this.forms.value['Country']!='' ||
@@ -145,6 +148,7 @@ export class BillingAddressFormComponent implements OnInit {
   submitForm() {
     if (this.forms.valid) {
       if(this.IsEdit){
+
         if(this.updateStateClientService.isEdit)
         {
           const opAddress={
@@ -157,7 +161,9 @@ export class BillingAddressFormComponent implements OnInit {
             Address: this.forms.controls.Address.value,
           } as UpdateBillingAddress;
           this.updateStateClientService.UpdateClientData.BillingAddress[this.editAt]=opAddress;
-      }else{
+      }
+      else
+      {
         this.billingAddressess[this.editAt]=this.forms.value;
         this.addStateClientService.updateBillingAddress(this.billingAddressess);
       }
@@ -166,31 +172,31 @@ export class BillingAddressFormComponent implements OnInit {
       this.IsEdit=false;
       this.editAt=-1;
       }
-      else{
-
-        if(this.updateStateClientService.isEdit)
-        {
-          const opAddress={
-            Name:this.forms.controls.Name.value,
-            Affliation:this.forms.controls.Affliation.value,
-            Country:this.forms.controls.Country.value,
-            City:this.forms.controls.City.value,
-            State:this.forms.controls.State.value,
-            ZipCode:this.forms.controls.ZipCode.value,
-            Address: this.forms.controls.Address.value,
-          } as UpdateBillingAddress;
-          this.updateStateClientService.UpdateClientData.BillingAddress.push(opAddress);
-      }
      else{
 
+      if(this.updateStateClientService.isEdit)
+      {
+        const opAddress={
+          Name:this.forms.controls.Name.value,
+          Affliation:this.forms.controls.Affliation.value,
+          Country:this.forms.controls.Country.value,
+          City:this.forms.controls.City.value,
+          State:this.forms.controls.State.value,
+          ZipCode:this.forms.controls.ZipCode.value,
+          Address: this.forms.controls.Address.value,
+        } as UpdateBillingAddress;
+        this.billingAddressess =[
+          ...this.billingAddressess,
+          opAddress
+        ]
+        this.updateStateClientService.UpdateClientData.BillingAddress.push(opAddress);
+    }
+      else{
       this.billingAddressess =[
         ...this.billingAddressess,
         this.forms.value
       ]
       this.addStateClientService.updateBillingAddress(this.billingAddressess);
-
-      console.log(this.billingAddressess)
-
      }
     }
     this.isVisible = false;
@@ -256,11 +262,15 @@ export class BillingAddressFormComponent implements OnInit {
   }
   removeBillingAddress(index: number) {
     if (index > -1) {
-      this.billingAddressess.splice(index, 1);
-      if(!this.billingAddressess.length){
-        this.billingAddressess=this.emptyData;
+      this.billingAddressess=this.billingAddressess.filter(x=>x!==this.billingAddressess[index]);
+      if(this.updateStateClientService.isEdit)
+      {
+        this.updateStateClientService.updateBillingAddress(this.billingAddressess);
       }
-      this.addStateClientService.updateBillingAddress(this.billingAddressess);
+      else{
+        this.addStateClientService.updateBillingAddress(this.billingAddressess);
+
+      }
     }
   }
   edit(index:number){
@@ -306,14 +316,30 @@ showConfirm(index:number): void {
     nzOkDanger: true,
     nzOnOk: () =>
       new Promise((resolve, reject) => {
-        if (index > -1) {
-          this.billingAddressess.splice(index, 1);
-          if(!this.billingAddressess.length){
-            this.billingAddressess=this.emptyData;
+       if(typeof this.updateStateClientService.UpdateClientData.BillingAddress[index].Guid!=='undefined'){
+        this.billingAddressService.DeleteBillingAddress(this.updateStateClientService.UpdateClientData.BillingAddress[index].Guid).subscribe(
+          (res:any)=>{
+            if(res.ResponseStatus==='Success')
+            {
+             this.notification.success("Billing Address  Deleted Successfully","",{nzPlacement:'bottomRight'}
+             );
+             this.removeBillingAddress(index);
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+            }
+
+           },
+          ()=>{
+            this.notification.error("Billing Address was not Deleted",'',{nzPlacement:'bottomRight'})
           }
-          this.addStateClientService.updateBillingAddress(this.billingAddressess);
-        }
+        );
+       }
+       else{
+        this.removeBillingAddress(index);
+
         setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+        this.notification.success("Billing Address  Deleted Successfully","",{nzPlacement:'bottomRight'}
+        );
+       }
       }).catch(() => console.log('Error.'))
   });
 }

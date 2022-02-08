@@ -20,6 +20,9 @@ export class OperationalAddressService extends ApiService<OperatingAddress> {
 
     return 'OperatingAddress';
   }
-
+  DeleteOperatingAddress(id:string|number)
+  {
+    return this.delete(id);
+  }
 
 }

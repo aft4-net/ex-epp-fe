@@ -60,8 +60,8 @@ export abstract class ApiService<T> {
     return this.httpClient.delete(this.APIUrl + "/" + id);
   }
 
-  update(resource: T) {
-    return this.httpClient.put(`/${this.APIUrl}`, resource)
+  update(resource: any) {
+    return this.httpClient.put(`${this.APIUrl}/EditClient`, resource)
 
   }
 
