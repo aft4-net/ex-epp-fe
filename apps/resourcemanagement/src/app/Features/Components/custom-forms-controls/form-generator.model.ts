@@ -142,6 +142,8 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     getModelPersonalDetails() {
         const value = this.personalDetailsForm.value
+        this._employeeService.empNum =value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber;
+      
         return {
             guid: this.employeId,
             EmployeeNumber: value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber,

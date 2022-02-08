@@ -20,9 +20,9 @@
       <thead>
         <tr>
           <th class="table_heading" nzColumnKey="name" [nzSortFn]="true">Projects</th>
-          <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true">Clients</th>
-          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true">Status</th>
-          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true">Supervisor</th>
+          <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="cleints" >Clients</th>
+          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses">Status</th>
+          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="supervisors">Supervisor</th>
           <th *ngIf="authorize('Edit_Project') || authorize('Delete_Project')  " class="table_heading"
             nzColumnKey="email">Action</th>
         </tr>
