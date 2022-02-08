@@ -168,7 +168,7 @@
       <div [formGroup]="groupDashboardForm" nz-row >
         <div nz-col class="gutter-row" [nzSpan]="6" >
           <nz-input-group nzSearch [nzAddOnAfter] ="suffixIconButton">
-            <input  type="text" #searchInput formControlName="groupName" nz-input placeholder="Search" (change)="SearchgroupsByName()" />
+            <input  type="text" #searchInput formControlName="groupName" nz-input placeholder="Search" (onchange)="SearchgroupsByName()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
             <button nz-button  nzSearch   (click)="SearchgroupsByName()">

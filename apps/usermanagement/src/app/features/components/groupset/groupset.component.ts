@@ -65,9 +65,24 @@ export class GroupsetComponent implements OnInit {
     }
   ]
 
-  @ViewChild('searchInput', { static: true })
-  input!: ElementRef;
+  @ViewChild('searchInput')
+  public input!: ElementRef;
 
+  
+  ngAfterViewInit() {
+
+
+    fromEvent<any>(this.input.nativeElement,'keyup')
+    .pipe(
+      map(event => event.target.value),
+      startWith(''),
+      debounceTime(3000),
+      distinctUntilChanged(),
+      switchMap( async (search) => {this.groupDashboardForm.value.groupName = search,
+      this.SearchgroupsByName()
+      })
+    ).subscribe();
+  }
 
   constructor(
     //private _intialdataService: IntialdataService,
@@ -206,19 +221,8 @@ authorize(key:string){
       this.loading = false;
      });
   }
+  
 
-  ngAfterViewInit() {
-    fromEvent<any>(this.input.nativeElement,'keyup')
-    .pipe(
-      map(event => event.target.value),
-      startWith(''),
-      debounceTime(3000),
-      distinctUntilChanged(),
-      switchMap( async (search) => {this.groupDashboardForm.value.groupName = search,
-      this.SearchgroupsByName()
-      })
-    ).subscribe();
-  }
 
   PageIndexChange(index: any): void {
 
