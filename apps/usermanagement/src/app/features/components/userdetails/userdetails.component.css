@@ -153,3 +153,11 @@
   .add-button{
     background-color: #00a551;
   }
+  ::ng-deep.ant-btn-dangerous{
+    background: red;
+    color: white;
+  }
+  ::ng-deep.ant-btn-dangerous:hover{
+    background: rgb(228, 81, 81);
+    color: white;
+  }
