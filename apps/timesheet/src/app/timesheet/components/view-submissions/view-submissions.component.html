@@ -10,7 +10,6 @@
       </svg>
     </a>
   </span>
-{{timeSheetHistory | json}}
   <nz-date-picker class="mt-3 mb-3" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
   <nz-table nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false" [nzData]="timeSheetHistory"
     (nzQueryParams)="onQueryParamsChange($event)">
@@ -44,7 +43,7 @@
         <th>
           {{listOfColumns[5].name }}
         </th>
-        <th>Timesheet Approval Submition Date</th>
+        <th> Approval Submition Timestamp</th>
 
       </tr>
     </thead>
