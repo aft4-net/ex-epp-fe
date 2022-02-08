@@ -460,7 +460,7 @@ params =params.append('status', `${status}` );
       let filteredProjectArray = [];
       return this.http.get(`${this.baseUrl}GetApprovalProjectDetails`).pipe(
         map((response: any) => {
-         
+
     for (let i = 0; i < response.Data.length; i++) {
       listOfProjects.push( response.Data[i].ProjectName);
      filteredProjectArray = listOfProjects.filter((item, pos) => {
@@ -483,12 +483,12 @@ params =params.append('status', `${status}` );
     );
 
           return projectFliter;
-  
+
         })
       );
     }
 
-    
+
   getClientsList(){
     let cleintFliter: { text: string; value: string ; checked:boolean;}[] = [] as {
       text: string;
@@ -504,10 +504,10 @@ params =params.append('status', `${status}` );
          filteredClientArray = listOfClients.filter((item, pos) => {
             return listOfClients.indexOf(item) == pos;
           });
-    
+
           listOfClients = filteredClientArray.filter((item) => item);
         }
-    
+
         for (let i = 0; i < listOfClients.length; i++) {
           cleintFliter.push({
             text: listOfClients[i],
@@ -515,7 +515,7 @@ params =params.append('status', `${status}` );
             checked: true,
           });
         }
-    
+
         cleintFliter = cleintFliter.filter(
           (word) => word
         );
@@ -524,6 +524,6 @@ params =params.append('status', `${status}` );
       })
     );
   }
-  
+
 
 }

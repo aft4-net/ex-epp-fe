@@ -11,10 +11,10 @@ import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { delay } from 'rxjs/operators';
-import { PermissionListService } from 'libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -109,7 +109,7 @@ export class TimesheetApprovalComponent implements OnInit {
     weekGBinded: Date | null = null;
     weekG = '';
     projectNameG?:  string[];
-    clientNameG?: string[];  
+    clientNameG?: string[];
 
 
     filteredClientNamesList: { text: string; value: string ; checked:boolean;}[] = [] as {
@@ -122,7 +122,7 @@ export class TimesheetApprovalComponent implements OnInit {
     totalResponse!: number;
     totalPageResponse!: number;
     onwaiting=1;
-  loggedInUserInfo?: any; 
+  loggedInUserInfo?: any;
   filteredProjectNamesLists: { text: string; value: string ; checked:boolean;}[] = [] as {
     text: string;
     value: string;
@@ -143,7 +143,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentUser();
-    this.initialDataforTab();    
+    this.initialDataforTab();
     this._commonData.getPermission();
     this.getProjectsList();
     this.getClientsList();
@@ -164,7 +164,7 @@ getProjectsList() {
       console.log(result);
     }
   )
-  
+
 }
 
 getClientsList() {
@@ -174,10 +174,10 @@ getClientsList() {
       console.log(result);
     }
   )
-  
+
 }
 authorize(key:string){
-     
+
   return this._permissionService.authorizedPerson(key);
 }
 
@@ -253,7 +253,7 @@ initialDataforTab() {
 }
 
   onAllTabClick() {
-    this.stateReset();   
+    this.stateReset();
     this.statusG = '';
     this.UpdateData();
 
@@ -273,12 +273,12 @@ initialDataforTab() {
   }
 
   onReviewTabClick() {
-   
+
     this.stateReset();
     this.statusG = 'Rejected';
     this.UpdateData();
 
-   
+
 
   }
 
@@ -304,9 +304,9 @@ test() {
      }
 
 
-  onTabSelected(tab: any) {    
+  onTabSelected(tab: any) {
     if (tab == 1) {
-      this.currentNameSubject.next(true);     
+      this.currentNameSubject.next(true);
     }
     else {
       this.currentNameSubject.next(false);
@@ -360,15 +360,15 @@ sortDirectionMethod() {
   }
 
   FilterByProject(ProjectName:string[]) {
-    this.sortDirectionMethod();   
+    this.sortDirectionMethod();
 
     this.projectNameG = ProjectName;
-   
+
     this.UpdateData();
   }
 
   FilterByClient(ProjectName:string[]) {
-    this.sortDirectionMethod(); 
+    this.sortDirectionMethod();
     this.clientNameG = ProjectName;
     this.UpdateData();
   }
@@ -407,7 +407,7 @@ sortDirectionMethod() {
   }
   statusChanged(row:any)
   {
-  
+
    if(this.tabselected===1)
    {
     this.onAwaitingTabClick();
@@ -419,13 +419,13 @@ sortDirectionMethod() {
   }
   onApprove(){
 
-    for (const element of this.setOfCheckedId) {     
-      this.arrayOfCheckedId.push(element);     
+    for (const element of this.setOfCheckedId) {
+      this.arrayOfCheckedId.push(element);
     }
 
-    this.timesheetBulkApproval(this.arrayOfCheckedId);    
+    this.timesheetBulkApproval(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
-    this.qtyofItemsSelected = 0;    
+    this.qtyofItemsSelected = 0;
   }
 
 
@@ -434,12 +434,12 @@ sortDirectionMethod() {
         if(this.searchKeyGBinded.length >= 2) {
           this.searchKeyG = this.searchKeyGBinded
           this.UpdateData();
-        } 
+        }
         else {
           this.searchKeyG = '';
           this.UpdateData();
         }
-      }    
+      }
     }
 
   onWeekChange() {
