@@ -74,7 +74,51 @@
       </div>
     </form>
   </div>
-
+  <nz-modal
+  [nzWidth]="'410px'"
+  [(nzVisible)]="isModalVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+  (nzOnCancel)="isModalVisible=false"
+  >
+  <ng-template #modalTitle class="backChange">Add user to group
+  </ng-template>
+  
+  <ng-template #modalContent>
+  
+    <form  [formGroup]="groupfrm" (ngSubmit)="onSaveGroups()" #form>
+      <div nz-row>
+          <div nz-col nzSpan="24" class="forDes">
+              <div class="label">Groups
+              </div>
+              <nz-form-item>
+                <nz-form-control [nzSpan]="24" >
+                <nz-select
+        nzShowSearch
+        [nzShowArrow]="true"
+        name = "group"
+        nzMode = "tags"
+        formControlName="Groups"
+        placeholder="Search groups"
+      >
+       <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
+      </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+          </div>
+      </div><br>
+  </form>
+  <div class="right-footer">
+      <button nz-button nzType="default"  class="default modal-footer-btn clear-btn l-btn" (click)="handleGroupCancel()"
+      [disabled]="groupfrm.invalid"
+      style="margin-right:15px">Clear</button>
+      <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loading">
+      {{ selectedGroups.length > 0? 'Update': 'Add' }}
+      </button>
+  </div>
+  </ng-template>
+  </nz-modal>
 <br />
 <div class="m-5">
   <h2 class="font-bold azk">Permission groups</h2>
@@ -87,57 +131,13 @@
       <button
         nz-button
         nzType="primary" 
-        (click)="onAddNewRecord()"
+        (click)="AddToGroup()"
         class="createGroupButton" 
       >
         Add to group
       </button>
     </div>
   </div>
-  <nz-modal
-    [(nzVisible)]="isModalVisible"
-    [nzTitle]="isUpdateMode ? 'Edit Look Up' : 'Add user to group'"
-    nzWidth="420px"
-    class="max-modal-width"  
-    [nzFooter]="null"
-    (nzOnCancel)="handleCancel()"
-  >
-    <ng-container *nzModalContent>
-      <form [formGroup]="userGroup">
-        <div nz-row [nzGutter]="16">
-          <div nz-col nzSpan="24">
-            <app-select
-              [enableHidding]="true"
-              [selectedSoFar]="fetchedGroupName"
-              #groupMember
-              [displayError]="groupMember.focusout"
-              errorMsg="Please select a Group"
-              [list]="listOfGroups"
-              fcn="GroupIDArray"
-              [form]="userGroup"
-              placeholder="Select a group"
-              [multiple]="true"
-              [isRequired]="true"
-              label="Please select a Group"
-            ></app-select>
-          </div>
-        </div>
-
-        <div nz-row nzJustify="end">
-          <div nz-col class="col-pad" nzSpan="3">
-            <app-button
-              [disabled]="!userGroup.valid"
-              [loading]="loading" *ngIf="authorize('Delete_Group')"
-              (click)="onSaveRecord()"
-              type="primary"
-            >
-              {{ isUpdateMode ? 'Remove' : 'Add' }}
-            </app-button>
-          </div>
-        </div>
-      </form>
-    </ng-container>
-  </nz-modal>
   <div *ngIf="!isModalVisible" class="azk" style="width: auto" >
     <div nz-row >
       <div nz-col nzSpan="24">
@@ -161,7 +161,7 @@
 
               <td>
                 <a
-                *ngIf="authorize('Delete_Group')" (click)="onDeleteRecord(data.Guid)"
+                *ngIf="authorize('Delete_Group')" (click)="onDeleteRecord(data.Guid,data.GroupSetGuid)"
                   nzTooltipPlacement="bottom"
                   nz-tooltip
                   nzTooltipTitle="Delete"
