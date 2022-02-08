@@ -29,7 +29,7 @@ export class AccountService {
 
   signIn(logInRequest: LogInRequest) {
     
-      return this.http.post<ResponseDTO<LogInResponse>>(environment + '/user/login', logInRequest).pipe(
+      return this.http.post<ResponseDTO<LogInResponse>>(environment + 'usermanagement/logIn', logInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));

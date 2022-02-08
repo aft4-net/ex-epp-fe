@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AccountService } from '../../../Services/logIn/account.service';
 import { NotificationBar } from '../../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../../utils/validator';
+import { AuthenticationService } from 'libs/common-services/Authentication.service';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
 
 
 @Component({
@@ -32,13 +35,63 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
+  loginWithMSAccount() {
+   
+    
+    this.authService.loginPopup()
+      .subscribe((response: AuthenticationResult) => {
+       const data=   this.authService.instance.setActiveAccount(response.account);
+      
+       if(response.account?.username){
+        this._authenticationService.getLoggedInUserAuthToken(response.account?.username).subscribe(
+          (res) => {            
+            if(res.Data && res.Data.Token){
+              localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
+            }
+            this._authenticationService.storeLoginUser(response.account);
+            this.router.navigateByUrl('');
+          },
+          (error) => {
+            this.logout();
+            if ([401].includes(error.status)) {
+              this.notification.showNotification({
+                type: 'error',
+                content: "Unauthorized, please contact admin",
+                duration: 5000,
+              });
+            }
+          }
+        ); 
+        
+        
+       // window.location.reload();
+        //this.router.navigateByUrl('user-dashboard');
+       }
+       else{
+        this.router.navigateByUrl('usermanagement');
+       }
+        
+      });
+  }
 
+  logout() {
+    this.authService.logout();
+    window.sessionStorage.clear();
+    localStorage.removeItem('loggedInUserInfo');
+    window.location.reload();
+}
 
   signin() {
     this.loading = true;
-    this.accountService.signIn(this.loginForm.value).subscribe(
+    this._authenticationService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        this.router.navigateByUrl('');
+      console.log("@@@" + res)
+        if(res.Data && res.Data.Token){
+          localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
+          console.log("@@@" + res)
+        } 
+        this._authenticationService.storeLoginUser(res.Data);
+        this.router.navigateByUrl('usermanagement');
         window.location.reload();
         this.loading = false;
       },
@@ -68,10 +121,12 @@ export class LoginComponent {
   }
 
   constructor(
-    private accountService: AccountService,
+   
     private router: Router,
     private notification: NotificationBar,
-    private validator: FormValidator
+    private validator: FormValidator,
+    private authService: MsalService, 
+    private _authenticationService:AuthenticationService
   ) {}
 
 }

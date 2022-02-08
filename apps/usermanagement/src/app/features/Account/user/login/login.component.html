@@ -37,7 +37,8 @@
 
   <div class="info">
     Don't have an account?
-    <a [routerLink]="['/user/signup']"> Sign In  with Microsoft </a>
+    <app-button [loading]="loading"   type="link" (click)="loginWithMSAccount()"> 
+      Sign In  with Microsoft </app-button>
   </div>
   <ng-template #passwordSuffixIcon>
     <i

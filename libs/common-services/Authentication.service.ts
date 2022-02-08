@@ -2,7 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Employee } from '@exec-epp/core-models';
+import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
+import { LogInRequest } from 'apps/usermanagement/src/app/models/user/logInRequest';
+import { LogInResponse } from 'apps/usermanagement/src/app/models/user/logInResponse';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from "./../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 
@@ -10,6 +14,10 @@ import { ErrHandleService } from './error-handle.service';
     providedIn: 'root',
   })
   export class AuthenticationService {
+  private userSubject :BehaviorSubject<LogInResponse|any>;
+  public users: Observable<LogInResponse>;
+  loggedInUser:any;
+
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -19,7 +27,13 @@ import { ErrHandleService } from './error-handle.service';
   position:string="";
   empGuid:string="";
 
-    constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
+    constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {
+
+      this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
+      this.users = this.userSubject.asObservable();
+    }
+    
+
 
    loginStatus(){
        return this.isLogin();
@@ -85,4 +99,21 @@ import { ErrHandleService } from './error-handle.service';
   setFromViewProfile2(){
     window.sessionStorage.setItem('fromViewer','false');
   }
+
+  signIn(logInRequest: LogInRequest) {
+    
+    return this.http.post<ResponseDTO<LogInResponse>>(environment.apiUrl + '/User/logIn', logInRequest).pipe(
+      map((users) => {
+        if(users.Data && users.Data.Token){
+          localStorage.setItem('loggedInUserInfo', JSON.stringify(users.Data ||'{}'));
+          this.loggedInUser = users.Data;
+          console.log(users.Data);
+          this.userSubject.next(users.Data);
+          return users;
+        }
+        return users;
+      }
+    ));
+};
+
     } 
