@@ -33,3 +33,40 @@
 .form-label {
     min-width: 28rem !important;
 }
+
+.form-item ::ng-deep .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-has-success .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-has-warning .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-is-validating .ant-form-item-children-icon {
+    position: relative;
+    top: 50%;
+    right: 3.5vw;
+    z-index: 1;
+    width: 32px;
+    height: 20px;
+    margin-top: -10px;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    visibility: visible;
+    animation: zoomIn .3s cubic-bezier(.12,.4,.29,1.46);
+    pointer-events: none;
+}
+
+.form-item ::ng-deep .ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+    margin-right: 0px;
+    color: #ff4d4f;
+    font-size: 0px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: '';
+  }
+
+
+.form-item ::ng-deep .ant-form-item-required:not(.ant-form-item-required-mark-optional)::after {
+    display: inline-block;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: '*';
+  }
