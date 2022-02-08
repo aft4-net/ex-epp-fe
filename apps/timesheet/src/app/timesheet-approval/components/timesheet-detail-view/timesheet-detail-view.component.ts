@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SelectMultipleControlValueAccessor } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { PermissionListService} from '../../../../../../../libs/common-services/permission.service';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetModels';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { SelectMultipleControlValueAccessor } from '@angular/forms';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 @Component({
@@ -30,6 +31,8 @@ export class TimesheetDetailViewComponent implements OnInit {
 
     ngOnInit(): void {
     }
+
+
   isComment(comment:string)
   {
     return comment===null || comment===''?true:false;

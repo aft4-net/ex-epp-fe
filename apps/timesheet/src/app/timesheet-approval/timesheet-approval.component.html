@@ -57,7 +57,7 @@
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
       >
         <div nzRight class="content">
-          <exec-epp-table (isApprovedReturned)="statusChanged($event)"  [status]= true  [ProjectName]="filteredProjectNamesLists" (FilterByProject)="FilterByProject($event)" [ClientName]="filteredClientNamesList" [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table   [ProjectName]="filteredProjectNamesLists" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" (isApprovedReturned)="statusChanged($event)"  [status]= true [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries
