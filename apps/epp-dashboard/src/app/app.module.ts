@@ -14,15 +14,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
+import { environment } from './../../../../libs/environments/environment';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
-
-      //redirectUri: 'https://epp-fe.excellerentsolutions.com/',
-
-      redirectUri: 'http://localhost:4200',
+      clientId: environment.clientId,
+      redirectUri: environment.redirectUri
     },
   });
 }
