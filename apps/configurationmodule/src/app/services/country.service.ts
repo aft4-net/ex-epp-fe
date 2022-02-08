@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Country } from '../models/country';
+import { map } from 'rxjs/operators';
+import { Country, CountryResponse } from '../models/country';
 import { environment } from './../../environments/environment';
 
 @Injectable({
@@ -19,5 +20,11 @@ export class CountryService {
     else{
       return this.http.get<Country[]>(this.baseUrl + 'GetAllCountries');
     }
+  }
+
+  add(country: Country) {
+    const headers = { 'content-type': 'application/json' };
+
+    return this.http.post<CountryResponse>(this.baseUrl + 'register', country, {headers: headers});
   }
 }

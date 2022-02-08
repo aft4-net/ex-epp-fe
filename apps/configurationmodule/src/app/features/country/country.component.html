@@ -9,7 +9,7 @@
             </nz-form-control>
         </div>
         <div class="config-add-button">
-            <button nz-button nzType="primary">
+            <button nz-button nzType="primary" (click)="updateModalState()">
                 <span>Add Country</span>
             </button>
         </div>
@@ -31,12 +31,30 @@
                 <tr *ngFor="let country of countryTable.data">
                     <td>{{ country.Name }}</td>
                     <td>
-                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
                     </td>
                 </tr>
             </tbody>
         </nz-table>
     </div>
 </div>
+
+<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
+    <ng-container *nzModalContent>
+        <form (ngSubmit)="save()" class="flex flex-col">
+            <div class="w-full m-0 mb-6">
+                <label for="Name">Name:</label>
+                <div class="m-0 mt-2">
+                    <input nz-input id="Name" placeholder="Name" [formControl]="country" />
+                </div>
+            </div>
+
+            <div class="w-auto m-0 ml-auto mr-auto">
+                <button *ngIf="isNew" nz-button nzType="primary" type="submit">Save</button>
+                <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
+            </div>
+        </form>
+    </ng-container>
+</nz-modal>
