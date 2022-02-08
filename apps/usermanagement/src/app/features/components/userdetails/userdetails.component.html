@@ -60,7 +60,8 @@
             </div>
             <div>
              <a (click)="UpdateStatus()">
-              <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive"></nz-switch>
+              <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
+              ></nz-switch>
               </a>
             
               
