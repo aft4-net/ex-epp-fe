@@ -12,15 +12,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
 import { Configuration } from 'msal';
+import { environment } from './../../../../libs/environments/environment';
 
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      //clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
-      clientId: '4f5a6105-5df8-4945-941c-ca513b55caab',
-      //redirectUri: 'https://epp-fe.excellerentsolutions.com/',
-      redirectUri: 'http://localhost:4200'
+      clientId: environment.clientId,
+      redirectUri: environment.redirectUri
     },
   });
 }
