@@ -20,6 +20,8 @@ import { AuthenticationService } from './../../../../../../../libs/common-servic
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { UserDetailService } from '../../Services/user-detail.service';
 import { IUserModel } from '../../Models/User/UserList';
+import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
+import { IUserPutModel } from '../../Models/User/user-put.model';
 
 
 @Component({
@@ -42,7 +44,8 @@ export class UserdetailsComponent implements OnInit {
   cgm=CustomFormModule;
   userId:any;
   thePosition : any;
-  userdetailInfo:any 
+  userdetailInfo:any;
+  isActive = false;
   userdetail = new FormGroup({
     UserId: new FormControl(''),
     FullName: new FormControl(''),
@@ -113,7 +116,8 @@ export class UserdetailsComponent implements OnInit {
     private validator: FormValidator,
     private route: ActivatedRoute,
     private _fb: FormBuilder,
-    private authPermission:PermissionListService
+    private authPermission:PermissionListService,
+    
   ) {
     this.userdetail = _fb.group({
       Name: '',
@@ -148,6 +152,7 @@ export class UserdetailsComponent implements OnInit {
       .subscribe(async (response:any) => {
         console.log(response);
         this.userdetailInfo = response.Data;
+        this.isActive = this.userdetailInfo.Status as string ==='Active'?true:false;
         //this.thePosition = response.Data.userListJobTitle; 
     this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
      this.thePosition=res.EmployeeOrganization;
@@ -309,4 +314,49 @@ export class UserdetailsComponent implements OnInit {
       }
     );
   }
+  UpdateStatus()
+  {
+    const usrDetail: IUserPutModel = {
+      Guid:this.userdetailInfo.Guid,
+      FirstName:this.userdetailInfo.FirstName,
+      MiddleName:this.userdetailInfo.MiddleName,
+      LastName:this.userdetailInfo.LastName,
+      Status:this.isActive?'Active':'NotActive',
+      Email:this.userdetailInfo.Email,
+      Tel: this.userdetailInfo.Tel,
+      UserName:this.userdetailInfo.UserName
+    }
+
+    this.userDetailService.updateUser(usrDetail).subscribe(
+      (r: ResponseDTO<any>) => {
+        console.log(r.ResponseStatus);
+        console.log(ResponseStatus.error);
+        if( r.ResponseStatus === ResponseStatus.error)
+       {
+        this.notification.showNotification({
+          type: 'error',
+          content: 'Error occured. Status not updated.',
+          duration: 5000,
+        });
+         return;
+       }
+      this.notification.showNotification({
+        type: 'success',
+
+        content: `User status changed to  '${usrDetail.Status}' successfully`,  
+        duration: 5000,
+      });
+    },
+    (err: any) => {
+      this.loading = false;
+      this.notification.showNotification({
+        type: 'error',
+        content: 'Error occured. Status not updated.',
+        duration: 5000,
+      });
+      console.log('error:' + err);
+    }
+    )
+     
+    }
 }
