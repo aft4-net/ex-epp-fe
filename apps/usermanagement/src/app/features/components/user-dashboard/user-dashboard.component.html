@@ -14,11 +14,11 @@
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="6">
-            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
               <input  type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="default" (click)="SearchUsersByUserName()">
+              <button nz-button nzType="default"  style="border: none;" (click)="SearchUsersByUserName()">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>

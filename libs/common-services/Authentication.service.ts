@@ -28,8 +28,9 @@ import { ErrHandleService } from './error-handle.service';
    getUser(email:string){
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
+       //debugger
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]['Name'];
        this.empGuid = response["Guid"];
        
       }

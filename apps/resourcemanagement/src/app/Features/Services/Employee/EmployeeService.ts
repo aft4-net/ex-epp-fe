@@ -211,4 +211,8 @@ export class EmployeeService {
   getUser(email:string){
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
+
+  DeleteEmployee(employeeId:string) {
+    return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
+  }
 }
