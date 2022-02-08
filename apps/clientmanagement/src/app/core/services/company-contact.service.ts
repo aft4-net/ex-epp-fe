@@ -1,8 +1,8 @@
-import { ApiService } from 'apps/projectmanagement/src/app/core/models/apiService';
 import { CompanyContact } from './../models/get/company-contact';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {environment} from 'libs/environments/environment';
+import { environment } from 'libs/environments/environment';
+import { ApiService } from '..';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,9 @@ export class CompanyContactService extends ApiService<CompanyContact> {
   getNameRole()
   {
     this.httpClient.get<CompanyContact>(this.CompanyAPI);
+  }
+  DeleteCompany(id:string|number)
+  {
+    return this.delete(id);
   }
 }
