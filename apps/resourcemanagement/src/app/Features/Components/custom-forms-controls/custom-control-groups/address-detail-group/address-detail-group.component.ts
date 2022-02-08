@@ -1,9 +1,10 @@
+import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
+
+import { FormGenerator } from "../../form-generator.model";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
-import { FormGenerator } from "../../form-generator.model";
 
 @Component({
     selector: 'exec-epp-address-detail-group',
@@ -35,19 +36,19 @@ export class AddressDetailGroupComponent implements OnInit {
             = this._formGenerator.addressForm
         this.countries$ = this._addressCountryStateService.getCountries()
         this.stateRegions$ = this._addressCountryStateService.getStates(this.formGroup.value.country)
-        
+
         // const address: Addresss = {
         //     ...{} as Address,
         //     Country: 'Ethiopia'
         // } as Address
 
         // this._formGenerator.generateAddressForm(address)
-        
+
 
     }
 
     ngOnInit(): void {
-    
+
     }
 
     getControl(name: string): FormControl {
