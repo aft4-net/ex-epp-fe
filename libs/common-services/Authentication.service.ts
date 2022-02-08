@@ -1,10 +1,11 @@
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
+import { Employee } from '@exec-epp/core-models';
+import { ErrHandleService } from './error-handle.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Employee } from '@exec-epp/core-models';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from "./../environments/environment";
-import { ErrHandleService } from './error-handle.service';
 
 @Injectable({
     providedIn: 'root',
@@ -31,18 +32,18 @@ import { ErrHandleService } from './error-handle.service';
        this.user=response;
        this.position  = response["EmployeeOrganization"]["JobTitle"];
        this.empGuid = response["Guid"];
-       
+
       }
     );
     return email;
    }
-    
+
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
-    
+
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
@@ -54,9 +55,11 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('https://epp-fe.excellerentsolutions.com/');
+    //  window.location.replace('https://epp-fe.excellerentsolutions.com/');
+     window.location.replace('http://localhost:4200/');
+
    }
-   
+
    getEmail(){
      return window.sessionStorage.getItem('username');
    }
@@ -85,4 +88,4 @@ import { ErrHandleService } from './error-handle.service';
   setFromViewProfile2(){
     window.sessionStorage.setItem('fromViewer','false');
   }
-    } 
+    }

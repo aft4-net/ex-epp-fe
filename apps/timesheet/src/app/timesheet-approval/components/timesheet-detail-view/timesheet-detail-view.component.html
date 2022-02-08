@@ -25,6 +25,7 @@
               <th>Day and Date</th>
               <th>Hours</th>
               <th>Notes</th>
+              <th>Project</th>
             </tr>
           </thead>
           <tbody>
@@ -32,6 +33,7 @@
               <td>{{ data?.Date | date:'EEEE'}} {{ data?.Date | date}} </td>
               <td>{{ formatHour(data.Hour) }}</td>
               <td>{{ getNote(data.Note) }}</td>
+               <td>{{ data.projectName }}</td>
             </tr>
           </tbody>
         </nz-table>
