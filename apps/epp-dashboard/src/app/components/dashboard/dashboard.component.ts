@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   date:any;
+  isCollapsed = false;
   fullName:any
   actions='Add_Employee';
   thePosition : any;
