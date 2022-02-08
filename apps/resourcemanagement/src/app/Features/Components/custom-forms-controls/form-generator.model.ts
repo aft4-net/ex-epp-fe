@@ -146,7 +146,7 @@ export class FormGenerator extends FormGeneratorAssistant {
       
         return {
             guid: this.employeId,
-            EmployeeNumber: value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber,
+            EmployeeNumber: value.employeeIdNumber,
             FirstName: value.fullName.firstName,
             FatherName: value.fullName.middleName,
             GrandFatherName: value.fullName.lastName,
@@ -233,7 +233,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createPersonalDetailsForm() {
         return this._formBuilder.group({
-            employeeIdNumber: this._createEmployeeIdNumberFormGroup(),
+            employeeIdNumber: [null, validateRequired],
             fullName: this._createFullNameFormGroup(),
             gender: [null, validateRequired],
             dateofBirth: [null, validateRequired],
@@ -378,11 +378,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setEmployeeIdNumber(employeeIdNumber: string, formGroup: FormGroup) {
-        const segments = this._extractEmployeeIdNumber(employeeIdNumber)
-        if (segments.value !== null) {
-            this._setControlValue(segments.prefix, this.getFormControl('prefix', formGroup))
-            this._setControlValue(segments.value, this.getFormControl('idNumber', formGroup))
-        }
+        this._setControlValue(employeeIdNumber, this.getFormControl('employeeIdNumber', formGroup))
     }
 
     private _setNames(first: string | null, middle: string | null, last: string | null, formGroup: FormGroup) {
@@ -432,7 +428,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         if (employee.EmployeeNumber) {
             this._setEmployeeIdNumber(
                 employee.EmployeeNumber,
-                this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
+                this.personalDetailsForm
             )
         }
 

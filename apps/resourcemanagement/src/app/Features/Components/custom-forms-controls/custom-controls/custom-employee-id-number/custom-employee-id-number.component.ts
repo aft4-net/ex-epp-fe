@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { FormControlResponseModel } from "../../../../Models/supporting-models/form-control-response.model";
 import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
@@ -20,7 +20,7 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig = defaultFormControlParameter
     @Input() controlConfig = defaultFormControlParameter
-    @Input() formGroup: FormGroup = new FormGroup({})
+    @Input() formControl: FormControl = new FormControl()
     @Input() required = true
     @Input() formDescription: FormControlResponseModel = {} as FormControlResponseModel
 
@@ -38,17 +38,6 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
     }
 
     ngOnInit(): void {
-    }
-
-    getPrefix() {
-      return this._formGenerator.getFormControl('prefix', this.formGroup)
-    }
-    getIdNumber() {
-      return this._formGenerator.getFormControl('idNumber', this.formGroup)
-    }
-
-    onPrefixSelect() {
-
     }
 
     onChange() {

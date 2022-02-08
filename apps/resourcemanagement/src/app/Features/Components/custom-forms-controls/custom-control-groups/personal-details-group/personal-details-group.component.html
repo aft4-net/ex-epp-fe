@@ -2,7 +2,7 @@
 [nzLayout]="'vertical'">
   <exec-epp-custom-upload ></exec-epp-custom-upload>
   <exec-epp-custom-employee-id-number
-    [formGroup]="getFormGroup('employeeIdNumber')">
+    [formControl]="getControl('employeeIdNumber')">
   </exec-epp-custom-employee-id-number>
 
   <exec-epp-custom-full-name [formGroup]="getFormGroup('fullName')" >
