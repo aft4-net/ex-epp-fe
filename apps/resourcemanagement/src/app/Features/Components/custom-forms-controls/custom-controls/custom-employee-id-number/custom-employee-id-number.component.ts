@@ -28,6 +28,7 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
 
     prefices$: Observable<SelectOptionModel[]> = of([])
     errMessage = ''
+    empNum=''
 
     constructor(
       private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
