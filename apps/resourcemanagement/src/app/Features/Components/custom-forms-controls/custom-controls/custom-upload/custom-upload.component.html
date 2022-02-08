@@ -1,11 +1,11 @@
 <div class="clearfix">
   <div>
-    <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="fileList[fileList.length-1].url">
+    <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="'data:image/jpg;base64,'+empImg">
     </nz-avatar>
   </div>
   <div class="profile-buttons-container">
     <div class="profile-button-container">
-      <nz-upload nzAction="http://localhost:14696/api/v1/EmployeePhoto">
+      <nz-upload [nzCustomRequest]="customUploadReq"  [nzName]="'file'">
         <button
           class="profile-button-add"
           disabled>
@@ -14,13 +14,14 @@
         </button>
       </nz-upload>
     </div>
-    <div class="profile-button-container">
-      <button
+    <div class="profile-button-container" *ngIf="removeImg">
+      <button 
         class="profile-button-delete"
         disabled>
         <i nz-icon nzType="delete"></i>
         Delete
       </button>
     </div>
+    
   </div>
 </div>
