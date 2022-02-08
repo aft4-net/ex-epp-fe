@@ -524,13 +524,12 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.DepartmentId,
             this.getFormControl('department', this.organizationalForm)
         )
-        console.log('Job'+organizationalDetail.JobTitleId)
         this._setControlValue(
             organizationalDetail.JobTitleId, 
             this.getFormControl('jobTitle', this.organizationalForm)
         )
+        alert(organizationalDetail.ReportingManager);
         this._setControlValue(
-            
             organizationalDetail.ReportingManager,
             this.getFormControl('reportingManager', this.organizationalForm)
         )

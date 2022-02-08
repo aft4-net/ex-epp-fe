@@ -46,7 +46,7 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         this.departments$ = this._departmentService.getAllDeparments()
         this.jobTitles$ = of([]);
         this.employementTypes$ = this._employeeStaticDataService.employementTypes$
-        this.reportingManagers$ = this._reportingManagerService.GetReportingManager()
+        this.reportingManagers$ = this._reportingManagerService.GetReportingManager();
         this.employementStatuses$ = this._employeeStaticDataService.employementStatuses$
         
 
