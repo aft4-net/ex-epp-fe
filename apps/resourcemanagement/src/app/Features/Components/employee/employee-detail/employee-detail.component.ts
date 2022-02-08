@@ -121,6 +121,9 @@ export class EmployeeDetailComponent implements OnInit {
       content:'',
       duration:1
     });
+    
+   // this._employeeService.SearchEmployeeDataforFilter(this.employeeParams);
+   
  }
 
  authorize(key:string){
@@ -429,7 +432,64 @@ export class EmployeeDetailComponent implements OnInit {
       this.searchStateFound=true;
     } 
   }
-
+FilterData(jobtype:string,location:string,status:string){
+  this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
+  .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
+    if(response.Data) {
+      this.employeeViewModels$=of(response.Data);
+      this.employeeViewModel = response.Data;
+      this.listOfCurrentPageData = response.Data;
+      this.pageIndex=response.pagination.PageIndex;
+      this.pageSize=response.pagination.PageSize;
+      this.totalRecord=response.pagination.TotalRecord
+      this.totalRows=response.pagination.TotalRows;
+      this.lastRow = this.totalRows;
+      this.beginingRow = 1;
+      this.FillTheFilter();
+      this.loading = false;
+    }
+    else
+    {
+      this.loading = false;
+      this.employeeViewModel = [];
+      this.employeeViewModels$=of([]);
+      this.FillTheFilter();
+    }
+  },error => {
+    this.loading = false;
+    this.listOfColumns = [
+      {
+        name: 'Job Title',
+        sortOrder: null,
+        sortDirections: ['ascend', 'descend', null],
+        sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
+        filterMultiple: true,
+        listOfFilter:this.empListJobType,
+        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+      },
+      {
+        name: 'Location',
+        sortOrder: null,
+        sortDirections: ['ascend', 'descend', null],
+        sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.localeCompare(b.Location),
+        filterMultiple: true,
+        listOfFilter: this.empListCountry,
+        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+      },
+      {
+        name: 'Status',
+        sortOrder: null,
+        sortDirections: ['ascend', 'descend', null],
+        sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.localeCompare(b.Status),
+        filterMultiple: true,
+        listOfFilter: this.empListStatus,
+        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+      }
+    ];
+   }
+  );
+  this.searchStateFound=true;
+}
   // Edit(employeeId:string):void
   // {
     // this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
