@@ -133,10 +133,18 @@ export class FormGenerator extends FormGeneratorAssistant {
         } as Employee
 
         this._employeeService.update(employee)
-        .subscribe(()=>{
+        .subscribe( (response: any)=>{
+          this._employeeService.isdefault=true;
+          this.notification.create(
+              response.ResponseStatus.toLowerCase() ,"", response.Message
+          );
+            },
+            (error) => {
+              console.log(error);
+            }
 
-            this._employeeService.isdefault=true;
-        })
+
+      )
 
     }
 
@@ -703,10 +711,10 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
-      
+
         this._regenerateForm()
         if(employee) {
-            
+
             this._isEdit = true
             this._setPresonalDetail(employee)
             if(employee.EmployeeOrganization) {

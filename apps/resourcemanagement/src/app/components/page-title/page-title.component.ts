@@ -88,6 +88,6 @@ export class PageTitleComponent implements OnInit {
   }
   Cancel() {
     this._employeeService.isdefault = true;
-    this._router.navigate(['']);
+    this._router.navigate(['resourcemanagement']);
   }
 }
