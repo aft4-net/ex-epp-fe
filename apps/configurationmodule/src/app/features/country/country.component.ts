@@ -12,8 +12,9 @@ import { CountryService } from '../../services/country.service';
 })
 export class CountryComponent implements OnInit {
   countries$: Observable<Country[]> = new Observable<Country[]>();
-  addCountry: boolean = true;
+  addCountry: boolean = false;
   isNew: boolean = true;
+  countryId: string = "";
   country: FormControl = new FormControl("");
 
   constructor(
@@ -56,18 +57,29 @@ export class CountryComponent implements OnInit {
       this.countryService.add(country).subscribe(response => {
         if(response.ResponseStatus === "Success") {
           this.getCountries();
+          this.updateModalState();
+          this.clearData();
         }
       }, error => {
 
       });
     }
     else {
+      this.countryService.update({Guid: this.countryId, Name: this.country.value}).subscribe(response => {
+        if(response.ResponseStatus === "Success") {
+          this.getCountries();
+          this.updateModalState();
+          this.clearData();
+        }
+      }, error => {
 
+      });
     }
   }
 
   update(country: Country) {
     this.isNew = false;
+    this.countryId = country.Guid;
     this.country.setValue(country.Name);
     this.updateModalState();
   }
@@ -80,8 +92,20 @@ export class CountryComponent implements OnInit {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
+        this.countryService.delete(country).subscribe(response => {
+          if(response.ResponseStatus === "Success") {
+            this.getCountries();
+          }
+        }, error => {
+
+        })
       },
       nzCancelText: 'No'
     });
+  }
+
+  clearData() {
+    this.countryId = "";
+    this.country.setValue("");
   }
 }
