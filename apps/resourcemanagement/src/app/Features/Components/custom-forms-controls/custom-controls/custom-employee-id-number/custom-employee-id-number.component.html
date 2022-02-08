@@ -1,7 +1,7 @@
 <nz-form-item
     class="form-item">
     <nz-form-label
-      class="excel-form-label"
+      class="form-label"
       [nzSm]="labelConfig.nzSm" 
       [nzXs]="labelConfig.nzXs"
       [nzRequired]="required">
@@ -13,8 +13,9 @@
     [nzErrorTip]="errMessage"
     nzHasFeedback>
       <input
-      class="excel-single-control"
-      [formControl]="formControl" nzPlaceholder="'12345/21'"
+      class="single-control"
+      [formControl]="formControl" nzPlaceholder="'ES-EDC/12345/22'"
+      [disabled]="isEdit"
       (ngModelChange)="onChange()" nz-input />
     </nz-form-control>
   </nz-form-item>

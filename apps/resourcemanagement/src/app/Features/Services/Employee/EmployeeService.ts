@@ -1,7 +1,7 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Employee } from '../../Models/Employee';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
 import { map, shareReplay } from 'rxjs/operators';
@@ -107,6 +107,17 @@ export class EmployeeService {
 
   update(employee: Employee) {
     return this.http.put(this.baseUrl, employee);
+  }
+
+  checkIdNumber(idNumber: string): Observable<boolean> {
+    const params = new HttpParams().set('idNumber', idNumber);
+    return this.http.get<any>(
+      this.baseUrl + '/checkidnumber',
+      { ...params }
+    )
+    .pipe(
+      map((response: any) => response as boolean)
+    );
   }
   saveEmployee() {
     this.employee$.subscribe((x) => {
