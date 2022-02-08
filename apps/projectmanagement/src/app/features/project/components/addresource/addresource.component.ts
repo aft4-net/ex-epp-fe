@@ -90,11 +90,9 @@ export class AddresourceComponent implements OnInit {
         this.addResorceForm.controls.assignDate.setErrors(null);
     });
 
-   
+      if(this.isOnEditstate)
       this.editProjectStateService.projectResourceList$.subscribe(res=>{
-        console.log(res);
         this.projectResources=res;
-       
       })
     
 
@@ -112,7 +110,7 @@ export class AddresourceComponent implements OnInit {
   addResource() {
     if (this.addResorceForm.valid) {
       this.projectResources.push({
-        Employee: this.addResorceForm.controls.resource.value,AssignDate: this.addResorceForm.controls.assignDate.value
+        Empolyee: this.addResorceForm.controls.resource.value,AssignDate: this.addResorceForm.controls.assignDate.value
       });
       this.isModalVisible = false;
 
@@ -165,10 +163,10 @@ export class AddresourceComponent implements OnInit {
 
   editResource(id: string) {
     this.addResorceForm.reset();
-    const projectResource = this.projectResources.find(s => s.Employee.Guid == id);
+    const projectResource = this.projectResources.find(s => s.Empolyee.Guid == id);
     if (projectResource) {
 
-      this.editResorceForm.controls.resource.setValue(projectResource.Employee);
+      this.editResorceForm.controls.resource.setValue(projectResource.Empolyee);
       this.editResorceForm.controls.assignDate.setValue(projectResource.AssignDate);
       this.asignedResourseToEdit = projectResource;
       this.isEditMode = true;
@@ -179,17 +177,17 @@ export class AddresourceComponent implements OnInit {
   submitEditdValue() {
 
     if (this.editResorceForm.valid) {
-      if (this.asignedResourseToEdit.Employee.Guid != this.editResorceForm.controls.resource.value.Guid) {
-        this.employees.push(this.asignedResourseToEdit.Employee);
+      if (this.asignedResourseToEdit.Empolyee.Guid != this.editResorceForm.controls.resource.value.Guid) {
+        this.employees.push(this.asignedResourseToEdit.Empolyee);
         this.employees = this.employees.filter(s => s.Guid !== this.editResorceForm.controls.resource.value.EmployeeGUid);
         this.sortEmployees();
       }
       this.asignedResourseToEdit.AssignDate = this.editResorceForm.controls.assignDate.value;
-      this.asignedResourseToEdit.Employee = this.editResorceForm.controls.resource.value;
+      this.asignedResourseToEdit.Empolyee = this.editResorceForm.controls.resource.value;
 
-      this.projectResources.map(s => s.Employee.Guid === this.asignedResourseToEdit.Employee.Guid ? s : this.asignedResourseToEdit)
+      this.projectResources.map(s => s.Empolyee.Guid === this.asignedResourseToEdit.Empolyee.Guid ? s : this.asignedResourseToEdit)
 
-      this.resources.map(s => s.EmployeeGuid == this.asignedResourseToEdit.Employee.Guid ? s :
+      this.resources.map(s => s.EmployeeGuid == this.asignedResourseToEdit.Empolyee.Guid ? s :
         {
           employeeId: this.editResorceForm.controls.resource.value.Guid,
           assignedDate: this.editResorceForm.controls.assignDate.value,
@@ -197,7 +195,7 @@ export class AddresourceComponent implements OnInit {
       )
 
       for (let i = 0; i < this.resources.length; i++) {
-        if (this.resources[i].EmployeeGuid == this.asignedResourseToEdit.Employee.Guid) {
+        if (this.resources[i].EmployeeGuid == this.asignedResourseToEdit.Empolyee.Guid) {
           this.resources[i] = {
             EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
             AssignDate: this.editResorceForm.controls.assignDate.value
@@ -226,11 +224,11 @@ export class AddresourceComponent implements OnInit {
   }
 
   removeResource(id: string) {
-    const projectResourece = this.projectResources.find(s => s.Employee.Guid == id);
+    const projectResourece = this.projectResources.find(s => s.Empolyee.Guid == id);
     if (projectResourece)
-      this.employees.push(projectResourece.Employee);
+      this.employees.push(projectResourece.Empolyee);
     this.sortEmployees();
-    this.projectResources = this.projectResources.filter(s => s.Employee.Guid !== id);
+    this.projectResources = this.projectResources.filter(s => s.Empolyee.Guid !== id);
     this.resources = this.resources.filter(s => s.EmployeeGuid != id);
 
     this.projectCreateState.updateAssignResource(this.resources);

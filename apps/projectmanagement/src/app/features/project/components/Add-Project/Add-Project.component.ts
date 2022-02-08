@@ -1,5 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 
 import {
   FormBuilder,
@@ -21,7 +22,8 @@ import {
   ProjectStatus,
   ProjectStatusService,
   AddProjectStateService,
-  EditProjectStateService
+  EditProjectStateService,
+  ProjectEdit
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -31,6 +33,7 @@ import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/
 import { PermissionListService } from 'libs/common-services/permission.service';
 
 import { map } from 'rxjs/operators';
+import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -62,12 +65,22 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   addResourcePermission = false;
   createPermisson = false;
   isOnEditstate=false;
+  projectUpdate:ProjectEdit={} as  ProjectEdit;
+  projectOld:ProjectEdit={} as  ProjectEdit;
+  projectEditStateData!:Project;
+  modifiedforUpdate=false;
+  enableUpdateButton=false;
+  updateValueSeted=false;
+  
   resources: projectResourceType[] = [] as projectResourceType[];
+  private projectEditDiffer!: KeyValueDiffer<string, any>;
+
 
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private differs: KeyValueDiffers,
     private projectCreateState:AddProjectStateService,
      private editProjectStateService:EditProjectStateService, 
     private fb: FormBuilder,
@@ -85,44 +98,49 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.editProjectStateService.restUpdateProjectState();
   }
 
+
   ngOnInit(): void {
    this.isOnEditstate=this.editProjectStateService.isOnEditstate;
     this.createRegistrationForm();
-    this.projectMapper();
     this.apiCalls();
+    this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
      if( this.isOnEditstate)
-     this. setValueForUpdate();
+     {this. setValueForUpdate();
+    
+     }
   }
+
 
  setValueForUpdate()
  {
-  
+  this.projectEditStateData=this.editProjectStateService.projectEditData;
   this.validateForm.controls.projectName.setValue(this.editProjectStateService.projectEditData.ProjectName);
   this.validateForm.controls.supervisor.setValue(this.editProjectStateService.projectEditData.SupervisorGuid);
   this.validateForm.controls.projectType.setValue(this.editProjectStateService.projectEditData.ProjectType);
-  this.validateForm.controls.status.setValue(this.editProjectStateService.projectEditData.ProjectStatus.Guid);
-  this.validateForm.controls.client.setValue(this.editProjectStateService.projectEditData.Client.Guid);
+  this.validateForm.controls.status.setValue(this.editProjectStateService.projectEditData.ProjectStatus?.Guid);
+  this.validateForm.controls.client.setValue(this.editProjectStateService.projectEditData.Client?.Guid);
   this.validateForm.controls.startValue.setValue(this.editProjectStateService.projectEditData.StartDate);
   this.validateForm.controls.endValue.setValue(this.editProjectStateService.projectEditData.EndDate);
 
+  this.projectUpdate.Guid=this.projectEditStateData.Guid;
+  this.projectOld.Guid=this.projectEditStateData.Guid;
+  this.projectOld.ProjectName=   this.editProjectStateService.projectEditData.ProjectName;
+       
+  this.projectOld.ProjectType=this.editProjectStateService.projectEditData.ProjectType;
+   this.projectOld.ProjectStatusGuid=this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
+   this.projectOld.ClientGuid=this.editProjectStateService.projectEditData.Client?.Guid;
+   this.projectOld.SupervisorGuid=this.editProjectStateService.projectEditData.SupervisorGuid;
+   this.projectOld.StartDate= this.editProjectStateService.projectEditData.StartDate;
+   this.projectOld.EndDate=this.editProjectStateService.projectEditData.EndDate;
 
-  console.log(this.editProjectStateService.projectEditData.ProjectStatus);
-  // this.validateForm.controls.description.setValue(this.editProjectStateService.projectEditData.);
+ 
+   if (this.validateForm.controls.endValue.value != null)
+   this.projectOld.EndDate=this.validateForm.controls.endValue.value
+ else   this.projectOld.EndDate= ""
+ this.updateValueSeted=true;
 
-
-
-// this.projectCreate.SupervisorGuid =
-//   this.validateForm.controls.supervisor.value;
-// this.projectCreate.StartDate =
-//   this.validateForm.controls.startValue.value;
-// this.projectCreate.ProjectType =
-//   this.validateForm.controls.projectType.value;
-// this.projectCreate.ProjectStatusGuid =
-//   this.validateForm.controls.status.value.Guid;
-// this.projectCreate.Description =
-//   this.validateForm.controls.description.value;
  }
    
 
@@ -133,19 +151,34 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   projectMapper() {
     this.validateForm.valueChanges.subscribe(() => {
       if (this.validateForm.valid) {
-        this.enableAddResourceTab = true;
+       
+        const status=this.projectStatuses.find(p=>p.Guid==this.validateForm.controls.status.value);
+   
+        if(status)
+       if ( status.AllowResource) 
+        {
+          this.disallowResource = false;
+        } 
+        else
+        this.disallowResource = true;
+        
         this.projectStartdDate = this.validateForm.controls.startValue.value;
+        if(!this.isOnEditstate)
+        {
+  
         this.projectCreate.ProjectName =
           this.validateForm.controls.projectName.value;
-
-        this.projectCreate.SupervisorGuid =
+        
+         this.projectCreate.SupervisorGuid =
           this.validateForm.controls.supervisor.value;
         this.projectCreate.StartDate =
           this.validateForm.controls.startValue.value;
         this.projectCreate.ProjectType =
           this.validateForm.controls.projectType.value;
+
         this.projectCreate.ProjectStatusGuid =
           this.validateForm.controls.status.value;
+
         this.projectCreate.Description =
           this.validateForm.controls.description.value;
 
@@ -159,19 +192,18 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
                 this.projectCreate.ClientGuid = this.clients[i].Guid;
               }
             }
+
           }
           else{
             this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
           }
-
-      const status=this.projectStatuses.find(p=>p.Guid==this.validateForm.controls.status.value);
-         if(status)
-        if ( status.AllowResource) 
-          this.disallowResource = false;
-         else 
-          this.disallowResource = true;
+        }
+        else{
+          this.updateProject();
+        }
         
 
+        
         
         if (this.validateForm.controls.endValue.value != null)
         this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
@@ -180,7 +212,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
       } else {
         this.projectCreateState.updateProjectDetails({} as ProjectCreate)
-      
+        this.disallowResource = true;
       }
     });
   }
@@ -223,9 +255,18 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
       if(!this.isOnEditstate)
         for (let i = 0; i < this.projectStatuses .length; i++) {
           if (this.projectStatuses [i].StatusName == 'Active') {   
-            this.validateForm.controls.status.setValue(this.projectStatuses [i]);
+            this.validateForm.controls.status.setValue(this.projectStatuses [i].Guid);
             break;
           }
+        }else{
+          const status=this.projectStatuses.find(p=>p.Guid==this.validateForm.controls.status.value);
+     
+          if(status)
+         if ( status.AllowResource) 
+          {
+            this.disallowResource = false;
+         
+          } 
         }
   
     
@@ -248,7 +289,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
           for (let i = 0; i < this.projects.length; i++) {
             if (
               this.validateForm.controls.client.value ==
-              this.projects[i].Client.Guid &&
+              this.projects[i].Client?.Guid &&
               this.validateForm.controls.projectName.value.toLowerCase() ===
               this.projects[i].ProjectName.toString().toLowerCase()
             ) {
@@ -256,7 +297,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
               this.projectNameExitsErrorMessage =
                 'Project name already exists by  this ' +
-                this.projects[i].Client.ClientName +
+                this.projects[i].Client?.ClientName +
                 ' client';
 
               break;
@@ -311,11 +352,52 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.router.navigateByUrl('projectmanagement');
   }
 
+  saveProjectUpdate()
+  {
+  this.projectService.updateProject(this.projectUpdate);
+  this.router.navigateByUrl('projectmanagement');
+  }
   updateProject()
   {
+  
+    if(this.updateValueSeted &&  this.validateForm.valid)
+    {
+      this.projectUpdate.ProjectName=   this.validateForm.controls.projectName.value;
+       
+      this.projectUpdate.ProjectType=this.validateForm.controls.projectType.value;
+       this.projectUpdate.ProjectStatusGuid=this.validateForm.controls.status.value;
+       this.projectUpdate.ClientGuid=this.validateForm.controls.client.value;
+       this.projectUpdate.SupervisorGuid=this.validateForm.controls.supervisor.value;
+       this.projectUpdate.StartDate= this.validateForm.controls.startValue.value;
+       this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
+     
+     
+       if (this.validateForm.controls.endValue.value != null)
+       this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
+     else   this.projectUpdate.EndDate= ""
+
+     if( ( this.updateValueSeted && this.validateForm.valid) && (this.projectUpdate.ProjectName!= this.projectOld.ProjectName ||
+      this.projectUpdate.ProjectType != this.projectOld.ProjectType ||
+      this.projectUpdate.ProjectStatusGuid !=this.projectOld.ProjectStatusGuid ||
+      this.projectUpdate.ClientGuid!=this.projectOld.ClientGuid ||
+      this.projectUpdate.SupervisorGuid!=this.projectOld.SupervisorGuid ||
+      this.projectUpdate.StartDate != this.projectOld.StartDate ||
+      this.projectUpdate.EndDate != this.projectOld.EndDate)
+      )
+     {
+    
+     this.enableUpdateButton=true;
+     }
+     else
+     this.enableUpdateButton=false;
+    }
+    
+
+
 
   }
 
+  
   onReset() {
     this.userSubmitted = false;
 

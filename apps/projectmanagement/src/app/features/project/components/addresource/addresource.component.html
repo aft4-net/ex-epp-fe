@@ -80,19 +80,19 @@
   <tbody>
     <tr *ngFor="let resource of projectResources">
       <td>
-        {{ resource.Employee.Name | titlecase }} - {{ resource.Employee.Role }}
+        {{ resource.Empolyee.Name | titlecase }} - {{ resource.Empolyee.Role }}
       </td>
       <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
 
       <td>
         <a
           class="text-black mr-3"
-          (click)="editResource(resource.Employee.Guid)"
+          (click)="editResource(resource.Empolyee.Guid)"
         >
         <i nz-icon nzType="edit" style="color:black;" ></i>
         </a>
         &nbsp; &nbsp;
-        <a class="text-black" (click)="removeResource(resource.Employee.Guid)">
+        <a class="text-black" (click)="removeResource(resource.Empolyee.Guid)">
           <i nz-icon nzType="delete" style="color: black"></i>
         </a>
       </td>
@@ -208,9 +208,9 @@
             >
               <nz-option
                 *ngIf="asignedResourseToEdit"
-                [nzValue]="asignedResourseToEdit?.Employee"
-                nzLabel="{{ asignedResourseToEdit.Employee.Name }}-{{
-                  asignedResourseToEdit.Employee.Role
+                [nzValue]="asignedResourseToEdit?.Empolyee"
+                nzLabel="{{ asignedResourseToEdit.Empolyee.Name }}-{{
+                  asignedResourseToEdit.Empolyee.Role
                 }}"
               ></nz-option>
               <nz-option

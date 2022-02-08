@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PaginatedResult, Project, ProjectCreate } from '../models';
+import { PaginatedResult, Project, ProjectCreate, ProjectEdit } from '../models';
 
 import { environment } from '../../../environments/environment';
 import { AddProjectStateService } from '../state';
@@ -27,11 +27,16 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
   }
 
 
-
+  updateProject(resource:any)
+  {
+  this.httpClient.put(environment.baseApiUrl+"Project",resource).subscribe
+    (suceess=>this.notification.success('Project updated successfully','')  
+      ,error=>   this.notification.error('Project updated not saved','Please try again letter'));
+  }
 
 getFirsttPageValue()
 {   
-  return this.fristPagantionProjectsSource.value;
+  return this.fristPagantionProjectsSource.getValue();
 }
 
 setFristPageOfProjects(data:PaginatedResult<Project[]>)
@@ -39,6 +44,7 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
   this.fristPagantionProjectsSource.next(data);
   
 }
+
 
 
 
@@ -54,13 +60,9 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
 
      this.post(this.addProjectState.projectData).subscribe
-         ((error)=>{
+         ((response:any)=>{
            this.notification.success('Project Added successfully','');  
-           
-  this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
-    this.fristPagantionProjectsSource.next(response);
-   }))
-
+         
 
         }               
            ,(errr:any)=>{

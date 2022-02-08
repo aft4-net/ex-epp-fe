@@ -53,7 +53,7 @@ export abstract class ApiService<T> {
   }
 
   update(resource: T) {
-    return this.httpClient.put(`/${this.APIUrl}`, resource)
+    return this.httpClient.put(this.APIUrl, resource)
 
   }
 
