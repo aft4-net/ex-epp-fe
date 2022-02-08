@@ -58,41 +58,41 @@ export abstract class ApiService<T> {
   }
 
   getWithPagnationResut( pageindex:number,pageSize:number,id?: string,
-    clientlist?:string[] ,
-    superVisorlist?:string[],
-    statuslist?:string[],searchKey?:string) :Observable<PaginatedResult<T[]>>
- {let params = new HttpParams()
-  .set('pageindex', pageindex.toString())
-  .set('pageSize', pageSize.toString());
-  if(searchKey !== null){
-  params = params.append('searchkey', searchKey?searchKey:'');
-  }
-if(id !== null){
-  params = params.append('id', id?id:'');
-}
-if(clientlist !== null){
-  clientlist?.forEach((client) =>{
-    params = params.append('client', client);
-  })
+                         clientlist?:string[] ,
+                         superVisorlist?:string[],
+                         statuslist?:string[],searchKey?:string) :Observable<PaginatedResult<T[]>>
+  {let params = new HttpParams()
+    .set('pageindex', pageindex.toString())
+    .set('pageSize', pageSize.toString());
+    if(searchKey !== null){
+      params = params.append('searchkey', searchKey?searchKey:'');
+    }
+    if(id !== null){
+      params = params.append('id', id?id:'');
+    }
+    if(clientlist !== null){
+      clientlist?.forEach((client) =>{
+        params = params.append('client', client);
+      })
 
-}
-if(superVisorlist !== null){
-  superVisorlist?.forEach((supervisorId) =>{
-    params = params.append('supervisorId', supervisorId);
-  })
+    }
+    if(superVisorlist !== null){
+      superVisorlist?.forEach((supervisorId) =>{
+        params = params.append('supervisorId', supervisorId);
+      })
 
-}
-if(statuslist!== null){
-  statuslist?.forEach((status) =>{
-    params = params.append('status', status);
-  })
+    }
+    if(statuslist!== null){
+      statuslist?.forEach((status) =>{
+        params = params.append('status', status);
+      })
 
-}
-  let paginatedResult: PaginatedResult<T[]> = {
-    data: [] as  T[],
-    pagination: {} as Pagination
- };
- return this.get("?" +params.toString())
+    }
+    let paginatedResult: PaginatedResult<T[]> = {
+      data: [] as  T[],
+      pagination: {} as Pagination
+    };
+    return this.get("?" +params.toString())
       .pipe(
 
         map((response:any) => {
@@ -104,11 +104,11 @@ if(statuslist!== null){
               totalPage:response.TotalPage,
               pageSize:response.PageSize,
               totalRecord:response.TotalRecord}
-         };
-         return paginatedResult;
+          };
+          return paginatedResult;
         })
       );
- }
+  }
 
 
 

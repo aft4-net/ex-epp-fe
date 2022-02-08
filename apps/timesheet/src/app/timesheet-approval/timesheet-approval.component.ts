@@ -225,7 +225,6 @@ authorize(key:string){
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
 
         this.TimesheetApprovalResponse = response.data;
-        console.log(this.TimesheetApprovalResponse);
 
         this.pageIndexG = response.pagination.pageIndex;
 
@@ -368,9 +367,9 @@ sortDirectionMethod() {
     this.UpdateData();
   }
 
-  FilterByClient(clientName:string[]) {
+  FilterByClient(ProjectName:string[]) {
     this.sortDirectionMethod();
-    this.clientNameG = clientName;
+    this.clientNameG = ProjectName;
     this.UpdateData();
   }
 
