@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -10,17 +9,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FormValidator } from '../../../utils/validator';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
-import { CustomFormModule } from '../../../shared/modules/forms/custom-form.module';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
-import { UserDetailService } from '../../services/user-detail.service';
-import { IUserModel } from '../../Models/User/UserList';
-import { AddUserService } from '../../services/add-user.service';
 import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
 import { GroupSetModel } from '../../Models/group-set.model';
+import { UserDetailService } from '../../Services/user-detail.service';
+import { AddUserService } from '../../Services/add-user.service';
 
 
 
@@ -148,7 +144,6 @@ export class UserdetailsComponent implements OnInit {
      this.thePosition=res.EmployeeOrganization;
       console.log('test')
       console.log(this.thePosition)
-      console.log('test')
     });
       
      
@@ -208,9 +203,10 @@ AddToGroup()  {
            return;
          }
             this.notifier.notify(
+             
                 NotificationType.success,
-                'User successfully added to '+ this.getGroupName + 'group'
-            );
+                'User successfully added to groups'
+                            );
             this.loading = false;
             this.isModalVisible = false;
             this.selectedGroups = [];
