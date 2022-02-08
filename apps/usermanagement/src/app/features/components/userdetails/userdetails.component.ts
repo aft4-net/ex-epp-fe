@@ -46,6 +46,7 @@ export class UserdetailsComponent implements OnInit {
   thePosition : any;
   userdetailInfo:any;
   isActive = false;
+  isLoadingStatus = false;
   userdetail = new FormGroup({
     UserId: new FormControl(''),
     FullName: new FormControl(''),
@@ -331,7 +332,7 @@ export class UserdetailsComponent implements OnInit {
       (r: ResponseDTO<any>) => {
         console.log(r.ResponseStatus);
         console.log(ResponseStatus.error);
-        if( r.ResponseStatus === ResponseStatus.error)
+        if( r.ResponseStatus.toString() === 'Error')
        {
         this.notification.showNotification({
           type: 'error',
