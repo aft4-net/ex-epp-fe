@@ -4,11 +4,11 @@
     <div style="margin-top: -40px;" class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="6">
-          <nz-input-group nzSearch  [nzAddOnAfter]="suffixIconButton">
-            <input type="text" #searchInput nz-input placeholder="Search" [(ngModel)]="fullname" (change)="searchEmployees()" />
+          <nz-input-group [nzSuffix]="suffixIconButton">
+            <input type="text" nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
           </nz-input-group>
-          <ng-template #suffixIconButton>
-            <button nz-button nzSearch (click)="searchEmployees()"><i nz-icon nzType="search"></i></button>
+          <ng-template #suffixIconButton >
+            <button nz-button nzType="default" (click)="searchEmployees()" style="border: none;"><i nz-icon nzType="search"></i></button>
           </ng-template>
         </div>
       </div>
@@ -19,8 +19,8 @@
       </div>
       <br/>
       <div nz-row style="margin-top:-10px">
-        <div nz-col class="gutter-row" [nzSpan]="24">
-            <nz-table [nzLoading]="loading"  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+        <div nz-col class="gutter-row employeeDashboard" [nzSpan]="24">
+            <nz-table  [nzLoading]="loading"  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
               <div *ngIf="employeeViewModel.length > 0; else normalHeader">
                 <thead>
@@ -66,7 +66,7 @@
                       <i nz-icon nzType="edit" style="color:black;"></i>
                     </span>
                     &nbsp; &nbsp;
-                    <span (click)="Delete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete Employee') || authorize('Employee_Admin'))">
+                    <span (click)="createGroupDeleteModal(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete Employee') || authorize('Employee_Admin'))">
                       <i nz-icon nzType="delete" style="color:black;"></i>
                     </span>
 

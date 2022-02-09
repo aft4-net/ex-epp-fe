@@ -3,7 +3,9 @@
   <exec-epp-custom-select
     label="Country"
     [myControl]="getControl('country')"
-    [list$]="countries$">
+    [list$]="countries$"
+    (formResponse)="onCountrySelect($event)"
+    >
   </exec-epp-custom-select>
   <exec-epp-custom-select
     label="Duty Station"
@@ -16,21 +18,16 @@
     [maxAmount]="1">
   </exec-epp-custom-email-multiple>
   <exec-epp-custom-select
-    label="Job Title"
-    [myControl]="getControl('jobTitle')"
-    [list$]="jobTitles$"
-    [required]="true">
-  </exec-epp-custom-select>
-  <exec-epp-custom-select
-    label="Business Unit"
-    [myControl]="getControl('businessUnit')"
-    [list$]="businessUnits$"
-    [required]="false">
-  </exec-epp-custom-select>
-  <exec-epp-custom-select
     label="Department"
     [myControl]="getControl('department')"
     [list$]="departments$"
+    [required]="true"
+    (formResponse)="onDepartmentSelect($event)">
+  </exec-epp-custom-select>
+  <exec-epp-custom-select
+    label="Job Title"
+    [myControl]="getControl('jobTitle')"
+    [list$]="jobTitles$"
     [required]="true">
   </exec-epp-custom-select>
   <exec-epp-custom-select
