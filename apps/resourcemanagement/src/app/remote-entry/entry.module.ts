@@ -11,6 +11,7 @@ import { AddEditDeviceDetailComponent } from '../Features/Components/device-deta
 import { AddressViewComponent } from '../Features/Components/employee/address-view/address-view.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AppComponent } from '../app.component';
+import { AuthGuard } from 'libs/common-services/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -66,6 +67,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
           {
             path: 'employee/add-employee/personal-info',
             component: PersonalInfoComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
           {
             path: 'myprofile',
@@ -75,29 +78,41 @@ export function MSALInstanceFactory(): IPublicClientApplication {
           {
             path: 'employee/add-employee/personal-address',
             component: PersonalAddressesComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
 
           {
             path: 'employee/add-employee/Organization-Detail',
             component: OrganizationDetailComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
 
           {
             path: 'employee/add-employee/address-view',
             component: AddressViewComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
           {
             path: 'employee/add-employee/family-detail',
             component: FamilyDetailComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
           {
             path: 'employee/add-employee/family-detail-view',
             component: FamilyDetailViewComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
 
           {
             path: 'employee/add-employee/emergencycontacts-view',
             component: EmergencycontactViewComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Create_Employee'] },
           },
         ],
       },
