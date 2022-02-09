@@ -2,6 +2,7 @@
     <nz-content>
 
       <div style="margin-top: -20px;" class="inner-content">
+      <div style="max-width:1100px">
         <div nz-row>
           <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
@@ -40,7 +41,7 @@
                       <th *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"
+                      <th style="text-align:center !important; display:none"  *ngFor="let column of listOfColumnsLastActivityDate"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
                       <th  *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
@@ -55,7 +56,7 @@
                   <thead>
                     <tr>
                       <th >Name</th>
-                      <th >Last Activity Date</th>
+                      <th style="display:none" >Last Activity Date</th>
                       <th >Department</th>
                       <th >Role</th>
                       <th >Status</th>
@@ -70,7 +71,7 @@
                         {{user.FullName }}
                       </button>
                     </td>
-                    <td style="text-align:center !important">
+                    <td style="text-align:center !important; display:none">
                       <div *ngIf="(user.LastActivityDate | date:'MMM dd, yyyy') === 'Jan 01, 0001'; then thenBlock; else elseBlock"></div>
                         <ng-template style="text-align: center !important;" #thenBlock>
                           {{"N/A"}}
@@ -112,6 +113,7 @@
                 </tbody>
               </nz-table>
           </div>
+        </div>
         </div>
       </div>
 
