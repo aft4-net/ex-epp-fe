@@ -5,15 +5,15 @@ import { ApiService } from '../models/apiService';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { BehaviorSubject, Observable } from 'rxjs';
+
 import { map } from 'rxjs/operators';
-import { PaginatedResult, Project, ProjectCreate, ProjectEdit } from '../models';
+
 
 import { environment } from '../../../environments/environment';
 import { AddProjectStateService } from '../state';
 
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+
 
 
 @Injectable({
@@ -26,7 +26,7 @@ export class ProjectService extends ApiService<Project> {
   fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
-  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
+  constructor(private addProjectState:AddProjectStateService, protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
     super(httpClient);
   }
 

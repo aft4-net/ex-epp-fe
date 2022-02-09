@@ -71,6 +71,11 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   modifiedforUpdate=false;
   enableUpdateButton=false;
   updateValueSeted=false;
+  cancelModal=false;
+  activeTabIndex=0;
+
+  
+
   
   resources: projectResourceType[] = [] as projectResourceType[];
   private projectEditDiffer!: KeyValueDiffer<string, any>;
@@ -398,23 +403,20 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   }
 
   
-  onReset() {
-    this.userSubmitted = false;
 
-    this.router.navigateByUrl('projectmanagement');
-  }
 
   disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.validateForm.controls.endValue.value) {
+    if (!startValue || !this.validateForm.controls.endValue.value ||this.isOnEditstate) {
       return false;
     }
+  
     return (
       startValue.getTime() > this.validateForm.controls.endValue.value.getTime()
     );
   };
 
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.validateForm.controls.startValue.value) {
+    if (!endValue || !this.validateForm.controls.startValue.value || this.isOnEditstate ) {
       return false;
     }
     return (
@@ -424,9 +426,9 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   };
 
   handleStartOpenChange(open: boolean): void {
-    if (!open) {
-      this.endDatePicker.open();
-    }
+    // if (!open) {
+    //   this.endDatePicker.open();
+    // }
   }
 
   handleEndOpenChange(open: boolean): void { }
@@ -470,17 +472,25 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   }
 
   showDeleteConfirm(): void {
-    this.modalService.confirm({
-      nzTitle: 'Are you sure you want to leave Project Details unsaved?',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => this.router.navigateByUrl(''),
-      nzCancelText: 'No',
-    });
+    if(!this.enableUpdateButton && this.isOnEditstate)
+    this.confimeresredirect();
+    else if(this.validateForm.invalid)
+    this.confimeresredirect();
+    this.activeTabIndex=0
+      this.cancelModal=true;
   }
 
+  confimeresredirect()
+  {
+    this.userSubmitted = false;
+    this.cancelModal=false;
+    this.router.navigateByUrl('projectmanagement');
+  }
 
+  rediretCancel()
+  {
+    this.cancelModal=false;
+  }
 
 
 
