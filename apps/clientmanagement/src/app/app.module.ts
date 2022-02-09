@@ -21,7 +21,7 @@ import { SharedModule } from './shared/shared.module';
     NzIconModule,
     BrowserAnimationsModule,
     SharedModule,
-    ClientsRoutingModule,
+    ClientsModule,
     HttpClientModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],

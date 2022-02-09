@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
 
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
@@ -162,12 +162,12 @@ updateTimesheetAfterStatusChanged(row:boolean)
   showModal(row: any) {
     this.isModalVisible=true;
     this.timesheetDetail=row;
-    const timesheetId=row.TimesheetId;
-    const projectId=row.projectId;
+    const timesheetId = row.TimesheetId;
+    const projectId=row.ProjectId;
     const date =this.entryDate;
     this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
-      (entries)=>{this.timesheetEntries=entries
-      });
+      (entries)=>{this.timesheetEntries=entries;
+            });
   }
   timesheetDetailClose(event: boolean){
     this.isModalVisible=false;

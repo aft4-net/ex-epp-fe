@@ -55,7 +55,9 @@ export class EmployeeDetailComponent implements OnInit {
   listOfCurrentPageData: readonly Data[] = [];
   setOfCheckedId = new Set<string>();
   employeeViewModels$ : Observable<IEmployeeViewModel[]>= new Observable<IEmployeeViewModel[]>();
+  employeeViewModels2$ : Observable<IEmployeeViewModel[]>= new Observable<IEmployeeViewModel[]>();
   employeeViewModel : IEmployeeViewModel[] = [];
+  employeeViewModel2 : IEmployeeViewModel[] = [];
   paginatedResult !: PaginationResult<IEmployeeViewModel[]>;
   employeeParams = new EmployeeParams();
   searchStateFound !: boolean;
@@ -151,36 +153,36 @@ export class EmployeeDetailComponent implements OnInit {
     this.holdItJobTitle.length = 0;
     this.holdItStatus.length = 0;
     this.holdItCountry.length = 0;
-    this.employeeViewModels$.subscribe(
+    this.employeeViewModels2$.subscribe(
        val => {
            if(val.length > 0){
-          this.employeeViewModel = val
-          for(let i=0; i < this.employeeViewModel.length;i++){
-            if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel[i].Location.trim()) === -1 ){
+          this.employeeViewModel2 = val
+          for(let i=0; i < this.employeeViewModel2.length;i++){
+            if(this.holdItCountry.findIndex(x=>x.text === this.employeeViewModel2[i].Location.trim()) === -1 ){
                 this.holdItCountry.push(
                 {
-                  text: this.employeeViewModel.map(country=>country.Location)[i],
-                  value:this.employeeViewModel.map(country=>country.Location)[i]
+                  text: this.employeeViewModel2.map(country=>country.Location)[i],
+                  value:this.employeeViewModel2.map(country=>country.Location)[i]
                 })
               }
           }
-          for(let i=0; i < this.employeeViewModel.length;i++){
-            if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel[i].JobTitle.trim()) === -1){
+          for(let i=0; i < this.employeeViewModel2.length;i++){
+            if(this.holdItJobTitle.findIndex(x=>x.text === this.employeeViewModel2[i].JobTitle.trim()) === -1){
               this.holdItJobTitle.push(
                 {
-                  text:this.employeeViewModel.map(title=>title.JobTitle)[i],
-                  value:this.employeeViewModel.map(title=>title.JobTitle)[i]
+                  text:this.employeeViewModel2.map(title=>title.JobTitle)[i],
+                  value:this.employeeViewModel2.map(title=>title.JobTitle)[i]
                 }
               )
             }
 
           }
-          for(let i=0; i < this.employeeViewModel.length;i++){
-              if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel[i].Status.trim()) === -1){
+          for(let i=0; i < this.employeeViewModel2.length;i++){
+              if(this.holdItStatus.findIndex(x=>x.text === this.employeeViewModel2[i].Status.trim()) === -1){
               this.holdItStatus.push(
                 {
-                  text:this.employeeViewModel.map(status=>status.Status)[i],
-                  value:this.employeeViewModel.map(status=>status.Status)[i]
+                  text:this.employeeViewModel2.map(status=>status.Status)[i],
+                  value:this.employeeViewModel2.map(status=>status.Status)[i]
                 }
               )
             }
@@ -190,7 +192,7 @@ export class EmployeeDetailComponent implements OnInit {
           this.empListJobType=this.holdItJobTitle,
           this.empJoinDate = this.holdItJoinDate
 
-          if(this.employeeViewModel.length > 0) {
+          if(this.employeeViewModel2.length > 0) {
             this.listOfColumns = [
               {
                 name: 'Job Title',
@@ -351,6 +353,20 @@ export class EmployeeDetailComponent implements OnInit {
       ];
      });
     this.searchStateFound=false;
+
+    this._employeeService.SearchEmployeeDataforFilter(this.employeeParams).subscribe((response:any) => {
+      if(response) {
+        this.loading = false;
+        console.log(' Filter data List '+ response);
+        this.employeeViewModels2$ = of(response);
+        this.employeeViewModel2 = response.Data;
+        this.FillTheFilter();
+      }
+      else{
+        console.log(" no filter data ? "+ response);
+      }
+    });
+
   }
 
   searchEmployees() {
@@ -441,6 +457,8 @@ export class EmployeeDetailComponent implements OnInit {
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
 
+      this._employeeService.empNum = data.EmployeeNumber;
+      
       this._employeeService.setEmployeeDataForEdit(data);
 
     if(this._employeeService.employeeById)

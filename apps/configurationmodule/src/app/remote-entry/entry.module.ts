@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+import { CountryComponent } from '../features/country/country.component';
 
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -31,17 +32,20 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
         component: AppComponent,
         children: [
           {
-            path: '',
+            path: 'department',
             component: DepartmentComponent
           },
           {
             path:'timesheet',
             component: TimesheetConfigurationComponent
           },
-         
           {
             path: 'role',
             component: RoleComponent
+          },
+          {
+            path: "country",
+            component: CountryComponent
           }
         ]
       },

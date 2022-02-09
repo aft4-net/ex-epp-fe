@@ -101,6 +101,7 @@ export class ViewClientsComponent implements OnInit  {
     private _notification: NotificationBar,
     private _permission:PermissionListService,
    private _commonData:CommonDataService,
+   private modal: NzModalService,
    private _editClientService:UpdateClientStateService
   ) {
 
@@ -138,7 +139,50 @@ _commonData.getPermission()
     //   });
 
   }
+  DeleteClient(client:any){
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this._clientservice.deleteClient(client.Guid).subscribe(
+          (res:any)=>{
+            if(res.ResponseStatus==='Success')
+            {
+             this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
+             );
+             this.
+             initializeData();
+            }
 
+           },
+          err=>{
+            this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
+          }
+        );
+
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
+
+  showDeleteConfirm(element: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.DeleteClient(element);
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
   Edit(client: any): void {
     if(client)
    {
@@ -153,8 +197,7 @@ _commonData.getPermission()
   this._editClientService.titlePage='Edit Client';
   this._editClientService.formTitle='Edit Client Details';
   this._editClientService.isAdd=false;
-  this.router.navigate(['clientmanagement/add-client/']);
-  // clientmanagement/add-client
+  this.router.navigate(['/clientmanagement/add-client/']);
   }
   }
   setClient(client:Client){
@@ -204,7 +247,7 @@ _commonData.getPermission()
     {
       const contactPersonGuid={
         Guid:comapanyContacts[i].Guid,
-        ContactPersonGuid:comapanyContacts[i].EmployeeID
+        ContactPersonGuid:comapanyContacts[i].EmployeeGuid
       }
       this.CompanyContactsEdit.push(contactPersonGuid);
       this.employeesEdit.push(comapanyContacts[i].Employee)
@@ -241,22 +284,6 @@ _commonData.getPermission()
       this.BillingAddressEdit.push(blAddr);
     }
   }
-  DeleteClient(client:any){
-    this._clientservice.deleteClient(client.Guid).subscribe(
-      (res:any)=>{
-        if(res.ResponseStatus==='Success')
-        {
-         this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
-         );
-         this.router.navigateByUrl('clients');
-        }
-
-       },
-      err=>{
-        this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
-      }
-    );
-   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
     // if(key==='Create_Client')
@@ -348,7 +375,7 @@ _commonData.getPermission()
    else{
     this.pageIndex = index;
     this.loading = true;
-    if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
+    if (this.searchProject.value?.length && this.searchProject.value?.length > 1 && this.searchStateFound == true) {
       this._clientservice
         .getWithPagnationResut(index, 10, this.searchProject.value)
         .subscribe((response: PaginatedResult<Client[]>) => {
@@ -372,7 +399,7 @@ _commonData.getPermission()
           this.pageIndex = response.pagination.pageIndex;
           this.pageSize = response.pagination.pageSize;
           this.loading = false;
-          if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+          if((this.searchAddressList.length && this.searchAddressList.length > 0) || (this.searchstatusList.length && this.searchstatusList.length > 0) || (this.searchsalesPersonList.length && this.searchsalesPersonList.length > 0)){
             this.search(
               this.searchAddressList,
               this.searchstatusList,
@@ -411,10 +438,10 @@ _commonData.getPermission()
         this.AllData = response;
         this.clientsdata = response.data;
         this.unfilteredData = response.data;
-        this.pageIndex = response.pagination.pageIndex;
-        this.pageSize = response.pagination.pageSize;
-        this.total = response.pagination.totalRecord;
-        this.totalPage = response.pagination.totalPage;
+        this.pageIndex = response.pagination?.pageIndex;
+        this.pageSize = response.pagination?.pageSize;
+        this.total = response.pagination?.totalRecord;
+        this.totalPage = response.pagination?.totalPage;
         this.loading = false;
       }
     );
@@ -425,7 +452,7 @@ _commonData.getPermission()
       this._clientservice
         .getWithPagnationResut(1, 10, this.searchProject.value)
         .subscribe((response: PaginatedResult<Client[]>) => {
-          if (response?.data.length > 0) {
+          if (response?.data?.length && response?.data.length > 0) {
             this.loading = false;
             this.AllData = response;
             this.clientsdata = response.data;
@@ -465,6 +492,9 @@ _commonData.getPermission()
 
   findlistofNames(): void {
     this.listofNames = [''];
+    if(!this.clientStatuses?.length){
+      return;
+    }
     for (let i = 0; i < this.clientStatuses.length; i++) {
       this.nameofclient = this.clientStatuses[i].StatusName;
       this.listofNames.push(this.nameofclient);
@@ -493,6 +523,9 @@ _commonData.getPermission()
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
+    if(!this.employees.length){
+      return;
+    }
     for (let i = 0; i < this.employees.length; i++) {
       this.namesofSalesPerson = this.employees[i].Name;
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
@@ -519,6 +552,9 @@ _commonData.getPermission()
 
   findlistOfLocation(): void {
     this.listOfLocation = [''];
+    if(!this.locations?.length){
+      return;
+    }
     for (let i = 0; i < this.locations.length; i++) {
       this.nameOfLocation = this.locations[i].Country;
       this.listOfLocation.push(this.nameOfLocation);
@@ -555,8 +591,9 @@ getClientStatus() {
 getLocations(){
   this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
     this.locations = res.data;
-
-      });
+  }, error => {
+    console.log(error);
+  });
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
@@ -580,7 +617,7 @@ getSalesPerson(){
     this.searchAddressList = searchAddressList;
 
     this.searchsalesPersonList = searchsalesPersonList;
-    if((this.searchAddressList.length > 0) || (this.searchstatusList.length> 0) || (this.searchsalesPersonList.length> 0)){
+    if((this.searchAddressList?.length && this.searchAddressList.length > 0) || (this.searchstatusList?.length && this.searchstatusList.length> 0) || (this.searchsalesPersonList?.length && this.searchsalesPersonList.length> 0)){
       this.isFilter =true;
       this.totalData =[];
       this.loading = true;
@@ -593,18 +630,18 @@ getSalesPerson(){
         this.loading = false;
 
         const filterFunc = (item: Client) =>
-          (this.searchAddressList.length
+          (this.searchAddressList?.length
             ? this.searchAddressList.some(
                 (address) =>
                   item.OperatingAddress[0].Country.indexOf(address) !== -1
               )
             : true) &&
-          (this.searchstatusList.length
+          (this.searchstatusList?.length
             ? this.searchstatusList.some(
                 (name) => item.ClientStatusName.indexOf(name) !== -1
               )
             : true) &&
-          (this.searchsalesPersonList.length
+          (this.searchsalesPersonList?.length
             ? this.searchsalesPersonList.some(
                 (name) => item.SalesPerson.Name.indexOf(name) !== -1
               )

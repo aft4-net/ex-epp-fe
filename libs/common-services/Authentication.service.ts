@@ -57,7 +57,7 @@ import { ErrHandleService } from './error-handle.service';
     //this.router.navigateByUrl('');
     window.location.replace(environment.redirectUri);
    }
-
+   
    getEmail(){
      return window.sessionStorage.getItem('username');
    }

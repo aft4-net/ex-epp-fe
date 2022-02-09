@@ -5,8 +5,9 @@ services:
     image: nginx:latest
     volumes:
       - "/etc/nginx:/etc/nginx"
+      - "/etc/letsencrypt:/etc/letsencrypt"
     ports:
-      - "4200:4200"
+      - "443:443"
       - "4231:4231"
       - "4232:4232"
       - "4233:4233"
@@ -17,32 +18,32 @@ services:
   applicant-tracking:
     image: blens/at:latest
     ports:
-      - '4237:80'
+      - '3237:80'
   client-management:
     image: blens/cm:latest
     ports:
-      - '4235:80'
+      - '3235:80'
   project-management:
     image: blens/pm:latest
     ports:
-      - '4236:80'
+      - '3236:80'
   timesheet:
     image: blens/ts:latest
     ports:
-      - '4233:80'
+      - '3233:80'
   resource-management:
     image: blens/rm:latest
     ports:
-      - '4234:80'
+      - '3234:80'
   usermanagement:
     image: blens/um:latest
     ports:
-      - '4231:80'
+      - '3231:80'
   configurationmodule:
     image: blens/configuration
     ports:
-      - '4232:80'
+      - '3232:80'
   epp-dashboard:
     image: blens/epp-dash
     ports:
-      - '4200:80'
+      - '3200:80'

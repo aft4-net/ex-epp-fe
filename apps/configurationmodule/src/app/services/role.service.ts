@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableLike } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Role } from '../models/role';
+import { Role, RolePostModel } from '../models/role';
 import { Pagination } from '../models/pagination';
 import { ResponseDto, ResponseDTO } from '../models/response-dto.model';
 
@@ -16,8 +16,8 @@ export class RoleService {
 
   constructor(private http: HttpClient) { }
 
-  getRole(id: string): Observable<ResponseDTO<Role>> {
-    return this.http.get<ResponseDTO<Role>>(this.baseUrl + "Role/Get?id="+ id);
+  getRole(id: string): Observable<ResponseDTO<RolePostModel>> {
+    return this.http.get<ResponseDTO<RolePostModel>>(this.baseUrl + "Role/Get?id="+ id);
   }
 
   getRoles(index: number, searchKey: string, sortBy: string, sortOrder: string): Observable<Pagination> {

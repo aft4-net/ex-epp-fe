@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://3.138.163.97:3030/api/v1/',
-  timesheetApiUrl: 'https://3.138.163.97:3030/api/v1/TimeSheet/'
+  apiUrl: 'https://epp-be.excellerentsolutions.com/api/v1/',
+  timesheetApiUrl: 'https://epp-be.excellerentsolutions.com/api/v1/TimeSheet/',
+  countryApiUrl: 'https://epp-be.excellerentsolutions.com/api/v1/Country/'
 };

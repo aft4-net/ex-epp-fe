@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from 'libs/environments/environment';
 
 @Component({
