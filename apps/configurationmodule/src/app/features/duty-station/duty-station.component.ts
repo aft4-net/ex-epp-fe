@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { CountryService } from '../../services/country.service';
+import { Country } from './../../models/country';
+import { DutyStation } from './../../models/duty-station';
+import { DutyStationService } from './../../services/duty-station.service';
 
 @Component({
   selector: 'exec-epp-duty-station',
@@ -7,13 +14,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DutyStationComponent implements OnInit {
   countries$: Observable<Country[]> = new Observable<Country[]>();
-  addCountry: boolean = false;
+  dutyStation$: Observable<DutyStation[]> = new Observable<DutyStation[]>();
+  addDutyStation: boolean = false;
   isNew: boolean = true;
-  countryId: string = "";
+  dutyStationId: string = "";
   country: FormControl = new FormControl("");
+  dutyStation: FormControl = new FormControl("");
 
   constructor(
     private countryService: CountryService,
+    private dutyStationService: DutyStationService,
     private modalService: NzModalService
   ) { }
 
@@ -21,37 +31,41 @@ export class DutyStationComponent implements OnInit {
     this.getCountries();
   }
 
-  getCountries(id?: string){
-    if(id){
-      this.countries$ = this.countryService.get(id);
+  getCountries(){
+    this.countries$ = this.countryService.get();
+  }
+
+  getDutyStation() {
+    if(!this.country.value && this.country.value === "") {
+      return;
     }
-    else{
-      this.countries$ = this.countryService.get();
-    }
+
+    this.dutyStation$ = this.dutyStationService.get(this.country.value);
   }
 
   updateModalState() {
-    this.addCountry = !this.addCountry;
+    this.addDutyStation = !this.addDutyStation;
 
-    if(!this.addCountry) {
+    if(!this.addDutyStation) {
       this.isNew = true;
     }
   }
 
   save() {
-    if(!this.country.value && this.country.value === ""){
+    if(!this.dutyStation.value && this.dutyStation.value === "" && !this.country.value && this.country.value === ""){
       return;
     }
 
-    let country: Country = {
+    let dutyStation: DutyStation = {
       Guid: "00000000-0000-0000-0000-000000000000",
-      Name: this.country.value
+      CountryId: this.country.value,
+      Name: this.dutyStation.value
     };
 
     if (this.isNew){
-      this.countryService.add(country).subscribe(response => {
+      this.dutyStationService.add(dutyStation).subscribe(response => {
         if(response.ResponseStatus === "Success") {
-          this.getCountries();
+          this.getDutyStation();
           this.updateModalState();
           this.clearData();
         }
@@ -60,9 +74,9 @@ export class DutyStationComponent implements OnInit {
       });
     }
     else {
-      this.countryService.update({Guid: this.countryId, Name: this.country.value}).subscribe(response => {
+      this.dutyStationService.update({Guid: this.dutyStationId, CountryId: this.country.value, Name: this.country.value}).subscribe(response => {
         if(response.ResponseStatus === "Success") {
-          this.getCountries();
+          this.getDutyStation();
           this.updateModalState();
           this.clearData();
         }
@@ -72,24 +86,25 @@ export class DutyStationComponent implements OnInit {
     }
   }
 
-  update(country: Country) {
+  update(dutyStation: DutyStation) {
     this.isNew = false;
-    this.countryId = country.Guid;
-    this.country.setValue(country.Name);
+    this.dutyStationId = dutyStation.Guid;
+    this.country.setValue(dutyStation.CountryId);
+    this.dutyStation.setValue(dutyStation.Name);
     this.updateModalState();
   }
 
-  delete(country: Country) {
+  delete(dutyStation: DutyStation) {
     this.modalService.confirm({
       nzTitle: 'Delete Country?',
-      nzContent: 'Name: <b style="color: red;">'+ country.Name + '</b>',
+      nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
       nzOkText: 'Yes',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        this.countryService.delete(country).subscribe(response => {
+        this.dutyStationService.delete(dutyStation).subscribe(response => {
           if(response.ResponseStatus === "Success") {
-            this.getCountries();
+            this.getDutyStation();
           }
         }, error => {
 
@@ -100,7 +115,8 @@ export class DutyStationComponent implements OnInit {
   }
 
   clearData() {
-    this.countryId = "";
+    this.dutyStationId = "";
     this.country.setValue("");
+    this.dutyStation.setValue("");
   }
 }
