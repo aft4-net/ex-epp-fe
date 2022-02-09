@@ -89,8 +89,7 @@ export class GroupDetailComponent implements OnInit {
     this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
-      this.groupDetail  = result
-      console.log(result)
+      this.groupDetail = result
     } );
     this.FeatchAllGroupsUsers();
     this._permissionService.Permission=[];
@@ -99,7 +98,8 @@ export class GroupDetailComponent implements OnInit {
   }
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
-      description: [[],[Validators.required]]
+      description: [[this.groupDetail?.Description],
+                    [Validators.required]]
     })
   }
   authorize(key:string){
@@ -209,7 +209,7 @@ export class GroupDetailComponent implements OnInit {
     const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Remove user form group',
     nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
-                "Removing a user can't be undone",
+               "Removing a user can't be undone",
     nzOkText: 'Remove User',
     nzOkType: 'default',
     nzOkDanger: true,
@@ -235,6 +235,9 @@ export class GroupDetailComponent implements OnInit {
 
   EditGroupDescription() {
     this.isGroupEditVisible = true;
+    this.groupDescriptionEditForm.setValue({
+      description : this.groupDetail?.Description
+    });
   }
 
   SaveGroupDescription() {
@@ -242,15 +245,14 @@ export class GroupDetailComponent implements OnInit {
       Guid: this.groupId,
       Description: this.groupDescriptionEditForm.value.description
     };
-    console.log(this.editedGroupDetail.Description);
-    this.groupSetService.EditGroupDescription(this.editedGroupDetail).subscribe((x) => {
+    this.groupSetService.EditGroupDescription(this.editedGroupDetail).subscribe((response) => {
       this.handleCancel();
-      this.createNotification('Updating group description',x.ResponseStatus.toString().toLocaleLowerCase(), x.Message);
+      this.createNotification('Updating group description',response.ResponseStatus.toString().toLocaleLowerCase(), response.Message);
       this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
         this.groupDetail  = result
-        console.log(result)
       } );
     });
+    this.isGroupEditVisible = false;
   }
 
   assinedPermission(){

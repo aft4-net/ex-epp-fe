@@ -167,11 +167,11 @@
       </div>
       <div [formGroup]="groupDashboardForm" nz-row >
         <div nz-col class="gutter-row" [nzSpan]="6" >
-          <nz-input-group nzSearch [nzAddOnAfter] ="suffixIconButton">
-            <input  type="text" #searchInput formControlName="groupName" nz-input placeholder="Search" (change)="SearchgroupsByName()" />
+          <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+            <input  type="text" #searchInput formControlName="groupName" style="border:none" nz-input placeholder="Search" (change)="SearchgroupsByName()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button  nzSearch   (click)="SearchgroupsByName()">
+            <button nz-button nzType="default"   nzSearch  style="border: none;"  (click)="SearchgroupsByName()">
               <i nz-icon nzType="search"></i>
             </button>
           </ng-template>
