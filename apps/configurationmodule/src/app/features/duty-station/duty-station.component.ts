@@ -45,14 +45,20 @@ export class DutyStationComponent implements OnInit {
 
   updateModalState() {
     this.addDutyStation = !this.addDutyStation;
+  }
+  
+  openModal() {
+    this.addDutyStation = true;
+  }
+  
+  closeModal() {
+    this.addDutyStation = false;
 
-    if(!this.addDutyStation) {
-      this.isNew = true;
-    }
+    this.clearData();
   }
 
   save() {
-    if(!this.dutyStation.value && this.dutyStation.value === "" && !this.country.value && this.country.value === ""){
+    if((!this.country.value && this.country.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")){
       return;
     }
 
@@ -66,19 +72,17 @@ export class DutyStationComponent implements OnInit {
       this.dutyStationService.add(dutyStation).subscribe(response => {
         if(response.ResponseStatus === "Success") {
           this.getDutyStation();
-          this.updateModalState();
-          this.clearData();
+          this.closeModal();
         }
       }, error => {
 
       });
     }
     else {
-      this.dutyStationService.update({Guid: this.dutyStationId, CountryId: this.country.value, Name: this.country.value}).subscribe(response => {
+      this.dutyStationService.update({Guid: this.dutyStationId, CountryId: this.country.value, Name: this.dutyStation.value}).subscribe(response => {
         if(response.ResponseStatus === "Success") {
           this.getDutyStation();
-          this.updateModalState();
-          this.clearData();
+          this.closeModal();
         }
       }, error => {
 
@@ -91,7 +95,7 @@ export class DutyStationComponent implements OnInit {
     this.dutyStationId = dutyStation.Guid;
     this.country.setValue(dutyStation.CountryId);
     this.dutyStation.setValue(dutyStation.Name);
-    this.updateModalState();
+    this.openModal();
   }
 
   delete(dutyStation: DutyStation) {
@@ -115,8 +119,8 @@ export class DutyStationComponent implements OnInit {
   }
 
   clearData() {
+    this.isNew = true;
     this.dutyStationId = "";
-    this.country.setValue("");
     this.dutyStation.setValue("");
   }
 }

@@ -36,6 +36,8 @@ export class DutyStationService {
   }
 
   delete(dutyStation: DutyStation) {
-    return this.http.put<DutyStationResponse>(this.baseUrl + "DeleteDutyBranch", { body: dutyStation});
+    const headers = {'content-type': 'application/json'}
+
+    return this.http.put<DutyStationResponse>(this.baseUrl + "DeleteDutyBranch", dutyStation, {headers: headers});
   }
 }
