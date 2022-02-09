@@ -589,7 +589,7 @@ export class EmployeeDetailComponent implements OnInit {
     this._employeeService.DeleteEmployee(employeeId).subscribe(
       (result : any) => { 
         this.createNotification("Deleting Employee",result.ResponseStatus.toString().toLocaleLowerCase(),result.Message);
-        if(this.searchStateFound == true)
+        if(this.searchStateFound)
         {
           this.searchEmployees();
         }
