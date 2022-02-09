@@ -56,7 +56,7 @@ export class AddProjectComponent implements OnInit {
   disallowResource = true;
   addResourcePermission = false;
   createPermisson = false;
-
+  disabled= true;
   resources: projectResourceType[] = [] as projectResourceType[];
 
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
@@ -276,10 +276,16 @@ export class AddProjectComponent implements OnInit {
     );
   };
 
+  onProjectDateSelected() {
+    if(this.startValue.value!==null){
+      this.disabled= false;
+    }
+  }
   handleStartOpenChange(open: boolean): void {
     if (!open) {
       this.endDatePicker.open();
     }
+
   }
 
   handleEndOpenChange(open: boolean): void { }
