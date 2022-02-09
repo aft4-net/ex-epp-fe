@@ -4,10 +4,10 @@ import { UpdateClientStateService, ValidtyAddClientForms } from '../../core';
 import { AddClientStateService } from '../../core/State/add-client-state.service';
 import { ClientService } from '../../core/services/client.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-add-client',
@@ -77,12 +77,13 @@ export class AddClientComponent implements OnInit {
           (res:any)=>{
           if(res.ResponseStatus==='Success')
           {
-            console.log('updating')
-            console.log(this.updateClientState.UpdateClientData);
             this.notification.success('Client Updated Successfully', '', {
               nzPlacement: 'bottomRight',
             });
-            this.router.navigateByUrl('clientmanagement');
+              setTimeout(() => {
+                this.router.navigateByUrl('clientmanagement');
+              }, 1000);
+
           }
           },
           ()=>{
