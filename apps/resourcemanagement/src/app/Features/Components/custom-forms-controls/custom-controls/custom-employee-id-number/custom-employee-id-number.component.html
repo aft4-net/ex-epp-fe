@@ -15,7 +15,7 @@
       <input
       class="excel-single-control"
       [formControl]="formControl" nzPlaceholder="'ES-EDC/12345/22'"
-      readonly="{{isEdit}}"
+      [disabled]="isEdit"
       (ngModelChange)="onChange()" nz-input />
     </nz-form-control>
   </nz-form-item>

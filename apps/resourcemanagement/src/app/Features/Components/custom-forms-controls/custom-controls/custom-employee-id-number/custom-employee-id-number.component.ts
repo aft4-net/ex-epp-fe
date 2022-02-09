@@ -32,14 +32,14 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
   @Output() formResponse = new EventEmitter()
 
   errMessage = ''
-  isEdit = true;
+  isEdit = false;
   minLengthofIdNumber = 3;
   maxLengthofIdNumber = 0;
 
   constructor(
     private readonly _employeeService: EmployeeService
   ) {
-    this.isEdit = this._employeeService.isEdit;
+    //this.isEdit = this._employeeService.isEdit;
   }
 
   ngOnInit(): void {
@@ -56,15 +56,14 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
       } else if (this.maxLengthofIdNumber > 0 && idNumber.length > this.maxLengthofIdNumber) {
         this.errMessage = `The maximum length of employee ID number should be ${this.maxLengthofIdNumber}!`;
       } else {
-        const result = this._employeeService.checkIdNumber(idNumber)
-          .pipe(
-            map((err: boolean) => {
-              if (err) {
-                this.errMessage = 'The employee ID number should be unique!';
-              }
-              return err;
-            })
-          );
+        this._employeeService.checkIdNumber(idNumber)
+          .subscribe((err: boolean) => {
+            if (!err) {
+              this.errMessage = 'The employee ID number should be unique!';
+              this.formControl.addValidators(errValidator);
+              this.formControl.updateValueAndValidity();
+            }
+          });
       }
     } else {
       this.errMessage = commonErrorMessage.message.substring(0)
