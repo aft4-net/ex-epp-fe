@@ -12,11 +12,18 @@
           </ng-template>
         </div>
       </div>
-      <div  nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
+     
+      <div  nz-row nzJustify="end" >
+        <div class="table-operations"> 
+          <button nz-button (click)="FeatchAllEmployees()">Clear filters</button>
+        </div>
+        <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
         <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
         <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
           nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+        </div>
       </div>
+      
       <br/>
       <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" [nzSpan]="24">
@@ -33,7 +40,7 @@
                     <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                       [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                       [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                      [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+                      [nzFilterFn]="column.filterFn" (nzCheckedChange)="onItemChecked2(column.name, $event)" >{{ column.name }}</th>
                     <th *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>

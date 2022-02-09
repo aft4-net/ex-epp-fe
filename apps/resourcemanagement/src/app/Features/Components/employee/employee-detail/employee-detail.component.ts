@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router } from '@angular/router';
 import { Observable, fromEvent, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
 
 import{AuthenticationService} from './../../../../../../../../libs/common-services/Authentication.service';
 import { ColumnItem } from'../../../Models/EmployeeColumnItem';
@@ -32,6 +32,12 @@ export class EmployeeDetailComponent implements OnInit {
   employeeByID!: Employee;
   uemail :any;
   theEmpguid : any;
+  selectedJobType ="";
+  selectedLocation="";
+  selectedStatus="";
+  holdflag=false;
+
+  
 
   constructor(
     private _employeeService : EmployeeService,
@@ -90,7 +96,8 @@ export class EmployeeDetailComponent implements OnInit {
       listOfFilter: [
 
       ],
-      filterFn: null
+      filterFn: null,
+   
     },
     {
       name: 'Joining Date',
@@ -99,7 +106,8 @@ export class EmployeeDetailComponent implements OnInit {
       sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
       filterMultiple: true,
       listOfFilter:this.empJoinDate,
-      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JoiningDate.indexOf(name) !== -1)
+      filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JoiningDate.indexOf(name) !== -1),
+    
     }
   ]
 
@@ -122,9 +130,14 @@ export class EmployeeDetailComponent implements OnInit {
       duration:1
     });
     
+    this.selectedJobType = "";
+    this.selectedLocation = "";
+    this.selectedStatus = "";
+
    // this._employeeService.SearchEmployeeDataforFilter(this.employeeParams);
    
  }
+
 
  authorize(key:string){
    return this._permissionService.authorizedPerson(key)
@@ -149,6 +162,7 @@ export class EmployeeDetailComponent implements OnInit {
 
 
   FillTheFilter() {
+    
     this.holdItJobTitle.length = 0;
     this.holdItStatus.length = 0;
     this.holdItCountry.length = 0;
@@ -191,6 +205,8 @@ export class EmployeeDetailComponent implements OnInit {
           this.empListJobType=this.holdItJobTitle,
           this.empJoinDate = this.holdItJoinDate
 
+         // if(this.holdflag){ return;}
+
           if(this.employeeViewModel2.length > 0) {
             this.listOfColumns = [
               {
@@ -200,7 +216,13 @@ export class EmployeeDetailComponent implements OnInit {
                 sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
                 filterMultiple: true,
                 listOfFilter:this.empListJobType,
-                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
+                  item.JobTitle.indexOf(name) !== -1,
+                  this.selectedJobType = name; 
+                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
+                }
+                ),
+               
               },
               {
                 name: 'Location',
@@ -209,7 +231,13 @@ export class EmployeeDetailComponent implements OnInit {
                 sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.localeCompare(b.Location),
                 filterMultiple: true,
                 listOfFilter: this.empListCountry,
-                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name =>{
+                  item.Location.indexOf(name) !== -1;
+                  this.selectedLocation = name;
+                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
+                }
+                  ),
+                
               },
               {
                 name: 'Status',
@@ -218,7 +246,13 @@ export class EmployeeDetailComponent implements OnInit {
                 sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.localeCompare(b.Status),
                 filterMultiple: true,
                 listOfFilter: this.empListStatus,
-                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+                filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
+                  item.Status.indexOf(name) !== -1
+                  this.selectedStatus = name;
+                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
+                }
+                ),
+               
               }
             ];
           }
@@ -232,7 +266,9 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter:this.empListJobType,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1),
+           
+            
           },
           {
             name: 'Location',
@@ -241,7 +277,8 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.localeCompare(b.Location),
             filterMultiple: true,
             listOfFilter: this.empListCountry,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1),
+           
           },
           {
             name: 'Status',
@@ -250,7 +287,8 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.empListStatus,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1),
+           
           }
         ];
       }
@@ -288,6 +326,23 @@ export class EmployeeDetailComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
+  onItemChecked2(name: string, checked: boolean): void {
+
+    this.updateCheckedSet2(name, checked);
+    this.refreshCheckedStatus2();
+  }
+  updateCheckedSet2(name: string, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(name);
+    } else {
+      this.setOfCheckedId.delete(name);
+    }
+  }
+  refreshCheckedStatus2(): void {
+    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
+    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+  }
+
   onAllChecked(checked: boolean): void {
     this.listOfCurrentPageData
       .filter(({ disabled }) => !disabled)
@@ -296,6 +351,10 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   FeatchAllEmployees() {
+    this.selectedJobType = "";
+    this.selectedLocation = "";
+    this.selectedStatus = "";
+
     this.loading = true;
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
       if(response.Data) {
@@ -332,7 +391,8 @@ export class EmployeeDetailComponent implements OnInit {
           sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
           filterMultiple: true,
           listOfFilter:this.empListJobType,
-          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1),
+         
         },
         {
           name: 'Location',
@@ -341,7 +401,8 @@ export class EmployeeDetailComponent implements OnInit {
           sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.localeCompare(b.Location),
           filterMultiple: true,
           listOfFilter: this.empListCountry,
-          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1),
+          
         },
         {
           name: 'Status',
@@ -350,7 +411,8 @@ export class EmployeeDetailComponent implements OnInit {
           sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.localeCompare(b.Status),
           filterMultiple: true,
           listOfFilter: this.empListStatus,
-          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+          filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1),
+          
         }
       ];
      });
@@ -372,7 +434,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   searchEmployees() {
-    if(this.fullname.length > 3 || this.fullname != ""){
+    if(this.fullname.length > 3 || this.fullname == ""){
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams)
       .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
@@ -406,7 +468,9 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter:this.empListJobType,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IEmployeeViewModel) => 
+                list.some(name => item.JobTitle.indexOf(name) !== -1),
+           
           },
           {
             name: 'Location',
@@ -415,7 +479,9 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.localeCompare(b.Location),
             filterMultiple: true,
             listOfFilter: this.empListCountry,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IEmployeeViewModel) =>
+               list.some(name => item.Location.indexOf(name) !== -1),
+              
           },
           {
             name: 'Status',
@@ -424,7 +490,9 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.localeCompare(b.Status),
             filterMultiple: true,
             listOfFilter: this.empListStatus,
-            filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+            filterFn: (list: string[], item: IEmployeeViewModel) =>
+                 list.some(name => item.Status.indexOf(name) !== -1),
+           
           }
         ];
        }
@@ -432,8 +500,9 @@ export class EmployeeDetailComponent implements OnInit {
       this.searchStateFound=true;
     } 
   }
+
 FilterData(jobtype:string,location:string,status:string){
-  this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
+  const subsc = this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
       this.employeeViewModels$=of(response.Data);
@@ -441,10 +510,11 @@ FilterData(jobtype:string,location:string,status:string){
       this.listOfCurrentPageData = response.Data;
       this.pageIndex=response.pagination.PageIndex;
       this.pageSize=response.pagination.PageSize;
-      this.totalRecord=response.pagination.TotalRecord
+      this.totalRecord=response.pagination.TotalRecord;
       this.totalRows=response.pagination.TotalRows;
       this.lastRow = this.totalRows;
       this.beginingRow = 1;
+      this.holdflag = true;
       this.FillTheFilter();
       this.loading = false;
     }
@@ -465,7 +535,8 @@ FilterData(jobtype:string,location:string,status:string){
         sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
         filterMultiple: true,
         listOfFilter:this.empListJobType,
-        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
+        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1),
+        
       },
       {
         name: 'Location',
@@ -474,7 +545,8 @@ FilterData(jobtype:string,location:string,status:string){
         sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Location.localeCompare(b.Location),
         filterMultiple: true,
         listOfFilter: this.empListCountry,
-        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1)
+        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1),
+        
       },
       {
         name: 'Status',
@@ -483,11 +555,19 @@ FilterData(jobtype:string,location:string,status:string){
         sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.Status.localeCompare(b.Status),
         filterMultiple: true,
         listOfFilter: this.empListStatus,
-        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1)
+        filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1),
+       
       }
     ];
-   }
+   },(()=>{
+    
+    //console.log("Done Now!")
+    })
   );
+ 
+  setTimeout(()=>{                          
+    subsc.unsubscribe();
+}, 500);
   this.searchStateFound=true;
 }
   // Edit(employeeId:string):void
