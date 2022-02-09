@@ -145,7 +145,7 @@ export class AddClientComponent implements OnInit {
 
       this.clientService.addClient();
       this.router.navigateByUrl('clientmanagement');
-
+ 
     }
     // eslint-disable-next-line no-empty
     else {
