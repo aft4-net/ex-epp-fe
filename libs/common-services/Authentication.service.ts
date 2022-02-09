@@ -68,9 +68,18 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('https://epp-fe.excellerentsolutions.com/');
+    window.location.replace('http://localhost:4200');
    }
    
+
+   storeLoginUsers(users:any)
+   {
+   
+    window.sessionStorage.getItem('email');
+    window.sessionStorage.getItem('password');
+    window.sessionStorage.setItem('isLogin','true');
+    window.location.replace('http://localhost:4200');
+   }
    getEmail(){
      return window.sessionStorage.getItem('username');
    }

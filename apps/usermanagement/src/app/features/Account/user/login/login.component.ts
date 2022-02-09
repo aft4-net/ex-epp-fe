@@ -37,7 +37,6 @@ export class LoginComponent {
 
   loginWithMSAccount() {
    
-    
     this.authService.loginPopup()
       .subscribe((response: AuthenticationResult) => {
        const data=   this.authService.instance.setActiveAccount(response.account);
@@ -90,8 +89,9 @@ export class LoginComponent {
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
           console.log("@@@" + res)
         } 
-        this._authenticationService.storeLoginUser(res.Data);
-        this.router.navigateByUrl('usermanagement');
+        this._authenticationService.storeLoginUsers(res.Data);
+        console.log("Log In " + res.Data );
+        this.router.navigateByUrl('');
         window.location.reload();
         this.loading = false;
       },
