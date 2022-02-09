@@ -15,11 +15,11 @@
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="6">
-            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
               <input  type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="default" (click)="SearchUsersByUserName()">
+              <button nz-button nzType="default"  style="border: none;" (click)="SearchUsersByUserName()">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>
@@ -32,7 +32,7 @@
         </div>
         <br/>
         <div nz-row style="margin-top:-10px">
-          <div nz-col class="gutter-row" nzSpan="24">
+          <div nz-col class="gutter-row" nzSpan="24" class="userlist">
               <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
                 <div  *ngIf="userList.length > 0; else normalHeader">
