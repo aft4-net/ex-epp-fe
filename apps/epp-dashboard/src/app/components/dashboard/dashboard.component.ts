@@ -35,7 +35,9 @@ update(){
   getUser(){
     console.log('response'+this.userEmail)
     this._intialdataService.getUser(this.userEmail).subscribe((response:any)=>{
-      this.thePosition=response.EmployeeOrganization.JobTitle;
+      //debugger;
+      console.log(response.EmployeeOrganization);
+      this.thePosition=response.EmployeeOrganization.Role.Name;
       console.log('response22')
       console.log(this.thePosition)
       console.log('response')

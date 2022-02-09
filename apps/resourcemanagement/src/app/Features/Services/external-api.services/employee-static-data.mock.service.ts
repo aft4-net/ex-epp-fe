@@ -78,20 +78,22 @@ function getDutyStations(country: string) {
     }
 }
 
-function generateDutyStations(state: EmployeeStaticStateModel) {
-    return convertToSelectionOptions(
-        getDutyStations(
-            state.country
-        )
-    )
-}
+// function generateDutyStations(state: EmployeeStaticStateModel) {
+//     return convertToSelectionOptions(
+//         getDutyStations(
+//             state.country
+//         )
+//     )
+// }
 
 interface DutyStation {
     name: string
 }
 
 interface EmployeeStaticStateModel extends BasicSeedState<DutyStation> {
-    country: string
+    countries: SelectOptionModel[],
+    dutyStations: SelectOptionModel[],
+    selectedCountry: string | null
 }
 
 @Injectable({
@@ -100,6 +102,14 @@ interface EmployeeStaticStateModel extends BasicSeedState<DutyStation> {
 export class EmployeeStaticDataMockService
 extends BasicSeedStateService<DutyStation, EmployeeStaticStateModel, CountryService>
 {
+
+    public readonly countries$: Observable<SelectOptionModel[]> = this._select<SelectOptionModel[]>(
+        (state: EmployeeStaticStateModel) => state.countries
+    );
+    public readonly dutyBranch$: Observable<SelectOptionModel[]> = this._select<SelectOptionModel[]>(
+        (state: EmployeeStaticStateModel) => state.dutyStations
+    );
+
     public readonly employeeIdNumberPrefices$: Observable<SelectOptionModel[]> = of(generatePrefices())
     public readonly genders$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(genders))
     public readonly relationships$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(relationships))
@@ -110,20 +120,31 @@ extends BasicSeedStateService<DutyStation, EmployeeStaticStateModel, CountryServ
     public readonly employementStatuses$: Observable<SelectOptionModel[]> = of(convertToSelectionOptions(dummyEmployementStatuses))
     public readonly reportingManagers$: Observable<SelectOptionModel[]> = of(dummyReportingManagers)
 
-    public readonly dutyStations$ = this._select<SelectOptionModel[]>(generateDutyStations)
-
     public readonly defaultEmployeeIdNumberPrefix = generatePrefices()[0].value
     public readonly defaultEmployementStatus = dummyEmployementStatuses[0]
 
     set Country(value: string) {
-        this.State = {
-            country: value
-        }
+        // this.State = {
+        //     selectedCountry: value,
+        //     dutyStations: this._countryService.loadDutyBranch(value)
+        // } as unknown as Partial<EmployeeStaticStateModel>
+        
     }
 
-    load(): void {}
+    load(): void {
+        // this._countryService.loadCountries()
+        // .subscribe((response: SelectOptionModel[]) => {
+            
+        // this.State = {
+        //     countries: response,
+        //     dutyStations: []
+        // } as unknown as Partial<EmployeeStaticStateModel>
+        // })
+    }
 
-    constructor() {
+    constructor(
+        private readonly _countryService: CountryService
+    ) {
         super()
     }
 

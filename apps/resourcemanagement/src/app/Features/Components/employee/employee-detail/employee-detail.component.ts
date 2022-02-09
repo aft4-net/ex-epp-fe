@@ -12,13 +12,15 @@ import { FormGenerator } from '../../custom-forms-controls/form-generator.model'
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { ResponseDTO } from '../../../Models/response-dto.model';
 import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { AnyNode } from 'postcss';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -39,7 +41,9 @@ export class EmployeeDetailComponent implements OnInit {
     private _router: Router,
     private _permissionService: PermissionListService,
     private _authenticationService: AuthenticationService,
-    private  notification :NotificationBar
+    private  notification :NotificationBar,
+    private _message: NzNotificationService,
+    private modal: NzModalService
     ) {}
 
     isdefault = true;
@@ -85,7 +89,7 @@ export class EmployeeDetailComponent implements OnInit {
       name: 'Employee',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.FullName.length - b.FullName.length,
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.FullName.localeCompare(b.FullName),
       filterMultiple: false,
       listOfFilter: [
 
@@ -96,7 +100,7 @@ export class EmployeeDetailComponent implements OnInit {
       name: 'Joining Date',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.length - b.JoiningDate.length,
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JoiningDate.localeCompare(b.JoiningDate),
       filterMultiple: true,
       listOfFilter:this.empJoinDate,
       filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JoiningDate.indexOf(name) !== -1)
@@ -297,10 +301,7 @@ export class EmployeeDetailComponent implements OnInit {
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe((response:PaginationResult<IEmployeeViewModel[]>) => {
       if(response.Data) {
         this.loading = false;
-        console.log('loading .....'+this.loading);
-      
         this.employeeViewModels$ = of(response.Data);
-      
         this.employeeViewModel = response.Data;
         this.listOfCurrentPageData = response.Data;
         this.pageIndex=response.pagination.PageIndex;
@@ -565,6 +566,37 @@ export class EmployeeDetailComponent implements OnInit {
     }
   }
 
-  Delete(employeeGuid : string) {
+  createGroupDeleteModal(employeeId : string): void {
+    const modal: NzModalRef = this.modal.confirm({
+    nzTitle: 'Deleting Employee',
+    nzContent: 'Are you sure you want to delete the employee',
+    nzOkText: 'Delete Employee',
+    nzOkType: 'default',
+    nzOkDanger: true,
+    nzOnOk: () => {
+      this.DeleteEmployee(employeeId);
+      modal.destroy()
+      }
+    });
+  }
+
+  createNotification(title: string,type: string, message : string): void {
+    this._message.create(type, title, message);
+  }
+
+
+  DeleteEmployee(employeeId : string) : void{
+    this._employeeService.DeleteEmployee(employeeId).subscribe(
+      (result : any) => { 
+        this.createNotification("Deleting Employee",result.ResponseStatus.toString().toLocaleLowerCase(),result.Message);
+        if(this.searchStateFound)
+        {
+          this.searchEmployees();
+        }
+        else
+        {
+          this.FeatchAllEmployees();
+        }
+      });
   }
 }
