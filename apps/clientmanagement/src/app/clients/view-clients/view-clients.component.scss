@@ -51,9 +51,18 @@ header {
   margin-top: 1.2rem;
   height: 85vh;
 }
-
-::ng-deep .ant-btn {
+.add-button-bg{
   background-color: #00A551;
+  font-family: SF Pro Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+
+}
+::ng-deep .ant-btn {
+  // background-color: #00A551;
   font-family: SF Pro Display;
   font-style: normal;
   font-weight: 500;
