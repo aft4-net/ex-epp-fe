@@ -62,7 +62,6 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.removeItem('isLogin');
     window.sessionStorage.removeItem('email');
     window.sessionStorage.removeItem('fromViewer');
-
     window.sessionStorage.setItem("name",user.name);
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
@@ -74,7 +73,6 @@ import { ErrHandleService } from './error-handle.service';
 
    storeLoginUsers(users:any)
    {
-   
     window.sessionStorage.getItem('email');
     window.sessionStorage.getItem('password');
     window.sessionStorage.setItem('isLogin','true');

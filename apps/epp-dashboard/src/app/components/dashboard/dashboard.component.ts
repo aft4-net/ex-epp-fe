@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   actions='Add_Employee';
   thePosition : any;
   userEmail=window.sessionStorage.getItem('username')+'';
+  userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
     this.fullName=_authenticationService.getUserFullName();
    // const namearray=this.fullName.split(' ');
@@ -32,8 +33,10 @@ update(){
     this._commonData.getPermission();   
   }
   getUser(){
-    console.log('response'+this.userEmail)
-    this._intialdataService.getUser(this.userEmail).subscribe((response:any)=>{
+    console.log('response1'+ this.userEmails.Email)
+    console.log('response2'+ this.userEmail )
+    this._intialdataService.getUser(this.userEmail|| this.userEmails.Email).subscribe((response:any)=>{
+      console.log('response1'+ this.userEmails.Email)
       this.thePosition=response.EmployeeOrganization.JobTitle;
       console.log('response22')
       console.log(this.thePosition)

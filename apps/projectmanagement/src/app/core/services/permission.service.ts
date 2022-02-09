@@ -15,12 +15,26 @@ export class PermissionService {
   permssions$=this.permssionSource.asObservable();
   userPrivilage$=this. userTokenSource.asObservable();
   userEmail=window.sessionStorage.getItem('username');
-  baseUrl1 = `${environment.baseApiUrl}UserGroups/GetPermissionsByUserEmail?email=${this.userEmail}`;
+  useEmails = JSON.parse(
+    localStorage.getItem('loggedInUserInfo') ?? '{}'
+  );
+  baseUrl = `${environment.baseApiUrl}UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
+  baseUrl1 = `${environment.baseApiUrl}UserGroups/GetPermissionsByUserEmail?email=${this.useEmails?.Email?.toLowerCase()}`;
   baseUrl2=`${environment.baseApiUrl}User/UserAuthToken?email=${this.userEmail?.toLowerCase()}`;
   constructor(private http: HttpClient) { 
 }
 
 setUserPermissions()
+{
+  this.setUserPrevilage();
+  this.http.get(this.baseUrl).subscribe((res:any)=>{
+  this.permssionSource.next(res.Data);   
+  }, error => {
+    console.log(error);
+  })
+}
+
+setUserPermissionByEmail()
 {
   this.setUserPrevilage();
   this.http.get(this.baseUrl1).subscribe((res:any)=>{

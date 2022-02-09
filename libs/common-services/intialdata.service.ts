@@ -9,7 +9,11 @@ import { map } from 'rxjs/operators';
 export class IntialdataService {
 
   userEmail=window.sessionStorage.getItem('username');
+    useEmails = JSON.parse(
+    localStorage.getItem('loggedInUserInfo') ?? ''
+  );
   baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
+  baseUrlByEmail = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.useEmails.Email?.toLowerCase()}`;
   baseUrl2 = environment.apiUrl + '/Permission/module';
 
   constructor(private http: HttpClient) {
@@ -17,6 +21,15 @@ export class IntialdataService {
 
   getUserPermission(){
     return this.http.get(this.baseUrl).pipe(
+      map((response:any)=>{
+        return response;
+      })
+    );
+
+  }
+
+  getUsersPermissionByEmail(){
+    return this.http.get(this.baseUrlByEmail).pipe(
       map((response:any)=>{
         return response;
       })

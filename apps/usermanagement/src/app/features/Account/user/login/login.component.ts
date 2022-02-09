@@ -48,6 +48,7 @@ export class LoginComponent {
               localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
             }
             this._authenticationService.storeLoginUser(response.account);
+            console.log(response.account);
             this.router.navigateByUrl('');
           },
           (error) => {
@@ -92,7 +93,6 @@ export class LoginComponent {
         this._authenticationService.storeLoginUsers(res.Data);
         console.log("Log In " + res.Data );
         this.router.navigateByUrl('');
-        window.location.reload();
         this.loading = false;
       },
       (error) => {
