@@ -8,18 +8,18 @@ export interface Project{
 
   ProjectName:string,
   ProjectType: string,
-  StartDate:Date,
-  EndDate:Date,
-  Supervisor: Employee,
-  Client:Client;
-  ProjectStatus: ProjectStatus,
+  StartDate:string,
+  EndDate:"",
+  Supervisor?: Employee,
+  Client?:Client;
+  ProjectStatus?: ProjectStatus,
   SupervisorGuid:string,
   ClientGuid:string,
   ProjectStatusGuid:string,
   Guid:string,
   IsActive:boolean,
   IsDeleted:boolean,
-  CreatedDate:Date,
+  CreatedDate:string,
   CreatedbyUserGuid:string
   
   }

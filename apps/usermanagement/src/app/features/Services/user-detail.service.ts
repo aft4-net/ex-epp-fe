@@ -6,6 +6,7 @@ import { environment } from "../../../environments/environment";
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { ErrHandleService } from '../../shared/services/error-handle.service';
 import { GroupSetModel } from '../Models/group-set.model';
+import { IUserPutModel } from '../Models/User/user-put.model';
 import { GroupData } from '../Models/User/UserDetail';
 
 @Injectable({providedIn: 'root'})
@@ -93,6 +94,10 @@ export class UserDetailService {
     catchError(this.formatErrors)
   );
 }
+updateUser(user: IUserPutModel): Observable<ResponseDTO<any>> {
+  this.path = `${environment.apiUrl}/user`
+  return this.http.put<ResponseDTO<any>>(this.path, user, {headers:this.header});
+ }
    
     
 }
