@@ -186,7 +186,7 @@
 
 
 
-                  <nz-date-picker style="display: block;" #startDatePicker [nzDisabledDate]="disabledStartDate"
+                  <nz-date-picker style="display: block;" #startDatePicker (ngModelChange)="onProjectDateSelected()" [nzDisabledDate]="disabledStartDate"
                     nzFormat="dd-MM-yyyy" formControlName="startValue" nzPlaceHolder="Start Date"
                     (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
 
@@ -201,12 +201,11 @@
             <nz-col nzXs="24" nzSm="18" nzMd="15" nzLg="7">
 
               <nz-form-item>
-
                 <nz-form-label [nzSm]="14">End Date</nz-form-label>
 
                 <nz-form-control [nzXs]="24" >
 
-                  <nz-date-picker  style="display:block" #endDatePicker [nzDisabledDate]="disabledEndDate"
+                  <nz-date-picker style="display:block" #endDatePicker [nzDisabled]="disabled" [nzDisabledDate]="disabledEndDate"
                     nzFormat="dd-MM-yyyy" formControlName="endValue" nzPlaceHolder="End"
                     (nzOnOpenChange)="handleEndOpenChange($event)"></nz-date-picker>
 

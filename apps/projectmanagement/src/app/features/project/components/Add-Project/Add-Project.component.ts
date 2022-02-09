@@ -64,6 +64,8 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   disallowResource = true;
   addResourcePermission = false;
   createPermisson = false;
+
+  disabled= true;
   isOnEditstate=false;
   projectUpdate:ProjectEdit={} as  ProjectEdit;
   projectOld:ProjectEdit={} as  ProjectEdit;
@@ -73,10 +75,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   updateValueSeted=false;
   cancelModal=false;
   activeTabIndex=0;
-
-  
-
-  
   resources: projectResourceType[] = [] as projectResourceType[];
   private projectEditDiffer!: KeyValueDiffer<string, any>;
 
@@ -425,6 +423,11 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     );
   };
 
+  onProjectDateSelected() {
+    if(this.startValue.value!==null){
+      this.disabled= false;
+    }
+  }
   handleStartOpenChange(open: boolean): void {
     // if (!open) {
     //   this.endDatePicker.open();
