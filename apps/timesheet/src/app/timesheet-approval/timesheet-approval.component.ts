@@ -288,9 +288,7 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
-    console.log('******************************');
     console.log(arrayOfIds);
-    console.log('*****************************');
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
