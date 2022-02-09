@@ -8,7 +8,7 @@
   <div class="justify-between" nz-row>
     <div class="page-title" nz-col nzSpan="22"> Clients </div>
 
-   <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  (click)="addClientPage()"  nz-button> Add Client </button> </div>
+   <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button [nzSize]="'large'" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
  </header>
 <exec-epp-header-line> </exec-epp-header-line>
