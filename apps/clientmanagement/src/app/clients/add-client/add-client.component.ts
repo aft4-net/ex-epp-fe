@@ -82,7 +82,9 @@ export class AddClientComponent implements OnInit {
             this.notification.success('Client Updated Successfully', '', {
               nzPlacement: 'bottomRight',
             });
+
             this.router.navigateByUrl('clientmanagement');
+           // window.location.reload();
           }
           },
           ()=>{
@@ -140,8 +142,9 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientContactsForm &&
       this.validateAddClientFormState?.clientContactsForm
     ) {
-      this.router.navigateByUrl('clientmanagement');
+
       this.clientService.addClient();
+      this.router.navigateByUrl('clientmanagement');
 
     }
     // eslint-disable-next-line no-empty

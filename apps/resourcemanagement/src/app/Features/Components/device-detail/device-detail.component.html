@@ -1,6 +1,6 @@
-<div class="main-content" style="margin-bottom: 56px;"> <!-- margin botton is added because the footer has fixed position -->
+<div class="main-content" style="margin-bottom: 56px; padding: 24px"> <!-- margin botton is added because the footer has fixed position -->
   <div nz-row style="padding-top: 24px;">
-    <div nz-col nzSpan="18">
+    <div nz-col nzSpan="10">
     <nz-form-item>
       <nz-form-control class="search" [nzSm]="14" [nzXs]="24" nzErrorTip="Please input search!">
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
@@ -11,9 +11,6 @@
         </ng-template>
       </nz-form-control>
     </nz-form-item>
-    </div>
-    <div nz-col nzSpan="6">
-      <p style="float: right; color: #00A551; font-weight: 500; font-size: 16px;">Manage Columns</p>
     </div>
   </div>
   <div nz-row>
@@ -35,7 +32,7 @@
             <td>{{ data.CreatedDate | date:"MM-dd-YYYY" }}</td>
             <td>{{ data.InvoiceNumber }}</td>
             <td>
-              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/device-detail/edit/{{data.Guid}}"></i>
+              <i nz-icon nzType="edit" nzTheme="outline" routerLink="/resourcemanagement/device-detail/edit/{{data.Guid}}"></i>
               <i style="padding-left: 15px;" nz-icon nzType="delete" nzTheme="outline"
                 (click)="deleteHandler(data.Guid)"></i>
             </td>
