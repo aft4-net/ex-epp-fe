@@ -13,7 +13,6 @@
 
 ::ng-deep .ant-tabs-tab-btn {
   color: #262626;
-  font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
@@ -113,18 +112,16 @@ header {
 
 ::ng-deep .ant-btn {
   background-color: #00A551;
-  font-family: SF Pro Display;
   font-style: normal;
-  font-weight: 500;
   font-size: 1rem;
   color: #FFFFFF;
 }
 
 
 ::ng-deep .ant-btn:not([disabled]):hover {
-  background: #03da6b !important;
+  background-color: #20b367;
+  border-color: #20b367;
   color: white;
-
 }
 
 .clear-btn {

@@ -15,8 +15,8 @@ import { map } from 'rxjs/operators';
 export class ProjectService extends ApiService<Project> {
 
 
-private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
-fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
+  private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
+  fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
   constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
@@ -26,16 +26,16 @@ fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
 
-getFirsttPageValue()
-{
-  return this.fristPagantionProjectsSource.value;
-}
+  getFirsttPageValue()
+  {
+    return this.fristPagantionProjectsSource.value;
+  }
 
-setFristPageOfProjects(data:PaginatedResult<Project[]>)
-{
-  this.fristPagantionProjectsSource.next(data);
+  setFristPageOfProjects(data:PaginatedResult<Project[]>)
+  {
+    this.fristPagantionProjectsSource.next(data);
 
-}
+  }
 
 
 
@@ -47,31 +47,31 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
 
   createProject(data:ProjectCreate)
-   {
- console.log(data)
+  {
+    console.log(data)
 
-     this.post(data).subscribe
-         ((error)=>{
-           this.notification.success('Project Added successfully','');
+    this.post(data).subscribe
+    ((error)=>{
+        this.notification.success('Project Added successfully','');
 
-  this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
-    this.fristPagantionProjectsSource.next(response);
-   }))
+        this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
+          this.fristPagantionProjectsSource.next(response);
+        }))
 
 
-        }
-           ,(errr:any)=>{
+      }
+      ,(errr:any)=>{
 
-              this.notification.error('Project Not saved','Please try again letter');
-            }
-           )
+        this.notification.error('Project Not saved','Please try again letter');
+      }
+    )
   }
 
   getProjects()
   {
-  return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
+    return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
 
-        return response.Data;
+      return response.Data;
 
     }))
   }
@@ -98,25 +98,25 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
             value: response.Data.Clients[i].Name,
           });
         }
-       for (let i = 0; i < response.Data.Supervisor.length; i++){
-            SupervisorFilter.push({
-              text: response.Data.Supervisor[i].Name,
-              value: response.Data.Supervisor[i].Id,
-            });
-          }
-          for (let i = 0; i < response.Data.Status.length; i++){
-            statusFilter.push({
-              text: response.Data.Status[i].Name,
-              value: response.Data.Status[i].Name,
-            });
-          }
+        for (let i = 0; i < response.Data.Supervisor.length; i++){
+          SupervisorFilter.push({
+            text: response.Data.Supervisor[i].Name,
+            value: response.Data.Supervisor[i].Id,
+          });
+        }
+        for (let i = 0; i < response.Data.Status.length; i++){
+          statusFilter.push({
+            text: response.Data.Status[i].Name,
+            value: response.Data.Status[i].Name,
+          });
+        }
 
-     }
-     return {
-      ClientFilter :clientNameFliter,
-      StatusFilter :statusFilter,
-      supervisorFilter:SupervisorFilter
-    }
+      }
+      return {
+        ClientFilter :clientNameFliter,
+        StatusFilter :statusFilter,
+        supervisorFilter:SupervisorFilter
+      }
     }))
   }
 

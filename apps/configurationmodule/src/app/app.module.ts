@@ -16,6 +16,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
+import { CountryComponent } from './features/country/country.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
     AddEditRoleComponent,
     DepartmentComponent,
     AddEditDepartmentComponent,
+    CountryComponent,
   ],
   imports: [
     BrowserModule,

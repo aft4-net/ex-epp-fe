@@ -115,10 +115,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     return this._permissionService.authorizedPerson(key);
   }
   ngAfterContentInit() {
-    setTimeout(() => {
-    if(!this.authorize('View_User')&&this.isLogin)
-    this._router.navigateByUrl('usermanagement/unauthorize')
-    }, 100);
+   console.log();
   }
  
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
