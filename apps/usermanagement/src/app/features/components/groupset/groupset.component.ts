@@ -58,7 +58,7 @@ export class GroupsetComponent implements OnInit {
       name: 'Group',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: GroupSetModel, b: GroupSetModel) => a.Name.length - b.Name.length,
+      sortFn: (a: GroupSetModel, b: GroupSetModel) => a.Name.localeCompare(b.Name),
       filterMultiple: false,
       listOfFilter: [],
       filterFn: null

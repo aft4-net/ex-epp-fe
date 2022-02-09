@@ -20,7 +20,7 @@ export class CustomSelectComponent implements OnInit {
     @Input() myControl: FormControl = new FormControl()
     @Input() required = true
 
-    @Output() formResponse = new EventEmitter()
+    @Output() formResponse = new EventEmitter<any>()
 
     errMessage = ''
 
@@ -32,7 +32,7 @@ export class CustomSelectComponent implements OnInit {
 
     onChange() {
       this.errMessage = commonErrorMessage.message.substring(0)
-      this.formResponse.emit()
+      this.formResponse.emit(this.myControl.value)
     }
 
 }

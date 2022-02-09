@@ -1,10 +1,11 @@
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
+import { Employee } from '@exec-epp/core-models';
+import { ErrHandleService } from './error-handle.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Employee } from '@exec-epp/core-models';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from "./../environments/environment";
-import { ErrHandleService } from './error-handle.service';
 
 @Injectable({
     providedIn: 'root',
@@ -28,8 +29,9 @@ import { ErrHandleService } from './error-handle.service';
    getUser(email:string){
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
+       //debugger
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]['Name'];
        this.empGuid = response["Guid"];
 
       }
