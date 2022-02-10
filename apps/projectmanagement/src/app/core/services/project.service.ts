@@ -130,7 +130,7 @@ export class ProjectService extends ApiService<Project> {
   }
 
   deleteProjectByState(id: string) {
-    return of({ ResponseStatus: 1 }) //this.delete(id)
+    return this.delete(id)
     .pipe(
       map((response: any) => {
         if(response.ResponseStatus === 'Success' || response.ResponseStatus === 1) {
