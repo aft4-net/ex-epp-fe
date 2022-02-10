@@ -526,7 +526,6 @@ export class FormGenerator extends FormGeneratorAssistant {
             organizationalDetail.JobTitleId,
             this.getFormControl('jobTitle', this.organizationalForm)
         )
-        alert('reporting manager ' + organizationalDetail.JobTitleId);
         this._setControlValue(
             organizationalDetail.ReportingManager,
             this.getFormControl('reportingManager', this.organizationalForm)
@@ -691,7 +690,6 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
-        alert(employee?.EmployeeOrganization?.ReportingManager);
         this._regenerateForm()
         if (employee) {
 
