@@ -40,6 +40,7 @@ export class TimesheetConfigurationStateService {
     this.configurationService.addTimeSheetConfiguration(timesheetConfig).subscribe(response => {
       if(response?.ResponseStatus === "Success") {
         this.createNotification("success", "Timesheet configuration updated successfully");
+        this.getTimesheetConfiguration();
       }
       else{
         this.createNotification("warning", "There was some problem updating the timesheet configuration");

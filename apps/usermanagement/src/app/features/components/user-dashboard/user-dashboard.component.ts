@@ -96,8 +96,8 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     }
   ];
 
-  @ViewChild('userNameInput', { static: true }) element: ElementRef | undefined;
-  input!: ElementRef;
+  @ViewChild('userNameInput') public input!: ElementRef;
+
   isLogin=false;
   constructor(private userService : UserService,
     private notification: NotificationBar,
@@ -113,8 +113,26 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     
     return this._permissionService.authorizedPerson(key);
   }
-  ngAfterContentInit() {
-   console.log();
+
+
+  ngAfterViewInit() {
+
+
+    fromEvent<any>(this.input.nativeElement,'keyup')
+    .pipe(
+      map(event => event.target.value),
+      startWith(''),
+      debounceTime(3000),
+      distinctUntilChanged(),
+      switchMap( async (search) => {this.userDashboardForm.value.userName = search,
+      this.SearchUsersByUserName()
+      })
+    ).subscribe();
+
+    setTimeout(() => {
+      if(!this.authorize('View_User')&&this.isLogin)
+      this._router.navigateByUrl('usermanagement/unauthorize')
+      }, 100);
   }
  
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
@@ -300,23 +318,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
      });
   }
 
-  ngAfterViewInit() {
-    if(!this.input?.nativeElement){
-      return;
-    }
-    fromEvent<any>(this.input.nativeElement,'keyup')
-    .pipe(
-      map(event => event.target.value),
-      startWith(''),
-      debounceTime(3000),
-      distinctUntilChanged(),
-      switchMap( async (search) => {this.userDashboardForm.value.userName = search,
-      this.SearchUsersByUserName()
-      })
-    ).subscribe();
-  
-    
-  }
 
   PageIndexChange(index: any): void {
     this.loading =true;
@@ -373,7 +374,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
 
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
-       
         this.employeeList= r.Data;
         this.FeatchAllUsers();
         this.addUserService.getGroups().subscribe(

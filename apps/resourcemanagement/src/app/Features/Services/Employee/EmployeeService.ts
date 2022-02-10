@@ -1,7 +1,7 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Employee } from '../../Models/Employee';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
 import { map, shareReplay } from 'rxjs/operators';
@@ -109,6 +109,32 @@ export class EmployeeService {
   update(employee: Employee) {
     return this.http.put(this.baseUrl, employee);
   }
+
+  checkIdNumber(idNumber: string): Observable<boolean> {
+    const params = new HttpParams().set('idNumber', idNumber);
+    // this.http.get(
+    //   "http://localhost:14696/api/v1/Employee/checkidnumber?idNumber=hhvvfd"
+    // )
+    // .subscribe(r => {
+    //   console.log('l')
+    //   console.log(r)
+    //   console.log('l')
+    // })
+    const result = this.http.get(
+      this.baseUrl + "/checkidnumber?" + params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        console.log('Changed')
+    
+        console.log(response)
+        return response as boolean;
+      })
+    );
+
+    
+    return result;
+  }
   saveEmployee() {
     this.employee$.subscribe((x) => {
       this.employee = x;
@@ -198,6 +224,39 @@ export class EmployeeService {
           };
           return this.paginatedResult;
         })
+      );
+  }
+  filterEmployeeData(
+    employeeParams: EmployeeParams,JobType:string,Location:string,Status:string
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboardFilter',
+        {
+          params: {
+            jobType: JobType,
+            location:Location,
+            status:Status,
+            pageIndex: employeeParams.pageIndex,
+            pageSize: employeeParams.pageSize,
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+          this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };
+          return this.paginatedResult;
+        }),
+        
       );
   }
 
