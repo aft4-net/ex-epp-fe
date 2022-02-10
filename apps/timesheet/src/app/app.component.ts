@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NzNotificationComponent, NzNotificationService } from 'ng-zorro-antd/notification';
+
 import { JsonPipe } from '@angular/common';
 import { JsonpClientBackend } from '@angular/common/http';
 
@@ -7,9 +9,12 @@ import { JsonpClientBackend } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'timesheet';
 
-  constructor() {
+  constructor(private notification:NzNotificationService) {
+  }
+  ngOnInit(): void {
+    this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
   }
 }
