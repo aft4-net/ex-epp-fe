@@ -8,7 +8,7 @@ export interface ColumnItem {
     sortOrder: NzTableSortOrder | null;
     sortFn: NzTableSortFn<IEmployeeViewModel> | null;
     listOfFilter: NzTableFilterList;
-    filterFn: NzTableFilterFn<IEmployeeViewModel> | null;
+    filterFn: NzTableFilterFn<IEmployeeViewModel> | true;
     filterMultiple: boolean;
     sortDirections: NzTableSortOrder[];
   }

@@ -133,17 +133,25 @@ export class FormGenerator extends FormGeneratorAssistant {
         } as Employee
 
         this._employeeService.update(employee)
-            .subscribe(() => {
+        .subscribe( (response: any)=>{
+          this._employeeService.isdefault=true;
+          this.notification.create(
+              response.ResponseStatus.toLowerCase() ,"", response.Message
+          );
+            },
+            (error) => {
+              console.log(error);
+            }
 
-                this._employeeService.isdefault = true;
-            })
+
+      )
 
     }
 
     getModelPersonalDetails() {
         const value = this.personalDetailsForm.value
         this._employeeService.empNum =value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber;
-      
+
         return {
             guid: this.employeId,
             EmployeeNumber: value.employeeIdNumber,
@@ -507,15 +515,15 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('phoneNumber', this.organizationalForm)
         )
-        
-        
+
+
 
         this._setControlValue(
             organizationalDetail.DepartmentId,
             this.getFormControl('department', this.organizationalForm)
         )
         this._setControlValue(
-            organizationalDetail.JobTitleId, 
+            organizationalDetail.JobTitleId,
             this.getFormControl('jobTitle', this.organizationalForm)
         )
         alert('reporting manager ' + organizationalDetail.JobTitleId);
