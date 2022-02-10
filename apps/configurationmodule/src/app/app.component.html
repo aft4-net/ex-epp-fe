@@ -9,6 +9,10 @@
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/role")' *ngIf="authorize('View_Role')">
           <i nz-icon nzType="user" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/role']" >Role</a>  
         </li>
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/country")'>
+          <i nz-icon nzType="flag" nzTheme="outline"></i>
+          <a [routerLink]="['/configurationmodule/country']">Country</a>
+        </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/timesheet")' *ngIf="authorize('View_Timesheet_Configuration')">
           <i nz-icon nzType="clock-circle" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/timesheet']" >TimeSheet</a>  
         </li>

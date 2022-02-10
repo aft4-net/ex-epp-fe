@@ -18,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class EmployeeService {
   public isdefault = true;
+  public empNum="ec0001";
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -200,6 +201,36 @@ export class EmployeeService {
       );
   }
 
+  SearchEmployeeDataforFilter(
+    employeeParams: EmployeeParams
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboard',
+        {
+          params: {
+            searhKey: "",
+            pageIndex: employeeParams.pageIndex,
+            pageSize: "10000",
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+         /* this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };*/
+          return result.Data;
+        })
+      );
+  }
+
   getEmployeeData(employeeId: string): Observable<Employee> {
     return this.http
       .get<ResponseDTO<Employee>>(
@@ -211,4 +242,8 @@ export class EmployeeService {
   getUser(email:string){
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
+
+  DeleteEmployee(employeeId:string) {
+    return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
+  }
 }
