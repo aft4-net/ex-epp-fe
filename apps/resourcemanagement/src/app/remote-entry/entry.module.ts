@@ -114,6 +114,19 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             canActivate: [AuthGuard],
             data: { role: ['Create_Employee'] },
           },
+          
+          {
+            path: 'device-detail',
+            component: DeviceDetailComponent
+          },
+          {
+            path: 'device-detail/add',
+            component: AddEditDeviceDetailComponent
+          },
+          {
+            path: 'device-detail/edit/:id',
+            component: AddEditDeviceDetailComponent
+          }
         ],
       },
     ]),
