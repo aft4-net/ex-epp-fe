@@ -183,6 +183,19 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep.ant-checkbox-inner {
   border-color: black !important;
 }
+
+
+.table-operations {
+  margin-bottom: 2px;
+
+}
+
+.table-operations > button {
+  margin-right: 8px;
+  border-color: #00A551;
+}
+
 ::ng-deep .ant-input-affix-wrapper {
   padding: 1px 5px !important;
+
 }
