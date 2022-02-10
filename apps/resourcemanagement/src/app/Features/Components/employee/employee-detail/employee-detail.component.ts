@@ -555,7 +555,7 @@ FilterData(jobtype:string,location:string,status:string){
  
   setTimeout(()=>{                          
     subsc.unsubscribe();
-}, 3000);
+}, 5000);
   this.searchStateFound=true;
 }
   // Edit(employeeId:string):void
