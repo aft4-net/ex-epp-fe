@@ -112,22 +112,11 @@ export class EmployeeService {
 
   checkIdNumber(idNumber: string): Observable<boolean> {
     const params = new HttpParams().set('idNumber', idNumber);
-    // this.http.get(
-    //   "http://localhost:14696/api/v1/Employee/checkidnumber?idNumber=hhvvfd"
-    // )
-    // .subscribe(r => {
-    //   console.log('l')
-    //   console.log(r)
-    //   console.log('l')
-    // })
     const result = this.http.get(
       this.baseUrl + "/checkidnumber?" + params.toString()
     )
     .pipe(
       map((response: any) => {
-        console.log('Changed')
-    
-        console.log(response)
         return response as boolean;
       })
     );
