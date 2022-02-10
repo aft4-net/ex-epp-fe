@@ -200,6 +200,39 @@ export class EmployeeService {
         })
       );
   }
+  filterEmployeeData(
+    employeeParams: EmployeeParams,JobType:string,Location:string,Status:string
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboardFilter',
+        {
+          params: {
+            jobType: JobType,
+            location:Location,
+            status:Status,
+            pageIndex: employeeParams.pageIndex,
+            pageSize: employeeParams.pageSize,
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+          this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };
+          return this.paginatedResult;
+        }),
+        
+      );
+  }
 
   SearchEmployeeDataforFilter(
     employeeParams: EmployeeParams

@@ -74,7 +74,7 @@ export class PersonalInfoComponent implements OnInit {
 };
 isEdit = false
 
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService,
+  constructor(private fb: FormBuilder,public employeeService:EmployeeService,
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,
     private msg: NzMessageService,
