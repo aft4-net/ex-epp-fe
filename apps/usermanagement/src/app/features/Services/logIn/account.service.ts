@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { PersonalInformation } from '../../models/personal-information';
-import { ResponseDTO } from '../../models/ResponseDTO';
-import { LogInRequest } from '../../models/user/logInRequest';
-import { LogInResponse } from '../../models/user/logInResponse';
+import { environment } from '../../../../environments/environment';
+import { ResponseDTO } from '../../../models/ResponseDTO';
+import { LogInRequest } from '../../../models/user/logInRequest';
+import { LogInResponse } from '../../../models/user/logInResponse';
 
 
 @Injectable({
@@ -30,7 +29,7 @@ export class AccountService {
 
   signIn(logInRequest: LogInRequest) {
     
-      return this.http.post<ResponseDTO<LogInResponse>>(environment + '/user/login', logInRequest).pipe(
+      return this.http.post<ResponseDTO<LogInResponse>>(environment + 'usermanagement/logIn', logInRequest).pipe(
         map((user) => {
           if(user.Data && user.Data.Token){
             localStorage.setItem('loggedInUserInfo', JSON.stringify(user.Data ||'{}'));

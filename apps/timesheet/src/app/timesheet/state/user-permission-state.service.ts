@@ -24,6 +24,14 @@ export class UserPermissionStateService {
     });
   }
 
+  getUserPermissionByEmail() {
+    this.initialDataService.getUsersPermissionByEmail().subscribe((response: any) => {
+      this.permissionListSource.next(response.Data);
+    }, error => {
+      console.log(error);
+    });
+  }
+
   authorizedPerson(key: string) {
     let found=false; 
     this.userPermissionList.forEach(element => {      
