@@ -64,10 +64,10 @@ export abstract class ApiService<T> {
  {let params = new HttpParams()
   .set('pageindex', pageindex.toString())
   .set('pageSize', pageSize.toString());
-  if(searchKey !== null){
+  if(searchKey !== ''){
   params = params.append('searchkey', searchKey?searchKey:'');
   }
-if(id !== null){
+if(id !== ''){
   params = params.append('id', id?id:'');
 }
 if(clientlist !== null){
