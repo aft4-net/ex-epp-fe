@@ -78,7 +78,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       name: 'Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.length - b.FullName.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
       filterMultiple: false,
       listOfFilter: this.userListFullName,
       filterFn: null
@@ -89,7 +89,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       name: 'Last Activity',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.length - b.LastActivityDate.length,
+      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
       filterMultiple: true,
       listOfFilter:this.userListLastActivityDate,
       filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
@@ -106,7 +106,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     private addUserService: AddUserService,
     private _permissionService:PermissionListService,private notify: NzNotificationService,
     private notifier: NotifierService, private _authenticationService:AuthenticationService,
-    
     private modal: NzModalService) {
       this.isLogin=_authenticationService.loginStatus();
   }
@@ -534,8 +533,8 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
-    this.confirmModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete the user?',
+    const modal: NzModalRef = this.modal.confirm({
+      nzTitle: 'Deleting User?',
       nzContent: 'Once you delete the user you can not undo the deletion',
       nzOkText: 'Delete User',
       nzOkType: 'default',

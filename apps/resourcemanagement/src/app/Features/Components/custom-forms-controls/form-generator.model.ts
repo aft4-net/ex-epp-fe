@@ -175,7 +175,6 @@ export class FormGenerator extends FormGeneratorAssistant {
             DutyBranch: value.dutyStation,
             CompaynEmail: value.companyEmail[0],
             JobTitle: value.jobTitle,
-            BusinessUnit: value.businessUnit,
             Department: value.department,
             ReportingManager: value.reportingManager,
             EmploymentType: value.employeementType,
@@ -255,7 +254,6 @@ export class FormGenerator extends FormGeneratorAssistant {
                 this.createEmailControl()
             ]),
             jobTitle: [null, validateRequired],
-            businessUnit: [null, validateRequired],
             department: [null, validateRequired],
             reportingManager: [null],
             employeementType: [null, validateRequired],
@@ -490,11 +488,11 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
         this._setControlValue(
-            organizationalDetail.Country,
+            organizationalDetail.CountryId,
             this.getFormControl('country', this.organizationalForm)
         )
         this._setControlValue(
-            organizationalDetail.DutyBranch,
+            organizationalDetail.DutyBranchId,
             this.getFormControl('dutyStation', this.organizationalForm)
         )
         this._setEmailArray(
@@ -503,18 +501,22 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('companyEmail', this.organizationalForm)
         )
-        this._setControlValue(
-            organizationalDetail.JobTitle,
-            this.getFormControl('jobTitle', this.organizationalForm)
+         this._setPhoneArray(
+            [
+                organizationalDetail.PhoneNumber
+            ],
+            this.getFormArray('phoneNumber', this.organizationalForm)
         )
-        this._setControlValue(
-            organizationalDetail.BusinessUnit,
-            this.getFormControl('businessUnit', this.organizationalForm)
-        )
+        
+        
 
         this._setControlValue(
-            organizationalDetail.Department,
+            organizationalDetail.DepartmentId,
             this.getFormControl('department', this.organizationalForm)
+        )
+        this._setControlValue(
+            organizationalDetail.JobTitleId, 
+            this.getFormControl('jobTitle', this.organizationalForm)
         )
         this._setControlValue(
             organizationalDetail.ReportingManager,

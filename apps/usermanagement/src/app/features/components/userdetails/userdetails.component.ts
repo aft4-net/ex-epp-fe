@@ -17,6 +17,7 @@ import { NotificationType, NotifierService } from '../../../shared/services/noti
 import { GroupSetModel } from '../../Models/group-set.model';
 import { UserDetailService } from '../../Services/user-detail.service';
 import { AddUserService } from '../../Services/add-user.service';
+import { IUserPutModel } from '../../Models/User/user-put.model';
 
 
 
@@ -40,7 +41,9 @@ export class UserdetailsComponent implements OnInit {
  // cgm=CustomFormModule;
   userId:any;
   thePosition : any;
-  userdetailInfo:any 
+  userdetailInfo:any;
+  isActive = false;
+  isLoadingStatus = false;
   //GName = '';
   groupfrm: any;
   userdetail = new FormGroup({
@@ -139,6 +142,7 @@ export class UserdetailsComponent implements OnInit {
     this.userDetailService.getUserById(this.userId)
       .subscribe(async (response:any) => {
         this.userdetailInfo = response.Data;
+        this.isActive = this.userdetailInfo.Status as string ==='Active'?true:false;
         //this.thePosition = response.Data.userListJobTitle; 
     this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
      this.thePosition=res.EmployeeOrganization;
@@ -312,4 +316,49 @@ AddToGroup()  {
       }
     );
   }
+  UpdateStatus()
+  {
+    const usrDetail: IUserPutModel = {
+      Guid:this.userdetailInfo.Guid,
+      FirstName:this.userdetailInfo.FirstName,
+      MiddleName:this.userdetailInfo.MiddleName,
+      LastName:this.userdetailInfo.LastName,
+      Status:this.isActive?'Active':'NotActive',
+      Email:this.userdetailInfo.Email,
+      Tel: this.userdetailInfo.Tel,
+      UserName:this.userdetailInfo.UserName
+    }
+
+    this.userDetailService.updateUser(usrDetail).subscribe(
+      (r: ResponseDTO<any>) => {
+        console.log(r.ResponseStatus);
+        console.log(ResponseStatus.error);
+        if( r.ResponseStatus.toString() === 'Error')
+       {
+        this.notification.showNotification({
+          type: 'error',
+          content: 'Error occured. Status not updated.',
+          duration: 5000,
+        });
+         return;
+       }
+      this.notification.showNotification({
+        type: 'success',
+
+        content: `User status changed to  '${usrDetail.Status}' successfully`,  
+        duration: 5000,
+      });
+    },
+    (err: any) => {
+      this.loading = false;
+      this.notification.showNotification({
+        type: 'error',
+        content: 'Error occured. Status not updated.',
+        duration: 5000,
+      });
+      console.log('error:' + err);
+    }
+    )
+     
+    }
 }

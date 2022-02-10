@@ -105,7 +105,7 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   fillCurrentEmployee(employee: Employee){
-    this.employeeNumber=employee.employeeNumber,
+    this.employeeNumber=employee.EmployeeNumber,
     this.personalEmail=employee.PersonalEmail,
     this.personalEmail2=employee.PersonalEmail2,
     this.personalEmail3=employee.PersonalEmail3,
