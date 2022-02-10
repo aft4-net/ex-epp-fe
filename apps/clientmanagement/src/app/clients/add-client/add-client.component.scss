@@ -110,25 +110,20 @@ header {
 
 
 
-::ng-deep .ant-btn {
-  background-color: #00A551;
-  font-style: normal;
+
+
+
+// ::ng-deep .ant-btn:not([disabled]):hover {
+//   background-color: #20b367;
+//   border-color: #20b367;
+//   color: white;
+// }
+
+.action-buttons{
+  background: #00A551;
+  color:white;
   font-size: 1rem;
-  color: #FFFFFF;
-}
-
-
-::ng-deep .ant-btn:not([disabled]):hover {
-  background-color: #20b367;
-  border-color: #20b367;
-  color: white;
-}
-
-.clear-btn {
-  background: white;
-  color: #00A551;
-  //margin-right: 10px;
-  border: 0.5px solid #00A551;
+  font-style: normal;
 }
 
 
