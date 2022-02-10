@@ -55,6 +55,17 @@
   }
 }
 
+.project-name-palet-other {
+  background-color: #dcffdc;
+
+  .elipses-and-hours {
+    i {
+      transform: rotate(90deg);
+      cursor: default;
+    }
+  }
+}
+
 .project-name-palet-rejected {
   background-color: #e6f7ff;
 

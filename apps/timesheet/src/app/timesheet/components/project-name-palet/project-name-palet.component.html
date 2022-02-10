@@ -1,5 +1,5 @@
 <!-- <div *ngIf="authorize('View_Timesheet')" class="{{ projectNamePaletClass }}" (click)="onProjectNamePaletClicked()">-->
-<div *ngIf="authorize('View_Timesheet')" class="{{ isRejected ? 'projectNamePaletClass  project-name-palet-rejected':'projectNamePaletClass  project-name-palet-approved' }}"
+<div *ngIf="authorize('View_Timesheet')" class="{{ isRejected ? 'projectNamePaletClass  project-name-palet-rejected': isApproved ?'projectNamePaletClass  project-name-palet-approved' : 'projectNamePaletClass project-name-palet-other' }}"
  (click)="onProjectNamePaletClicked()">
   <div class="mt-2 mb-0 pb-2 w-full flex justify-between h-14 pt-2">
     <h2 class="font-sans font-normal text-base ml-2">
