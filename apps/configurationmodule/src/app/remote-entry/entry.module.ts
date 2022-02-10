@@ -33,7 +33,7 @@ import { DutyStationComponent } from '../features/duty-station/duty-station.comp
         component: AppComponent,
         children: [
           {
-            path: 'department',
+            path: '',
             component: DepartmentComponent
           },
           {
