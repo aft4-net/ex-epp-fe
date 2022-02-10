@@ -20,21 +20,20 @@ export class IntialdataService {
 }
 
   getUserPermission(){
-    return this.http.get(this.baseUrl).pipe(
-      map((response:any)=>{
-        return response;
-      })
-    );
-
-  }
-
-  getUsersPermissionByEmail(){
+    console.log(this.baseUrlByEmail);
     return this.http.get(this.baseUrlByEmail).pipe(
       map((response:any)=>{
         return response;
       })
     );
+  }
 
+  getUsersPermissionByEmail(){
+    return this.http.get(this.baseUrl).pipe(
+      map((response:any)=>{
+        return response;
+      })
+    );
   }
   getModulePermission(){
 

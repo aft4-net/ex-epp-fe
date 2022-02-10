@@ -85,13 +85,10 @@ export class LoginComponent {
     this.loading = true;
     this._authenticationService.signIn(this.loginForm.value).subscribe(
       (res) => {
-      console.log("@@@" + res)
         if(res.Data && res.Data.Token){
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
-          console.log("@@@" + res)
         } 
         this._authenticationService.storeLoginUsers(res.Data);
-        console.log("Log In " + res.Data );
         this.router.navigateByUrl('');
         this.loading = false;
       },

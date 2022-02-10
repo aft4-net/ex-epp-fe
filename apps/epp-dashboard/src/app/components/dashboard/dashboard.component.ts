@@ -17,7 +17,8 @@ export class DashboardComponent implements OnInit {
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
-    this.fullName=_authenticationService.getUserFullName();
+   // this.fullName=_authenticationService.getUserFullName();
+   // this.fullName = _authenticationService.getUsersName();
    // const namearray=this.fullName.split(' ');
    // this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
@@ -30,15 +31,17 @@ update(){
   ngOnInit(): void {
    
     this.getUser();
+    //this.getFullName();
     this._commonData.getPermission();   
   }
   getUser(){
     console.log('response1'+ this.userEmails.Email)
     console.log('response2'+ this.userEmail )
-    this._intialdataService.getUser(this.userEmail|| this.userEmails.Email).subscribe((response:any)=>{
-      console.log('response1'+ this.userEmails.Email)
+    this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
+      console.log('response4'+ this.userEmails.Email)
       this.thePosition=response.EmployeeOrganization.JobTitle;
-      console.log('response22')
+      this.fullName = response.name;
+      console.log('response5')
       console.log(this.thePosition)
       console.log('response')
     });
@@ -46,6 +49,7 @@ update(){
   //    this.thePosition = this._authenticationService.position;
   //  }, 2000); 
  }
+
 
   routetoResourceManagement(){
     this._authenticationService.setFromViewProfile2();

@@ -15,12 +15,11 @@ export class PermissionService {
   permssions$=this.permssionSource.asObservable();
   userPrivilage$=this. userTokenSource.asObservable();
   userEmail=window.sessionStorage.getItem('username');
-  useEmails = JSON.parse(
-    localStorage.getItem('loggedInUserInfo') ?? '{}'
-  );
+  useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   baseUrl = `${environment.baseApiUrl}UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
   baseUrl1 = `${environment.baseApiUrl}UserGroups/GetPermissionsByUserEmail?email=${this.useEmails?.Email?.toLowerCase()}`;
   baseUrl2=`${environment.baseApiUrl}User/UserAuthToken?email=${this.userEmail?.toLowerCase()}`;
+  baseUrl3=`${environment.baseApiUrl}User/UserAuthToken?email=${this.useEmails?.toLowerCase()}`;
   constructor(private http: HttpClient) { 
 }
 
@@ -46,11 +45,14 @@ setUserPermissionByEmail()
 
 setUserPrevilage()
 {
- this.http.get(this.baseUrl2).subscribe((res:any)=>{
+ this.http.get(this.baseUrl2 || this.baseUrl3).subscribe((res:any)=>{
      this.userPrvilage=res.Data;
      this.userTokenSource.next(res.Data.Token);   
   })
 }
+
+
+
 
 get userTokenVaue()
 {
@@ -70,5 +72,19 @@ get userTokenVaue()
 
       }))
   }
+
+  getUserPermissionByEmail(key:string):Observable<boolean>{
+
+    return this.permssions$.pipe(
+       switchMap((response:any) =>{    
+         for(let i=0;i< response.length;i++)  {
+                if(response[i].KeyValue.toLowerCase()==key.toLowerCase()){
+                     return of(true);  
+                }
+            };
+            return of(false);
+ 
+       }))
+   }
  
 }

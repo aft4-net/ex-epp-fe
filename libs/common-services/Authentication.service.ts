@@ -17,9 +17,11 @@ import { ErrHandleService } from './error-handle.service';
   private userSubject :BehaviorSubject<LogInResponse|any>;
   public users: Observable<LogInResponse>;
   loggedInUser:any;
+  useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      
     };
     url=environment.apiUrl;
     user:any
@@ -40,7 +42,9 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
+    console.log(email+ '200000000000');
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+       
       (response) => {
        this.user=response;
        this.position  = response["EmployeeOrganization"]["JobTitle"];
@@ -83,7 +87,15 @@ import { ErrHandleService } from './error-handle.service';
    }
    getUserFullName(){
      return window.sessionStorage.getItem('name');
+     
    }
+
+   getFullName(){
+    return this.loggedInUser.getFullName()
+  }
+   getUsersName(){
+    return  window.sessionStorage.getItem('username');
+  }
    getUsername(){
     return window.sessionStorage.getItem('username');
   }

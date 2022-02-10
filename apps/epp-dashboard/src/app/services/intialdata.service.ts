@@ -8,9 +8,7 @@ import { environment } from '../../environments/environment';
 export class IntialdataService {
 
   userEmail=window.sessionStorage.getItem('username');
-  useEmails = JSON.parse(
-    localStorage.getItem('loggedInUserInfo') ?? '{}'
-  );
+  useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
   baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
   baseUrlByEmail = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.useEmails.Email?.toLowerCase()}`;
@@ -27,8 +25,9 @@ export class IntialdataService {
 
   getUserPermissionByEmail(){
    
-    return this.http.get(this.baseUrlByEmail);
+    return this.http.get( this.baseUrlByEmail);
   }
+
   getModulePermission(){
     
     return this.http.get(this.baseUrl2);
