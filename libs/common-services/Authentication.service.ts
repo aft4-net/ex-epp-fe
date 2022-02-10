@@ -62,7 +62,7 @@ import { environment } from "./../environments/environment";
     //window.location.replace('https://epp-fe.excellerentsolutions.com/');
    }
 
-   getEmail(){
+   getEmail(){   
      return window.sessionStorage.getItem('username');
    }
    getUserFullName(){
