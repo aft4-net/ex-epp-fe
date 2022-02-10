@@ -105,7 +105,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
-        console.log("This employee profile" + employee.EmergencyContact);
+
         this._employeeService.add(employee)
             .subscribe((response: any) => {
                 this._employeeService.isdefault = true;
@@ -179,11 +179,11 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelOrganizationDetails() {
         const value = this.organizationalForm.value
         return {
-            Country: value.country,
-            DutyBranch: value.dutyStation,
+            CountryId: value.country,
+            DutyBranchId: value.dutyStation,
             CompaynEmail: value.companyEmail[0],
-            JobTitle: value.jobTitle,
-            Department: value.department,
+            JobTitleId: value.jobTitle,
+            DepartmentId: value.department,
             ReportingManager: value.reportingManager,
             EmploymentType: value.employeementType,
             JoiningDate: value.joiningDate,
@@ -690,23 +690,22 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
-
         this._regenerateForm()
         if (employee) {
 
             this._isEdit = true
             this._setPresonalDetail(employee)
-            if (employee.EmployeeOrganization) {
-                this._setOrganizationalDetail(employee.EmployeeOrganization)
+            if (employee?.EmployeeOrganization) {
+                this._setOrganizationalDetail(employee?.EmployeeOrganization)
             }
-            if (employee.EmployeeAddress) {
+            if (employee?.EmployeeAddress) {
                 this.allAddresses = employee.EmployeeAddress
             }
-            if (employee.FamilyDetails) {
-                this.allFamilyDetails = employee.FamilyDetails
+            if (employee?.FamilyDetails) {
+                this.allFamilyDetails = employee?.FamilyDetails
             }
-            if (employee.EmergencyContact) {
-                this.allEmergencyContacts = employee.EmergencyContact
+            if (employee?.EmergencyContact) {
+                this.allEmergencyContacts = employee?.EmergencyContact
             }
         } else {
             this._isEdit = false
