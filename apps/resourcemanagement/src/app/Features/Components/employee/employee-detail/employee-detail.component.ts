@@ -38,8 +38,26 @@ export class EmployeeDetailComponent implements OnInit {
   selectedLocation="";
   selectedStatus="";
   holdflag=false;
+  JobTypeList: string[] = [];
 
+  clientlist: string[] = [];
+  superVisorlist: string[] = [];
+  statuslist: string[] = [];
+  searchKey = '';
+  id!: string;
   
+  JobType: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
+  Location: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
+  statuses: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
 
   constructor(
     private _employeeService : EmployeeService,
@@ -119,6 +137,8 @@ export class EmployeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     
+    this.getfilterDataMenu();
+
     if(this._authenticationService.isFromViewProfile() === 'true'){
       this.uemail= this._authenticationService.getEmail();
       this.getUser();
@@ -134,6 +154,8 @@ export class EmployeeDetailComponent implements OnInit {
       duration:1
     });
     
+  
+
     this.selectedJobType = "";
     this.selectedLocation = "";
     this.selectedStatus = "";
@@ -141,7 +163,51 @@ export class EmployeeDetailComponent implements OnInit {
    // this._employeeService.SearchEmployeeDataforFilter(this.employeeParams);
    
  }
+ ClientFilter(key: string[]) {
+  this.clientlist = key;
+  this.FilterData();
+}
+statusFilter(key: string[]) {
+  this.statuslist = key;
+  this.FilterData();
+}
+supervisorFilter(key: string[]) {
+  this.superVisorlist = key;
+  this.FilterData();
+}
 
+/*getProjects() {
+  this.projectService.getWithPagnationResut(
+    this.pageIndex,
+    this.pageSize,
+    this.id,
+    this.clientlist,
+    this.superVisorlist,
+    this.statuslist,
+    this.searchKey
+  ).subscribe(response => {
+    this.loading = false;
+    this.projects = response.data;
+    this.pageIndex = response.pagination.pageIndex;
+    this.pageSize = response.pagination.pageSize;
+    this.total = response.pagination.totalRecord;
+    this.totalPage = response.pagination.totalPage;
+  })
+}*/
+
+ getfilterDataMenu(): void {
+  console.log("O Noo...222");
+  this._employeeService.getFilterData().subscribe((data) => {
+    
+    console.log("O Noo...");
+    console.log(data.jobtitleFilter);
+
+    this.JobType = data.jobtitleFilter;
+    this.Location = data.locationFilter;
+    this.statuses = data.StatusFilter;
+
+  });
+}
 
  authorize(key:string){
    return this._permissionService.authorizedPerson(key)
@@ -162,6 +228,12 @@ export class EmployeeDetailComponent implements OnInit {
       console.log(this.theEmpguid)
       console.log('response')
     });
+  }
+
+  EmployeeFilter(key: string[],name:any){
+    
+    console.log(key,name.name);
+   // this.getEmployees();
   }
 
 
@@ -223,7 +295,6 @@ export class EmployeeDetailComponent implements OnInit {
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
                   //item.JobTitle.indexOf(name) !== -1,
                   this.selectedJobType = name; 
-                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
                 ),
                
@@ -238,7 +309,6 @@ export class EmployeeDetailComponent implements OnInit {
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name =>{
                  // item.Location.indexOf(name) !== -1;
                   this.selectedLocation = name;
-                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
                   ),
                 
@@ -253,7 +323,6 @@ export class EmployeeDetailComponent implements OnInit {
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
                  // item.Status.indexOf(name) !== -1
                   this.selectedStatus = name;
-                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
                 ),
                
@@ -487,9 +556,19 @@ export class EmployeeDetailComponent implements OnInit {
     } 
   }
 
-FilterData(jobtype:string,location:string,status:string){
+
+
+FilterData(){
   console.log("wewewewewewe");
-  const subsc = this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
+  const subsc = this._employeeService.getWithPagnationResut(
+    this.pageIndex,
+      this.pageSize,
+      this.id,
+      this.clientlist,
+      this.superVisorlist,
+      this.statuslist,
+      this.searchKey
+  )
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
       console.log("we "+of(response.Data));
