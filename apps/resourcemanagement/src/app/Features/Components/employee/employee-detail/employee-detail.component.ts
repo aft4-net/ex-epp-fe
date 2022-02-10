@@ -221,7 +221,7 @@ export class EmployeeDetailComponent implements OnInit {
                 filterMultiple: true,
                 listOfFilter:this.empListJobType,
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
-                  item.JobTitle.indexOf(name) !== -1,
+                  //item.JobTitle.indexOf(name) !== -1,
                   this.selectedJobType = name; 
                   this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
@@ -236,7 +236,7 @@ export class EmployeeDetailComponent implements OnInit {
                 filterMultiple: true,
                 listOfFilter: this.empListCountry,
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name =>{
-                  item.Location.indexOf(name) !== -1;
+                 // item.Location.indexOf(name) !== -1;
                   this.selectedLocation = name;
                   this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
@@ -251,7 +251,7 @@ export class EmployeeDetailComponent implements OnInit {
                 filterMultiple: true,
                 listOfFilter: this.empListStatus,
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
-                  item.Status.indexOf(name) !== -1
+                 // item.Status.indexOf(name) !== -1
                   this.selectedStatus = name;
                   this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
@@ -492,6 +492,7 @@ FilterData(jobtype:string,location:string,status:string){
   const subsc = this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
+      console.log("we "+of(response.Data));
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
       this.listOfCurrentPageData = response.Data;
@@ -554,7 +555,7 @@ FilterData(jobtype:string,location:string,status:string){
  
   setTimeout(()=>{                          
     subsc.unsubscribe();
-}, 500);
+}, 5000);
   this.searchStateFound=true;
 }
   // Edit(employeeId:string):void

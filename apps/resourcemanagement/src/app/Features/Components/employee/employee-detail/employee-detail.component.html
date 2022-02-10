@@ -5,7 +5,7 @@
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="6">
           <nz-input-group [nzSuffix]="suffixIconButton">
-            <input type="text" nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
+            <input type="text" #searchInput nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
           </nz-input-group>
           <ng-template #suffixIconButton >
             <button nz-button nzType="default" (click)="searchEmployees()" style="border: none;"><i nz-icon nzType="search"></i></button>
