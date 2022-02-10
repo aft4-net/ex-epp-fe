@@ -1,16 +1,14 @@
 <div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">    
-    <h1 class="opacity-0">Country</h1>
+    <h1>Country</h1>
     <div class="flex flex-row justify-center content-between">
-        <div class="w-full m-0 mb-6 opacity-0">
-            <nz-form-control [nzSm]="10" [nzXs]="20">
-                <nz-input-group nzSearch [nzSuffix]="suffixIconSearch">
-                    <input type="text" nz-input placeholder="Country">
-                </nz-input-group>
-            </nz-form-control>
+        <div class="w-full m-0 mb-6">
+            <nz-select id="country" [formControl]="country" class="ml-8 w-80 h-9 rounded-sm border-gray-300" (ngModelChange)="getDutyStation()">
+                <nz-option *ngFor="let country of (countries$ | async)" nzValue="{{country.Guid}}" nzLabel="{{country.Name}}" class="font-normal text-base not-italic"></nz-option>
+            </nz-select>
         </div>
         <div class="config-add-button">
-            <button nz-button nzType="primary" (click)="openModal()">
-                <span>Add Country</span>
+            <button nz-button nzType="primary" (click)="updateModalState()">
+                <span>Add Duty Station</span>
             </button>
         </div>
 
@@ -20,7 +18,7 @@
     </div>
 
     <div>
-        <nz-table #countryTable [nzData]="(countries$ | async) ?? []">
+        <nz-table #dutyStationTable [nzData]="(dutyStation$ | async) ?? []">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -28,12 +26,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let country of countryTable.data">
-                    <td>{{ country.Name }}</td>
+                <tr *ngFor="let dutyStation of dutyStationTable.data">
+                    <td>{{ dutyStation.Name }}</td>
                     <td>
-                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
+                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(dutyStation)"></i>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
+                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(dutyStation)"></i>
                     </td>
                 </tr>
             </tbody>
@@ -41,13 +39,13 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="closeModal()">
+<nz-modal [(nzVisible)]="addDutyStation" nzTitle="Add Duty Station" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
     <ng-container *nzModalContent>
         <form (ngSubmit)="save()" class="flex flex-col">
             <div class="w-full m-0 mb-6">
                 <label for="Name">Name:</label>
                 <div class="m-0 mt-2">
-                    <input nz-input id="Name" placeholder="Name" [formControl]="country" />
+                    <input nz-input id="Name" placeholder="Name" [formControl]="dutyStation" />
                 </div>
             </div>
 

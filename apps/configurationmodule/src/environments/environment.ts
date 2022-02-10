@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiUrl : 'http://localhost:14696/api/v1/',
   timesheetApiUrl: 'http://localhost:14696/api/v1/TimeSheet/',
-  countryApiUrl: 'http://localhost:14696/api/v1/Country/'
+  countryApiUrl: 'http://localhost:14696/api/v1/Country/',
+  dutyStationApiUrl: 'http://localhost:14696/api/v1/DutyBranch/'
 };
 
 /*
