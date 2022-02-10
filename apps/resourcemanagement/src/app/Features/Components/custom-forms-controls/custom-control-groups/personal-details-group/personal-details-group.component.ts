@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
 import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { ExternalCountryApiService } from "../../../../Services/external-api.services/external-countries.api.service";
@@ -28,7 +29,8 @@ export class PersonalDetailGroupComponent implements OnInit {
     constructor(
         private readonly _formGenerator: FormGenerator,
         private readonly _employeeStaticDataService: EmployeeStaticDataMockService,
-        private readonly _addressCountryStateService: AddressCountryStateService
+        private readonly _addressCountryStateService: AddressCountryStateService,
+        private _employeeService : EmployeeService
     ) {
         this.genders$ = this._employeeStaticDataService.genders$
         this.nationalities$ = this._addressCountryStateService.nationalities$

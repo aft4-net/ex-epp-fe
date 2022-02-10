@@ -81,6 +81,7 @@ export class PageTitleComponent implements OnInit {
         this._formGenerator.updateOneEmployee();
       } else {
         this._formGenerator.save();
+        //this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
       }
 
       this._router.navigate(['resourcemanagement']);
@@ -88,6 +89,6 @@ export class PageTitleComponent implements OnInit {
   }
   Cancel() {
     this._employeeService.isdefault = true;
-    this._router.navigate(['']);
+    this._router.navigate(['resourcemanagement']);
   }
 }

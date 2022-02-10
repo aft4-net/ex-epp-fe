@@ -31,10 +31,16 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
 
   @Output() formResponse = new EventEmitter()
 
+<<<<<<< HEAD
   errMessage = ''
   isEdit = false;
   minLengthofIdNumber = 3;
   maxLengthofIdNumber = 0;
+=======
+    prefices$: Observable<SelectOptionModel[]> = of([])
+    errMessage = ''
+    empNum=''
+>>>>>>> 15715d7815c438eba67aced8084fff90c2b6e76e
 
   constructor(
     private readonly _employeeService: EmployeeService

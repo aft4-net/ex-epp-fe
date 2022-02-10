@@ -18,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class EmployeeService {
   public isdefault = true;
+  public empNum="ec0001";
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -225,6 +226,69 @@ export class EmployeeService {
         })
       );
   }
+  filterEmployeeData(
+    employeeParams: EmployeeParams,JobType:string,Location:string,Status:string
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboardFilter',
+        {
+          params: {
+            jobType: JobType,
+            location:Location,
+            status:Status,
+            pageIndex: employeeParams.pageIndex,
+            pageSize: employeeParams.pageSize,
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+          this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };
+          return this.paginatedResult;
+        }),
+        
+      );
+  }
+
+  SearchEmployeeDataforFilter(
+    employeeParams: EmployeeParams
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboard',
+        {
+          params: {
+            searhKey: "",
+            pageIndex: employeeParams.pageIndex,
+            pageSize: "10000",
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+         /* this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };*/
+          return result.Data;
+        })
+      );
+  }
 
   getEmployeeData(employeeId: string): Observable<Employee> {
     return this.http
@@ -237,4 +301,8 @@ export class EmployeeService {
   getUser(email:string){
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
+
+  DeleteEmployee(employeeId:string) {
+    return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
+  }
 }
