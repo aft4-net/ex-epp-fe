@@ -578,15 +578,15 @@ FilterData(jobtype:string,location:string,status:string){
   //added by simbo just you can delete
 
   Edit(employeeId:string):void
-
   {
     this._form.employeId=employeeId;
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
+  
 
-      this._employeeService.empNum = data.EmployeeNumber;
-      
-      this._employeeService.setEmployeeDataForEdit(data);
+    this._employeeService.empNum = data.EmployeeNumber;
+    
+    this._employeeService.setEmployeeDataForEdit(data);
 
     if(this._employeeService.employeeById)
 
