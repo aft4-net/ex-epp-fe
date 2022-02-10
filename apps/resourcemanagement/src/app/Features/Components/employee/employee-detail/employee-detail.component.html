@@ -40,7 +40,7 @@
                     <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                       [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                       [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                      [nzFilterFn]="column.filterFn" (nzCheckedChange)="onItemChecked2(column.name, $event)" >{{ column.name }}</th>
+                      [nzFilterFn]="column.filterFn"  >{{ column.name }}</th>
                     <th *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>

@@ -96,7 +96,7 @@ export class EmployeeDetailComponent implements OnInit {
       listOfFilter: [
 
       ],
-      filterFn: null,
+      filterFn: (true),
    
     },
     {
@@ -326,22 +326,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  onItemChecked2(name: string, checked: boolean): void {
-
-    this.updateCheckedSet2(name, checked);
-    this.refreshCheckedStatus2();
-  }
-  updateCheckedSet2(name: string, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(name);
-    } else {
-      this.setOfCheckedId.delete(name);
-    }
-  }
-  refreshCheckedStatus2(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
-  }
+  
 
   onAllChecked(checked: boolean): void {
     this.listOfCurrentPageData
@@ -502,6 +487,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
 FilterData(jobtype:string,location:string,status:string){
+  console.log("wewewewewewe");
   const subsc = this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
