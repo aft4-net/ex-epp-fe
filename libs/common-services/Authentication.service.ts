@@ -56,11 +56,7 @@ import { environment } from "./../environments/environment";
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-<<<<<<< HEAD
-    window.location.replace('https://localhost:4200/');
-=======
     window.location.replace('http://localhost:4200/');
->>>>>>> 15715d7815c438eba67aced8084fff90c2b6e76e
    }
 
    getEmail(){
