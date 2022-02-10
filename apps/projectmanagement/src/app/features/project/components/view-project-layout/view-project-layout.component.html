@@ -19,10 +19,10 @@
 
       <thead>
         <tr>
-          <th class="table_heading" nzColumnKey="name" [nzSortFn]="true">Projects</th>
-          <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="cleints" >Clients</th>
-          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses">Status</th>
-          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="supervisors">Supervisor</th>
+          <th class="table_heading" nzColumnKey="name" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Project',$event)">Projects</th>
+          <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="cleints" (nzSortOrderChange)="nzSortOrderChange('client',$event)" >Clients</th>
+          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" (nzSortOrderChange)="nzSortOrderChange('status',$event)">Status</th>
+          <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="supervisors" (nzSortOrderChange)="nzSortOrderChange('supervisor',$event)">Supervisor</th>
           <th *ngIf="authorize('Edit_Project') || authorize('Delete_Project')  " class="table_heading"
             nzColumnKey="email">Action</th>
         </tr>

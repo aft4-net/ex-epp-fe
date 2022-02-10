@@ -60,7 +60,7 @@ export abstract class ApiService<T> {
   getWithPagnationResut( pageindex:number,pageSize:number,id?: string,
     clientlist?:string[] ,
     superVisorlist?:string[],
-    statuslist?:string[],searchKey?:string) :Observable<PaginatedResult<T[]>>
+    statuslist?:string[],searchKey?:string,SortColumn?:string| null,sortdirection?:string| null) :Observable<PaginatedResult<T[]>>
  {let params = new HttpParams()
   .set('pageindex', pageindex.toString())
   .set('pageSize', pageSize.toString());
@@ -87,6 +87,12 @@ if(statuslist!== null){
     params = params.append('status', status);
   })
 
+}
+if(SortColumn != null){
+  params = params.append('SortField', SortColumn);
+}
+if(sortdirection != null){
+  params = params.append('sortOrder', sortdirection);
 }
   let paginatedResult: PaginatedResult<T[]> = {
     data: [] as  T[],

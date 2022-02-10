@@ -49,6 +49,10 @@ export class ViewProjectLayoutComponent implements OnInit {
   searchStateFound = false;
   intiaload = true;
   loggedInUserInfo?: any;
+  nzSortDirections = Array<'Ascending' | 'Descending' | null>();
+
+  SortColumn: string | null = null;
+  sortDirection: string | null = null;
 
   PageIndexChange(index: any): void {
     this.pageIndex = index;
@@ -99,6 +103,21 @@ export class ViewProjectLayoutComponent implements OnInit {
 
     this.valuechangeSearchProject();
   }
+
+  nzSortOrderChange(SortColumn: string,direction: string| null) {
+    if(direction == 'ascend'){
+    this.sortDirection = 'Ascending';
+    }
+    else if(direction == 'descend'){
+      this.sortDirection = 'Descending';
+    }
+    else {
+      this.sortDirection = null;
+    }
+    this.SortColumn = SortColumn;
+    this.getProjects();
+  }
+
   getfilterDataMenu(): void {
     this.projectService.getFilterData().subscribe((data) => {
       this.cleints = data.ClientFilter;
@@ -111,7 +130,9 @@ export class ViewProjectLayoutComponent implements OnInit {
       // eslint-disable-next-line prefer-const
       this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
       const user = JSON.parse(this.loggedInUserInfo);
+
       this.id = user['EmployeeGuid'];
+
     }
   }
   valuechangeSearchProject() {
@@ -195,7 +216,7 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.getProjects();
   }
   getProjects() {
-    if (this.authorize('Timesheet_Admin')) {
+    if (this.authorize('Projects_Admin')) {
       this.id = ''
     }
     this.projectService.getWithPagnationResut(
@@ -205,7 +226,9 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.clientlist,
       this.superVisorlist,
       this.statuslist,
-      this.searchKey
+      this.searchKey,
+      this.SortColumn,
+      this.sortDirection
     ).subscribe(response => {
       this.loading = false;
       this.projects = response.data;
