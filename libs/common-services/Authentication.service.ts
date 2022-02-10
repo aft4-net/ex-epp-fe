@@ -1,11 +1,10 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { Employee } from '@exec-epp/core-models';
-import { ErrHandleService } from './error-handle.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Employee } from '@exec-epp/core-models';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from "./../environments/environment";
+import { ErrHandleService } from './error-handle.service';
 
 @Injectable({
     providedIn: 'root',
@@ -32,22 +31,21 @@ import { environment } from "./../environments/environment";
    getUser(email:string){
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
       (response) => {
-       //debugger
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["Role"]['Name'];
+       this.position  = response["EmployeeOrganization"]["JobTitle"];
        this.empGuid = response["Guid"];
-
+       
       }
     );
     return email;
    }
-
+    
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
-
+    
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
@@ -59,6 +57,25 @@ import { environment } from "./../environments/environment";
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
+    ///window.location.replace('https://epp-fe.excellerentsolutions.com/');
+   }
+   
+   getEmail(){
+     return window.sessionStorage.getItem('username');
+   }
+   getUserFullName(){
+     return window.sessionStorage.getItem('name');
+   }
+   getUsername(){
+    return window.sessionStorage.getItem('username');
+  }
+  isLogin(){
+
+   let result= window.sessionStorage.getItem('isLogin');
+   if(!result){
+     return false;
+   }
+   else{
      return true;
    }
   }
@@ -71,12 +88,8 @@ import { environment } from "./../environments/environment";
   setFromViewProfile2(){
     window.sessionStorage.setItem('fromViewer','false');
   }
-<<<<<<< HEAD
 
   hasData(value: boolean) {
     this.changPassdataSource.next(value);
   }
     } 
-=======
-    }
->>>>>>> develop
