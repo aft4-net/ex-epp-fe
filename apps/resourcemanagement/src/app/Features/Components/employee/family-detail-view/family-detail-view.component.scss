@@ -78,8 +78,8 @@
 
 
 .overflow-scroll {
-  max-height: 400px;
-  overflow-y: scroll;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .layer {

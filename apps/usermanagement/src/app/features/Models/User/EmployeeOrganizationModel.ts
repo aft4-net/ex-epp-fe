@@ -1,4 +1,9 @@
 export interface IEmployeeOrganization{
     CompaynEmail: string;
-    JobTitle: string
+    Role: IRole;
+}
+
+
+export interface IRole {
+    Name : string;
 }

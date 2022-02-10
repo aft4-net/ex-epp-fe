@@ -1,7 +1,7 @@
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Employee } from '../../Models/Employee';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
 import { map, shareReplay } from 'rxjs/operators';
@@ -18,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class EmployeeService {
   public isdefault = true;
+  public empNum="ec0001";
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -107,6 +108,32 @@ export class EmployeeService {
 
   update(employee: Employee) {
     return this.http.put(this.baseUrl, employee);
+  }
+
+  checkIdNumber(idNumber: string): Observable<boolean> {
+    const params = new HttpParams().set('idNumber', idNumber);
+    // this.http.get(
+    //   "http://localhost:14696/api/v1/Employee/checkidnumber?idNumber=hhvvfd"
+    // )
+    // .subscribe(r => {
+    //   console.log('l')
+    //   console.log(r)
+    //   console.log('l')
+    // })
+    const result = this.http.get(
+      this.baseUrl + "/checkidnumber?" + params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        console.log('Changed')
+    
+        console.log(response)
+        return response as boolean;
+      })
+    );
+
+    
+    return result;
   }
   saveEmployee() {
     this.employee$.subscribe((x) => {
@@ -199,6 +226,69 @@ export class EmployeeService {
         })
       );
   }
+  filterEmployeeData(
+    employeeParams: EmployeeParams,JobType:string,Location:string,Status:string
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboardFilter',
+        {
+          params: {
+            jobType: JobType,
+            location:Location,
+            status:Status,
+            pageIndex: employeeParams.pageIndex,
+            pageSize: employeeParams.pageSize,
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+          this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };
+          return this.paginatedResult;
+        }),
+        
+      );
+  }
+
+  SearchEmployeeDataforFilter(
+    employeeParams: EmployeeParams
+  ): Observable<PaginationResult<IEmployeeViewModel[]>> {
+    return this.http
+      .get<PaginationResult<IEmployeeViewModel[]>>(
+        this.baseUrl + '/GetAllEmployeeDashboard',
+        {
+          params: {
+            searhKey: "",
+            pageIndex: employeeParams.pageIndex,
+            pageSize: "10000",
+          },
+        }
+      )
+      .pipe(
+        map((result: any) => {
+         /* this.paginatedResult = {
+            Data: result.Data,
+            pagination: {
+              PageIndex: result.PageIndex,
+              TotalRows: result.TotalPage,
+              PageSize: result.PageSize,
+              TotalRecord: result.TotalRecord,
+            },
+          };*/
+          return result.Data;
+        })
+      );
+  }
 
   getEmployeeData(employeeId: string): Observable<Employee> {
     return this.http
@@ -211,4 +301,8 @@ export class EmployeeService {
   getUser(email:string){
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
+
+  DeleteEmployee(employeeId:string) {
+    return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
+  }
 }

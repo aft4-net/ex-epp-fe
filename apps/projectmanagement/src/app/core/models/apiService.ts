@@ -53,7 +53,7 @@ export abstract class ApiService<T> {
   }
 
   update(resource: T) {
-    return this.httpClient.put(`/${this.APIUrl}`, resource)
+    return this.httpClient.put(this.APIUrl, resource)
 
   }
 
@@ -110,11 +110,11 @@ if(sortdirection != null){
               totalPage:response.TotalPage,
               pageSize:response.PageSize,
               totalRecord:response.TotalRecord}
-         };
-         return paginatedResult;
+          };
+          return paginatedResult;
         })
       );
- }
+  }
 
 
 

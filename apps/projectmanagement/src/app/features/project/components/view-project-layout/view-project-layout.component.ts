@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  EditProjectStateService,
   PaginatedResult,
   PermissionService,
   Project,
@@ -80,6 +81,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
+    private  editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
     private notification: NzNotificationService
@@ -237,5 +239,9 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.total = response.pagination.totalRecord;
       this.totalPage = response.pagination.totalPage;
     })
+  }
+  editProject(data:Project)
+  {
+    this.editProjectStateService.editProjectState(data);
   }
 }

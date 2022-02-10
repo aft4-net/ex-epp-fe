@@ -108,7 +108,6 @@
                         </div>
                         <nz-divider nzType="horizontal"></nz-divider>
                         <div class="right-footer">
-                          <label class="footerText">Displaying 20 users. Update search criteria for better results.</label>
                           <nz-space>
                             <button *nzSpaceItem nz-button nzType="default" [disabled]="AddUserToGroupForm.invalid" (click)="CancelAddUserToGroup()">Clear</button>
                             <button id="addUserToGroupbutton" [disabled]="AddUserToGroupForm.invalid" *nzSpaceItem nz-button nzType="primary" [ngClass]="AddUserToGroupForm.invalid ? 'disableSaveUser' : 'editGroup'" >Save Changes</button>
