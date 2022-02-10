@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   date:any;
-  isCollapsed = false;
   fullName:any
   actions='Add_Employee';
   thePosition : any;
@@ -36,24 +35,12 @@ update(){
     this._commonData.getPermission();   
   }
   getUser(){
-<<<<<<< HEAD
     console.log('response1'+ this.userEmails.Email)
     console.log('response2'+ this.userEmail )
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
-      console.log('response4'+ this.userEmails.Email)
+      console.log('response4'+ this.userEmails.fullName)
       this.thePosition=response.EmployeeOrganization.JobTitle;
       this.fullName = response.name;
-      console.log('response5')
-=======
-    console.log('response'+this.userEmail)
-    this._intialdataService.getUser(this.userEmail).subscribe((response:any)=>{
-      //debugger;
-      console.log(response.EmployeeOrganization);
-      this.thePosition=response.EmployeeOrganization.Role.Name;
-      console.log('response22')
->>>>>>> origin
-      console.log(this.thePosition)
-      console.log('response')
     });
   //  setTimeout(() => {
   //    this.thePosition = this._authenticationService.position;
