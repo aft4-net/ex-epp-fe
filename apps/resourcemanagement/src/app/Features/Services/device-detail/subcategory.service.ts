@@ -14,10 +14,10 @@ export class SubcategoryService {
   constructor(private http: HttpClient) { }
 
   loadSubCategories(): Observable<SubCategory[]> {
-    return this.http.get<SubCategory[]>(this.baseUrl + 'SubCategory')
+    return this.http.get<SubCategory[]>(this.baseUrl + '/SubCategory')
   }
 
   getByCategory(id: string): Observable<SubCategory[]> {
-    return this.http.get<SubCategory[]>(this.baseUrl + "SubCategory?id="+id);
+    return this.http.get<SubCategory[]>(this.baseUrl + "/SubCategory?id="+id);
   }
 }

@@ -97,6 +97,19 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             path: 'employee/add-employee/emergencycontacts-view',
             component: EmergencycontactViewComponent,
           },
+          
+          {
+            path: 'device-detail',
+            component: DeviceDetailComponent
+          },
+          {
+            path: 'device-detail/add',
+            component: AddEditDeviceDetailComponent
+          },
+          {
+            path: 'device-detail/edit/:id',
+            component: AddEditDeviceDetailComponent
+          }
         ],
       },
     ]),

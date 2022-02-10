@@ -40,6 +40,10 @@ import { RemoteEntryComponent } from './entry.component';
             path: 'add-project',
             component: AddProjectComponent,
           },
+          {
+            path: 'edit-project',
+            component: AddProjectComponent,
+          },
         ],
       },
     ]),
