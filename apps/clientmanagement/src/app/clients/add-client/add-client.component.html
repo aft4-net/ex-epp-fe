@@ -1,10 +1,10 @@
 <header>
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
-    <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+    <nz-breadcrumb-item><a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>
       <a [routerLink]="['/clientmanagement']">Clients </a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{updateClientState.breadCrumb}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item><a [routerLink]="['/clientmanagement/add-client']">{{updateClientState.breadCrumb}}</a></nz-breadcrumb-item>
   </nz-breadcrumb>
   <div nz-row>
     <div class="page-title"> {{updateClientState.titlePage}} </div>
@@ -15,8 +15,8 @@
   <div class="justify-between" nz-row>
     <div nz-col  class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col >
-      <button nz-button class="clear-btn" (click)="cancelAddClientPage()"  >   Cancel</button>
-      <button type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
+      <button nz-button class="action-buttons" (click)="cancelAddClientPage()"  >   Cancel</button>
+      <button  class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
     </div>
   </div>
 </header>

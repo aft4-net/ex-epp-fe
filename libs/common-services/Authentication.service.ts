@@ -59,25 +59,6 @@ import { environment } from "./../environments/environment";
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    //window.location.replace('https://epp-fe.excellerentsolutions.com/');
-   }
-
-   getEmail(){   
-     return window.sessionStorage.getItem('username');
-   }
-   getUserFullName(){
-     return window.sessionStorage.getItem('name');
-   }
-   getUsername(){
-    return window.sessionStorage.getItem('username');
-  }
-  isLogin(){
-
-   let result= window.sessionStorage.getItem('isLogin');
-   if(!result){
-     return false;
-   }
-   else{
      return true;
    }
   }
