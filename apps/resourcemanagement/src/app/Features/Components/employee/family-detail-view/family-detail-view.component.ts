@@ -33,7 +33,7 @@ export class FamilyDetailViewComponent implements OnInit {
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator,
-    private employeeService: EmployeeService,
+    public employeeService: EmployeeService,
     private notification: NotificationBar,
     private _permissionService: PermissionListService
   ) {}

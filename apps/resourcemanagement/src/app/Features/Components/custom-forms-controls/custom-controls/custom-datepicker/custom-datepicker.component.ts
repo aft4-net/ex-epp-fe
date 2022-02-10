@@ -39,9 +39,11 @@ export class CustomDatepickerComponent implements OnInit {
     }
 
     disabledDate = (startValue: Date): boolean => {
+        const validStart = new Date(this.startingDate.getFullYear(), this.startingDate.getMonth(), this.startingDate.getDate())
+        const validEnd = new Date(this.endingDate.getFullYear(), this.endingDate.getMonth(), this.endingDate.getDate(), 23, 59, 59)
         return (
-            (startValue.getTime() < this.startingDate.getTime())
-            || (startValue.getTime() > this.endingDate.getTime())
+            (startValue.getTime() < validStart.getTime())
+            || (startValue.getTime() > validEnd.getTime())
         )
     }
 

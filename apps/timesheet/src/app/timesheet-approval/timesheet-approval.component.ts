@@ -287,6 +287,9 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
+    console.log('******************************');
+    console.log(arrayOfIds);
+    console.log('*****************************');
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
@@ -418,11 +421,15 @@ sortDirectionMethod() {
     }
   }
   onApprove(){
-
+    console.log('******00000000000$$00$$$**************');
+    console.log(this.arrayOfCheckedId);
+    console.log('******$000000000$$$$$$$$$$**************');
     for (const element of this.setOfCheckedId) {
       this.arrayOfCheckedId.push(element);
     }
-
+    console.log('*********$$$$$$$$$$$**************');
+    console.log(this.arrayOfCheckedId);
+    console.log('*********$$$$$$$$$$$**************');
     this.timesheetBulkApproval(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
     this.qtyofItemsSelected = 0;

@@ -8,3 +8,4 @@ export * from  './PaginatedResult';
 export * from './Pagination';
 export * from './employee';
 export * from './permission';
+export * from './assignResource';
