@@ -129,14 +129,14 @@ export class ProjectService extends ApiService<Project> {
     }))
   }
 
-  deleteProjectByState(id: string) {
+  deleteProjectByState(id: string): Observable<{ success: boolean, message: string }> {
     return this.delete(id)
     .pipe(
       map((response: any) => {
         if(response.ResponseStatus === 'Success' || response.ResponseStatus === 1) {
-          return true;
+          return { success: true, message: response.Message };
         } else {
-          return false;
+          return { success: false, message: response.Message };
         }
       })
     );

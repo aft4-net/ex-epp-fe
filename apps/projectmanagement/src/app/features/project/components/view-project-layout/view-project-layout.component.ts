@@ -188,12 +188,12 @@ export class ViewProjectLayoutComponent implements OnInit {
   deleteProject(data: Project) {
     this.loading = true;
     this.projectService.deleteProjectByState(data.Guid)
-      .subscribe((result: boolean) => {
-        if (result === true) {
-          this.notification.success('Deleted', 'Successfully deleted.');
+      .subscribe((result: any) => {
+        if (result.success === true) {
+          this.notification.success('Deleted', result.message);
           this.getProjects();
         } else {
-          this.notification.error('Deleted', 'Deleting the project failed!');
+          this.notification.error('Deleted', result.message);
         }
         this.loading = false;
       });
