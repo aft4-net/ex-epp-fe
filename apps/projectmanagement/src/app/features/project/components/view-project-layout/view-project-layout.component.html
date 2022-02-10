@@ -39,7 +39,7 @@
             <i nz-icon nzType="edit" style="color:black;" ></i>
           </a>
           &nbsp; &nbsp;
-          <a   *ngIf="authorize('Delete_Project') ">
+          <a   *ngIf="authorize('Delete_Project')" (click)="deleteProject(data)">
             <i nz-icon nzType="delete" style="color:black;"></i>
           </a>
         </td>
