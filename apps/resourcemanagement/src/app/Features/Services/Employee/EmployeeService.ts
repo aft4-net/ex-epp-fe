@@ -120,7 +120,7 @@ export class EmployeeService {
     //   console.log('l')
     // })
     const result = this.http.get(
-      "http://localhost:14696/api/v1/Employee/checkidnumber?" + params.toString()
+      this.baseUrl + "/checkidnumber?" + params.toString()
     )
     .pipe(
       map((response: any) => {
