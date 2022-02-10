@@ -14,6 +14,6 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   loadCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.baseUrl + "Category");
+    return this.http.get<Category[]>(this.baseUrl + "/Category");
   }
 }

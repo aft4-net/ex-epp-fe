@@ -27,10 +27,7 @@ interface ItemData {
   styleUrls: ['./timesheet-approval.component.scss']
 })
 export class TimesheetApprovalComponent implements OnInit {
-<<<<<<< HEAD
-=======
   tabselected=1;
->>>>>>> f032114b242f1d7823470d2e431f24573a37056c
   date = null;
   bulkCheck = true;
   statusColumn = true;

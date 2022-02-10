@@ -1,14 +1,20 @@
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
+import { Employee } from '@exec-epp/core-models';
+import { ErrHandleService } from './error-handle.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
 import { Employee } from '@exec-epp/core-models';
 import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
 import { LogInRequest } from 'apps/usermanagement/src/app/models/user/logInRequest';
 import { LogInResponse } from 'apps/usermanagement/src/app/models/user/logInResponse';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+=======
+>>>>>>> origin
 import { environment } from "./../environments/environment";
-import { ErrHandleService } from './error-handle.service';
 
 @Injectable({
     providedIn: 'root',
@@ -46,21 +52,22 @@ import { ErrHandleService } from './error-handle.service';
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
        
       (response) => {
+       //debugger
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]['Name'];
        this.empGuid = response["Guid"];
-       
+
       }
     );
     return email;
    }
-    
+
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
-    
+
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
@@ -71,6 +78,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
+<<<<<<< HEAD
     window.location.replace('http://localhost:4200');
    }
    
@@ -82,6 +90,11 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.location.replace('http://localhost:4200');
    }
+=======
+    window.location.replace(environment.redirectUri);
+   }
+
+>>>>>>> origin
    getEmail(){
      return window.sessionStorage.getItem('username');
    }
@@ -118,6 +131,7 @@ import { ErrHandleService } from './error-handle.service';
   setFromViewProfile2(){
     window.sessionStorage.setItem('fromViewer','false');
   }
+<<<<<<< HEAD
 
   signIn(logInRequest: LogInRequest) {
     
@@ -136,3 +150,6 @@ import { ErrHandleService } from './error-handle.service';
 };
 
     } 
+=======
+    }
+>>>>>>> origin

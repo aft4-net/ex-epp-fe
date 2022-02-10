@@ -55,8 +55,6 @@ export class ViewClientsComponent implements OnInit  {
   locationCheckbox = true;
   statusCheckbox = true;
   salesCheckbox = true;
-  clientContactCheckbox = false;
-  companyContactCheckbox = false;
   isFilter= false;
   listOfSearchName: string[] = [];
   searchAddress!: string;
@@ -101,6 +99,7 @@ export class ViewClientsComponent implements OnInit  {
     private _notification: NotificationBar,
     private _permission:PermissionListService,
    private _commonData:CommonDataService,
+   private modal: NzModalService,
    private _editClientService:UpdateClientStateService
   ) {
 
@@ -138,7 +137,50 @@ _commonData.getPermission()
     //   });
 
   }
+  DeleteClient(client:any){
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this._clientservice.deleteClient(client.Guid).subscribe(
+          (res:any)=>{
+            if(res.ResponseStatus==='Success')
+            {
+             this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
+             );
+             this.
+             initializeData();
+            }
 
+           },
+          err=>{
+            this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
+          }
+        );
+
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
+
+  showDeleteConfirm(element: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.DeleteClient(element);
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
   Edit(client: any): void {
     if(client)
    {
@@ -153,8 +195,7 @@ _commonData.getPermission()
   this._editClientService.titlePage='Edit Client';
   this._editClientService.formTitle='Edit Client Details';
   this._editClientService.isAdd=false;
-  this.router.navigate(['clientmanagement/add-client/']);
-  // clientmanagement/add-client
+  this.router.navigate(['/clientmanagement/add-client/']);
   }
   }
   setClient(client:Client){
@@ -186,9 +227,6 @@ _commonData.getPermission()
 
   }
   setContact(ClientContacts:any[]){
-    if(!ClientContacts?.length){
-      return;
-    }
    for(let i=0;i<ClientContacts.length;i++)
    {
      const contact={
@@ -203,14 +241,11 @@ _commonData.getPermission()
   }
   setContactCompany(comapanyContacts:any[])
   {
-    if(!comapanyContacts?.length){
-      return;
-    }
     for(let i=0;i<comapanyContacts.length;i++)
     {
       const contactPersonGuid={
         Guid:comapanyContacts[i].Guid,
-        ContactPersonGuid:comapanyContacts[i].EmployeeID
+        ContactPersonGuid:comapanyContacts[i].EmployeeGuid
       }
       this.CompanyContactsEdit.push(contactPersonGuid);
       this.employeesEdit.push(comapanyContacts[i].Employee)
@@ -218,9 +253,6 @@ _commonData.getPermission()
   }
   setOperatingAddress(OperatingAddress:any[])
   {
-    if(!OperatingAddress?.length){
-      return;
-    }
     for(let i=0;i<OperatingAddress.length;i++)
     {
       const opAddr={
@@ -235,9 +267,6 @@ _commonData.getPermission()
     }
   }
   setBillingAddress(BillingAddress:any[]){
-    if(!BillingAddress?.length){
-      return;
-    }
     for(let i=0;i<BillingAddress.length;i++)
     {
       const blAddr={
@@ -253,22 +282,6 @@ _commonData.getPermission()
       this.BillingAddressEdit.push(blAddr);
     }
   }
-  DeleteClient(client:any){
-    this._clientservice.deleteClient(client.Guid).subscribe(
-      (res:any)=>{
-        if(res.ResponseStatus==='Success')
-        {
-         this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
-         );
-         this.router.navigateByUrl('clients');
-        }
-
-       },
-      err=>{
-        this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
-      }
-    );
-   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
     // if(key==='Create_Client')
@@ -309,8 +322,7 @@ _commonData.getPermission()
     this.locationCheckbox = true;
     this.statusCheckbox = true;
     this.salesCheckbox = true;
-    this.clientContactCheckbox = false;
-    this.companyContactCheckbox = false;
+
   }
 
   addClientPage() {
