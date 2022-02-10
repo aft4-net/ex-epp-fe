@@ -5,9 +5,16 @@ import { ApiService } from '../models/apiService';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+
 import { map } from 'rxjs/operators';
+
+
+import { environment } from '../../../environments/environment';
+import { AddProjectStateService } from '../state';
+
+import { Router } from '@angular/router';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +26,17 @@ export class ProjectService extends ApiService<Project> {
   fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
-  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
+  constructor(private addProjectState:AddProjectStateService, protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
     super(httpClient);
   }
 
 
-
+  updateProject(resource:any)
+  {
+  this.httpClient.put(environment.baseApiUrl+"Project",resource).subscribe
+    (suceess=>this.notification.success('Project updated successfully','')  
+      ,error=>   this.notification.error('Project updated not saved','Please try again letter'));
+  }
 
   getFirsttPageValue()
   {
@@ -39,6 +51,7 @@ export class ProjectService extends ApiService<Project> {
 
 
 
+
   getResourceUrl(): string {
 
     return 'Project';
@@ -46,18 +59,14 @@ export class ProjectService extends ApiService<Project> {
 
 
 
-  createProject(data:ProjectCreate)
-  {
-    console.log(data)
+  createProject()
+   {
 
-    this.post(data).subscribe
-    ((error)=>{
-        this.notification.success('Project Added successfully','');
 
-        this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
-          this.fristPagantionProjectsSource.next(response);
-        }))
-
+     this.post(this.addProjectState.projectData).subscribe
+         ((response:any)=>{
+           this.notification.success('Project Added successfully','');  
+         
 
       }
       ,(errr:any)=>{

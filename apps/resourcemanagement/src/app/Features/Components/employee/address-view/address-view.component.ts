@@ -37,7 +37,7 @@ export class AddressViewComponent implements OnInit {
     private modalService: NzModalService,
     public form: FormGenerator,
     private readonly _formGenerator: FormGenerator,
-    private employeeService: EmployeeService,
+    public employeeService: EmployeeService,
     private notification: NotificationBar,
     private _permissionService: PermissionListService) {
 
@@ -137,6 +137,6 @@ export class AddressViewComponent implements OnInit {
           content: '',
           duration: 1,
         });
-       
+
   }
 }
