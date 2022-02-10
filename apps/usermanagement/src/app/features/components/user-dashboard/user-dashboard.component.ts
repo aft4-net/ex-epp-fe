@@ -373,7 +373,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
 
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
-       
         this.employeeList= r.Data;
         this.FeatchAllUsers();
         this.addUserService.getGroups().subscribe(
