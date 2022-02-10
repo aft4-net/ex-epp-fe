@@ -29,7 +29,7 @@ export class EmergencycontactViewComponent implements OnInit {
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator,
-    private _employeeService: EmployeeService,
+    public _employeeService: EmployeeService,
     private notification: NotificationBar,
     private _permissionService: PermissionListService
   ) {

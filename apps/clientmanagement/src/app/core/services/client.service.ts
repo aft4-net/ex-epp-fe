@@ -63,7 +63,6 @@ export class ClientService extends ApiService<any> {
   updateClient()
   {
     return this.update(this.updateClientStateService.UpdateClientData);
-
   }
   DeleteClient(id:string|number)
   {

@@ -44,7 +44,7 @@ export class OrganizationDetailComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private _locationPhoneService: LocationPhoneService,
-    private employeeService: EmployeeService,
+    public employeeService: EmployeeService,
     private readonly _formGenerator: FormGenerator,
     private notification: NotificationBar
   ) {
