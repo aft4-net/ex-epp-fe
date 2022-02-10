@@ -21,6 +21,7 @@ import { UserdetailsComponent } from '../features/components/userdetails/userdet
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/lib/components/unauthorize/unauthorize.component'
 import { environment } from 'libs/environments/environment'
+import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
   auth: {
@@ -44,7 +45,6 @@ export function MSALInstanceFactory(): IPublicClientApplication
         children : [
           {
             path:'',component:UserDashboardComponent
-
           },
           {
             path:'permission/:id',component:PermissionComponent
@@ -57,6 +57,9 @@ export function MSALInstanceFactory(): IPublicClientApplication
           },
           {
             path:'group',component:GroupsetComponent
+          },
+          {
+            path:'changepassword',component:ChangepasswordComponent
           },
           {
             path:'group-detail/:id',component:GroupDetailComponent

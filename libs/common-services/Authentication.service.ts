@@ -19,6 +19,9 @@ import { ErrHandleService } from './error-handle.service';
   position:string="";
   empGuid:string="";
 
+  private changPassdataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isChangePass: Observable<boolean> = this.changPassdataSource.asObservable();
+
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
 
    loginStatus(){
@@ -54,7 +57,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('https://epp-fe.excellerentsolutions.com/');
+    //window.location.replace('https://epp-fe.excellerentsolutions.com/');
    }
    
    getEmail(){
@@ -84,5 +87,9 @@ import { ErrHandleService } from './error-handle.service';
   }
   setFromViewProfile2(){
     window.sessionStorage.setItem('fromViewer','false');
+  }
+
+  hasData(value: boolean) {
+    this.changPassdataSource.next(value);
   }
     } 
