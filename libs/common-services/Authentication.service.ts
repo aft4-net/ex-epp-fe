@@ -16,6 +16,10 @@ import { ErrHandleService } from './error-handle.service';
   export class AuthenticationService {
   private userSubject :BehaviorSubject<LogInResponse|any>;
   public users: Observable<LogInResponse>;
+
+  private changPassdataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isChangePass: Observable<boolean> = this.changPassdataSource.asObservable();
+
   loggedInUser:any;
   useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
@@ -134,4 +138,8 @@ import { ErrHandleService } from './error-handle.service';
     ));
 };
 
+  hasData(value: boolean) {
+    this.changPassdataSource.next(value);
+  }
+  
     } 

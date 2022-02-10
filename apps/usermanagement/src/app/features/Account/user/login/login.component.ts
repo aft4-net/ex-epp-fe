@@ -49,6 +49,7 @@ export class LoginComponent {
             }
             this._authenticationService.storeLoginUser(response.account);
             console.log(response.account);
+            this._authenticationService.hasData(true);
             this.router.navigateByUrl('');
           },
           (error) => {
@@ -89,6 +90,9 @@ export class LoginComponent {
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
         } 
         this._authenticationService.storeLoginUsers(res.Data);
+        console.log('***********************************************');
+        console.log(res.ResponseStatus);
+        //if(res.ResponseStatus)
         this.router.navigateByUrl('');
         this.loading = false;
       },
