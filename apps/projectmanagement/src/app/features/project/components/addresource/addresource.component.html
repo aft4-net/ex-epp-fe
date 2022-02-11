@@ -140,6 +140,7 @@
             [nzAllowClear]
             nzFormat="dd/MM/yyyy"
             formControlName="assignDate"
+            [nzDisabledDate]="disabledDates"
             nz-col
             nzSpan="12"
           ></nz-date-picker>
@@ -219,6 +220,7 @@
           <nz-form-control class="mb-5">
             <nz-date-picker
               [nzAllowClear]
+              [nzDisabledDate]="disabledDates"
               nzFormat="dd/MM/yyyy"
               formControlName="assignDate"
               nz-col

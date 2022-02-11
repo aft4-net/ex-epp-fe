@@ -204,7 +204,7 @@
 
           </div>
         </div>
-        <exec-epp-addresource (addProjectResourceEvent)="updateProjectResourseList($event)"> </exec-epp-addresource>
+        <exec-epp-addresource (addProjectResourceEvent)="updateProjectResourseList($event)" [ProjectStartDate]="this.startValue.value" [ProjectEndDate]="this.endValue.value"> </exec-epp-addresource>
       </div>
     </nz-tab>
   </nz-tabset>

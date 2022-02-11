@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProjectResource, ProjectService, EmployeeService, projectResourceType, Employee } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
@@ -12,9 +12,7 @@ import { formatDate } from '@angular/common';
   templateUrl: './addresource.component.html',
   styleUrls: ['./addresource.component.scss']
 })
-export class AddresourceComponent implements OnInit {
-
-
+export class AddresourceComponent implements OnInit{
 
   addResorceForm!: FormGroup;
   editResorceForm!: FormGroup;
@@ -23,7 +21,6 @@ export class AddresourceComponent implements OnInit {
     private employeeService: EmployeeService,
     private projectService: ProjectService
   ) { }
-
 
   resources: projectResourceType[] = [] as projectResourceType[];
   employees!: Employee[];;
@@ -35,8 +32,10 @@ export class AddresourceComponent implements OnInit {
   assignedDateError = false;
 
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
+  @Input() ProjectStartDate:Date| null=null;
+  @Input() ProjectEndDate:Date| null=null;
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
 
@@ -221,6 +220,10 @@ export class AddresourceComponent implements OnInit {
 
   sortEmployees() {
     this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
+  }
+  disabledDates=(current:Date):boolean => {
+
+    return current.valueOf()<this.ProjectStartDate!.valueOf() || current.valueOf()>this.ProjectEndDate!.valueOf();
   }
 }
 
