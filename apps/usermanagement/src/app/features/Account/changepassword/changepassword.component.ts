@@ -59,7 +59,7 @@ export class ChangepasswordComponent implements OnInit {
         content: 'Successfully changed password!',
         duration: 5000,
       });
-      window.location.replace(window.location.origin);
+      window.location.replace(window.location.origin);    
       this.router.navigateByUrl('');
 
     }, (error:any) => {
