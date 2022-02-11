@@ -28,11 +28,14 @@ export class HeaderComponent implements OnInit {
     private _intialdataService: IntialdataService
   ) {
     //this.fullName = this._intialdataService.getUser( this.loggedInUser.fullName)
-    this.fullName = _authenticationService.getUserFullName();
+   // this.fullName = _authenticationService.getUserFullName();
+   this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.LastName)
     this.thefullName = this.fullName;
     console.log(this.thefullName);
-   // const namearray = this.fullName.split(' ');
-   // this.fullName = namearray[0][0].toUpperCase() + namearray[1][0].toUpperCase();
+    this.fullName = this.loggedInUser.FirstName ;
+    const namearray = this.fullName.split();
+   //this.fullName = namearray[0][0].toUpperCase() + namearray[1][0].toUpperCase();
+   this.fullName = namearray[0][0].toUpperCase();
     this.uemail = _authenticationService.getUserFullName();
   }
   getUser() {
