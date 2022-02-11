@@ -72,7 +72,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
             }
           },
           {
-            path:'sign_in', component:SigninComponent
+            path:'logIn', component:LoginComponent
           },
           {path:'unauthorize', component:UnauthorizeComponent,
           data: {
