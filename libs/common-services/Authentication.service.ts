@@ -28,6 +28,7 @@ import { ErrHandleService } from './error-handle.service';
   loginCount=0;
   position:string="";
   empGuid:string="";
+  fullName:string='';
 
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {
 
@@ -85,12 +86,15 @@ import { ErrHandleService } from './error-handle.service';
      return window.sessionStorage.getItem('username');
    }
    getUserFullName(){
-     return window.sessionStorage.getItem('name');
+     return localStorage.getItem('name')
+    // return window.sessionStorage.getItem('name');
      
    }
 
    getFullName(){
-    return this.loggedInUser.getFullName()
+    this.fullName = ((this.loggedInUser.FirstName) + (this.loggedInUser.LastName));
+    console.log(this.fullName);
+    return this.fullName
   }
    getUsersName(){
     return  window.sessionStorage.getItem('username');
