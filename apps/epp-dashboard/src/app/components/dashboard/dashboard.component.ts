@@ -17,7 +17,10 @@ export class DashboardComponent implements OnInit {
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
-   // this.fullName=_authenticationService.getUserFullName();
+  // this.fullName=_authenticationService.getUserFullName();
+  // this.fullName = this.userEmails.FirstName ;
+   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
+  // this.thePosition = this.userEmails.EmployeeOrganization.position;
    // this.fullName = _authenticationService.getUsersName();
    // const namearray=this.fullName.split(' ');
    // this.fullName=namearray[0] + namearray[0];
@@ -38,9 +41,11 @@ update(){
     console.log('response1'+ this.userEmails.Email)
     console.log('response2'+ this.userEmail )
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
-      console.log('response4'+ this.userEmails.fullName)
+      console.log('response4'+ this.userEmails.FirstName)
       this.thePosition=response.EmployeeOrganization.JobTitle;
-      this.fullName = response.name;
+      //this.fullName = this.userEmails.FirstName;
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
+      console.log('Who is there' +  this.fullName);
     });
   //  setTimeout(() => {
   //    this.thePosition = this._authenticationService.position;
