@@ -354,7 +354,7 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   }
   disabledDates=(current:Date):boolean => {
 
-    return current.valueOf()<this.ProjectStartDate!.valueOf() || current.valueOf()>this.ProjectEndDate!.valueOf();
+    return current.valueOf()<this.ProjectStartDate!.valueOf();
   }
   onReset() {
     this.router.navigateByUrl('projectmanagement');
