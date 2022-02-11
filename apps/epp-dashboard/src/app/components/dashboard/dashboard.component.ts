@@ -20,7 +20,9 @@ export class DashboardComponent implements OnInit {
   // this.fullName=_authenticationService.getUserFullName();
   // this.fullName = this.userEmails.FirstName ;
    this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
-   this.thePosition = this.userEmails.Email
+   debugger
+   this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
+   console.log(this.thePosition + "Position 1");
    // this.fullName = _authenticationService.getUsersName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];

@@ -19,8 +19,7 @@ import { ErrHandleService } from './error-handle.service';
   loggedInUser:any;
   useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
-    httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       
     };
     url=environment.apiUrl;
@@ -43,11 +42,13 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
+     email = this.useEmails.Email;
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
     
       (response) => {
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+       console.log(this.position + 'addUSerPosition')
        this.empGuid = response["Guid"];
        
       }
