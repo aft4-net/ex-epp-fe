@@ -42,11 +42,10 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
-     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
-    
+     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + this.useEmails.Email.toLowerCase()).subscribe(
       (response) => {
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]["Name"];
        this.empGuid = response["Guid"];
        
       }

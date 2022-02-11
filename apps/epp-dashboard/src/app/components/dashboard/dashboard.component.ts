@@ -39,8 +39,8 @@ update(){
     console.log('response2'+ this.userEmail )
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
       console.log('response4'+ this.userEmails.fullName)
-      this.thePosition=response.EmployeeOrganization.JobTitle;
-      this.fullName = response.name;
+      this.thePosition=response.EmployeeOrganization.Role.Name;
+      this.fullName = this.userEmails.FirstName + ' ' + this.userEmails.MiddleName + ' '+ this.userEmails.LastName;
     });
   //  setTimeout(() => {
   //    this.thePosition = this._authenticationService.position;
