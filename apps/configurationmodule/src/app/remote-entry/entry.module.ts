@@ -29,13 +29,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'department',
-        component: DepartmentComponent,
-        data: {
-          breadcrumb: "department"
-        }
-      },
-      {
         path:'timesheet',
         component: TimesheetConfigurationComponent,
         data: {
