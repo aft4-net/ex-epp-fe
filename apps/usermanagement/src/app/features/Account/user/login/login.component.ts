@@ -49,6 +49,7 @@ export class LoginComponent {
             }
             this._authenticationService.storeLoginUser(response.account);
             console.log(response.account);
+            this._authenticationService.hasData(true);
             this.router.navigateByUrl('');
           },
           (error) => {
@@ -89,8 +90,17 @@ export class LoginComponent {
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
         } 
         this._authenticationService.storeLoginUsers(res.Data);
-        this.router.navigateByUrl('');
-        this.loading = false;
+        
+        if(res.ResponseStatus.toString().toLowerCase() === 'info'){
+          this.router.navigateByUrl('/usermanagement/changepassword');
+        } 
+        
+        else{
+          window.location.replace(window.location.origin);
+          this.router.navigateByUrl('');
+          this.loading = false;
+        }
+        
       },
       (error) => {
         this.loading = false;
