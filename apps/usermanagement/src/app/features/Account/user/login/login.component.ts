@@ -90,11 +90,16 @@ export class LoginComponent {
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
         } 
         this._authenticationService.storeLoginUsers(res.Data);
-        console.log('***********************************************');
-        console.log(res.ResponseStatus);
-        //if(res.ResponseStatus)
-        this.router.navigateByUrl('');
-        this.loading = false;
+        
+        if(res.ResponseStatus.toString().toLowerCase() === 'info'){
+          this.router.navigateByUrl('/usermanagement/changepassword');
+        } 
+        
+        else{
+          this.router.navigateByUrl('');
+          this.loading = false;
+        }
+        
       },
       (error) => {
         this.loading = false;
