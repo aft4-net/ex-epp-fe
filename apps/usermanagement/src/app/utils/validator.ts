@@ -12,15 +12,13 @@ export class FormValidator implements IValidator {
       const password = control.value;
       const re =  /^(?=.*[A-Za-z])(?=.*[\d$@. !%*#?&])[A-Za-z\d$@. !%*#?&]{8,}$/;
       const isValid = re.test(String(password).toLowerCase());
-      return !isValid ? { value: control.value } : null;
+      return !isValid ? { errorMessage: "Password must be atleast 8 characters long and contain either a number or special character." } : null;
     };
   }
   validateNewPassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = control.value;
       const oldPass = control.get('OldPassword')?.value;
-      console.log(oldPass);
-      console.log(password);
       if((oldPass === password) && oldPass){
         return { errorMessage: "Your new password can't be the same as your old one" };
       }
