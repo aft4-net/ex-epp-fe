@@ -22,7 +22,7 @@ counter = 1;
 
 //user = this.accountService.userInfo;
 
-activePath(routePath: string) {debugger;
+activePath(routePath: string) {
   if (this.route === '') this.route = this.router.url;
   return this.route == routePath;
 }
