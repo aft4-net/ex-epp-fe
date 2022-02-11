@@ -21,6 +21,8 @@ import { UserdetailsComponent } from '../features/components/userdetails/userdet
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/lib/components/unauthorize/unauthorize.component'
 import { environment } from 'libs/environments/environment'
+import { LoginComponent } from '../features/Account/user/login/login.component';
+import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
   auth: {

@@ -15,8 +15,8 @@
   <div class="justify-between" nz-row>
     <div nz-col  class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col >
-      <button nz-button class="clear-btn" (click)="cancelAddClientPage()"  >   Cancel</button>
-      <button type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
+      <button nz-button class="action-buttons" (click)="cancelAddClientPage()"  >   Cancel</button>
+      <button  class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
     </div>
   </div>
 </header>

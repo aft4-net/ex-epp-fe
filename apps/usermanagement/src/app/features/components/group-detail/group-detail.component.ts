@@ -330,6 +330,7 @@ export class GroupDetailComponent implements OnInit {
       this.isAddToGroupVisible=false;
       this.createNotification('Adding Users',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
       this.FeatchAllGroupsUsers();
+      this.AddUserToGroupForm.reset();
     });
  }
 
