@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import {AbstractControl,FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from 'apps/usermanagement/src/app/services/user/account.service';
-import { NotificationBar } from 'apps/usermanagement/src/app/utils/feedbacks/notification';
-import { FormValidator } from 'apps/usermanagement/src/app/utils/validator';
+import { AccountService } from '../../../Services/logIn/account.service';
+import { NotificationBar } from '../../../../utils/feedbacks/notification';
+import { FormValidator } from '../../../../utils/validator';
+import { AuthenticationService } from 'libs/common-services/Authentication.service';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
 
 
 @Component({
@@ -37,12 +35,61 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  login() {
+  loginWithMSAccount() {
+   
+    this.authService.loginPopup()
+      .subscribe((response: AuthenticationResult) => {
+       const data=   this.authService.instance.setActiveAccount(response.account);
+      
+       if(response.account?.username){
+        this._authenticationService.getLoggedInUserAuthToken(response.account?.username).subscribe(
+          (res) => {            
+            if(res.Data && res.Data.Token){
+              localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
+            }
+            this._authenticationService.storeLoginUser(response.account);
+            console.log(response.account);
+            this.router.navigateByUrl('');
+          },
+          (error) => {
+            this.logout();
+            if ([401].includes(error.status)) {
+              this.notification.showNotification({
+                type: 'error',
+                content: "Unauthorized, please contact admin",
+                duration: 5000,
+              });
+            }
+          }
+        ); 
+        
+        
+       // window.location.reload();
+        //this.router.navigateByUrl('user-dashboard');
+       }
+       else{
+        this.router.navigateByUrl('usermanagement');
+       }
+        
+      });
+  }
+
+  logout() {
+    this.authService.logout();
+    window.sessionStorage.clear();
+    localStorage.removeItem('loggedInUserInfo');
+    window.location.reload();
+}
+
+  signin() {
     this.loading = true;
-    this.accountService.signIn(this.loginForm.value).subscribe(
+    this._authenticationService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        this.router.navigateByUrl('application/personal-information');
-        window.location.reload();
+        if(res.Data && res.Data.Token){
+          localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
+        } 
+        this._authenticationService.storeLoginUsers(res.Data);
+        this.router.navigateByUrl('');
         this.loading = false;
       },
       (error) => {
@@ -71,10 +118,12 @@ export class LoginComponent {
   }
 
   constructor(
-    private accountService: AccountService,
+   
     private router: Router,
     private notification: NotificationBar,
-    private validator: FormValidator
+    private validator: FormValidator,
+    private authService: MsalService, 
+    private _authenticationService:AuthenticationService
   ) {}
 
 }

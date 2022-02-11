@@ -5,8 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AccountService } from '../../../services/user/account.service';
-import { FormValidator } from '../../../utils/validator';
+import { AccountService } from '../../../Services/logIn/account.service';
+import { FormValidator } from '../../../../utils/validator';
 import { Router } from '@angular/router';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 

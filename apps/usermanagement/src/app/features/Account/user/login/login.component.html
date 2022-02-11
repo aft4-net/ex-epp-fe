@@ -1,5 +1,7 @@
 <nz-card class="card-view">
-  <div class="title">Sign in</div>
+  <div class="title">
+    <p > Welcome,<br > Login to your account </p>
+</div>
   <form [formGroup]="loginForm">
     <app-input
       [form]="loginForm"
@@ -28,16 +30,22 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
-    <app-button  class="login-button"  type="primary" (click)="login()">
+    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="signin()">
       Sign in
     </app-button>
   </form>
 
   <div class="info">
     Don't have an account?
-    
+    <a (click)="loginWithMSAccount()"> Sign In  with Microsoft </a>
   </div>
   <ng-template #passwordSuffixIcon>
-   
+    <i
+      class="clickable-icon"
+      (click)="togglePasswordView()"
+      nz-icon
+      [nzType]="!showPassword ? 'eye-invisible' : 'eye'"
+      nzTheme="outline"
+    ></i>
   </ng-template>
 </nz-card>

@@ -2,6 +2,7 @@ import { ApprovalStatus, TimesheetApproval } from '../../../models/timesheetMode
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
+import { NotificationBar } from '../../../models/notification';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { SelectMultipleControlValueAccessor } from '@angular/forms';
@@ -25,11 +26,18 @@ export class TimesheetDetailViewComponent implements OnInit {
     constructor(private timesheetService:TimesheetService,
       private notification: NzNotificationService,
       private _router: Router,
+      private notificationbar : NotificationBar,
       private readonly _permissionService:PermissionListService,) {
 
     }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
+      this.notificationbar.showNotification({
+          type: 'success',
+          content: '',
+          duration: 1,
+        });
+  
     }
 
 

@@ -142,6 +142,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
     this.initialDataforTab();
     this._commonData.getPermission();
@@ -287,9 +288,7 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
-    console.log('******************************');
     console.log(arrayOfIds);
-    console.log('*****************************');
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
@@ -421,15 +420,13 @@ sortDirectionMethod() {
     }
   }
   onApprove(){
-    console.log('******00000000000$$00$$$**************');
     console.log(this.arrayOfCheckedId);
-    console.log('******$000000000$$$$$$$$$$**************');
+
     for (const element of this.setOfCheckedId) {
       this.arrayOfCheckedId.push(element);
     }
-    console.log('*********$$$$$$$$$$$**************');
+
     console.log(this.arrayOfCheckedId);
-    console.log('*********$$$$$$$$$$$**************');
     this.timesheetBulkApproval(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
     this.qtyofItemsSelected = 0;
@@ -439,14 +436,19 @@ sortDirectionMethod() {
     onSearchChange() {
       if(this.searchKeyGBinded) {
         if(this.searchKeyGBinded.length >= 2) {
-          this.searchKeyG = this.searchKeyGBinded
+       this.searchKeyG = this.searchKeyGBinded
+          console.log("start")
           this.UpdateData();
+          console.log("Finishhh")
         }
         else {
           this.searchKeyG = '';
+          console.log("startttttttttt")
           this.UpdateData();
+          console.log("startttttttttt")
         }
       }
+      //this.UpdateData();
     }
 
   onWeekChange() {
@@ -466,6 +468,8 @@ sortDirectionMethod() {
      this.statusG,
      this.projectNameG,
      this.clientNameG);
+console.log("dddddddddddddddddddddddddddddddddddddddddd")
+     console.log(this.TimesheetApprovalResponse);
 
   }
 }
