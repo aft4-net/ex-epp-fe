@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { ResponseDTO } from '../../../models/ResponseDTO';
+import { ChangePasswordRequest } from '../../../models/user/changePasswordRequest';
 import { LogInRequest } from '../../../models/user/logInRequest';
 import { LogInResponse } from '../../../models/user/logInResponse';
 
@@ -17,6 +18,8 @@ export class AccountService {
   private userSubject :BehaviorSubject<LogInResponse|any>;
   public user: Observable<LogInResponse>;
   loggedInUser:any;
+
+  header = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient, private router: Router) {
     this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
@@ -42,4 +45,7 @@ export class AccountService {
       ));
   };
 
+  changePassword(body: ChangePasswordRequest): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/User/ChangePassword`, body, {headers:this.header});
+  }
 }

@@ -81,7 +81,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
-    private  editProjectStateService: EditProjectStateService,
+    private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
     private notification: NzNotificationService
@@ -240,8 +240,21 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.totalPage = response.pagination.totalPage;
     })
   }
-  editProject(data:Project)
-  {
+  editProject(data: Project) {
     this.editProjectStateService.editProjectState(data);
+  }
+
+  deleteProject(data: Project) {
+    this.loading = true;
+    this.projectService.deleteProjectByState(data.Guid)
+      .subscribe((result: any) => {
+        if (result.success === true) {
+          this.notification.success('Deleted', result.message);
+          this.getProjects();
+        } else {
+          this.notification.error('Deleted', result.message);
+        }
+        this.loading = false;
+      });
   }
 }
