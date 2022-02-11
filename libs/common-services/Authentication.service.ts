@@ -23,8 +23,7 @@ import { ErrHandleService } from './error-handle.service';
   loggedInUser:any;
   useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
-    httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       
     };
     url=environment.apiUrl;
@@ -32,6 +31,7 @@ import { ErrHandleService } from './error-handle.service';
   loginCount=0;
   position:string="";
   empGuid:string="";
+  fullName:string='';
 
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {
 
@@ -46,11 +46,13 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
+     email = this.useEmails.Email;
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
     
       (response) => {
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+       console.log(this.position + 'addUSerPosition')
        this.empGuid = response["Guid"];
        
       }
@@ -89,12 +91,15 @@ import { ErrHandleService } from './error-handle.service';
      return window.sessionStorage.getItem('username');
    }
    getUserFullName(){
-     return window.sessionStorage.getItem('name');
+     return localStorage.getItem('name')
+    // return window.sessionStorage.getItem('name');
      
    }
 
    getFullName(){
-    return this.loggedInUser.getFullName()
+    this.fullName = ((this.loggedInUser.FirstName) + (this.loggedInUser.LastName));
+    console.log(this.fullName);
+    return this.fullName
   }
    getUsersName(){
     return  window.sessionStorage.getItem('username');
