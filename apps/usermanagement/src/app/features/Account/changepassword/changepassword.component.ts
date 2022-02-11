@@ -54,18 +54,20 @@ export class ChangepasswordComponent implements OnInit {
     this._authenticationService.changePassword(dataToPost).subscribe(() => {
       this.loading = false;
       this._changePass.hasData(true);
-      this.router.navigateByUrl('');
       this.notification.showNotification({
         type: 'success',
         content: 'Successfully changed password!',
         duration: 5000,
       });
+      window.location.replace(window.location.origin);
+      this.router.navigateByUrl('');
+
     }, (error:any) => {
       this.loading = false;
       console.log(error);
       this.notification.showNotification({
         type: 'error',
-        content: 'Error occured, Please try again',
+        content: 'Error occured, Please try again', 
         duration: 5000,
       });
     })

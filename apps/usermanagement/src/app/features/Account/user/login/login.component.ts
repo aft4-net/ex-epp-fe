@@ -96,6 +96,7 @@ export class LoginComponent {
         } 
         
         else{
+          window.location.replace(window.location.origin);
           this.router.navigateByUrl('');
           this.loading = false;
         }
