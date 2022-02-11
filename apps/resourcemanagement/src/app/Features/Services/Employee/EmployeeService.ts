@@ -300,7 +300,7 @@ export class EmployeeService {
       if(Object.keys(response.Data).length!= 0)
       {
         for (let i = 0; i < response.Data.jobtype.length; i++){
-          if(clientNameFliter.findIndex(x=>x.text === response.Data.jobtype[i].Name.trim()) === -1 ){
+          if(clientNameFliter.findIndex(x=>x.text.trim() === response.Data.jobtype[i].Name.trim()) === -1 ){
           clientNameFliter.push({
             text: response.Data.jobtype[i].Name,
             value: response.Data.jobtype[i].Name,
@@ -308,7 +308,7 @@ export class EmployeeService {
         }
         }
         for (let i = 0; i < response.Data.location.length; i++){
-          if(SupervisorFilter.findIndex(x=>x.text === response.Data.location[i].Name.trim()) === -1 ){
+          if(SupervisorFilter.findIndex(x=>x.text.trim() === response.Data.location[i].Name.trim()) === -1 ){
           SupervisorFilter.push({
             text: response.Data.location[i].Name,
             value: response.Data.location[i].Name,
@@ -316,7 +316,7 @@ export class EmployeeService {
         }
         }
         for (let i = 0; i < response.Data.Status.length; i++){
-          if(statusFilter.findIndex(x=>x.text === response.Data.Status[i].Name.trim()) === -1 ){
+          if(statusFilter.findIndex(x=>x.text.trim() === response.Data.Status[i].Name.trim()) === -1 ){
           statusFilter.push({
             text: response.Data.Status[i].Name,
             value: response.Data.Status[i].Name,
