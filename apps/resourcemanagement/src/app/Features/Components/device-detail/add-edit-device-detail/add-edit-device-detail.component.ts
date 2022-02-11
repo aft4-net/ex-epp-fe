@@ -32,7 +32,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
         private categoryService: CategoryService,
         private subCategoryService: SubcategoryService,
         private deviceClassificationService: DeviceClassificationService,
-        private toastr: ToastrService,
+        // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -92,7 +92,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
     if (this.deviceDetailForm.valid) {
       this.deviceDetailService.addDeviceDetail(this.deviceDetailForm.value).subscribe((response)=>{
         this.deviceDetailForm.reset();
-        this.toastr.success("Successfully Added", "Device Detail")
+        // this.toastr.success("Successfully Added", "Device Detail")
       });
     } else {
       Object.values(this.deviceDetailForm.controls).forEach(control => {
@@ -101,7 +101,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      this.toastr.error("Error", "Form is not valid");
+      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
@@ -110,7 +110,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
       this.deviceDetailService.updateDeviceDetail(this.deviceDetailForm.value, this.id ?? "")
         .subscribe((response)=>{
           // this.deviceDetailForm.reset();
-          this.toastr.success("Successfully Updated", "Device Detail")
+          // this.toastr.success("Successfully Updated", "Device Detail")
         });
     } else {
       Object.values(this.deviceDetailForm.controls).forEach(control => {
@@ -119,7 +119,7 @@ export class AddEditDeviceDetailComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      this.toastr.error("Error", "Form is not valid");
+      // this.toastr.error("Error", "Form is not valid");
     }
   }
 

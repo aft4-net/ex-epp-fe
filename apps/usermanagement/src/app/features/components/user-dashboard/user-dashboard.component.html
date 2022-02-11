@@ -2,6 +2,7 @@
     <nz-content>
 
       <div style="margin-top: -20px;" class="inner-content">
+      <div style="max-width:1100px">
         <div nz-row>
           <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
@@ -14,11 +15,11 @@
         </div>
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="6">
-            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
               <input  type="text" #userNameInput formControlName="userName" nz-input placeholder="Search" (change)="SearchUsersByUserName()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
-              <button nz-button nzType="default" (click)="SearchUsersByUserName()">
+              <button nz-button nzType="default"  style="border: none;" (click)="SearchUsersByUserName()">
                 <i nz-icon nzType="search"></i>
               </button>
             </ng-template>
@@ -31,7 +32,7 @@
         </div>
         <br/>
         <div nz-row style="margin-top:-10px">
-          <div nz-col class="gutter-row" nzSpan="24">
+          <div nz-col class="gutter-row" nzSpan="24" class="userlist">
               <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
                 <div  *ngIf="userList.length > 0; else normalHeader">
@@ -40,7 +41,7 @@
                       <th *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="text-align:center !important"  *ngFor="let column of listOfColumnsLastActivityDate"
+                      <th style="text-align:center !important; display:none"  *ngFor="let column of listOfColumnsLastActivityDate"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
                       <th  *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
@@ -55,7 +56,7 @@
                   <thead>
                     <tr>
                       <th >Name</th>
-                      <th >Last Activity Date</th>
+                      <th style="display:none" >Last Activity Date</th>
                       <th >Department</th>
                       <th >Role</th>
                       <th >Status</th>
@@ -70,7 +71,7 @@
                         {{user.FullName }}
                       </button>
                     </td>
-                    <td style="text-align:center !important">
+                    <td style="text-align:center !important; display:none">
                       <div *ngIf="(user.LastActivityDate | date:'MMM dd, yyyy') === 'Jan 01, 0001'; then thenBlock; else elseBlock"></div>
                         <ng-template style="text-align: center !important;" #thenBlock>
                           {{"N/A"}}
@@ -113,6 +114,7 @@
               </nz-table>
           </div>
         </div>
+        </div>
       </div>
 
 
@@ -141,7 +143,7 @@
       formControlName="UserName"
       placeholder="Select employee"
     >
-     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.JobTitle  !== 'undefined' && employee.EmployeeOrganization?.JobTitle !== null ? '- '+ employee.EmployeeOrganization.JobTitle: '')"></nz-option>
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.Role?.Name  !== 'undefined' && employee.EmployeeOrganization?.Role?.Name !== null ? '- '+ employee.EmployeeOrganization?.Role?.Name: '')"></nz-option>
     </nz-select>
               </nz-form-control>
             </nz-form-item>

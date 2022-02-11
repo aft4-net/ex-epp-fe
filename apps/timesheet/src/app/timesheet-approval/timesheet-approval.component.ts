@@ -142,6 +142,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
     this.initialDataforTab();
     this._commonData.getPermission();
@@ -225,7 +226,6 @@ authorize(key:string){
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
 
         this.TimesheetApprovalResponse = response.data;
-        console.log(this.TimesheetApprovalResponse);
 
         this.pageIndexG = response.pagination.pageIndex;
 
@@ -288,6 +288,7 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
+    console.log(arrayOfIds);
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
@@ -368,9 +369,9 @@ sortDirectionMethod() {
     this.UpdateData();
   }
 
-  FilterByClient(clientName:string[]) {
+  FilterByClient(ProjectName:string[]) {
     this.sortDirectionMethod();
-    this.clientNameG = clientName;
+    this.clientNameG = ProjectName;
     this.UpdateData();
   }
 
@@ -419,11 +420,13 @@ sortDirectionMethod() {
     }
   }
   onApprove(){
+    console.log(this.arrayOfCheckedId);
 
     for (const element of this.setOfCheckedId) {
       this.arrayOfCheckedId.push(element);
     }
 
+    console.log(this.arrayOfCheckedId);
     this.timesheetBulkApproval(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
     this.qtyofItemsSelected = 0;
@@ -433,14 +436,19 @@ sortDirectionMethod() {
     onSearchChange() {
       if(this.searchKeyGBinded) {
         if(this.searchKeyGBinded.length >= 2) {
-          this.searchKeyG = this.searchKeyGBinded
+       this.searchKeyG = this.searchKeyGBinded
+          console.log("start")
           this.UpdateData();
+          console.log("Finishhh")
         }
         else {
           this.searchKeyG = '';
+          console.log("startttttttttt")
           this.UpdateData();
+          console.log("startttttttttt")
         }
       }
+      //this.UpdateData();
     }
 
   onWeekChange() {
@@ -460,6 +468,8 @@ sortDirectionMethod() {
      this.statusG,
      this.projectNameG,
      this.clientNameG);
+console.log("dddddddddddddddddddddddddddddddddddddddddd")
+     console.log(this.TimesheetApprovalResponse);
 
   }
 }

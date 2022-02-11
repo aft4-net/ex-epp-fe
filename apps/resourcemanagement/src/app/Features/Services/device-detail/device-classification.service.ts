@@ -13,6 +13,6 @@ export class DeviceClassificationService {
 
   constructor(private http: HttpClient) { }
   loadDeviceClassifications(): Observable<DeviceClassification[]> {
-    return this.http.get<DeviceClassification[]>(this.baseUrl + 'DeviceClassification');
+    return this.http.get<DeviceClassification[]>(this.baseUrl + '/DeviceClassification');
   }
 }

@@ -13,7 +13,6 @@
 
 ::ng-deep .ant-tabs-tab-btn {
   color: #262626;
-  font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
@@ -101,7 +100,8 @@
 }
 
 header {
-  padding: 0px 2%;
+  padding: 0px 1.15%;
+  margin-bottom: 0.75% !important;
 }
 
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
@@ -109,31 +109,29 @@ header {
 }
 
 
+::ng-deep .ant-table-wrapper {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
 
-::ng-deep .ant-btn {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
+
+.action-buttons{
+  background: #00A551;
+  color:white;
   font-size: 1rem;
-  color: #FFFFFF;
+  font-style: normal;
 }
 
 
-::ng-deep .ant-btn:not([disabled]):hover {
-  background: #03da6b !important;
-  color: white;
-
+.client-detail-wrapper{
+  display: flex;
 }
-
-.clear-btn {
-  background: white;
-  color: #00A551;
-  margin-right: 10px;
-  border: 0.5px solid #00A551;
+.contact-detail-wrapper{
+  display: flex;
 }
-
-
-
-
-
+.location-wrapper {
+  display: flex;
+}
+::ng-deep th.table_heading.ant-table-cell {
+  background-color: #fafafa !important;
+}

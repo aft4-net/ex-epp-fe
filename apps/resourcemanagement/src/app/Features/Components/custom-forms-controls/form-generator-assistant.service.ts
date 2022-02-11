@@ -97,8 +97,6 @@ export class FormGeneratorAssistant {
         Object.values(formGroup.controls).forEach(control => {
             if (i === 2) {
                 this.errorMessageForEmail(control as FormArray)
-            } else if (i === 3) {
-                this.errorMessageForPhone(control as FormArray)
             } else {
                 this.validateControl(control as FormControl)
             }
@@ -107,14 +105,8 @@ export class FormGeneratorAssistant {
     }
 
     errorMessageforAddressDetails(formGroup: FormGroup) {
-        let i = 0
         Object.values(formGroup.controls).forEach(control => {
-            if (i === 6) {
-                this.errorMessageForPhone(control as FormArray)
-            } else {
-                this.validateControl(control as FormControl)
-            }
-            i += 1
+            this.validateControl(control as FormControl)
         });
     }
 

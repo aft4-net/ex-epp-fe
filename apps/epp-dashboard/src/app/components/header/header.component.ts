@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from 'libs/environments/environment';
+import { IntialdataService } from '../../services/intialdata.service';
 
 @Component({
   selector: 'exec-epp-page-header',
@@ -17,21 +18,29 @@ export class HeaderComponent implements OnInit {
   thefullName = '';
   theGroup: any;
   redirectUrl = environment.redirectUri;
-
+  loggedInUser = JSON.parse(
+    localStorage.getItem('loggedInUserInfo') ?? ''
+  );
   constructor(
     private authService: MsalService,
     private _authenticationService: AuthenticationService,
-    private _router: Router
+    private _router: Router,
+    private _intialdataService: IntialdataService
   ) {
-    this.fullName = _authenticationService.getUserFullName();
+    //this.fullName = this._intialdataService.getUser( this.loggedInUser.fullName)
+   // this.fullName = _authenticationService.getUserFullName();
+   this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.LastName)
     this.thefullName = this.fullName;
-    const namearray = this.fullName.split(' ');
-    this.fullName =
-      namearray[0][0].toUpperCase() + namearray[1][0].toUpperCase();
-    this.uemail = _authenticationService.getEmail();
+    console.log(this.thefullName);
+    this.fullName = this.loggedInUser.FirstName ;
+    const namearray = this.fullName.split();
+   //this.fullName = namearray[0][0].toUpperCase() + namearray[1][0].toUpperCase();
+   this.fullName = namearray[0][0].toUpperCase();
+    this.uemail = _authenticationService.getUserFullName();
   }
   getUser() {
     this._authenticationService.getUser(this.uemail);
+    console.log(this.uemail);
     setTimeout(() => {
       this.theGroup = this._authenticationService.position;
     }, 1000);

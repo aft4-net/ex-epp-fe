@@ -1,1 +1,4 @@
 @import url('../../excel-styles/excel-single-control.style.scss');
+::ng-deep .excel-link-button {
+    background-color: none !important;
+}
