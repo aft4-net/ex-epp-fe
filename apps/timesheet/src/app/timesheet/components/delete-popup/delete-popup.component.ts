@@ -6,8 +6,7 @@ export class DeletePopupComponent {
   @Output() moreTimeEntry: TimeEntry | null = null;
   isVisible = false;
   popoverVisible = false;
-  constructor() {
-  }
+
   showModal(): void {
     this.isVisible = true;
   }
@@ -26,6 +25,7 @@ export class DeletePopupComponent {
       nzOkText: '<b style="color: #262626; ">Yes, Delete</b>',
       nzOkType: 'primary',
 
+/*
 
       // border: '#00A551',
       // radius: '2px',
@@ -37,7 +37,9 @@ export class DeletePopupComponent {
       nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
       nzOnOk: () => console.log('OK'),
+      */
 
     });
   }
 }
+

@@ -1,17 +1,17 @@
 .table_heading
 {
-background-color: #b8fab8 !important;
+background-color: #F5F5F5 !important;
 font-weight: 700;
 }
 
 .table_evenrow_heading
 {
-background-color: #E8FFE8 !important;
+background-color: none !important;
 }
 
 .table_oddrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .inner-content {
@@ -22,9 +22,9 @@ background-color: white !important;
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #F5F5F5 !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: white}
 
 a {
   padding-right: 0.6vw;
@@ -107,7 +107,6 @@ tr.ant-table-row.ng-star-inserted {
 .ant-pagination {
   float: right;
 }
-
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -151,6 +150,10 @@ tr.ant-table-row.ng-star-inserted {
   color: white;
 }
 
+::ng-deep .ant-table-column-sorter {
+  margin-left: 5px !important;
+}
+
 ::ng-deep.ant-btn-link,.ant-btn-link:active, 
          .ant-btn-link:hover,ant-btn-link:focus {
   background-color: white !important;
@@ -169,12 +172,30 @@ tr.ant-table-row.ng-star-inserted {
 }
 
 ::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down,
-          .ant-table-column-sorter-down.active,
-          .ant-table-column-sorter-up.active {
+          .ant-table-column-sorter-down {
   color: #595959 !important;
+}
+::ng-deep.ant-table-column-sorter-down.active,
+         .ant-table-column-sorter-up.active {
+          color: #595959 !important;
 }
 
 ::ng-deep.ant-checkbox-inner {
   border-color: black !important;
+}
+
+
+.table-operations {
+  margin-bottom: 2px;
+
+}
+
+.table-operations > button {
+  margin-right: 8px;
+  border-color: #00A551;
+}
+
+::ng-deep .ant-input-affix-wrapper {
+  padding: 1px 5px !important;
+
 }

@@ -52,7 +52,7 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
       let params = new HttpParams(); 
       if(groupParams.searchKey)
       {
-        params = params.append("searchKey", /*groupParams.searchKey.toString()*/"Data");
+        params = params.append("searchKey", groupParams.searchKey.toString());
       }
       params = params.append("pageIndex", groupParams.pageIndex);
       params = params.append("pageSize", groupParams.pageSize);

@@ -53,46 +53,52 @@ export abstract class ApiService<T> {
   }
 
   update(resource: T) {
-    return this.httpClient.put(`/${this.APIUrl}`, resource)
+    return this.httpClient.put(this.APIUrl, resource)
 
   }
 
   getWithPagnationResut( pageindex:number,pageSize:number,id?: string,
-                         clientlist?:string[] ,
-                         superVisorlist?:string[],
-                         statuslist?:string[],searchKey?:string) :Observable<PaginatedResult<T[]>>
-  {let params = new HttpParams()
-    .set('pageindex', pageindex.toString())
-    .set('pageSize', pageSize.toString());
-    if(searchKey !== null){
-      params = params.append('searchkey', searchKey?searchKey:'');
-    }
-    if(id !== null){
-      params = params.append('id', id?id:'');
-    }
-    if(clientlist !== null){
-      clientlist?.forEach((client) =>{
-        params = params.append('client', client);
-      })
+    clientlist?:string[] ,
+    superVisorlist?:string[],
+    statuslist?:string[],searchKey?:string,SortColumn?:string| null,sortdirection?:string| null) :Observable<PaginatedResult<T[]>>
+ {let params = new HttpParams()
+  .set('pageindex', pageindex.toString())
+  .set('pageSize', pageSize.toString());
+  if(searchKey !== ''){
+  params = params.append('searchkey', searchKey?searchKey:'');
+  }
+if(id !== ''){
+  params = params.append('id', id?id:'');
+}
+if(clientlist !== null){
+  clientlist?.forEach((client) =>{
+    params = params.append('client', client);
+  })
 
-    }
-    if(superVisorlist !== null){
-      superVisorlist?.forEach((supervisorId) =>{
-        params = params.append('supervisorId', supervisorId);
-      })
+}
+if(superVisorlist !== null){
+  superVisorlist?.forEach((supervisorId) =>{
+    params = params.append('supervisorId', supervisorId);
+  })
 
-    }
-    if(statuslist!== null){
-      statuslist?.forEach((status) =>{
-        params = params.append('status', status);
-      })
+}
+if(statuslist!== null){
+  statuslist?.forEach((status) =>{
+    params = params.append('status', status);
+  })
 
-    }
-    let paginatedResult: PaginatedResult<T[]> = {
-      data: [] as  T[],
-      pagination: {} as Pagination
-    };
-    return this.get("?" +params.toString())
+}
+if(SortColumn != null){
+  params = params.append('SortField', SortColumn);
+}
+if(sortdirection != null){
+  params = params.append('sortOrder', sortdirection);
+}
+  let paginatedResult: PaginatedResult<T[]> = {
+    data: [] as  T[],
+    pagination: {} as Pagination
+ };
+ return this.get("?" +params.toString())
       .pipe(
 
         map((response:any) => {

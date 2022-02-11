@@ -9,7 +9,7 @@
             </nz-form-control>
         </div>
         <div class="config-add-button">
-            <button nz-button nzType="primary" (click)="updateModalState()">
+            <button nz-button nzType="primary" (click)="openModal()">
                 <span>Add Country</span>
             </button>
         </div>
@@ -41,7 +41,7 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
+<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="closeModal()">
     <ng-container *nzModalContent>
         <form (ngSubmit)="save()" class="flex flex-col">
             <div class="w-full m-0 mb-6">

@@ -35,12 +35,14 @@ export class CountryComponent implements OnInit {
     }
   }
 
-  updateModalState() {
-    this.addCountry = !this.addCountry;
+  openModal() {
+    this.addCountry = true;
+  }
+  
+  closeModal() {
+    this.addCountry = false;
 
-    if(!this.addCountry) {
-      this.isNew = true;
-    }
+    this.clearData();
   }
 
   save() {
@@ -57,8 +59,7 @@ export class CountryComponent implements OnInit {
       this.countryService.add(country).subscribe(response => {
         if(response.ResponseStatus === "Success") {
           this.getCountries();
-          this.updateModalState();
-          this.clearData();
+          this.closeModal();
         }
       }, error => {
 
@@ -68,8 +69,7 @@ export class CountryComponent implements OnInit {
       this.countryService.update({Guid: this.countryId, Name: this.country.value}).subscribe(response => {
         if(response.ResponseStatus === "Success") {
           this.getCountries();
-          this.updateModalState();
-          this.clearData();
+          this.closeModal();
         }
       }, error => {
 
@@ -81,7 +81,7 @@ export class CountryComponent implements OnInit {
     this.isNew = false;
     this.countryId = country.Guid;
     this.country.setValue(country.Name);
-    this.updateModalState();
+    this.openModal();
   }
 
   delete(country: Country) {
@@ -105,6 +105,7 @@ export class CountryComponent implements OnInit {
   }
 
   clearData() {
+    this.isNew = true;
     this.countryId = "";
     this.country.setValue("");
   }

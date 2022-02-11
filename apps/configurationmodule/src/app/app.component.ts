@@ -29,7 +29,8 @@ export class AppComponent implements OnInit {
     this._commonData.getPermission();
     this.isLogin = this._authenticationService.loginStatus();
     if (!this.isLogin) {
-      this.router.navigateByUrl('usermanagement/sign_in');
+     // this.router.navigateByUrl('usermanagement/sign_in');
+      this.router.navigateByUrl('usermanagement/logIn');
     }
   }
   activePath(routePath: string) {

@@ -35,6 +35,8 @@ export class DetailsFormComponent implements OnInit {
   selectedValue = '';
   clientNameExistErrorMessage='';
   validateForm!: FormGroup;
+
+  hideIfAdd: any;
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -47,7 +49,7 @@ export class DetailsFormComponent implements OnInit {
   ngOnInit(): void {
     this.createRegistrationForm();
     this.setValue();
-
+    this.hideIfAdd = this.updateClientState.isAdd;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
