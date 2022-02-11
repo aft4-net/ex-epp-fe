@@ -16,11 +16,14 @@ import { ErrHandleService } from './error-handle.service';
   export class AuthenticationService {
   private userSubject :BehaviorSubject<LogInResponse|any>;
   public users: Observable<LogInResponse>;
+
+  private changPassdataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isChangePass: Observable<boolean> = this.changPassdataSource.asObservable();
+
   loggedInUser:any;
   useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
-    httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       
     };
     url=environment.apiUrl;
@@ -28,6 +31,7 @@ import { ErrHandleService } from './error-handle.service';
   loginCount=0;
   position:string="";
   empGuid:string="";
+  fullName:string='';
 
     constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {
 
@@ -42,6 +46,7 @@ import { ErrHandleService } from './error-handle.service';
    }
 
    getUser(email:string){
+<<<<<<< HEAD
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + this.useEmails.Email.toLowerCase()).subscribe(
       (response) => {
        this.user=response;
@@ -69,7 +74,7 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('http://localhost:4200');
+    //window.location.replace('http://localhost:4200');
    }
    
 
@@ -78,18 +83,21 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.getItem('email');
     window.sessionStorage.getItem('password');
     window.sessionStorage.setItem('isLogin','true');
-    window.location.replace('http://localhost:4200');
+    //window.location.replace('http://localhost:4200');
    }
    getEmail(){
      return window.sessionStorage.getItem('username');
    }
    getUserFullName(){
-     return window.sessionStorage.getItem('name');
+     return localStorage.getItem('name')
+    // return window.sessionStorage.getItem('name');
      
    }
 
    getFullName(){
-    return this.loggedInUser.getFullName()
+    this.fullName = ((this.loggedInUser.FirstName) + (this.loggedInUser.LastName));
+    console.log(this.fullName);
+    return this.fullName
   }
    getUsersName(){
     return  window.sessionStorage.getItem('username');
@@ -133,4 +141,8 @@ import { ErrHandleService } from './error-handle.service';
     ));
 };
 
+  hasData(value: boolean) {
+    this.changPassdataSource.next(value);
+  }
+  
     } 

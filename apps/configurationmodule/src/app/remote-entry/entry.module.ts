@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../app.component';
@@ -16,8 +16,43 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { CountryComponent } from '../features/country/country.component';
-import { DutyStationComponent } from '../features/duty-station/duty-station.component';
+const routes: Routes = [
+  {
+    path: '',
+    component: AppComponent,
+    children: [
+      {
+        path: '',
+        component: DepartmentComponent,
+        data: {
+          breadcrumb: "configuration"
+        }
+      },
+      {
+        path:'timesheet',
+        component: TimesheetConfigurationComponent,
+        data: {
+          breadcrumb: "timesheet"
+        }
+      },
+      {
+        path: 'role',
+        component: RoleComponent,
+        data: {
+          breadcrumb: "role"
+        }
+      },
+      {
+        path: "country",
+        component: CountryComponent,
+        data: {
+          breadcrumb: "country"
+        }
+      }
+    ]
+  },
 
+]
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
@@ -27,34 +62,7 @@ import { DutyStationComponent } from '../features/duty-station/duty-station.comp
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: AppComponent,
-        children: [
-          {
-            path: 'department',
-            component: DepartmentComponent
-          },
-          {
-            path:'timesheet',
-            component: TimesheetConfigurationComponent
-          },
-          {
-            path: 'role',
-            component: RoleComponent
-          },
-          {
-            path: "country",
-            component: CountryComponent
-          },
-          {
-            path: "duty-station",
-            component: DutyStationComponent
-          }
-        ]
-      },
-    ]),
+    RouterModule.forChild(routes),
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

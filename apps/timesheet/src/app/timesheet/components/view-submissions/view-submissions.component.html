@@ -1,5 +1,5 @@
 <section *ngIf="authorize('View_Timesheet_Submissions')" id="submissionHistory" class="mb-20">
-  <span nz-row>
+  <div class="m-0 mt-4">
     <a nzSm="4" nzXs="4" (click)="navaigateToTimeSheet()">
       <svg width="76" height="24" viewBox="0 0 76 24" fill="none">
         <path d="M7.875 19L9.10875 17.59L5.10125 13H19.25V11H5.10125L9.1175 6.41L7.875 5L1.75 12L7.875 19Z"
@@ -9,8 +9,10 @@
           fill="#595959" />
       </svg>
     </a>
-  </span>
-  <nz-date-picker class="mt-3 mb-3" [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
+  </div>
+  <div class="mt-3 mb-3">
+    <nz-date-picker [(ngModel)]="date" (ngModelChange)="getWeek($event)"></nz-date-picker>
+  </div>
   <nz-table nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false" [nzData]="timeSheetHistory"
     (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
@@ -51,7 +53,7 @@
       <tr *ngFor="let data of   timeSheetHistory" (click)="reviewsubmissions(data.FromDate)">
         <td>{{data.FromDate | date:'MMM d' }} - {{data.ToDate | date}} </td>
         <td>{{ data.ProjectName}} </td>
-        <td>{{  data.ClientName}}</td>
+        <td>{{ data.ClientName}}</td>
         <td>
           {{ data.TotalHours}}
         </td>

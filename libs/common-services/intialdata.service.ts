@@ -8,9 +8,9 @@ import { map } from 'rxjs/operators';
 })
 export class IntialdataService {
 
-  userEmail=window.sessionStorage.getItem('username');
+  userEmail = window.sessionStorage.getItem('username') ?? null;
     useEmails = JSON.parse(
-    localStorage.getItem('loggedInUserInfo') ?? ''
+    localStorage.getItem('loggedInUserInfo') ?? '{}'
   );
   baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
   baseUrlByEmail = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.useEmails.Email?.toLowerCase()}`;

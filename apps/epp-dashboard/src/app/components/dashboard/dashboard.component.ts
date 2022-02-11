@@ -17,12 +17,17 @@ export class DashboardComponent implements OnInit {
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
-   // this.fullName=_authenticationService.getUserFullName();
+  // this.fullName=_authenticationService.getUserFullName();
+  // this.fullName = this.userEmails.FirstName ;
+   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
+   //debugger
+  // this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
+   console.log(this.thePosition + "Position 1");
    // this.fullName = _authenticationService.getUsersName();
-   // const namearray=this.fullName.split(' ');
-   // this.fullName=namearray[0] + namearray[0];
+    const namearray=this.fullName.split(' ');
+    this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    //this.thePosition = _authenticationService.position;
+    this.thePosition = _authenticationService.position;
   
   }
 update(){
@@ -40,7 +45,7 @@ update(){
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
       console.log('response4'+ this.userEmails.fullName)
       this.thePosition=response.EmployeeOrganization.Role.Name;
-      this.fullName = this.userEmails.FirstName + ' ' + this.userEmails.MiddleName + ' '+ this.userEmails.LastName;
+      this.fullName = this.userEmails.FirstName + ' ' + this.userEmails.MiddleName + ' ' + this.userEmails.LastName;
     });
   //  setTimeout(() => {
   //    this.thePosition = this._authenticationService.position;
