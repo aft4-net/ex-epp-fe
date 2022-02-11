@@ -14,7 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { PermissionComponent } from '../features/components/permission/permission.component';
 import { RemoteEntryComponent } from './entry.component';
-import { RouterModule } from '@angular/router';
+import {RouterModule, Routes } from '@angular/router';
 import { SigninComponent } from '../features/Account/signin/signin.component';
 import { UserDashboardComponent } from '../features/components/user-dashboard/user-dashboard.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
@@ -29,6 +29,59 @@ export function MSALInstanceFactory(): IPublicClientApplication
     clientId: environment.clientId,
     redirectUri: environment.redirectUri,
   }});}
+  const routes: Routes = [
+    {
+    path: '',
+        component: AppComponent,
+        children : [
+          {
+            path:'',component:UserDashboardComponent,
+            data: {
+              breadcrumb: "user"
+            }
+
+          },
+          {
+            path:'permission/:id',component:PermissionComponent,
+            data: {
+              breadcrumb: "permission"
+            }
+          },
+          {
+            path:'user-dashboard',component:UserDashboardComponent,
+            data: {
+              breadcrumb: "user"
+            }
+          },
+          {
+            path:'userdetails/:id',component:UserdetailsComponent,
+            data: {
+              breadcrumb: "user details"
+            }
+          },
+          {
+            path:'group',component:GroupsetComponent,
+            data: {
+              breadcrumb: "group"
+            }
+          },
+          {
+            path:'group-detail/:id',component:GroupDetailComponent,
+            data: {
+              breadcrumb: "group detail"
+            }
+          },
+          {
+            path:'sign_in', component:SigninComponent
+          },
+          {path:'unauthorize', component:UnauthorizeComponent,
+          data: {
+            breadcrumb: "sign in"
+          }
+        }
+        ]
+      },
+  ]
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
@@ -39,41 +92,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
 
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: AppComponent,
-        children : [
-          {
-            path:'',component:UserDashboardComponent
-
-          },
-          {
-            path:'permission/:id',component:PermissionComponent
-          },
-          {
-            path:'user-dashboard',component:UserDashboardComponent
-          },
-          {
-            path:'userdetails/:id',component:UserdetailsComponent
-          },
-          {
-            path:'group',component:GroupsetComponent
-          },
-          {
-            path:'group-detail/:id',component:GroupDetailComponent
-          },
-          {
-            path:'changepassword',component:ChangepasswordComponent
-          },
-          {
-            //path:'sign_in', component:SigninComponent
-            path:'logIn', component:LoginComponent
-          },
-          {path:'unauthorize', component:UnauthorizeComponent}
-        ]
-      },
-    ]),
+    RouterModule.forChild(routes),
   ],
   providers: [
     {
@@ -84,6 +103,6 @@ export function MSALInstanceFactory(): IPublicClientApplication
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     MsalService
     ],
-   
+
 })
 export class RemoteEntryModule {}
