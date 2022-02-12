@@ -37,38 +37,38 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'',component:UserDashboardComponent,
             data: {
-              breadcrumb: "user"
+              breadcrumb: "Users"
             }
 
           },
           {
             path:'permission/:id',component:PermissionComponent,
             data: {
-              breadcrumb: "permission"
+              breadcrumb: "Permission"
             }
           },
           {
             path:'user-dashboard',component:UserDashboardComponent,
             data: {
-              breadcrumb: "user"
+              breadcrumb: "Users"
             }
           },
           {
             path:'userdetails/:id',component:UserdetailsComponent,
             data: {
-              breadcrumb: "user details"
+              breadcrumb: "User-Details"
             }
           },
           {
             path:'group',component:GroupsetComponent,
             data: {
-              breadcrumb: "group"
+              breadcrumb: "Group"
             }
           },
           {
             path:'group-detail/:id',component:GroupDetailComponent,
             data: {
-              breadcrumb: "group detail"
+              breadcrumb: "Group-Detail"
             }
           },
           {
@@ -76,7 +76,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
           },
           {path:'unauthorize', component:UnauthorizeComponent,
           data: {
-            breadcrumb: "sign in"
+            breadcrumb: "Log In"
           }
         }
         ]
