@@ -346,19 +346,14 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
   createProject() {
 
-
-    // if (this.validateForm.controls.status.value.AllowResource == true)
-    //   this.projectCreate.AssignResource = this.resources;
-    // else this.projectCreate.AssignResource = [] as projectResourceType[];
      this.projectService.createProject();
 
-    this.router.navigateByUrl('projectmanagement');
   }
 
   saveProjectUpdate()
   {
   this.projectService.updateProject(this.projectUpdate);
-  this.router.navigateByUrl('projectmanagement');
+
   }
   updateProject()
   {

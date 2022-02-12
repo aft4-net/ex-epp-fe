@@ -39,7 +39,7 @@
             <i nz-icon nzType="edit" style="color:black;" ></i>
           </a>
           &nbsp; &nbsp;
-          <a   *ngIf="authorize('Delete_Project')" (click)="deleteProject(data)">
+          <a   *ngIf="authorize('Delete_Project')" (click)="deleteProjectConformation(data)">
             <i nz-icon nzType="delete" style="color:black;"></i>
           </a>
         </td>
@@ -54,3 +54,14 @@
     </span>
   </div>
 </section>
+
+<nz-modal [(nzVisible)]="deleteProjectModal" nzTitle="Delete project" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false"
+  nzClassName="delete-conform-modal">
+  <ng-container *nzModalContent>
+    <p > Are you sure to delete {{projectToDelete.ProjectName}} project ? </p>
+    <span class="flex justify-end">  
+      <button class="bg-green-500  hover:bg-green-400  text-white':'bg-gray-200  text-gray-500"  class="yes-delete-btn mr-8" (click)="deleteProject()">Yes , delete </button>
+      <button nz-button class="cancel" (click)="hidedeleteProjectModal()">Cancel</button>
+    </span>
+  </ng-container>
+</nz-modal>
