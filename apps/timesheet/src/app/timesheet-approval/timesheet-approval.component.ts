@@ -15,6 +15,7 @@ import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { delay } from 'rxjs/operators';
+import { TimesheetStateService } from '../timesheet/state/timesheet-state.service';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -137,7 +138,10 @@ export class TimesheetApprovalComponent implements OnInit {
     private notification:NzNotificationService,
     public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
-  ) { }
+    private _timesheetStateService: TimesheetStateService
+  ) {
+    this._timesheetStateService.setTimesheetPageTitle("Approve Timesheet");
+   }
 
 
 
