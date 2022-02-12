@@ -37,7 +37,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'job-title',
+        path: 'role',
         component: RoleComponent,
         data: {
           breadcrumb: "Job-Title"

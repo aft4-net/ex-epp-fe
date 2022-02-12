@@ -62,7 +62,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'group',component:GroupsetComponent,
             data: {
-              breadcrumb: "Group"
+              breadcrumb: "Groups"
             }
           },
           {
