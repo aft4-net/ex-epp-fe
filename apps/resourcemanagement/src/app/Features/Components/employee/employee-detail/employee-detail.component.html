@@ -14,9 +14,7 @@
       </div>
      
       <div  nz-row nzJustify="end" >
-        <div class="table-operations"> 
-          <button nz-button (click)="FeatchAllEmployees()">Clear filters</button>
-        </div>
+       
         <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
         <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
         <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
@@ -30,7 +28,7 @@
             <nz-table  [nzLoading]="loading"  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
               nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
               <div *ngIf="employeeViewModel.length > 0; else normalHeader">
-                <thead>
+               <!-- <thead>
                   <tr>
                     <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                     (nzCheckedChange)="onAllChecked($event)" ></th>
@@ -40,8 +38,20 @@
                     <th *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                       [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                       [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                      [nzFilterFn]="column.filterFn"  >{{ column.name }}</th>
+                      [nzFilterFn]="true" (nzFilterChange)="EmployeeFilter($event,column)" >{{ column.name }}</th>
                     <th *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
+                  </tr>
+                </thead>-->
+                <thead>
+                  <tr>
+                    <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                    (nzCheckedChange)="onAllChecked($event)"></th>
+                      <th class="table_heading" [nzSortFn]="true">Employee</th>
+                      <th class="table_heading" [nzSortFn]="true">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
+                      <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>
               </div>
@@ -51,11 +61,11 @@
                     <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                     (nzCheckedChange)="onAllChecked($event)"></th>
                       <th>Employee</th>
-                      <th>Joining Date</th>
-                      <th>Location</th>
-                      <th>Job <Title></Title></th>
-                      <th>Status</th>
-                      <th *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
+                      <th class="table_heading">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
+                      <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>
               </ng-template>
