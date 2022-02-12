@@ -63,6 +63,8 @@
               <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
               ></nz-switch>
               </a>
+      <a style="float:right" nz-button nzType="link" (click)="resetPassword()">RESET PASSWORD</a>
+
             
               
             </div>
@@ -180,7 +182,11 @@
         </nz-table>
       </div>
     </div>
+
+   
+     
   </div>
+
 </div>
 
 </nz-content>
