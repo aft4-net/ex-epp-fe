@@ -12,6 +12,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { debounceTime } from 'rxjs/operators';
+import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -85,6 +86,7 @@ export class ViewProjectLayoutComponent implements OnInit {
     private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
+    private modal: NzModalService,
     private notification: NzNotificationService
   ) { }
 
@@ -107,11 +109,11 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.valuechangeSearchProject();
   }
 
-  nzSortOrderChange(SortColumn: string,direction: string| null) {
-    if(direction == 'ascend'){
-    this.sortDirection = 'Ascending';
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    if (direction == 'ascend') {
+      this.sortDirection = 'Ascending';
     }
-    else if(direction == 'descend'){
+    else if (direction == 'descend') {
       this.sortDirection = 'Descending';
     }
     else {
