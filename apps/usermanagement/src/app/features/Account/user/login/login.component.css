@@ -24,10 +24,36 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
+  
   text-align: center;
   font:SF Pro Display Semibold;
   font-style:normal;
-  color:#1a202c
+  color:#1a202c;  
+  
+}
+.union-img{
+  margin-left: -17%;
+  margin-top: 5%;
+  width: 38%;
+}
+
+.Epp_Project{
+  margin-left: 25%;
+  margin-top: -13%;
+  width: 48%;
+}
+
+.loginAccount
+{
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  
+  text-align: center;
+  font:SF Pro Display Semibold;
+  font-style:normal;
+  color:#1a202c;  
+
 }
 
 .info {
