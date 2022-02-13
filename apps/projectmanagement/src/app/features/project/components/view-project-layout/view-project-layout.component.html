@@ -55,13 +55,19 @@
   </div>
 </section>
 
-<nz-modal [(nzVisible)]="deleteProjectModal" nzTitle="Delete project" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false"
-  nzClassName="delete-conform-modal">
+<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="deleteProjectModal" [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="conform-modal">
+
+  <ng-template #confirmTile>
+<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Delete  
+ </ng-template>
   <ng-container *nzModalContent>
-    <p > Are you sure to delete {{projectToDelete.ProjectName}} project ? </p>
+  <p> 
+    Are you sure to delete {{projectToDelete.ProjectName}} project ? 
+  </p>
     <span class="flex justify-end">  
-      <button class="bg-green-500  hover:bg-green-400  text-white':'bg-gray-200  text-gray-500"  class="yes-delete-btn mr-8" (click)="deleteProject()">Yes , delete </button>
-      <button nz-button class="cancel" (click)="hidedeleteProjectModal()">Cancel</button>
+      <button   class="btn mr-8" (click)="deleteProject()">Yes,delete </button>
+      <button  class="btn-cancel" (click)="hidedeleteProjectModal()">Cancel</button>
     </span>
   </ng-container>
 </nz-modal>

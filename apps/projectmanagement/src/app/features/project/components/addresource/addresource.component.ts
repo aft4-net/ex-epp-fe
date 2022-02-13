@@ -359,6 +359,10 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   onReset() {
     this.router.navigateByUrl('projectmanagement');
   }
+
+  confirmCancel(){
+    this.removeResourceModel=false;
+  }
 }
 
 

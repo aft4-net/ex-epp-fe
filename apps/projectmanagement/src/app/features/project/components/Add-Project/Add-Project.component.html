@@ -31,8 +31,9 @@
   <nz-tabset class="side-nav p-2" [nzTabPosition]="position" *ngIf="authorize('Create_Project')" [(nzSelectedIndex)]="activeTabIndex" >
     <nz-tab class="side-nav-tab" nzSelected [nzTitle]="detailsTitleTemplate">  
         <ng-template #detailsTitleTemplate>
-          <i nz-icon [nzType]="'project'"nzMode="inline" nzTheme="outline" style=" font-size: '21px';"></i>
+         <span > <i nz-icon [nzType]="'project'"nzMode="inline" nzTheme="outline" style=" font-size: '24px'; "></i>
           Project Details
+        </span>
        </ng-template>
    
       <div class="tab-content">
@@ -221,33 +222,34 @@
     <nz-tab *ngIf="authorize('Assign_Resource')" 
       [nzDisabled]="disallowResource" [nzTitle]="resourcesTemplate">  
         <ng-template #resourcesTemplate>
-          <i nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style=" font-size: '21px';"></i>
+        <span>
+          <i nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style=" font-size: '24px';"></i>
           Resources
+        </span>
        </ng-template>
       <div class="tab-content">
-        <!-- <div class="justify-between" nz-row>
-          <div class="page-title "> Resources </div>
-        
-          <button  *ngIf="isOnEditstate" (click)="showDeleteConfirm()" class="text-green-500  border-1 border-green-500  border-solid bg-transparent  font-semibold
-          py-1 px-3 border hover:border-green-800 hover:text-green-800  ">
-               Cancel
-             </button>
-        
-        </div> -->
         <exec-epp-addresource (addProjectResourceEvent)="updateProjectResourseList($event)" [ProjectStartDate]="this.startValue.value" [ProjectEndDate]="this.endValue.value"> </exec-epp-addresource>
       </div>
     </nz-tab>
   </nz-tabset>
 </section>
 
-<nz-modal [(nzVisible)]="cancelModal" nzTitle="Confirmation" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false"
-  nzClassName="delete-conform-modal">
+
+<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="cancelModal"  [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="conform-modal">
+
+  <ng-template #confirmTile>
+<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i> Exit
+ </ng-template>
   <ng-container *nzModalContent>
     <p *ngIf="!isOnEditstate"> Are you sure to exit before saving project ? </p>
     <p *ngIf="isOnEditstate" > Are you sure to exit before updating project ? </p>
     <span class="flex justify-end">  
-      <button class="bg-green-500  hover:bg-green-400  text-white':'bg-gray-200  text-gray-500"  class="yes-delete-btn mr-8" (click)="confimeresredirect()">Yes</button>
-      <button nz-button class="cancel" (click)="rediretCancel()">Cancel</button>
+      <button  class="btn mr-8" (click)="confimeresredirect()">Yes, exit </button>
+      <button  class="btn-cancel" (click)="rediretCancel()">Cancel</button>
     </span>
   </ng-container>
 </nz-modal>
+
+
+

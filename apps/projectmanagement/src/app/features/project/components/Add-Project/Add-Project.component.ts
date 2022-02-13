@@ -490,6 +490,10 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.cancelModal=false;
   }
 
+  confirmCancel()
+  {
+    this.cancelModal=false;
+  }
 
 
 }

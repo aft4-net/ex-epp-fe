@@ -38,9 +38,9 @@ export class ViewProjectLayoutComponent implements OnInit {
   deleteProjectModal=false;
   editProjectPermission = false;
   searchProject = new FormControl();
-  total = 8;
+  total = 10;
   loading = false;
-  pageSize = 8;
+  pageSize = 10;
   pageIndex = 1;
   totalPage!: number;
   searchKey = '';
@@ -94,7 +94,7 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.getCurrentUser();
     this.getfilterDataMenu();
     this.projectService
-      .getWithPagnationResut(1, 9)
+      .getWithPagnationResut(1, 10)
       .subscribe((response: PaginatedResult<Project[]>) => {
         this.projects = response.data;
         this.intiaload = false;
@@ -250,5 +250,8 @@ export class ViewProjectLayoutComponent implements OnInit {
   {
     this.deleteProjectModal=false;
     this.projectToDelete={} as Project; 
+  }
+  confirmCancel(){
+    this.deleteProjectModal=false;
   }
 }

@@ -15,7 +15,7 @@
 
 </div>
 
-<nz-table [nzBordered]="false" [nzFrontPagination]="false" [nzData]="projectResources" nzTableLayout="fixed">
+<nz-table nzSize="small"  [nzBordered]="false" [nzFrontPagination]="false" [nzData]="projectResources" nzTableLayout="fixed">
   <thead>
     <tr>
       <th>Resource</th>
@@ -85,7 +85,7 @@
 
       <div nz-row>
         <button type="submit"
-          class="bg-green-500 hover:border-transparent hover:bg-green-400 text-white font-bold py-2 px-3 border border-green-500 mr-3">
+          class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
           Add
         </button>
 
@@ -134,13 +134,13 @@
         </nz-form-item>
         <div nz-row>
           <button *ngIf="!isOnEditstate" type="submit"
-            class="bg-green-500 hover:border-transparent hover:bg-green-400 text-white font-bold py-2 px-3 border border-green-500 mr-3">
+            class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
             Edit
           </button>
 
           <button *ngIf="isOnEditstate" [disabled]="disableUpdateButton"
             class=" font-semibold py-1   px-3 mr-3  border-white" type="submit"
-            [ngClass]=" !disableUpdateButton ? 'bg-green-500  hover:bg-green-400  text-white':' cursor-not-allowed bg-gray-100  text-white ' ">
+            [ngClass]=" !disableUpdateButton ? 'bg-green-500  hover:bg-green-600  text-white':' cursor-not-allowed bg-gray-100  text-white ' ">
             Edit </button>
 
 
@@ -154,13 +154,22 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="removeResourceModel" nzTitle="Resource unassign" [nzFooter]="null" [nzCentered]="true"
-  [nzClosable]="false" nzClassName="delete-conform-modal">
+
+
+<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="removeResourceModel" [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="conform-modal">
+
+  <ng-template #confirmTile>
+  
+<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Resource unassign
+
+ </ng-template>
+ 
   <ng-container *nzModalContent>
     <p> Are you sure to unassign project's resource ? </p>
-    <span class="flex justify-end">
-      <button nz-button class="yes-delete-btn mr-6" (click)="removeResource()">Yes</button>
-      <button nz-button class="cancel" (click)="deleteCancel()">Cancel</button>
+    <span class="flex justify-end">  
+      <button  class="btn mr-8" (click)="removeResource()">Yes, unassign</button>
+      <button  class="btn-cancel" (click)="deleteCancel()">Cancel</button>
     </span>
   </ng-container>
 </nz-modal>
