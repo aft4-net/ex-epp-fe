@@ -15,6 +15,15 @@ export class httpJWTInterceptor implements HttpInterceptor {
         const baseUrl = environment.apiUrl;
         const isApiUrl = request.url.startsWith(baseUrl);
         if ((Object.keys(loggedInUser).length > 0) && isApiUrl) {
+            if(this.tokenExpired(loggedInUser.Token)){
+                console.log('token expired and need logging out');
+
+                window.sessionStorage.clear(); 
+                localStorage.removeItem('loggedInUserInfo');
+                window.location.origin;
+                window.location.reload();
+            
+            }
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${loggedInUser.Token}`
@@ -23,5 +32,9 @@ export class httpJWTInterceptor implements HttpInterceptor {
         }
 
         return next.handle(request);
+    }
+    private tokenExpired(token: string) {
+        const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+        return (Math.floor((new Date).getTime() / 1000)) >= expiry;
     }
 }
