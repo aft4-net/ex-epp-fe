@@ -1,7 +1,13 @@
 <div class="md:flex flex-wrap md:flex-nowrap lg:space-x-36 w-full  mr-4">
   <div class="flex-2 sm:w-2/4 lg:w-1/4 ml-4 sm:mt-4 sm:mb-4 sm:ml-0">
-    <nz-breadcrumb [nzAutoGenerate]="true" class="flex sm:contents">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a href="{{homeUrl}}">Home</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb [nzAutoGenerate]="true" class="flex sm:contents">
+      </nz-breadcrumb>     
     </nz-breadcrumb>
+    
     <div *ngIf="(title$ | async) as pageTitle" class="w-auto h-7">
       <h3 class="w-auto h-full font-semibold text-xl not-italic">{{ pageTitle }}</h3>
     </div>

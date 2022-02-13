@@ -12,6 +12,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { debounceTime } from 'rxjs/operators';
+import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -81,9 +82,10 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
-    private  editProjectStateService: EditProjectStateService,
+    private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
+    private modal: NzModalService,
     private notification: NzNotificationService
   ) { }
 
@@ -106,11 +108,11 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.valuechangeSearchProject();
   }
 
-  nzSortOrderChange(SortColumn: string,direction: string| null) {
-    if(direction == 'ascend'){
-    this.sortDirection = 'Ascending';
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    if (direction == 'ascend') {
+      this.sortDirection = 'Ascending';
     }
-    else if(direction == 'descend'){
+    else if (direction == 'descend') {
       this.sortDirection = 'Descending';
     }
     else {
@@ -240,8 +242,43 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.totalPage = response.pagination.totalPage;
     })
   }
-  editProject(data:Project)
-  {
+  editProject(data: Project) {
     this.editProjectStateService.editProjectState(data);
+  }
+
+  deleteProject(data: Project) {
+    console.log("delete")
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to delete this project?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.projectService.deleteProjectByState(data.Guid)
+          .subscribe((result: any) => {
+            if (result.success === true) {
+              this.notification.success('Delete', result.message);
+              this.getProjects();
+            } else {
+              this.notification.error('Delete', result.message);
+            }
+            this.loading = false;
+          });
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+    // this.loading = true;
+    // this.projectService.deleteProjectByState(data.Guid)
+    //   .subscribe((result: any) => {
+    //     if (result.success === true) {
+    //       this.notification.success('Deleted', result.message);
+    //       this.getProjects();
+    //     } else {
+    //       this.notification.error('Deleted', result.message);
+    //     }
+    //     this.loading = false;
+    //   });
   }
 }

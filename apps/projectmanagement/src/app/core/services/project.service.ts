@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PaginatedResult, Project, ProjectCreate } from '../models';
 
 import { ApiService } from '../models/apiService';
@@ -127,6 +127,19 @@ export class ProjectService extends ApiService<Project> {
         supervisorFilter:SupervisorFilter
       }
     }))
+  }
+
+  deleteProjectByState(id: string): Observable<{ success: boolean, message: string }> {
+    return this.delete(id)
+    .pipe(
+      map((response: any) => {
+        if(response.ResponseStatus === 'Success' || response.ResponseStatus === 1) {
+          return { success: true, message: response.Message };
+        } else {
+          return { success: false, message: response.Message };
+        }
+      })
+    );
   }
 
 

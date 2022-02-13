@@ -112,22 +112,11 @@ export class EmployeeService {
 
   checkIdNumber(idNumber: string): Observable<boolean> {
     const params = new HttpParams().set('idNumber', idNumber);
-    // this.http.get(
-    //   "http://localhost:14696/api/v1/Employee/checkidnumber?idNumber=hhvvfd"
-    // )
-    // .subscribe(r => {
-    //   console.log('l')
-    //   console.log(r)
-    //   console.log('l')
-    // })
     const result = this.http.get(
       this.baseUrl + "/checkidnumber?" + params.toString()
     )
     .pipe(
       map((response: any) => {
-        console.log('Changed')
-    
-        console.log(response)
         return response as boolean;
       })
     );
@@ -226,6 +215,7 @@ export class EmployeeService {
         })
       );
   }
+
   filterEmployeeData(
     employeeParams: EmployeeParams,JobType:string,Location:string,Status:string
   ): Observable<PaginationResult<IEmployeeViewModel[]>> {
@@ -305,4 +295,106 @@ export class EmployeeService {
   DeleteEmployee(employeeId:string) {
     return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
   }
+
+  getFilterData(){
+    const clientNameFliter: { text: string; value: string }[] = [] as {
+      text: string;
+      value: string;
+    }[];
+    const SupervisorFilter: { text: string; value: string }[] = [] as {
+      text: string;
+      value: string;
+    }[];
+    const statusFilter: { text: string; value: string }[] = [] as {
+      text: string;
+      value: string;
+    }[];
+    
+    return this.http.get(environment.apiUrl+"/Employee/FilterData").pipe(map((response:any)=>{
+      console.log((response.Data.Status[0]));
+      if(Object.keys(response.Data).length!= 0)
+      {
+        for (let i = 0; i < response.Data.jobtype.length; i++){
+          if(clientNameFliter.findIndex(x=>x.text.trim() === response.Data.jobtype[i].Name.trim()) === -1 ){
+          clientNameFliter.push({
+            text: response.Data.jobtype[i].Name,
+            value: response.Data.jobtype[i].Name,
+          });
+        }
+        }
+        for (let i = 0; i < response.Data.location.length; i++){
+          if(SupervisorFilter.findIndex(x=>x.text.trim() === response.Data.location[i].Name.trim()) === -1 ){
+          SupervisorFilter.push({
+            text: response.Data.location[i].Name,
+            value: response.Data.location[i].Name,
+          });
+        }
+        }
+        for (let i = 0; i < response.Data.Status.length; i++){
+          if(statusFilter.findIndex(x=>x.text.trim() === response.Data.Status[i].Name.trim()) === -1 ){
+          statusFilter.push({
+            text: response.Data.Status[i].Name,
+            value: response.Data.Status[i].Name,
+          });
+        }
+        }
+
+      }
+      return {
+        jobtitleFilter :clientNameFliter,
+        StatusFilter :statusFilter,
+        locationFilter:SupervisorFilter
+      }
+    }))
+  }
+
+  getWithPagnationResut( pageindex:number,pageSize:number,id?: string,
+                         clientlist?:string[] ,
+                         superVisorlist?:string[],
+                         statuslist?:string[],searchKey?:string) :Observable<PaginationResult<IEmployeeViewModel[]>>
+  {let params = new HttpParams()
+    .set('pageindex', pageindex.toString())
+    .set('pageSize', pageSize.toString());
+    if(searchKey !== null){
+      params = params.append('searchkey', searchKey?searchKey:'');
+    }
+    if(id !== null){
+      params = params.append('id', id?id:'');
+    }
+    if(clientlist !== null){
+      clientlist?.forEach((client) =>{
+        params = params.append('jobtype', client);
+      })
+
+    }
+    if(superVisorlist !== null){
+      superVisorlist?.forEach((supervisorId) =>{
+        params = params.append('location', supervisorId);
+      })
+
+    }
+    if(statuslist!== null){
+      statuslist?.forEach((status) =>{
+        params = params.append('status', status);
+      })
+
+    }
+    //let paginatedResult = this.paginatedResult;
+    return this.http.get(  this.baseUrl + '/GetAllEmployeeDashboardFilter', {params})
+    .pipe(
+      map((result: any) => {
+        this.paginatedResult = {
+          Data: result.Data,
+          pagination: {
+            PageIndex: result.PageIndex,
+            TotalRows: result.TotalPage,
+            PageSize: result.PageSize,
+            TotalRecord: result.TotalRecord,
+          },
+        };
+        return this.paginatedResult;
+        })
+      );
+  }
+
 }

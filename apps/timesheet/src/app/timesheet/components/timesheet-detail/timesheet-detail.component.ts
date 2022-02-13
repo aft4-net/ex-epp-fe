@@ -194,7 +194,13 @@ export class TimesheetDetailComponent implements OnInit {
     this.timesheet$.subscribe((ts) => (this.timesheet = ts ?? null));
     this.timeEntries$.subscribe((te) => (this.timeEntries = te ?? null));
     this.timesheetApprovals$.subscribe(
-      (tsa) => (this.timesheetApprovals = tsa ?? null)
+      (tsa) => {
+        this.timesheetApprovals = tsa ?? null;
+
+        if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+          this.dateColumnContainerClass = "";
+        }
+      }
     );
 
 

@@ -17,13 +17,11 @@ export class FormValidator implements IValidator {
   }
   validateNewPassword(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      // const password = control.value;
-      // const oldPass = control.get('OldPassword')?.value;
-      // console.log(oldPass);
-      // console.log(password);
-      // if((oldPass === password) && oldPass){
-      //   return { errorMessage: "Your new password can't be the same as your old one" };
-      // }
+      const password = control.value;
+      const oldPass = control.get('OldPassword')?.value;
+      if((oldPass === password) && oldPass){
+        return { errorMessage: "Your new password can't be the same as your old one" };
+      }
       return null;
     };
   }
