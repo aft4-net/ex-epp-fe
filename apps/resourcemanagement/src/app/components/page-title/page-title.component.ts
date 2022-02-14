@@ -17,6 +17,7 @@ import { Nationality } from '../../Features/Models/Nationality';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';
+import { environment } from 'libs/environments/environment';
 @Component({
   selector: 'exec-epp-page-title',
   templateUrl: './page-title.component.html',
@@ -81,10 +82,15 @@ export class PageTitleComponent implements OnInit {
         this._formGenerator.updateOneEmployee();
       } else {
         this._formGenerator.save();
+       // this._router.navigate(['resourcemanagement']).then(() => {
+       //   window.location.reload();
+       // });
         //this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
       }
 
-      this._router.navigate(['resourcemanagement']);
+      this._router.navigate(['resourcemanagement']).then(() => {
+        window.location.reload();
+      });
     }
   }
   Cancel() {
