@@ -28,8 +28,10 @@ const routes: Routes = [
     data: { role: ['Create_Employee'] },
   },
   {
-    path: 'myprofile',
+    path: 'employee/add-employee/personal-info',
     component: PersonalInfoComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['Update_Employee'] },
   },
   {
     path: 'employee/add-employee/Organization-Detail',
