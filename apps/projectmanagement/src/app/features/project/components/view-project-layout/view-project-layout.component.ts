@@ -6,13 +6,13 @@ import {
   Project,
   ProjectService,
 } from '../../../../core';
+import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
 
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { debounceTime } from 'rxjs/operators';
-import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -154,8 +154,6 @@ export class ViewProjectLayoutComponent implements OnInit {
           this.loading = false;
 
           this.projects = [] as Project[];
-          this.pageIndex = 0;
-          this.pageSize = 0;
           this.total = 0;
           this.totalPage = 0;
           this.searchStateFound = false;
@@ -164,18 +162,22 @@ export class ViewProjectLayoutComponent implements OnInit {
           });
         }
 
-   
-      } else {
-        this.projects = this.projectService.getFirsttPageValue().data;
 
-        this.pageIndex =
-          this.projectService.getFirsttPageValue().pagination.pageIndex;
-        this.pageSize =
-          this.projectService.getFirsttPageValue().pagination.pageSize;
-        this.total =
-          this.projectService.getFirsttPageValue().pagination.totalRecord;
-        this.totalPage =
-          this.projectService.getFirsttPageValue().pagination.totalPage;
+      } else {
+        this.searchKey = '';
+        this.getProjects();
+        // console.log(this.projectService.getFirsttPageValue().data);
+
+        // this.projects = this.projectService.getFirsttPageValue().data;
+
+        // this.pageIndex =
+        //   this.projectService.getFirsttPageValue().pagination.pageIndex;
+        // this.pageSize =
+        //   this.projectService.getFirsttPageValue().pagination.pageSize;
+        // this.total =
+        //   this.projectService.getFirsttPageValue().pagination.totalRecord;
+        // this.totalPage =
+        //   this.projectService.getFirsttPageValue().pagination.totalPage;
       }
     });
   }
@@ -219,6 +221,9 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.pageSize = response.pagination.pageSize;
       this.total = response.pagination.totalRecord;
       this.totalPage = response.pagination.totalPage;
+
+        console.log(response);
+      this.projectService.setFristPageOfProjects(response);
     })
   }
   editProject(data: Project) {
@@ -238,18 +243,19 @@ export class ViewProjectLayoutComponent implements OnInit {
       .subscribe((result: any) => {
         if (result.success === true) {
           this.notification.success('Deleted', result.message);
+          this.searchKey = '';
           this.getProjects();
         } else {
           this.notification.error('Deleted', result.message);
         }
         this.loading = false;
       });
-      this.projectToDelete={} as Project; 
+      this.projectToDelete={} as Project;
   }
   hidedeleteProjectModal()
   {
     this.deleteProjectModal=false;
-    this.projectToDelete={} as Project; 
+    this.projectToDelete={} as Project;
   }
   confirmCancel(){
     this.deleteProjectModal=false;
