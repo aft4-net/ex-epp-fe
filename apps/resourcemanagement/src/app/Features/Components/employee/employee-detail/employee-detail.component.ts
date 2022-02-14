@@ -694,8 +694,7 @@ FilterData(){
       this._employeeService.employeeById?.FamilyDetails:[];
 
     this._employeeService.isdefault=false
-    this._router.navigate(['/employee/add-employee/personal-info']);
-
+    this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
 
   }
 
