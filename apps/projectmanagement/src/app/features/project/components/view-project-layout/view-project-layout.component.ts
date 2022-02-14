@@ -35,15 +35,16 @@ export class ViewProjectLayoutComponent implements OnInit {
     text: string;
     value: string;
   }[];
-
+  deleteProjectModal=false;
   editProjectPermission = false;
   searchProject = new FormControl();
-  total = 9;
+  total = 0;
   loading = false;
   pageSize = 10;
   pageIndex = 1;
   totalPage!: number;
   searchKey = '';
+ projectToDelete:Project={} as Project;
   id!: string;
   clientlist: string[] = [];
   superVisorlist: string[] = [];
@@ -162,30 +163,8 @@ export class ViewProjectLayoutComponent implements OnInit {
             nzPlacement: 'bottomLeft',
           });
         }
-        // this.projectService
-        //   .getWithPagnationResut(1, 9, this.searchKey)
-        //   .subscribe((response: PaginatedResult<Project[]>) => {
-        //     if (response?.data.length > 0) {
-        //       this.loading = false;
-        //       this.projects = response.data;
-        //       this.pageIndex = response.pagination.pageIndex;
-        //       this.pageSize = response.pagination.pageSize;
-        //       this.total = response.pagination.totalRecord;
-        //       this.totalPage = response.pagination.totalPage;
-        //       this.searchStateFound = true;
-        //     } else {
-        //       this.loading = false;
-        //       this.projects = [] as Project[];
-        //       this.pageIndex = 0;
-        //       this.pageSize = 0;
-        //       this.total = 0;
-        //       this.totalPage = 0;
-        //       this.searchStateFound = false;
-        //       this.notification.blank('  Project not found', '', {
-        //         nzPlacement: 'bottomLeft',
-        //       });
-        //     }
-        //   });
+
+   
       } else {
         this.projects = this.projectService.getFirsttPageValue().data;
 
@@ -246,39 +225,33 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.editProjectStateService.editProjectState(data);
   }
 
-  deleteProject(data: Project) {
-    console.log("delete")
-    this.modal.confirm({
-      nzTitle: 'Are you sure, you want to delete this project?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.projectService.deleteProjectByState(data.Guid)
-          .subscribe((result: any) => {
-            if (result.success === true) {
-              this.notification.success('Delete', result.message);
-              this.getProjects();
-            } else {
-              this.notification.error('Delete', result.message);
-            }
-            this.loading = false;
-          });
-      },
-      nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel'),
-    });
-    // this.loading = true;
-    // this.projectService.deleteProjectByState(data.Guid)
-    //   .subscribe((result: any) => {
-    //     if (result.success === true) {
-    //       this.notification.success('Deleted', result.message);
-    //       this.getProjects();
-    //     } else {
-    //       this.notification.error('Deleted', result.message);
-    //     }
-    //     this.loading = false;
-    //   });
+  deleteProjectConformation(data:Project)
+  {
+    this.projectToDelete=data;
+   this.deleteProjectModal=true;
+  }
+
+  deleteProject() {
+    this.loading = true;
+    this.deleteProjectModal=false;
+    this.projectService.deleteProjectByState(this.projectToDelete.Guid)
+      .subscribe((result: any) => {
+        if (result.success === true) {
+          this.notification.success('Deleted', result.message);
+          this.getProjects();
+        } else {
+          this.notification.error('Deleted', result.message);
+        }
+        this.loading = false;
+      });
+      this.projectToDelete={} as Project; 
+  }
+  hidedeleteProjectModal()
+  {
+    this.deleteProjectModal=false;
+    this.projectToDelete={} as Project; 
+  }
+  confirmCancel(){
+    this.deleteProjectModal=false;
   }
 }

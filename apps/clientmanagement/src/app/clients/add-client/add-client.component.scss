@@ -7,16 +7,7 @@
 }
 
 
-::ng-deep .ant-tabs-nav {
-  font-size: 26px;
-}
 
-::ng-deep .ant-tabs-tab-btn {
-  color: #262626;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-}
 
 .invalisForm {
   position: relative;
@@ -49,7 +40,31 @@
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
 }
+c::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
+::ng-deep .ant-tabs-tab:hover {
+  color: #262626;
+}
+
+header {
+  padding: 0px 1.15%;
+  margin-bottom: 0.75% !important;
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background: #DCFFDC;
+}
+
+::ng-deep .ant-tabs-nav {
+  font-size: 26px;
+}
+
+::ng-deep .ant-tabs-tab-btn {
+  color: #262626;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
 
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
@@ -93,20 +108,6 @@
 
 
 
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
-
-::ng-deep .ant-tabs-tab:hover {
-  color: #262626;
-}
-
-header {
-  padding: 0px 1.15%;
-  margin-bottom: 0.75% !important;
-}
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC;
-}
 
 
 ::ng-deep .ant-table-wrapper {
