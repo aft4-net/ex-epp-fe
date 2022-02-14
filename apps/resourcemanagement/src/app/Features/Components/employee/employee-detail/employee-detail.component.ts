@@ -221,6 +221,7 @@ supervisorFilter(key: string[]) {
       this.theEmpguid=response.Guid;
       console.log("GUid " + this.theEmpguid )
       if( this.theEmpguid !== null){
+        console.log("what");
         this.Edit(this.theEmpguid);
 
       }
@@ -658,9 +659,14 @@ FilterData(){
 
   Edit(employeeId:string):void
   {
+
+
     this._form.employeId=employeeId;
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
+
+  
+      console.log("what" + employeeId);
 
 
     this._employeeService.empNum = data.EmployeeNumber;
