@@ -41,7 +41,7 @@
   </tbody>
 </nz-table>
 
-<nz-modal class="resourceModal" *ngIf="employees" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
+<nz-modal class="resourceModal" *ngIf="employees" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resource"
   (nzOnCancel)="handleCancel()" [nzFooter]="null">
   <ng-container *nzModalContent>
     <form *ngIf="!isEditMode; else editForm" [formGroup]="addResorceForm" nz-form [nzLayout]="'vertical'"
