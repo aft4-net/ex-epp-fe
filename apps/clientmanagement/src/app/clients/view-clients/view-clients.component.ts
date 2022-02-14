@@ -55,8 +55,6 @@ export class ViewClientsComponent implements OnInit  {
   locationCheckbox = true;
   statusCheckbox = true;
   salesCheckbox = true;
-  clientContactCheckbox = false;
-  companyContactCheckbox = false;
   isFilter= false;
   listOfSearchName: string[] = [];
   searchAddress!: string;
@@ -324,8 +322,7 @@ _commonData.getPermission()
     this.locationCheckbox = true;
     this.statusCheckbox = true;
     this.salesCheckbox = true;
-    this.clientContactCheckbox = false;
-    this.companyContactCheckbox = false;
+
   }
 
   addClientPage() {

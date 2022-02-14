@@ -15,12 +15,20 @@ export class DashboardComponent implements OnInit {
   actions='Add_Employee';
   thePosition : any;
   userEmail=window.sessionStorage.getItem('username')+'';
+  userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
-    this.fullName=_authenticationService.getUserFullName();
-   // const namearray=this.fullName.split(' ');
-   // this.fullName=namearray[0] + namearray[0];
+  // this.fullName=_authenticationService.getUserFullName();
+  // this.fullName = this.userEmails.FirstName ;
+   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
+   //debugger
+  // this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
+   
+   // this.fullName = _authenticationService.getUsersName();
+    const namearray=this.fullName.split(' ');
+    this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    //this.thePosition = _authenticationService.position;
+    this.thePosition = _authenticationService.getPosition(this.userEmails.position);
+    console.log(this.userEmails.position+ "BBBBBB");
   
   }
 update(){
@@ -29,20 +37,24 @@ update(){
   ngOnInit(): void {
    
     this.getUser();
+    //this.getFullName();
     this._commonData.getPermission();   
   }
   getUser(){
-    console.log('response'+this.userEmail)
-    this._intialdataService.getUser(this.userEmail).subscribe((response:any)=>{
+    console.log('response1'+ this.userEmails.Email)
+    console.log('response2'+ this.userEmail )
+    this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
+      console.log('response4'+ this.userEmails.FirstName)
       this.thePosition=response.EmployeeOrganization.JobTitle;
-      console.log('response22')
-      console.log(this.thePosition)
-      console.log('response')
+      //this.fullName = this.userEmails.FirstName;
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
+      console.log('Who is there' +  this.fullName);
     });
   //  setTimeout(() => {
   //    this.thePosition = this._authenticationService.position;
   //  }, 2000); 
  }
+
 
   routetoResourceManagement(){
     this._authenticationService.setFromViewProfile2();

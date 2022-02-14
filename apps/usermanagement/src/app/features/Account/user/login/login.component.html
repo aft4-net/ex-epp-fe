@@ -1,5 +1,16 @@
 <nz-card class="card-view">
-  <div class="title">Sign in</div>
+  <div class="title" style="margin-left: 30%; padding-bottom: 5%;">
+    <div class="union-img">
+      <img style=" padding-left: 12px" src="assets/Union.png"/>
+    </div>
+     <div class="Epp_Project">
+     <img  src="assets/Enterprise_Project_portfolio.png" />
+    </div>
+</div>
+
+<div class="loginAccount">
+<p > Welcome, Login to your account </p> </div>
+<br>
   <form [formGroup]="loginForm">
     <app-input
       [form]="loginForm"
@@ -28,16 +39,18 @@
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
-    <app-button  class="login-button"  type="primary" (click)="login()">
+    <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="signin()">
       Sign in
     </app-button>
   </form>
 
-  <div class="info">
-    Don't have an account?
-    
-  </div>
   <ng-template #passwordSuffixIcon>
-   
+    <i
+      class="clickable-icon"
+      (click)="togglePasswordView()"
+      nz-icon
+      [nzType]="!showPassword ? 'eye-invisible' : 'eye'"
+      nzTheme="outline"
+    ></i>
   </ng-template>
 </nz-card>

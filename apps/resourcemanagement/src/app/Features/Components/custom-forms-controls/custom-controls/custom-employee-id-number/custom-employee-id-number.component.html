@@ -12,24 +12,10 @@
     [nzXs]="controlConfig.nzXs"
     [nzErrorTip]="errMessage"
     nzHasFeedback>
-      <nz-input-group
-        [nzAddOnBefore]="prefixTemplate">
-        <input
-        class="excel-empmloyeeIdNumber-control"
-        [formControl]="getIdNumber()" nzPlaceholder="'12345/21'"
-        (ngModelChange)="onChange()" nz-input />
-        <ng-template #prefixTemplate
-            >
-            <nz-select
-            class="prefix employee-prefix"
-            [formControl]="getPrefix()"
-            (ngModelChange)="onPrefixSelect()">
-                <nz-option
-                    *ngFor="let choice of (prefices$ | async)"
-                    [nzValue]="choice.value" [nzLabel]="choice.label">
-                </nz-option>
-            </nz-select>
-        </ng-template>
-      </nz-input-group>
+      <input
+      class="excel-single-control"
+      [formControl]="formControl" nzPlaceholder="'ES-EDC/12345/22'"
+      [disabled]="isEdit"
+      (ngModelChange)="onChange()" nz-input />
     </nz-form-control>
   </nz-form-item>

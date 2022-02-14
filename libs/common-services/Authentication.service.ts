@@ -2,7 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Employee } from '@exec-epp/core-models';
+import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
+import { LogInRequest } from 'apps/usermanagement/src/app/models/user/logInRequest';
+import { LogInResponse } from 'apps/usermanagement/src/app/models/user/logInResponse';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from "./../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 
@@ -10,32 +14,68 @@ import { ErrHandleService } from './error-handle.service';
     providedIn: 'root',
   })
   export class AuthenticationService {
-    httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  private userSubject :BehaviorSubject<LogInResponse|any>;
+  public users: Observable<LogInResponse>;
+
+  private changPassdataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isChangePass: Observable<boolean> = this.changPassdataSource.asObservable();
+
+  loggedInUser:any;
+  useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
+
+    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      
     };
     url=environment.apiUrl;
     user:any
   loginCount=0;
   position:string="";
   empGuid:string="";
+  fullName:string='';
 
-    constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {}
+    constructor(private http: HttpClient, private errHandler: ErrHandleService, private router: Router) {
+
+      this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
+      this.users = this.userSubject.asObservable();
+    }
+    
+
 
    loginStatus(){
        return this.isLogin();
    }
 
    getUser(email:string){
+     email = this.useEmails.Email;
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+    
       (response) => {
        this.user=response;
-       this.position  = response["EmployeeOrganization"]["JobTitle"];
+       this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+       console.log(this.position + 'addUSerPosition')
        this.empGuid = response["Guid"];
        
       }
     );
     return email;
    }
+
+
+
+   getPosition(email:string){
+    email = this.useEmails.Email;
+    this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+   
+     (response) => {
+      this.user=response;
+      this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+      console.log(this.position + 'addUSerPosition')
+      this.empGuid = response["Guid"];
+      
+     }
+   );
+   return email;
+  }
     
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
@@ -48,21 +88,39 @@ import { ErrHandleService } from './error-handle.service';
     window.sessionStorage.removeItem('isLogin');
     window.sessionStorage.removeItem('email');
     window.sessionStorage.removeItem('fromViewer');
-
     window.sessionStorage.setItem("name",user.name);
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
     //this.router.navigateByUrl('');
-    window.location.replace('https://localhost:4200/');
+    //window.location.replace('http://localhost:4200');
    }
    
+
+   storeLoginUsers(users:any)
+   {
+    window.sessionStorage.getItem('email');
+    window.sessionStorage.getItem('password');
+    window.sessionStorage.setItem('isLogin','true');
+    //window.location.replace('http://localhost:4200');
+   }
    getEmail(){
      return window.sessionStorage.getItem('username');
    }
    getUserFullName(){
-     return window.sessionStorage.getItem('name');
+     return localStorage.getItem('name')
+    // return window.sessionStorage.getItem('name');
+     
    }
+
+   getFullName(){
+    this.fullName = ((this.loggedInUser.FirstName) + (this.loggedInUser.LastName));
+    console.log(this.fullName);
+    return this.fullName
+  }
+   getUsersName(){
+    return  window.sessionStorage.getItem('username');
+  }
    getUsername(){
     return window.sessionStorage.getItem('username');
   }
@@ -85,4 +143,25 @@ import { ErrHandleService } from './error-handle.service';
   setFromViewProfile2(){
     window.sessionStorage.setItem('fromViewer','false');
   }
+
+  signIn(logInRequest: LogInRequest) {
+    
+    return this.http.post<ResponseDTO<LogInResponse>>(environment.apiUrl + '/User/logIn', logInRequest).pipe(
+      map((users) => {
+        if(users.Data && users.Data.Token){
+          localStorage.setItem('loggedInUserInfo', JSON.stringify(users.Data ||'{}'));
+          this.loggedInUser = users.Data;
+          console.log(users.Data);
+          this.userSubject.next(users.Data);
+          return users;
+        }
+        return users;
+      }
+    ));
+};
+
+  hasData(value: boolean) {
+    this.changPassdataSource.next(value);
+  }
+  
     } 

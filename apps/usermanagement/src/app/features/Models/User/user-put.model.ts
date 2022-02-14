@@ -6,6 +6,6 @@ export interface IUserPutModel {
     Tel: string;
     Email: string;
     UserName: string;
-    Status: string
+    Status:string
   }
   

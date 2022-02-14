@@ -9,6 +9,8 @@ $border:red;
   color: white;
   border: 0.5px solid #00a551;
   padding: 4px;
+  font-size: 1rem;
+  font-style: normal;
 }
 .button-style:hover {
   background: #04d86a;
@@ -65,6 +67,9 @@ $border:red;
   color: $color;
 
   border: $border;
+}
+.add-billing-button{
+  padding-bottom:0.75%;
 }
 /* You can add global styles to this file, and also import other style files */
 // @import "~ng-zorro-antd/ng-zorro-antd.css";

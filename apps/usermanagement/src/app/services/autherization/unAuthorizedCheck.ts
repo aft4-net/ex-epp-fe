@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { AccountService } from '../user/account.service';
+import { AccountService } from '../../features/Services/logIn/account.service';
 
 @Injectable({ providedIn: 'root' })
 export class unAuthorizedCheck implements CanActivate {

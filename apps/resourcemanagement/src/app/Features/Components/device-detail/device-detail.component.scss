@@ -29,3 +29,36 @@ input {
     width: 40px;
     height: 35px;
 }
+
+button {
+    height: 38px;
+    border-radius: 2px;;
+}
+button.ant-btn-primary {
+    background-color: #00A551;
+    color: white;
+}
+
+.ant-btn-primary.ant-btn:active {
+    background-color: #00A551;
+    border-color: #00A551;
+}
+
+.ant-btn-primary:focus, .ant-btn-primary:hover {
+    background-color: #00A551;
+    border-color: #00A551;
+}
+.ant-btn-primary {
+    border-color: #00A551;
+}
+
+
+.ant-btn:focus, .ant-btn:hover {
+    color: #00A551;
+    border-color: #00A551;
+}
+
+.ant-btn-primary.ant-btn:focus, .ant-btn-primary.ant-btn:hover {
+    color: #FFFFFF;
+    border-color: #00A551;
+}

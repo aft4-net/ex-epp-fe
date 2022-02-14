@@ -5,8 +5,9 @@ import { catchError } from 'rxjs/operators';
 import { environment } from "../../../environments/environment";
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { ErrHandleService } from '../../shared/services/error-handle.service';
-import { IUserPostModel } from '../Models/User/user-post.model';
+import { GroupSetModel } from '../Models/group-set.model';
 import { IUserPutModel } from '../Models/User/user-put.model';
+import { GroupData } from '../Models/User/UserDetail';
 
 @Injectable({providedIn: 'root'})
 export class UserDetailService {
@@ -80,9 +81,23 @@ export class UserDetailService {
    return this.http.get<any>(`${environment.apiUrl}/Employee/GetEmployeeSelectionByEmail?employeeEmail=` + email.toLowerCase())
    
    }
-   updateUser(user: IUserPutModel): Observable<ResponseDTO<any>> {
-    this.path = `${environment.apiUrl}/user`
-    return this.http.put<ResponseDTO<any>>(this.path, user, {headers:this.header});
-   }
+   getGroupsList(): Observable<[GroupData]> {
+    const url = `${environment.apiUrl}/GroupSet/getAll`;
+  return this.http.get<[GroupData]>(url).pipe(
+    catchError(this.formatErrors)
+  );
+  }
+  getUserGroupsList(userId: string): Observable<ResponseDTO< [GroupData]>> {
+    
+    const url = `${environment.apiUrl}/UserGroups/GetGroupSetByUserId?guid=${userId}`;
+  return this.http.get<ResponseDTO< [GroupData]>>(url).pipe(
+    catchError(this.formatErrors)
+  );
+}
+updateUser(user: IUserPutModel): Observable<ResponseDTO<any>> {
+  this.path = `${environment.apiUrl}/user`
+  return this.http.put<ResponseDTO<any>>(this.path, user, {headers:this.header});
+ }
+   
     
 }
