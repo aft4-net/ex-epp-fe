@@ -19,9 +19,9 @@ import { CompanyContactService } from '../../../core/';
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { extractPhoneNumber } from '../../../shared/phonePrefixExtractor/phone-prefix-extractor';
 import { getNames } from '../../../shared/Data/contacts';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-company-contacts-form',
@@ -29,6 +29,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./company-contacts-form.component.scss'],
 })
 export class CompanyContactsFormComponent implements OnInit {
+  isClearButtonActive=true;
   emailAdress = new FormControl('');
   phoneNumber = new FormControl('');
   phoneNumberPrefix=new FormControl('');
@@ -98,6 +99,20 @@ clientalreadyExist=false;
         phoneNumberPrefix: ['+251', []],
 
         emailAdress: ['', []],
+      });
+
+
+      this.addContactForm.valueChanges.subscribe(x => {
+        if(this.addContactForm.value['companyContactName']!='' ||
+        this.addContactForm.value['phoneNumber']!='' ||
+        this.addContactForm.value['emailAdress']!=''  ){
+
+         this.isClearButtonActive=false;
+        }
+        else{
+         this.isClearButtonActive=true;
+        }
+
       });
   }
 

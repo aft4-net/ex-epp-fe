@@ -135,3 +135,17 @@ header {
 ::ng-deep th.table_heading.ant-table-cell {
   background-color: #fafafa !important;
 }
+
+span.ng-star-inserted.invalisForm {
+
+  position: fixed !important;
+  padding: 3.2px !important;
+
+}
+::ng-deep button.add-btn-wrapper.ant-btn
+{
+  background: #00A551 !important;
+    color: white !important;
+}
+
+
