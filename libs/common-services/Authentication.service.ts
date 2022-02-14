@@ -29,7 +29,7 @@ import { ErrHandleService } from './error-handle.service';
     url=environment.apiUrl;
     user:any
   loginCount=0;
-  position:string="";
+  position="";
   empGuid:string="";
   fullName:string='';
 
@@ -37,6 +37,9 @@ import { ErrHandleService } from './error-handle.service';
 
       this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
       this.users = this.userSubject.asObservable();
+
+      //this.positionSubject = new BehaviorSubject<string>('');
+     // this.position2 = this.positionSubject.asObservable();
     }
     
 
@@ -59,24 +62,6 @@ import { ErrHandleService } from './error-handle.service';
     );
     return email;
    }
-
-
-
-   getPosition(email:string){
-    email = this.useEmails.Email;
-    this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
-   
-     (response) => {
-      this.user=response;
-      this.position  = response["EmployeeOrganization"]["Role"]["Name"];
-      console.log(this.position + 'addUSerPosition')
-      this.empGuid = response["Guid"];
-      
-     }
-   );
-   return email;
-  }
-    
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
@@ -163,5 +148,9 @@ import { ErrHandleService } from './error-handle.service';
   hasData(value: boolean) {
     this.changPassdataSource.next(value);
   }
+
+  //hasPosition(value: string) {
+   // this.positionSubject.next(value);
+ // }
   
     } 
