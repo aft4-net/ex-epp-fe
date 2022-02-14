@@ -17,6 +17,7 @@ import { AuthenticationResult } from '@azure/msal-browser';
 export class LoginComponent {
   showPassword = false;
   loading = false;
+  cposition = '';
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
@@ -90,7 +91,8 @@ export class LoginComponent {
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
         } 
         this._authenticationService.storeLoginUsers(res.Data);
-        
+        this.cposition = this._authenticationService.getPosition(window.sessionStorage.getItem('email') ?? '')
+        this._authenticationService.hasPosition(this.cposition);
         if(res.ResponseStatus.toString().toLowerCase() === 'info'){
           this.router.navigateByUrl('usermanagement/changepassword');
         } 
