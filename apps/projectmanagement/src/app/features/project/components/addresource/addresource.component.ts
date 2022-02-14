@@ -160,7 +160,7 @@ export class AddresourceComponent implements OnInit{
           this.editProjectStateService.updateAssignResources();
 
           this.addResorceForm.reset();
-          this.notification.success("Resource assigned  successfully",'')
+          this.notification.success("Resource assigned successfully",'')
         },error=>{
           this.notification.error("Project's resource add fail",'');
           this.addResorceForm.reset();
@@ -170,21 +170,21 @@ export class AddresourceComponent implements OnInit{
       {
         this.resources.push({
           EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
-          AssignDate: this.addResorceForm.controls.assignDate.value
+          AssignDate: this.addResorceForm.controls.assignDate.value,
         })
-        this.projectResources.push({
-          Empolyee: this.addResorceForm.controls.resource.value,AssignDate: this.addResorceForm.controls.assignDate.value
-        });
-      }
 
-      this.isModalVisible = false;
-
-
-
+        this.projectResources=[{
+          Empolyee: this.addResorceForm.controls.resource.value,AssignDate: this.addResorceForm.controls.assignDate.value    
+        },...this.projectResources];
+   
+        
     this.projectCreateState.updateAssignResource(this.resources);
-      this.sortEmployees();
-      this.employees = this.employees.filter(s => s.Guid !== this.addResorceForm.controls.resource.value.Guid);
+    this.sortEmployees();
+    this.employees = this.employees.filter(s => s.Guid !== this.addResorceForm.controls.resource.value.Guid);
 
+      }
+      this.isModalVisible = false;
+      this.handleCancel();
     } else {
       Object.values(this.addResorceForm.controls).forEach(control => {
         if (control.invalid) {
@@ -255,7 +255,7 @@ export class AddresourceComponent implements OnInit{
         this.addResorceForm.reset();
         this.notification.success("Resource updated successfully",'')
       },error=>{
-        this.notification.error("Resource updated r a fail",'');
+        this.notification.error("Resource updated failed",'');
         this.addResorceForm.reset();
       })
 
@@ -358,6 +358,10 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   }
   onReset() {
     this.router.navigateByUrl('projectmanagement');
+  }
+
+  confirmCancel(){
+    this.removeResourceModel=false;
   }
 }
 

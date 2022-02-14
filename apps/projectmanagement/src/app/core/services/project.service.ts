@@ -34,7 +34,10 @@ export class ProjectService extends ApiService<Project> {
   updateProject(resource:any)
   {
   this.httpClient.put(environment.baseApiUrl+"Project",resource).subscribe
-    (suceess=>this.notification.success('Project updated successfully','')  
+    (suceess=>{
+      this.router.navigateByUrl('projectmanagement');
+      this.notification.success('Project updated successfully','');
+      }  
       ,error=>   this.notification.error('Project updated not saved','Please try again letter'));
   }
 
@@ -61,16 +64,12 @@ export class ProjectService extends ApiService<Project> {
 
   createProject()
    {
-
-
      this.post(this.addProjectState.projectData).subscribe
          ((response:any)=>{
+          this.router.navigateByUrl('projectmanagement');
            this.notification.success('Project Added successfully','');  
-         
-
       }
       ,(errr:any)=>{
-
         this.notification.error('Project Not saved','Please try again letter');
       }
     )
