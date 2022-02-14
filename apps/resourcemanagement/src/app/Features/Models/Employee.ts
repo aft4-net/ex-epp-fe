@@ -20,7 +20,7 @@ export interface Employee{
   Gender : string,
   Nationality?: Nationality[],
   FamilyDetails?: FamilyDetail[],
-  EmployeeOrganization?: EmployeeOrganization,
+  EmployeeOrganization: EmployeeOrganization,
   EmployeeAddress?: Address[],
   EmergencyContact?: EmergencyContacts[]
 

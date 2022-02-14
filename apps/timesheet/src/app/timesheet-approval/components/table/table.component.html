@@ -14,8 +14,9 @@
         (click)="sorterMethod('Client Name')">Client Name
     </th>
     <th>Hours</th>
+    <th>Submition Date</th>
     <th *ngIf="status">Status</th>
-    <th>Approval Submition Timestamp</th>
+
 
   </tr>
   </thead>
@@ -42,6 +43,7 @@
         <div *ngIf="row.Status === 'Approved'">Approved</div>
       </div>
     </td>
+
   </tr>
   </tbody>
 </nz-table>

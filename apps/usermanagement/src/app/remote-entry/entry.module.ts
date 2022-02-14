@@ -74,6 +74,9 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'logIn', component:LoginComponent
           },
+          {
+            path:'changepassword', component:ChangepasswordComponent
+          },
           {path:'unauthorize', component:UnauthorizeComponent,
           data: {
             breadcrumb: "Log In"
