@@ -38,7 +38,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   deleteProjectModal=false;
   editProjectPermission = false;
   searchProject = new FormControl();
-  total = 10;
+  total = 0;
   loading = false;
   pageSize = 10;
   pageIndex = 1;
