@@ -71,8 +71,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             data: { role: ['Create_Employee'] },
           },
           {
-            path: 'myprofile',
+            path: 'employee/add-employee/personal-info',
             component: PersonalInfoComponent,
+            canActivate: [AuthGuard],
+            data: { role: ['Update_Employee'] },
           },
 
           {
@@ -114,7 +116,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
             canActivate: [AuthGuard],
             data: { role: ['Create_Employee'] },
           },
-          
+
           {
             path: 'device-detail',
             component: DeviceDetailComponent
