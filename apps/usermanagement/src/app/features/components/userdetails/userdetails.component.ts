@@ -18,6 +18,7 @@ import { GroupSetModel } from '../../Models/group-set.model';
 import { UserDetailService } from '../../Services/user-detail.service';
 import { AddUserService } from '../../Services/add-user.service';
 import { IUserPutModel } from '../../Models/User/user-put.model';
+import { AccountService } from '../../Services/logIn/account.service';
 
 
 
@@ -117,7 +118,8 @@ export class UserdetailsComponent implements OnInit {
     private _fb: FormBuilder,
     private authPermission:PermissionListService,
     private addUserService: AddUserService,
-    private notifier: NotifierService
+    private notifier: NotifierService,
+    private accountService: AccountService
   ) {
    
     this.isLogin=_authenticationService.loginStatus();
@@ -331,7 +333,6 @@ AddToGroup()  {
 
     this.userDetailService.updateUser(usrDetail).subscribe(
       (r: ResponseDTO<any>) => {
-        console.log(r.ResponseStatus);
         console.log(ResponseStatus.error);
         if( r.ResponseStatus.toString() === 'Error')
        {
@@ -360,5 +361,27 @@ AddToGroup()  {
     }
     )
      
+    }
+    resetPassword()
+    {
+      this.accountService.resetPassword(this.userdetailInfo.Email)
+      .subscribe(()=>{
+        this.notification.showNotification({
+          type: 'success',
+          content: `Password reset successfully`,  
+          duration: 5000,
+        });
+      },
+        (err:any) =>{
+          this.notification.showNotification({
+            type: 'error',
+            content: 'Some error has occured.',
+            duration: 5000,
+          });
+          console.log('error:' + err);
+        }
+        
+      );
+
     }
 }
