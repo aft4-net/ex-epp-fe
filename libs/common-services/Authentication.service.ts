@@ -29,7 +29,7 @@ import { ErrHandleService } from './error-handle.service';
     url=environment.apiUrl;
     user:any
   loginCount=0;
-  position:string="";
+  position="";
   empGuid:string="";
   fullName:string='';
 
@@ -37,6 +37,9 @@ import { ErrHandleService } from './error-handle.service';
 
       this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
       this.users = this.userSubject.asObservable();
+
+      //this.positionSubject = new BehaviorSubject<string>('');
+     // this.position2 = this.positionSubject.asObservable();
     }
     
 
@@ -56,7 +59,6 @@ import { ErrHandleService } from './error-handle.service';
     );
     return email;
    }
-    
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
@@ -105,7 +107,7 @@ import { ErrHandleService } from './error-handle.service';
     return window.sessionStorage.getItem('username');
   }
   isLogin(){
-
+   
    let result= window.sessionStorage.getItem('isLogin');
    if(!result){
      return false;
@@ -143,5 +145,9 @@ import { ErrHandleService } from './error-handle.service';
   hasData(value: boolean) {
     this.changPassdataSource.next(value);
   }
+
+  //hasPosition(value: string) {
+   // this.positionSubject.next(value);
+ // }
   
     } 

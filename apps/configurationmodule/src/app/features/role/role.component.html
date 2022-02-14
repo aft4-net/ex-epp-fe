@@ -15,7 +15,7 @@
     </div>
     <div nz-col nzSpan="6">
       <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Role')" (click)="showAddModal()">
-        <span>Add Role</span>
+        <span>Add Job Title</span>
       </button>
     <nz-modal
       [(nzVisible)]="isAddModalVisible"
@@ -56,9 +56,9 @@
       </nz-table>
       <div class="pagination" style="float: right; display: inline-flex; margin-top: 16px;" *ngIf="this.pagination">
         Showing {{ this.pagination.PageSize * (this.pagination.PageIndex -1) + 1 }}-
-        {{ this.pagination.PageSize * (this.pagination.PageIndex) > this.pagination.TotalRecord ? this.pagination.TotalRecord : this.pagination.PageSize * (this.pagination.PageIndex) }} of 
+        {{ this.pagination.PageSize * (this.pagination.PageIndex) > this.pagination.TotalRecord ? this.pagination.TotalRecord : this.pagination.PageSize * (this.pagination.PageIndex) }} of
         {{this.pagination.TotalRecord}} entries
-        <nz-pagination [nzPageSize]="this.pagination.PageSize" [nzPageIndex]="1" 
+        <nz-pagination [nzPageSize]="this.pagination.PageSize" [nzPageIndex]="1"
           [nzTotal]="this.pagination.TotalRecord"
           nzSimple
          (nzPageIndexChange)="pageIndexChange($event)"

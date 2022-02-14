@@ -13,28 +13,45 @@ export class DashboardComponent implements OnInit {
   date:any;
   fullName:any
   actions='Add_Employee';
+  localData = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
+  cposition = '';
   thePosition : any;
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
   // this.fullName=_authenticationService.getUserFullName();
   // this.fullName = this.userEmails.FirstName ;
-   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
+   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName)
    //debugger
   // this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
-   console.log(this.thePosition + "Position 1");
+   
    // this.fullName = _authenticationService.getUsersName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    this.thePosition = _authenticationService.position;
+   // this.thePosition = _authenticationService.getPosition(this.userEmails.Email);
+    
+    console.log(this.thePosition + "BBBBBB");
   
   }
 update(){
   this.actions='Update_Employee'
 }
+
+getUsers() {
+  this._authenticationService.getUser(this.userEmails.Email);
+  console.log(this.userEmails.Email + "PPPPPPPPPPPPPPP");
+  setTimeout(() => {
+    this.thePosition = this._authenticationService.position;
+  }, 1000);
+}
+
   ngOnInit(): void {
-   
+    this.getUsers();
+    console.log(this.thePosition+"ZZZZZZZZZZZZZ")
+  
+  // console.log(this.cposition.);
+  // console.log('*************');
     this.getUser();
     //this.getFullName();
     this._commonData.getPermission();   

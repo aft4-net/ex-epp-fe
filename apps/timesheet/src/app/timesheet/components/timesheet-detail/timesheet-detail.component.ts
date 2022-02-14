@@ -497,7 +497,7 @@ export class TimesheetDetailComponent implements OnInit {
           this.createNotification("warning", "Timesheet has not been filled", "bottomRight");
         }
       }
-    }, 500);
+    }, 1000);
   }
 
   calculateWeeklyTotalHours() {
