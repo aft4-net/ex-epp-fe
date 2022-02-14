@@ -17,6 +17,7 @@ import { AuthenticationResult } from '@azure/msal-browser';
 export class LoginComponent {
   showPassword = false;
   loading = false;
+  cposition = '';
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
@@ -90,7 +91,6 @@ export class LoginComponent {
           localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
         } 
         this._authenticationService.storeLoginUsers(res.Data);
-        
         if(res.ResponseStatus.toString().toLowerCase() === 'info'){
           this.router.navigateByUrl('usermanagement/changepassword');
         } 
@@ -105,18 +105,20 @@ export class LoginComponent {
       (error) => {
         this.loading = false;
         console.log(error);
-        if(error === 'Not Found')
+        if(error?.error?.Message === 'Unauthorized')
         {
           this.notification.showNotification({
             type: 'error',
-            content: 'The account doesn not exist!',
+            content: 'Email or password is incorrect! Please try again',
             duration: 5000,
           });
           return;
         }
+        let msg = error.error?.Message;
+        msg = msg.length > 200? msg.substring(0, 200-1) + '...':msg;
         this.notification.showNotification({
           type: 'error',
-          content: 'User email or password is incorrect, please try again!',
+          content: msg,
           duration: 5000,
         });
       }
