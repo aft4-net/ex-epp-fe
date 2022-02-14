@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ObservableLike } from 'rxjs';
-import { environment } from './../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { environment } from 'libs/environments/environment';
 import { Role } from '../../../../../../configurationmodule/src/app/models/role';
 import { ResponseDto } from '../../../../../../configurationmodule/src/app/models/response-dto.model';
 import { map } from 'rxjs/operators';
@@ -18,12 +18,14 @@ export class ReportingManagerService {
   constructor(private http: HttpClient) { }
 
   GetReportingManager(): Observable<SelectOptionModel[]> {
-    return this.http.get<any>(this.baseUrl + "/Employee/GetReportingManagers")
+    return this.http.get<any>(
+      this.baseUrl + '/Employee/GetEmployeeSelection'
+    )
     .pipe(map((response: any) => {
-        return response.Data.map((role: any) => {
+        return response.map((employee: any) => {
           return {
-            value: role.Id,
-            label: role.EmployeeName
+            value: employee.Guid,
+            label: employee.Name + ' - ' + employee.Role
           } as SelectOptionModel
         })
       })
