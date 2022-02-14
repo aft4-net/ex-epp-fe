@@ -38,8 +38,26 @@ export class EmployeeDetailComponent implements OnInit {
   selectedLocation="";
   selectedStatus="";
   holdflag=false;
+  JobTypeList: string[] = [];
 
-  
+  clientlist: string[] = [];
+  superVisorlist: string[] = [];
+  statuslist: string[] = [];
+  searchKey = '';
+  id!: string;
+
+  JobType: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
+  Location: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
+  statuses: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
 
   constructor(
     private _employeeService : EmployeeService,
@@ -101,7 +119,7 @@ export class EmployeeDetailComponent implements OnInit {
 
       ],
       filterFn: (true),
-   
+
     },
     {
       name: 'Joining Date',
@@ -111,14 +129,16 @@ export class EmployeeDetailComponent implements OnInit {
       filterMultiple: true,
       listOfFilter:this.empJoinDate,
       filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JoiningDate.indexOf(name) !== -1),
-    
+
     }
   ]
 
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void {
-    
+
+    this.getfilterDataMenu();
+
     if(this._authenticationService.isFromViewProfile() === 'true'){
       this.uemail= this._authenticationService.getEmail();
       this.getUser();
@@ -133,15 +153,61 @@ export class EmployeeDetailComponent implements OnInit {
       content:'',
       duration:1
     });
-    
+
+
+
     this.selectedJobType = "";
     this.selectedLocation = "";
     this.selectedStatus = "";
 
    // this._employeeService.SearchEmployeeDataforFilter(this.employeeParams);
-   
- }
 
+ }
+ ClientFilter(key: string[]) {
+  this.clientlist = key;
+  this.FilterData();
+}
+statusFilter(key: string[]) {
+  this.statuslist = key;
+  this.FilterData();
+}
+supervisorFilter(key: string[]) {
+  this.superVisorlist = key;
+  this.FilterData();
+}
+
+/*getProjects() {
+  this.projectService.getWithPagnationResut(
+    this.pageIndex,
+    this.pageSize,
+    this.id,
+    this.clientlist,
+    this.superVisorlist,
+    this.statuslist,
+    this.searchKey
+  ).subscribe(response => {
+    this.loading = false;
+    this.projects = response.data;
+    this.pageIndex = response.pagination.pageIndex;
+    this.pageSize = response.pagination.pageSize;
+    this.total = response.pagination.totalRecord;
+    this.totalPage = response.pagination.totalPage;
+  })
+}*/
+
+ getfilterDataMenu(): void {
+  console.log("O Noo...222");
+  this._employeeService.getFilterData().subscribe((data) => {
+
+    console.log("O Noo...");
+    console.log(data.jobtitleFilter);
+
+    this.JobType = data.jobtitleFilter;
+    this.Location = data.locationFilter;
+    this.statuses = data.StatusFilter;
+
+  });
+}
 
  authorize(key:string){
    return this._permissionService.authorizedPerson(key)
@@ -156,7 +222,7 @@ export class EmployeeDetailComponent implements OnInit {
       console.log("GUid " + this.theEmpguid )
       if( this.theEmpguid !== null){
         this.Edit(this.theEmpguid);
-  
+
       }
       console.log('response22')
       console.log(this.theEmpguid)
@@ -164,9 +230,15 @@ export class EmployeeDetailComponent implements OnInit {
     });
   }
 
+  EmployeeFilter(key: string[],name:any){
+
+    console.log(key,name.name);
+   // this.getEmployees();
+  }
+
 
   FillTheFilter() {
-    
+
     this.holdItJobTitle.length = 0;
     this.holdItStatus.length = 0;
     this.holdItCountry.length = 0;
@@ -222,11 +294,10 @@ export class EmployeeDetailComponent implements OnInit {
                 listOfFilter:this.empListJobType,
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
                   //item.JobTitle.indexOf(name) !== -1,
-                  this.selectedJobType = name; 
-                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
+                  this.selectedJobType = name;
                 }
                 ),
-               
+
               },
               {
                 name: 'Location',
@@ -238,10 +309,9 @@ export class EmployeeDetailComponent implements OnInit {
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name =>{
                  // item.Location.indexOf(name) !== -1;
                   this.selectedLocation = name;
-                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
                   ),
-                
+
               },
               {
                 name: 'Status',
@@ -253,10 +323,9 @@ export class EmployeeDetailComponent implements OnInit {
                 filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => {
                  // item.Status.indexOf(name) !== -1
                   this.selectedStatus = name;
-                  this.FilterData(this.selectedJobType,this.selectedLocation,this.selectedStatus); 
                 }
                 ),
-               
+
               }
             ];
           }
@@ -271,8 +340,8 @@ export class EmployeeDetailComponent implements OnInit {
             filterMultiple: true,
             listOfFilter:this.empListJobType,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1),
-           
-            
+
+
           },
           {
             name: 'Location',
@@ -282,7 +351,7 @@ export class EmployeeDetailComponent implements OnInit {
             filterMultiple: true,
             listOfFilter: this.empListCountry,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1),
-           
+
           },
           {
             name: 'Status',
@@ -292,7 +361,7 @@ export class EmployeeDetailComponent implements OnInit {
             filterMultiple: true,
             listOfFilter: this.empListStatus,
             filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1),
-           
+
           }
         ];
       }
@@ -330,7 +399,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  
+
 
   onAllChecked(checked: boolean): void {
     this.listOfCurrentPageData
@@ -378,7 +447,7 @@ export class EmployeeDetailComponent implements OnInit {
           filterMultiple: true,
           listOfFilter:this.empListJobType,
           filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1),
-         
+
         },
         {
           name: 'Location',
@@ -388,7 +457,7 @@ export class EmployeeDetailComponent implements OnInit {
           filterMultiple: true,
           listOfFilter: this.empListCountry,
           filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1),
-          
+
         },
         {
           name: 'Status',
@@ -398,7 +467,7 @@ export class EmployeeDetailComponent implements OnInit {
           filterMultiple: true,
           listOfFilter: this.empListStatus,
           filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1),
-          
+
         }
       ];
      });
@@ -454,9 +523,9 @@ export class EmployeeDetailComponent implements OnInit {
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) => a.JobTitle.localeCompare(b.JobTitle),
             filterMultiple: true,
             listOfFilter:this.empListJobType,
-            filterFn: (list: string[], item: IEmployeeViewModel) => 
+            filterFn: (list: string[], item: IEmployeeViewModel) =>
                 list.some(name => item.JobTitle.indexOf(name) !== -1),
-           
+
           },
           {
             name: 'Location',
@@ -467,7 +536,7 @@ export class EmployeeDetailComponent implements OnInit {
             listOfFilter: this.empListCountry,
             filterFn: (list: string[], item: IEmployeeViewModel) =>
                list.some(name => item.Location.indexOf(name) !== -1),
-              
+
           },
           {
             name: 'Status',
@@ -478,18 +547,28 @@ export class EmployeeDetailComponent implements OnInit {
             listOfFilter: this.empListStatus,
             filterFn: (list: string[], item: IEmployeeViewModel) =>
                  list.some(name => item.Status.indexOf(name) !== -1),
-           
+
           }
         ];
        }
       );
       this.searchStateFound=true;
-    } 
+    }
   }
 
-FilterData(jobtype:string,location:string,status:string){
+
+
+FilterData(){
   console.log("wewewewewewe");
-  const subsc = this._employeeService.filterEmployeeData(this.employeeParams,jobtype,location,status)
+  const subsc = this._employeeService.getWithPagnationResut(
+    this.pageIndex,
+      this.pageSize,
+      this.id,
+      this.clientlist,
+      this.superVisorlist,
+      this.statuslist,
+      this.searchKey
+  )
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
       console.log("we "+of(response.Data));
@@ -503,7 +582,7 @@ FilterData(jobtype:string,location:string,status:string){
       this.lastRow = this.totalRows;
       this.beginingRow = 1;
       this.holdflag = true;
-      this.FillTheFilter();
+     // this.FillTheFilter();
       this.loading = false;
     }
     else
@@ -511,7 +590,7 @@ FilterData(jobtype:string,location:string,status:string){
       this.loading = false;
       this.employeeViewModel = [];
       this.employeeViewModels$=of([]);
-      this.FillTheFilter();
+    //  this.FillTheFilter();
     }
   },error => {
     this.loading = false;
@@ -524,7 +603,7 @@ FilterData(jobtype:string,location:string,status:string){
         filterMultiple: true,
         listOfFilter:this.empListJobType,
         filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.JobTitle.indexOf(name) !== -1),
-        
+
       },
       {
         name: 'Location',
@@ -534,7 +613,7 @@ FilterData(jobtype:string,location:string,status:string){
         filterMultiple: true,
         listOfFilter: this.empListCountry,
         filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Location.indexOf(name) !== -1),
-        
+
       },
       {
         name: 'Status',
@@ -544,16 +623,16 @@ FilterData(jobtype:string,location:string,status:string){
         filterMultiple: true,
         listOfFilter: this.empListStatus,
         filterFn: (list: string[], item: IEmployeeViewModel) => list.some(name => item.Status.indexOf(name) !== -1),
-       
+
       }
     ];
    },(()=>{
-    
+
     //console.log("Done Now!")
     })
   );
- 
-  setTimeout(()=>{                          
+
+  setTimeout(()=>{
     subsc.unsubscribe();
 }, 5000);
   this.searchStateFound=true;
@@ -571,9 +650,9 @@ FilterData(jobtype:string,location:string,status:string){
     //       this._router.navigate(['employee/add-employee/personal-info']);
     //     }
     // });
-    // //alert(this._employeeService.employeeByI  
-    
-   
+    // //alert(this._employeeService.employeeByI
+
+
   //}
   //added by simbo just you can delete
 
@@ -582,10 +661,10 @@ FilterData(jobtype:string,location:string,status:string){
     this._form.employeId=employeeId;
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
-  
+
 
     this._employeeService.empNum = data.EmployeeNumber;
-    
+
     this._employeeService.setEmployeeDataForEdit(data);
 
     if(this._employeeService.employeeById)
@@ -609,8 +688,8 @@ FilterData(jobtype:string,location:string,status:string){
       this._employeeService.employeeById?.FamilyDetails:[];
 
     this._employeeService.isdefault=false
-    this._router.navigate(['/resourcemanagement/myprofile']);
-   
+    this._router.navigate(['/employee/add-employee/personal-info']);
+
 
   }
 
@@ -714,7 +793,7 @@ FilterData(jobtype:string,location:string,status:string){
 
   DeleteEmployee(employeeId : string) : void{
     this._employeeService.DeleteEmployee(employeeId).subscribe(
-      (result : any) => { 
+      (result : any) => {
         this.createNotification("Deleting Employee",result.ResponseStatus.toString().toLocaleLowerCase(),result.Message);
         if(this.searchStateFound)
         {

@@ -12,6 +12,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { debounceTime } from 'rxjs/operators';
+import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -34,21 +35,27 @@ export class ViewProjectLayoutComponent implements OnInit {
     text: string;
     value: string;
   }[];
-
+  deleteProjectModal=false;
   editProjectPermission = false;
   searchProject = new FormControl();
-  total = 9;
+  total = 0;
   loading = false;
   pageSize = 10;
   pageIndex = 1;
   totalPage!: number;
   searchKey = '';
+ projectToDelete:Project={} as Project;
   id!: string;
   clientlist: string[] = [];
   superVisorlist: string[] = [];
   statuslist: string[] = [];
   searchStateFound = false;
   intiaload = true;
+  loggedInUserInfo?: any;
+  nzSortDirections = Array<'Ascending' | 'Descending' | null>();
+
+  SortColumn: string | null = null;
+  sortDirection: string | null = null;
 
   PageIndexChange(index: any): void {
     this.pageIndex = index;
@@ -76,16 +83,18 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
-    private  editProjectStateService: EditProjectStateService,
+    private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
+    private modal: NzModalService,
     private notification: NzNotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.getCurrentUser();
     this.getfilterDataMenu();
     this.projectService
-      .getWithPagnationResut(1, 9)
+      .getWithPagnationResut(1, 10)
       .subscribe((response: PaginatedResult<Project[]>) => {
         this.projects = response.data;
         this.intiaload = false;
@@ -99,6 +108,21 @@ export class ViewProjectLayoutComponent implements OnInit {
 
     this.valuechangeSearchProject();
   }
+
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    if (direction == 'ascend') {
+      this.sortDirection = 'Ascending';
+    }
+    else if (direction == 'descend') {
+      this.sortDirection = 'Descending';
+    }
+    else {
+      this.sortDirection = null;
+    }
+    this.SortColumn = SortColumn;
+    this.getProjects();
+  }
+
   getfilterDataMenu(): void {
     this.projectService.getFilterData().subscribe((data) => {
       this.cleints = data.ClientFilter;
@@ -106,36 +130,44 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.statuses = data.StatusFilter;
     });
   }
+  getCurrentUser() {
+    if (localStorage.getItem('loggedInUserInfo')) {
+      // eslint-disable-next-line prefer-const
+      this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
+      const user = JSON.parse(this.loggedInUserInfo);
+
+      this.id = user['EmployeeGuid'];
+
+    }
+  }
   valuechangeSearchProject() {
-    this.searchProject.valueChanges.pipe(debounceTime(3000)).subscribe(() => {
+    this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       if (this.searchProject.value?.length > 1) {
         this.loading = true;
-        this.projectService
-          .getWithPagnationResut(1, 9, this.searchProject.value)
-          .subscribe((response: PaginatedResult<Project[]>) => {
-            if (response?.data.length > 0) {
-              this.loading = false;
-              this.projects = response.data;
-              this.pageIndex = response.pagination.pageIndex;
-              this.pageSize = response.pagination.pageSize;
-              this.total = response.pagination.totalRecord;
-              this.totalPage = response.pagination.totalPage;
-              this.searchStateFound = true;
-            } else {
-              this.loading = false;
-              this.projects = [] as Project[];
-              this.pageIndex = 0;
-              this.pageSize = 0;
-              this.total = 0;
-              this.totalPage = 0;
-              this.searchStateFound = false;
-              this.notification.blank('  Project not found', '', {
-                nzPlacement: 'bottomLeft',
-              });
-            }
+        this.searchKey = this.searchProject.value;
+        this.getProjects();
+        if (this.projects.length > 0) {
+          this.loading = false;
+          this.searchStateFound = true;
+        }
+        else {
+          this.loading = false;
+
+          this.projects = [] as Project[];
+          this.pageIndex = 0;
+          this.pageSize = 0;
+          this.total = 0;
+          this.totalPage = 0;
+          this.searchStateFound = false;
+          this.notification.blank('  Project not found', '', {
+            nzPlacement: 'bottomLeft',
           });
+        }
+
+   
       } else {
         this.projects = this.projectService.getFirsttPageValue().data;
+
         this.pageIndex =
           this.projectService.getFirsttPageValue().pagination.pageIndex;
         this.pageSize =
@@ -153,17 +185,23 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
   ClientFilter(key: string[]) {
     this.clientlist = key;
+    this.searchKey = '';
     this.getProjects();
   }
   supervisorFilter(key: string[]) {
     this.superVisorlist = key;
+    this.searchKey = '';
     this.getProjects();
   }
   statusFilter(key: string[]) {
     this.statuslist = key;
+    this.searchKey = '';
     this.getProjects();
   }
   getProjects() {
+    if (this.authorize('Projects_Admin')) {
+      this.id = ''
+    }
     this.projectService.getWithPagnationResut(
       this.pageIndex,
       this.pageSize,
@@ -171,7 +209,9 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.clientlist,
       this.superVisorlist,
       this.statuslist,
-      this.searchKey
+      this.searchKey,
+      this.SortColumn,
+      this.sortDirection
     ).subscribe(response => {
       this.loading = false;
       this.projects = response.data;
@@ -181,8 +221,37 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.totalPage = response.pagination.totalPage;
     })
   }
-  editProject(data:Project)
-  {
+  editProject(data: Project) {
     this.editProjectStateService.editProjectState(data);
+  }
+
+  deleteProjectConformation(data:Project)
+  {
+    this.projectToDelete=data;
+   this.deleteProjectModal=true;
+  }
+
+  deleteProject() {
+    this.loading = true;
+    this.deleteProjectModal=false;
+    this.projectService.deleteProjectByState(this.projectToDelete.Guid)
+      .subscribe((result: any) => {
+        if (result.success === true) {
+          this.notification.success('Deleted', result.message);
+          this.getProjects();
+        } else {
+          this.notification.error('Deleted', result.message);
+        }
+        this.loading = false;
+      });
+      this.projectToDelete={} as Project; 
+  }
+  hidedeleteProjectModal()
+  {
+    this.deleteProjectModal=false;
+    this.projectToDelete={} as Project; 
+  }
+  confirmCancel(){
+    this.deleteProjectModal=false;
   }
 }

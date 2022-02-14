@@ -1,5 +1,9 @@
 /* Form drawer */
 
+::ng-deep .timesheet-drawer .timesheet-hour{
+  margin-bottom: 0px;
+}
+
 .timesheet-date-range {
   .from-date-to-date {
     nz-date-picker {

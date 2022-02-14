@@ -1,22 +1,16 @@
+<div class="justify-between mb-3" nz-row>
+  <div class="tab-title"> Resources </div>
 
+  <div>
+    <button class=" btn " (click)="showModal()">
+      Assign resource
+    </button>
 
-  <div class="mb-3">
-  
-    <button  (click)="showModal()"  class=" 
-     bg-green-500  hover:bg-green-400  text-white font-semibold py-1 px-3 mr-4 border-white"
-       >
-      Assign Resource </button>
- 
+  </div>
+
 </div>
 
-
-<nz-table
-  [nzBordered]="false"
-  [nzFrontPagination]="false"
-
-  [nzData]="projectResources"
-  nzTableLayout="fixed"
->
+<nz-table nzSize="small"  [nzBordered]="false" [nzFrontPagination]="false" [nzData]="projectResources" nzTableLayout="fixed">
   <thead>
     <tr>
       <th>Resource</th>
@@ -32,14 +26,11 @@
       <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
 
       <td>
-        <a
-          class="text-black mr-3"
-          (click)="editResource(resource.Empolyee.Guid)"
-        >
-        <i nz-icon nzType="edit" style="color:black;" ></i>
+        <a class="text-black mr-3" (click)="editResource(resource.Empolyee.Guid)">
+          <i nz-icon nzType="edit" style="color:black;"></i>
         </a>
         &nbsp; &nbsp;
-        <a class="text-black" *ngIf="!isOnEditstate" (click)="removeForAddReource(resource)">
+        <a class="text-black" *ngIf="!isOnEditstate" (click)="removeForAddReource(resource)" >
           <i nz-icon nzType="delete" style="color: black"></i>
         </a>
         <a class="text-black" *ngIf="isOnEditstate" (click)="conformationDelete(resource)">
@@ -50,65 +41,33 @@
   </tbody>
 </nz-table>
 
-<nz-modal
-  class="resourceModal"
-  *ngIf="employees"
-  class="p-28"
-  [(nzVisible)]="isModalVisible"
-  nzTitle="Assign Resources"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="null"
->
+<nz-modal class="resourceModal" *ngIf="employees" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
+  (nzOnCancel)="handleCancel()" [nzFooter]="null">
   <ng-container *nzModalContent>
-    <form
-      *ngIf="!isEditMode; else editForm"
-      [formGroup]="addResorceForm"
-      nz-form
-      [nzLayout]="'vertical'"
-      (ngSubmit)="addResource()"
-    >
+    <form *ngIf="!isEditMode; else editForm" [formGroup]="addResorceForm" nz-form [nzLayout]="'vertical'"
+      (ngSubmit)="addResource()">
       <nz-form-item>
-        <nz-form-label nz-row nzFor="resource"
-          >Resource <span class="redAstrics"> * </span>
+        <nz-form-label nz-row nzFor="resource">Resource <span class="redAstrics"> * </span>
         </nz-form-label>
 
         <nz-form-control nz-row nzErrorTip="Please select a Resource">
-          <nz-select
-            *ngIf="employees"
-            formControlName="resource"
-            nz-col
-            nzSpan="24"
-            nzShowSearch
-            nzAllowClear
-            nzPlaceHolder="Select a Resource"
-          >
-            <nz-option
-              *ngFor="let employee of employees"
-              nzLabel="{{ employee.Name }}-{{ employee.Role }}"
-              [nzValue]="employee"
-            ></nz-option>
+          <nz-select *ngIf="employees" formControlName="resource" nz-col nzSpan="24" nzShowSearch nzAllowClear
+            nzPlaceHolder="Select a Resource">
+            <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name }}-{{ employee.Role }}"
+              [nzValue]="employee"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="assignDate"
-          >Assigned Date
+        <nz-form-label nzFor="assignDate">Assigned Date
           <span class="redAstrics"> * </span>
         </nz-form-label>
 
         <nz-form-control class="mb-5">
-          <nz-date-picker
-            [nzAllowClear]
-            nzFormat="dd/MM/yyyy"
-            formControlName="assignDate"
-            nz-col
-            nzSpan="12"
-          ></nz-date-picker>
+          <nz-date-picker [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
+          </nz-date-picker>
 
-          <span
-            *ngIf="assignDateControl.invalid && assignDateControl.touched"
-            class="error-block"
-          >
+          <span *ngIf="assignDateControl.invalid && assignDateControl.touched" class="error-block">
             <span *ngIf="assignDateControl.hasError('required')">
               Please enter resource Assigned Date
             </span>
@@ -120,78 +79,45 @@
       </nz-form-item>
 
       <div nz-row>
-        <button
-          type="submit"
-          class="bg-green-500 hover:border-transparent hover:bg-green-400 text-white font-bold py-2 px-3 border border-green-500 mr-3"
-        >
+        <button type="submit"
+          class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
           Add
         </button>
 
-        <a
-          class="text-green-500 border-1 border-green-500 border-solid bg-transparent font-semibold py-2 px-3 border hover:border-green-800 hover:text-green-800"
-          (click)="resetForm()"
-        >
+        <a class="text-green-500 border-1 border-green-500 border-solid bg-transparent font-semibold py-2 px-3 border hover:border-green-800 hover:text-green-800"
+          (click)="resetForm()">
           Clear
         </a>
       </div>
     </form>
     <ng-template #editForm>
-      <form
-        [formGroup]="editResorceForm"
-        nz-form
-        [nzLayout]="'vertical'"
-        (ngSubmit)="submitEditdValue()"
-      >
+      <form [formGroup]="editResorceForm" nz-form [nzLayout]="'vertical'" (ngSubmit)="submitEditdValue()">
         <nz-form-item>
-          <nz-form-label nz-row nzFor="resource"
-            >Resource <span class="redAstrics"> * </span>
+          <nz-form-label nz-row nzFor="resource">Resource <span class="redAstrics"> * </span>
           </nz-form-label>
           <nz-form-control nz-row nzErrorTip="Please select a Resource">
-            <nz-select
-              *ngIf="employees"
-              formControlName="resource"
-              nz-col
-              nzSpan="24"
-              nzShowSearch
-              nzAllowClear
-              nzPlaceHolder="Select a Resource"
-            >
-              <nz-option
-                *ngIf="asignedResourseToEdit"
-                [nzValue]="asignedResourseToEdit?.Empolyee"
-                nzLabel="{{ asignedResourseToEdit.Empolyee.Name }}-{{
+            <nz-select *ngIf="employees" formControlName="resource" nz-col nzSpan="24" nzShowSearch nzAllowClear
+              nzPlaceHolder="Select a Resource">
+              <nz-option *ngIf="asignedResourseToEdit" [nzValue]="asignedResourseToEdit?.Empolyee" nzLabel="{{ asignedResourseToEdit.Empolyee.Name }}-{{
                   asignedResourseToEdit.Empolyee.Role
-                }}"
-              ></nz-option>
-              <nz-option
-                *ngFor="let employee of employees"
-                nzLabel="{{ employee.Name }}-{{ employee.Role }}"
-                [nzValue]="employee"
-              ></nz-option>
+                }}"></nz-option>
+              <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name }}-{{ employee.Role }}"
+                [nzValue]="employee"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
-          <nz-form-label nzFor="assignDate"
-            >Assigned Date
+          <nz-form-label nzFor="assignDate">Assigned Date
             <span class="redAstrics"> * </span>
           </nz-form-label>
           <nz-form-control class="mb-5">
-            <nz-date-picker
-              [nzAllowClear]
-              nzFormat="dd/MM/yyyy"
-              formControlName="assignDate"
-              nz-col
-              nzSpan="12"
-            ></nz-date-picker>
+            <nz-date-picker [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
+            </nz-date-picker>
 
-            <span
-              *ngIf="
+            <span *ngIf="
                 assignDateEditControl.invalid && assignDateEditControl.touched
-              "
-              class="error-block"
-            >
+              " class="error-block">
               <span *ngIf="assignDateControl.hasError('required')">
                 Please input Assigned Date
               </span>
@@ -202,22 +128,19 @@
           </nz-form-control>
         </nz-form-item>
         <div nz-row>
-          <button *ngIf="!isOnEditstate"
-            type="submit"
-            class="bg-green-500 hover:border-transparent hover:bg-green-400 text-white font-bold py-2 px-3 border border-green-500 mr-3"
-          >
+          <button *ngIf="!isOnEditstate" type="submit"
+            class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
             Edit
           </button>
 
-          <button *ngIf="isOnEditstate"    [disabled]="disableUpdateButton"   class=" font-semibold py-1   px-3 mr-3  border-white"    type="submit"
-          [ngClass]=" !disableUpdateButton ? 'bg-green-500  hover:bg-green-400  text-white':' cursor-not-allowed bg-gray-200  text-gray-500' ">
-          Edit </button>
+          <button *ngIf="isOnEditstate" [disabled]="disableUpdateButton"
+            class=" font-semibold py-1   px-3 mr-3  border-white" type="submit"
+            [ngClass]=" !disableUpdateButton ? 'bg-green-500  hover:bg-green-600  text-white':' cursor-not-allowed bg-gray-100  text-white ' ">
+            Edit </button>
 
-     
-          <a
-            class="text-green-500 border-1 border-green-500 border-solid bg-transparent font-semibold py-2 px-3 border hover:border-green-800 hover:text-green-800"
-            (click)="resetEditForm()"
-          >
+
+          <a class="text-green-500 border-1 border-green-500 border-solid bg-transparent font-semibold py-2 px-3 border hover:border-green-800 hover:text-green-800"
+            (click)="resetEditForm()">
             Clear
           </a>
         </div>
@@ -226,13 +149,22 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="removeResourceModel" nzTitle="Resource unassign" [nzFooter]="null" [nzCentered]="true" [nzClosable]="false"
-  nzClassName="delete-conform-modal">
+
+
+<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="removeResourceModel" [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="conform-modal">
+
+  <ng-template #confirmTile>
+  
+<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Resource unassign
+
+ </ng-template>
+ 
   <ng-container *nzModalContent>
     <p> Are you sure to unassign project's resource ? </p>
     <span class="flex justify-end">  
-      <button nz-button class="yes-delete-btn mr-8" (click)="removeResource()">Yes</button>
-      <button nz-button class="cancel" (click)="deleteCancel()">Cancel</button>
+      <button  class="btn mr-8" (click)="removeResource()">Yes, unassign</button>
+      <button  class="btn-cancel" (click)="deleteCancel()">Cancel</button>
     </span>
   </ng-container>
 </nz-modal>
