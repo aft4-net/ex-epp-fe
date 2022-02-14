@@ -64,7 +64,7 @@
         </nz-form-label>
 
         <nz-form-control class="mb-5">
-          <nz-date-picker [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
+          <nz-date-picker [nzDisabledDate]="disabledEndDate" [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
           </nz-date-picker>
 
           <span *ngIf="assignDateControl.invalid && assignDateControl.touched" class="error-block">

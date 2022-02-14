@@ -363,6 +363,22 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   confirmCancel(){
     this.removeResourceModel=false;
   }
+  disabledEndDate = (startValue: Date): boolean => {
+    if (!startValue || !this.ProjectStartDate ||this.isOnEditstate) {
+      return false;
+    }
+    else if(this.ProjectEndDate)
+        {
+          return (
+            startValue.getTime() < this.ProjectStartDate.getTime() || startValue.getTime() > this.ProjectEndDate.getTime()
+          );
+        }
+
+        return (
+          startValue.getTime() < this.ProjectStartDate.getTime() 
+        );
+
+  };
 }
 
 
