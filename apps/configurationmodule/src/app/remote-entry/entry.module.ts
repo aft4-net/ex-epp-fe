@@ -16,6 +16,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { CountryComponent } from '../features/country/country.component';
+import { DutyStationComponent } from '../features/duty-station/duty-station.component';
 const routes: Routes = [
   {
     path: '',
@@ -25,28 +26,35 @@ const routes: Routes = [
         path: '',
         component: DepartmentComponent,
         data: {
-          breadcrumb: "configuration"
+          breadcrumb: "Configuration"
         }
       },
       {
         path:'timesheet',
         component: TimesheetConfigurationComponent,
         data: {
-          breadcrumb: "timesheet"
+          breadcrumb: "Timesheet"
         }
       },
       {
         path: 'role',
         component: RoleComponent,
         data: {
-          breadcrumb: "role"
+          breadcrumb: "Job-Title"
         }
       },
       {
         path: "country",
         component: CountryComponent,
         data: {
-          breadcrumb: "country"
+          breadcrumb: "Country"
+        }
+      },
+      {
+        path: "duty-station",
+        component: DutyStationComponent,
+        data: {
+          breadcrumb: "Duty Station"
         }
       }
     ]

@@ -21,7 +21,7 @@ export class DepartmentService {
   }
 
   getAllDepartments(): Observable<ResponseDTO<any>> {
-    return this.http.get<ResponseDTO<any>>(this.baseUrl + "Department/GetAll");
+    return this.http.get<ResponseDTO<any>>(this.baseUrl + "Department/GetAllDepartments");
   }
 
   getDepartments(index: number, searchKey: string, sortBy: string, sortOrder: string): Observable<Pagination> {

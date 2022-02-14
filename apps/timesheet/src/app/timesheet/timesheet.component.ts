@@ -33,7 +33,7 @@ export class TimesheetComponent implements OnInit {
     let loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
     this.userId = "";
     if (loggedInUserInfo) {
-      this.userId = loggedInUserInfo["EmployeeGuid"];
+      this.userId = loggedInUserInfo["EmployeeId"];
     }
 
     localStorage.setItem("userId", this.userId);

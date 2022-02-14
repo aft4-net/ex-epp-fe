@@ -22,12 +22,13 @@ export class DashboardComponent implements OnInit {
    this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
    //debugger
   // this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
-   console.log(this.thePosition + "Position 1");
+   
    // this.fullName = _authenticationService.getUsersName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-    this.thePosition = _authenticationService.position;
+    this.thePosition = _authenticationService.getPosition(this.userEmails.position);
+    console.log(this.userEmails.position+ "BBBBBB");
   
   }
 update(){
