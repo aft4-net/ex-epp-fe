@@ -27,18 +27,17 @@ export class ChangepasswordComponent implements OnInit {
     private notification: NotificationBar) {}
 
   changePasswordForm = new FormGroup({
-    OldPassword: new FormControl('', [
+    OldPassword: new FormControl(null, [
       Validators.required,
       Validators.minLength(8),
       
     ]),
-    Password: new FormControl('', [
+    Password: new FormControl(null, [
       this.validator.validatePassword(),
-      this.validator.validateNewPassword(),
       Validators.required,
       Validators.minLength(8),
     ]),
-    ConfirmPassword: new FormControl('', [
+    ConfirmPassword: new FormControl(null, [
       this.validator.validatePassword(),
       Validators.required,
       Validators.minLength(8),
@@ -84,20 +83,15 @@ export class ChangepasswordComponent implements OnInit {
 
       this.changePasswordForm.controls.Password.setValidators([
         this.validator.validatePassword(),
-        this.validator.validateNewPassword(),
+        this.validator.validateNewPassword(val),
       ]);
       this.changePasswordForm.controls.Password.updateValueAndValidity();
     });
     this.changePasswordForm.controls.Password.valueChanges.subscribe((val) => {
-
       this.changePasswordForm.controls.ConfirmPassword.setValidators([
-        
         this.validator.validateConfirmPassword(val),
-        this.validator.validatePassword(),
-        this.validator.validateNewPassword(),
-        Validators.required,
-        Validators.minLength(8),
       ]);
+      this.validator.validateNewPassword(this.changePasswordForm.controls.OldPassword.value);
       this.changePasswordForm.controls.ConfirmPassword.updateValueAndValidity();
     });
   }
