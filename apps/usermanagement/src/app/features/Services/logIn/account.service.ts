@@ -48,4 +48,7 @@ export class AccountService {
   changePassword(body: ChangePasswordRequest): Observable<any> {
     return this.http.put(`${environment.apiUrl}/User/ChangePassword`, body, {headers:this.header});
   }
+  resetPassword(email: string): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/User/ResetPassword?Email=${email}`, {headers:this.header});
+  }
 }

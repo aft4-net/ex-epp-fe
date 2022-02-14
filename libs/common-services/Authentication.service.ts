@@ -125,7 +125,7 @@ import { ErrHandleService } from './error-handle.service';
     return window.sessionStorage.getItem('username');
   }
   isLogin(){
-
+   
    let result= window.sessionStorage.getItem('isLogin');
    if(!result){
      return false;

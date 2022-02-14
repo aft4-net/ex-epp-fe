@@ -92,7 +92,7 @@ export class LoginComponent {
         this._authenticationService.storeLoginUsers(res.Data);
         
         if(res.ResponseStatus.toString().toLowerCase() === 'info'){
-          this.router.navigateByUrl('/usermanagement/changepassword');
+          this.router.navigateByUrl('usermanagement/changepassword');
         } 
         
         else{
