@@ -582,7 +582,7 @@ FilterData(){
       this.lastRow = this.totalRows;
       this.beginingRow = 1;
       this.holdflag = true;
-      this.FillTheFilter();
+     // this.FillTheFilter();
       this.loading = false;
     }
     else
@@ -590,7 +590,7 @@ FilterData(){
       this.loading = false;
       this.employeeViewModel = [];
       this.employeeViewModels$=of([]);
-      this.FillTheFilter();
+    //  this.FillTheFilter();
     }
   },error => {
     this.loading = false;
