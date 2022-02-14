@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableLike } from 'rxjs';
-import { environment } from '../../../../../../configurationmodule/src/environments/environment';
+import { environment } from './../../../../environments/environment';
 import { Department } from '../../../../../../configurationmodule/src/app/models/department';
 import { ResponseDto, ResponseDTO } from '../../../../../../configurationmodule/src/app/models/response-dto.model';
 import { map } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class DepartmentService {
   constructor(private http: HttpClient) { }
 
   getAllDeparments():Observable<SelectOptionModel[]> {
-      return this.http.get<any>(this.baseUrl + "Department/GetAllDepartments").pipe(
+      return this.http.get<any>(this.baseUrl + "/Department/GetAllDepartments").pipe(
         map((response: any) => {
           return response.Data.map((department: any) => {
             return {

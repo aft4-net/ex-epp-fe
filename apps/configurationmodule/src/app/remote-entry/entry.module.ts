@@ -26,28 +26,28 @@ const routes: Routes = [
         path: '',
         component: DepartmentComponent,
         data: {
-          breadcrumb: "configuration"
+          breadcrumb: "Configuration"
         }
       },
       {
         path:'timesheet',
         component: TimesheetConfigurationComponent,
         data: {
-          breadcrumb: "timesheet"
+          breadcrumb: "Timesheet"
         }
       },
       {
         path: 'role',
         component: RoleComponent,
         data: {
-          breadcrumb: "role"
+          breadcrumb: "Job-Title"
         }
       },
       {
         path: "country",
         component: CountryComponent,
         data: {
-          breadcrumb: "country"
+          breadcrumb: "Country"
         }
       },
       {
