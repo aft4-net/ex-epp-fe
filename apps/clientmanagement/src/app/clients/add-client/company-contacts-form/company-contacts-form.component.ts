@@ -139,6 +139,7 @@ clientalreadyExist=false;
            Email:this.addContactForm.controls.emailAdress.value,
            Phone:this.addContactForm.controls.phoneNumber.value,
            PhoneNumberPrefix:this.addContactForm.controls.phoneNumber.value,
+
          } as Employee;
         this.listData = [...this.listData, contactPerson];
         if(this.updateClientStateService.isEdit){
