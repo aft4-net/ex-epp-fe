@@ -696,6 +696,7 @@ FilterData(){
     this._employeeService.isdefault=false
     this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
 
+
   }
 
     });
