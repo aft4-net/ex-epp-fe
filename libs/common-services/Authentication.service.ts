@@ -59,6 +59,23 @@ import { ErrHandleService } from './error-handle.service';
     );
     return email;
    }
+
+
+
+   getPosition(email:string){
+    email = this.useEmails.Email;
+    this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+   
+     (response) => {
+      this.user=response;
+      this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+      console.log(this.position + 'addUSerPosition')
+      this.empGuid = response["Guid"];
+      
+     }
+   );
+   return email;
+  }
     
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
@@ -108,7 +125,7 @@ import { ErrHandleService } from './error-handle.service';
     return window.sessionStorage.getItem('username');
   }
   isLogin(){
-
+   
    let result= window.sessionStorage.getItem('isLogin');
    if(!result){
      return false;
