@@ -47,7 +47,9 @@ export class SigninComponent implements OnInit {
               localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
             }
             this._authenticationService.storeLoginUser(response.account);
-            this.router.navigateByUrl('');
+            //this.router.navigate(['/usermanagement/changePassword']);
+            this.router.navigateByUrl('usermanagement/changepassword');
+            //this.router.navigateByUrl('');
           },
           (error) => {
             this.logout();
