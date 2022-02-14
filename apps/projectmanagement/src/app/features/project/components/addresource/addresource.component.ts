@@ -367,13 +367,14 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
     if (!startValue || !this.ProjectStartDate ||this.isOnEditstate) {
       return false;
     }
-    else if(this.ProjectEndDate)
+    
+    if(this.ProjectEndDate)
         {
           return (
             startValue.getTime() < this.ProjectStartDate.getTime() || startValue.getTime() > this.ProjectEndDate.getTime()
           );
         }
-
+       else
         return (
           startValue.getTime() < this.ProjectStartDate.getTime() 
         );
