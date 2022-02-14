@@ -44,7 +44,7 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLogin()) {
       const userRole = this.permission.authorizedPerson(route.data.role);
       if(!this.authService.isChangePass._isScalar){
-        this.router.navigateByUrl('usermanagement/changepassword');
+       // this.router.navigateByUrl('usermanagement/changepassword');
       }
       // route.data.role.indexOf(userRole) === -1
       if (!userRole) {
