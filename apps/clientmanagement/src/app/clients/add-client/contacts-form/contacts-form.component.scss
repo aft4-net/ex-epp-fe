@@ -36,6 +36,7 @@ button.ant-btn {
 button.add-btn.ant-btn {
 
   margin-right: $addBtnMarginRight;
+
 }
 ::ng-deep .ant-modal-content {
   padding-top:  $modalWindowPaddingTop;
@@ -82,28 +83,25 @@ button.add-btn.ant-btn {
   border: 0.5px solid #00a551;
   padding: 4px;
 }
-.button-style:hover {
-  background: #04d86a;
-}
+// .button-style:hover {
+//   background: #04d86a;
+// }
 .clear-btn {
   background: white;
   color: #00a551;
   margin-right: 10px;
   border: 0.5px solid #00a551;
 }
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #FFFFFF;
-}
+
 
 .add-client-bg-color{
   background-color: #00A551;
   color: #FFFFFF;
   font-size: 1rem;
   font-style: normal;
+}
+
+.button-wrapper{
+  display: flex;
 }
 
