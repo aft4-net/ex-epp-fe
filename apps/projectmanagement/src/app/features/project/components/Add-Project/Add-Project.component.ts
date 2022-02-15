@@ -99,6 +99,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   ngOnDestroy(): void {
     this.projectCreateState.restAddProjectDetails();
     this.editProjectStateService.restUpdateProjectState();
+
   }
 
 
@@ -395,8 +396,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
   }
 
-  
-
 
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.validateForm.controls.endValue.value ||this.isOnEditstate) {
@@ -492,8 +491,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
   confirmCancel()
   {
+  
     this.cancelModal=false;
   }
 
-
+  routeOnUpdateValidation(index:number)
+  {
+    this.activeTabIndex=index;
+  }
 }

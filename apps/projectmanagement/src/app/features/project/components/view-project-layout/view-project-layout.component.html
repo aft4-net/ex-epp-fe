@@ -63,11 +63,12 @@
  </ng-template>
   <ng-container *nzModalContent>
   <p> 
-    Are you sure to delete {{projectToDelete.ProjectName}} project ? 
+    Are you sure to delete this project ? 
   </p>
     <span class="flex justify-end">  
-      <button   class="btn mr-8" (click)="deleteProject()">Yes,delete </button>
-      <button  class="btn-cancel" (click)="hidedeleteProjectModal()">Cancel</button>
+      <button  class="btn-cancel mr-8" (click)="hidedeleteProjectModal()">No</button>
+      <button   class="btn" (click)="deleteProject()">Yes</button>
+
     </span>
   </ng-container>
 </nz-modal>

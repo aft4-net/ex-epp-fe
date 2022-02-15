@@ -479,7 +479,7 @@ handleGroupCancel() {
           MiddleName : res.Data.FatherName,
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
-          Email: res.Data.PersonalEmail,
+          Email: res.Data.EmployeeOrganization?.CompaynEmail,
           UserName: res.Data.EmployeeOrganization?.CompaynEmail,
           GroupIds: selectedGroups?selectedGroups:[]
         };
