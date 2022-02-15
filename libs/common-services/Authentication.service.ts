@@ -60,8 +60,22 @@ import { ErrHandleService } from './error-handle.service';
        
       }
     );
-    return email;
+    return this.position;
    }
+   getPosition(email:string){
+    email = this.useEmails.Email;
+    this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+   
+     (response) => {
+      this.user=response;
+      this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+      console.log(this.position + 'addUSerPosition')
+      this.empGuid = response["Guid"];
+      return response["EmployeeOrganization"]["Role"]["Name"];
+     }
+   );
+   return this.position;
+  }
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
