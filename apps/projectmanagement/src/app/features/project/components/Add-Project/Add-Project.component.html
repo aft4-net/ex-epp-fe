@@ -13,16 +13,16 @@
 <div class="flex flex-row justify-between " nz-row>
   <div *ngIf="!isOnEditstate"  class="page-title">  Add Project </div>
   <div *ngIf="isOnEditstate"  class="page-title">  Edit Project </div>
-  <div>
+  <div *ngIf="!isOnEditstate" >
 
 
-    <button class="btn mr-4"   [disabled]="!validateForm.valid"  *ngIf="!isOnEditstate"  (click)="createProject() "
+    <button class="btn mr-4"   [disabled]="!validateForm.valid"   (click)="createProject() "
       [ngClass]="validateForm.valid ? '':'cursor-not-allowed' ">
       Save </button>
 
       <button   (click)="showDeleteConfirm()" class="btn-cancel ">
            Cancel
-         </button>
+      </button>
   </div>
 </div>
 </header>
@@ -39,10 +39,14 @@
       <div class="tab-content">
         <div class="flex flex-row justify-between " nz-row>
         <div class="tab-title"> Project Details </div>
-        <div>
+        <div *ngIf="isOnEditstate">
   
-    <button class="btn " (click)="saveProjectUpdate()"  [disabled]="!enableUpdateButton || validateForm.invalid"  *ngIf="isOnEditstate">
+    <button class="btn mr-4" (click)="saveProjectUpdate()"  [disabled]="!enableUpdateButton || validateForm.invalid"  >
     Update </button>
+
+    <button   (click)="showDeleteConfirm()" class="btn-cancel ">
+      Cancel
+    </button>
 
 
           </div>
@@ -228,7 +232,8 @@
         </span>
        </ng-template>
       <div class="tab-content">
-        <exec-epp-addresource (addProjectResourceEvent)="updateProjectResourseList($event)" [ProjectStartDate]="this.startValue.value" [ProjectEndDate]="this.endValue.value"> </exec-epp-addresource>
+        <exec-epp-addresource (tabIndex)="routeOnUpdateValidation($event)" (addProjectResourceEvent)="updateProjectResourseList($event)" [formValid]="validateForm.valid"
+        [ProjectStartDate]="this.startValue.value" [ProjectEndDate]="this.endValue.value"> </exec-epp-addresource>
       </div>
     </nz-tab>
   </nz-tabset>
@@ -245,8 +250,8 @@
     <p *ngIf="!isOnEditstate"> Are you sure to exit before saving project ? </p>
     <p *ngIf="isOnEditstate" > Are you sure to exit before updating project ? </p>
     <span class="flex justify-end">  
-      <button  class="btn mr-8" (click)="confimeresredirect()">Yes, exit </button>
-      <button  class="btn-cancel" (click)="rediretCancel()">Cancel</button>
+      <button  class="btn-cancel mr-8" (click)="rediretCancel()"> No </button>
+      <button  class="btn" (click)="confimeresredirect()">Yes</button>
     </span>
   </ng-container>
 </nz-modal>
