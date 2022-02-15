@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
    this.middleName = namearrays[0][0].toUpperCase();
    this.fullName = this.firsName + ' '+ this.middleName
     this.uemail = _authenticationService.getUserFullName();
-    console.log(this.uemail + 'PPPPPPPPP');
+    //console.log(this.uemail + 'PPPPPPPPP');
   }
   getUser() {
     this._authenticationService.getUser(this.uemail);
