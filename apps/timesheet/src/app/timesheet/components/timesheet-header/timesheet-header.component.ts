@@ -8,6 +8,7 @@ import { TimesheetConfigurationStateService } from '../../state/timesheet-config
 import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { UserPermissionStateService } from '../../state/user-permission-state.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
+import { environment } from './../../../../environments/environment'
 
 @Component({
   selector: 'app-timesheet-header',
@@ -15,6 +16,7 @@ import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.compo
   styleUrls: ['./timesheet-header.component.scss']
 })
 export class TimesheetHeaderComponent implements OnInit, OnChanges {
+  homeUrl = environment.redirectUri;
   @Input() timesheetConfig: TimesheetConfiguration | null = this.timesheetConfigStateService.defaultTimesheetConfig;
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;

@@ -53,21 +53,21 @@ export abstract class ApiService<T> {
   }
 
   update(resource: T) {
-    return this.httpClient.put(`/${this.APIUrl}`, resource)
+    return this.httpClient.put(this.APIUrl, resource)
 
   }
 
   getWithPagnationResut( pageindex:number,pageSize:number,id?: string,
     clientlist?:string[] ,
     superVisorlist?:string[],
-    statuslist?:string[],searchKey?:string) :Observable<PaginatedResult<T[]>>
+    statuslist?:string[],searchKey?:string,SortColumn?:string| null,sortdirection?:string| null) :Observable<PaginatedResult<T[]>>
  {let params = new HttpParams()
   .set('pageindex', pageindex.toString())
   .set('pageSize', pageSize.toString());
-  if(searchKey !== null){
+  if(searchKey !== ''){
   params = params.append('searchkey', searchKey?searchKey:'');
   }
-if(id !== null){
+if(id !== ''){
   params = params.append('id', id?id:'');
 }
 if(clientlist !== null){
@@ -88,6 +88,12 @@ if(statuslist!== null){
   })
 
 }
+if(SortColumn != null){
+  params = params.append('SortField', SortColumn);
+}
+if(sortdirection != null){
+  params = params.append('sortOrder', sortdirection);
+}
   let paginatedResult: PaginatedResult<T[]> = {
     data: [] as  T[],
     pagination: {} as Pagination
@@ -104,11 +110,11 @@ if(statuslist!== null){
               totalPage:response.TotalPage,
               pageSize:response.PageSize,
               totalRecord:response.TotalRecord}
-         };
-         return paginatedResult;
+          };
+          return paginatedResult;
         })
       );
- }
+  }
 
 
 

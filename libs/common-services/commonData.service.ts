@@ -20,6 +20,30 @@ constructor(private _intialdataService: IntialdataService,private http: HttpClie
 
 getPermission(): void {
   this._intialdataService.getUserPermission().subscribe((res:any)=>{
+    this.permissionList=res.Data;  
+    this.permissionList=this.permissionList;
+    this._intialdataService.getModulePermission().subscribe((res:any)=>{
+      this.modulePermission=res.Data;
+     
+      this.modulePermission.forEach(parent => {
+        this.permissionList.forEach(child => {
+            if(parent.PermissionCode==child.ParentCode){
+             
+                this.permissionList=[...this.permissionList,parent]
+               
+            }
+        });
+    });
+    })
+  }, error => {
+    console.log(error);
+  })
+
+}
+
+
+getPermissionByEmail(): void {
+  this._intialdataService.getUsersPermissionByEmail().subscribe((res:any)=>{
   
     this.permissionList=res.Data;  
     this.permissionList=this.permissionList;
@@ -41,4 +65,6 @@ getPermission(): void {
   })
 
 }
+
+
     } 

@@ -1,13 +1,20 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PaginatedResult, Project, ProjectCreate } from '../models';
 
 import { ApiService } from '../models/apiService';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+
 import { map } from 'rxjs/operators';
+
+
+import { environment } from '../../../environments/environment';
+import { AddProjectStateService } from '../state';
+
+import { Router } from '@angular/router';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,27 +22,36 @@ import { map } from 'rxjs/operators';
 export class ProjectService extends ApiService<Project> {
 
 
-private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
-fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
+  private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
+  fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
-  constructor(protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
+  constructor(private addProjectState:AddProjectStateService, protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
     super(httpClient);
   }
 
 
+  updateProject(resource:any)
+  {
+  this.httpClient.put(environment.baseApiUrl+"Project",resource).subscribe
+    (suceess=>{
+      this.router.navigateByUrl('projectmanagement');
+      this.notification.success('Project updated successfully','');
+      }  
+      ,error=>   this.notification.error('Project updated not saved','Please try again letter'));
+  }
 
+  getFirsttPageValue()
+  {
+    return this.fristPagantionProjectsSource.value;
+  }
 
-getFirsttPageValue()
-{
-  return this.fristPagantionProjectsSource.value;
-}
+  setFristPageOfProjects(data:PaginatedResult<Project[]>)
+  {
+    this.fristPagantionProjectsSource.next(data);
 
-setFristPageOfProjects(data:PaginatedResult<Project[]>)
-{
-  this.fristPagantionProjectsSource.next(data);
+  }
 
-}
 
 
 
@@ -46,32 +62,24 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
 
 
 
-  createProject(data:ProjectCreate)
+  createProject()
    {
- console.log(data)
-
-     this.post(data).subscribe
-         ((error)=>{
-           this.notification.success('Project Added successfully','');
-
-  this.getWithPagnationResut(1,10).pipe(map((response:PaginatedResult<Project[]>)=>{
-    this.fristPagantionProjectsSource.next(response);
-   }))
-
-
-        }
-           ,(errr:any)=>{
-
-              this.notification.error('Project Not saved','Please try again letter');
-            }
-           )
+     this.post(this.addProjectState.projectData).subscribe
+         ((response:any)=>{
+          this.router.navigateByUrl('projectmanagement');
+           this.notification.success('Project Added successfully','');  
+      }
+      ,(errr:any)=>{
+        this.notification.error('Project Not saved','Please try again letter');
+      }
+    )
   }
 
   getProjects()
   {
-  return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
+    return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
 
-        return response.Data;
+      return response.Data;
 
     }))
   }
@@ -98,26 +106,39 @@ setFristPageOfProjects(data:PaginatedResult<Project[]>)
             value: response.Data.Clients[i].Name,
           });
         }
-       for (let i = 0; i < response.Data.Supervisor.length; i++){
-            SupervisorFilter.push({
-              text: response.Data.Supervisor[i].Name,
-              value: response.Data.Supervisor[i].Id,
-            });
-          }
-          for (let i = 0; i < response.Data.Status.length; i++){
-            statusFilter.push({
-              text: response.Data.Status[i].Name,
-              value: response.Data.Status[i].Name,
-            });
-          }
+        for (let i = 0; i < response.Data.Supervisor.length; i++){
+          SupervisorFilter.push({
+            text: response.Data.Supervisor[i].Name,
+            value: response.Data.Supervisor[i].Id,
+          });
+        }
+        for (let i = 0; i < response.Data.Status.length; i++){
+          statusFilter.push({
+            text: response.Data.Status[i].Name,
+            value: response.Data.Status[i].Name,
+          });
+        }
 
-     }
-     return {
-      ClientFilter :clientNameFliter,
-      StatusFilter :statusFilter,
-      supervisorFilter:SupervisorFilter
-    }
+      }
+      return {
+        ClientFilter :clientNameFliter,
+        StatusFilter :statusFilter,
+        supervisorFilter:SupervisorFilter
+      }
     }))
+  }
+
+  deleteProjectByState(id: string): Observable<{ success: boolean, message: string }> {
+    return this.delete(id)
+    .pipe(
+      map((response: any) => {
+        if(response.ResponseStatus === 'Success' || response.ResponseStatus === 1) {
+          return { success: true, message: response.Message };
+        } else {
+          return { success: false, message: response.Message };
+        }
+      })
+    );
   }
 
 

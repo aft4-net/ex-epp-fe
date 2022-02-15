@@ -74,7 +74,7 @@ export class PersonalInfoComponent implements OnInit {
 };
 isEdit = false
 
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService,
+  constructor(private fb: FormBuilder,public employeeService:EmployeeService,
     private readonly _form: FormGenerator,
     private _locationPhoneService: LocationPhoneService,
     private msg: NzMessageService,
@@ -167,25 +167,7 @@ isEdit = false
   }
 }
 
-validateDateofBirth(){
-  const inputDate = this.dateofBirth;
-
-// Get today's date
-const todaysDate = new Date();
-
-// call setHours to take the time out of the comparison
-if(inputDate.setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0)) {
-    // Date equals today's date
-    alert("Date is Equal");
-    console.log("input date " + inputDate);
-    console.log("todays date " + todaysDate);
-}
-else{
- // alert("Not");
-  console.log("input date " + inputDate);
-    console.log("todays date " + todaysDate);
-}
-}
+validateDateofBirth(){}
 
   ValidateInput(){
 
@@ -230,23 +212,23 @@ this.phoneNumber = this.phoneNumber.toString();
 
 //this.dateofBirth = new Date("2021-11-17 14:29:03.107");
 
-    this.employee = {
-      EmployeeNumber : this.employeeNumber,
-      FirstName: this.firstName,
-      FatherName: this.fatherName,
-      GrandFatherName: this.grandFatherName,
-      MobilePhone: this.phoneNumber,
-      Phone1:this.phoneNumber2,
-      Phone2:this.phoneNumber3,
-      PersonalEmail: this.personalEmail,
-      PersonalEmail2: this.personalEmail2,
-      PersonalEmail3: this.personalEmail3,
-      DateofBirth : this.dateofBirth,
-      Gender : this.gender,
-      Nationality: this.selectednationality
+    // this.employee = {
+    //   EmployeeNumber : this.employeeNumber,
+    //   FirstName: this.firstName,
+    //   FatherName: this.fatherName,
+    //   GrandFatherName: this.grandFatherName,
+    //   MobilePhone: this.phoneNumber,
+    //   Phone1:this.phoneNumber2,
+    //   Phone2:this.phoneNumber3,
+    //   PersonalEmail: this.personalEmail,
+    //   PersonalEmail2: this.personalEmail2,
+    //   PersonalEmail3: this.personalEmail3,
+    //   DateofBirth : this.dateofBirth,
+    //   Gender : this.gender,
+    //   Nationality: this.selectednationality
 
 
-    }
+    // }
 
   }
 
