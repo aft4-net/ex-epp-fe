@@ -11,7 +11,7 @@ font-weight: 700;
 
 ::ng-deep .ant-table-thead>tr>th {
 
-  background: #FFFFFF !important;
+  background: #F0F0F0 !important;
 }
 
 tr:nth-child(even) {background: none}
@@ -123,9 +123,9 @@ nz-table.table-container.ant-table-wrapper {
   float:left !important;
 }
 
-::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
-  padding: 7px !important;
-}
+// ::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
+//   padding: 7px !important;
+// }
 
 ::ng-deep .ant-table-filter-open{
   color:#595959 !important;
@@ -215,7 +215,7 @@ margin-bottom: 40%;
 
 ::ng-deep tr.ant-table-row.ng-star-inserted  {
 
-   background-color: #F0F0F0; 
+   background-color: #ffffff; 
 }
 
 nz-table  {

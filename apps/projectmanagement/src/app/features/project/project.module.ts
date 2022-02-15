@@ -12,11 +12,13 @@ import { AddProjectComponent } from './components/Add-Project/Add-Project.compon
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptorService } from '../../core';
 import { ClientProjectComponent } from '../client-project/client-project.component';
+import { ProjectResourceComponent } from './components/project-resource/project-resource.component';
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 
 @NgModule({
   declarations: [
    ClientProjectComponent, 
-   ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent
+   ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent, ProjectResourceComponent, ProjectDetailsComponent
   ],
   imports: [
     ReactiveFormsModule,FormsModule,

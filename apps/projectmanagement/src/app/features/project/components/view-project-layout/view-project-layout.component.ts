@@ -4,6 +4,7 @@ import {
   PaginatedResult,
   PermissionService,
   Project,
+  ProjectResourceStateService,
   ProjectService,
 } from '../../../../core';
 import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
@@ -83,6 +84,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
+    private  projectResourceStateService:ProjectResourceStateService,
     private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
@@ -260,4 +262,12 @@ export class ViewProjectLayoutComponent implements OnInit {
   confirmCancel(){
     this.deleteProjectModal=false;
   }
+
+
+  assignResource(data:Project)
+  {
+  this.projectResourceStateService.projectResources(data);
+  }
+
+
 }

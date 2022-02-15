@@ -5,9 +5,7 @@
   transform: translate(-50%, -50%);
 }
 
-::ng-deep .ant-table-thead > tr > th {
-  background-color: #e8ffe8;
-}
+
 
 .tab-title{
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -121,13 +119,7 @@ form {
   border-color: #00a551;
 }
 
-::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
 
-  background: #FFFFFF !important;
-
-box-shadow: inset -2px 0px 0px #DADADA !important;
-
-  }
 
   ::ng-deep .popover-edit-delete .ant-popover-inner-content {
     padding: 0;
@@ -245,15 +237,3 @@ font-size: 20px;
 margin-bottom: 40%;
 }
 
-::ng-deep tr.ant-table-row  {
-  background-color: #F0F0F0; 
-}
-
-::ng-deep .ant-table-thead>tr>th {
-
-  background: #FFFFFF !important;
-}
-
-nz-table  {
-  padding: 0px !important;
- }

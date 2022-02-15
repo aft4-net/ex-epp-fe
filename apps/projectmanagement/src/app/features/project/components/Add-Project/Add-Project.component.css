@@ -16,6 +16,9 @@
   color: white;
 }
 
+.container_homepage{
+  padding: 0px 1.6% ;
+}
 
 
 
@@ -118,9 +121,15 @@ line-height: 32px;
 color: #262626;
 }
 
+.page-edit{
+  height: 105vh;
+  width: 65%;
+  margin: auto;
+}
 .tab-content {
   padding:0px 20px 25px;
-  height: 109vh;
+  height: 105vh;
+
   margin-bottom: 5rem;
 }
 *{
@@ -154,9 +163,7 @@ nz-tab {
    height: 77px;
  }
 
- header { 
-  padding: 0px 1.6%;
-}
+
 
    
 hr { display: block; height: 1px;

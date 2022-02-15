@@ -23,7 +23,8 @@ import {
   ProjectStatusService,
   AddProjectStateService,
   EditProjectStateService,
-  ProjectEdit
+  ProjectEdit,
+  ProjectResourceStateService
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -83,6 +84,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private projectResourceStateService:ProjectResourceStateService,
     private differs: KeyValueDiffers,
     private projectCreateState:AddProjectStateService,
      private editProjectStateService:EditProjectStateService, 
@@ -161,10 +163,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
         if(status)
        if ( status.AllowResource) 
         {
-          this.disallowResource = false;
+          this.projectResourceStateService.updateDisallowResource(false);
+        
         } 
         else
-        this.disallowResource = true;
+        this.projectResourceStateService.updateDisallowResource(true);
+       
         
         this.projectStartdDate = this.validateForm.controls.startValue.value;
         if(!this.isOnEditstate)
@@ -216,7 +220,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
       } else {
         this.projectCreateState.updateProjectDetails({} as ProjectCreate)
-        this.disallowResource = true;
+        this.projectResourceStateService.updateDisallowResource(true);
       }
     });
   }
@@ -268,8 +272,8 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
           if(status)
          if ( status.AllowResource) 
           {
-            this.disallowResource = false;
-         
+          
+            this.projectResourceStateService.updateDisallowResource(false);
           } 
         }
   

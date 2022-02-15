@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProjectResource,AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, EditProjectStateService, AssignResource, AssignResourceService, AssignedResoureEdit } from '../../../../core';
+import { ProjectResource,AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, AssignResource, AssignResourceService, AssignedResoureEdit, ProjectResourceStateService, Project } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
@@ -24,9 +24,9 @@ export class AddresourceComponent implements OnInit{
   constructor(private fb: FormBuilder,
   private  notification: NzNotificationService,
   private modal: NzModalService,
+  private  projectResourceStateService:ProjectResourceStateService , 
     private assignResourceService:AssignResourceService,
     private router:Router,
-    private editProjectStateService:EditProjectStateService,
     private projectCreateState:AddProjectStateService,
     private employeeService: EmployeeService,
     private projectService: ProjectService
@@ -45,6 +45,7 @@ export class AddresourceComponent implements OnInit{
   isOnEditstate=false;
   resourceEdit:AssignResource={} as AssignResource;
   resoureRemove!:AssignResource;
+  projectForResource:Project={} as Project;
 
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
   @Input() ProjectStartDate:Date| null=null;
@@ -52,13 +53,14 @@ export class AddresourceComponent implements OnInit{
   @Input() formValid:boolean |false=false;
   @Output() tabIndex = new EventEmitter();
   ngOnInit(): void {
-    this.isOnEditstate=this.editProjectStateService.isOnEditstate;
-    
+    this.isOnEditstate=this. projectResourceStateService.isOnEditstate;
+    if( this.isOnEditstate)
+    this.projectForResource= this. projectResourceStateService.project;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
-        if(this.editProjectStateService.isOnEditstate)
+        if(this. projectResourceStateService.isOnEditstate)
        {
-          this.editProjectStateService.projectResourceList$.subscribe(res=>{
+          this. projectResourceStateService.projectResourceList$.subscribe(res=>{
             this.projectResources=res;
             if(this.projectResources)
             this.projectResources.forEach(p=>{        
@@ -143,11 +145,11 @@ export class AddresourceComponent implements OnInit{
       {
         this.assignResourceService.addResource(     {
           EmployeeGuid :this.addResorceForm.controls.resource.value.Guid,
-          ProjectGuid:this.editProjectStateService.projectEditData.Guid,
+          ProjectGuid:this.projectResourceStateService.project.Guid,
           AssignDate:this.addResorceForm.controls.assignDate.value
         }).subscribe(res=>{
 
-          this.editProjectStateService.updateAssignResources();
+          this.projectResourceStateService.updateAssignResources();
 
           this.addResorceForm.reset();
           this.notification.success("Resource assigned successfully",'')
@@ -236,11 +238,11 @@ export class AddresourceComponent implements OnInit{
       this.assignResourceService.updateAssignResource({
         Guid:this.asignedResourseToEdit.Guid ,
       EmployeeGuid:this.editResorceForm.controls.resource.value.Guid,
-      ProjectGuid:this.editProjectStateService.projectEditData.Guid,
+      ProjectGuid:this.projectResourceStateService.project.Guid  ,
       AssignDate: this.editResorceForm.controls.assignDate.value
       }).subscribe(res=>{
 
-        this.editProjectStateService.updateAssignResources();
+        this.projectResourceStateService.updateAssignResources();
 
         this.addResorceForm.reset();
         this.notification.success("Resource updated successfully",'')
@@ -394,6 +396,10 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   rediretCancel()
   {
     this.cancelModal=false;
+  }
+  navaigateToProject()
+  {
+    this.router.navigateByUrl('projectmanagement');
   }
 }
 

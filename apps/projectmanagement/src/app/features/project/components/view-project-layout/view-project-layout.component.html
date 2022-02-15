@@ -35,13 +35,19 @@
         <td>{{ data.ProjectStatus?.StatusName }}</td>
         <td>{{ data.Supervisor?.Name }} </td>
         <td>
-          <a *ngIf="authorize('Update_Project')" (click)="editProject(data)" nzTooltipTitle="Edit" >
+          <a (click)="assignResource(data)" nzTooltipTitle="Assign resource">  
+
+            <i nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style="color:black;"></i>
+          </a>
+          &nbsp; 
+          <a  *ngIf="authorize('Update_Project')" (click)="editProject(data)" nzTooltipTitle="Edit" >
             <i nz-icon nzType="edit" style="color:black;" ></i>
           </a>
-          &nbsp; &nbsp;
+          &nbsp; 
           <a   *ngIf="authorize('Delete_Project')" (click)="deleteProjectConformation(data)" >
             <i nz-icon nzType="delete" style="color:black;"></i>
           </a>
+  
         </td>
       </tr>
       </tbody>
