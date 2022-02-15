@@ -82,15 +82,17 @@ export class PageTitleComponent implements OnInit {
         this._formGenerator.updateOneEmployee();
       } else {
         this._formGenerator.save();
-       // this._router.navigate(['resourcemanagement']).then(() => {
-       //   window.location.reload();
-       // });
-        //this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
+       
       }
 
-      this._router.navigate(['resourcemanagement']).then(() => {
-        window.location.reload();
-      });
+      setTimeout(()=>{                           
+        //
+        this._router.navigate(['resourcemanagement']);//.then(() => {
+         // window.location.reload();
+        //});
+    }, 2000);
+    
+     
     }
   }
   Cancel() {

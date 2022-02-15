@@ -65,6 +65,7 @@ export class CustomUploadComponent implements OnInit {
     }
 
     
+    
     handlePreview = async (file: NzUploadFile): Promise<void> => {
       // alert("yes");
       // if (!file.url && !file.preview) {
@@ -85,12 +86,15 @@ export class CustomUploadComponent implements OnInit {
      return this.http.post(environment.apiUrl+'/EmployeePhoto',formData).subscribe((event: any) => {
        console.log("on it");
        item.status= 'done';
+       item.onSuccess(item.file);
        console.log(event.Data);
+       this.getUserImg(this._employeeService.empNum);
       },(err) => { /* error */
         console.log(err);
       },
       ()=>{
-        this._router.navigate(['resourcemanagement']);
+        item.status= 'done';
+       // this._router.navigate(['resourcemanagement']);
         console.log("completed");
       });
      
