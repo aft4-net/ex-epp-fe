@@ -60,6 +60,7 @@ export class AddresourceComponent implements OnInit{
        {
           this.editProjectStateService.projectResourceList$.subscribe(res=>{
             this.projectResources=res;
+            if(this.projectResources)
             this.projectResources.forEach(p=>{        
              this.employees=this.employees.filter(x=>x.Guid!=p.EmployeeGuid);          
             })   

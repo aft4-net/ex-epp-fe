@@ -232,7 +232,7 @@
         </span>
        </ng-template>
       <div class="tab-content">
-        <exec-epp-addresource (tabIndex)="routeOnUpdateValidation($event)" (addProjectResourceEvent)="updateProjectResourseList($event)" [formValid]="validateForm.valid"
+        <exec-epp-addresource (tabIndex)="routeOnUpdateValidation($event)" (addProjectResourceEvent)="updateProjectResourseList($event)" [formValid]="validateForm.valid && enableUpdateButton"
         [ProjectStartDate]="this.startValue.value" [ProjectEndDate]="this.endValue.value"> </exec-epp-addresource>
       </div>
     </nz-tab>
