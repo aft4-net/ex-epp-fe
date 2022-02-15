@@ -2,8 +2,12 @@
   <div class="tab-title"> Resources </div>
 
   <div>
-    <button class=" btn " (click)="showModal()">
+    <button [ngClass]="isOnEditstate ? 'btn mr-4':'btn'" (click)="showModal()">
       Assign resource
+    </button>
+
+    <button *ngIf="isOnEditstate"  (click)="showConfirm()" class="btn-cancel ">
+      Cancel
     </button>
 
   </div>
@@ -41,7 +45,7 @@
   </tbody>
 </nz-table>
 
-<nz-modal class="resourceModal" *ngIf="employees" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
+<nz-modal class="resourceModal"  class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resource"
   (nzOnCancel)="handleCancel()" [nzFooter]="null">
   <ng-container *nzModalContent>
     <form *ngIf="!isEditMode; else editForm" [formGroup]="addResorceForm" nz-form [nzLayout]="'vertical'"
@@ -64,7 +68,7 @@
         </nz-form-label>
 
         <nz-form-control class="mb-5">
-          <nz-date-picker [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
+          <nz-date-picker [nzDisabledDate]="disabledEndDate" [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
           </nz-date-picker>
 
           <span *ngIf="assignDateControl.invalid && assignDateControl.touched" class="error-block">
@@ -162,9 +166,25 @@
  
   <ng-container *nzModalContent>
     <p> Are you sure to unassign project's resource ? </p>
-    <span class="flex justify-end">  
-      <button  class="btn mr-8" (click)="removeResource()">Yes, unassign</button>
-      <button  class="btn-cancel" (click)="deleteCancel()">Cancel</button>
+    <span class="flex justify-end">
+      <button  class="btn-cancel mr-8 " (click)="deleteCancel()">No</button>  
+      <button  class="btn" (click)="removeResource()">Yes</button> 
     </span>
   </ng-container>
 </nz-modal>
+
+<nz-modal  *ngIf="isOnEditstate" (nzOnCancel)="confirmCancelExit()"  [(nzVisible)]="cancelModal"  [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="conform-modal">
+
+  <ng-template #confirmTile>
+<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i> Exit
+ </ng-template>
+  <ng-container *nzModalContent>
+    <p > Are you sure to exit before updating project ? </p>
+    <span class="flex justify-end">  
+      <button  class="btn-cancel mr-8" (click)="rediretCancel()"> No </button>
+      <button  class="btn" (click)="confimeresredirect()">Yes</button>
+    </span>
+  </ng-container>
+</nz-modal>
+
