@@ -41,6 +41,7 @@ export class AddresourceComponent implements OnInit{
   isEditMode = false;
   assignedDateError = false;
   disableUpdateButton=true;
+  cancelModal=false;
   isOnEditstate=false;
   resourceEdit:AssignResource={} as AssignResource;
   resoureRemove!:AssignResource;
@@ -48,15 +49,27 @@ export class AddresourceComponent implements OnInit{
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
   @Input() ProjectStartDate:Date| null=null;
   @Input() ProjectEndDate:Date| null=null;
-
+  @Input() formValid:boolean |false=false;
+  @Output() tabIndex = new EventEmitter();
   ngOnInit(): void {
     this.isOnEditstate=this.editProjectStateService.isOnEditstate;
-    if(!this.isOnEditstate)
+    
     this.employeeService.getAll().subscribe((response: Employee[]) => {
-
-        this.employees = response;
-      this.sortEmployees();
+      this.employees = response;
+        if(this.editProjectStateService.isOnEditstate)
+       {
+          this.editProjectStateService.projectResourceList$.subscribe(res=>{
+            this.projectResources=res;
+            if(this.projectResources)
+            this.projectResources.forEach(p=>{        
+             this.employees=this.employees.filter(x=>x.Guid!=p.EmployeeGuid);          
+            })   
+        })
+        this.sortEmployees();
+      }
     });
+
+
     this.addResorceForm = this.fb.group({
       resource: [null, Validators.required],
 
@@ -108,30 +121,7 @@ export class AddresourceComponent implements OnInit{
 
     });
 
-      if(this.isOnEditstate)
-      this.editProjectStateService.projectResourceList$.subscribe(res=>{
-        this.projectResources=res;
-
-        this.employeeService.getAll().subscribe((response: Employee[]) => {
-
-          if(this.projectResources.length==0)
-          this.employees=response;
-          else if( this.projectResources.length>0)
-          this.projectResources.forEach(p=>{
-
-            response.forEach(c=>{
-              if(p.EmployeeGuid !== c.Guid)
-              this.employees.push(c);
-            })
-           });
-
-
-        this.sortEmployees();
-      });
-
-
-
-      })
+     
 
 
   }
@@ -360,9 +350,6 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
     this.router.navigateByUrl('projectmanagement');
   }
 
-  confirmCancel(){
-    this.removeResourceModel=false;
-  }
   disabledEndDate = (startValue: Date): boolean => {
     if (!startValue || !this.ProjectStartDate ||this.isOnEditstate) {
       return false;
@@ -380,6 +367,34 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
         );
 
   };
+
+  
+  confirmCancel(){
+    this.removeResourceModel=false;
+  }
+  confirmCancelExit()
+  {
+    this.cancelModal=false;
+  }
+  showConfirm(){
+    if(this.formValid)
+     {
+      this.tabIndex.emit(0);
+       this.cancelModal=true;
+     }
+    else
+    this.router.navigateByUrl('projectmanagement');
+}
+
+  confimeresredirect()
+  {
+    this.router.navigateByUrl('projectmanagement');
+    this.cancelModal=false;
+  }
+  rediretCancel()
+  {
+    this.cancelModal=false;
+  }
 }
 
 
