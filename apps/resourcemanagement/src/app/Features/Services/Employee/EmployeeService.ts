@@ -48,6 +48,7 @@ export class EmployeeService {
   isEdit!: boolean;
   save = 'Save';
   setEmployeeDataForEdit(employee: Employee) {
+    console.log(employee);
     this.employeeById = employee;
   }
   addEmployee(employee: Employee) {
