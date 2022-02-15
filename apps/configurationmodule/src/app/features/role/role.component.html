@@ -1,5 +1,5 @@
 <div class="main-content" style="margin: 0px 24px;padding-top: 24px; padding-bottom: 58px;">
-  <h1>Roles</h1>
+  <h1>Job Titles</h1>
   <div nz-row>
     <div nz-col nzSpan="18">
     <nz-form-item>
@@ -24,7 +24,7 @@
       [nzFooter]="null"
       (nzOnCancel)="handleCancel()"
     >
-      <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Role</ng-template>
+      <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Job Title</ng-template>
       <ng-template #modalContent>
         <exec-epp-add-edit-role [id]="idForEdit" (update)="update($event)"></exec-epp-add-edit-role>
       </ng-template>
