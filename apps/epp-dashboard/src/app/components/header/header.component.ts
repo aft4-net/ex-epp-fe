@@ -50,6 +50,8 @@ export class HeaderComponent implements OnInit {
     console.log(this.uemail);
     setTimeout(() => {
       this.theGroup = this._authenticationService.position;
+      console.log(this.theGroup+"123456789")
+      //this.theGroup =this.uemail.EmployeeOrganization.Role.Name;
     }, 1000);
   }
 
