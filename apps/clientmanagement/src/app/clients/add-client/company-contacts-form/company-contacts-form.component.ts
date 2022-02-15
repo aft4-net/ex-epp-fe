@@ -19,9 +19,9 @@ import { CompanyContactService } from '../../../core/';
 import { CountryCodeService } from '../../../core/services/country-code.service';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { extractPhoneNumber } from '../../../shared/phonePrefixExtractor/phone-prefix-extractor';
 import { getNames } from '../../../shared/Data/contacts';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-company-contacts-form',

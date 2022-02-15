@@ -14,8 +14,8 @@ import { PaginatedResult } from '../models/PaginatedResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
-import { delay } from 'rxjs/operators';
 import { TimesheetStateService } from '../timesheet/state/timesheet-state.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -390,7 +390,8 @@ sortDirectionMethod() {
 
   stateReset():void
   {
-
+    this.searchKeyGBinded ='';
+    this.weekGBinded = null;
     this.sortByG = '';
 
     this.pageIndexG=1;
