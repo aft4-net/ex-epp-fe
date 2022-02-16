@@ -138,7 +138,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
    this.projectOld.SupervisorGuid=this.editProjectStateService.projectEditData.SupervisorGuid;
    this.projectOld.StartDate= this.editProjectStateService.projectEditData.StartDate;
    this.projectOld.EndDate=this.editProjectStateService.projectEditData.EndDate;
-
+   this.disabled=false;
  
    if (this.validateForm.controls.endValue.value != null)
    this.projectOld.EndDate=this.validateForm.controls.endValue.value

@@ -68,8 +68,8 @@
         <p *ngIf="!isOnEditstate"> Are you sure to exit before saving project ? </p>
         <p *ngIf="isOnEditstate" > Are you sure to exit before updating project ? </p>
         <span class="flex justify-end">  
-          <button  class="btn-cancel mr-8" (click)="rediretCancel()"> No </button>
-          <button  class="btn" (click)="confimeresredirect()">Yes</button>
+        <button  class="btn mr-8" (click)="confimeresredirect()">Yes</button>
+          <button  class="btn-cancel " (click)="rediretCancel()"> No </button>    
         </span>
       </ng-container>
     </nz-modal>

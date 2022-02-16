@@ -8,14 +8,11 @@
         <ng-template #suffixIconSearch>
           <i nz-icon nzType="search"></i>
         </ng-template>
-
         <ng-template>Try</ng-template>
       </div>
-
     </div>
-
-    <nz-table class="proTable" [nzData]="projects" #basicTable nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false"
-              class="mt-3">
+  <nz-table class="proTable" [nzData]="projects" #basicTable nzSize="small" [nzOuterBordered]="true" [nzFrontPagination]="false"
+      class="mt-3">
 
       <thead>
         <tr>
@@ -65,16 +62,15 @@
   nzClassName="conform-modal">
 
   <ng-template #confirmTile>
-<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Delete  
+<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Delete project 
  </ng-template>
   <ng-container *nzModalContent>
   <p> 
     Are you sure to delete this project ? 
   </p>
     <span class="flex justify-end">  
-      <button  class="btn-cancel mr-8" (click)="hidedeleteProjectModal()">No</button>
-      <button   class="btn" (click)="deleteProject()">Yes</button>
-
+      <button   class="btn mr-8" (click)="deleteProject()">Yes</button>
+      <button  class="btn-cancel " (click)="hidedeleteProjectModal()">No</button>
     </span>
   </ng-container>
 </nz-modal>

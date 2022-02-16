@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProjectResource,AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, AssignResource, AssignResourceService, AssignedResoureEdit, ProjectResourceStateService, Project } from '../../../../core';
+import { AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, AssignResource, AssignResourceService, AssignedResoureEdit, ProjectResourceStateService, Project } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
