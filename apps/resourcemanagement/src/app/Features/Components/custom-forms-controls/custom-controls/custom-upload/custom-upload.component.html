@@ -5,13 +5,13 @@
   </div>
   <div class="profile-buttons-container">
     <div class="profile-button-container">
-      <nz-upload [nzCustomRequest]="customUploadReq"  [nzName]="'file'">
+      <nz-upload [nzCustomRequest]="customUploadReq" [nzSize]="240"  [nzName]="'file'">
          <button
           class="profile-button-add"
-          ><a style="color: green;">
-          <i nz-icon nzType="upload"> </i>
+          >
+          <i style="pointer-events: none;" nz-icon nzType="upload"> </i>
           Upload
-        </a></button>
+       </button>
       </nz-upload>
     </div>
     <div class="profile-button-container" *ngIf="removeImg">
