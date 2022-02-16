@@ -8,10 +8,10 @@
       <nz-upload [nzCustomRequest]="customUploadReq"  [nzName]="'file'">
          <button
           class="profile-button-add"
-          ><a style="color: green;">
-          <i nz-icon nzType="upload"> </i>
+          >
+          <i style="pointer-events: none;" nz-icon nzType="upload"> </i>
           Upload
-        </a></button>
+       </button>
       </nz-upload>
     </div>
     <div class="profile-button-container" *ngIf="removeImg">

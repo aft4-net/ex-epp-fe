@@ -5,7 +5,7 @@ import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellPara
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { environment } from "libs/environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { Router } from "@angular/router";
@@ -76,27 +76,29 @@ export class CustomUploadComponent implements OnInit {
     };
  
     customUploadReq = (item: any) => {
-      
-      const formData = new FormData();
-      formData.append('data', item.file as any); // tslint:disable-next-line:no-any
-      console.log("on it 2 " + item.file.name);
-      formData.append('id', this._employeeService.empNum);
+      this._employeeService.ephoto = item.file as any;
+      item.status= 'done';
+      //item.onSuccess(item.file);
+      //const formData = new FormData();
+      //formData.append('data', item.file as any); // tslint:disable-next-line:no-any
+      //console.log("on it 2 " + item.file.name);
+      //formData.append('id', this._employeeService.empNum);
     //  const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
       // Always return a `Subscription` object, nz-upload will automatically unsubscribe at the appropriate time
-     return this.http.post(environment.apiUrl+'/EmployeePhoto',formData).subscribe((event: any) => {
+     return of("").subscribe();/*this.http.post(environment.apiUrl+'/EmployeePhoto',formData).subscribe((event: any) => {
        console.log("on it");
        item.status= 'done';
        item.onSuccess(item.file);
        console.log(event.Data);
        this.getUserImg(this._employeeService.empNum);
-      },(err) => { /* error */
+      },(err) => { 
         console.log(err);
       },
       ()=>{
         item.status= 'done';
        // this._router.navigate(['resourcemanagement']);
         console.log("completed");
-      });
+      });*/
      
     }
     getUser(email:string){
