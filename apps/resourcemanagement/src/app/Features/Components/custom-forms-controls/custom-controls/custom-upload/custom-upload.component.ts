@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
-import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { environment } from "libs/environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { Router } from "@angular/router";
@@ -76,12 +76,12 @@ export class CustomUploadComponent implements OnInit {
     };
  
     customUploadReq = (item: any) => {
-      
+      this._employeeService.ephoto = item.file as any;
       const formData = new FormData();
       formData.append('data', item.file as any); // tslint:disable-next-line:no-any
       console.log("on it 2 " + item.file.name);
       formData.append('id', this._employeeService.empNum);
-    //  const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
+      // const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
       // Always return a `Subscription` object, nz-upload will automatically unsubscribe at the appropriate time
      return this.http.post(environment.apiUrl+'/EmployeePhoto',formData).subscribe((event: any) => {
        console.log("on it");
@@ -89,7 +89,7 @@ export class CustomUploadComponent implements OnInit {
        item.onSuccess(item.file);
        console.log(event.Data);
        this.getUserImg(this._employeeService.empNum);
-      },(err) => { /* error */
+      },(err) => { 
         console.log(err);
       },
       ()=>{
@@ -99,6 +99,9 @@ export class CustomUploadComponent implements OnInit {
       });
      
     }
+
+ 
+
     getUser(email:string){
       return this.http.get<any>(environment.apiUrl+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' 
       + email.toLowerCase()).subscribe((response:any)=>{

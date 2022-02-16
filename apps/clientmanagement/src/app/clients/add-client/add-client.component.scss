@@ -22,12 +22,13 @@
 .page-title {
 
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 20px;
   line-height: 28px;
   display: flex;
   align-items: center;
   color: #262626;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
 }
 
 .tab-content {
@@ -136,3 +137,17 @@ header {
 ::ng-deep th.table_heading.ant-table-cell {
   background-color: #fafafa !important;
 }
+
+span.ng-star-inserted.invalisForm {
+
+  position: fixed !important;
+  padding: 3.2px !important;
+
+}
+::ng-deep button.add-btn-wrapper.ant-btn
+{
+  background: #00A551 !important;
+    color: white !important;
+}
+
+
