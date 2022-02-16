@@ -285,13 +285,13 @@ export class EmployeeService {
           params: {
             searhKey: "",
             pageIndex: employeeParams.pageIndex,
-            pageSize: "10000",
+            pageSize: "100000",
           },
         }
       )
       .pipe(
         map((result: any) => {
-         /* this.paginatedResult = {
+          this.paginatedResult = {
             Data: result.Data,
             pagination: {
               PageIndex: result.PageIndex,
@@ -299,8 +299,8 @@ export class EmployeeService {
               PageSize: result.PageSize,
               TotalRecord: result.TotalRecord,
             },
-          };*/
-          return result.Data;
+          };
+          return this.paginatedResult;
         })
       );
   }
@@ -322,11 +322,11 @@ export class EmployeeService {
   }
 
   getFilterData(){
-    const clientNameFliter: { text: string; value: string }[] = [] as {
+    const jobtitle: { text: string; value: string }[] = [] as {
       text: string;
       value: string;
     }[];
-    const SupervisorFilter: { text: string; value: string }[] = [] as {
+    const locations: { text: string; value: string }[] = [] as {
       text: string;
       value: string;
     }[];
@@ -340,16 +340,16 @@ export class EmployeeService {
       if(Object.keys(response.Data).length!= 0)
       {
         for (let i = 0; i < response.Data.jobtype.length; i++){
-          if(clientNameFliter.findIndex(x=>x.text.trim() === response.Data.jobtype[i].Name.trim()) === -1 ){
-          clientNameFliter.push({
+          if(jobtitle.findIndex(x=>x.text.trim() === response.Data.jobtype[i].Name.trim()) === -1 ){
+            jobtitle.push({
             text: response.Data.jobtype[i].Name,
             value: response.Data.jobtype[i].Name,
           });
         }
         }
         for (let i = 0; i < response.Data.location.length; i++){
-          if(SupervisorFilter.findIndex(x=>x.text.trim() === response.Data.location[i].Name.trim()) === -1 ){
-          SupervisorFilter.push({
+          if(locations.findIndex(x=>x.text.trim() === response.Data.location[i].Name.trim()) === -1 ){
+            locations.push({
             text: response.Data.location[i].Name,
             value: response.Data.location[i].Name,
           });
@@ -366,9 +366,9 @@ export class EmployeeService {
 
       }
       return {
-        jobtitleFilter :clientNameFliter,
+        jobtitleFilter :jobtitle,
         StatusFilter :statusFilter,
-        locationFilter:SupervisorFilter
+        locationFilter:locations
       }
     }))
   }
@@ -405,7 +405,7 @@ export class EmployeeService {
 
     }
     //let paginatedResult = this.paginatedResult;
-    return this.http.get(  this.baseUrl + '/GetAllEmployeeDashboardFilter', {params})
+    return this.http.get<PaginationResult<IEmployeeViewModel[]>>(  this.baseUrl + '/GetAllEmployeeDashboardFilter', {params})
     .pipe(
       map((result: any) => {
         this.paginatedResult = {
