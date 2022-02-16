@@ -31,8 +31,10 @@ export class PageBreadcrumbComponent implements OnInit {
 
   ngOnInit(): void {
   
+   this._employeeService.empNum="";
+this._employeeService.ephoto=null;
    
-    if(this._permissionService.authorizedPerson('Create_Employee')||
+   if(this._permissionService.authorizedPerson('Create_Employee')||
        this._permissionService.authorizedPerson('Employee_Admin'))
     {
       this.canAddEmployee = true;
