@@ -30,7 +30,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';
 
 import { map } from 'rxjs/operators';
@@ -95,7 +94,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
     private router: Router,
-    private notification: NotificationBar,
     private _permissionService: PermissionListService
   ) { }
   ngOnDestroy(): void {

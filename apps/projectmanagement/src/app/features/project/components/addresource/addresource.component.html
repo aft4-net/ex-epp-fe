@@ -14,7 +14,7 @@
 <div class="justify-between mb-3" nz-row>
   <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>
 
-  <div *ngIf="isOnEditstate" class="tab-title">   {{  projectForResource?.ProjectName | titlecase }}'s resources </div>
+  <div *ngIf="isOnEditstate" class="tab-title">   {{  projectForResource?.ProjectName | titlecase }} resources </div>
   <div>
     <button  class="btn"  (click)="showModal()">
       Assign resource
@@ -126,7 +126,7 @@
             <span class="redAstrics"> * </span>
           </nz-form-label>
           <nz-form-control class="mb-5">
-            <nz-date-picker [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
+            <nz-date-picker   [nzDisabledDate]="disabledEndDate" [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
             </nz-date-picker>
 
             <span *ngIf="

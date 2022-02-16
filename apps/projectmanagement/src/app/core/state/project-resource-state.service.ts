@@ -13,6 +13,7 @@ export class ProjectResourceStateService {
   private projectResourceList=  new BehaviorSubject<AssignResource[]>([] as AssignResource[]);
   private projectSource= new BehaviorSubject<Project>({} as Project);
   projectResourceList$=this.projectResourceList.asObservable();
+  isOnEditstate$=this.isOnEditstateSource.asObservable();
   disallowResourceSource$=this.disallowResourceSource.asObservable();
   constructor(private router:Router,private  assignResoursceService:AssignResourceService) { }
 

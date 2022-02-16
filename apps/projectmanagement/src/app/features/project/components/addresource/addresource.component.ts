@@ -53,7 +53,10 @@ export class AddresourceComponent implements OnInit{
   @Input() formValid:boolean |false=false;
   @Output() tabIndex = new EventEmitter();
   ngOnInit(): void {
-    this.isOnEditstate=this. projectResourceStateService.isOnEditstate;
+    this.projectResourceStateService.isOnEditstate$.subscribe(res=>{
+      this.isOnEditstate=res;
+    })
+  
     if( this.isOnEditstate)
     this.projectForResource= this. projectResourceStateService.project;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
@@ -344,30 +347,51 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
     if(this.employees.length!=0)
     this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
   }
-  disabledDates=(current:Date):boolean => {
 
-    return current.valueOf()<this.ProjectStartDate!.valueOf();
-  }
   onReset() {
     this.router.navigateByUrl('projectmanagement');
   }
 
   disabledEndDate = (startValue: Date): boolean => {
-    if (!startValue || !this.ProjectStartDate ||this.isOnEditstate) {
-      return false;
-    }
-    
-    if(this.ProjectEndDate)
-        {
-          return (
-            startValue.getTime() < this.ProjectStartDate.getTime() || startValue.getTime() > this.ProjectEndDate.getTime()
-          );
-        }
-       else
-        return (
-          startValue.getTime() < this.ProjectStartDate.getTime() 
-        );
 
+
+
+  
+     
+     if(!this.isOnEditstate)
+    {
+      
+      if(!this.projectCreateState.projectData.StartDate || !startValue  )
+      {
+        return false;
+      }
+      
+      if(  this.projectCreateState.projectData.EndDate!=null && 
+       typeof this.projectCreateState.projectData.EndDate != 'undefined' )
+    return (
+      startValue.getTime() <  new Date(this.projectCreateState.projectData.StartDate).getTime() ||
+      startValue.getTime() > new Date(this.projectCreateState.projectData.EndDate).getTime()
+    );
+    else
+   return  startValue.getTime() < new Date(this.projectCreateState.projectData.StartDate).getTime() 
+    }
+    else if(this.isOnEditstate)
+{
+  if ( !startValue  || !this.projectForResource.StartDate )
+  {
+    return false;
+  }
+   if(this.projectForResource.EndDate!=null && 
+    typeof this.projectForResource.EndDate != 'undefined' )
+ return (
+   startValue.getTime() <  new Date(this.projectForResource.StartDate).getTime() ||
+   startValue.getTime() > new Date(this.projectForResource.EndDate).getTime()
+ );
+ else
+return  startValue.getTime() < new Date(this.projectForResource.StartDate).getTime() 
+
+ }
+ return false;
   };
 
   
@@ -400,6 +424,7 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   navaigateToProject()
   {
     this.router.navigateByUrl('projectmanagement');
+    this.projectResourceStateService.restUpdateProjectState();
   }
 }
 

@@ -85,7 +85,7 @@ export class AddProjectStateService extends StateService<ProjectCreate>  {
           typeof res.SupervisorGuid == 'undefined' ||
           res.SupervisorGuid == '' ||
           typeof res.StartDate == 'undefined' ||
-          res.StartDate == ''
+          res.StartDate == null
         ) 
        return false;
 
