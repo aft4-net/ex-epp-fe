@@ -1,4 +1,4 @@
-import { AddClientStateService,ClientContactService, ClientContactCreate, UpdateClientContact, UpdateClientStateService } from '../../../core';
+import { AddClientStateService, ClientContactCreate, ClientContactService, UpdateClientContact, UpdateClientStateService } from '../../../core';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -220,6 +220,8 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
+        if(this.updateClientStateService.isEdit)
+        {
         if(typeof this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid!=='undefined')
         {
         this.contactService.DeleteContact(this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid).subscribe(
@@ -244,6 +246,12 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
           this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
           );
         }
+      }
+      else{
+        this.removeItem(element);
+        this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
+        );
+      }
       },
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
