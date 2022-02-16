@@ -105,7 +105,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
-
+       this._employeeService.empNum=employee.EmployeeNumber;
         this._employeeService.add(employee)
             .subscribe((response: any) => {
                 this._employeeService.isdefault = true;
@@ -131,7 +131,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
-
+        this._employeeService.empNum=employee.EmployeeNumber;
         this._employeeService.update(employee)
         .subscribe( (response: any)=>{
           this._employeeService.isdefault=true;
@@ -431,9 +431,8 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setPresonalDetail(employee: Employee) {
 
-     console.log("what3");
         if (employee.EmployeeNumber) {
-            console.log("what 4");
+            
             this._setEmployeeIdNumber(
                 employee.EmployeeNumber,
                 this.personalDetailsForm
@@ -441,7 +440,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         }
 
         if (employee.FirstName && employee.FatherName) {
-            console.log("what 5");
+            
             this._setNames(
                 employee.FirstName,
                 employee.FatherName,
@@ -451,7 +450,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         }
 
         if (employee.Gender) {
-            console.log("what 6");
+           
             this._setControlValue(
                 employee.Gender,
                 this.getFormControl('gender', this.personalDetailsForm)
@@ -459,7 +458,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         }
 
         if (employee.DateofBirth) {
-            console.log("what 7");
+           
             this._setControlValue(
                 employee.DateofBirth,
                 this.getFormControl('dateofBirth', this.personalDetailsForm)
@@ -468,11 +467,11 @@ export class FormGenerator extends FormGeneratorAssistant {
 
         const emailArray: string[] = [employee.PersonalEmail]
         if (employee.PersonalEmail2 && employee.PersonalEmail2 !== null && employee.PersonalEmail2 !== '') {
-            console.log("what8");
+           
             emailArray.push(employee.PersonalEmail2)
         }
         if (employee.PersonalEmail3 && employee.PersonalEmail3 !== null && employee.PersonalEmail3 !== '') {
-            console.log("what9");
+         
             emailArray.push(employee.PersonalEmail3)
         }
         this._setEmailArray(
@@ -482,11 +481,11 @@ export class FormGenerator extends FormGeneratorAssistant {
 
         const phonerray: string[] =  [];//[employee.MobilePhone]
         if (employee.Phone1 && employee.Phone1 !== null && employee.Phone1 !== '') {
-            console.log("what10");
+       
             phonerray.push(employee.MobilePhone)
         }
         if (employee.Phone2 && employee.Phone2 !== null && employee.Phone2 !== '') {
-            console.log("what11");
+          
             phonerray.push(employee.Phone2)
         }
         if(employee.MobilePhone && employee.MobilePhone !== null && employee.MobilePhone !==''){
@@ -503,9 +502,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
         )
-      /*  this.errorMessageforPersonalDetails(
-            this.personalDetailsForm
-        )*/
+      //  this.errorMessageforPersonalDetails(
+      //      this.personalDetailsForm
+      //  )
     }
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
