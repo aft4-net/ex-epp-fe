@@ -6,10 +6,6 @@ import {
 } from '../../models/timesheetModels';
 
 import { Injectable } from '@angular/core';
-import { ThisReceiver } from '@angular/compiler';
-import { TimesheetService } from './timesheet.service';
-import { iif } from 'rxjs';
-import { throwIfEmpty } from 'rxjs/operators';
 import { TimesheetConfigurationStateService } from '../state/timesheet-configuration-state.service';
 
 @Injectable({

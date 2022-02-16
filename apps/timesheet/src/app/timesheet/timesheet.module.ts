@@ -1,5 +1,3 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatBadgeModule } from '@angular/material/badge';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
@@ -31,9 +29,6 @@ import {TimesheetRoutingModule} from './timesheet-routing.module';
 import { TimesheetService } from './services/timesheet.service';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
-import { MatButtonModule } from '@angular/material/button';
-import { BrowserModule } from '@angular/platform-browser';
-
 
 @NgModule({
   declarations: [
@@ -67,8 +62,6 @@ import { BrowserModule } from '@angular/platform-browser';
     NzToolTipModule,
     NzPaginationModule,
     NzInputNumberModule,
-    MatBadgeModule,
-    MatButtonModule ,
   ],
   exports: [TimesheetComponent, TimesheetHeaderComponent],
   providers: [TimesheetValidationService,TimesheetService],

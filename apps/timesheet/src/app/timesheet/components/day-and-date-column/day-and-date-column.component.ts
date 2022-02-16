@@ -1,12 +1,9 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, QueryList, ViewChildren, TemplateRef, ViewChild } from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
-import { findIndex, map } from 'rxjs/operators';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef } from '@angular/core';
+import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
-import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
-import { ProjectNamePaletComponent } from '../project-name-palet/project-name-palet.component';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 
 @Directive({
