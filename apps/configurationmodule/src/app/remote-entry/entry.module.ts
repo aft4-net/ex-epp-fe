@@ -18,7 +18,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { CountryComponent } from '../features/country/country.component';
 import { DutyStationComponent } from '../features/duty-station/duty-station.component';
 const routes: Routes = [
-  {
+  { 
     path: '',
     component: AppComponent,
     children: [
