@@ -9,6 +9,9 @@ import { Observable, Observer, of } from "rxjs";
 import { environment } from "libs/environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { Router } from "@angular/router";
+import {  
+  SafeResourceUrl, 
+  DomSanitizer } from '@angular/platform-browser';
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -52,12 +55,13 @@ export class CustomUploadComponent implements OnInit {
     removeImg = true;
     localUrl="";
 
-    constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router) {
+    constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router
+     ) {
     }
 
     ngOnInit(): void {
       if(this._employeeService.empNum === 'ec0001'){
-        this.empImg = null;
+        this.empImg = null;      
       }
      
      console.log("this was the email on init "+ this.userEmail + " and EmpNum " + this._employeeService.empNum);
@@ -104,7 +108,7 @@ export class CustomUploadComponent implements OnInit {
 
     customUploadReq = (item: any) => {
       this._employeeService.ephoto = item.file as any;
-      const reader = new FileReader();
+      
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
  
       const formData = new FormData();
