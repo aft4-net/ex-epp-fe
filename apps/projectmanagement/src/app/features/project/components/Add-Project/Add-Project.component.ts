@@ -30,7 +30,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { PermissionListService } from 'libs/common-services/permission.service';
 
 import { map } from 'rxjs/operators';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
@@ -93,8 +92,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     private clientService: ClientService,
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
-    private router: Router,
-    private _permissionService: PermissionListService
+    private router: Router
   ) { }
   ngOnDestroy(): void {
     this.projectCreateState.restAddProjectDetails();
@@ -110,11 +108,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
-     if( this.isOnEditstate)
-     {this. setValueForUpdate();
-    
-     }
-  }
+
+    if("/projectmanagement/edit-project" === this.router.url && !this.isOnEditstate)
+    this.router.navigateByUrl('projectmanagement');
+    if(this.isOnEditstate)
+     this. setValueForUpdate();
+    }
 
 
  setValueForUpdate()
@@ -147,10 +146,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
  }
    
-
-  authorize(key: string) {
-    return this._permissionService.authorizedPerson(key);
-  }
 
   projectMapper() {
     this.validateForm.valueChanges.subscribe(() => {

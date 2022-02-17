@@ -29,7 +29,6 @@ export class ProjectDetailsComponent implements OnInit , OnDestroy {
 
     this.projectCreateState.isCreateProjectValid().subscribe(res=>{
       this.forrmvalid=res;
-      console.log( this.forrmvalid)
     })
   }
   ngOnDestroy(): void {

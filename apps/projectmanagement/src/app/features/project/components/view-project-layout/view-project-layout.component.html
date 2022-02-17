@@ -34,10 +34,10 @@
         <td>
           <a (click)="assignResource(data)" nzTooltipTitle="Assign resource">  
 
-            <i nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style="color:black;"></i>
+            <i *ngIf="authorize('View_Resources')"  nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style="color:black;"></i>
           </a>
           &nbsp; 
-          <a  *ngIf="authorize('Update_Project')" (click)="editProject(data)" nzTooltipTitle="Edit" >
+          <a *ngIf="authorize('Update_Project')" (click)="editProject(data)" nzTooltipTitle="Edit" >
             <i nz-icon nzType="edit" style="color:black;" ></i>
           </a>
           &nbsp; 

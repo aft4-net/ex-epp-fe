@@ -39,18 +39,27 @@
       </td>
       <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
 
-      <td>
+      <td *ngIf="isOnEditstate">
+        <a *ngIf="authorize('Update_Resources')" class="text-black mr-3" (click)="editResource(resource.Empolyee.Guid)">
+          <i nz-icon nzType="edit" style="color:black;"></i>
+        </a>
+        &nbsp; &nbsp;
+        <a  *ngIf="authorize('Delete_Resources')" class="text-black"  (click)="conformationDelete(resource)">
+          <i nz-icon nzType="delete" style="color: black"></i>
+        </a>
+      </td>
+      <td *ngIf="!isOnEditstate">
         <a class="text-black mr-3" (click)="editResource(resource.Empolyee.Guid)">
           <i nz-icon nzType="edit" style="color:black;"></i>
         </a>
         &nbsp; &nbsp;
-        <a class="text-black" *ngIf="!isOnEditstate" (click)="removeForAddReource(resource)" >
+        <a class="text-black"  (click)="removeForAddReource(resource)" >
           <i nz-icon nzType="delete" style="color: black"></i>
         </a>
-        <a class="text-black" *ngIf="isOnEditstate" (click)="conformationDelete(resource)">
-          <i nz-icon nzType="delete" style="color: black"></i>
-        </a>
+   
       </td>
+
+
     </tr>
   </tbody>
 </nz-table>
@@ -78,7 +87,7 @@
         </nz-form-label>
 
         <nz-form-control class="mb-5">
-          <nz-date-picker [nzDisabledDate]="disabledEndDate" [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
+          <nz-date-picker [nzAutoFocus]  [nzDisabledDate]="disabledEndDate" [nzAllowClear] nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
           </nz-date-picker>
 
           <span *ngIf="assignDateControl.invalid && assignDateControl.touched" class="error-block">

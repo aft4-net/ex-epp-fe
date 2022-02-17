@@ -6,7 +6,7 @@ import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
-;
+import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 
 
 
@@ -22,6 +22,7 @@ export class AddresourceComponent implements OnInit{
   editResorceForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
+    private permissionList: PermissionListService,
   private  notification: NzNotificationService,
   private modal: NzModalService,
   private  projectResourceStateService:ProjectResourceStateService , 
@@ -425,6 +426,9 @@ return  startValue.getTime() < new Date(this.projectForResource.StartDate).getTi
   {
     this.router.navigateByUrl('projectmanagement');
     this.projectResourceStateService.restUpdateProjectState();
+  }
+  authorize(key: string) {
+    return this.permissionList.authorizedPerson(key);
   }
 }
 
