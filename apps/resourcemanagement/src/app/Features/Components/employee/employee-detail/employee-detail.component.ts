@@ -87,6 +87,8 @@ export class EmployeeDetailComponent implements OnInit {
   searchStateFound !: boolean;
   pageSize = 10;
   pageIndex = 1;
+  SortColumn="";
+  sortDirection="";
   totalRows !:number;
   totalRecord !: number;
   beginingRow !: number;
@@ -368,6 +370,21 @@ supervisorFilter(key: string[]) {
       }
     });
   }
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    console.log("was I ? ");
+    if (direction == 'ascend') {
+      this.sortDirection = 'Ascending';
+    }
+    else if (direction == 'descend') {
+      this.sortDirection = 'Descending';
+    }
+    else {
+      this.sortDirection = "";
+    }
+    this.SortColumn = SortColumn;
+    
+    this.FilterData();
+  }
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
@@ -564,6 +581,8 @@ FilterData(){
   const subsc = this._employeeService.getWithPagnationResut(
     this.pageIndex,
       this.pageSize,
+      this.SortColumn,
+      this.sortDirection,
       this.id,
       this.clientlist,
       this.superVisorlist,
@@ -572,7 +591,7 @@ FilterData(){
   )
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
-      console.log("we "+of(response.Data));
+      console.log(of(response.Data));
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
       this.listOfCurrentPageData = response.Data;
