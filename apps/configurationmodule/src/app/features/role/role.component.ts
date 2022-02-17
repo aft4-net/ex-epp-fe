@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../models/role';
 import { Pagination } from '../../models/pagination';
 import { RoleService } from '../../services/role.service';
@@ -41,7 +40,6 @@ export class RoleComponent implements OnInit {
   getPaginatedRoles() {
     this.roleConfigService.getRoles(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      // this.listOfRoles=response.Data;
       this.listOfRoles = [];
       this.listOfRoles = [...response.Data];
     });
@@ -80,7 +78,6 @@ export class RoleComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isAddModalVisible = false;
     this.idForEdit = null;
   }

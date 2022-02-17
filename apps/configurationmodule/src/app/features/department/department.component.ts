@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../models/department';
 import { Pagination } from '../../models/pagination';
 import { DepartmentService } from '../../services/department.service';
@@ -38,7 +37,6 @@ export class DepartmentComponent implements OnInit {
   getPaginatedDepartments() {
     this.departmentConfigService.getDepartments(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      // this.listOfDepartments=response.Data;
       this.listOfDepartments = [];
       this.listOfDepartments = [...response.Data];
       console.log("list of departments is : ", this.listOfDepartments);

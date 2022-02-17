@@ -1,12 +1,11 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
-import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
-import { UserPermissionStateService } from '../../state/user-permission-state.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
 import { environment } from './../../../../environments/environment'
 

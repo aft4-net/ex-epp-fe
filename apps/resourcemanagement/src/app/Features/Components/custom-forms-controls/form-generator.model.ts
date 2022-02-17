@@ -178,13 +178,21 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
     getModelOrganizationDetails() {
         const value = this.organizationalForm.value
+       let temprepmanager = "";
+           if(value.reportingManager == null) {
+               console.log("it was empty");
+        temprepmanager = "00000000-0000-0000-0000-000000000000";}
+           else{
+        temprepmanager = value.reportingManager;
+           }
         return {
             CountryId: value.country,
             DutyBranchId: value.dutyStation,
             CompaynEmail: value.companyEmail[0],
             JobTitleId: value.jobTitle,
             DepartmentId: value.department,
-            ReportingManager: value.reportingManager,
+            
+            ReportingManager: temprepmanager,//value.reportingManager,
             EmploymentType: value.employeementType,
             JoiningDate: value.joiningDate,
             TerminationDate: value.terminationDate,

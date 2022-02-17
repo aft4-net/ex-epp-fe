@@ -4,34 +4,30 @@ import { AddressViewComponent } from './address-view/address-view.component';
 import { AuthGuard } from 'libs/common-services/auth.guard';
 import { EmergencycontactViewComponent } from './emergencycontact-view/emergencycontact-view.component';
 import { EmployeeComponent } from './employee.component';
-import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyDetailViewComponent } from './family-detail-view/family-detail-view.component';
 import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
-import { PersonalAddressesComponent } from './personal-addresses/personal-addresses.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 
 const routes: Routes = [
   { path: 'employee/add-employee', component: EmployeeComponent },
 
- // {
- //   path: 'employee/add-employee/personal-info',
- //   component: PersonalInfoComponent,
-   // canActivate: [AuthGuard],
-   // data: { role: ['Create_Employee'] },
- // },
+  // {
+  //   path: 'employee/add-employee/personal-info',
+  //   component: PersonalInfoComponent,
+  // canActivate: [AuthGuard],
+  // data: { role: ['Create_Employee'] },
+  // },
 
   {
     path: 'employee/add-employee/personal-address',
-    component: PersonalAddressesComponent,
+    component: AddressViewComponent,
     canActivate: [AuthGuard],
     data: { role: ['Create_Employee'] },
   },
   {
     path: 'employee/add-employee/personal-info',
     component: PersonalInfoComponent,
-  //  canActivate: [AuthGuard],
-  //  data: { role: ['Update_Employee'] },
   },
   {
     path: 'employee/add-employee/Organization-Detail',
@@ -46,12 +42,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: ['Create_Employee'] },
   },
-  {
-    path: 'employee/add-employee/family-detail',
-    component: FamilyDetailComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['Create_Employee'] },
-  },
+
   {
     path: 'employee/add-employee/family-detail-view',
     component: FamilyDetailViewComponent,

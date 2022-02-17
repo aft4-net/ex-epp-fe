@@ -1,12 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProjectResource,AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, EditProjectStateService, AssignResource, AssignResourceService, AssignedResoureEdit } from '../../../../core';
+import { AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, AssignResource, AssignResourceService, AssignedResoureEdit, ProjectResourceStateService, Project } from '../../../../core';
 import { Output, EventEmitter } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
-;
+import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 
 
 
@@ -22,11 +22,12 @@ export class AddresourceComponent implements OnInit{
   editResorceForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
+    private permissionList: PermissionListService,
   private  notification: NzNotificationService,
   private modal: NzModalService,
+  private  projectResourceStateService:ProjectResourceStateService , 
     private assignResourceService:AssignResourceService,
     private router:Router,
-    private editProjectStateService:EditProjectStateService,
     private projectCreateState:AddProjectStateService,
     private employeeService: EmployeeService,
     private projectService: ProjectService
@@ -45,6 +46,7 @@ export class AddresourceComponent implements OnInit{
   isOnEditstate=false;
   resourceEdit:AssignResource={} as AssignResource;
   resoureRemove!:AssignResource;
+  projectForResource:Project={} as Project;
 
   @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
   @Input() ProjectStartDate:Date| null=null;
@@ -52,13 +54,17 @@ export class AddresourceComponent implements OnInit{
   @Input() formValid:boolean |false=false;
   @Output() tabIndex = new EventEmitter();
   ngOnInit(): void {
-    this.isOnEditstate=this.editProjectStateService.isOnEditstate;
-    
+    this.projectResourceStateService.isOnEditstate$.subscribe(res=>{
+      this.isOnEditstate=res;
+    })
+  
+    if( this.isOnEditstate)
+    this.projectForResource= this. projectResourceStateService.project;
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
-        if(this.editProjectStateService.isOnEditstate)
+        if(this. projectResourceStateService.isOnEditstate)
        {
-          this.editProjectStateService.projectResourceList$.subscribe(res=>{
+          this. projectResourceStateService.projectResourceList$.subscribe(res=>{
             this.projectResources=res;
             if(this.projectResources)
             this.projectResources.forEach(p=>{        
@@ -143,11 +149,11 @@ export class AddresourceComponent implements OnInit{
       {
         this.assignResourceService.addResource(     {
           EmployeeGuid :this.addResorceForm.controls.resource.value.Guid,
-          ProjectGuid:this.editProjectStateService.projectEditData.Guid,
+          ProjectGuid:this.projectResourceStateService.project.Guid,
           AssignDate:this.addResorceForm.controls.assignDate.value
         }).subscribe(res=>{
 
-          this.editProjectStateService.updateAssignResources();
+          this.projectResourceStateService.updateAssignResources();
 
           this.addResorceForm.reset();
           this.notification.success("Resource assigned successfully",'')
@@ -236,11 +242,11 @@ export class AddresourceComponent implements OnInit{
       this.assignResourceService.updateAssignResource({
         Guid:this.asignedResourseToEdit.Guid ,
       EmployeeGuid:this.editResorceForm.controls.resource.value.Guid,
-      ProjectGuid:this.editProjectStateService.projectEditData.Guid,
+      ProjectGuid:this.projectResourceStateService.project.Guid  ,
       AssignDate: this.editResorceForm.controls.assignDate.value
       }).subscribe(res=>{
 
-        this.editProjectStateService.updateAssignResources();
+        this.projectResourceStateService.updateAssignResources();
 
         this.addResorceForm.reset();
         this.notification.success("Resource updated successfully",'')
@@ -342,30 +348,51 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
     if(this.employees.length!=0)
     this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
   }
-  disabledDates=(current:Date):boolean => {
 
-    return current.valueOf()<this.ProjectStartDate!.valueOf();
-  }
   onReset() {
     this.router.navigateByUrl('projectmanagement');
   }
 
   disabledEndDate = (startValue: Date): boolean => {
-    if (!startValue || !this.ProjectStartDate ||this.isOnEditstate) {
-      return false;
-    }
-    
-    if(this.ProjectEndDate)
-        {
-          return (
-            startValue.getTime() < this.ProjectStartDate.getTime() || startValue.getTime() > this.ProjectEndDate.getTime()
-          );
-        }
-       else
-        return (
-          startValue.getTime() < this.ProjectStartDate.getTime() 
-        );
 
+
+
+  
+     
+     if(!this.isOnEditstate)
+    {
+      
+      if(!this.projectCreateState.projectData.StartDate || !startValue  )
+      {
+        return false;
+      }
+      
+      if(  this.projectCreateState.projectData.EndDate!=null && 
+       typeof this.projectCreateState.projectData.EndDate != 'undefined' )
+    return (
+      startValue.getTime() <  new Date(this.projectCreateState.projectData.StartDate).getTime() ||
+      startValue.getTime() > new Date(this.projectCreateState.projectData.EndDate).getTime()
+    );
+    else
+   return  startValue.getTime() < new Date(this.projectCreateState.projectData.StartDate).getTime() 
+    }
+    else if(this.isOnEditstate)
+{
+  if ( !startValue  || !this.projectForResource.StartDate )
+  {
+    return false;
+  }
+   if(this.projectForResource.EndDate!=null && 
+    typeof this.projectForResource.EndDate != 'undefined' )
+ return (
+   startValue.getTime() <  new Date(this.projectForResource.StartDate).getTime() ||
+   startValue.getTime() > new Date(this.projectForResource.EndDate).getTime()
+ );
+ else
+return  startValue.getTime() < new Date(this.projectForResource.StartDate).getTime() 
+
+ }
+ return false;
   };
 
   
@@ -394,6 +421,14 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   rediretCancel()
   {
     this.cancelModal=false;
+  }
+  navaigateToProject()
+  {
+    this.router.navigateByUrl('projectmanagement');
+    this.projectResourceStateService.restUpdateProjectState();
+  }
+  authorize(key: string) {
+    return this.permissionList.authorizedPerson(key);
   }
 }
 

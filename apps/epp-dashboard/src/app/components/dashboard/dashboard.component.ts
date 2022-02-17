@@ -53,7 +53,8 @@ getUsers() {
       console.log('response4'+ this.userEmails.FirstName)
       this.thePosition=response.EmployeeOrganization.Role.Name;
       //this.fullName = this.userEmails.FirstName;
-      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName)
+      //this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName)
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
      
       
     });
@@ -65,7 +66,7 @@ getUsers() {
 
   routetoResourceManagement(){
     this._authenticationService.setFromViewProfile2();
-    this._router.navigate(['resourcemanagement']);
+    this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
   }
 
    authorize(key:string){
