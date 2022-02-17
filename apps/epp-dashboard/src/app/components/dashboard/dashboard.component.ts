@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
   fullName:any
   actions='Add_Employee';
   localData = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
-  cposition = '';
+
   thePosition : any;
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
@@ -22,25 +22,19 @@ export class DashboardComponent implements OnInit {
   // this.fullName=_authenticationService.getUserFullName();
   // this.fullName = this.userEmails.FirstName ;
    this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName)
-   //debugger
-  // this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
-   
    // this.fullName = _authenticationService.getUsersName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
    // this.thePosition = _authenticationService.getPosition(this.userEmails.Email);
-    
-    console.log(this.thePosition + "BBBBBB");
-  
-  }
+    }
 update(){
   this.actions='Update_Employee'
 }
 
 getUsers() {
   this._authenticationService.getUser(this.userEmails.Email);
-  console.log(this.userEmails.Email + "PPPPPPPPPPPPPPP");
+
   setTimeout(() => {
     this.thePosition = this._authenticationService.position;
   }, 1000);
@@ -48,10 +42,6 @@ getUsers() {
 
   ngOnInit(): void {
     this.getUsers();
-    console.log(this.thePosition+"ZZZZZZZZZZZZZ")
-  
-  // console.log(this.cposition.);
-  // console.log('*************');
     this.getUser();
     //this.getFullName();
     this._commonData.getPermission();   
@@ -61,10 +51,11 @@ getUsers() {
     console.log('response2'+ this.userEmail )
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
       console.log('response4'+ this.userEmails.FirstName)
-      this.thePosition=response.EmployeeOrganization.JobTitle;
+      this.thePosition=response.EmployeeOrganization.Role.Name;
       //this.fullName = this.userEmails.FirstName;
-      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
-      console.log('Who is there' +  this.fullName);
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName)
+     
+      
     });
   //  setTimeout(() => {
   //    this.thePosition = this._authenticationService.position;

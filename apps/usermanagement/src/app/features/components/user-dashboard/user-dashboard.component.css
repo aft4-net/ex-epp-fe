@@ -278,41 +278,73 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
           color: #595959 !important;
 }
 
-
-::ng-deep.ant-btn-link,.ant-btn-link:active, 
-         .ant-btn-link:hover,ant-btn-link:focus {
-  background-color: white !important;
-  color: #00A551 !important;
-}
-
-::ng-deep.ant-checkbox-checked .ant-checkbox-inner {
+::ng-deep .defaultcolor .ant-btn .ant-btn-primary .ant-btn-sm.ant-btn-primary:focus
+          .ant-btn-primary:hover
+{
   background-color: #00A551 !important;
   border-color: #00A551 !important;
   color: black !important;
 }
 
-::ng-deep.ant-dropdown-menu-item-selected,
+::ng-deep .defaultcolor .ant-btn-link, .ant-btn-link:active, 
+          .ant-btn-link:hover, .ant-btn-link:focus {
+          background-color: #00A551 !important;
+          border-color: #00A551 !important;
+          color: black !important;
+}
+
+::ng-deep .showDetail .ant-btn-link,.ant-btn-link:active, 
+         .ant-btn-link:hover,.ant-btn-link:focus {
+  background-color: white !important;
+  color: black !important;
+  border-color: white !important;
+}
+
+::ng-deep .defaultcolor .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00A551 !important;
+  border-color: #00A551 !important;
+  color: black !important;
+}
+
+::ng-deep .defaultcolor .ant-dropdown-menu-item-selected,
          .ant-dropdown-menu-submenu-title-selected {
   color: black;
 }
 
-::ng-deep.ant-table-column-sorter-up,
+::ng-deep .defaultcolor .ant-table-column-sorter-up,
           .ant-table-column-sorter-down,
           .ant-table-column-sorter-down.active,
           .ant-table-column-sorter-up.active {
   color: #595959 !important;
 }
 
-::ng-deep.ant-checkbox-inner {
+::ng-deep .defaultcolor .ant-checkbox-inner {
   border-color: black !important;
 }
-::ng-deep .ant-input-affix-wrapper {
+::ng-deep .defaultcolor .ant-input-affix-wrapper {
   padding: 1px 5px !important;
 }
-::ng-deep.ant-checkbox-inner {
+::ng-deep .defaultcolor .ant-checkbox-inner {
   border-color: black !important;
 }
 
-::ng-deep .ant-input-affix-wrapper {
+::ng-deep .defaultcolor .ant-input-affix-wrapper {
   padding: 1px 5px !important;
+}
+
+::ng-deep .actionbuttons .ant-btn-link, .ant-btn-link:active, 
+          .ant-btn-link:hover, .ant-btn-link:focus {
+  background-color: white !important;
+  border-color: white !important;
+  color: black !important;
+}
+
+::ng-deep .right-footer .ant-btn-primary:hover {
+  background-color: #00A551 !important;
+  border-color: #00A551 !important;
+  color: white !important;
+}
+
+::ng-deep .defaultcolor .ant-icon {
+  color: #595959;
 }

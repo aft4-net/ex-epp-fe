@@ -1,14 +1,15 @@
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { Employee } from '@exec-epp/core-models';
-import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
+import { ErrHandleService } from './error-handle.service';
+import { Injectable } from '@angular/core';
 import { LogInRequest } from 'apps/usermanagement/src/app/models/user/logInRequest';
 import { LogInResponse } from 'apps/usermanagement/src/app/models/user/logInResponse';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
+import { Router } from '@angular/router';
 import { environment } from "./../environments/environment";
-import { ErrHandleService } from './error-handle.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ import { ErrHandleService } from './error-handle.service';
   useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
     httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-      
+
     };
     url=environment.apiUrl;
     user:any
@@ -41,7 +42,7 @@ import { ErrHandleService } from './error-handle.service';
       //this.positionSubject = new BehaviorSubject<string>('');
      // this.position2 = this.positionSubject.asObservable();
     }
-    
+
 
 
    loginStatus(){
@@ -51,23 +52,36 @@ import { ErrHandleService } from './error-handle.service';
    getUser(email:string){
      email = this.useEmails.Email;
      this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
-    
+
       (response) => {
        this.user=response;
        this.position  = response["EmployeeOrganization"]["Role"]["Name"];
-       console.log(this.position + 'addUSerPosition')
        this.empGuid = response["Guid"];
-       
+
       }
     );
-    return email;
+    return this.position;
    }
+   getPosition(email:string){
+    email = this.useEmails.Email;
+    this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+   
+     (response) => {
+      this.user=response;
+      this.position  = response["EmployeeOrganization"]["Role"]["Name"];
+      console.log(this.position + 'addUSerPosition')
+      this.empGuid = response["Guid"];
+      return response["EmployeeOrganization"]["Role"]["Name"];
+     }
+   );
+   return this.position;
+  }
    getLoggedInUserAuthToken(email?: string){
     return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
-    
+
     window.sessionStorage.removeItem('name');
     window.sessionStorage.removeItem('username');
     window.sessionStorage.removeItem('isLogin');
@@ -80,7 +94,7 @@ import { ErrHandleService } from './error-handle.service';
     //this.router.navigateByUrl('');
     //window.location.replace('http://localhost:4200');
    }
-   
+
 
    storeLoginUsers(users:any)
    {
@@ -95,7 +109,7 @@ import { ErrHandleService } from './error-handle.service';
    getUserFullName(){
      return localStorage.getItem('name')
     // return window.sessionStorage.getItem('name');
-     
+
    }
 
    getFullName(){
@@ -110,7 +124,7 @@ import { ErrHandleService } from './error-handle.service';
     return window.sessionStorage.getItem('username');
   }
   isLogin(){
-   
+
    let result= window.sessionStorage.getItem('isLogin');
    if(!result){
      return false;
@@ -130,7 +144,7 @@ import { ErrHandleService } from './error-handle.service';
   }
 
   signIn(logInRequest: LogInRequest) {
-    
+
     return this.http.post<ResponseDTO<LogInResponse>>(environment.apiUrl + '/User/logIn', logInRequest).pipe(
       map((users) => {
         if(users.Data && users.Data.Token){
@@ -152,5 +166,5 @@ import { ErrHandleService } from './error-handle.service';
   //hasPosition(value: string) {
    // this.positionSubject.next(value);
  // }
-  
-    } 
+
+    }

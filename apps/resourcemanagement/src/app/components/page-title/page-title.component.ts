@@ -58,9 +58,7 @@ export class PageTitleComponent implements OnInit {
 
   saveNext() {
     if (!this._formGenerator.personalDetailsForm.valid) {
-      this.notification.create(
-        "error", "Entry Validation", 'Please enter a valid Personal detail!'
-    );
+      this.notification.create("error",'Employee Registration','Please enter a valid Personal detail!');
       this._formGenerator.errorMessageforPersonalDetails(
         this._formGenerator.personalDetailsForm
       );
@@ -74,9 +72,7 @@ export class PageTitleComponent implements OnInit {
     //   );
     //   this._router.navigate(['resourcemanagement/employee/add-employee/emergencycontacts-view']);
     } else if (!this._formGenerator.organizationalForm.valid) {
-      this.notification.create(
-        "error", "Entry Validation", 'Please enter a valid  Organizational detail'
-    );    
+      this.notification.create("error",'Employee Registration','Please enter a valid  Organizational detail');
       this._formGenerator.errorMessageforOrganizationDetails(
         this._formGenerator.organizationalForm
       );
