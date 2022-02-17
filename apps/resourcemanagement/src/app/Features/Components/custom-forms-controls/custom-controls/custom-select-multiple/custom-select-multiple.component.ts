@@ -19,7 +19,7 @@ export class CustomSelectMultipleComponent implements OnInit {
     @Input() controlConfig = defaultFormControlParameter
     @Input() maxChoices = 2
     @Input() myControl: FormControl = new FormControl()
-    @Input() required = true
+    @Input() required = false
     errMessage = ''
 
     constructor() {

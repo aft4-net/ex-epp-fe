@@ -258,7 +258,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             phoneNumbers: this._formBuilder.array([
                 this.createPhoneNumberFormGroup()
             ]),
-            nationalities: [null, [validateNationality]]
+            nationalities: [null]
         });
     }
 

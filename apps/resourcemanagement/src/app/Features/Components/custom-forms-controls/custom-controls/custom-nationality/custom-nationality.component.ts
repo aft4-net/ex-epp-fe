@@ -17,7 +17,7 @@ export class CustomNationalityComponent implements OnInit {
     @Input() labelConfig = defaultFormLabellParameter
     @Input() controlConfig = defaultFormControlParameter
     @Input() myControl: FormControl = new FormControl()
-    @Input() required = true
+    @Input() required = false
     errMessage = ''
 
     constructor(
