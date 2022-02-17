@@ -8,6 +8,7 @@ import { RoleService } from '../../../services/role.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { DepartmentService } from '../../../services/department.service';
 import { Department } from '../../../models/department';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-add-edit-role',
@@ -18,12 +19,14 @@ export class AddEditRoleComponent implements OnInit {
   roleForm!: FormGroup;
   @Input() id!: string | null;
   @Output() update = new EventEmitter<string>();
+  @Output() closeModal = new EventEmitter<string>();
   role!: RolePostModel;
   isEdit!: boolean;
   departments: Department[] = [];
   
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         private departmentService: DepartmentService,
+        private notification: NzNotificationService,
         // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
@@ -62,8 +65,21 @@ export class AddEditRoleComponent implements OnInit {
     if (this.roleForm.valid) {
       this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
         this.update.emit("save");
+        this.closeModal.emit("close");
         this.roleForm.reset();
+        this.notification.create(
+          'success',
+          'Successfully Added!',
+          'Job Title'
+        );
         // this.toastr.success("Successfully Added", "Role")
+      }, (error) => {
+        this.notification.create(
+          'error',
+          'Error!',
+          error
+        );
+        console.log(error);
       });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {
@@ -81,8 +97,14 @@ export class AddEditRoleComponent implements OnInit {
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
         .subscribe((response)=>{
           this.update.emit("update");
+          this.closeModal.emit("close");
           // this.roleForm.reset();
           // this.toastr.success("Successfully Updated", "Role")
+          this.notification.create(
+            'success',
+            'Successfully Updated!',
+            'Job Title'
+          );
         });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {

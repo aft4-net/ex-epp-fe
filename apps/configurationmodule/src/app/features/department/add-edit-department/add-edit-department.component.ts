@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../../models/department';
 import { ResponseDTO } from '../../../models/response-dto.model';
 import { DepartmentService } from '../../../services/department.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-add-edit-department',
@@ -16,10 +17,12 @@ export class AddEditDepartmentComponent implements OnInit {
   departmentForm!: FormGroup;
   @Input() id!: string | null;
   @Output() update = new EventEmitter<string>();
+  @Output() closeModal = new EventEmitter<string>();
   department!: Department;
   isEdit!: boolean;
   
   constructor(private fb: FormBuilder, private departmentConfigService: DepartmentService,
+        private notification: NzNotificationService,
         // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
@@ -56,8 +59,21 @@ export class AddEditDepartmentComponent implements OnInit {
     if (this.departmentForm.valid) {
       this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
         this.update.emit("save");
+        this.closeModal.emit("close");
         this.departmentForm.reset();
+        this.notification.create(
+          'success',
+          'Successfully Added!',
+          'Department'
+        );
         // this.toastr.success("Successfully Added", "Department")
+      }, (error) => {
+        this.notification.create(
+          'error',
+          'Error!',
+          error
+        );
+        console.log(error);
       });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -75,7 +91,13 @@ export class AddEditDepartmentComponent implements OnInit {
       this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
         .subscribe((response)=>{
           this.update.emit("update");
+          this.closeModal.emit("close");
           // this.departmentForm.reset();
+          this.notification.create(
+            'success',
+            'Successfully Updated!',
+            'Department'
+          );
           // this.toastr.success("Successfully Updated", "Department")
         });
     } else {
