@@ -87,6 +87,8 @@ export class EmployeeDetailComponent implements OnInit {
   searchStateFound !: boolean;
   pageSize = 10;
   pageIndex = 1;
+  SortColumn="";
+  sortDirection="";
   totalRows !:number;
   totalRecord !: number;
   beginingRow !: number;
@@ -368,6 +370,21 @@ supervisorFilter(key: string[]) {
       }
     });
   }
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    console.log("was I ? ");
+    if (direction == 'ascend') {
+      this.sortDirection = 'Ascending';
+    }
+    else if (direction == 'descend') {
+      this.sortDirection = 'Descending';
+    }
+    else {
+      this.sortDirection = "";
+    }
+    this.SortColumn = SortColumn;
+    
+    this.FilterData();
+  }
 
   updateCheckedSet(employeeGuid: string, checked: boolean): void {
     if (checked) {
@@ -423,18 +440,18 @@ supervisorFilter(key: string[]) {
         this.listOfCurrentPageData = response.Data;
         this.pageIndex=response.pagination.PageIndex;
         this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
+        this.totalRecord=response.pagination.TotalRecord;
         this.totalRows=response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
-        this.FillTheFilter();
+      //  this.FillTheFilter();
       }
       else
       {
         this.loading = false;
         this.employeeViewModel = [];
         this.employeeViewModels$=of([]);
-        this.FillTheFilter();
+     //   this.FillTheFilter();
       }
 
     },error => {
@@ -474,7 +491,7 @@ supervisorFilter(key: string[]) {
      });
     this.searchStateFound=false;
 
-    this._employeeService.SearchEmployeeDataforFilter(this.employeeParams).subscribe((response:any) => {
+   /* this._employeeService.SearchEmployeeDataforFilter(this.employeeParams).subscribe((response:any) => {
       if(response) {
         this.loading = false;
         console.log(' Filter data List '+ response);
@@ -485,7 +502,7 @@ supervisorFilter(key: string[]) {
       else{
         console.log(" no filter data ? "+ response);
       }
-    });
+    });*/
 
   }
 
@@ -564,6 +581,8 @@ FilterData(){
   const subsc = this._employeeService.getWithPagnationResut(
     this.pageIndex,
       this.pageSize,
+      this.SortColumn,
+      this.sortDirection,
       this.id,
       this.clientlist,
       this.superVisorlist,
@@ -572,7 +591,7 @@ FilterData(){
   )
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
-      console.log("we "+of(response.Data));
+      console.log(of(response.Data));
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
       this.listOfCurrentPageData = response.Data;
@@ -730,6 +749,7 @@ FilterData(){
 
   PageIndexChange(index: any): void {
     this.loading =true;
+    
     this.employeeParams.pageIndex = index;
     this.employeeParams.searchKey = this.fullname ?? "";
     if(this.searchStateFound == true)
@@ -744,14 +764,16 @@ FilterData(){
           {
             this.lastRow = this.pageSize * index;
             this.beginingRow = (this.totalRows * (index-1)) + 1;
+           
           }
           else if((this.totalRows < this.pageSize))
           {
             this.lastRow = this.totalRecord;
-            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
+            this.beginingRow = (this.totalRecord - this.totalRows) + 1;    
+              
           }
           this.loading =false;
-          this.FillTheFilter();
+        //  this.FillTheFilter();
         });
     }else {
       this._employeeService.SearchEmployeeData(this.employeeParams)
@@ -771,7 +793,7 @@ FilterData(){
           this.beginingRow = (this.totalRecord - this.totalRows) + 1;
         }
         this.loading =false;
-        this.FillTheFilter();
+        //this.FillTheFilter();
       });
       this.searchStateFound=false;
       this.loading = false;
