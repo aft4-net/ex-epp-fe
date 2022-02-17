@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
-import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { commonErrorMessage } from "../../shared/custom.validators";
 
 @Component({
     selector: 'exec-epp-custom-employee-date-of-birth',

@@ -4,7 +4,7 @@ import { Observable, of } from "rxjs";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
-import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { commonErrorMessage } from "../../shared/custom.validators";
 
 @Component({
     selector: 'exec-epp-custom-phone',

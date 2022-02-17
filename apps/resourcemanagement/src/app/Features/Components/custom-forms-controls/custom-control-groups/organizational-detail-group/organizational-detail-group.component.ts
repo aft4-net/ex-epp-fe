@@ -2,12 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { CountryService } from "../../../../Services/EmployeeOrganization/country.service";
 import { DepartmentService } from "../../../../Services/EmployeeOrganization/department.service";
 import { ReportingManagerService } from "../../../../Services/EmployeeOrganization/reportingmanager.service";
 import { RoleService } from "../../../../Services/EmployeeOrganization/role.service";
-import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
 import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
@@ -34,7 +32,6 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     isContract = false
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressCountryStateService: AddressCountryStateService,
         private readonly _countryService: CountryService,
         private readonly _departmentService: DepartmentService,
         private readonly _roleService: RoleService,

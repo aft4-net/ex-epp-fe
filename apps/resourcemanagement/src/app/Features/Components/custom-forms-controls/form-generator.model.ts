@@ -1,9 +1,9 @@
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Address, Addresss } from "../../Models/address.model";
-import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
-import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
+import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
+import { EmergencyContacts } from "../../Models/emergencycontact";
+import { Observable, of } from "rxjs";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
@@ -14,45 +14,12 @@ import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
-import { ResponseDto } from "../../Models/response-dto.model";
 import { NzNotificationService } from "ng-zorro-antd/notification";
-
-export type FormNaming = {
-    name: string
-    type: string
-    controls?: FormNaming[]
-    array?: FormNaming[]
-    groups?: FormNaming[]
-}
-export const formGroups = {
-    personalDetailForm: {
-        name: 'personalDetailsForm',
-        controls: {
-            gender: 'gender',
-            dateofBirth: 'dateofBirth',
-            nationalities: 'nationalities'
-        },
-        arrays: {
-            phoneNumbers: 'phoneNumbers',
-            emailAddresses: 'emailAddresses'
-        },
-        groups: {
-            employeeIdNumber: 'employeeIdNumber',
-            fullName: 'fullName'
-        }
-    },
-    employeeIdNumber: {
-
-    }
-}
 
 @Injectable({
     providedIn: 'root'
 })
 export class FormGenerator extends FormGeneratorAssistant {
-
-    private _defaultEmployeeIdNumberPrefix: any
-    private _defaultPhonePrefix: any
 
     public readonly countriesData$: Observable<string[]> = of(['+1', '+251'])
 

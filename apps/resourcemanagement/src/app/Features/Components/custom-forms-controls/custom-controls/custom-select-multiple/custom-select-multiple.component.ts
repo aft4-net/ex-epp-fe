@@ -4,7 +4,7 @@ import { NzSelectModeType } from "ng-zorro-antd/select";
 import { Observable, of } from "rxjs";
 import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { commonErrorMessage } from "../../shared/custom.validators";
 
 @Component({
     selector: 'exec-epp-custom-select-multiple',

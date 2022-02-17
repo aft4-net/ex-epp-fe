@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
+import { relationships$ } from "../../shared/static-data";
 
 @Component({
     selector: 'exec-epp-emergency-contact-detail-group',
@@ -20,10 +21,9 @@ export class EmergencyContactDetailGroupComponent implements OnInit {
 
 
     constructor(
-        private readonly _formGenerator: FormGenerator,
-        private readonly _employeeStaticDataService: EmployeeStaticDataMockService
+        private readonly _formGenerator: FormGenerator
     ) {
-        this.relationships$=this._employeeStaticDataService.relationships$
+        this.relationships$=relationships$
         this.formGroup
             = this._formGenerator.emergencyContact
 
