@@ -95,6 +95,21 @@ export class DepartmentComponent implements OnInit {
   }
 
   showDeleteConfirm(id: string, name: string) {
+    this.departmentConfigService.checkifDepartmentisDeletable(id).subscribe((res)=>{
+    
+    if(res === true){
+      this.modal.confirm({
+        nzTitle: 'this Department can not be delete',
+        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzOkText: 'Ok',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+      //  nzOnOk: () => this.deleteHandler(id),
+      //  nzCancelText: 'No'
+      });
+     
+    }
+    else{
     this.modal.confirm({
       nzTitle: 'Are you sure delete this Department?',
       nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
@@ -104,6 +119,8 @@ export class DepartmentComponent implements OnInit {
       nzOnOk: () => this.deleteHandler(id),
       nzCancelText: 'No'
     });
+  }
+});
   }
 
   deleteHandler(id: string) {
