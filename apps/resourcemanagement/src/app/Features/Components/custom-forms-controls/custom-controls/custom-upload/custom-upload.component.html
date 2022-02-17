@@ -1,11 +1,12 @@
 <div class="clearfix">
-  <div>
-    <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="'data:image/jpg;base64,'+empImg">
+  <div >
+    <nz-avatar class="profile-pic" [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'"  [nzSrc]="'data:image/jpg;base64,'+empImg">
     </nz-avatar>
+  
   </div>
   <div class="profile-buttons-container">
     <div class="profile-button-container">
-      <nz-upload [nzCustomRequest]="customUploadReq" [nzSize]="240"  [nzName]="'file'">
+      <nz-upload [nzCustomRequest]="customUploadReq" [nzSize]="240" [nzPreview]="handlePreview" [nzName]="'file'">
          <button
           class="profile-button-add"
           >
