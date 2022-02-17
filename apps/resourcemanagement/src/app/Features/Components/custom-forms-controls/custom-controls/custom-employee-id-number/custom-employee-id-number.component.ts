@@ -21,7 +21,7 @@ const errValidator = ((c: AbstractControl) => {
 })
 export class CustomEmployeeIdNumberComponent implements OnInit {
 
-  @Input() label = 'Employee Identification Number'
+  @Input() label = 'Employee ID'
   @Input() labelConfig = defaultFormLabellParameter
   @Input() prefixControlConfig = defaultFormControlParameter
   @Input() controlConfig = defaultFormControlParameter

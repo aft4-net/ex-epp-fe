@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { Data } from '@angular/router';
+import { EmergencyContacts } from '../../../Models/emergencycontact';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
@@ -113,7 +113,7 @@ export class EmergencycontactViewComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.form.addressForm.reset();
+    this.form.emergencyAddress.reset();
     this.form.emergencyContact.reset();
   }
   showConfirm(index: number): void {

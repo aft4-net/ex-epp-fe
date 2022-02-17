@@ -6,24 +6,25 @@ import { ProjectRoutingModule } from './project-routing.module';
 import {ReactiveFormsModule,FormsModule} from '@angular/forms';
 import { AddresourceComponent } from './components/addresource/addresource.component';
 import { BreadCrumbComponent } from './components/bread-crumb/bread-crumb.component';
-import { NgZorroModule } from '@exec-epp/ng-zorro';
 import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpInterceptorService } from '../../core';
+
 import { ClientProjectComponent } from '../client-project/client-project.component';
+import { ProjectResourceComponent } from './components/project-resource/project-resource.component';
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 
 @NgModule({
   declarations: [
    ClientProjectComponent, 
-   ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent
+   ViewProjectLayoutComponent,AddProjectComponent, AddresourceComponent,BreadCrumbComponent, ProjectResourceComponent, ProjectDetailsComponent
   ],
   imports: [
     ReactiveFormsModule,FormsModule,
     CommonModule,
     ProjectRoutingModule,
-    NgZorroModule,
-    ProjectRoutingModule
+    ProjectRoutingModule,
+    DemoNgZorroAntdModule 
 
   ],
   exports:[ViewProjectLayoutComponent, AddProjectComponent, BreadCrumbComponent ],
