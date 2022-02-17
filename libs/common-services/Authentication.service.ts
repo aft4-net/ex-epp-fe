@@ -56,7 +56,6 @@ import { map } from 'rxjs/operators';
       (response) => {
        this.user=response;
        this.position  = response["EmployeeOrganization"]["Role"]["Name"];
-       console.log(this.position + 'addUSerPosition')
        this.empGuid = response["Guid"];
 
       }

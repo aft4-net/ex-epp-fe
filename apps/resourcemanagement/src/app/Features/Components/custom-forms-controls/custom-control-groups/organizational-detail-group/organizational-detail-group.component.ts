@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { CountryService } from "../../../../Services/EmployeeOrganization/country.service";
 import { DepartmentService } from "../../../../Services/EmployeeOrganization/department.service";
 import { ReportingManagerService } from "../../../../Services/EmployeeOrganization/reportingmanager.service";
@@ -31,7 +32,6 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     terminationStartDate = new Date(Date.now())
 
     isContract = false
-
     constructor(
         private readonly _formGenerator: FormGenerator,
         private readonly _addressCountryStateService: AddressCountryStateService,
@@ -39,8 +39,7 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         private readonly _departmentService: DepartmentService,
         private readonly _roleService: RoleService,
         private readonly _reportingManagerService: ReportingManagerService,
-        private readonly _employeeStaticDataService: EmployeeStaticDataMockService
-    ) {
+        private readonly _employeeStaticDataService: EmployeeStaticDataMockService) {
         this.countries$ = this._countryService.loadCountries();
         this.dutyStations$ = of([]);
         this.departments$ = this._departmentService.getAllDeparments()
@@ -48,8 +47,6 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         this.employementTypes$ = this._employeeStaticDataService.employementTypes$
         this.reportingManagers$ = this._reportingManagerService.GetReportingManager();
         this.employementStatuses$ = this._employeeStaticDataService.employementStatuses$
-        
-
         this.formGroup
             = this._formGenerator.organizationalForm
     }
