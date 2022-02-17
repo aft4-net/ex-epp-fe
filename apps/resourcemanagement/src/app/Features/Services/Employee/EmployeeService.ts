@@ -428,4 +428,11 @@ export class EmployeeService {
       );
   }
 
+
+  deleteEmergencyContact(id: string): any {
+    return this.http.delete<any>(environment.apiUrl + "/EmergencyContacts/?email="+ id).subscribe();
+  }
+
 }
+
+

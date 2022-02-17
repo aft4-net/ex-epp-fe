@@ -14,7 +14,7 @@ export class DepartmentService {
   baseUrl = environment.apiUrl;
   departments:Department[] = [];
 
-  public isNotDeletable = true;
+ 
 
   constructor(private http: HttpClient) { }
 
