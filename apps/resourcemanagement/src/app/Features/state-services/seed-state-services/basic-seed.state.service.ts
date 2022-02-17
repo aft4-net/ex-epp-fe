@@ -1,8 +1,6 @@
-import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { BasicSeedState } from "../../Models/state-models/basic-seed.state.model";
-import { BasicSeedApiService } from "../../Services/seed.api-service/basic-seed.api.service";
 
 export abstract class BasicSeedStateService<
     TModel,

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe, formatDate } from '@angular/common';
 
 import { Employee } from '../../Features/Models/Employee';
 import { EmployeeOrganization } from '../../Features/Models/EmployeeOrganization/EmployeeOrganization';

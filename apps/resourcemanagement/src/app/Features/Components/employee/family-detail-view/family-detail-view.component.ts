@@ -3,7 +3,6 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
-import { FamilyDetails } from '../../../Models/FamilyDetails';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';

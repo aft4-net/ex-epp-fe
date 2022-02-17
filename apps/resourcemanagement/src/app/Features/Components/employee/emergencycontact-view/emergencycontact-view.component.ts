@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { Data } from '@angular/router';
 import { EmergencyContacts } from '../../../Models/emergencycontact';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
@@ -102,9 +101,6 @@ export class EmergencycontactViewComponent implements OnInit {
       this.form.generateEmergencyContactForm(
         this.form.allEmergencyContacts[index]
       );
-      console.log('this.form.allEmergencyContacts[index]');
-      console.log(this.form.allEmergencyContacts[index]);
-      console.log('this.form.allEmergencyContacts[index]');
     }
   }
 
