@@ -180,25 +180,6 @@ export class EmployeeDetailComponent implements OnInit {
     this.FilterData();
   }
 
-  /*getProjects() {
-  this.projectService.getWithPagnationResut(
-    this.pageIndex,
-    this.pageSize,
-    this.id,
-    this.clientlist,
-    this.superVisorlist,
-    this.statuslist,
-    this.searchKey
-  ).subscribe(response => {
-    this.loading = false;
-    this.projects = response.data;
-    this.pageIndex = response.pagination.pageIndex;
-    this.pageSize = response.pagination.pageSize;
-    this.total = response.pagination.totalRecord;
-    this.totalPage = response.pagination.totalPage;
-  })
-}*/
-
   getfilterDataMenu(): void {
     console.log('O Noo...222');
     this._employeeService.getFilterData().subscribe((data) => {
@@ -482,18 +463,6 @@ export class EmployeeDetailComponent implements OnInit {
     );
     this.searchStateFound = false;
 
-    /* this._employeeService.SearchEmployeeDataforFilter(this.employeeParams).subscribe((response:any) => {
-      if(response) {
-        this.loading = false;
-        console.log(' Filter data List '+ response);
-        this.employeeViewModels2$ = of(response);
-        this.employeeViewModel2 = response.Data;
-        this.FillTheFilter();
-      }
-      else{
-        console.log(" no filter data ? "+ response);
-      }
-    });*/
   }
 
   searchEmployees() {
@@ -564,8 +533,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   FilterData() {
-    console.log('wewewewewewe');
-    const subsc = this._employeeService
+     const subsc = this._employeeService
       .getWithPagnationResut(
         this.pageIndex,
         this.pageSize,
@@ -646,24 +614,7 @@ export class EmployeeDetailComponent implements OnInit {
     }, 5000);
     this.searchStateFound = true;
   }
-  // Edit(employeeId:string):void
-  // {
-  // this._employeeService.getEmployeeData(employeeId).subscribe((data:any)=>{
-  //   console.log('xxxxx'+ data.);
-  //   this._employeeService.setEmployeeDataForEdit(data);
-  //   this._form.generateForms(this._employeeService.employeeById)
-  //   if(this._employeeService.employeeById)
-  //   {
-  //       this._employeeService.isEdit=true;
-  //       this._employeeService.save="Update";
-  //       this._router.navigate(['employee/add-employee/personal-info']);
-  //     }
-  // });
-  // //alert(this._employeeService.employeeByI
-
-  //}
-  //added by simbo just you can delete
-
+  
   Edit(employeeId: string): void {
     this._form.employeId = employeeId;
 
