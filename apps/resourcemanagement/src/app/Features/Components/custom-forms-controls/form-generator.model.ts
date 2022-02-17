@@ -7,7 +7,6 @@ import { commonErrorMessage, resetError, validateAddressNonRequired, validateAdd
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
-import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 import { Injectable } from "@angular/core";
@@ -45,13 +44,11 @@ export class FormGenerator extends FormGeneratorAssistant {
     constructor(
         private readonly _formBuilder: FormBuilder,
         private readonly _employeeService: EmployeeService,
-        employeeStaticDataMockService: EmployeeStaticDataMockService,
-        addressCountryStateService: CountriesMockService,
+        addressCountryService: CountriesMockService,
         private notification: NzNotificationService
     ) {
         super(
-            employeeStaticDataMockService,
-            addressCountryStateService
+            addressCountryService
         )
         this.personalDetailsForm = this._createPersonalDetailsForm()
         this.organizationalForm = this._createOrganizationalnalDetailsForm()

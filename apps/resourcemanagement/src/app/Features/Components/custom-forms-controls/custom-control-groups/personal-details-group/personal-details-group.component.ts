@@ -4,8 +4,6 @@ import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
-import { maxEmployeeDateofBirth } from "../../../../Services/supporting-services/basic-data.collection";
 import { FormGenerator } from "../../form-generator.model";
 import { genders$ } from "../../shared/static-data";
 
@@ -19,7 +17,7 @@ export class PersonalDetailGroupComponent implements OnInit {
     formGroup: FormGroup
     genders$: Observable<SelectOptionModel[]> = genders$;
     nationalities$: Observable<SelectOptionModel[]>
-    maxDateofBirth = maxEmployeeDateofBirth? maxEmployeeDateofBirth: new Date(Date.now())
+    maxDateofBirth = new Date(Date.now());
     maxEmailQty = 3
     maxPhoneQty = 3
     maxNationality = 3
@@ -28,7 +26,6 @@ export class PersonalDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _employeeStaticDataService: EmployeeStaticDataMockService,
         private readonly _countriesMockService: CountriesMockService,
         private _employeeService : EmployeeService
     ) {

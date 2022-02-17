@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormItemData, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
-import { ValidatorResponse } from "../../../../Models/supporting-models/validator-response.model";
+import { ValidatorResponse } from "../../shared/validator-response.model";
 import { commonErrorMessage, validateFirstName, validateLastName, validateMiddleName } from "../../shared/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
 

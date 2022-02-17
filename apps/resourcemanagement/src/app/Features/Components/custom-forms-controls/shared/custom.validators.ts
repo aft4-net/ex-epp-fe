@@ -1,5 +1,5 @@
 import { AbstractControl } from "@angular/forms";
-import { ValidatorResponse } from "../../../Models/supporting-models/validator-response.model";
+import { ValidatorResponse } from "./validator-response.model";
 // Data and FormControls
 const today = new Date(Date.now())
 

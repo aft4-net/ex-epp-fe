@@ -1,15 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { AbstractControl, FormControl } from "@angular/forms";
 import { FormControlResponseModel } from "../../../../Models/supporting-models/form-control-response.model";
 import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
-import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { commonErrorMessage } from "../../shared/custom.validators";
-import { FormGenerator } from "../../form-generator.model";
-import { FormControlType } from "../../../../Models/supporting-models/form-control-name-type.enum"
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
-import { map } from "rxjs/operators";
 
 const errValidator = ((c: AbstractControl) => {
   return { error: true } ;

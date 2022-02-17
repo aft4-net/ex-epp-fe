@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 import { relationships$ } from "../../shared/static-data";
 

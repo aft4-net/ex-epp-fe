@@ -6,8 +6,8 @@ import { CountryService } from "../../../../Services/EmployeeOrganization/countr
 import { DepartmentService } from "../../../../Services/EmployeeOrganization/department.service";
 import { ReportingManagerService } from "../../../../Services/EmployeeOrganization/reportingmanager.service";
 import { RoleService } from "../../../../Services/EmployeeOrganization/role.service";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
+import { employementStatuses$, employementTypes$ } from "../../shared/static-data";
 
 @Component({
     selector: 'exec-epp-organizational-details-group',
@@ -35,15 +35,14 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         private readonly _countryService: CountryService,
         private readonly _departmentService: DepartmentService,
         private readonly _roleService: RoleService,
-        private readonly _reportingManagerService: ReportingManagerService,
-        private readonly _employeeStaticDataService: EmployeeStaticDataMockService) {
+        private readonly _reportingManagerService: ReportingManagerService) {
         this.countries$ = this._countryService.loadCountries();
         this.dutyStations$ = of([]);
         this.departments$ = this._departmentService.getAllDeparments()
         this.jobTitles$ = of([]);
-        this.employementTypes$ = this._employeeStaticDataService.employementTypes$
+        this.employementTypes$ = employementTypes$
         this.reportingManagers$ = this._reportingManagerService.GetReportingManager();
-        this.employementStatuses$ = this._employeeStaticDataService.employementStatuses$
+        this.employementStatuses$ = employementStatuses$
         this.formGroup
             = this._formGenerator.organizationalForm
     }

@@ -3,6 +3,8 @@ import { SelectOptionModel } from "../../../Models/supporting-models/select-opti
 
 export const genders$ = of(['Female', 'Male'].map(convertStringToSelectOption));
 export const relationships$ = of(['Spouse', 'Child', 'Mother', 'Father', 'Other'].map(convertStringToSelectOption));
+export const employementTypes$ =  of(['Full Time Permanent', 'Part Time Permanent', 'Full Time Contract', 'Part Time Contract', 'Internship'].map(convertStringToSelectOption));
+export const employementStatuses$ =  of(['Active', 'Inactive', 'Terminated'].map(convertStringToSelectOption));
 
 
 function convertStringsToSelectOptions(params:string[]) {

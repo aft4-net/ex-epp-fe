@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 import { genders$, relationships$ } from "../../shared/static-data";
 
@@ -24,8 +23,7 @@ export class FamilyDetailGroupComponent implements OnInit {
     isChild = false
 
     constructor(
-        private readonly _formGenerator: FormGenerator,
-        private readonly _employeeStaticDataervice: EmployeeStaticDataMockService
+        private readonly _formGenerator: FormGenerator
     ) {
         this.genders$= genders$
         this.relationships$=relationships$
