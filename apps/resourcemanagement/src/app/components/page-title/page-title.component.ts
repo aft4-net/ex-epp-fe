@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, formatDate } from '@angular/common';
-import {
-  EmergencyContact,
-  EmergencyContacts,
-  IEmergencyContact,
-} from '../../Features/Models/emergencycontact';
 
-import { Address } from '../../Features/Models/address.model';
 import { Employee } from '../../Features/Models/Employee';
 import { EmployeeOrganization } from '../../Features/Models/EmployeeOrganization/EmployeeOrganization';
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 import { FamilyDetail } from '../../Features/Models/FamilyDetail/FamilyDetailModel';
 import { FormGenerator } from '../../Features/Components/custom-forms-controls/form-generator.model';
 import { ICountry } from '../../Features/Models/EmployeeOrganization/Country';
+import {
+  IEmergencyContact,
+} from '../../Features/Models/emergencycontact';
 import { Nationality } from '../../Features/Models/Nationality';
-import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';
+import { Router } from '@angular/router';
 import { environment } from 'libs/environments/environment';
+
 @Component({
   selector: 'exec-epp-page-title',
   templateUrl: './page-title.component.html',
@@ -43,15 +41,16 @@ export class PageTitleComponent implements OnInit {
   emergencyContacts: IEmergencyContact[] = [];
 
   dateofBirth = new Date('2021-11-17 14:29:03.107');
-  isSaveButtonHidden  = false;
-  authorize(key:string){
-    return this._permissionService.authorizedPerson(key)
+  isSaveButtonHidden = false;
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
   }
   ngOnInit(): void {
-    if(this._permissionService.authorizedPerson('Create_Employee') ||
-       this._permissionService.authorizedPerson('Update_Employee') ||
-       this._permissionService.authorizedPerson('Employee_Admin'))
-    {
+    if (
+      this._permissionService.authorizedPerson('Create_Employee') ||
+      this._permissionService.authorizedPerson('Update_Employee') ||
+      this._permissionService.authorizedPerson('Employee_Admin')
+    ) {
       this.isSaveButtonHidden = true;
     }
   }
@@ -62,46 +61,31 @@ export class PageTitleComponent implements OnInit {
       this._formGenerator.errorMessageforPersonalDetails(
         this._formGenerator.personalDetailsForm
       );
-      this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
-    // } else if (this._formGenerator.allAddresses.length === 0) {
-    //   alert('A minimum of one address required. Please enter your address(es)');
-    //   this._router.navigate(['resourcemanagement/employee/add-employee/address-view']);
-    // } else if (this._formGenerator.allEmergencyContacts.length === 0) {
-    //   alert(
-    //     'A minimum of one emergency contact is required. Please enter your emergency contact(s)'
-    //   );
-    //   this._router.navigate(['resourcemanagement/employee/add-employee/emergencycontacts-view']);
+      this._router.navigate([
+        'resourcemanagement/employee/add-employee/personal-info',
+      ]);
     } else if (!this._formGenerator.organizationalForm.valid) {
       alert('Please enter a valid  Organizational detail');
       this._formGenerator.errorMessageforOrganizationDetails(
         this._formGenerator.organizationalForm
       );
-      this._router.navigate(['resourcemanagement/employee/add-employee/Organization-Detail']);
+      this._router.navigate([
+        'resourcemanagement/employee/add-employee/Organization-Detail',
+      ]);
     } else {
       if (this._employeeService.isEdit) {
         this._formGenerator.updateOneEmployee();
-        setTimeout(()=>{                           
-          //
+        setTimeout(() => {
           this._employeeService.sendempphoto();
-          this._router.navigate(['resourcemanagement']);//.then(() => {
-           // window.location.reload();
-          //});
-      }, 2000);
+          this._router.navigate(['resourcemanagement']); //.then(() => {
+        }, 2000);
       } else {
         this._formGenerator.save();
-        setTimeout(()=>{                           
-          //
+        setTimeout(() => {
           this._employeeService.sendempphoto();
-          this._router.navigate(['resourcemanagement']);//.then(() => {
-           // window.location.reload();
-          //});
-      }, 2000);
-      
+          this._router.navigate(['resourcemanagement']); //.then(() => {
+        }, 2000);
       }
-
-     
-    
-     
     }
   }
   Cancel() {
