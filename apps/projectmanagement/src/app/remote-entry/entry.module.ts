@@ -8,10 +8,10 @@ import { RouterModule } from '@angular/router';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { AppComponent } from '../app.component';
 import { ClientProjectComponent } from '../features/client-project/client-project.component';
-import { AddProjectComponent } from '../features/project/components/Add-Project/Add-Project.component';
-import { ProjectDetailsComponent } from '../features/project/components/project-details/project-details.component';
-import { ProjectResourceComponent } from '../features/project/components/project-resource/project-resource.component';
-import { ProjectRoutingModule } from '../features/project/project-routing.module';
+// import { AddProjectComponent } from '../features/project/components/Add-Project/Add-Project.component';
+// import { ProjectDetailsComponent } from '../features/project/components/project-details/project-details.component';
+// import { ProjectResourceComponent } from '../features/project/components/project-resource/project-resource.component';
+// import { ProjectRoutingModule } from '../features/project/project-routing.module';
 import { ProjectModule } from '../features/project/project.module';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { RemoteEntryComponent } from './entry.component';
@@ -21,36 +21,41 @@ import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInter
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule,
+
     ReactiveFormsModule,
     CommonModule,
-    ProjectModule,
-    ProjectRoutingModule,
+
+     ProjectModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     RouterModule.forChild([
-      {
-        path: '',
-        component: AppComponent,
-        children: [
-          {
-            path: '',
-            component: ClientProjectComponent,
-          },
-          {
-            path: 'add-project',
-            component: ProjectDetailsComponent,
-          },
-          {
-            path: 'edit-project',
-            component: AddProjectComponent,
-          },
-          {
-            path: 'project-resources',
-            component: ProjectResourceComponent,
-          },
-        ],
-      },
+      // {
+      //   path: '',
+      //   component: AppComponent,
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: ClientProjectComponent,
+      //     },
+
+       
+          
+
+     
+          // {
+          //   path: 'add-project',
+          //   component: ProjectDetailsComponent,
+          // },
+          // {
+          //   path: 'edit-project',
+          //   component: AddProjectComponent,
+          // },
+          // {
+          //   path: 'project-resources',
+          //   component: ProjectResourceComponent,
+          // },
+      //   ],
+      // },
     ]),
   ],
   providers: [
