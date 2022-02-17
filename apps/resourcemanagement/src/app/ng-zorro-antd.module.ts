@@ -21,7 +21,6 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
   exports: [
-    
     NzAvatarModule,
     NzButtonModule,
     NzBreadCrumbModule,
@@ -41,8 +40,6 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzTableModule,
     NzTabsModule,
     NzUploadModule,
-  ]
+  ],
 })
-export class DemoNgZorroAntdModule {
-
-}
+export class DemoNgZorroAntdModule {}
