@@ -57,3 +57,24 @@ button.add-btn.ant-btn {
   font-size: 1rem;
   font-style: normal;
 }
+
+::ng-deep .add-btn-wrapper{
+  background: #00A551 !important;
+    color: white !important;
+    float: left !important;
+    margin-right: 1vw;
+    position: relative;
+
+}
+.action-btn-wrapper{
+  display: flex;
+}
+
+
+label.label-for-company-contact {
+  margin-left: 0vw !important;
+  position:  relative !important;
+}
+.spacing{
+  width: 2vw !important;
+}
