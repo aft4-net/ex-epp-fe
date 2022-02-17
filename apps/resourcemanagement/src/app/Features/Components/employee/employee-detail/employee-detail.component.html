@@ -1,7 +1,6 @@
 <nz-layout>
   <nz-content>
-    <nz-divider nzType="horizontal"></nz-divider>
-    <div style="margin-top: -40px;" class="inner-content">
+    <div class="inner-content">
       <div nz-row>
         <div nz-col class="gutter-row" [nzSpan]="6">
           <nz-input-group [nzSuffix]="suffixIconButton">
@@ -46,11 +45,11 @@
                   <tr>
                     <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                     (nzCheckedChange)="onAllChecked($event)"></th>
-                      <th class="table_heading" [nzSortFn]="true">Employee</th>
-                      <th class="table_heading" [nzSortFn]="true">Joining Date</th>
-                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
+                      <th class="table_heading" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('FullName',$event)">Employee</th>
+                      <th class="table_heading" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('JoiningDate',$event)">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('JobTitle',$event)" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Status',$event)"  (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
                       <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>
@@ -60,11 +59,11 @@
                   <tr>
                     <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
                     (nzCheckedChange)="onAllChecked($event)"></th>
-                      <th>Employee</th>
-                      <th class="table_heading">Joining Date</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
-                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
+                      <th class="table_heading" nzColumnKey="fullname" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('FullName',$event)">Employee</th>
+                      <th class="table_heading" nzColumnKey="joindate" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('JoiningDate',$event)">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="location" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="jobtitle" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('JobTitle',$event)" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
+                      <th class="table_heading" nzColumnKey="status" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Status',$event)" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
                       <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>
@@ -77,7 +76,7 @@
                   <td>{{employeeView.JobTitle }}</td>
                   <td>{{employeeView.Location }}</td>
                   <td>{{employeeView.Status }}</td>
-                  <td *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
+                  <td class="actions" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
 
                     <span (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
                       <i nz-icon nzType="edit" style="color:black;"></i>

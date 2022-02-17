@@ -7,14 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { AppComponent } from '../app.component';
-import { HttpInterceptorService } from '../core';
 import { ClientProjectComponent } from '../features/client-project/client-project.component';
 import { AddProjectComponent } from '../features/project/components/Add-Project/Add-Project.component';
+import { ProjectDetailsComponent } from '../features/project/components/project-details/project-details.component';
+import { ProjectResourceComponent } from '../features/project/components/project-resource/project-resource.component';
 import { ProjectRoutingModule } from '../features/project/project-routing.module';
 import { ProjectModule } from '../features/project/project.module';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { RemoteEntryComponent } from './entry.component';
-
+import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 @NgModule({
   declarations: [RemoteEntryComponent],
   imports: [
@@ -38,18 +39,22 @@ import { RemoteEntryComponent } from './entry.component';
           },
           {
             path: 'add-project',
-            component: AddProjectComponent,
+            component: ProjectDetailsComponent,
           },
           {
             path: 'edit-project',
             component: AddProjectComponent,
+          },
+          {
+            path: 'project-resources',
+            component: ProjectResourceComponent,
           },
         ],
       },
     ]),
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass:httpJWTInterceptor , multi: true },
     { provide: NZ_I18N, useValue: en_US }
   ]
 

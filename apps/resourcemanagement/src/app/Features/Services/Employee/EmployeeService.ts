@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
 export class EmployeeService {
   public isdefault = true;
   public empNum="ec0001";
+  public ephoto:any;
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -109,6 +110,29 @@ export class EmployeeService {
 
   update(employee: Employee) {
     return this.http.put(this.baseUrl, employee);
+  }
+
+  sendempphoto(){
+    const formData = new FormData();
+    formData.append('data', this.ephoto as any); // tslint:disable-next-line:no-any
+    console.log("i was here " + this.ephoto);
+    formData.append('id', this.empNum);
+  //  const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
+    // Always return a `Subscription` object, nz-upload will automatically unsubscribe at the appropriate time
+   return this.http.post(environment.apiUrl+'/EmployeePhoto',formData).subscribe((event: any) => {
+     console.log("on it");
+    // item.status= 'done';
+    // item.onSuccess(item.file);
+    // console.log(event.Data);
+   //  this.getUserImg(this._employeeService.empNum);
+    },(err) => { /* error */
+      console.log(err);
+    },
+    ()=>{
+     // item.status= 'done';
+     // this._router.navigate(['resourcemanagement']);
+      console.log("completed");
+    });
   }
 
   checkIdNumber(idNumber: string): Observable<boolean> {
@@ -261,13 +285,13 @@ export class EmployeeService {
           params: {
             searhKey: "",
             pageIndex: employeeParams.pageIndex,
-            pageSize: "10000",
+            pageSize: "100000",
           },
         }
       )
       .pipe(
         map((result: any) => {
-         /* this.paginatedResult = {
+          this.paginatedResult = {
             Data: result.Data,
             pagination: {
               PageIndex: result.PageIndex,
@@ -275,8 +299,8 @@ export class EmployeeService {
               PageSize: result.PageSize,
               TotalRecord: result.TotalRecord,
             },
-          };*/
-          return result.Data;
+          };
+          return this.paginatedResult;
         })
       );
   }
@@ -298,11 +322,11 @@ export class EmployeeService {
   }
 
   getFilterData(){
-    const clientNameFliter: { text: string; value: string }[] = [] as {
+    const jobtitle: { text: string; value: string }[] = [] as {
       text: string;
       value: string;
     }[];
-    const SupervisorFilter: { text: string; value: string }[] = [] as {
+    const locations: { text: string; value: string }[] = [] as {
       text: string;
       value: string;
     }[];
@@ -316,16 +340,16 @@ export class EmployeeService {
       if(Object.keys(response.Data).length!= 0)
       {
         for (let i = 0; i < response.Data.jobtype.length; i++){
-          if(clientNameFliter.findIndex(x=>x.text.trim() === response.Data.jobtype[i].Name.trim()) === -1 ){
-          clientNameFliter.push({
+          if(jobtitle.findIndex(x=>x.text.trim() === response.Data.jobtype[i].Name.trim()) === -1 ){
+            jobtitle.push({
             text: response.Data.jobtype[i].Name,
             value: response.Data.jobtype[i].Name,
           });
         }
         }
         for (let i = 0; i < response.Data.location.length; i++){
-          if(SupervisorFilter.findIndex(x=>x.text.trim() === response.Data.location[i].Name.trim()) === -1 ){
-          SupervisorFilter.push({
+          if(locations.findIndex(x=>x.text.trim() === response.Data.location[i].Name.trim()) === -1 ){
+            locations.push({
             text: response.Data.location[i].Name,
             value: response.Data.location[i].Name,
           });
@@ -342,20 +366,23 @@ export class EmployeeService {
 
       }
       return {
-        jobtitleFilter :clientNameFliter,
+        jobtitleFilter :jobtitle,
         StatusFilter :statusFilter,
-        locationFilter:SupervisorFilter
+        locationFilter:locations
       }
     }))
   }
 
-  getWithPagnationResut( pageindex:number,pageSize:number,id?: string,
+  getWithPagnationResut( pageindex:number,pageSize:number,sortField:string,sortOrder:string,
+                         id?: string,
                          clientlist?:string[] ,
                          superVisorlist?:string[],
                          statuslist?:string[],searchKey?:string) :Observable<PaginationResult<IEmployeeViewModel[]>>
   {let params = new HttpParams()
     .set('pageindex', pageindex.toString())
-    .set('pageSize', pageSize.toString());
+    .set('pageSize', pageSize.toString())
+    .set('SortField',sortField)
+    .set('sortOrder',sortOrder);
     if(searchKey !== null){
       params = params.append('searchkey', searchKey?searchKey:'');
     }
@@ -380,10 +407,13 @@ export class EmployeeService {
       })
 
     }
+
+    
     //let paginatedResult = this.paginatedResult;
-    return this.http.get(  this.baseUrl + '/GetAllEmployeeDashboardFilter', {params})
+    return this.http.get<PaginationResult<IEmployeeViewModel[]>>(  this.baseUrl + '/GetAllEmployeeDashboardFilter', {params})
     .pipe(
       map((result: any) => {
+      
         this.paginatedResult = {
           Data: result.Data,
           pagination: {

@@ -11,7 +11,7 @@ font-weight: 700;
 
 ::ng-deep .ant-table-thead>tr>th {
 
-  background: #FFFFFF !important;
+  background: #F0F0F0 !important;
 }
 
 tr:nth-child(even) {background: none}
@@ -136,15 +136,12 @@ nz-table.table-container.ant-table-wrapper {
 }
 
 
-::ng-deep .conform-modal  {
-  height: auto !important;
-  }
 
 ::ng-deep .conform-modal .ant-modal-content {
 border: 0.5px solid #00a551;
 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 width: 400px;
-height: auto !important;;
+height: 150px !important;
 background: #ffffff;
 align-self: center;
 justify-self: center;
@@ -215,9 +212,10 @@ margin-bottom: 40%;
   background-color: #00A551;
 }
 
+
 ::ng-deep tr.ant-table-row.ng-star-inserted  {
 
-   background-color: #F0F0F0; 
+   background-color: #ffffff; 
 }
 
 nz-table  {

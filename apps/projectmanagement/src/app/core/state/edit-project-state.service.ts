@@ -29,7 +29,8 @@ const iniitalAddProjectState: Project={
 })
 export class EditProjectStateService     {
    
-isOnEditstate=false;
+
+private isOnEditstateSource=  new BehaviorSubject<boolean>(false);
 private projectResourceList=  new BehaviorSubject<AssignResource[]>({} as AssignResource[]);
 private projectSource= new BehaviorSubject<Project>({} as Project);
 projectResourceList$=this.projectResourceList.asObservable();
@@ -38,6 +39,10 @@ projectResourceList$=this.projectResourceList.asObservable();
    
   }
 
+  get isOnEditstate()
+  {
+  return this.isOnEditstateSource.getValue();
+  }
   getprojectReourceList()
   {
     return this.projectResourceList.value;
@@ -49,7 +54,7 @@ projectResourceList$=this.projectResourceList.asObservable();
  
   editProjectState(data:Project)
   {
-    this.isOnEditstate=true;
+    this.isOnEditstateSource.next(true);
     this.projectSource.next(data);
     this. assignResoursceService.getResourceOfProject(data.Guid).subscribe((d:AssignResource[])=>this.updateProjectList(d));
     this.router.navigateByUrl('projectmanagement/edit-project');
@@ -62,9 +67,9 @@ projectResourceList$=this.projectResourceList.asObservable();
   
   restUpdateProjectState()
   {
-  
+    this.projectSource.next({} as Project);
     this. projectResourceList.next({} as AssignResource[]);
-    this.isOnEditstate=false;
+    this.isOnEditstateSource.next(false);
   }
  
   get projectEditData(): Project {

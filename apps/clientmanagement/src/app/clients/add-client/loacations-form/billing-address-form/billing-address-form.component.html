@@ -285,8 +285,9 @@
         </nz-form-control>
       </nz-form-item>
       <div>
+        <button class="add-btn-wrapper" nz-button [title]="forms.invalid?'Enter Valid Data.':''" [disabled]="forms.invalid">Add</button>
         <button nz-button [disabled]="isClearButtonActive" class="clear-btn" (click)="resetForm()">Clear</button>
-        <button nz-button [title]="forms.invalid?'Enter Valid Data.':''" [disabled]="forms.invalid">Add</button>
+
       </div>
     </form>
   </div>

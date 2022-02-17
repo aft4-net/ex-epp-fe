@@ -23,14 +23,13 @@ import {
   ProjectStatusService,
   AddProjectStateService,
   EditProjectStateService,
-  ProjectEdit
+  ProjectEdit,
+  ProjectResourceStateService
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
-import { PermissionListService } from 'libs/common-services/permission.service';
 
 import { map } from 'rxjs/operators';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
@@ -83,6 +82,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private projectResourceStateService:ProjectResourceStateService,
     private differs: KeyValueDiffers,
     private projectCreateState:AddProjectStateService,
      private editProjectStateService:EditProjectStateService, 
@@ -92,13 +92,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     private clientService: ClientService,
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
-    private router: Router,
-    private notification: NotificationBar,
-    private _permissionService: PermissionListService
+    private router: Router
   ) { }
   ngOnDestroy(): void {
     this.projectCreateState.restAddProjectDetails();
     this.editProjectStateService.restUpdateProjectState();
+
   }
 
 
@@ -109,11 +108,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
-     if( this.isOnEditstate)
-     {this. setValueForUpdate();
-    
-     }
-  }
+
+    if("/projectmanagement/edit-project" === this.router.url && !this.isOnEditstate)
+    this.router.navigateByUrl('projectmanagement');
+    if(this.isOnEditstate)
+     this. setValueForUpdate();
+    }
 
 
  setValueForUpdate()
@@ -137,7 +137,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
    this.projectOld.SupervisorGuid=this.editProjectStateService.projectEditData.SupervisorGuid;
    this.projectOld.StartDate= this.editProjectStateService.projectEditData.StartDate;
    this.projectOld.EndDate=this.editProjectStateService.projectEditData.EndDate;
-
+   this.disabled=false;
  
    if (this.validateForm.controls.endValue.value != null)
    this.projectOld.EndDate=this.validateForm.controls.endValue.value
@@ -146,10 +146,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
  }
    
-
-  authorize(key: string) {
-    return this._permissionService.authorizedPerson(key);
-  }
 
   projectMapper() {
     this.validateForm.valueChanges.subscribe(() => {
@@ -160,10 +156,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
         if(status)
        if ( status.AllowResource) 
         {
-          this.disallowResource = false;
+          this.projectResourceStateService.updateDisallowResource(false);
+        
         } 
         else
-        this.disallowResource = true;
+        this.projectResourceStateService.updateDisallowResource(true);
+       
         
         this.projectStartdDate = this.validateForm.controls.startValue.value;
         if(!this.isOnEditstate)
@@ -215,7 +213,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
       } else {
         this.projectCreateState.updateProjectDetails({} as ProjectCreate)
-        this.disallowResource = true;
+        this.projectResourceStateService.updateDisallowResource(true);
       }
     });
   }
@@ -267,8 +265,8 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
           if(status)
          if ( status.AllowResource) 
           {
-            this.disallowResource = false;
-         
+          
+            this.projectResourceStateService.updateDisallowResource(false);
           } 
         }
   
@@ -395,8 +393,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
   }
 
-  
-
 
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.validateForm.controls.endValue.value ||this.isOnEditstate) {
@@ -492,8 +488,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
   confirmCancel()
   {
+  
     this.cancelModal=false;
   }
 
-
+  routeOnUpdateValidation(index:number)
+  {
+    this.activeTabIndex=index;
+  }
 }
