@@ -27,12 +27,10 @@ export class AddEditRoleComponent implements OnInit {
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         private departmentService: DepartmentService,
         private notification: NzNotificationService,
-        // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.getAllDepartments();
     this.createRoleForm();
     if (this.id !== null) {
@@ -72,7 +70,6 @@ export class AddEditRoleComponent implements OnInit {
           'Successfully Added!',
           'Job Title'
         );
-        // this.toastr.success("Successfully Added", "Role")
       }, (error) => {
         this.notification.create(
           'error',
@@ -88,7 +85,6 @@ export class AddEditRoleComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
@@ -98,8 +94,6 @@ export class AddEditRoleComponent implements OnInit {
         .subscribe((response)=>{
           this.update.emit("update");
           this.closeModal.emit("close");
-          // this.roleForm.reset();
-          // this.toastr.success("Successfully Updated", "Role")
           this.notification.create(
             'success',
             'Successfully Updated!',
@@ -113,7 +107,6 @@ export class AddEditRoleComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 

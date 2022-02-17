@@ -23,12 +23,10 @@ export class AddEditDepartmentComponent implements OnInit {
   
   constructor(private fb: FormBuilder, private departmentConfigService: DepartmentService,
         private notification: NzNotificationService,
-        // private toastr: ToastrService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.createDepartmentForm();
     if (this.id !== null) {
       this.isEdit = true;
@@ -66,7 +64,6 @@ export class AddEditDepartmentComponent implements OnInit {
           'Successfully Added!',
           'Department'
         );
-        // this.toastr.success("Successfully Added", "Department")
       }, (error) => {
         this.notification.create(
           'error',
@@ -82,7 +79,6 @@ export class AddEditDepartmentComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
@@ -92,13 +88,11 @@ export class AddEditDepartmentComponent implements OnInit {
         .subscribe((response)=>{
           this.update.emit("update");
           this.closeModal.emit("close");
-          // this.departmentForm.reset();
           this.notification.create(
             'success',
             'Successfully Updated!',
             'Department'
           );
-          // this.toastr.success("Successfully Updated", "Department")
         });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -107,7 +101,6 @@ export class AddEditDepartmentComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
