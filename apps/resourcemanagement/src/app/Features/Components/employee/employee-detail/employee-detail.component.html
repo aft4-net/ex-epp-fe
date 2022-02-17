@@ -77,7 +77,7 @@
                   <td>{{employeeView.JobTitle }}</td>
                   <td>{{employeeView.Location }}</td>
                   <td>{{employeeView.Status }}</td>
-                  <td *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
+                  <td class="actions" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
 
                     <span (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
                       <i nz-icon nzType="edit" style="color:black;"></i>
