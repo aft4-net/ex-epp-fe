@@ -3,7 +3,7 @@
 
 tr:nth-child(even) {background: none}
 .page-title {
-  font-family: 'SF Pro Display';
+  font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -61,16 +61,18 @@ header {
   color: #FFFFFF;
 
 }
-::ng-deep .ant-btn {
-  // background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #FFFFFF;
 
-}
+// ::ng-deep .ant-btn {
+//   // background-color: #00A551;
+//   font-family: SF Pro Display;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 16px;
+//   line-height: 24px;
+//   color: #FFFFFF;
+
+// }
+
 
 ::ng-deep .pagination {
   display: flex;
@@ -93,11 +95,11 @@ header {
  }
 
 
-::ng-deep .ant-btn:not([disabled]):hover {
-  background-color: #20b367;
-  border-color: #20b367;
-  color: white;
-}
+// ::ng-deep .ant-btn:not([disabled]):hover {
+//   background-color: #20b367;
+//   border-color: #20b367;
+//   color: white;
+// }
 
 
 ::ng-deep .ant-table {
@@ -148,3 +150,4 @@ header {
 
   float: right !important;
 }
+

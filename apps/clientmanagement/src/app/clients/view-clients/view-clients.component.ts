@@ -139,7 +139,7 @@ _commonData.getPermission()
   }
   DeleteClient(client:any){
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzTitle: 'Are you sure, you want to delete this client?',
       nzContent: '<b style="color: red;"></b>',
       nzOkText: 'Yes',
       nzOkType: 'primary',
@@ -162,6 +162,7 @@ _commonData.getPermission()
         );
 
       },
+
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
     });
@@ -468,7 +469,7 @@ _commonData.getPermission()
             this.total = 0;
             this.totalPage = 0;
             this.searchStateFound = false;
-            this.notification.blank('  Project not found', '', {
+            this.notification.blank('  client not found', '', {
               nzPlacement: 'bottomLeft',
             });
           }

@@ -147,7 +147,7 @@ export class UserdetailsComponent implements OnInit {
         this.isActive = this.userdetailInfo.Status as string ==='Active'?true:false;
         //this.thePosition = response.Data.userListJobTitle; 
     this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
-     this.thePosition=res.EmployeeOrganization;
+     this.thePosition=res.EmployeeOrganization.JobTitle;
       console.log('test')
       console.log(this.thePosition)
     });

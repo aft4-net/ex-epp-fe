@@ -1,25 +1,26 @@
 <div class="clearfix">
-  <div>
-    <nz-avatar [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'" [nzSrc]="'data:image/jpg;base64,'+empImg">
+  <div >
+    <nz-avatar class="profile-pic" [nzShape]="'circle'" [nzSize]="64" [nzIcon]="'user'"  [nzSrc]="'data:image/jpg;base64,'+empImg">
     </nz-avatar>
+  
   </div>
   <div class="profile-buttons-container">
     <div class="profile-button-container">
-      <nz-upload [nzCustomRequest]="customUploadReq"  [nzName]="'file'">
-        <button
+      <nz-upload [nzCustomRequest]="customUploadReq" [nzSize]="240" [nzPreview]="handlePreview" [nzName]="'file'">
+         <button
           class="profile-button-add"
-          disabled>
-          <i nz-icon nzType="upload"></i>
+          >
+          <i style="pointer-events: none;" nz-icon nzType="upload"> </i>
           Upload
-        </button>
+       </button>
       </nz-upload>
     </div>
     <div class="profile-button-container" *ngIf="removeImg">
       <button 
         class="profile-button-delete"
         disabled>
-        <i nz-icon nzType="delete"></i>
-        Delete
+        <i nz-icon nzType="delete"> Delete</i>
+        
       </button>
     </div>
     
