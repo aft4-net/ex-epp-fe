@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../models/department';
 import { Pagination } from '../../models/pagination';
 import { DepartmentService } from '../../services/department.service';
@@ -23,7 +22,6 @@ export class DepartmentComponent implements OnInit {
   idForEdit: string | null = null;
 
   constructor(private departmentConfigService: DepartmentService, 
-   // private toastrService: ToastrService,
     private _permissionService:PermissionListService,
     private modal: NzModalService
     ) { }
@@ -35,7 +33,6 @@ export class DepartmentComponent implements OnInit {
   getPaginatedDepartments() {
     this.departmentConfigService.getDepartments(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      // this.listOfDepartments=response.Data;
       this.listOfDepartments = [];
       this.listOfDepartments = [...response.Data];
       console.log("list of departments is : ", this.listOfDepartments);
@@ -105,15 +102,12 @@ export class DepartmentComponent implements OnInit {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => this.deleteHandler(id),
-      nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
+      nzCancelText: 'No'
     });
   }
 
   deleteHandler(id: string) {
     this.departmentConfigService.deleteDepartment(id).subscribe((response) => {
-      //this.toastrService.success(response.message, "Department");
-      // this.listOfDepartments = this.listOfDepartments.filter((d) => d.Guid !== id);
       this.getPaginatedDepartments();
     })
   }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Role } from '../../models/role';
 import { Pagination } from '../../models/pagination';
 import { RoleService } from '../../services/role.service';
@@ -24,7 +23,6 @@ export class RoleComponent implements OnInit {
   idForEdit: string | null = null;
 
   constructor(private roleConfigService: RoleService, 
-   // private toastrService: ToastrService,
    public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
     private modal: NzModalService
@@ -38,7 +36,6 @@ export class RoleComponent implements OnInit {
   getPaginatedRoles() {
     this.roleConfigService.getRoles(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      // this.listOfRoles=response.Data;
       this.listOfRoles = [];
       this.listOfRoles = [...response.Data];
     });
@@ -72,7 +69,6 @@ export class RoleComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isAddModalVisible = false;
     this.idForEdit = null;
   }
@@ -107,15 +103,12 @@ export class RoleComponent implements OnInit {
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => this.deleteHandler(id),
-      nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
+      nzCancelText: 'No'
     });
   }
 
   deleteHandler(id: string) {
     this.roleConfigService.deleteRole(id).subscribe((response) => {
-      //this.toastrService.success(response.message, "Role");
-      // this.listOfRoles = this.listOfRoles.filter((d) => d.Guid !== id);
       this.getPaginatedRoles();
     })
   }
