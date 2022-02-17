@@ -142,7 +142,9 @@ export class EmployeeDetailComponent implements OnInit {
     this.getfilterDataMenu();
 
     if(this._authenticationService.isFromViewProfile() === 'true'){
-      this.uemail= this._authenticationService.getEmail();
+      this.uemail= this._authenticationService.useEmails();
+      console.log("loglog");
+      console.log(this.uemail);
       this.getUser();
       return;
     }
