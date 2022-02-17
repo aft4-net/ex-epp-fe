@@ -13,7 +13,7 @@
   <div class="flex flex-row justify-between " nz-row>
       <div *ngIf="isOnEditstate"  class="page-title">  Edit Project </div>
       <div *ngIf="isOnEditstate">
-        <button class="btn mr-4" (click)="saveProjectUpdate()"  [disabled]="!enableUpdateButton || validateForm.invalid"  >
+        <button class="btn mr-4"    (click)="saveProjectUpdate()"  [disabled]="!enableUpdateButton || validateForm.invalid"  >
         Update </button>
         
         <button   (click)="showDeleteConfirm()" class="btn-cancel ">

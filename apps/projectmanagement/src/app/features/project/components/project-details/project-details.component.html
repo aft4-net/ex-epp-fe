@@ -12,9 +12,7 @@
  <div  class="flex flex-row justify-between " nz-row>
         <div *ngIf="!isOnEditstate"  class="page-title">  Add Project </div>
         <div *ngIf="isOnEditstate"  class="page-title">  Edit Project </div>
-        <div *ngIf="!isOnEditstate" >
-      
-      
+        <div *ngIf="!isOnEditstate" > 
           <button class="btn mr-4"   [disabled]="!forrmvalid"   (click)="createProject() "
             [ngClass]="forrmvalid ? '':'cursor-not-allowed' ">
             Save </button>
@@ -49,8 +47,6 @@
             </span>
            </ng-template>
           <div class="tab-content">
-            <!-- <exec-epp-addresource " 
-            [ProjectStartDate]="this.startValue.value" [ProjectEndDate]="this.endValue.value"> </exec-epp-addresource> -->
             <exec-epp-addresource> </exec-epp-addresource>
           </div>
         </nz-tab>
@@ -68,8 +64,8 @@
         <p *ngIf="!isOnEditstate"> Are you sure to exit before saving project ? </p>
         <p *ngIf="isOnEditstate" > Are you sure to exit before updating project ? </p>
         <span class="flex justify-end">  
-        <button  class="btn mr-8" (click)="confimeresredirect()">Yes</button>
-          <button  class="btn-cancel " (click)="rediretCancel()"> No </button>    
+        <button  class="btn mr-8" (click)="confimeresredirect()">Yes, Exit</button>
+          <button  class="btn-cancel " (click)="rediretCancel()"> Cancel </button>    
         </span>
       </ng-container>
     </nz-modal>
