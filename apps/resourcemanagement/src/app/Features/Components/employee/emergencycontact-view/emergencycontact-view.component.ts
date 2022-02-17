@@ -113,7 +113,7 @@ export class EmergencycontactViewComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.form.addressForm.reset();
+    this.form.emergencyAddress.reset();
     this.form.emergencyContact.reset();
   }
   showConfirm(index: number): void {
