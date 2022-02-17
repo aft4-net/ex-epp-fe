@@ -26,25 +26,33 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
   @Output() formResponse = new EventEmitter()
 
   errMessage = ''
-  isEdit = false;
+  isEdit = true;
   minLengthofIdNumber = 3;
   maxLengthofIdNumber = 0;
 
   constructor(
     private readonly _employeeService: EmployeeService
   ) {
-    //this.isEdit = this._employeeService.isEdit;
+    this.isEdit = this._employeeService.isEdit;
   }
 
   ngOnInit(): void {
+    if(this._employeeService.isEdit){
+      this.formControl.disable({onlySelf:true});
+    }
   }
 
   onChange() {
-    this.formControl.removeValidators(errValidator);
     this.errMessage = '';
     const value = this.formControl.value;
     if (value) {
       const idNumber = this.formControl.value as string;
+      if(idNumber.substring(idNumber.length - 1) === ' ') {
+        this.formControl.setValue(idNumber.substring(0, idNumber.length - 1));
+        return;
+      }
+      
+    this.formControl.removeValidators(errValidator);
       if (idNumber.length < this.minLengthofIdNumber) {
         this.errMessage = `The minimum length of employee ID number should be ${this.minLengthofIdNumber}!`;
       } else if (this.maxLengthofIdNumber > 0 && idNumber.length > this.maxLengthofIdNumber) {

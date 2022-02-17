@@ -19,6 +19,7 @@ export class CustomSelectComponent implements OnInit {
     @Input() controlConfig = defaultFormControlParameter
     @Input() myControl: FormControl = new FormControl()
     @Input() required = true
+    @Input() disabled = false;
 
     @Output() formResponse = new EventEmitter<any>()
 
@@ -28,6 +29,9 @@ export class CustomSelectComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      if(this.disabled) {
+        this.myControl.disable({onlySelf: true});
+      }
     }
 
     onChange() {
