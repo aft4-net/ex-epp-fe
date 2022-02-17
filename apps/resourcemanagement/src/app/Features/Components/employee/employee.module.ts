@@ -38,11 +38,13 @@ import { SideBarComponent } from './side-bar/side-bar.component';
   ],
   imports: [
     CommonModule,
+
     ReactiveFormsModule,
     FormsModule,
     EmployeeRoutingModule,
     BrowserModule,
     FormsModule,
+
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
     AngularFileUploaderModule,
