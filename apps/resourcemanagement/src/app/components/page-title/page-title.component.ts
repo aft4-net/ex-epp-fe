@@ -80,17 +80,26 @@ export class PageTitleComponent implements OnInit {
     } else {
       if (this._employeeService.isEdit) {
         this._formGenerator.updateOneEmployee();
+        setTimeout(()=>{                           
+          //
+          this._employeeService.sendempphoto();
+          this._router.navigate(['resourcemanagement']);//.then(() => {
+           // window.location.reload();
+          //});
+      }, 2000);
       } else {
         this._formGenerator.save();
-       
+        setTimeout(()=>{                           
+          //
+          this._employeeService.sendempphoto();
+          this._router.navigate(['resourcemanagement']);//.then(() => {
+           // window.location.reload();
+          //});
+      }, 2000);
+      
       }
 
-      setTimeout(()=>{                           
-        //
-        this._router.navigate(['resourcemanagement']);//.then(() => {
-         // window.location.reload();
-        //});
-    }, 2000);
+     
     
      
     }

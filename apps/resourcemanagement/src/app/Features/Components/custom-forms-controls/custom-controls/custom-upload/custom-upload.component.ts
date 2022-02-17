@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
 import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
-import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, Observer, of } from "rxjs";
 import { environment } from "libs/environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { Router } from "@angular/router";
@@ -50,6 +50,7 @@ export class CustomUploadComponent implements OnInit {
     userEmail=window.sessionStorage.getItem('username')+'';
     empImg : any;
     removeImg = true;
+    localUrl="";
 
     constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router) {
     }
@@ -75,21 +76,55 @@ export class CustomUploadComponent implements OnInit {
       // this.previewVisible = true;
     };
  
+     transformFile = (file: NzUploadFile): Observable<Blob> =>
+    new Observable((observer: Observer<Blob>) => {
+      const reader = new FileReader();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      reader.readAsDataURL(file as any);
+      reader.onload = () => {
+        const canvas = document.createElement('canvas');
+        const img = document.createElement('img');
+        img.src = reader.result as string;
+        this.localUrl = img.src;
+        console.log(this.localUrl + "wewe");
+        img.onload = () => {
+          const ctx = canvas.getContext('2d')!;
+          ctx.drawImage(img, 0, 0);
+          ctx.fillStyle = 'red';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('Ant Design', 20, 20);
+          canvas.toBlob(blob => {
+            observer.next(blob!);
+            observer.complete();
+          });
+        };
+      };
+    });
+   
+
     customUploadReq = (item: any) => {
-      
+      this._employeeService.ephoto = item.file as any;
+      const reader = new FileReader();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
       const formData = new FormData();
       formData.append('data', item.file as any); // tslint:disable-next-line:no-any
-      console.log("on it 2 " + item.file.name);
+      console.log("on it 2 ");
       formData.append('id', this._employeeService.empNum);
-    //  const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
+      console.log(item);
+      console.log(item);
+      
+      //this.empImg = item;
+      // const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
       // Always return a `Subscription` object, nz-upload will automatically unsubscribe at the appropriate time
      return this.http.post(environment.apiUrl+'/EmployeePhoto',formData).subscribe((event: any) => {
-       console.log("on it");
+       console.log(item.file);
        item.status= 'done';
        item.onSuccess(item.file);
        console.log(event.Data);
-       this.getUserImg(this._employeeService.empNum);
-      },(err) => { /* error */
+       //this.getUserImg(this._employeeService.empNum);
+       
+      },(err) => { 
         console.log(err);
       },
       ()=>{
@@ -99,6 +134,9 @@ export class CustomUploadComponent implements OnInit {
       });
      
     }
+
+ 
+
     getUser(email:string){
       return this.http.get<any>(environment.apiUrl+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' 
       + email.toLowerCase()).subscribe((response:any)=>{
