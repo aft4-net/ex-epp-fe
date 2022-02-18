@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { CommonDataService } from '../.././../../../../libs/common-services/commonData.service';

@@ -14,7 +14,7 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: false,
-    minimize: true,
+    minimize: false,
   },
   resolve: {
     alias: {
