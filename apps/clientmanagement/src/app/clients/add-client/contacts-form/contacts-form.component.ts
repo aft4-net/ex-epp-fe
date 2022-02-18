@@ -1,5 +1,5 @@
 import { AddClientStateService, ClientContactCreate, ClientContactService, UpdateClientContact, UpdateClientStateService } from '../../../core';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { CountryCodeService } from '../../../core/services/country-code.service';
@@ -159,11 +159,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
 
 
   handleOk(): void {
-    if(this.ContactPersonName.valid)
-    {
 
-
-    }
     if (this.addContactForm.valid) {
 
       // this.listData.push(this.addContactForm.value);
