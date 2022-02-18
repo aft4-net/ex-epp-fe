@@ -1,5 +1,3 @@
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { RouterModule } from '@angular/router';
 
@@ -17,7 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TimesheetModule } from './timesheet/timesheet.module';
-import { MatBadgeModule } from '@angular/material/badge';
 
 registerLocaleData(en);
 
@@ -30,7 +27,6 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     NzNotificationModule,
     TimesheetModule,
-    MatBadgeModule,
     
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],

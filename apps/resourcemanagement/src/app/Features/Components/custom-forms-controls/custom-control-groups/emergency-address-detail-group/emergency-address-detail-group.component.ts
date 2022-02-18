@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
+import { CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
 
 @Component({
@@ -26,12 +26,12 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressCountryStateService: CountriesMockService
+        private readonly _countriesMockService: CountriesMockService
     ) {
         this.formGroup
             = this._formGenerator.emergencyAddress
-        this.countries$ = this._addressCountryStateService.getCountries()
-        this.stateRegions$ = this._addressCountryStateService.getStates(this.formGroup.value.country)      
+        this.countries$ = this._countriesMockService.getCountries()
+        this.stateRegions$ = this._countriesMockService.getStates(this.formGroup.value.country)      
 
         
 
@@ -62,7 +62,7 @@ export class EmergencyAddressDetailGroupComponent implements OnInit {
             this.weredaName = 'Address Line 2'
             this.isEthiopia = false
         }
-        this.stateRegions$ = this._addressCountryStateService.getStates(control)
+        this.stateRegions$ = this._countriesMockService.getStates(control)
     }
     
     onStateSelect() {

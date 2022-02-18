@@ -1,15 +1,13 @@
-import { splitClasses } from "@angular/compiler";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Observable, of } from "rxjs";
-import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
-import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
-import { AddressCountryStateService, CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
-import { defaultEmployeeIdNumberPrefices } from "../../../../Services/supporting-services/basic-data.collection";
-import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { FormArray, FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
+import { CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
+import { commonErrorMessage, validatePhoneNumber, validatePhoneNumberChina, validatePhoneNumberEthio } from "../../shared/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
 import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
 import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
+import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 
 @Component({
     selector: 'exec-epp-custom-phone-multiple',
@@ -20,7 +18,7 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
 
     // @Input() formItem: FormItemData = defaultFormItemData
     label = 'Phone Number'
-    prefices$: Observable<any> = of([{ country: 'Ethiopia', code: '+251' }])
+    prefices$: Observable<SelectOptionModel[]>;
     @Input() maxAmount = 1
     @Input() labelConfig = defaultFormLabellParameter
     @Input() prefixControlConfig = defaultFormControlParameter
@@ -33,20 +31,39 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _addressCountryStateService: CountriesMockService
+        private readonly _countriesService: CountriesMockService
     ) {
-        this.prefices$ = this._addressCountryStateService.getCountriesPhonePrefices()
+        this.prefices$ = this._countriesService.getCountriesPhonePrefices()
     }
 
     ngOnInit(): void {
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
+            if(this.formArray.length > 1 || this.getControl(i).value) {
+                this.onPrefixChange(i);
+            } else {
+                this._configureValidation(i);
+            }
+        }
+    }
+
+    private _configureValidation(index: number) {
+        const prefix = this.getPrefixControl(index);
+        const phone = this.getControl(index);
+        phone.clearAsyncValidators();
+        phone.clearValidators();
+        if (prefix.value === '+86') {
+            phone.addValidators(validatePhoneNumberChina);
+        } else if (prefix.value === '+251') {
+            phone.addValidators(validatePhoneNumberEthio);
+        } else {
+            phone.addValidators(validatePhoneNumber)
         }
     }
 
     getPrefixControl(index: number): FormControl {
         const formGroup = this._formGenerator.getFormGroupfromArray(index, this.formArray)
-        if(formGroup) {
+        if (formGroup) {
             return this._formGenerator.getFormControl('prefix', formGroup)
         }
         return new FormControl()
@@ -54,14 +71,14 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
 
     getControl(index: number): FormControl {
         const formGroup = this._formGenerator.getFormGroupfromArray(index, this.formArray)
-        if(formGroup) {
+        if (formGroup) {
             return this._formGenerator.getFormControl('phone', formGroup)
         }
         return new FormControl()
     }
 
     onAddRemove(event: ExcelButtonResponse) {
-        if(event.action == ExcelControlResponseType.ExcelAdd) {
+        if (event.action == ExcelControlResponseType.ExcelAdd) {
             this.add()
         } else if (event.action == ExcelControlResponseType.ExcelRemove) {
             this.remove(event.data as number)
@@ -93,6 +110,14 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
             ...this.errMessages.slice(0, index),
             ...this.errMessages.slice(index + 1),
         ]
+    }
+
+    onPrefixChange(index: number) {
+        console.log('Others')
+        console.log('Others')
+        const phone = this.getControl(index);
+        this._configureValidation(index);
+        phone.setValue(phone.value);
     }
 
     onChange(index: number) {

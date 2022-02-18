@@ -6,7 +6,6 @@ import {
   ProjectResourceStateService,
   ProjectService,
 } from '../../../../core';
-
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
@@ -90,11 +89,12 @@ export class ViewProjectLayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCurrentUser();
-    this.getfilterDataMenu();
+  
     this.projectService
       .getWithPagnationResut(1, 10)
       .subscribe((response: PaginatedResult<Project[]>) => {
+        this.getfilterDataMenu();
+        this.getCurrentUser();
         this.projects = response.data;
         this.intiaload = false;
         this.pageIndex = response.pagination.pageIndex;
@@ -251,6 +251,10 @@ export class ViewProjectLayoutComponent implements OnInit {
   assignResource(data:Project)
   {
   this.projectResourceStateService.projectResources(data);
+  }
+  trackByProjectId(index:string,project:Project):string
+  {
+    return project.Guid;
   }
 
 
