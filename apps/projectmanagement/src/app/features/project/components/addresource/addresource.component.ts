@@ -1,14 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, AssignResource, AssignResourceService, AssignedResoureEdit, ProjectResourceStateService, Project } from '../../../../core';
-import { Output, EventEmitter } from '@angular/core';
+import { AddProjectStateService, ProjectService, EmployeeService, projectResourceType, Employee, 
+  AssignResource, AssignResourceService, ProjectResourceStateService, Project } from '../../../../core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
-
-
 
 
 @Component({
@@ -48,11 +46,6 @@ export class AddresourceComponent implements OnInit{
   resoureRemove!:AssignResource;
   projectForResource:Project={} as Project;
 
-  @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
-  @Input() ProjectStartDate:Date| null=null;
-  @Input() ProjectEndDate:Date| null=null;
-  @Input() formValid:boolean |false=false;
-  @Output() tabIndex = new EventEmitter();
   ngOnInit(): void {
     this.projectResourceStateService.isOnEditstate$.subscribe(res=>{
       this.isOnEditstate=res;
@@ -354,10 +347,6 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
   }
 
   disabledEndDate = (startValue: Date): boolean => {
-
-
-
-  
      
      if(!this.isOnEditstate)
     {
@@ -403,15 +392,7 @@ return  startValue.getTime() < new Date(this.projectForResource.StartDate).getTi
   {
     this.cancelModal=false;
   }
-  showConfirm(){
-    if(this.formValid)
-     {
-      this.tabIndex.emit(0);
-       this.cancelModal=true;
-     }
-    else
-    this.router.navigateByUrl('projectmanagement');
-}
+
 
   confimeresredirect()
   {

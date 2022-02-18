@@ -1,7 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-
 import {
   FormBuilder,
   FormGroup,
@@ -27,12 +26,10 @@ import {
   ProjectResourceStateService
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
 
-import { map } from 'rxjs/operators';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
