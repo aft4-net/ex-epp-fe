@@ -96,6 +96,21 @@ export class RoleComponent implements OnInit {
   }
 
   showDeleteConfirm(id: string, name: string) {
+    this.roleConfigService.checkifRoleisDeletable(id).subscribe((res)=>{
+    
+      if(res === true){
+
+        this.modal.confirm({
+          nzTitle: 'this Role can not be delete',
+          nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+        //  nzOnOk: () => this.deleteHandler(id),
+        //  nzCancelText: 'No'
+        });
+  }
+  else{
     this.modal.confirm({
       nzTitle: 'Are you sure delete this Role?',
       nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
@@ -105,6 +120,8 @@ export class RoleComponent implements OnInit {
       nzOnOk: () => this.deleteHandler(id),
       nzCancelText: 'No'
     });
+  }
+});
   }
 
   deleteHandler(id: string) {
