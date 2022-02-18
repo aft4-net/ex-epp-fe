@@ -1,7 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-
 import {
   FormBuilder,
   FormGroup,
@@ -27,12 +26,10 @@ import {
   ProjectResourceStateService
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
 
-import { map } from 'rxjs/operators';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -126,11 +123,11 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   this.validateForm.controls.client.setValue(this.editProjectStateService.projectEditData.Client?.Guid);
   this.validateForm.controls.startValue.setValue(this.editProjectStateService.projectEditData.StartDate);
   this.validateForm.controls.endValue.setValue(this.editProjectStateService.projectEditData.EndDate);
-
+  this.validateForm.controls.description.setValue(this.editProjectStateService.projectEditData.Description)
   this.projectUpdate.Guid=this.projectEditStateData.Guid;
   this.projectOld.Guid=this.projectEditStateData.Guid;
   this.projectOld.ProjectName=   this.editProjectStateService.projectEditData.ProjectName;
-       
+   this.projectOld.Description=this.editProjectStateService.projectEditData.Description;   
   this.projectOld.ProjectType=this.editProjectStateService.projectEditData.ProjectType;
    this.projectOld.ProjectStatusGuid=this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
    this.projectOld.ClientGuid=this.editProjectStateService.projectEditData.Client?.Guid;
@@ -366,7 +363,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
        this.projectUpdate.SupervisorGuid=this.validateForm.controls.supervisor.value;
        this.projectUpdate.StartDate= this.validateForm.controls.startValue.value;
        this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
-     
+       this.projectUpdate.Description=  this.validateForm.controls.description.value;
      
        if (this.validateForm.controls.endValue.value != null)
        this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
@@ -378,7 +375,8 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
       this.projectUpdate.ClientGuid!=this.projectOld.ClientGuid ||
       this.projectUpdate.SupervisorGuid!=this.projectOld.SupervisorGuid ||
       this.projectUpdate.StartDate != this.projectOld.StartDate ||
-      this.projectUpdate.EndDate != this.projectOld.EndDate)
+      this.projectUpdate.EndDate != this.projectOld.EndDate)||
+      this.projectUpdate.Description!=this.projectOld.Description
       )
      {
     

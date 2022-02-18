@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { AllDataResponse } from '../../core/models/get/AllDataResponse';
 import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
-import { ElementSchemaRegistry } from '@angular/compiler';
 import { FetchclientsService } from '../../core/services/fetchclients.service';
 import { FormControl } from '@angular/forms';
 import { NotificationBar } from '../../utils/feedbacks/notification';
