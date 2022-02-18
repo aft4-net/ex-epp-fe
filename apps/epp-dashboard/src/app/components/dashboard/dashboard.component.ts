@@ -44,7 +44,7 @@ getUsers() {
   getUser(){
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
       this.thePosition=response.EmployeeOrganization.Role.Name;
-      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName)
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName);
     });
  }
 
