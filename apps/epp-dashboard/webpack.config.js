@@ -13,7 +13,7 @@ module.exports = {
     publicPath: 'auto',
   },
   optimization: {
-    runtimeChunk: true,
+    runtimeChunk: false,
     minimize: true,
   },
   resolve: {
