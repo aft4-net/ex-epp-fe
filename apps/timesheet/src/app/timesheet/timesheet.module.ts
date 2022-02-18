@@ -63,7 +63,7 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
     NzPaginationModule,
     NzInputNumberModule,
   ],
-  exports: [TimesheetComponent, TimesheetHeaderComponent],
+  exports: [],
   providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {
