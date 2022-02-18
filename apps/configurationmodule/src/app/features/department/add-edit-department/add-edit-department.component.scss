@@ -39,24 +39,10 @@ button {
     height: 38px;
     border-radius: 2px;;
 }
-button.ant-btn-primary {
-    background-color: #00A551;
-    color: white;
-}
-
 .ant-btn-primary.ant-btn:active {
     background-color: #00A551;
     border-color: #00A551;
 }
-
-.ant-btn-primary:focus, .ant-btn-primary:hover {
-    background-color: #00A551;
-    border-color: #00A551;
-}
-.ant-btn-primary {
-    border-color: #00A551;
-}
-
 
 .ant-btn:focus, .ant-btn:hover {
     color: #00A551;
@@ -66,6 +52,34 @@ button.ant-btn-primary {
 .ant-btn-primary.ant-btn:focus, .ant-btn-primary.ant-btn:hover {
     color: #FFFFFF;
     border-color: #00A551;
+}
+.ant-btn:focus {
+  border-color: #00A551;
+  color: #00A551;
+}
+.ant-btn:hover {
+  border-color: #006E36;
+  color: #006E36;
+}
+.ant-btn-primary {
+  border-color: #00A551;
+  background: #00A551;
+}
+
+.ant-btn-primary:focus{
+  border-color: #00A551;
+  background: #00A551;
+  color: #fff;
+}
+.ant-btn-primary:hover {
+  border-color: #006E36;
+  background: #006E36;
+  color: #fff;
+}
+.ant-btn-primary:active {
+  color: #fff;
+  border-color: #005228;
+  background: #005228;
 }
 
 .ant-btn-primary[disabled], .ant-btn-primary[disabled]:active, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
