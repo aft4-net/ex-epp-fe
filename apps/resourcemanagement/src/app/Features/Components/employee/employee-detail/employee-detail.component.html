@@ -1,13 +1,13 @@
 <nz-layout>
   <nz-content>
     <div class="inner-content">
-      <div nz-row>
-        <div nz-col class="gutter-row" [nzSpan]="6">
-          <nz-input-group [nzSuffix]="suffixIconButton">
-            <input type="text" #searchInput nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
+      <div nz-row >
+        <div nz-col  class="gutter-row"  [nzSpan]="6">
+          <nz-input-group style="height: 33px; width: 320px;" [nzSuffix]="suffixIconButton">
+            <input  type="text" #searchInput nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
           </nz-input-group>
           <ng-template #suffixIconButton >
-            <button nz-button nzType="default" (click)="searchEmployees()" style="border: none;"><i nz-icon nzType="search"></i></button>
+            <button nz-button nzType="default" (click)="searchEmployees()" style="border: none;height: 25px;width: 25px;"><i nz-icon style="height: 14px;width: 14px;" nzType="search"></i></button>
           </ng-template>
         </div>
       </div>
