@@ -78,7 +78,9 @@ export class FormGenerator extends FormGeneratorAssistant {
                 );
             },
                 (error) => {
-                    console.log(error);
+                    this.notification.create(
+                        "error", "Save Failed", error.message
+                    );
                 }
 
 
@@ -104,7 +106,9 @@ export class FormGenerator extends FormGeneratorAssistant {
           );
             },
             (error) => {
-              console.log(error);
+                this.notification.create(
+                    "error", "Update Failed", error.message
+                );
             }
 
 
