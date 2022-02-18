@@ -20,16 +20,16 @@ const routes: Routes = [
         data: {
           breadcrumb: "View Submission"
         }
+      },
+      {
+        path: 'timesheet-approval',
+        loadChildren: () =>
+          import('../timesheet-approval/timesheet-approval.module').then(
+            (m) => m.TimesheetApprovalModule
+          ),
+        data: { breadcrumb: 'Timesheet-approval' },
       }
     ]
-  },
-  {
-    path: 'timesheet-approval',
-    loadChildren: () =>
-      import('../timesheet-approval/timesheet-approval.module').then(
-        (m) => m.TimesheetApprovalModule
-      ),
-    data: { breadcrumb: 'Timesheet-approval' },
   }
 ]
 
