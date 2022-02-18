@@ -91,6 +91,7 @@ import { map } from 'rxjs/operators';
     window.sessionStorage.setItem("username",user.username);
     window.sessionStorage.setItem('isLogin','true');
     window.sessionStorage.setItem('fromViewer','false');
+
     //this.router.navigateByUrl('');
     //window.location.replace('http://localhost:4200');
    }
@@ -104,7 +105,9 @@ import { map } from 'rxjs/operators';
     //window.location.replace('http://localhost:4200');
    }
    getEmail(){
-     return window.sessionStorage.getItem('username');
+     //return window.sessionStorage.getItem('username');
+     var userInfo = JSON.parse(localStorage.loggedInUserInfo);
+     return userInfo.Email;
    }
    getUserFullName(){
      return localStorage.getItem('name')
