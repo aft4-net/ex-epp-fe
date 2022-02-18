@@ -66,7 +66,7 @@ getUsers() {
 
   routetoResourceManagement(){
     this._authenticationService.setFromViewProfile2();
-    this._router.navigate(['resourcemanagement/employee/add-employee/personal-info']);
+    this._router.navigate(['resourcemanagement']);
   }
 
    authorize(key:string){
