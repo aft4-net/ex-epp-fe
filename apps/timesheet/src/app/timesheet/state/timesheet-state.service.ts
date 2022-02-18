@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval } from '../../models/timesheetModels';
+import { TimeEntry, Timesheet, TimesheetApproval } from '../../models/timesheetModels';
 import { TimesheetService } from '../services/timesheet.service';
 
 @Injectable({

@@ -16,6 +16,9 @@
   color: white;
 }
 
+.container_homepage{
+  padding: 0px 1.6% ;
+}
 
 
 
@@ -83,6 +86,7 @@
 .btn:disabled{
   background-color:  #BFBFBF;
   border-color:#F5F5F5; 
+  cursor:not-allowed;
 }
 
 
@@ -118,9 +122,15 @@ line-height: 32px;
 color: #262626;
 }
 
+.page-edit{
+  height: 105vh;
+  width: 65%;
+  margin: auto;
+}
 .tab-content {
   padding:0px 20px 25px;
-  height: 109vh;
+  height: 105vh;
+
   margin-bottom: 5rem;
 }
 *{
@@ -154,9 +164,7 @@ nz-tab {
    height: 77px;
  }
 
- header { 
-  padding: 0px 1.6%;
-}
+
 
    
 hr { display: block; height: 1px;

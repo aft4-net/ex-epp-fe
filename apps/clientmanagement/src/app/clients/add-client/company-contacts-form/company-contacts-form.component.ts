@@ -17,12 +17,10 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { CompanyContactService } from '../../../core/';
 import { CountryCodeService } from '../../../core/services/country-code.service';
-import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { extractPhoneNumber } from '../../../shared/phonePrefixExtractor/phone-prefix-extractor';
 import { getNames } from '../../../shared/Data/contacts';
-
+ 
 @Component({
   selector: 'exec-epp-company-contacts-form',
   templateUrl: './company-contacts-form.component.html',
@@ -128,7 +126,7 @@ clientalreadyExist=false;
         this.clientalreadyExist=true;
 
         }
-
+this.IsEdit
       });
       if(!this.IsEdit){
 
@@ -235,6 +233,7 @@ clientalreadyExist=false;
     // }
     // this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
     // this.addContactForm.reset();
+
   }
   edit(index:number){
     for(let count=0;count<this.listData.length;count++){
@@ -252,7 +251,6 @@ clientalreadyExist=false;
 
   }
   patchValues(data: any) {
-   //const phonePrefix=extractPhoneNumber(data.phoneNumberPrefix)
     this.addContactForm.patchValue({
       companyContactName: data.Name,
       //phoneNumber: data.phoneNumber,
@@ -302,10 +300,11 @@ clientalreadyExist=false;
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
-        console.log("deleteeeeeeeeeeeeeeeeee hereeeeeeeeeeeeee")
-
+      if(this.updateClientStateService.isEdit)
+      {
         if(typeof this.updateClientStateService.UpdateClientData.CompanyContacts[i].Guid!=='undefined')
         {
+
         this.companyService.DeleteCompany(this.updateClientStateService.UpdateClientData.CompanyContacts[i].Guid).subscribe(
           (res:any)=>{
             if(res.ResponseStatus==='Success')
@@ -324,11 +323,18 @@ clientalreadyExist=false;
         );
         }
         else{
-          console.log("deleteeeeeeeeeeeeeeeeee hereeeeeeeeeeeeee")
+
           this.removeItem(element,i);
           this.notification.success("Company Deleted Successfully","",{nzPlacement:'bottomRight'}
           );
         }
+      }
+      else{
+
+        this.removeItem(element,i);
+        this.notification.success("Company Deleted Successfully","",{nzPlacement:'bottomRight'}
+        );
+      }
 
       },
       nzCancelText: 'No',
