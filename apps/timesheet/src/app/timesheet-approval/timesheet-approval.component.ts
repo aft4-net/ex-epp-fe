@@ -145,6 +145,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this._timesheetStateService.setApproval(true);
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
     this.initialDataforTab();
