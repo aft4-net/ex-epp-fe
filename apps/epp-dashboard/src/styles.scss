@@ -174,3 +174,26 @@
 .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
   display: none !important;
 }
+
+.ant-modal-confirm-btns {
+  display: flex;
+  flex-direction: row-reverse;
+  .ant-btn {
+    margin-left: 8px;
+  }
+
+  .ant-btn:focus, .ant-btn:hover {
+    border-color: #00A551;
+    color: #00A551;
+  }
+  .ant-btn-primary {
+    border-color: #00A551;
+    background: #00A551;
+  }
+
+  .ant-btn-primary:focus, .ant-btn-primary:hover {
+    border-color: #00A551;
+    background: #00A551;
+    color: #fff;
+  }
+}

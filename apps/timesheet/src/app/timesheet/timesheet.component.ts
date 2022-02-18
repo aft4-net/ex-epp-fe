@@ -3,7 +3,6 @@ import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from 
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from './state/timesheet-configuration-state.service';
 import { TimesheetStateService } from './state/timesheet-state.service';
-import { UserPermissionStateService } from './state/user-permission-state.service';
 import { CommonDataService } from '../../../../../libs/common-services/commonData.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -26,7 +25,6 @@ export class TimesheetComponent implements OnInit {
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private userPermissionStateService: UserPermissionStateService,
     private commonDataService: CommonDataService,
     private notification: NzNotificationService
   ) {
@@ -37,8 +35,6 @@ export class TimesheetComponent implements OnInit {
     }
 
     localStorage.setItem("userId", this.userId);
-    
-    this.userPermissionList$ = this.userPermissionStateService.permissionList$;
 
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
@@ -47,7 +43,6 @@ export class TimesheetComponent implements OnInit {
 
     this.approval$  = this.timesheetStateService.approval$;
 
-    this.userPermissionStateService.getUserPermission();
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
   }
 

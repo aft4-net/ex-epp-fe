@@ -5,7 +5,7 @@
     <nz-form-item>
       <nz-form-control class="search" [nzSm]="10" [nzXs]="20" nzErrorTip="Please input search!">
         <nz-input-group nzSearch [nzSuffix]="suffixIconSearch" >
-          <input  [(ngModel)]="searchValue" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search" />
+          <input  [(ngModel)]="searchInput" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
           <i nz-icon nzType="search"></i>
@@ -22,11 +22,12 @@
       [nzTitle]="modalTitle"
       [nzContent]="modalContent"
       [nzFooter]="null"
+      [nzMaskClosable]=false
       (nzOnCancel)="handleCancel()"
     >
       <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Department</ng-template>
       <ng-template #modalContent>
-        <exec-epp-add-edit-department [id]="idForEdit" (update)="update($event)"></exec-epp-add-edit-department>
+        <exec-epp-add-edit-department [id]="idForEdit" (update)="update($event)" (closeModal)="closeModal($event)"></exec-epp-add-edit-department>
       </ng-template>
     </nz-modal>
     </div>

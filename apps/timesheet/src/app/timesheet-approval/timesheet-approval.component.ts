@@ -140,6 +140,7 @@ export class TimesheetApprovalComponent implements OnInit {
     private _permissionService:PermissionListService,
     private _timesheetStateService: TimesheetStateService
   ) {
+    this._timesheetStateService.date = new Date();
     this._timesheetStateService.setTimesheetPageTitle("Approve Timesheet");
    }
 
