@@ -13,8 +13,8 @@ module.exports = {
     publicPath: 'auto',
   },
   optimization: {
-    runtimeChunk: false,
-    minimize: false,
+    runtimeChunk: true,
+    minimize: true,
   },
   resolve: {
     alias: {
