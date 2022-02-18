@@ -19,14 +19,10 @@ export class DashboardComponent implements OnInit {
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
-  // this.fullName=_authenticationService.getUserFullName();
-  // this.fullName = this.userEmails.FirstName ;
    this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName)
-   // this.fullName = _authenticationService.getUsersName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-   // this.thePosition = _authenticationService.getPosition(this.userEmails.Email);
     }
 update(){
   this.actions='Update_Employee'
@@ -43,24 +39,13 @@ getUsers() {
   ngOnInit(): void {
     this.getUsers();
     this.getUser();
-    //this.getFullName();
     this._commonData.getPermission();   
   }
   getUser(){
-    console.log('response1'+ this.userEmails.Email)
-    console.log('response2'+ this.userEmail )
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
-      console.log('response4'+ this.userEmails.FirstName)
       this.thePosition=response.EmployeeOrganization.Role.Name;
-      //this.fullName = this.userEmails.FirstName;
-      //this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName)
-      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
-     
-      
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName);
     });
-  //  setTimeout(() => {
-  //    this.thePosition = this._authenticationService.position;
-  //  }, 2000); 
  }
 
 

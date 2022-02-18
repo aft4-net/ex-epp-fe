@@ -6,10 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../app.component';
 import { DepartmentComponent } from '../features/department/department.component';
 import { RoleComponent } from '../features/role/role.component';
-;
 import { TimesheetConfigurationComponent } from '../features/timesheet-configuration/timesheet-configuration-component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
-
 import { RemoteEntryComponent } from './entry.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
