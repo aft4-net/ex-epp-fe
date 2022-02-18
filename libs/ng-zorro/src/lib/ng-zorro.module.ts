@@ -39,7 +39,6 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @NgModule({
-
     exports: [
         NzPageHeaderModule,
         NzIconModule,
@@ -119,7 +118,5 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
         // NzWaveModule,
         // NzResizableModule
     ],
-
 })
-
 export class NgZorroModule { }
