@@ -104,9 +104,7 @@ export class EmergencycontactViewComponent implements OnInit {
       this.form.generateEmergencyContactForm(
         this.form.allEmergencyContacts[index]
       );
-      console.log('this.form.allEmergencyContacts[index]');
-      console.log(this.form.allEmergencyContacts[index]);
-      console.log('this.form.allEmergencyContacts[index]');
+   
     }
   }
 
