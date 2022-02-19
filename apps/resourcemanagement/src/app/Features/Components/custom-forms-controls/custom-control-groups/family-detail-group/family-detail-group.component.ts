@@ -9,7 +9,7 @@ import { genders$, relationships$ } from "../../shared/static-data";
 @Component({
     selector: 'exec-epp-family-detail-group',
     templateUrl: './family-detail-group.component.html',
-    styleUrls: ['./family-detail-group.component.scss']
+    styleUrls: ['./family-detail-group.component.scss', '../../excel-styles/excel-single-control.style.scss']
 })
 export class FamilyDetailGroupComponent implements OnInit {
 

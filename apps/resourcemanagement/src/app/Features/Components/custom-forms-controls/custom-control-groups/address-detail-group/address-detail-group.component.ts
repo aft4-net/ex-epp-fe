@@ -9,7 +9,7 @@ import { SelectOptionModel } from "../../../../Models/supporting-models/select-o
 @Component({
     selector: 'exec-epp-address-detail-group',
     templateUrl: './address-detail-group.component.html',
-    styleUrls: ['./address-detail-group.component.scss']
+    styleUrls: ['./address-detail-group.component.scss', '../../excel-styles/excel-single-control.style.scss']
 })
 export class AddressDetailGroupComponent implements OnInit {
 
