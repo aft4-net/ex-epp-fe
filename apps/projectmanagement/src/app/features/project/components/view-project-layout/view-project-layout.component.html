@@ -28,7 +28,7 @@
       </thead>
       <tbody>
 
-      <tr *ngFor="let data of  basicTable.data; ngForTrackBy:trackByProjectId ">
+      <tr *ngFor="let data of  basicTable.data; ">
         <td>{{ data.ProjectName }}</td>
         <td>{{ data.Client?.ClientName }}</td>
         <td>{{ data.ProjectStatus?.StatusName }}</td>

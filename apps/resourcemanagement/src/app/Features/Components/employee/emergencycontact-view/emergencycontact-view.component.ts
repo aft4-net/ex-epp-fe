@@ -118,7 +118,7 @@ export class EmergencycontactViewComponent implements OnInit {
   }
   showConfirm(index: number,id:string): void {
     this.confirmModal = this.modalService.confirm({
-      nzTitle: 'Do you want to delete this item ?',
+      nzTitle: 'Do you want to delete Contact ?',
       nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
       nzOkText: 'Yes',

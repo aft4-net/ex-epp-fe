@@ -1,5 +1,3 @@
-import { projectResourceType } from "./projectResourceType";
-
 
 export interface ProjectEdit{
     Guid:string;
@@ -10,7 +8,7 @@ export interface ProjectEdit{
     StartDate: string;
     EndDate: string;
     ClientGuid ?:string;
-
+    Description?:string
 }
 
 

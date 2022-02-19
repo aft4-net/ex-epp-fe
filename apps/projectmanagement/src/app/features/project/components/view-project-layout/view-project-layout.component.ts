@@ -252,10 +252,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   {
   this.projectResourceStateService.projectResources(data);
   }
-  trackByProjectId(index:string,project:Project):string
-  {
-    return project.Guid;
-  }
+
 
 
 }

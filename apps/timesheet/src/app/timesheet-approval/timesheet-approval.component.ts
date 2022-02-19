@@ -1,13 +1,12 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TimesheetApproval, TimesheetApprovalProjectDetails } from '../models/timesheetModels';
+import { BehaviorSubject } from 'rxjs';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { TimesheetApproval } from '../models/timesheetModels';
 
 import { CommonDataService } from 'libs/common-services/commonData.service';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
@@ -15,7 +14,6 @@ import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { TimesheetStateService } from '../timesheet/state/timesheet-state.service';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -147,6 +145,7 @@ export class TimesheetApprovalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this._timesheetStateService.setApproval(true);
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
     this.initialDataforTab();
