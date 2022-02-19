@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   EditProjectStateService,
   PaginatedResult,
-  PermissionService,
   Project,
+  ProjectResourceStateService,
   ProjectService,
 } from '../../../../core';
-import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
-
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
@@ -83,19 +81,20 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
+    private  projectResourceStateService:ProjectResourceStateService,
     private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
-    private modal: NzModalService,
     private notification: NzNotificationService
   ) { }
 
   ngOnInit(): void {
-    this.getCurrentUser();
-    this.getfilterDataMenu();
+  
     this.projectService
       .getWithPagnationResut(1, 10)
       .subscribe((response: PaginatedResult<Project[]>) => {
+        this.getfilterDataMenu();
+        this.getCurrentUser();
         this.projects = response.data;
         this.intiaload = false;
         this.pageIndex = response.pagination.pageIndex;
@@ -103,7 +102,6 @@ export class ViewProjectLayoutComponent implements OnInit {
         this.total = response.pagination.totalRecord;
         this.totalPage = response.pagination.totalPage;
 
-        this.projectService.setFristPageOfProjects(response);
       });
 
     this.valuechangeSearchProject();
@@ -166,18 +164,6 @@ export class ViewProjectLayoutComponent implements OnInit {
       } else {
         this.searchKey = '';
         this.getProjects();
-        // console.log(this.projectService.getFirsttPageValue().data);
-
-        // this.projects = this.projectService.getFirsttPageValue().data;
-
-        // this.pageIndex =
-        //   this.projectService.getFirsttPageValue().pagination.pageIndex;
-        // this.pageSize =
-        //   this.projectService.getFirsttPageValue().pagination.pageSize;
-        // this.total =
-        //   this.projectService.getFirsttPageValue().pagination.totalRecord;
-        // this.totalPage =
-        //   this.projectService.getFirsttPageValue().pagination.totalPage;
       }
     });
   }
@@ -260,4 +246,13 @@ export class ViewProjectLayoutComponent implements OnInit {
   confirmCancel(){
     this.deleteProjectModal=false;
   }
+
+
+  assignResource(data:Project)
+  {
+  this.projectResourceStateService.projectResources(data);
+  }
+
+
+
 }

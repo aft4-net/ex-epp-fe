@@ -1,13 +1,13 @@
 <nz-layout>
   <nz-content>
     <div class="inner-content">
-      <div nz-row>
-        <div nz-col class="gutter-row" [nzSpan]="6">
-          <nz-input-group [nzSuffix]="suffixIconButton">
-            <input type="text" #searchInput nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
+      <div nz-row >
+        <div nz-col  class="gutter-row"  [nzSpan]="6">
+          <nz-input-group style="height: 33px; width: 320px;" [nzSuffix]="suffixIconButton">
+            <input  type="text" #searchInput nz-input placeholder="Search"  [(ngModel)]="fullname" (change)="searchEmployees()" />
           </nz-input-group>
           <ng-template #suffixIconButton >
-            <button nz-button nzType="default" (click)="searchEmployees()" style="border: none;"><i nz-icon nzType="search"></i></button>
+            <button nz-button nzType="default" (click)="searchEmployees()" style="border: none;height: 25px;width: 25px;"><i nz-icon style="height: 14px;width: 14px;" nzType="search"></i></button>
           </ng-template>
         </div>
       </div>
@@ -22,10 +22,10 @@
       </div>
       
       <br/>
-      <div nz-row style="margin-top:-10px">
-        <div nz-col class="gutter-row employeeDashboard" [nzSpan]="24">
-            <nz-table  [nzLoading]="loading"  nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
-              nzTableLayout="auto" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+      <div  style="margin-top:-10px">
+        <div >
+            <nz-table class="mt-3" [nzLoading]="loading"   #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+               (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
               <div *ngIf="employeeViewModel.length > 0; else normalHeader">
                <!-- <thead>
                   <tr>
@@ -43,13 +43,13 @@
                 </thead>-->
                 <thead>
                   <tr>
-                    <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
-                    (nzCheckedChange)="onAllChecked($event)"></th>
-                      <th class="table_heading" [nzSortFn]="true">Employee</th>
-                      <th class="table_heading" [nzSortFn]="true">Joining Date</th>
-                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
+                    <!--<th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                    (nzCheckedChange)="onAllChecked($event)"></th>-->
+                      <th class="table_heading" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('FullName',$event)">Employee</th>
+                      <th class="table_heading" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('JoiningDate',$event)">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('JobTitle',$event)" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Status',$event)"  (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
                       <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>
@@ -57,26 +57,26 @@
               <ng-template #normalHeader>
                 <thead>
                   <tr>
-                    <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
-                    (nzCheckedChange)="onAllChecked($event)"></th>
-                      <th>Employee</th>
-                      <th class="table_heading">Joining Date</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true"(nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
-                      <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
+                  <!--  <th style="width:30px" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                    (nzCheckedChange)="onAllChecked($event)"></th>-->
+                      <th class="table_heading" nzColumnKey="fullname" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('FullName',$event)">Employee</th>
+                      <th class="table_heading" nzColumnKey="joindate" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('JoiningDate',$event)">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="location" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="jobtitle" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('JobTitle',$event)" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
+                      <th class="table_heading" nzColumnKey="status" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Status',$event)" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
                       <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
                 </thead>
               </ng-template>
               <tbody>
                 <tr *ngFor="let employeeView of rowSelectionTable.data;">
-                  <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>
-                  <td>{{employeeView.FullName }} </td>
-                  <td>{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
-                  <td>{{employeeView.JobTitle }}</td>
-                  <td>{{employeeView.Location }}</td>
-                  <td>{{employeeView.Status }}</td>
-                  <td *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
+                 <!-- <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>-->
+                  <td class="tdstyle">{{employeeView.FullName }} </td>
+                  <td class="tdstyle">{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
+                  <td class="tdstyle">{{employeeView.JobTitle }}</td>
+                  <td class="tdstyle">{{employeeView.Location }}</td>
+                  <td class="tdstyle">{{employeeView.Status }}</td>
+                  <td class="actions Acttdstyle" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
 
                     <span (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
                       <i nz-icon nzType="edit" style="color:black;"></i>
