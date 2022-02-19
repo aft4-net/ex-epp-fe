@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe, formatDate } from '@angular/common';
 
 import { Employee } from '../../Features/Models/Employee';
@@ -22,6 +22,7 @@ import { environment } from 'libs/environments/environment';
   styleUrls: ['./page-title.component.scss'],
 })
 export class PageTitleComponent implements OnInit {
+  @Input() title = 'Personal Detail'
   save = 'Save';
 
   constructor(

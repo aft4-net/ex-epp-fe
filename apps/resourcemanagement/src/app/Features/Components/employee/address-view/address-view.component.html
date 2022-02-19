@@ -11,9 +11,9 @@
           <nz-breadcrumb-item>
             <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
          </ng-template>
-        <h3 *ngIf="!employeeService.isdefault && !employeeService.isEdit;else updatEmployee">Add Employee</h3>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!employeeService.isdefault && !employeeService.isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
-          <h3> Edit Employee</h3>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
@@ -22,7 +22,7 @@
 </div>
 
 
-<exec-epp-page-title></exec-epp-page-title>
+<exec-epp-page-title title="Personal Addresses"></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
     <exec-epp-side-bar [active]="1"> </exec-epp-side-bar>
@@ -30,7 +30,6 @@
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
       <div nz-col nzSpan="21">
-        <h1>Personal Addresses</h1>
       </div>
       <div nz-col nzSpan="3">
         <button class="addButton" *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" nz-button (click)="addaddress()">
