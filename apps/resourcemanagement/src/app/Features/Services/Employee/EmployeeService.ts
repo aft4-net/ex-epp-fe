@@ -435,6 +435,10 @@ export class EmployeeService {
   deleteFamilyMember(id: string): any {
     return this.http.delete<any>(environment.apiUrl + "/FamilyDetail/?id="+ id).subscribe();
   }
+  deletePersonalAddress(id: string): any {
+
+    return this.http.delete<any>(environment.apiUrl + "/PersonalAddress/?id="+ id).subscribe();
+  }
 
 }
 
