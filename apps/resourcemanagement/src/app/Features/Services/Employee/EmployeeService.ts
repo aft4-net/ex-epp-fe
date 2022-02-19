@@ -20,6 +20,7 @@ export class EmployeeService {
   public isdefault = true;
   public empNum="ec0001";
   public ephoto:any;
+  public EmrContact:any | undefined;
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
