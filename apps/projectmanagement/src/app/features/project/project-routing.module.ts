@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'project-resources',
     component: ProjectResourceComponent,
   },
+  {
+    path: '**',
+    component: ClientProjectComponent,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

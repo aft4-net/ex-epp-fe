@@ -26,7 +26,7 @@
     <hr *ngIf="isOnEditstate" >
   </header>   
 
-
+  <nz-spin [nzSpinning]="isSpinning">
 <div   [ngClass]="isOnEditstate? 'page-edit' :''">
   
   <div class="flex flex-row justify-between " nz-row>
@@ -204,6 +204,7 @@
     </nz-form-item>
   </form>
 </div>
+</nz-spin>
 
 
 

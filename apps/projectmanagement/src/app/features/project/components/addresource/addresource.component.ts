@@ -45,20 +45,23 @@ export class AddresourceComponent implements OnInit{
   resourceEdit:AssignResource={} as AssignResource;
   resoureRemove!:AssignResource;
   projectForResource:Project={} as Project;
-
+  loading=false;
   ngOnInit(): void {
     this.projectResourceStateService.isOnEditstate$.subscribe(res=>{
       this.isOnEditstate=res;
     })
   
     if( this.isOnEditstate)
-    this.projectForResource= this. projectResourceStateService.project;
+   { this.projectForResource= this. projectResourceStateService.project;
+    this.loading=true;
+    }
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
         if(this. projectResourceStateService.isOnEditstate)
        {
           this. projectResourceStateService.projectResourceList$.subscribe(res=>{
             this.projectResources=res;
+            this.loading=false
             if(this.projectResources)
             this.projectResources.forEach(p=>{        
              this.employees=this.employees.filter(x=>x.Guid!=p.EmployeeGuid);          
@@ -100,7 +103,8 @@ export class AddresourceComponent implements OnInit{
         const projectAssignDate = formatDate(this.editResorceForm.controls.assignDate.value, 'yyyy-MM-dd', 'en_US');
         const hiredDate = formatDate(this.editResorceForm.controls.resource.value.HiredDate, 'yyyy-MM-dd', 'en_US');
 
-        if((this.editResorceForm && this.isOnEditstate )&& (this.editResorceForm.controls.assignDate.value !=this.resourceEdit.AssignDate ||
+        if((this.editResorceForm && this.isOnEditstate )&& 
+        (new Date (this.editResorceForm.controls.assignDate.value).getDate() != new Date(this.resourceEdit.AssignDate).getDate() ||
           this.editResorceForm.controls.resource.value.Guid !=this.resourceEdit.EmployeeGuid))
           this.disableUpdateButton=false;
           else
@@ -236,7 +240,7 @@ export class AddresourceComponent implements OnInit{
         Guid:this.asignedResourseToEdit.Guid ,
       EmployeeGuid:this.editResorceForm.controls.resource.value.Guid,
       ProjectGuid:this.projectResourceStateService.project.Guid  ,
-      AssignDate: this.editResorceForm.controls.assignDate.value
+      AssignDate: this.editResorceForm.controls.assignDate.value,
       }).subscribe(res=>{
 
         this.projectResourceStateService.updateAssignResources();
@@ -351,7 +355,8 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
      if(!this.isOnEditstate)
     {
       
-      if(!this.projectCreateState.projectData.StartDate || !startValue  )
+      if(!this.projectCreateState.projectData.StartDate || !startValue ||
+        startValue.getDate() === new Date(this.projectCreateState.projectData.StartDate).getDate())
       {
         return false;
       }
@@ -359,27 +364,30 @@ this.resources = this.resources.filter(s => s.EmployeeGuid != id);
       if(  this.projectCreateState.projectData.EndDate!=null && 
        typeof this.projectCreateState.projectData.EndDate != 'undefined' )
     return (
-      startValue.getTime() <  new Date(this.projectCreateState.projectData.StartDate).getTime() ||
-      startValue.getTime() > new Date(this.projectCreateState.projectData.EndDate).getTime()
+      startValue.getDate() <  new Date(this.projectCreateState.projectData.StartDate).getDate() ||
+      startValue.getDate() > new Date(this.projectCreateState.projectData.EndDate).getDate()
     );
     else
-   return  startValue.getTime() < new Date(this.projectCreateState.projectData.StartDate).getTime() 
+   return  startValue.getDate() < new Date(this.projectCreateState.projectData.StartDate).getDate()
     }
+
     else if(this.isOnEditstate)
-{
-  if ( !startValue  || !this.projectForResource.StartDate )
+  {
+  if ( !startValue  || !this.projectForResource.StartDate ||
+    startValue.getDate() === new Date(this.projectForResource.StartDate).getDate() )
   {
     return false;
   }
+
    if(this.projectForResource.EndDate!=null && 
     typeof this.projectForResource.EndDate != 'undefined' )
  return (
-   startValue.getTime() <  new Date(this.projectForResource.StartDate).getTime() ||
-   startValue.getTime() > new Date(this.projectForResource.EndDate).getTime()
+   startValue.getDate() <  new Date(this.projectForResource.StartDate).getDate() ||
+   startValue.getDate() > new Date(this.projectForResource.EndDate).getDate()
  );
- else
-return  startValue.getTime() < new Date(this.projectForResource.StartDate).getTime() 
 
+ else
+return  startValue.getDate() <= new Date(this.projectForResource.StartDate).getDate() 
  }
  return false;
   };
