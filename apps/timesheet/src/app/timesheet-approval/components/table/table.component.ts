@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
-import { PermissionListService } from 'libs/common-services/permission.service';
-import { TimesheetApproval } from '../../../models/timesheetModels';
+import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
 
 interface ItemData {

@@ -12,7 +12,8 @@
         <input class="excel-phone-control" [formControl]="getControl(i)" nzPlaceHolder="Smith" (ngModelChange)="onChange(i)"
           nz-input />
         <ng-template #prefixTemplate>
-          <nz-select  class="excel-phone-prefix-control" [formControl]="getPrefixControl(i)"
+          <nz-select class="excel-phone-prefix-control" [formControl]="getPrefixControl(i)"
+          (ngModelChange)="onPrefixChange(i)"
           nzShowSearch >
             <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.value"
               [nzLabel]="choice.label">
