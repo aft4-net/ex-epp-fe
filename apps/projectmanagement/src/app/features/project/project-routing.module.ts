@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientProjectComponent } from '../client-project/client-project.component';
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { ProjectResourceComponent } from './components/project-resource/project-resource.component';
+import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ClientProjectComponent,
+    component: ViewProjectLayoutComponent
   },
   {
     path: 'add-project',
@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: ClientProjectComponent,
+    component: ViewProjectLayoutComponent,
   },
 ];
 @NgModule({
@@ -32,3 +32,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class ProjectRoutingModule {}
+

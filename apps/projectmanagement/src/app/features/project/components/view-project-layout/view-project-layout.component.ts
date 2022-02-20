@@ -11,6 +11,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -62,6 +63,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
+    private router: Router, 
     private  projectResourceStateService:ProjectResourceStateService,
     private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
@@ -221,5 +223,9 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
 
+
+  addProjectPage() {
+    this.router.navigateByUrl('projectmanagement/add-project');
+  }
 
 }
