@@ -1,11 +1,9 @@
 module.exports = {
-purge: {
+  mode:'jit',
+ purge: {
   enabled: process.env.NODE_ENV === 'production',
   content: [
-  './apps/**/*.html',
-  './apps/**/*.js',
-  './libs/**/*.html',
-  './libs/**/*.js'
+  './apps/**/src/**/*.html'
 ]},
   darkMode: false, // or 'media' or 'class'
   theme: {
