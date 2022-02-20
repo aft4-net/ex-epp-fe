@@ -134,8 +134,8 @@ export class AddresourceComponent implements OnInit {
         if (
           this.editResorceForm &&
           this.isOnEditstate &&
-          (this.editResorceForm.controls.assignDate.value !=
-            this.resourceEdit.AssignDate ||
+          (new Date(this.editResorceForm.controls.assignDate.value).getTime() !=
+            new Date(this.resourceEdit.AssignDate).getTime() ||
             this.editResorceForm.controls.resource.value.Guid !=
               this.resourceEdit.EmployeeGuid)
         )

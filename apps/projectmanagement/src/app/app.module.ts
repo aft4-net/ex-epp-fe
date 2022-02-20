@@ -1,3 +1,4 @@
+import { RemoteEntryModule } from './remote-entry/entry.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,12 +20,13 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserModule,
+    RemoteEntryModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }
   ],
-  exports: [],
+  exports: [AppComponent],
 
   bootstrap: [AppComponent],
 })
