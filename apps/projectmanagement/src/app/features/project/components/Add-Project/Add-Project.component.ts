@@ -50,7 +50,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   currentNameSubject$ = new BehaviorSubject('');
   typed!: string;
   projectTypeSelected = this.currentNameSubject$.getValue();
-  isSpinning = false;
+
   validateForm!: FormGroup;
   userSubmitted!: boolean;
   currentDate = Date.now.toString();
@@ -66,7 +66,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   disallowResource = true;
   addResourcePermission = false;
   createPermisson = false;
-
+  isSpinning = false;
   disabled = true;
   isOnEditstate = false;
   projectUpdate: ProjectEdit = {} as ProjectEdit;
@@ -103,11 +103,6 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isOnEditstate = this.editProjectStateService.isOnEditstate;
-    if (
-      '/projectmanagement/edit-project' === this.router.url &&
-      !this.isOnEditstate
-    )
-      this.router.navigateByUrl('projectmanagement');
     if (this.isOnEditstate) this.isSpinning = true;
     this.createRegistrationForm();
     this.apiCalls();
@@ -115,6 +110,11 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.typeChanged();
     this.validateParojectNameWithClient();
 
+    if (
+      '/projectmanagement/edit-project' === this.router.url &&
+      !this.isOnEditstate
+    )
+      this.router.navigateByUrl('projectmanagement');
     if (this.isOnEditstate) this.setValueForUpdate();
   }
 
@@ -144,13 +144,29 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.validateForm.controls.description.setValue(
       this.editProjectStateService.projectEditData.Description
     );
-    this.projectOld = this.editProjectStateService.projectEditData;
-
+    this.projectUpdate.Guid = this.projectEditStateData.Guid;
+    this.projectOld.Guid = this.projectEditStateData.Guid;
+    this.projectOld.ProjectName =
+      this.editProjectStateService.projectEditData.ProjectName;
+    this.projectOld.Description =
+      this.editProjectStateService.projectEditData.Description;
+    this.projectOld.ProjectType =
+      this.editProjectStateService.projectEditData.ProjectType;
+    this.projectOld.ProjectStatusGuid =
+      this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
+    this.projectOld.ClientGuid =
+      this.editProjectStateService.projectEditData.Client?.Guid;
+    this.projectOld.SupervisorGuid =
+      this.editProjectStateService.projectEditData.SupervisorGuid;
+    this.projectOld.StartDate =
+      this.editProjectStateService.projectEditData.StartDate;
+    this.projectOld.EndDate =
+      this.editProjectStateService.projectEditData.EndDate;
     this.disabled = false;
- console.log(   this.editProjectStateService.projectEditData.EndDate)
+
     if (this.validateForm.controls.endValue.value != null)
       this.projectOld.EndDate = this.validateForm.controls.endValue.value;
-    else this.projectOld.EndDate = "";
+    else this.projectOld.EndDate = '';
     this.updateValueSeted = true;
     this.isSpinning = false;
   }
@@ -356,6 +372,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
         this.validateForm.controls.supervisor.value;
       this.projectUpdate.StartDate =
         this.validateForm.controls.startValue.value;
+      this.projectUpdate.EndDate = this.validateForm.controls.endValue.value;
       this.projectUpdate.Description =
         this.validateForm.controls.description.value;
 
@@ -364,66 +381,65 @@ export class AddProjectComponent implements OnInit, OnDestroy {
       else this.projectUpdate.EndDate = '';
 
       if (
-        (this.updateValueSeted &&
-          this.validateForm.valid &&
-          (this.projectUpdate.ProjectName != this.projectOld.ProjectName ||
-            this.projectUpdate.ProjectType != this.projectOld.ProjectType ||
-            this.projectUpdate.ProjectStatusGuid !=
-              this.projectOld.ProjectStatusGuid ||
-            this.projectUpdate.ClientGuid != this.projectOld.ClientGuid ||
-            this.projectUpdate.SupervisorGuid !=
-              this.projectOld.SupervisorGuid ||
-              (new Date(this.validateForm.controls.startValue.value).getUTCDate() !==
-              new Date(this.projectOld.StartDate).getUTCDate() ||
-                this.projectUpdate.Description != this.projectOld.Description ) ||
-            (this.validateForm.controls.endValue.value &&
-              this.projectOld.EndDate !== "Invalid Date" &&
-              new Date(this.projectUpdate.EndDate).getUTCDate() !=
-                new Date(this.projectOld.EndDate).getUTCDate())||
-                this.projectUpdate.Description != this.projectOld.Description  )
-                ) 
+        this.updateValueSeted &&
+        this.validateForm.valid &&
+        (this.projectUpdate.ProjectName != this.projectOld.ProjectName ||
+          this.projectUpdate.ProjectType != this.projectOld.ProjectType ||
+          this.projectUpdate.ProjectStatusGuid !=
+            this.projectOld.ProjectStatusGuid ||
+          this.projectUpdate.ClientGuid != this.projectOld.ClientGuid ||
+          this.projectUpdate.SupervisorGuid != this.projectOld.SupervisorGuid ||
+          new Date(this.validateForm.controls.startValue.value).getUTCDate() !==
+            new Date(this.projectOld.StartDate).getUTCDate() ||
+          this.projectUpdate.Description != this.projectOld.Description ||
+          (this.projectOld.EndDate !== 'Invalid Date' &&
+            new Date(this.projectUpdate.EndDate).getUTCDate() !=
+              new Date(this.projectOld.EndDate).getUTCDate()) ||
+          this.projectUpdate.Description != this.projectOld.Description)
       ) {
-     
         this.enableUpdateButton = true;
-      } else {
-        this.enableUpdateButton = false;
-      }
+      } else this.enableUpdateButton = false;
     }
   }
 
   disabledStartDate = (startValue: Date): boolean => {
-    if (
-      !startValue ||
-      !this.validateForm.controls.endValue.value ||
-      this.isOnEditstate
-    ) {
+    if (!startValue) {
       return false;
     }
+    if (
+      this.isOnEditstate &&
+      (this.projectUpdate.EndDate != '' || this.projectUpdate.EndDate)
+    )
+      return (
+        startValue.getTime() > new Date(this.projectUpdate.EndDate).getTime()
+      );
 
-    return (
-      startValue.getDate() >=
-      this.validateForm.controls.endValue.value.getDate()
-    );
+    if (this.validateForm.controls.endValue.value)
+      return (
+        startValue.getTime() >
+        this.validateForm.controls.endValue.value.getTime()
+      );
+    return false;
   };
 
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.validateForm.controls.startValue.value) {
       return false;
     }
-    if (this.isOnEditstate) {
-      if (!this.projectUpdate.StartDate)
-        return (
-          endValue.getDate() <= new Date(this.projectOld.StartDate).getDate()
-        );
-      else
-        return (
-          endValue.getDate() <= new Date(this.projectUpdate.StartDate).getDate()
-        );
-    }
-    return (
-      endValue.getDate() <=
-      this.validateForm.controls.startValue.value.getDate()
-    );
+    if (
+      this.isOnEditstate &&
+      (this.projectUpdate.StartDate != '' || this.projectUpdate.StartDate)
+    )
+      return (
+        endValue.getTime() < new Date(this.projectUpdate.StartDate).getTime()
+      );
+
+    if (this.validateForm.controls.startValue.value)
+      return (
+        endValue.getTime() <=
+        this.validateForm.controls.startValue.value.getTime()
+      );
+    return false;
   };
 
   onProjectDateSelected() {
@@ -481,7 +497,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     if (!this.enableUpdateButton && this.isOnEditstate)
       this.confimeresredirect();
     else if (this.validateForm.invalid) this.confimeresredirect();
-    this.activeTabIndex = 0;
+
     this.cancelModal = true;
   }
 
