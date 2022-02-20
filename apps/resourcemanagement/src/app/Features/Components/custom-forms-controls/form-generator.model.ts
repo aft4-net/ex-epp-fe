@@ -16,6 +16,7 @@ import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
 import { ResponseDto } from "../../Models/response-dto.model";
 import { NzNotificationService } from "ng-zorro-antd/notification";
+import { Router } from "@angular/router";
 
 export type FormNaming = {
     name: string
@@ -80,7 +81,8 @@ export class FormGenerator extends FormGeneratorAssistant {
         private readonly _employeeService: EmployeeService,
         employeeStaticDataMockService: EmployeeStaticDataMockService,
         addressCountryStateService: CountriesMockService,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private _router:Router
     ) {
         super(
             employeeStaticDataMockService,
@@ -139,6 +141,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._employeeService.update(employee)
         .subscribe( (response: any)=>{
           this._employeeService.isdefault=true;
+
           this.notification.create(
               response.ResponseStatus.toLowerCase() ,"", response.Message
           );

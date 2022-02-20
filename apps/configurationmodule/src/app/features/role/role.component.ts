@@ -101,7 +101,7 @@ export class RoleComponent implements OnInit {
       if(res === true){
 
         this.modal.confirm({
-          nzTitle: 'this Role can not be delete',
+          nzTitle: 'This Role can not be delete',
           nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
           nzOkText: 'Ok',
           nzOkType: 'primary',

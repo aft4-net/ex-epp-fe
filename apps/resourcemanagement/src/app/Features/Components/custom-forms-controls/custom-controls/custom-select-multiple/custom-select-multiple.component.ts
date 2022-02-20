@@ -22,10 +22,17 @@ export class CustomSelectMultipleComponent implements OnInit {
     @Input() required = true
     errMessage = ''
 
+    isDown = true;
+
     constructor() {
     }
 
     ngOnInit(): void {
+      this.list$.subscribe((val)=>{
+        if(val == null){
+          this.isDown =false;
+        }
+      });
     }
 
     onChange() {

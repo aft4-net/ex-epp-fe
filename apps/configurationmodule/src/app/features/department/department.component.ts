@@ -99,7 +99,7 @@ export class DepartmentComponent implements OnInit {
     
     if(res === true){
       this.modal.confirm({
-        nzTitle: 'this Department can not be delete',
+        nzTitle: 'This Department can not be delete',
         nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
