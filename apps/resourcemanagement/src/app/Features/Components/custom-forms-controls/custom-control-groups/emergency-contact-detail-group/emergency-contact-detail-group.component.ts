@@ -8,7 +8,7 @@ import { relationships$ } from "../../shared/static-data";
 @Component({
     selector: 'exec-epp-emergency-contact-detail-group',
     templateUrl: './emergency-contact-detail-group.component.html',
-    styleUrls: ['./emergency-contact-detail-group.component.scss', '../../excel-styles/excel-single-control.style.scss']
+    styleUrls: ['./emergency-contact-detail-group.component.scss']
 })
 export class EmergencyContactDetailGroupComponent implements OnInit {
 

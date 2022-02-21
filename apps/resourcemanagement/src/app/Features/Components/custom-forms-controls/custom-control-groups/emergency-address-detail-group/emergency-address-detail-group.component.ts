@@ -8,7 +8,7 @@ import { FormGenerator } from "../../form-generator.model";
 @Component({
     selector: 'exec-epp-emergency-address-detail-group',
     templateUrl: './emergency-address-detail-group.component.html',
-    styleUrls: ['./emergency-address-detail-group.component.scss', '../../excel-styles/excel-single-control.style.scss']
+    styleUrls: ['./emergency-address-detail-group.component.scss']
 })
 export class EmergencyAddressDetailGroupComponent implements OnInit {
 

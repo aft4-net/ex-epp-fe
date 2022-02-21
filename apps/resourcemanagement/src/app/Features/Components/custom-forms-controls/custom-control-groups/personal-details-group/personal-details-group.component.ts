@@ -10,7 +10,7 @@ import { genders$ } from "../../shared/static-data";
 @Component({
     selector: 'exec-epp-personal-details-group',
     templateUrl: './personal-details-group.component.html',
-    styleUrls: ['./personal-details-group.component.scss', '../../excel-styles/excel-single-control.style.scss']
+    styleUrls: ['./personal-details-group.component.scss']
 })
 export class PersonalDetailGroupComponent implements OnInit {
 

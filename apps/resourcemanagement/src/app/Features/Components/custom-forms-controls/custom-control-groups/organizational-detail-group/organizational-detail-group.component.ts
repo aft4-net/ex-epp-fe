@@ -13,7 +13,7 @@ import { employementStatuses$, employementTypes$ } from "../../shared/static-dat
 @Component({
     selector: 'exec-epp-organizational-details-group',
     templateUrl: './organizational-detail-group.component.html',
-    styleUrls: ['./organizational-detail-group.component.scss', '../../excel-styles/excel-single-control.style.scss']
+    styleUrls: ['./organizational-detail-group.component.scss']
 })
 export class OrganizationalDetailGroupComponent implements OnInit {
 
