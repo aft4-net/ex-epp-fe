@@ -1,5 +1,5 @@
-<div class="p-3 pl-0">
-  <div *ngIf="isLogin" class="flex-2 sm:w-2/4 lg:w-1/4 ml-4 sm:mt-4 sm:mb-4 sm:ml-0">
+<div class="header-title">
+  <div *ngIf="isLogin" class="flex-2 sm:w-2/4 lg:w-1/4 ml-4 sm:mt-3 sm:mb-3 sm:ml-0">
     <nz-breadcrumb [nzAutoGenerate]="true" class="flex sm:contents">
       <nz-breadcrumb-item [routerLink]="['/']"><a>Home</a></nz-breadcrumb-item>
       <nz-breadcrumb-item [routerLink]="['/usermanagement']"><a>Users</a></nz-breadcrumb-item>
@@ -7,10 +7,9 @@
     <div class="w-auto h-7">
       <h3 class="w-auto h-full font-semibold text-xl not-italic">Manage Users</h3>
     </div>
-  <div>
-    <nz-divider style="margin: 0rem;"></nz-divider>
   </div>
-  </div>
+</div>
+
   <nz-layout class="inner-layout">
 
     <nz-sider *ngIf="isLogin" [style.box-shadow]="{'box-shadow': 'inset -2px 0px 0px #DADADA'}" nzWidth="228px"
@@ -29,4 +28,3 @@
       <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>
-</div>
