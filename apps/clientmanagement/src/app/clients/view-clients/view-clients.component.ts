@@ -116,8 +116,6 @@ _commonData.getPermission()
     this.getClientStatus();
     this.getLocations();
     this.getSalesPerson();
-    this.initializeData();
-
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
@@ -130,11 +128,6 @@ _commonData.getPermission()
       duration: 1,
 
     });
-    // this.notification.error('', '', {
-
-
-
-    //   });
 
   }
   DeleteClient(client:any){
@@ -285,15 +278,6 @@ _commonData.getPermission()
   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
-    // if(key==='Create_Client')
-    // {
-    //   this.isAddButtonDisabled=true;
-    // }
-    // else{
-    //   this.isAddButtonDisabled=false;
-    // }
-
-
   }
 
   showModal(): void {
@@ -597,11 +581,8 @@ fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
     this.allClients = res.data;
     this.salesPerson=[...new Set(this.allClients.map(item => item.SalesPerson.Name))];
-    
     this.clientStatus = [...new Set(this.allClients.map(item => item.ClientStatusName))];
-  
-
-    
+    this.initializeData();
       });
 
 }

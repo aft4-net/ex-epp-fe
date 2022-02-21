@@ -51,4 +51,9 @@ export class RoleService {
   deleteRole(id: string): Observable<ResponseDto<Role>> {
     return this.http.delete<ResponseDto<Role>>(this.baseUrl + "Role/?id="+ id);
   }
+
+  checkifRoleisDeletable(id:string) : Observable<any>{
+    return this.http.get<any>(this.baseUrl+"Employee/checkRole/?idNumber="+id);
+  }
+
 }

@@ -11,16 +11,16 @@
           <nz-breadcrumb-item>
             <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
          </ng-template>
-        <h3 *ngIf="!_employeeService.isdefault && !_employeeService.isEdit;else updatEmployee">Add Employee</h3>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!_employeeService.isdefault && !_employeeService.isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
-          <h3> Edit Employee</h3>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
     </div>
   </nz-breadcrumb>
   </div>
-<exec-epp-page-title></exec-epp-page-title>
+<exec-epp-page-title title="Emergency Contacts"></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
     <exec-epp-side-bar [active]="3"> </exec-epp-side-bar>
@@ -28,7 +28,6 @@
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
       <div nz-col nzSpan="20">
-        <h1>Emergency Contacts</h1>
       </div>
       <div nz-col nzSpan="4">
         <button
@@ -51,16 +50,16 @@
     >
       <thead>
         <tr class="tr">
-          <th>Full Name</th>
-          <th>Relationship with Employee</th>
-          <th>Contact Numbber</th>
-          <th>Location</th>
-          <th>Actions</th>
+          <th class="table_heading">Full Name</th>
+          <th class="table_heading">Relationship with Employee</th>
+          <th class="table_heading">Contact Numbber</th>
+          <th class="table_heading">Location</th>
+          <th class="table_heading">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of form.allEmergencyContacts; let i = index">
-          <td>
+          <td class="tdstyle">
             {{
               data.FirstName +
                 ' ' +
@@ -69,18 +68,18 @@
                 data.GrandFatherName
             }}
           </td>
-          <td>{{ data.Relationship }}</td>
-          <td>{{ data.PhoneNumber }}</td>
-          <td>{{ data.Country }}</td>
+          <td class="tdstyle">{{ data.Relationship }}</td>
+          <td class="tdstyle">{{ data.PhoneNumber }}</td>
+          <td class="tdstyle">{{ data.Country }}</td>
 
-          <td>
+          <td class="tdstyle">
             <div nz-row>
               <a
                 nz-col
                 nzSpan="2"
                 
-                [hidden]="editId === data.guid"
-                (click)="startEdit(i)"
+                [hidden]="editId === data.Guid"
+                (click)="startEdit(i,data.Guid)"
               >
                 <i style="color:black;" nz-icon nzType="edit" nzTheme="outline"></i>
             </a>
