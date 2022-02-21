@@ -88,8 +88,8 @@ export class CountryComponent implements OnInit {
     this.countryService.checkifCountryisDeletable(country.Guid).subscribe((res)=>{
     if(res === true){
       this.modalService.confirm({
-        nzTitle: 'this Country can not be delete',
-        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzTitle: 'This Country can not be delete b/c it is assigned to employee and/or duty station',
+        nzContent: 'Name: <b style="color: red;">'+ country.Name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
         nzOkDanger: true,

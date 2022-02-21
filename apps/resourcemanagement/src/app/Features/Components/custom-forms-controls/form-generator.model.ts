@@ -14,6 +14,7 @@ import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
 import { NzNotificationService } from "ng-zorro-antd/notification";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -48,7 +49,8 @@ export class FormGenerator extends FormGeneratorAssistant {
         private readonly _formBuilder: FormBuilder,
         private readonly _employeeService: EmployeeService,
         addressCountryService: CountriesMockService,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private _router:Router
     ) {
         super(
             addressCountryService

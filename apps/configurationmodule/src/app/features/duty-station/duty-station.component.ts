@@ -102,8 +102,8 @@ export class DutyStationComponent implements OnInit {
     this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res)=>{
     if(res == true){
       this.modalService.confirm({
-        nzTitle: 'this Duty Station can not be delete',
-        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzTitle: 'This Duty Station can not be delete b/c it is assigned to employee',
+        nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
         nzOkDanger: true,
