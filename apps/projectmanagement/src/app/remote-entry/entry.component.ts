@@ -1,19 +1,18 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { PermissionListService } from '../../../../../libs/common-services/permission.service';
+import { CommonDataService } from '.././../../../../libs/common-services/commonData.service';
 @Component({
   selector: 'exec-epp-projectmanagement-entry',
-  template: `<div class="remote-entry">
-    <h2>projectmanagement's Remote Entry Component</h2>
-  </div>`,
-  styles: [
-    `
-      .remote-entry {
-        background-color: #143055;
-        color: white;
-        padding: 5px;
-      }
-    `,
-  ],
+  template: ` <router-outlet></router-outlet>`,
+  styles: [``,],
 })
-export class RemoteEntryComponent {
+export class RemoteEntryComponent implements OnInit  {
+  constructor(private permissionList: PermissionListService,
+    private commonDataService: CommonDataService, private notification: NzNotificationService)
+    {}
+  ngOnInit(): void {
+    this.commonDataService.getPermission();
+    this.notification.info('', '', {nzDuration: 1, nzPauseOnHover: false });
+  }
 }

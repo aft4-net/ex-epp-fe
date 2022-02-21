@@ -104,16 +104,20 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
   color: #595959 !important;
 }
 
-::ng-deep ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC !important;
+::ng-deep .ant-menu-item-selected[_ngcontent-lnn-c431] {
+  background-color: #dcffdc !important;
 }
 
 
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC !important;
- 
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active   {
+  background-color: #DCFFDC !important;
+  background-color: #DCFFDC !important;
     color: #262626 !important;
+}
+
+::ng-deep  ant-tabs-tab .ant-tabs-tab-active{
+  background-color: #DCFFDC !important;
+      color: #262626 !important;
 }
 
 ::ng-deep .ant-tabs-nav {

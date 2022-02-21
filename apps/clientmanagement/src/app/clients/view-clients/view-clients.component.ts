@@ -63,6 +63,8 @@ export class ViewClientsComponent implements OnInit  {
   namesofclientsfilterd = [{ text: '', value: '', checked: false }];
   filteredArray = [''];
   ListOfSalesPerson = [''];
+  salesPerson=[''];
+  clientStatus=[''];
   namesofSalesPerson = '';
   filteredPersonArray = [''];
   namesofSalesfilterd = [{ text: '', value: '', checked: false }];
@@ -111,13 +113,10 @@ _commonData.getPermission()
     console.log("button check");
 
     // authorized=false isdabled = false
-
+    this.fetchAllData();
     this.getClientStatus();
     this.getLocations();
     this.getSalesPerson();
-    this.fetchAllData();
-    this.initializeData();
-
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
@@ -130,11 +129,6 @@ _commonData.getPermission()
       duration: 1,
 
     });
-    // this.notification.error('', '', {
-
-
-
-    //   });
 
   }
   DeleteClient(client:any){
@@ -285,15 +279,6 @@ _commonData.getPermission()
   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
-    // if(key==='Create_Client')
-    // {
-    //   this.isAddButtonDisabled=true;
-    // }
-    // else{
-    //   this.isAddButtonDisabled=false;
-    // }
-
-
   }
 
   showModal(): void {
@@ -425,7 +410,7 @@ _commonData.getPermission()
         this.totalPage = response.pagination.totalPage;
         this.loading = false;
         this._clientservice.setFristPageOfClients(response);
-        this.findlistofNames();
+        this.findlistofStatus();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
         console.log(response.data);
@@ -488,13 +473,13 @@ _commonData.getPermission()
     }
   }
 
-  findlistofNames(): void {
+  findlistofStatus(): void {
     this.listofNames = [''];
-    if(!this.clientStatuses?.length){
+    if(!this.clientStatus?.length){
       return;
     }
-    for (let i = 0; i < this.clientStatuses.length; i++) {
-      this.nameofclient = this.clientStatuses[i].StatusName;
+    for (let i = 0; i < this.clientStatus.length; i++) {
+      this.nameofclient = this.clientStatus[i];
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
@@ -521,11 +506,11 @@ _commonData.getPermission()
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
-    if(!this.employees.length){
+    if(!this.salesPerson.length){
       return;
     }
-    for (let i = 0; i < this.employees.length; i++) {
-      this.namesofSalesPerson = this.employees[i].Name;
+    for (let i = 0; i < this.salesPerson.length; i++) {
+      this.namesofSalesPerson = this.salesPerson[i];
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
       this.filteredPersonArray = this.ListOfSalesPerson.filter((item, pos) => {
         return this.ListOfSalesPerson.indexOf(item) == pos;
@@ -596,7 +581,9 @@ getLocations(){
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
     this.allClients = res.data;
-
+    this.salesPerson=[...new Set(this.allClients.map(item => item.SalesPerson.Name))];
+    this.clientStatus = [...new Set(this.allClients.map(item => item.ClientStatusName))];
+    this.initializeData();
       });
 
 }
