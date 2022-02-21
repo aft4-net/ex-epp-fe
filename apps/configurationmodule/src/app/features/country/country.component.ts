@@ -85,6 +85,19 @@ export class CountryComponent implements OnInit {
   }
 
   delete(country: Country) {
+    this.countryService.checkifCountryisDeletable(country.Guid).subscribe((res)=>{
+    if(res === true){
+      this.modalService.confirm({
+        nzTitle: 'this Country can not be delete',
+        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzOkText: 'Ok',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+      //  nzOnOk: () => this.deleteHandler(id),
+      //  nzCancelText: 'No'
+      });
+    }
+    else{
     this.modalService.confirm({
       nzTitle: 'Delete Country?',
       nzContent: 'Name: <b style="color: red;">'+ country.Name + '</b>',
@@ -97,12 +110,15 @@ export class CountryComponent implements OnInit {
             this.getCountries();
           }
         }, error => {
-
+//
         })
       },
       nzCancelText: 'No'
     });
   }
+
+  });
+}
 
   clearData() {
     this.isNew = true;

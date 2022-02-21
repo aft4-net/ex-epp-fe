@@ -94,6 +94,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     }
     updateOneEmployee() {
+        
         let employee: Employee = {} as Employee
         employee = {
             ...employee,
@@ -580,6 +581,8 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setEmergencyContactDetail(emergencyContact: EmergencyContacts) {
+
+       
         if (emergencyContact.FirstName && emergencyContact.FatherName) {
             this._setNames(
                 emergencyContact.FirstName,
@@ -627,6 +630,8 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.city,
             this.getFormControl('city', this.emergencyAddress)
         )
+    
+       
         this._setControlValue(
             emergencyContact.subCityZone,
             this.getFormControl('subCityZone', this.emergencyAddress)

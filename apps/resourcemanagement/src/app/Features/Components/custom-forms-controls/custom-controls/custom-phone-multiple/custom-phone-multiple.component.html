@@ -18,6 +18,7 @@
             <nz-option *ngFor="let choice of (prefices$ | async)" [nzValue]="choice.value"
               [nzLabel]="choice.label">
             </nz-option>
+            <nz-option nzLabel="+251" nzValue="+251" nzHide></nz-option>
           </nz-select>
         </ng-template>
         <ng-template #suffixTemplate [hidden]="(maxAmount === 1)">

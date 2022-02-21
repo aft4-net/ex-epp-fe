@@ -111,6 +111,21 @@ export class RoleComponent implements OnInit {
   }
 
   showDeleteConfirm(id: string, name: string) {
+    this.roleConfigService.checkifRoleisDeletable(id).subscribe((res)=>{
+    
+      if(res === true){
+
+        this.modal.confirm({
+          nzTitle: 'this Role can not be delete',
+          nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+        //  nzOnOk: () => this.deleteHandler(id),
+        //  nzCancelText: 'No'
+        });
+  }
+  else{
     this.modal.confirm({
       nzTitle: 'Delete job title ?',
       nzContent: 'Are you sure you want to delete this job title?<br>this action cannot be undone.',
@@ -121,6 +136,8 @@ export class RoleComponent implements OnInit {
       nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel')
     });
+  }
+});
   }
 
   deleteHandler(id: string) {
