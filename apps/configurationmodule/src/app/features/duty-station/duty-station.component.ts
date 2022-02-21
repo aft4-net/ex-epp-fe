@@ -103,7 +103,7 @@ export class DutyStationComponent implements OnInit {
     if(res == true){
       this.modalService.confirm({
         nzTitle: 'This Duty Station can not be delete',
-        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
         nzOkDanger: true,

@@ -89,7 +89,7 @@ export class CountryComponent implements OnInit {
     if(res === true){
       this.modalService.confirm({
         nzTitle: 'This Country can not be delete',
-        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzContent: 'Name: <b style="color: red;">'+ country.Name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
         nzOkDanger: true,
