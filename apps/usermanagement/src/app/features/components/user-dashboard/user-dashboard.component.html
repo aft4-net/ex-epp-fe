@@ -7,7 +7,7 @@
           <div nz-col nzSpan="12"><h2 class="PageHeader">
             Users
           </h2></div>
-          <div nz-col nzSpan="12" style="text-align: right;">
+          <div  nz-col nzSpan="12" style="text-align: right;">
             <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" *ngIf="authorize('Add_User')" (click)="onAddUser()">
               Add User
             </button>
@@ -33,11 +33,11 @@
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24" class="userlist">
-              <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table class="defaultcolor" [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
-                <div  *ngIf="userList.length > 0; else normalHeader">
+                <div   *ngIf="userList.length > 0; else normalHeader">
                   <thead>
-                    <tr >
+                    <tr>
                       <th *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
@@ -66,7 +66,7 @@
                 </ng-template>
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" >
-                    <td style="padding-left: 0">
+                    <td class="showDetail" style="padding-left: 0">
                       <button nz-button  nzType="link" (click)="ShowDetail(user.UserId)">
                         {{user.FullName }}
                       </button>
@@ -87,7 +87,7 @@
                           {{user.Status}}
                         </button>
                     </td>
-                    <td style="text-align: justify;">
+                    <td style="text-align: justify;" class="actionbuttons">
                       <button nz-button nzType="default" style="border:0px;" nzType="link" [nzSize]="size"  nz-popover nzPopoverTitle=""
                         [nzPopoverContent]="contentTemplate"
                         nzPopoverPlacement="left"><span>...</span>

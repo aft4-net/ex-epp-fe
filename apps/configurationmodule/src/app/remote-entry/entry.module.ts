@@ -6,10 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from '../app.component';
 import { DepartmentComponent } from '../features/department/department.component';
 import { RoleComponent } from '../features/role/role.component';
-;
 import { TimesheetConfigurationComponent } from '../features/timesheet-configuration/timesheet-configuration-component';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
-
 import { RemoteEntryComponent } from './entry.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -18,7 +16,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { CountryComponent } from '../features/country/country.component';
 import { DutyStationComponent } from '../features/duty-station/duty-station.component';
 const routes: Routes = [
-  {
+  { 
     path: '',
     component: AppComponent,
     children: [

@@ -1,30 +1,28 @@
-.table_heading
-{
-background-color: none !important;
-font-weight: 700;
+.table_heading {
+  background-color: none !important;
+  font-weight: 700;
 }
 
-*{
+* {
   font-family: -apple-system, system-ui, BlinkMacSystemFont !important;
 }
 
 
 ::ng-deep .ant-table-thead>tr>th {
 
-  background: #FFFFFF !important;
+  background: #F0F0F0 !important;
 }
 
-tr:nth-child(even) {background: none}
+tr:nth-child(even) {
+  background: none
+}
 
 a {
   padding-right: 0.6vw;
   color: #262626;
 }
-.ant-btn-primary {
-  color: #262626 !important;
-  background: none !important;
-  border: 1px solid #d9d9d9 !important;
-}
+
+
 
 nz-table.table-container.ant-table-wrapper {
   padding-top: 1%;
@@ -39,14 +37,11 @@ nz-table.table-container.ant-table-wrapper {
 
 
 ::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
-  content:none !important;
+  content: none !important;
 }
 
 
 
-::ng-deep .ant-tabs-content-holder {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
 }
@@ -86,6 +81,7 @@ nz-table.table-container.ant-table-wrapper {
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
 }
+
 .manage-columns {
 
   padding-bottom: 10px;
@@ -113,81 +109,90 @@ nz-table.table-container.ant-table-wrapper {
   font-size: 16px;
   color: #595959;
 }
-* {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
+
+
+
 ::ng-deep .ant-table-column-sorters {
   float: left;
 }
-::ng-deep .ant-table-filter-column{
-  float:left !important;
+
+::ng-deep .ant-table-filter-column {
+  float: left !important;
 }
 
-::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
+::ng-deep .ant-table.ant-table-small .ant-table-footer,
+.ant-table.ant-table-small .ant-table-tbody>tr>td,
+.ant-table.ant-table-small .ant-table-thead>tr>th,
+.ant-table.ant-table-small .ant-table-title,
+.ant-table.ant-table-small tfoot>tr>td,
+.ant-table.ant-table-small tfoot>tr>th {
   padding: 7px !important;
 }
 
-::ng-deep .ant-table-filter-open{
-  color:#595959 !important;
- }
- ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
-  background-color:#00A551;
-  border-color:#00A551;
+::ng-deep .ant-table-filter-open {
+  color: #595959 !important;
+}
+
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00A551;
+  border-color: #00A551;
 }
 
 
 
 ::ng-deep .conform-modal .ant-modal-content {
-border: 0.5px solid #00a551;
-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-width: 400px;
-height: 147px !important;
-background: #ffffff;
-align-self: center;
-justify-self: center;
+  border: 0.5px solid #00a551;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  width: 400px;
+  height: 150px !important;
+  background: #ffffff;
+  align-self: center;
+  justify-self: center;
 }
 
 ::ng-deep .conform-modal .ant-modal-header {
   font-size: 16px;
   padding-bottom: 3px;
-  color: rgba(0,0,0,.85);
+  color: rgba(0, 0, 0, .85);
   background: #fff;
-  border-bottom: none; 
+  border-bottom: none;
 
 }
+
 ::ng-deep .conform-modal .ant-modal-body {
-padding-top: 0px;
-font-weight: 500;
-height: 70%;
-width: auto;
-font-size: 16px;
-line-height: 24px;
+  padding-top: 0px;
+  font-weight: 500;
+  height: 70%;
+  width: auto;
+  font-size: 16px;
+  line-height: 24px;
 }
 
-::ng-deep .conform-modal  .anticon svg {
-font-size: 20px;
-margin-bottom: 40%;
+::ng-deep .conform-modal .anticon svg {
+  font-size: 20px;
+  margin-bottom: 40%;
 }
 
 
-.btn-cancel{
+.btn-cancel {
   border: 1px solid #00A551;
-  color:#00A551;
+  color: #00A551;
   padding: 5px 16px;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   background: white;
- border-radius: 2px;
+  border-radius: 2px;
 }
 
-.btn-cancel:hover{
+.btn-cancel:hover {
   border: 1px solid #006E36;
-  color:#006E36;
+  color: #006E36;
 }
-.btn-cancel:active{
+
+.btn-cancel:active {
   border: 1px solid #006E36;
-  color:#006E36;
+  color: #006E36;
 }
 
 .btn {
@@ -198,27 +203,28 @@ margin-bottom: 40%;
   font-weight: 500;
   font-size: 16px;
   background: #00A551;
- border-radius: 2px;
+  border-radius: 2px;
 }
-.btn:hover{
+
+.btn:hover {
   background-color: #006E36;
 }
 
-.btn:active{
+.btn:active {
   background: #005228;
 }
 
-.bnt:focus{
+.bnt:focus {
   background-color: #00A551;
 }
 
 
-::ng-deep tr.ant-table-row.ng-star-inserted  {
+::ng-deep tr.ant-table-row.ng-star-inserted {
 
-   background-color: #F0F0F0; 
+  background-color: #ffffff;
 }
 
-nz-table  {
- padding: 0px !important;
+nz-table {
+  padding: 0px !important;
 
 }

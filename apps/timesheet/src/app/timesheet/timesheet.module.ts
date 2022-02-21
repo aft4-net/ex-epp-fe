@@ -1,12 +1,9 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatBadgeModule } from '@angular/material/badge';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NzToolTipModule } from "ng-zorro-antd/tooltip";
 
 import {CommonModule} from '@angular/common';
 import {DateSelectorComponent} from './components/date-selector/date-selector.component';
 import {DayAndDateColumnComponent} from './components/day-and-date-column/day-and-date-column.component';
-import { MoreProjectsComponent } from './components/more-projects/more-projects.component';
 import {NgModule} from '@angular/core';
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzButtonModule} from "ng-zorro-antd/button";
@@ -32,10 +29,6 @@ import {TimesheetRoutingModule} from './timesheet-routing.module';
 import { TimesheetService } from './services/timesheet.service';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
-import { TimesheetConfigurationComponent } from './components/timesheet-configuration/timesheet-configuration.component';
-import { MatButtonModule } from '@angular/material/button';
-import { BrowserModule } from '@angular/platform-browser';
-
 
 @NgModule({
   declarations: [
@@ -44,10 +37,8 @@ import { BrowserModule } from '@angular/platform-browser';
     DateSelectorComponent,
     DayAndDateColumnComponent,
     ProjectNamePaletComponent,
-    MoreProjectsComponent,
     ViewSubmissionsComponent,
-    TimesheetDetailComponent,
-    TimesheetConfigurationComponent
+    TimesheetDetailComponent
   ],
   imports: [
     CommonModule,
@@ -71,14 +62,8 @@ import { BrowserModule } from '@angular/platform-browser';
     NzToolTipModule,
     NzPaginationModule,
     NzInputNumberModule,
-    MatBadgeModule,
-    MatButtonModule ,
-   
-   
-    
-    
   ],
-  exports: [TimesheetComponent, TimesheetHeaderComponent],
+  exports: [],
   providers: [TimesheetValidationService,TimesheetService],
 })
 export class TimesheetModule {

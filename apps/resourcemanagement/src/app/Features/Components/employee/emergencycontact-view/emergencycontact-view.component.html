@@ -78,16 +78,16 @@
               <a
                 nz-col
                 nzSpan="2"
-                class="editable-cell"
+                
                 [hidden]="editId === data.guid"
                 (click)="startEdit(i)"
               >
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                <i style="color:black;" nz-icon nzType="edit" nzTheme="outline"></i>
             </a>
               &nbsp; &nbsp;
               <a nz-col nzSpan="2"
-                 nz-popconfirm (click)="showConfirm(i)"
-                  ><i nz-icon nzType="delete" nzTheme="outline"></i
+                 nz-popconfirm (click)="showConfirm(i,data.email)"
+                  ><i style="color:black;" nz-icon nzType="delete" nzTheme="outline"></i
                 >
                   </a>
             </div>

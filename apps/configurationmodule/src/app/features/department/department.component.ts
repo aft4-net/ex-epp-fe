@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../models/department';
 import { Pagination } from '../../models/pagination';
 import { DepartmentService } from '../../services/department.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-department',
@@ -16,6 +16,7 @@ export class DepartmentComponent implements OnInit {
   isAddModalVisible = false;
   isConfirmLoading = false;
   pageIndex = 1;
+  searchInput!: string;
   searchValue!:string;
   sortBy!: string;
   sortOrder!: string;
@@ -23,6 +24,7 @@ export class DepartmentComponent implements OnInit {
   idForEdit: string | null = null;
 
   constructor(private departmentConfigService: DepartmentService, 
+    private notification:NzNotificationService,
    // private toastrService: ToastrService,
     private _permissionService:PermissionListService,
     private modal: NzModalService
@@ -35,7 +37,6 @@ export class DepartmentComponent implements OnInit {
   getPaginatedDepartments() {
     this.departmentConfigService.getDepartments(this.pageIndex, this.searchValue, this.sortBy, this.sortOrder).subscribe((response)=>{
       this.pagination = response;
-      // this.listOfDepartments=response.Data;
       this.listOfDepartments = [];
       this.listOfDepartments = [...response.Data];
       console.log("list of departments is : ", this.listOfDepartments);
@@ -49,6 +50,11 @@ export class DepartmentComponent implements OnInit {
 
   update(value: string) {
     this.getPaginatedDepartments();
+  }
+
+  closeModal(value: string) {
+    this.isAddModalVisible = false;
+    this.idForEdit = null;
   }
 
   showAddModal(): void {
@@ -94,24 +100,52 @@ export class DepartmentComponent implements OnInit {
   }
 
   onSearchChange() {
-    this.getPaginatedDepartments();
+    if (this.searchInput.length > 1) {
+      this.searchValue = this.searchInput;
+      this.getPaginatedDepartments();
+    } else if (this.searchInput.length == 0){
+      this.searchValue = '';
+      this.getPaginatedDepartments();
+    }
   }
 
   showDeleteConfirm(id: string, name: string) {
+    this.departmentConfigService.checkifDepartmentisDeletable(id).subscribe((res)=>{
+    
+    if(res === true){
+      this.modal.confirm({
+        nzTitle: 'this Department can not be delete',
+        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzOkText: 'Ok',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+      //  nzOnOk: () => this.deleteHandler(id),
+      //  nzCancelText: 'No'
+      });
+     
+    }
+    else{
     this.modal.confirm({
-      nzTitle: 'Are you sure delete this Department?',
-      nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
-      nzOkText: 'Yes',
+      nzTitle: 'Delete department ?',
+      nzContent: 'Are you sure you want to delete this department?<br>this action cannot be undone.',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
-      nzOkDanger: true,
+      nzOkDanger: false,
       nzOnOk: () => this.deleteHandler(id),
-      nzCancelText: 'No',
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel')
     });
+  }
+});
   }
 
   deleteHandler(id: string) {
     this.departmentConfigService.deleteDepartment(id).subscribe((response) => {
+      this.notification.create(
+        'success',
+        'Successfully Deleted!',
+        'Department'
+      );
       //this.toastrService.success(response.message, "Department");
       // this.listOfDepartments = this.listOfDepartments.filter((d) => d.Guid !== id);
       this.getPaginatedDepartments();

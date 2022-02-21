@@ -1,7 +1,6 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Component, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-
 import {
   FormBuilder,
   FormGroup,
@@ -23,17 +22,14 @@ import {
   ProjectStatusService,
   AddProjectStateService,
   EditProjectStateService,
-  ProjectEdit
+  ProjectEdit,
+  ProjectResourceStateService
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
-import { PermissionListService } from 'libs/common-services/permission.service';
 
-import { map } from 'rxjs/operators';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
@@ -83,6 +79,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private projectResourceStateService:ProjectResourceStateService,
     private differs: KeyValueDiffers,
     private projectCreateState:AddProjectStateService,
      private editProjectStateService:EditProjectStateService, 
@@ -92,9 +89,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     private clientService: ClientService,
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
-    private router: Router,
-    private notification: NotificationBar,
-    private _permissionService: PermissionListService
+    private router: Router
   ) { }
   ngOnDestroy(): void {
     this.projectCreateState.restAddProjectDetails();
@@ -110,11 +105,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
-     if( this.isOnEditstate)
-     {this. setValueForUpdate();
-    
-     }
-  }
+
+    if("/projectmanagement/edit-project" === this.router.url && !this.isOnEditstate)
+    this.router.navigateByUrl('projectmanagement');
+    if(this.isOnEditstate)
+     this. setValueForUpdate();
+    }
 
 
  setValueForUpdate()
@@ -127,18 +123,18 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   this.validateForm.controls.client.setValue(this.editProjectStateService.projectEditData.Client?.Guid);
   this.validateForm.controls.startValue.setValue(this.editProjectStateService.projectEditData.StartDate);
   this.validateForm.controls.endValue.setValue(this.editProjectStateService.projectEditData.EndDate);
-
+  this.validateForm.controls.description.setValue(this.editProjectStateService.projectEditData.Description)
   this.projectUpdate.Guid=this.projectEditStateData.Guid;
   this.projectOld.Guid=this.projectEditStateData.Guid;
   this.projectOld.ProjectName=   this.editProjectStateService.projectEditData.ProjectName;
-       
+   this.projectOld.Description=this.editProjectStateService.projectEditData.Description;   
   this.projectOld.ProjectType=this.editProjectStateService.projectEditData.ProjectType;
    this.projectOld.ProjectStatusGuid=this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
    this.projectOld.ClientGuid=this.editProjectStateService.projectEditData.Client?.Guid;
    this.projectOld.SupervisorGuid=this.editProjectStateService.projectEditData.SupervisorGuid;
    this.projectOld.StartDate= this.editProjectStateService.projectEditData.StartDate;
    this.projectOld.EndDate=this.editProjectStateService.projectEditData.EndDate;
-
+   this.disabled=false;
  
    if (this.validateForm.controls.endValue.value != null)
    this.projectOld.EndDate=this.validateForm.controls.endValue.value
@@ -147,10 +143,6 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
  }
    
-
-  authorize(key: string) {
-    return this._permissionService.authorizedPerson(key);
-  }
 
   projectMapper() {
     this.validateForm.valueChanges.subscribe(() => {
@@ -161,10 +153,12 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
         if(status)
        if ( status.AllowResource) 
         {
-          this.disallowResource = false;
+          this.projectResourceStateService.updateDisallowResource(false);
+        
         } 
         else
-        this.disallowResource = true;
+        this.projectResourceStateService.updateDisallowResource(true);
+       
         
         this.projectStartdDate = this.validateForm.controls.startValue.value;
         if(!this.isOnEditstate)
@@ -216,7 +210,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
 
       } else {
         this.projectCreateState.updateProjectDetails({} as ProjectCreate)
-        this.disallowResource = true;
+        this.projectResourceStateService.updateDisallowResource(true);
       }
     });
   }
@@ -268,8 +262,8 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
           if(status)
          if ( status.AllowResource) 
           {
-            this.disallowResource = false;
-         
+          
+            this.projectResourceStateService.updateDisallowResource(false);
           } 
         }
   
@@ -369,7 +363,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
        this.projectUpdate.SupervisorGuid=this.validateForm.controls.supervisor.value;
        this.projectUpdate.StartDate= this.validateForm.controls.startValue.value;
        this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
-     
+       this.projectUpdate.Description=  this.validateForm.controls.description.value;
      
        if (this.validateForm.controls.endValue.value != null)
        this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
@@ -381,7 +375,8 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
       this.projectUpdate.ClientGuid!=this.projectOld.ClientGuid ||
       this.projectUpdate.SupervisorGuid!=this.projectOld.SupervisorGuid ||
       this.projectUpdate.StartDate != this.projectOld.StartDate ||
-      this.projectUpdate.EndDate != this.projectOld.EndDate)
+      this.projectUpdate.EndDate != this.projectOld.EndDate)||
+      this.projectUpdate.Description!=this.projectOld.Description
       )
      {
     

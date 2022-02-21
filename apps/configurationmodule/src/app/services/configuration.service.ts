@@ -14,7 +14,7 @@ export class ConfigurationService {
   //#region Timesheet Configuration
 
   getTimeSheetConfiguration() {
-    let response = this.http.get<TimesheetConfigResponse>(
+    const response = this.http.get<TimesheetConfigResponse>(
       this.baseUrl + 'TimeSheetConfig'
     );
 

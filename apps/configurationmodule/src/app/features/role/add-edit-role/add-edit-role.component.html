@@ -19,9 +19,9 @@
 
     <nz-form-item nz-row *ngIf="authorize('Update_Role') || authorize('Create_Role')">
       <nz-form-control [nzSpan]="14">
-        <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Role')" [disabled]="!roleForm.dirty">Update</button>
-        <button nz-button nzType="primary" type="submit" *ngIf="!isEdit && authorize('Create_Role')" [disabled]="!roleForm.dirty">Save</button>
-        <button nz-button nzType="default" style="margin-left: 24px;" (click)="resetForm()">Clear</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Role')" [disabled]="!roleForm.valid || !roleForm.dirty">Update</button>
+        <button nz-button nzType="primary" type="submit" *ngIf="!isEdit && authorize('Create_Role')" [disabled]="!roleForm.valid">Add</button>
+        <button nz-button nzType="default" style="margin-left: 8px;" (click)="resetForm()">Clear</button>
       </nz-form-control>
     </nz-form-item>
   </form>

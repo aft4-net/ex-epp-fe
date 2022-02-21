@@ -1,8 +1,7 @@
 <form nz-form class="form-group personal-detail-form-group"
 [nzLayout]="'vertical'">
   <exec-epp-custom-upload ></exec-epp-custom-upload>
-
-  <exec-epp-custom-employee-id-number
+  <exec-epp-custom-employee-id-number 
     [formControl]="getControl('employeeIdNumber')">
   </exec-epp-custom-employee-id-number>
 
@@ -35,6 +34,7 @@
     [myControl]="getControl('nationalities')"
     [list$]="nationalities$"
     [maxChoices]="maxNationality"
+    [required]="false"
     >
   </exec-epp-custom-select-multiple>
 </form>

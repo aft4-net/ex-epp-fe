@@ -11,9 +11,9 @@ import {
   TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
-import { delay, filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
