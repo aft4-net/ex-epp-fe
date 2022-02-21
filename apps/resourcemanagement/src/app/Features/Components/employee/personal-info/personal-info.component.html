@@ -12,13 +12,11 @@
         <br/>
         <ng-template #editEmploye>
           <nz-breadcrumb-item>
-            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a>
-          </nz-breadcrumb-item>
-          <br/>
-        </ng-template>
-        <h3 *ngIf="!employeeService.isdefault && !isEdit;else updatEmployee">Add Employee</h3>
+            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
+         </ng-template>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!employeeService.isdefault && !isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
-          <h3> Edit Employee</h3>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
@@ -31,10 +29,7 @@
     <exec-epp-side-bar [active]="0"></exec-epp-side-bar>
   </div>
   <div nz-col nzSpan="13" class="inner-content">
-    <div>
-      <h2> Personal Detail</h2>
-    </div>
-    <exec-epp-personal-details-group></exec-epp-personal-details-group>
+      <exec-epp-personal-details-group></exec-epp-personal-details-group>
 
   </div>
 </div>

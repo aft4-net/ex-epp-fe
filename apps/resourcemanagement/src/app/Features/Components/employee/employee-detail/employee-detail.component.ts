@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, fromEvent, of } from 'rxjs';
 import {
@@ -73,8 +73,14 @@ export class EmployeeDetailComponent implements OnInit {
     private _authenticationService: AuthenticationService,
     private notification: NotificationBar,
     private _message: NzNotificationService,
-    private modal: NzModalService
-  ) {}
+    private modal: NzModalService,
+    private route:ActivatedRoute
+  ) {
+
+    route.params.subscribe(val => {
+      this.ngOnInit();
+    });
+  }
 
   isdefault = true;
   router = '';
@@ -483,7 +489,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   searchEmployees() {
-    if (this.fullname.length > 3 || this.fullname == '') {
+    if (this.fullname.length > 1 || this.fullname == '') {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
         (response: PaginationResult<IEmployeeViewModel[]>) => {

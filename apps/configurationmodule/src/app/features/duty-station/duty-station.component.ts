@@ -122,6 +122,19 @@ export class DutyStationComponent implements OnInit {
   }
 
   delete(dutyStation: DutyStation) {
+    this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res)=>{
+    if(res == true){
+      this.modalService.confirm({
+        nzTitle: 'This Duty Station can not be delete b/c it is assigned to employee',
+        nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
+        nzOkText: 'Ok',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+      //  nzOnOk: () => this.deleteHandler(id),
+      //  nzCancelText: 'No'
+      });
+    }
+    else{
     this.modalService.confirm({
       nzTitle: 'Delete Country?',
       nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
@@ -134,11 +147,13 @@ export class DutyStationComponent implements OnInit {
             this.getDutyStation();
           }
         }, error => {
-
+         //
         })
       },
       nzCancelText: 'No'
     });
+  }
+});
   }
 
   clearData() {
