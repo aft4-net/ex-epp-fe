@@ -14,7 +14,7 @@ import { commonErrorMessage } from "../../shared/custom.validators";
 export class CustomSelectMultipleComponent implements OnInit {
 
     @Input() list$: Observable<SelectOptionModel[]> = of([])
-    @Input() label = 'Country/Nationality'
+    @Input() label = 'Nationality(ies)'
     @Input() labelConfig = defaultFormLabellParameter
     @Input() controlConfig = defaultFormControlParameter
     @Input() maxChoices = 2
