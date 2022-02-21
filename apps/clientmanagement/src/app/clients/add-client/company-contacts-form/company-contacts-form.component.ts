@@ -29,6 +29,7 @@ import { getNames } from '../../../shared/Data/contacts';
   styleUrls: ['./company-contacts-form.component.scss'],
 })
 export class CompanyContactsFormComponent implements OnInit {
+  dynamicBtnValue={} as string;
   isClearButtonActive=true;
   emailAdress = new FormControl('');
   phoneNumber = new FormControl('');
@@ -117,6 +118,7 @@ clientalreadyExist=false;
   }
 
   showModal(): void {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Add";
     this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Company Contact'
     this.isVisible = true;
   }
@@ -238,6 +240,7 @@ this.IsEdit
 
   }
   edit(index:number){
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.listData.length;count++){
 
       if(count==index){

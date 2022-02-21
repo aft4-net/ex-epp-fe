@@ -120,7 +120,7 @@
 
 <span style="color: #ff0000;">{{clientExist}}</span>
 <div class="footer-btn">
-  <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid">Add</button><span class="spacing"></span>
+  <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid">{{dynamicBtnValue}}</button><span class="spacing"></span>
   <button nz-button class="clear-btn" (click)="handleClear()" [disabled]="isClearButtonActive">Clear</button>
 
 

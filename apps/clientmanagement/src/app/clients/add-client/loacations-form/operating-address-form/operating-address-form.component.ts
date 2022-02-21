@@ -23,6 +23,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./operating-address-form.component.scss']
 })
 export class OperatingAddressFormComponent implements OnInit {
+  dynamicBtnValue={} as string;
   operatingAddress: any[] = [];
   isVisible = false;
   isOkLoading = false;
@@ -108,6 +109,7 @@ export class OperatingAddressFormComponent implements OnInit {
   }
 
   showModal(): void {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Add";
     this.isVisible = true;
     this.actionTitle="Add";
   }
@@ -253,6 +255,7 @@ export class OperatingAddressFormComponent implements OnInit {
     }
   }
   edit(index:number){
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.operatingAddress.length;count++){
       this.isVisible = true;
       if(count==index){

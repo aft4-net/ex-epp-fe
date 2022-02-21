@@ -24,6 +24,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./billing-address-form.component.scss'],
 })
 export class BillingAddressFormComponent implements OnInit {confirmModal?: NzModalRef;
+  dynamicBtnValue={} as string;
   billingAddressess: any[] = [];
   tabledata:any=[];
   isVisible = false;
@@ -121,6 +122,7 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
   }
 
   showModal(): void {
+    this.dynamicBtnValue=this.updateStateClientService.actionButton="Add";
     this.isVisible = true;
     this.actionTitle="Add";
   }

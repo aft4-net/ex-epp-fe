@@ -221,7 +221,7 @@
           </nz-form-control>
         </nz-form-item>
         <div>
-          <button class="add-btn-wrapper" nz-button [title]="forms.invalid?'Enter Valid Data.':''" [disabled]="forms.invalid">Add</button>
+          <button class="add-btn-wrapper" nz-button [title]="forms.invalid?'Enter Valid Data.':''" [disabled]="forms.invalid">{{dynamicBtnValue}}</button>
           <button nz-button class="clear-btn" [disabled]="isClearButtonActive" (click)="resetForm()">Clear</button>
 
         </div>

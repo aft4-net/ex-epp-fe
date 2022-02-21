@@ -12,6 +12,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./contacts-form.component.scss'],
 })
 export class ContactsFormComponent implements OnInit {
+  dynamicBtnValue={} as string;
   isClearButtonActive=true;
   isDisabled = true;
   isVisible=false;
@@ -99,10 +100,13 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
 
     });
 
+
   }
   showModal(): void {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Add";
     this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Client Contact'
     this.isVisible = true;
+
   }
   submitForm(): void {
     if (this.addContactForm.valid) {
@@ -190,6 +194,10 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
     this.editAt=-1;
     this.IsEdit=false;
   }
+  actionBtnValue()
+  {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton;
+  }
   handleClear(): void {
     this.addContactForm.reset();
     this.editAt=-1;
@@ -222,6 +230,8 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       nzOnOk: () => {
         if(this.updateClientStateService.isEdit)
         {
+
+
         if(typeof this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid!=='undefined')
         {
         this.contactService.DeleteContact(this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid).subscribe(
@@ -248,6 +258,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
         }
       }
       else{
+
         this.removeItem(element);
         this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
         );
@@ -257,7 +268,11 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       nzOnCancel: () => console.log('Cancel'),
     });
   }
+
+
   edit(index:number){
+
+     this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.listData.length;count++){
 
       if(count==index){
@@ -271,6 +286,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
     }
 
   }
+
   patchValues(data: any) {
     this.addContactForm.patchValue({
       ContactPersonName: data.ContactPersonName,

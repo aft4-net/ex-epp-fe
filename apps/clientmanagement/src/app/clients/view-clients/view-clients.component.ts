@@ -197,6 +197,8 @@ _commonData.getPermission()
   this._editClientService.formTitle='Edit Client Details';
   this._editClientService.isAdd=false;
   this.router.navigate(['/clientmanagement/add-client/']);
+
+
   }
   }
   setClient(client:Client){
