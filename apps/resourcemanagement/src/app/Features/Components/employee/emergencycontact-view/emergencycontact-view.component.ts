@@ -34,6 +34,7 @@ export class EmergencycontactViewComponent implements OnInit {
     private _permissionService: PermissionListService
   ) {
     if (_employeeService.employeeById) {
+     _employeeService.EmrContact = _employeeService.employeeById.guid;
       this.form.allEmergencyContacts = _employeeService.employeeById
         .EmergencyContact
         ? _employeeService.employeeById.EmergencyContact
@@ -93,7 +94,8 @@ export class EmergencycontactViewComponent implements OnInit {
   onCurrentPageDataChange(event: any) {}
   deleteRow(guid: string) {}
 
-  startEdit(index: number): void {
+  startEdit(index: number,id:string): void {
+    this._employeeService.EmrContact=id;
     if (index >= 0) {
       this.addbutton = 'Update';
       this.IsEdit = true;
@@ -102,9 +104,7 @@ export class EmergencycontactViewComponent implements OnInit {
       this.form.generateEmergencyContactForm(
         this.form.allEmergencyContacts[index]
       );
-      console.log('this.form.allEmergencyContacts[index]');
-      console.log(this.form.allEmergencyContacts[index]);
-      console.log('this.form.allEmergencyContacts[index]');
+   
     }
   }
 

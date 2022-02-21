@@ -53,17 +53,17 @@
     >
       <thead>
         <tr class="tr">
-          <th>Full Name</th>
-          <th>Relationship with Employee</th>
-          <th>Action</th>
+          <th class="table_heading">Full Name</th>
+          <th class="table_heading">Relationship with Employee</th>
+          <th class="table_heading">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of form.allFamilyDetails; let i = index">
-          <td>{{ data.FullName }}</td>
-          <td>{{ data.Relationship?.Name }}</td>
+          <td class="tdstyle">{{ data.FullName }}</td>
+          <td class="tdstyle">{{ data.Relationship?.Name }}</td>
 
-          <td>
+          <td class="tdstyle">
             <div nz-row>
               <div
                 nz-col

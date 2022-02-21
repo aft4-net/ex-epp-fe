@@ -78,13 +78,13 @@ export class PageTitleComponent implements OnInit {
         setTimeout(() => {
           this._employeeService.sendempphoto();
           this._router.navigate(['resourcemanagement']); //.then(() => {
-        }, 2000);
+        }, 1000);
       } else {
         this._formGenerator.save();
         setTimeout(() => {
           this._employeeService.sendempphoto();
           this._router.navigate(['resourcemanagement']); //.then(() => {
-        }, 2000);
+        }, 1000);
       }
     }
   }
