@@ -7,7 +7,7 @@ import {Country} from './../../models/country';
 import {DutyStation} from './../../models/duty-station';
 import {DutyStationService} from './../../services/duty-station.service';
 import {SelectOptionModel} from "../../../../../resourcemanagement/src/app/Features/Models/supporting-models/select-option.model";
-import {AddressCountryStateService} from "../../../../../resourcemanagement/src/app/Features/Services/external-api.services/countries.mock.service";
+import {CountriesMockService} from "../../../../../resourcemanagement/src/app/Features/Services/external-api.services/countries.mock.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
@@ -30,11 +30,11 @@ export class DutyStationComponent implements OnInit {
   constructor(
     private countryService: CountryService,
     private dutyStationService: DutyStationService,
-    private readonly _addressCountryStateService: AddressCountryStateService,
+    private readonly _addressCountryStateService: CountriesMockService,
     private notification: NzNotificationService,
     private modalService: NzModalService
   ) {
-    this.nationalities$ = this._addressCountryStateService.nationalities$
+    this.nationalities$ = this._addressCountryStateService.getCountries();
     this.label = "Country";
   }
 

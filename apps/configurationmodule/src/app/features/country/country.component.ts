@@ -4,7 +4,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {Observable} from 'rxjs';
 import {Country} from '../../models/country';
 import {CountryService} from '../../services/country.service';
-import {AddressCountryStateService} from "../../../../../resourcemanagement/src/app/Features/Services/external-api.services/countries.mock.service";
+import {CountriesMockService} from "../../../../../resourcemanagement/src/app/Features/Services/external-api.services/countries.mock.service";
 import {SelectOptionModel} from "../../../../../resourcemanagement/src/app/Features/Models/supporting-models/select-option.model";
 import {FormGenerator} from "../../../../../resourcemanagement/src/app/Features/Components/custom-forms-controls/form-generator.model";
 import {NgForm} from "@angular/forms";
@@ -32,10 +32,10 @@ export class CountryComponent implements OnInit {
     private countryService: CountryService,
 
     private modalService: NzModalService,
-    private readonly _addressCountryStateService: AddressCountryStateService,
+    private readonly _addressCountryStateService: CountriesMockService,
     private notification: NzNotificationService
   ) {
-    this.nationalities$ = this._addressCountryStateService.nationalities$
+    this.nationalities$ = this._addressCountryStateService.getCountries();
     this.label = "Country";
   }
 
