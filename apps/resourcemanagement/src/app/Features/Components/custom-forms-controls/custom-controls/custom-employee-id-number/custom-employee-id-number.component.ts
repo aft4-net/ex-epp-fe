@@ -1,15 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { AbstractControl, FormControl } from "@angular/forms";
 import { FormControlResponseModel } from "../../../../Models/supporting-models/form-control-response.model";
 import { defaultFormControlParameter, defaultFormLabellParameter } from "../../../../Models/supporting-models/form-error-log.model";
-import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
-import { FormGenerator } from "../../form-generator.model";
-import { FormControlType } from "../../../../Models/supporting-models/form-control-name-type.enum"
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
+import { commonErrorMessage } from "../../shared/custom.validators";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
-import { map } from "rxjs/operators";
 
 const errValidator = ((c: AbstractControl) => {
   return { error: true } ;
@@ -32,25 +26,33 @@ export class CustomEmployeeIdNumberComponent implements OnInit {
   @Output() formResponse = new EventEmitter()
 
   errMessage = ''
-  isEdit = false;
+  isEdit = true;
   minLengthofIdNumber = 3;
   maxLengthofIdNumber = 0;
 
   constructor(
     private readonly _employeeService: EmployeeService
   ) {
-    //this.isEdit = this._employeeService.isEdit;
+    this.isEdit = this._employeeService.isEdit;
   }
 
   ngOnInit(): void {
+    if(this._employeeService.isEdit){
+      this.formControl.disable({onlySelf:true});
+    }
   }
 
   onChange() {
-    this.formControl.removeValidators(errValidator);
     this.errMessage = '';
     const value = this.formControl.value;
     if (value) {
       const idNumber = this.formControl.value as string;
+      if(idNumber.substring(idNumber.length - 1) === ' ') {
+        this.formControl.setValue(idNumber.substring(0, idNumber.length - 1));
+        return;
+      }
+      
+    this.formControl.removeValidators(errValidator);
       if (idNumber.length < this.minLengthofIdNumber) {
         this.errMessage = `The minimum length of employee ID number should be ${this.minLengthofIdNumber}!`;
       } else if (this.maxLengthofIdNumber > 0 && idNumber.length > this.maxLengthofIdNumber) {

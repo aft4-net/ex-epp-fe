@@ -21,7 +21,7 @@ export interface Project{
   IsDeleted:boolean,
   CreatedDate:string,
   CreatedbyUserGuid:string
-  
+  Description?:string
   }
 
 

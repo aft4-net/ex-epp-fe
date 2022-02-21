@@ -5,6 +5,7 @@ import { RoleService } from '../../services/role.service';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-role',
@@ -16,6 +17,7 @@ export class RoleComponent implements OnInit {
   isAddModalVisible = false;
   isConfirmLoading = false;
   pageIndex = 1;
+  searchInput!: string;
   searchValue!:string;
   sortBy!: string;
   sortOrder!: string;
@@ -23,6 +25,8 @@ export class RoleComponent implements OnInit {
   idForEdit: string | null = null;
 
   constructor(private roleConfigService: RoleService, 
+    private notification:NzNotificationService,
+   // private toastrService: ToastrService,
    public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
     private modal: NzModalService
@@ -48,6 +52,11 @@ export class RoleComponent implements OnInit {
 
   update(value: string) {
     this.getPaginatedRoles();
+  }
+
+  closeModal(value: string) {
+    this.isAddModalVisible = false;
+    this.idForEdit = null;
   }
 
   showAddModal(): void {
@@ -92,7 +101,13 @@ export class RoleComponent implements OnInit {
   }
 
   onSearchChange() {
-    this.getPaginatedRoles();
+    if (this.searchInput.length > 1) {
+      this.searchValue = this.searchInput;
+      this.getPaginatedRoles();
+    } else if (this.searchInput.length == 0){
+      this.searchValue = '';
+      this.getPaginatedRoles();
+    }
   }
 
   showDeleteConfirm(id: string, name: string) {
@@ -112,13 +127,14 @@ export class RoleComponent implements OnInit {
   }
   else{
     this.modal.confirm({
-      nzTitle: 'Are you sure delete this Role?',
-      nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
-      nzOkText: 'Yes',
+      nzTitle: 'Delete job title ?',
+      nzContent: 'Are you sure you want to delete this job title?<br>this action cannot be undone.',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
-      nzOkDanger: true,
+      nzOkDanger: false,
       nzOnOk: () => this.deleteHandler(id),
-      nzCancelText: 'No'
+      nzCancelText: 'Cancel',
+      nzOnCancel: () => console.log('Cancel')
     });
   }
 });
@@ -126,6 +142,13 @@ export class RoleComponent implements OnInit {
 
   deleteHandler(id: string) {
     this.roleConfigService.deleteRole(id).subscribe((response) => {
+      this.notification.create(
+        'success',
+        'Successfully Deleted!',
+        'Job Title'
+      );
+      //this.toastrService.success(response.message, "Role");
+      // this.listOfRoles = this.listOfRoles.filter((d) => d.Guid !== id);
       this.getPaginatedRoles();
     })
   }
