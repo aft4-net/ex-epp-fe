@@ -16,7 +16,7 @@
   <div *ngIf="isOnEditstate" class="tab-title"> {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
   <div>
     <button class="btn" (click)="showModal()">
-      Assign resource
+      Assign resources
     </button>
 
   </div>
@@ -64,7 +64,7 @@
   </tbody>
 </nz-table>
 
-<nz-modal class="resourceModal" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resource"
+<nz-modal class="resourceModal" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
   (nzOnCancel)="handleCancel()" [nzFooter]="null">
   <ng-container *nzModalContent>
     <form *ngIf="!isEditMode; else editForm" [formGroup]="addResorceForm" nz-form [nzLayout]="'vertical'"

@@ -52,7 +52,7 @@
         <td>{{ data.ProjectStatus?.StatusName }}</td>
         <td>{{ data.Supervisor?.Name }} </td>
         <td>
-          <a (click)="assignResource(data)" nzTooltipTitle="Assign resource">  
+          <a (click)="assignResource(data)">  
 
             <i *ngIf="authorize('View_Resources')"  nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style="color:black;"></i>
           </a>
@@ -70,7 +70,7 @@
       </tbody>
     </nz-table>
 
-    <span class="pagination" *ngIf="total > pageSize" nz-row class="pagination  flex justify-end">
+    <span  nz-row class="pagination  flex justify-end">
       Showing {{pageIndex}} - {{totalPage}} of {{total}} entries
       <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
       </nz-pagination>
