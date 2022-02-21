@@ -77,6 +77,12 @@ return this.http.put<ResponseDTO<any>>(this.path, Groups, this.httpOptions).pipe
   catchError(this.formatError)
 );
 }
+updateUser(user: IUserPostModel): Observable<ResponseDTO<any>> {
+  this.path = `${environment.apiUrl}/user`
+return this.http.put<ResponseDTO<any>>(this.path, user, this.httpOptions).pipe(
+  catchError(this.formatError)
+);
+}
 
   formatError(error:any)
   {

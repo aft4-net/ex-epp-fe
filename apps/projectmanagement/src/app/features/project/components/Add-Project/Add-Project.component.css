@@ -9,32 +9,10 @@
   line-height: 24px;
 }
 
-.createButton {
-  background: #00a551;
-  border-color: #00a551;
-  border-radius: 5%;
-  color: white;
-}
 
 
-
-
-
-.createButton :hover{
-
-  background-color:rgb(red, green, blue);
-
-
-}
-
-::ng-deep .ant-btn-primary  {
-  border: #00a551;
-  background: #00a551;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #FFFFFF;
+.container_homepage{
+  padding: 0px 1.6% ;
 }
 
 
@@ -83,6 +61,7 @@
 .btn:disabled{
   background-color:  #BFBFBF;
   border-color:#F5F5F5; 
+  cursor:not-allowed;
 }
 
 
@@ -118,19 +97,17 @@ line-height: 32px;
 color: #262626;
 }
 
-.tab-content {
-  padding:0px 20px 25px;
-  height: 109vh;
-  margin-bottom: 5rem;
+.page-edit{
+  height: 102vh;
+  width: 65%;
+  margin: auto;
 }
+
 *{
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
  }
-nz-tab {
-  font-weight: 500;
-  font-size: 16px;
-}
+
 
 .error-block
 {
@@ -154,9 +131,7 @@ nz-tab {
    height: 77px;
  }
 
- header { 
-  padding: 0px 1.6%;
-}
+
 
    
 hr { display: block; height: 1px;
@@ -198,107 +173,6 @@ font-size: 20px;
 margin-bottom: 40%;
 }
 
-
-
-
-
-::ng-deep .ant-tabs-tab {
-  color: #363636 !important;
-
-}
-
-::ng-deep .ant-tabs-nav {
-  width: 266px !important;
-  color: #363636 !important;
-  font-size: 26px !important;
-}
-
-
-
-
-::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-
-box-shadow: inset -2px 0px 0px #DADADA !important;
-
-}
-
-::ng-deep .ant-tabs-nav-scroll {
-  display: flex !important;
-  justify-content: center !important;
-}
-
-
-::ng-deep .ant-tabs-tab:hover {
-  color: #595959 !important;
-}
-
-::ng-deep ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC !important;
-}
-
-
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC;
- 
-    color: #262626;
-}
-
-::ng-deep .ant-tabs-nav {
-  font-size: 26px;
-}
-
-::ng-deep .ant-tabs-tab-btn {
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
-.ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-  box-shadow: inset -2px 0px 0px #DADADA;
-}
-
-::ng-deep .ant-tabs-nav-scroll {
-  display: flex;
-  justify-content: center;
-}
-
-
-::ng-deep .ant-tabs-tab:hover {
-  color: #262626;
-}
-
-::ng-deep ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC;
-}
-
-
-::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
-.ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
-  box-shadow: inset -3px 0px 0px #EAEAEA;
-
-}
-
-::ng-deep .ant-tabs-ink-bar {
-  box-shadow: inset -3px 0px 0px #EAEAEA;
-}
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  color: #262626;
-}
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn :disabled{
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  color: #262626;
-}
 
 
 

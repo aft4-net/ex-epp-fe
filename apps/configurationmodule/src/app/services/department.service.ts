@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ObservableLike } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Department } from '../models/department';
 import { Pagination } from '../models/pagination';
@@ -13,6 +13,8 @@ import { ResponseDto, ResponseDTO } from '../models/response-dto.model';
 export class DepartmentService {
   baseUrl = environment.apiUrl;
   departments:Department[] = [];
+
+ 
 
   constructor(private http: HttpClient) { }
 
@@ -54,5 +56,8 @@ export class DepartmentService {
 
   deleteDepartment(id: string): Observable<ResponseDto<Department>> {
     return this.http.delete<ResponseDto<Department>>(this.baseUrl + "Department/?id="+ id);
+  }
+  checkifDepartmentisDeletable(id:string) : Observable<any>{
+    return this.http.get<any>(this.baseUrl+"Employee/checkDepartment/?idNumber="+id);
   }
 }

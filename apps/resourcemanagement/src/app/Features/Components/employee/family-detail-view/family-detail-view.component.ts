@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { Data } from '@angular/router';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FamilyDetail } from '../../../Models/FamilyDetail/FamilyDetailModel';
-import { FamilyDetailComponent } from '../family-detail/family-detail.component';
 import { FamilyDetails } from '../../../Models/FamilyDetails';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
@@ -67,9 +65,9 @@ export class FamilyDetailViewComponent implements OnInit {
     this.editId = null;
   }
 
-  showConfirm(index: number): void {
+  showConfirm(index: number,id:string): void {
     this.confirmModal = this.modalService.confirm({
-      nzTitle: 'Do you want to delete this item?',
+      nzTitle: 'Do you want to delete Family Member ?',
       nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
       nzOkText: 'Yes',
@@ -84,6 +82,10 @@ export class FamilyDetailViewComponent implements OnInit {
               this.form.allFamilyDetails = this.emptyData;
             }
           }
+          console.log("aaaa");
+          console.log(id);
+          this.employeeService.deleteFamilyMember(id);
+
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
         }).catch(() => console.log('Error.')),
     });

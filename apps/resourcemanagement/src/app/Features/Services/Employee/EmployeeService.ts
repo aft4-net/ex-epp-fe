@@ -20,6 +20,7 @@ export class EmployeeService {
   public isdefault = true;
   public empNum="ec0001";
   public ephoto:any;
+  public EmrContact:any | undefined;
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -428,4 +429,18 @@ export class EmployeeService {
       );
   }
 
+
+  deleteEmergencyContact(id: string): any {
+    return this.http.delete<any>(environment.apiUrl + "/EmergencyContacts/?email="+ id).subscribe();
+  }
+  deleteFamilyMember(id: string): any {
+    return this.http.delete<any>(environment.apiUrl + "/FamilyDetail/?id="+ id).subscribe();
+  }
+  deletePersonalAddress(id: string): any {
+
+    return this.http.delete<any>(environment.apiUrl + "/PersonalAddress/?id="+ id).subscribe();
+  }
+
 }
+
+
