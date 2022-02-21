@@ -174,3 +174,7 @@
 .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
   display: none !important;
 }
+
+.user-detail-avatar svg {
+  margin-top: -20px;
+}
