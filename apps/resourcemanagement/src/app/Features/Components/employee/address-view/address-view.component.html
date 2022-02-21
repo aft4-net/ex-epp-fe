@@ -11,9 +11,9 @@
           <nz-breadcrumb-item>
             <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
          </ng-template>
-        <h3 *ngIf="!employeeService.isdefault && !employeeService.isEdit;else updatEmployee">Add Employee</h3>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!employeeService.isdefault && !employeeService.isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
-          <h3> Edit Employee</h3>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
@@ -22,7 +22,7 @@
 </div>
 
 
-<exec-epp-page-title></exec-epp-page-title>
+<exec-epp-page-title title="Personal Addresses"></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
     <exec-epp-side-bar [active]="1"> </exec-epp-side-bar>
@@ -30,7 +30,6 @@
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
       <div nz-col nzSpan="21">
-        <h1>Personal Addresses</h1>
       </div>
       <div nz-col nzSpan="3">
         <button class="addButton" *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" nz-button (click)="addaddress()">
@@ -40,39 +39,33 @@
     </div>
     <br/>
     <nz-table
-      class="table"
+      class="table mt-3"
       #rowSelectionTable
       nzShowSizeChanger
       [nzData]="form.allAddresses"
     >
       <thead>
         <tr class="tr">
-          <th>Country</th>
-          <th>City/SubCity</th>
-          <th style="max-width: 1px">Actions</th>
+          <th class="table_heading" >Country</th>
+          <th class="table_heading" >City/SubCity</th>
+          <th class="table_heading" style="max-width: 1px">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of form.allAddresses; let i = index">
-          <td>{{ data.Country }}</td>
-          <td>{{ data.City }}</td>
+          <td class="tdstyle" >{{ data.Country }}</td>
+          <td class="tdstyle">{{ data.City }}</td>
 
           <td>
             <div nz-row>
-              <div
-                nz-col
-                nzSpan="2"
-                class="editable-cell"
-                [hidden]="editId === data.Guid"
-                (click)="startEdit(i)"
-              >
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              <div nz-col nzSpan="2" [hidden]="editId === data.Guid"(click)="startEdit(i)">
+                <i style="color:black;" nz-icon nzType="edit"  nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a nz-popconfirm (click)="showConfirm(i)"
-                  ><i nz-icon nzType="delete" nzTheme="outline"></i
-                ></a>
+                <a nz-popconfirm (click)="showConfirm(i,data.Guid)">
+                  <i style="color:black;" nz-icon nzType="delete" nzTheme="outline"></i>
+                </a>
               </div>
             </div>
           </td>

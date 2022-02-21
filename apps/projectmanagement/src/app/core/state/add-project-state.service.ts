@@ -74,18 +74,18 @@ export class AddProjectStateService extends StateService<ProjectCreate>  {
     return this.state$.pipe(
       map((res: ProjectCreate) => {
         if (
-          typeof res.ProjectName !== 'undefined' &&
-          res.ProjectName  !== '' &&
-          typeof res.ClientGuid !== 'undefined' &&
-          res.ClientGuid !== '' &&
-          typeof res.ProjectType !== 'undefined' &&
-          res.ProjectType !== ''&&
-          typeof res.ProjectStatusGuid !== 'undefined' &&
-          res.ProjectStatusGuid !== ''&&
-          typeof res.SupervisorGuid !== 'undefined' &&
-          res.SupervisorGuid !== ''&&
-          typeof res.StartDate !== 'undefined' &&
-          res.StartDate !== ''
+          typeof res.ProjectName == 'undefined' ||
+          res.ProjectName  == '' ||
+          typeof res.ClientGuid == 'undefined' ||
+          res.ClientGuid == ''||
+          typeof res.ProjectType == 'undefined' ||
+          res.ProjectType == '' ||
+          typeof res.ProjectStatusGuid  == 'undefined' ||
+          res.ProjectStatusGuid == '' ||
+          typeof res.SupervisorGuid == 'undefined' ||
+          res.SupervisorGuid == '' ||
+          typeof res.StartDate == 'undefined' ||
+          res.StartDate == null
         ) 
        return false;
 

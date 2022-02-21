@@ -1,5 +1,4 @@
 [nz-form] {
-  max-width: 1000px;
   font-weight: 500;
   font-family:-apple-system,
   BlinkMacSystemFont,
@@ -11,10 +10,6 @@
   'Open Sans',
   'Helvetica Neue',
   sans-serif
-}
-[nz-label]
-{
-  max-width: 1000px;
 }
 
 .phone-select {
@@ -174,8 +169,3 @@ nz-breadcrumb {
   'Helvetica Neue',
   sans-serif
 }
-.breadcrumb h3 {
-  margin-bottom: 0px;
-  font-weight: bold;
-}
-

@@ -67,7 +67,7 @@ projectResourceList$=this.projectResourceList.asObservable();
   
   restUpdateProjectState()
   {
-  
+    this.projectSource.next({} as Project);
     this. projectResourceList.next({} as AssignResource[]);
     this.isOnEditstateSource.next(false);
   }

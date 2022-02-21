@@ -2,13 +2,14 @@ import { Component, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { defaultFormItemConfig } from "../../../../Models/supporting-models/form-control-config.model";
 import { defaultFormControlParameter, defaultFormItemData, defaultFormLabellParameter, FormControlData, FormItemData, FormLabelData } from "../../../../Models/supporting-models/form-error-log.model";
-import { commonErrorMessage } from "../../../../Services/supporting-services/custom.validators";
+import { commonErrorMessage } from "../../shared/custom.validators";
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Observable, Observer, of } from "rxjs";
 import { environment } from "libs/environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { Router } from "@angular/router";
+
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -51,13 +52,15 @@ export class CustomUploadComponent implements OnInit {
     empImg : any;
     removeImg = true;
     localUrl="";
+    
 
-    constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router) {
+    constructor(private http: HttpClient, private _employeeService : EmployeeService,private _router: Router
+     ) {
     }
 
     ngOnInit(): void {
       if(this._employeeService.empNum === 'ec0001'){
-        this.empImg = null;
+        this.empImg = null;      
       }
      
      console.log("this was the email on init "+ this.userEmail + " and EmpNum " + this._employeeService.empNum);
@@ -66,15 +69,6 @@ export class CustomUploadComponent implements OnInit {
     }
 
     
-    
-    handlePreview = async (file: NzUploadFile): Promise<void> => {
-      // alert("yes");
-      // if (!file.url && !file.preview) {
-      //   file.preview = await getBase64(file.originFileObj!);
-      // }
-      // this.previewImage = file.url || file.preview;
-      // this.previewVisible = true;
-    };
  
      transformFile = (file: NzUploadFile): Observable<Blob> =>
     new Observable((observer: Observer<Blob>) => {
@@ -104,15 +98,14 @@ export class CustomUploadComponent implements OnInit {
 
     customUploadReq = (item: any) => {
       this._employeeService.ephoto = item.file as any;
-      const reader = new FileReader();
+      
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
  
       const formData = new FormData();
       formData.append('data', item.file as any); // tslint:disable-next-line:no-any
-      console.log("on it 2 ");
+   
       formData.append('id', this._employeeService.empNum);
-      console.log(item);
-      console.log(item);
+      
       
       //this.empImg = item;
       // const req = new HttpRequest('POST', 'http://localhost:14696/api/v1/EmployeePhoto', formData);
@@ -154,41 +147,18 @@ export class CustomUploadComponent implements OnInit {
         }
       });
      }
-    
-
-    onChange(event:any) {
-      this.file = event.target.files[0];
-      this.errMessage = commonErrorMessage.message.substring(0)
-    }
-
-    upload(file:any) {
   
-      // Create form data
-      const formData = new FormData(); 
-        
-      // Store form name as "file" with file data
-      formData.append("data", file, file.name);
-        
-      const httpOptions = {
-        headers: new HttpHeaders({
-          "Content-Type": "multipart/form-data",
-          'Accept': 'text/plain',
-        })
-      };
-      console.log("right on call ");
-      // Make http post request over api
-      // with formData as req
-       this.http.post('http://localhost:14696/api/v1/EmployeePhoto', formData).subscribe(
-        (result) =>{
-         return result;
-        } 
-      );
-  }
-   // OnClick of button Upload
-   onUpload() {
-   // this.loading = !this.loading;
-    console.log(this.file);
-   this.upload(this.file);
-}
+
+
+  handlePreview = async (file: NzUploadFile): Promise<void> => {
+    if (!file.url && !file.preview) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      file.preview = await getBase64(file.originFileObj!);
+    }
+    this.previewImage = file.url || file.preview;
+    this.previewVisible = true;
+  };
+
+
 
 }
