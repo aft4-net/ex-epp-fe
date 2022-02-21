@@ -32,7 +32,7 @@
 .form-item ::ng-deep .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-has-success .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-has-warning .ant-form-item-children-icon, .ant-form-item-has-feedback.ant-form-item-is-validating .ant-form-item-children-icon {
     position: absolute;
     top: 50%;
-    left: 21.7vw;
+    left: 26rem;
     z-index: 1;
     width: 32px;
     height: 20px;
@@ -75,4 +75,9 @@
 .exec-buttons-multiple-controls {
     border: none !important;
     background-color: white !important;
+}
+
+.form-group {
+    overflow-y: auto;
+    overflow-x: auto;
 }

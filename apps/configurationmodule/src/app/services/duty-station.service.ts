@@ -40,4 +40,7 @@ export class DutyStationService {
 
     return this.http.put<DutyStationResponse>(this.baseUrl + "DeleteDutyBranch", dutyStation, {headers: headers});
   }
+  checkifDutyStationisDeletable(id:string) : Observable<any>{
+    return this.http.get<any>(environment.apiUrl+"Employee/checkDutyStation/?idNumber="+id);
+  }
 }

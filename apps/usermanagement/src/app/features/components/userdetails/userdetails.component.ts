@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormValidator } from '../../../utils/validator';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { UserDetail, GroupData } from '../../Models/User/UserDetail';
@@ -274,20 +274,31 @@ AddToGroup()  {
   }
 
   onDeleteRecord(id: string,name:string) {
+
     this.showConfirmation(id,name);
   }
 
   showConfirmation(guid: string,name:string): void {
     const groupName:string | undefined = this.getGroupName(name);
-    this.modal.confirm({
-      nzTitle: 'Confirm',
-      nzContent: 'Are you sure you want to remove this user from '+ groupName + ' group?',
-      nzOkText: 'Ok',
-    nzOkType: 'default',
-    nzOkDanger: true,
-      nzOnOk: () => {
-        this.deleteItem(guid,name);
-      },
+    const modal: NzModalRef = this.modal.create({
+      nzWidth:'350px',
+      nzTitle: 'Remove user?',
+      nzContent: 'Are you sure you want to remove this user from '+ groupName + ' group? This action can not be undone',
+      nzFooter: [
+        {
+          label: 'Yes, Remove',
+          type: 'primary',
+          danger: false,
+          onClick: () => {
+            this.deleteItem(guid,name);
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy()
+        }]
     });
   }
 

@@ -25,21 +25,9 @@
               </div>
                
             </div>
-            <app-avatar
-              icon="user"
-              size="65"
-              style="
-                margin-top: -62px;
-                margin-left: 2px;
-                margin-bottom: 60px;
-                width: 80px;
-                height: 80px;
-                line-height: 80px;
-                font-size: 40px;
-              "
-              class="ant-avatar ant-avatar-circle ant-avatar-icon"
-            >
-            </app-avatar>
+            <div style="margin-top:-20px">
+              <nz-avatar class="user-detail-avatar" [nzSize]="64" nzIcon="user"></nz-avatar>
+            </div>
             <br />
           </div>
           <div class="user-detail-lower">
@@ -61,7 +49,7 @@
       <a style="float:right" nz-button nzType="link" (click)="resetPassword()">RESET PASSWORD</a>
             </div>
             </div>
-            <div>
+            <div style="margin-top:-10px">
              <a (click)="UpdateStatus()">
               <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
               ></nz-switch>
@@ -113,13 +101,12 @@
           </div>
       </div><br>
   </form>
-  <div class="right-footer">
-      <button nz-button nzType="default"  class="default modal-footer-btn clear-btn l-btn" (click)="handleGroupCancel()"
-      [disabled]="groupfrm.invalid"
-      style="margin-right:15px">Clear</button>
-      <button nz-button nzType="primary" class="primary modal-footer-btn" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loading">
+  <div class="addUserToGroup">
+      <button nz-button nzType="primary" [ngClass]="groupfrm.invalid ? 'disableAddUser' : 'addToGroup'" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loading">
       {{ selectedGroups.length > 0? 'Update': 'Add' }}
       </button>
+      &nbsp;
+      <button nz-button nzType="default" [disabled]="groupfrm.invalid" (click)="handleGroupCancel()">Clear</button>
   </div>
   </ng-template>
   </nz-modal>
@@ -153,30 +140,24 @@
         >
           <thead>
             <tr>
-              <th>Group</th>
-              <th>Added</th>
-              <th>Action</th>
+              <th class="tdstyle" style="font-weight: bold;">Group</th>
+              <th class="tdstyle" style="font-weight: bold;">Added on</th>
+              <th class="tdstyle" style="font-weight:bold; text-align: right; margin-right: 60px;">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of table.data">
-              <td>{{ getGroupName(data?.GroupSetGuid) }}</td>
-              <td>{{ data?.CreatedDate | date }}</td>
-
-              <td>
+              <td class="tdstyle">{{ getGroupName(data?.GroupSetGuid) }}</td>
+              <td class="tdstyle">{{ data?.CreatedDate | date }}</td>
+              <td style="text-align: right;">
                 <a
                 *ngIf="authorize('Delete_Group')" (click)="onDeleteRecord(data.Guid,data.GroupSetGuid)"
                   nzTooltipPlacement="bottom"
                   nz-tooltip
-                  nzTooltipTitle="Delete"
-                  nzTooltipColor="red"
-                >
-                  <i
-                    nz-icon
-                    style="font-size: 16px; color: red"
-                    nzType="delete"
-                    nzTheme="outline"
-                  ></i>
+                  nzTooltipTitle="Remove"
+                  nzTooltipColor="#00a551"
+                  nzTooltip>
+                  <i nz-icon style="font-size: 16px; color: black;" nzType="close-circle" nzTheme="outline"></i>
                 </a>
               </td>
             </tr>

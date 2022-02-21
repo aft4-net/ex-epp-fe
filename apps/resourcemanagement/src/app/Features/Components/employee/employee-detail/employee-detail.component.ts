@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, fromEvent, of } from 'rxjs';
 import {
@@ -73,8 +73,14 @@ export class EmployeeDetailComponent implements OnInit {
     private _authenticationService: AuthenticationService,
     private notification: NotificationBar,
     private _message: NzNotificationService,
-    private modal: NzModalService
-  ) {}
+    private modal: NzModalService,
+    private route:ActivatedRoute
+  ) {
+
+    route.params.subscribe(val => {
+      this.ngOnInit();
+    });
+  }
 
   isdefault = true;
   router = '';
@@ -183,10 +189,9 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   getfilterDataMenu(): void {
-    console.log('O Noo...222');
+  
     this._employeeService.getFilterData().subscribe((data) => {
-      console.log('O Noo...');
-      console.log(data.jobtitleFilter);
+      
 
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
@@ -199,22 +204,19 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   getUser() {
-    console.log('response' + this.uemail);
     this._employeeService.getUser(this.uemail).subscribe((response: any) => {
       this.theEmpguid = response.Guid;
-      console.log('GUid ' + this.theEmpguid);
+     
       if (this.theEmpguid !== null) {
-        console.log('what');
+      
         this.Edit(this.theEmpguid);
       }
-      console.log('response22');
-      console.log(this.theEmpguid);
-      console.log('response');
+   
     });
   }
 
   EmployeeFilter(key: string[], name: any) {
-    console.log(key, name.name);
+   
     // this.getEmployees();
   }
 
@@ -358,7 +360,7 @@ export class EmployeeDetailComponent implements OnInit {
     });
   }
   nzSortOrderChange(SortColumn: string, direction: string | null) {
-    console.log("was I ? ");
+   
     if (direction == 'ascend') {
       this.sortDirection = 'Ascending';
     }
@@ -483,7 +485,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   searchEmployees() {
-    if (this.fullname.length > 3 || this.fullname == '') {
+    if (this.fullname.length > 1 || this.fullname == '') {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
         (response: PaginationResult<IEmployeeViewModel[]>) => {
@@ -563,7 +565,7 @@ FilterData(){
   )
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
-      console.log(of(response.Data));
+
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
       this.listOfCurrentPageData = response.Data;
@@ -637,7 +639,7 @@ FilterData(){
     this._form.employeId = employeeId;
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data: any) => {
-      console.log('what' + employeeId);
+      
 
       this._employeeService.empNum = data.EmployeeNumber;
 
@@ -687,7 +689,7 @@ FilterData(){
       .pipe(
         map((event) => event.target.value),
         startWith(''),
-        debounceTime(3000),
+        debounceTime(2000),
         distinctUntilChanged(),
         switchMap(async (search) => {
           (this.fullname = search), this.searchEmployees();
