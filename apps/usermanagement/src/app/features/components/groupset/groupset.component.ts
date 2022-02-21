@@ -192,34 +192,35 @@ authorize(key:string){
   }
 
   SearchgroupsByName() {
-
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
-    this.groupSetService.SearchUsers(this.groupParams)
-    .subscribe((response: PaginationResult<GroupSetModel[]>) => {
-      if(response.Data) {
-        this.loading = true;
-        this.groupList$=of(response.Data);
-        this.groupList = response.Data;
-        this.listOfCurrentPageData = response.Data;
-        this.pageIndex=response.pagination.PageIndex;
-        this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord;
-        this.totalRows=response.pagination.TotalRows;
-        this.lastRow = this.totalRows;
-        this.beginingRow = 1;
-        this.loading = false;
-      }
-      else
-      {
-        this.loading = false;
-        this.groupList = [];
-        this.groupList$=of([]);
+    if(this.groupParams.searchKey.length >= 2) { 
+      this.groupSetService.SearchUsers(this.groupParams)
+      .subscribe((response: PaginationResult<GroupSetModel[]>) => {
+        if(response.Data) {
+          this.loading = true;
+          this.groupList$=of(response.Data);
+          this.groupList = response.Data;
+          this.listOfCurrentPageData = response.Data;
+          this.pageIndex=response.pagination.PageIndex;
+          this.pageSize=response.pagination.PageSize;
+          this.totalRecord=response.pagination.TotalRecord;
+          this.totalRows=response.pagination.TotalRows;
+          this.lastRow = this.totalRows;
+          this.beginingRow = 1;
+          this.loading = false;
+        }
+        else
+        {
+          this.loading = false;
+          this.groupList = [];
+          this.groupList$=of([]);
 
-      }
-      this.searchStateFound=true;
-    },error => {
-      this.loading = false;
-     });
+        }
+        this.searchStateFound=true;
+      },error => {
+        this.loading = false;
+      });
+    }
   }
   
 

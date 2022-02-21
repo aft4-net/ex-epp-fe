@@ -1,7 +1,8 @@
 .table_heading
 {
-background-color: #F5F5F5 !important;
-font-weight: 700;
+  background-color: #fafafa !important;
+  font-weight: 550;
+  font-size:small;
 }
 
 .table_evenrow_heading
@@ -21,10 +22,6 @@ background-color: none !important;
     
 }
 
-.table_heading
-{
-background-color: #F5F5F5 !important;
-}
 tr:nth-child(even) {background: white}
 
 a {
@@ -140,10 +137,13 @@ button.namebutton button.namebutton:hover button.namebutton:active {
   width: 90px;
 }
 
-.adduser {
-  color: #fff;
-  background-color: #00a551;
-  border-color: #00a551;
+::ng-deep .adduser .ant-btn-primary[disabled],.ant-btn-primary[disabled]:active,.primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,.ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
 }
 
 button span {
@@ -199,16 +199,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   box-shadow: 0 2px 0 rgba(0,0,0,.045);
 
 }
-::ng-deep .ant-btn-primary[disabled],.ant-btn-primary[disabled]:active,.primary[disabled]:hover,
-.ant-btn-primary[disabled]:focus,.ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover,
-.modal-footer-btn[disabled] {
-  color: rgba(0,0,0,.25);
-  border-color: #d9d9d9;
-  background: #f5f5f5;
-  text-shadow: none;
-  box-shadow: none;
-  outline: none;
-}
+
 
 
 
@@ -278,7 +269,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
           color: #595959 !important;
 }
 
-::ng-deep .defaultcolor .ant-btn .ant-btn-primary .ant-btn-sm.ant-btn-primary:focus
+::ng-deep .defaultcolor .ant-btn .ant-btn-primary .ant-btn-sm .ant-btn-primary:focus
           .ant-btn-primary:hover
 {
   background-color: #00A551 !important;
@@ -286,19 +277,19 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: black !important;
 }
 
-::ng-deep .defaultcolor .ant-btn-link, .ant-btn-link:active, 
-          .ant-btn-link:hover, .ant-btn-link:focus {
-          background-color: #00A551 !important;
-          border-color: #00A551 !important;
-          color: black !important;
-}
-
-::ng-deep .showDetail .ant-btn-link,.ant-btn-link:active, 
-         .ant-btn-link:hover,.ant-btn-link:focus {
+::ng-deep .showDetail .ant-btn-link .ant-btn-link:active, 
+          .ant-btn-link:focus {
   background-color: white !important;
   color: black !important;
   border-color: white !important;
 }
+::ng-deep .showDetail .ant-btn-link:hover {
+  background-color: green !important;
+  color: black !important;
+  border-color: #bfbfbf !important;
+}
+
+
 
 ::ng-deep .defaultcolor .ant-checkbox-checked .ant-checkbox-inner {
   background-color: #00A551 !important;
@@ -339,6 +330,20 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: black !important;
 }
 
+::ng-deep .ant-btn-primary, .ant-btn-primary:active,
+          .ant-btn-primary:hover, .ant-btn-primary:focus {
+    background-color: #00A551 !important;
+    border-color: #00A551 !important;
+    color: white !important;
+}
+
+::ng-deep .actionButtons .ant-btn .ant-btn:active
+          .ant-btn:hover .ant-btn:focus {
+    background-color: white !important;
+    border-color: white !important;
+    color: black !important;
+}
+
 ::ng-deep .right-footer .ant-btn-primary:hover {
   background-color: #00A551 !important;
   border-color: #00A551 !important;
@@ -347,4 +352,76 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 
 ::ng-deep .defaultcolor .ant-icon {
   color: #595959;
+}
+
+.disableAddUserButton {
+    color: rgba(0,0,0,.25) !important;
+    border-color: #d9d9d9 !important;
+    background: #f5f5f5 !important;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.addUserActions {
+  text-align: right;
+}
+
+::ng-deep .addUserActions .ant-btn-primary[disabled]
+.ant-btn-primary[disabled]:hover
+.ant-btn-primary[disabled]:focus {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+::ng-deep .addUserActions .ant-btn-primary
+.ant-btn-primary:hover
+.ant-btn-primary:focus
+.ant-btn-primary:active {
+  color: white !important;
+  border-color: #00a551 !important;
+  background-color: #00a551 !important;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+
+::ng-deep .addUserActions .ant-btn[disabled]
+.ant-btn[disabled]:hover
+.ant-btn[disabled]:focus
+.ant-btn[disabled]:active {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+::ng-deep .addUserActions .ant-btn
+.ant-btn:hover
+.ant-btn:focus
+.ant-btn:active {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+::ng-deep .addUserActions.nz-button {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
+
+.tdstyle{
+  font-size: small;
+}
+
+
+::ng-deep .ant-btn:hover {
+  background-color: white;
+  border-color:black;
+  color: black;
 }
