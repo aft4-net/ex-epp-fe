@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
 
 @Component({
   selector: 'exec-epp-main-layout',
@@ -11,10 +10,9 @@ export class MainLayoutComponent implements OnInit {
 
   constructor() { }
 
-  
+
   title = 'client';
   onBack(): void {
-    console.log('onBack');
   }
 
   ngOnInit(): void {
