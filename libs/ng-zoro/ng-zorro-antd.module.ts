@@ -1,45 +1,14 @@
 import { NgModule } from '@angular/core';
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzAnchorModule } from 'ng-zorro-antd/anchor';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzCarouselModule } from 'ng-zorro-antd/carousel';
-import { NzCascaderModule } from 'ng-zorro-antd/cascader';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzI18nModule } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzMentionModule } from 'ng-zorro-antd/mention';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
-import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzPipesModule } from 'ng-zorro-antd/pipes';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
@@ -68,51 +37,37 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { SharedModule } from './shared/modules/shared.module';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzPipesModule } from 'ng-zorro-antd/pipes';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+
+
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 
 @NgModule({
   exports: [
-    NzAffixModule,
-    NzAlertModule,
-    NzAnchorModule,
-    NzAutocompleteModule,
-    NzAvatarModule,
-    NzBackTopModule,
     NzBadgeModule,
     NzButtonModule,
     NzBreadCrumbModule,
-    NzCalendarModule,
     NzCardModule,
-    NzCarouselModule,
-    NzCascaderModule,
-    NzCheckboxModule,
     NzCollapseModule,
-    NzCommentModule,
-    NzDatePickerModule,
-    NzDescriptionsModule,
     NzDividerModule,
-    NzDrawerModule,
-    NzDropDownModule,
-    NzEmptyModule,
     NzFormModule,
-    NzGridModule,
-    NzI18nModule,
     NzIconModule,
-    NzImageModule,
-    NzInputModule,
-    NzInputNumberModule,
     NzLayoutModule,
-    NzListModule,
-    NzMentionModule,
-    NzMenuModule,
-    NzMessageModule,
-    NzModalModule,
-    NzNoAnimationModule,
-    NzNotificationModule,
     NzPageHeaderModule,
-    NzPaginationModule,
-    NzPopconfirmModule,
     NzPopoverModule,
     NzProgressModule,
     NzRadioModule,
@@ -140,9 +95,25 @@ import { SharedModule } from './shared/modules/shared.module';
     NzUploadModule,
     NzWaveModule,
     NzResizableModule,
-    NzPipesModule,
     NzSpaceModule,
-    SharedModule
+    NzInputModule,
+    NzModalModule,
+   NzNotificationModule,
+   NzPaginationModule,
+   NzAutocompleteModule,
+   NzDatePickerModule,
+   NzDropDownModule,
+   NzGridModule,
+   NzInputNumberModule,
+   NzPipesModule,
+   NzAvatarModule,
+   NzCheckboxModule,
+   NzImageModule,
+   NzMenuModule
+
+
+   //SharedModule
+
   ]
 })
 export class DemoNgZorroAntdModule {
