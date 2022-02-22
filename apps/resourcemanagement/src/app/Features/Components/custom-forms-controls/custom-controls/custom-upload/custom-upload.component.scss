@@ -11,6 +11,13 @@
     border-radius: 50%;
     margin-bottom: 10px;
    // border: solid black;
+   
+}
+
+.profile-pic ::ng-deep .anticon, .anticon svg {
+    align-items: center;
+    vertical-align: middle;
+    padding-bottom: 7%;
 }
 
 .profile-button-add, .profile-button-delete {
