@@ -78,3 +78,11 @@ label.label-for-company-contact {
 .spacing{
   width: 2vw !important;
 }
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+  border-color: #00A551 !important;
+  background: #00A551 !important;
+
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary:hover {
+  background: #00A551 !important;
+}

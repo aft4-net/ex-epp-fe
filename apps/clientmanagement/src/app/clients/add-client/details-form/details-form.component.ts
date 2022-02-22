@@ -48,7 +48,6 @@ clientttOld:clientEditNotify={} as clientEditNotify;
     private clientDetailsService: ClientDetailsService,
     private updateClientState: UpdateClientStateService,
   ) {}
-
   ngOnInit(): void {
     this.createRegistrationForm();
     this.setValue();

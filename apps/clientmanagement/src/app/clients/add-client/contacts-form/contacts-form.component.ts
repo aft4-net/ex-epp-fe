@@ -42,6 +42,7 @@ export class ContactsFormComponent implements OnInit {
   editAt=-1;
   found=false;
   updateContacts:UpdateClientContact[]=[];
+  clientContactUpdateBtn!:boolean;
   // ContactPersonName= new FormControl('');
 
   constructor(
@@ -52,7 +53,7 @@ export class ContactsFormComponent implements OnInit {
     private notification: NzNotificationService,
     private addClientStateService: AddClientStateService,
 
-    private updateClientStateService: UpdateClientStateService,
+    public updateClientStateService: UpdateClientStateService,
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
 
@@ -64,6 +65,7 @@ export class ContactsFormComponent implements OnInit {
     if(this.updateClientStateService.isEdit && this.updateClientStateService.UpdateClientData.ClientContacts!==null)
 
     {
+
       for(let i=0;i<this.updateClientStateService.UpdateClientData.ClientContacts.length;i++)
       {
         const clientContact={
@@ -91,11 +93,15 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       this.addContactForm.value['PhoneNumberPrefix']!='' ||
       this.addContactForm.value['PhoneNumber']!='' ||
       this.addContactForm.value['Email']!=''  ){
-
+        this.updateClientStateService.updateButtonListener=false;
        this.isClearButtonActive=false;
+       console.log("fssssssssssssssssssssssss")
+       console.log(this.clientContactUpdateBtn=false);
+       console.log("fssssssssssssssssssssssss")
       }
       else{
        this.isClearButtonActive=true;
+
       }
 
     });
@@ -218,9 +224,10 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
   }
   showDeleteConfirm(element: any,i:number): void {
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this contact?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+      nzIconType:'',
+      nzTitle: 'Delete Client Contact ?',
+      nzContent: '<b >Are you sure, you want to delete this client contact? this action cannot be undone</b>',
+      nzOkText: 'Yes, Delete ',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
@@ -260,14 +267,16 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
         );
       }
       },
-      nzCancelText: 'No',
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
     });
   }
 
 
   edit(index:number){
-
+    console.log("checking edit mode")
+    console.log(this.clientContactUpdateBtn=true);
+    console.log("checking edit mode")
      this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.listData.length;count++){
 

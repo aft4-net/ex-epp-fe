@@ -6,7 +6,7 @@
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <div class="justify-between" nz-row>
-    <div class="page-title" nz-col nzSpan="22"> Clients </div>
+    <div class="page-title" nz-col nzSpan="2"> Clients </div>
 
    <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
@@ -77,7 +77,7 @@
 
 
 
-<nz-table class="mt-3" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
+<nz-table class="view-client-table" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
 
 
   <thead>

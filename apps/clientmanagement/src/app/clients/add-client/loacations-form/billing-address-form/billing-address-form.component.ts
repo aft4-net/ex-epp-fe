@@ -112,7 +112,8 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
       this.forms.value['ZipCode']!='' ||
       this.forms.value['Address']!='' ||
       this.forms.value['Affliation']!='' ){
-       this.isClearButtonActive=false;
+      this.updateStateClientService.updateButtonListener=false;
+      this.isClearButtonActive=false;
       }
       else{
        this.isClearButtonActive=true;
@@ -276,6 +277,7 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
     }
   }
   edit(index:number){
+    this.dynamicBtnValue=this.updateStateClientService.actionButton="Update";
     for(let count=0;count<this.billingAddressess.length;count++){
       this.isVisible = true;
       if(count==index){
@@ -310,11 +312,11 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
 }
 showConfirm(index:number): void {
   this.confirmModal = this.modal.confirm({
-    nzTitle: 'Do you want to delete this item?',
-    nzContent: 'The action is not recoverable. ',
-    nzOkType: 'primary',
-    nzOkText: 'Yes',
-    nzCancelText: 'No',
+    nzIconType:'',
+    nzTitle: 'Delete billing adress ?',
+    nzContent: '<b >Are you sure, you want to delete this billing address? this action cannot be undone</b>',
+    nzOkText: 'Yes, Delete',
+    nzCancelText: 'Cancel',
     nzOkDanger: true,
     nzOnOk: () =>
       new Promise((resolve, reject) => {

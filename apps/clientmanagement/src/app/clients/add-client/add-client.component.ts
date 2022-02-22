@@ -33,6 +33,7 @@ enableUpdateButton=true;
     private modal: NzModalService
   ) {}
   ngOnInit(): void {
+    this.updateClientState.updateButtonListener=false;
 
     if(this.updateClientState.isEdit)
     {

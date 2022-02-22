@@ -3,7 +3,7 @@
 
 tr:nth-child(even) {background: none}
 .page-title {
-  font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
+  font-family: 'apple-system, BlinkMacSystemFont, sans-serif;';
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -29,8 +29,13 @@ header {
 
 
 
+.view-client-table {
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+}
+
 .page-title {
-  font-family: 'SF Pro Display';
+  font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -53,13 +58,17 @@ header {
 }
 .add-button-bg{
   background-color: #00A551;
-  font-family: SF Pro Display;
+  font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   color: #FFFFFF;
 
+}
+::ng-deep .ant-modal-confirm .ant-modal-confirm-btns {
+  justify-content: center !important;
+  float: none !important;
 }
 
 // ::ng-deep .ant-btn {
@@ -119,7 +128,17 @@ header {
   height: 40px;
 
 }
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+  border-color: #00A551 !important;
+  background: #00A551 !important;
 
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary:hover {
+  background: #00A551 !important;
+}
+::ng-deep .ant-modal-confirm-body>.anticon+.ant-modal-confirm-title+.ant-modal-confirm-content {
+  margin-left: 0px !important;
+}
 ::ng-deep .table_heading {
   background-color: #fafafa !important;
 }

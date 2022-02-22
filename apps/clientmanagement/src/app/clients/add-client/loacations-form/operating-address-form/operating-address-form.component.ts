@@ -99,6 +99,7 @@ export class OperatingAddressFormComponent implements OnInit {
       this.forms.value['State']!='' ||
       this.forms.value['ZipCode']!='' ||
       this.forms.value['Address']!='' ){
+        this.updateClientStateService.updateButtonListener=false;
        this.isClearButtonActive=false;
       }
       else{
@@ -282,12 +283,14 @@ export class OperatingAddressFormComponent implements OnInit {
   }
   showConfirm(index:number): void {
     this.confirmModal = this.modal.confirm({
-      nzTitle: 'Do you want to delete this item?',
-      nzContent: 'The action is not recoverable. ',
+      nzIconType:'',
+      nzTitle: 'Delete Operating Address ?',
+      nzContent: '<b >Are you sure, you want to delete this operating adress? this action cannot be undone</b>',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
-      nzOkText: 'Yes',
-      nzCancelText: 'No',
+
+      nzCancelText: 'Cancel',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
           if(typeof this.updateClientStateService.UpdateClientData.OperatingAddress[index].Guid!=='undefined'){

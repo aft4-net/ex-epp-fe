@@ -125,7 +125,7 @@
       </nz-form-item>
       <div class="footer-btn">
         <button nz-button class="clear-btn" [disabled]="isClearButtonActive" (click)="handleClear()" >Clear</button>
-        <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid">{{dynamicBtnValue}}</button>
+        <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid" [disabled]="clientContactUpdateBtn">{{dynamicBtnValue}}</button>
 
       </div>
 

@@ -20,17 +20,19 @@
 
 
 .page-title {
-
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 20px;
   line-height: 28px;
+  /* or 140% */
+
   display: flex;
   align-items: center;
-  color: #262626;
-  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
 }
+*{
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
+ }
 .tab-content {
   padding: 0px 20px 25px;
   height: 85vh;
@@ -121,7 +123,7 @@ header {
   border: 0.5px solid #00a551;
   font-size: 1rem;
   font-style: normal;
-  margin-right: 1.2vw;
+  margin-right: 0.7vw;
 
 }
 
@@ -157,5 +159,6 @@ span.ng-star-inserted.invalisForm {
   background: #00A551 !important;
     color: white !important;
 }
+
 
 

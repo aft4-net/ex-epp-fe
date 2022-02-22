@@ -20,7 +20,7 @@ import { CountryCodeService } from '../../../core/services/country-code.service'
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { getNames } from '../../../shared/Data/contacts';
- 
+
 @Component({
   selector: 'exec-epp-company-contacts-form',
   templateUrl: './company-contacts-form.component.html',
@@ -105,7 +105,7 @@ clientalreadyExist=false;
         if(this.addContactForm.value['companyContactName']!='' ||
         this.addContactForm.value['phoneNumber']!='' ||
         this.addContactForm.value['emailAdress']!=''  ){
-
+          this.updateClientStateService.updateButtonListener=false;
          this.isClearButtonActive=false;
         }
         else{
@@ -217,24 +217,6 @@ this.IsEdit
 
   }
   handleOk(): void {
-    // if (this.addContactForm.valid) {
-    //   this.listData = [...this.listData, this.contactDetail];
-    //   this.comapanyContacts.push({
-    //     ContactPersonGuid: this.contactDetail.Guid,
-    //   });
-    //   this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-    //   this.addContactForm.reset();
-    //   this.isVisible = false;
-    // } else {
-    //   Object.values(this.addContactForm.controls).forEach((control) => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    // }
-    // this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-    // this.addContactForm.reset();
 
   }
   edit(index:number){
@@ -297,9 +279,10 @@ this.IsEdit
   showDeleteConfirm(element: any,i:number): void {
 
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this contact?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+      nzIconType:'',
+      nzTitle: 'Delete Company Contact ?',
+      nzContent: '<b >Are you sure, you want to delete this company contact? this action cannot be undone</b>',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
@@ -340,7 +323,7 @@ this.IsEdit
       }
 
       },
-      nzCancelText: 'No',
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
     });
   }

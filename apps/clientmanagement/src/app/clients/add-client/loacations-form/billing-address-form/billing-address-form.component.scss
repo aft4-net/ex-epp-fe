@@ -55,7 +55,6 @@ $border:red;
 
 
 .action-column {
-  float: right;
   display: flex;
 }
 .column-padding-center{
@@ -79,6 +78,18 @@ $border:red;
     margin-right: 1vw;
     position: relative;
 
+}
+.ant-table-tbody>tr>td {
+  border-bottom: none !important;
+
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+  border-color: #00A551 !important;
+  background: #00A551 !important;
+
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary:hover {
+  background: #00A551 !important;
 }
 /* You can add global styles to this file, and also import other style files */
 // @import "~ng-zorro-antd/ng-zorro-antd.css";
