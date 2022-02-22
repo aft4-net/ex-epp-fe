@@ -1,4 +1,4 @@
-<div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">
+<div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">    
     <h1>Country</h1>
     <div class="flex flex-row justify-center content-between">
         <div class="w-full m-0 mb-6">
@@ -18,10 +18,10 @@
     </div>
 
     <div>
-        <nz-table #dutyStationTable [nzData]="(dutyStation$ | async) ?? []" [nzOuterBordered]="true">
+        <nz-table #dutyStationTable [nzData]="(dutyStation$ | async) ?? []">
             <thead>
                 <tr>
-                    <th>Country</th>
+                    <th>Name</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -39,45 +39,20 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="addDutyStation"
-          nzTitle="Add Duty Station" [nzFooter]="null"
-          nzClassName="config-add-country-modal"
-          (nzOnCancel)="closeModal()">
+<nz-modal [(nzVisible)]="addDutyStation" nzTitle="Add Duty Station" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
     <ng-container *nzModalContent>
-      <form #countryForm="ngForm"
-            (ngSubmit)="save(countryForm)">
-        <nz-form-item>
-          <nz-form-label
-            nz-row
-          >
-            {{label}}
-          </nz-form-label>
-        </nz-form-item>
-        <nz-form-item
-          class="form-item ">
-          <nz-form-control
-            nz-row
-            nzHasFeedback>
-            <nz-select
-              class="excel-single-control"
-              [(ngModel)]="selectedValue" name="countr"
-              nzAllowClear
-              nzPlaceHolder="Choose Duty Country"
-            >
-              <nz-option
-                *ngFor="let choice of (nationalities$ | async)"
-                [nzValue]="choice.value" [nzLabel]="choice.label">
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
+        <form (ngSubmit)="save()" class="flex flex-col">
+            <div class="w-full m-0 mb-6">
+                <label for="Name">Name:</label>
+                <div class="m-0 mt-2">
+                    <input nz-input id="Name" placeholder="Name" [formControl]="dutyStation" />
+                </div>
+            </div>
 
-        <div>
-          <button *ngIf="isNew" nz-button nzType="primary" type="submit">Add</button>
-          <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
-        </div>
-
-      </form>
-
+            <div class="w-auto m-0 ml-auto mr-auto">
+                <button *ngIf="isNew" nz-button nzType="primary" type="submit">Save</button>
+                <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
+            </div>
+        </form>
     </ng-container>
 </nz-modal>
