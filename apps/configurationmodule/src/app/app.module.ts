@@ -17,29 +17,27 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
 import { CountryComponent } from './features/country/country.component';
 import { DutyStationComponent } from './features/duty-station/duty-station.component';
-import {CustomFormsControlsModule} from "../../../resourcemanagement/src/app/Features/Components/custom-forms-controls/custom-forms-controls.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimesheetConfigurationComponent,
-    RoleComponent,
+    TimesheetConfigurationComponent, 
+    RoleComponent, 
     AddEditRoleComponent,
     DepartmentComponent,
     AddEditDepartmentComponent,
     CountryComponent,
     DutyStationComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        DemoNgZorroAntdModule,
-        NzNotificationModule,
-        RouterModule.forRoot([], {initialNavigation: 'enabledBlocking'}),
-        CustomFormsControlsModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DemoNgZorroAntdModule,
+    NzNotificationModule,
+    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
   ],
