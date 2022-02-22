@@ -2,13 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { CountryService } from "../../../../Services/EmployeeOrganization/country.service";
 import { DepartmentService } from "../../../../Services/EmployeeOrganization/department.service";
 import { ReportingManagerService } from "../../../../Services/EmployeeOrganization/reportingmanager.service";
 import { RoleService } from "../../../../Services/EmployeeOrganization/role.service";
-import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
+import { employementStatuses$, employementTypes$ } from "../../shared/static-data";
 
 @Component({
     selector: 'exec-epp-organizational-details-group',
@@ -30,21 +30,23 @@ export class OrganizationalDetailGroupComponent implements OnInit {
     joinigStartDate = new Date(Date.now())
     terminationStartDate = new Date(Date.now())
 
-    isContract = false
+    isContract = false;
+    isNew = true;
     constructor(
         private readonly _formGenerator: FormGenerator,
         private readonly _countryService: CountryService,
         private readonly _departmentService: DepartmentService,
         private readonly _roleService: RoleService,
         private readonly _reportingManagerService: ReportingManagerService,
-        private readonly _employeeStaticDataService: EmployeeStaticDataMockService) {
+        private readonly _employeeService: EmployeeService
+        ) {
         this.countries$ = this._countryService.loadCountries();
         this.dutyStations$ = of([]);
         this.departments$ = this._departmentService.getAllDeparments()
         this.jobTitles$ = of([]);
-        this.employementTypes$ = this._employeeStaticDataService.employementTypes$
+        this.employementTypes$ = employementTypes$
         this.reportingManagers$ = this._reportingManagerService.GetReportingManager();
-        this.employementStatuses$ = this._employeeStaticDataService.employementStatuses$
+        this.employementStatuses$ = employementStatuses$
         this.formGroup
             = this._formGenerator.organizationalForm
     }
@@ -57,6 +59,7 @@ export class OrganizationalDetailGroupComponent implements OnInit {
         if(this.formGroup.value.department){
             this.onDepartmentSelect(this.formGroup.value.department.toString());
         }
+        this.isNew = !this._employeeService.isEdit;
     }
 
     getControl(name: string): FormControl {

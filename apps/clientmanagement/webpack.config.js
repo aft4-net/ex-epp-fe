@@ -14,7 +14,7 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: false,
-    minimize: false,
+    minimize: true,
   },
   resolve: {
     alias: {
@@ -24,7 +24,7 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'clientmanagement',
-      filename: 'remoteEntry.js',
+      filename: 'remoteEntry.js', 
       exposes: {
         './Module':
           'apps/clientmanagement/src/app/remote-entry/entry.module.ts',

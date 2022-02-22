@@ -110,6 +110,21 @@ export class DepartmentComponent implements OnInit {
   }
 
   showDeleteConfirm(id: string, name: string) {
+    this.departmentConfigService.checkifDepartmentisDeletable(id).subscribe((res)=>{
+    
+    if(res === true){
+      this.modal.confirm({
+        nzTitle: 'This Department can not be delete b/c it is assigned to employee and/or job title',
+        nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
+        nzOkText: 'Ok',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+      //  nzOnOk: () => this.deleteHandler(id),
+      //  nzCancelText: 'No'
+      });
+     
+    }
+    else{
     this.modal.confirm({
       nzTitle: 'Delete department ?',
       nzContent: 'Are you sure you want to delete this department?<br>this action cannot be undone.',
@@ -120,6 +135,8 @@ export class DepartmentComponent implements OnInit {
       nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel')
     });
+  }
+});
   }
 
   deleteHandler(id: string) {

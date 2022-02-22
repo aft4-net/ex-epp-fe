@@ -1,7 +1,7 @@
 import { Address } from "./address.model";
 
 export interface EmergencyContacts {
-  guid: string
+  Guid: string
   FirstName: string
   FatherName: string
   GrandFatherName: string

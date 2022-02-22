@@ -78,9 +78,10 @@ export class AddressViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  showConfirm(index: number): void {
+  showConfirm(index: number,id:string): void {
+    console.log(id);
     this.confirmModal = this.modalService.confirm({
-      nzTitle: 'Do you want to delete this item?',
+      nzTitle: 'Do you want to delete Address ?',
       nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
       nzOkText: 'Yes',
@@ -94,6 +95,10 @@ export class AddressViewComponent implements OnInit {
               this.form.allAddresses = this.emptyData;
             }
           }
+
+        
+          this.employeeService.deletePersonalAddress(id);
+
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
         }).catch(() => console.log('Error.')),
     });

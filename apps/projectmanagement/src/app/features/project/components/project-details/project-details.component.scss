@@ -71,6 +71,109 @@ header {
 }
 .tab-content {
     padding:0px 20px 25px;
-    height: 100vh;
+    height: 90vh;
     margin-bottom: 5rem;
   }
+
+  ::ng-deep .ant-tabs-tab {
+  color: #363636 !important;
+}
+
+::ng-deep .ant-tabs-nav {
+  width: 266px !important;
+  color: #363636 !important;
+  font-size: 26px !important;
+}
+
+
+
+
+::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
+
+box-shadow: inset -2px 0px 0px #DADADA !important;
+
+}
+
+::ng-deep .ant-tabs-nav-scroll {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+
+::ng-deep .ant-tabs-tab:hover {
+  color: #595959 !important;
+}
+
+::ng-deep .ant-menu-item-selected[_ngcontent-lnn-c431] {
+  background-color: #dcffdc !important;
+}
+
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active   {
+  background-color: #DCFFDC !important;
+  background-color: #DCFFDC !important;
+    color: #262626 !important;
+}
+
+::ng-deep  ant-tabs-tab .ant-tabs-tab-active{
+  background-color: #DCFFDC !important;
+      color: #262626 !important;
+}
+
+::ng-deep .ant-tabs-nav {
+  font-size: 26px;
+}
+
+::ng-deep .ant-tabs-tab-btn {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
+.ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
+  box-shadow: inset -2px 0px 0px #DADADA;
+}
+
+::ng-deep .ant-tabs-nav-scroll {
+  display: flex;
+  justify-content: center;
+}
+
+
+::ng-deep .ant-tabs-tab:hover {
+  color: #262626;
+}
+
+::ng-deep ant-tabs-tab.ant-tabs-tab-active {
+  background: #DCFFDC !important;
+}
+
+
+::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
+.ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
+  box-shadow: inset -3px 0px 0px #EAEAEA;
+
+}
+
+::ng-deep .ant-tabs-ink-bar {
+  box-shadow: inset -3px 0px 0px #EAEAEA !important;
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn :disabled{
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  color: #262626;
+}
+
+

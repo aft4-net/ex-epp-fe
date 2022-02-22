@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, fromEvent, of } from 'rxjs';
 import {
@@ -68,8 +68,14 @@ export class EmployeeDetailComponent implements OnInit {
     private _authenticationService: AuthenticationService,
     private notification: NotificationBar,
     private _message: NzNotificationService,
-    private modal: NzModalService
-  ) {}
+    private modal: NzModalService,
+    private route:ActivatedRoute
+  ) {
+
+    route.params.subscribe(val => {
+      this.ngOnInit();
+    });
+  }
 
   isdefault = true;
   router = '';
@@ -178,7 +184,9 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   getfilterDataMenu(): void {
+
     this._employeeService.getFilterData().subscribe((data) => {
+
 
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
@@ -191,17 +199,19 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   getUser() {
-    console.log('response' + this.uemail);
     this._employeeService.getUser(this.uemail).subscribe((response: any) => {
       this.theEmpguid = response.Guid;
+
       if (this.theEmpguid !== null) {
+
         this.Edit(this.theEmpguid);
       }
+
     });
   }
 
   EmployeeFilter(key: string[], name: any) {
-    console.log(key, name.name);
+
     // this.getEmployees();
   }
 
@@ -469,7 +479,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   searchEmployees() {
-    if (this.fullname.length > 3 || this.fullname == '') {
+    if (this.fullname.length > 1 || this.fullname == '') {
       this.employeeParams.searchKey = this.fullname;
       this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
         (response: PaginationResult<IEmployeeViewModel[]>) => {
@@ -622,6 +632,7 @@ FilterData(){
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data: any) => {
 
+
       this._employeeService.empNum = data.EmployeeNumber;
 
       this._employeeService.setEmployeeDataForEdit(data);
@@ -670,7 +681,7 @@ FilterData(){
       .pipe(
         map((event) => event.target.value),
         startWith(''),
-        debounceTime(3000),
+        debounceTime(2000),
         distinctUntilChanged(),
         switchMap(async (search) => {
           (this.fullname = search), this.searchEmployees();

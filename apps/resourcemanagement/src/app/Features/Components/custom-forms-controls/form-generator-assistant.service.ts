@@ -1,7 +1,6 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
 import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
-import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 
 export type ExtractedData = {
     prefix: any,
@@ -15,14 +14,9 @@ export class FormGeneratorAssistant {
     private _phonePrefices: string[] = []
 
     constructor(
-        private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
-        private readonly _addressCountryStateService: CountriesMockService
+        private readonly _countriesMokService: CountriesMockService
     ) {
-        this._employeeStaticDataMockService.employeeIdNumberPrefices$
-            .subscribe((response: SelectOptionModel[]) => {
-                this._employeeIdNumberPrefices = response.map(option => option.value as string)
-            });
-        this._addressCountryStateService.getCountriesPhonePrefices()
+        this._countriesMokService.getCountriesPhonePrefices()
             .subscribe((response: SelectOptionModel[]) => {
                 this._phonePrefices = response.map(option => option.value as string)
             })

@@ -14,6 +14,8 @@ export class DepartmentService {
   baseUrl = environment.apiUrl;
   departments:Department[] = [];
 
+ 
+
   constructor(private http: HttpClient) { }
 
   getDepartment(id: string): Observable<ResponseDTO<Department>> {
@@ -54,5 +56,8 @@ export class DepartmentService {
 
   deleteDepartment(id: string): Observable<ResponseDto<Department>> {
     return this.http.delete<ResponseDto<Department>>(this.baseUrl + "Department/?id="+ id);
+  }
+  checkifDepartmentisDeletable(id:string) : Observable<any>{
+    return this.http.get<any>(this.baseUrl+"Employee/checkDepartment/?idNumber="+id);
   }
 }

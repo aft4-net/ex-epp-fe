@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
 import { Employee } from '../../Features/Models/Employee';
 import { EmployeeOrganization } from '../../Features/Models/EmployeeOrganization/EmployeeOrganization';
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
@@ -13,7 +12,6 @@ import { Nationality } from '../../Features/Models/Nationality';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
-import { environment } from 'libs/environments/environment';
 
 @Component({
   selector: 'exec-epp-page-title',
@@ -21,6 +19,7 @@ import { environment } from 'libs/environments/environment';
   styleUrls: ['./page-title.component.scss'],
 })
 export class PageTitleComponent implements OnInit {
+  @Input() title = 'Personal Detail'
   save = 'Save';
 
   constructor(
@@ -77,13 +76,13 @@ export class PageTitleComponent implements OnInit {
         setTimeout(() => {
           this._employeeService.sendempphoto();
           this._router.navigate(['resourcemanagement']); //.then(() => {
-        }, 2000);
+        }, 1000);
       } else {
         this._formGenerator.save();
         setTimeout(() => {
           this._employeeService.sendempphoto();
           this._router.navigate(['resourcemanagement']); //.then(() => {
-        }, 2000);
+        }, 1000);
       }
     }
   }
