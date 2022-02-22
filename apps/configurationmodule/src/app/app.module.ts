@@ -17,6 +17,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
 import { CountryComponent } from './features/country/country.component';
 import { DutyStationComponent } from './features/duty-station/duty-station.component';
+import { DepartmentModule } from './features/department/department.module';
 
 @NgModule({
   declarations: [
@@ -24,10 +25,9 @@ import { DutyStationComponent } from './features/duty-station/duty-station.compo
     TimesheetConfigurationComponent, 
     RoleComponent, 
     AddEditRoleComponent,
-    DepartmentComponent,
-    AddEditDepartmentComponent,
     CountryComponent,
     DutyStationComponent,
+
   ],
   imports: [
     BrowserModule,
