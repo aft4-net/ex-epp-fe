@@ -42,6 +42,7 @@ export class FormValidator implements IValidator {
   }
 
   validateEmail(): ValidatorFn {
+    alert('validating..');
     return (control: AbstractControl): ValidationErrors | null => {
       const email = control.value;
       const re =

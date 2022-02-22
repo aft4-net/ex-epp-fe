@@ -23,6 +23,8 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 import { environment } from 'libs/environments/environment'
 import { LoginComponent } from '../features/Account/user/login/login.component';
 import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
+import { ForgotPasswordComponent } from '../features/Account/forgotpassword/forgotpassword.component';
+import { ResetpasswordComponent } from '../features/Account/resetpassword/resetpassword.component';
 export function MSALInstanceFactory(): IPublicClientApplication
 {return new PublicClientApplication({
   auth: {
@@ -77,7 +79,14 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'changepassword', component:ChangepasswordComponent
           },
-          {path:'unauthorize', component:UnauthorizeComponent,
+          {
+            path:'forgotpassword', component:ForgotPasswordComponent
+          },
+          {
+            path:'resetpassword', component:ResetpasswordComponent
+          },
+          {
+            path:'unauthorize', component:UnauthorizeComponent,
           data: {
             breadcrumb: "Log In"
           }
