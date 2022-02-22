@@ -7,8 +7,10 @@
         <nz-breadcrumb-item>
           <a [routerLink]="['/resourcemanagement']">Resources</a></nz-breadcrumb-item>
         <nz-breadcrumb-item *ngIf="!employeeService.isdefault && !isEdit;else editEmploye">
-          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a></nz-breadcrumb-item> <br />
-         <ng-template #editEmploye>
+          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a>
+        </nz-breadcrumb-item>
+        <br/>
+        <ng-template #editEmploye>
           <nz-breadcrumb-item>
             <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
          </ng-template>
@@ -20,7 +22,7 @@
 
     </div>
   </nz-breadcrumb>
-  </div>
+</div>
 <exec-epp-page-title></exec-epp-page-title>
 <div nz-row style="position: absolute;">
   <div nz-col nzSpan="6.5" >
