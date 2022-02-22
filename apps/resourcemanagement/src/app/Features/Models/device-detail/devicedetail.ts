@@ -1,6 +1,3 @@
-import { Category } from "./category";
-import { DeviceClassification } from "./deviceclassification";
-import { SubCategory } from "./subcategory";
 
 export interface DeviceDetail {
     Guid: string;

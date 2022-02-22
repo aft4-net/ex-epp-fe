@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, formatDate } from '@angular/common';
-
 import { Employee } from '../../Features/Models/Employee';
 import { EmployeeOrganization } from '../../Features/Models/EmployeeOrganization/EmployeeOrganization';
 import { EmployeeService } from '../../Features/Services/Employee/EmployeeService';
@@ -14,7 +12,6 @@ import { Nationality } from '../../Features/Models/Nationality';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
-import { environment } from 'libs/environments/environment';
 
 @Component({
   selector: 'exec-epp-page-title',
