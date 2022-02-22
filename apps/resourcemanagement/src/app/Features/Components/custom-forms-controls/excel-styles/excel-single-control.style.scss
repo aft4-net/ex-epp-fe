@@ -1,5 +1,6 @@
 .excel-single-control {
     width: 28rem !important;
+    
 }
 
 .excel-phone-prefix-control {
@@ -70,6 +71,10 @@
 .multiple-entry-item ::ng-deep .ant-input-group-addon:last-child {
     border: none !important;
     background-color: white !important;
+}
+
+.form-item ::ng-deep .ant-form-item-explain, .ant-form-item-extra {
+    width: 28rem !important;
 }
 
 .exec-buttons-multiple-controls {
