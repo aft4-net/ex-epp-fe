@@ -32,6 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { LoginComponent } from './features/Account/user/login/login.component';
 import { ChangepasswordComponent } from './features/Account/changepassword/changepassword.component';
+import { ForgotPasswordComponent } from './features/Account/forgotpassword/forgotpassword.component';
+import { ResetpasswordComponent } from './features/Account/resetpassword/resetpassword.component';
 
 
 
@@ -61,7 +63,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     UserToGroupComponent,
     UserdetailsComponent,
     LoginComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    ForgotPasswordComponent,
+    ResetpasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { environment } from 'libs/environments/environment';
-import { Result } from 'postcss';
 
 @Injectable({
   providedIn: 'root'

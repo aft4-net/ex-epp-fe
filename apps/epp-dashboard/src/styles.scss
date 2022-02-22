@@ -181,7 +181,7 @@
 .ant-modal-confirm-btns {
   display: flex;
   flex-direction: row-reverse;
-}
+  
   .ant-btn {
     margin-left: 8px;
   }
@@ -214,6 +214,7 @@
     border-color: #005228;
     background: #005228;
   }
+}
 
 .ant-table-footer, .ant-table-thead > tr > th {
   background: #f5f5f5 !important;
