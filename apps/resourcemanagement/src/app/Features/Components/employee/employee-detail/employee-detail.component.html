@@ -12,19 +12,12 @@
         </div>
       </div>
      
-      <div  nz-row nzJustify="end" >
-       
-        <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
-        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
-        <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
-        </div>
-      </div>
+      
       
       <br/>
       <div  style="margin-top:-10px">
         <div >
-            <nz-table class="mt-3" [nzLoading]="loading"   #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
+            <nz-table class="mt-3" [nzLoading]="loading" nzSize="small" #rowSelectionTable [nzFrontPagination]="false" [nzData]="employeeViewModel"
                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
               <div *ngIf="employeeViewModel.length > 0; else normalHeader">
                <!-- <thead>
@@ -113,6 +106,14 @@
                 </tr>
               </tbody>
             </nz-table>
+        </div>
+        <div style="padding-top: 10px;"  nz-row nzJustify="end" >
+       
+          <div nz-row nzJustify="end" *ngIf="employeeViewModel.length > 0">
+          <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+          <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+            nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+          </div>
         </div>
       </div>
       

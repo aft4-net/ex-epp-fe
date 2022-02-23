@@ -40,10 +40,10 @@ nz-table.table-container.ant-table-wrapper {
   background:none !important;
 }
 
-tr.ant-table-row.ng-star-inserted {
+/* tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
   padding:16px !important;
-}
+} */
 .main_container_homepage {
   padding: 0px 2%;
 }
@@ -83,10 +83,10 @@ tr.ant-table-row.ng-star-inserted {
   border: 1px solid #ddd !important;
 }
 
-tr.ant-table-row.ng-star-inserted {
+/* tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
   padding:16px !important;
-}
+} */
 
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
