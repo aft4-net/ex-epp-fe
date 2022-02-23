@@ -13,16 +13,16 @@
           <nz-breadcrumb-item>
             <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
          </ng-template>
-        <h3 *ngIf="!employeeService.isdefault && !employeeService.isEdit;else updatEmployee">Add Employee</h3>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!employeeService.isdefault && !employeeService.isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
-          <h3> Edit Employee</h3>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
     </div>
   </nz-breadcrumb>
   </div>
-<exec-epp-page-title></exec-epp-page-title>
+<exec-epp-page-title title="Family Detail"></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
     <exec-epp-side-bar [active]="2"> </exec-epp-side-bar>
@@ -30,7 +30,6 @@
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
       <div nz-col nzSpan="20" class="page-title">
-        <h1>Family Details</h1>
       </div>
       <div nz-col nzSpan="4">
         <button
@@ -53,31 +52,30 @@
     >
       <thead>
         <tr class="tr">
-          <th>Full Name</th>
-          <th>Relationship with Employee</th>
-          <th>Action</th>
+          <th class="table_heading">Full Name</th>
+          <th class="table_heading">Relationship with Employee</th>
+          <th class="table_heading">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of form.allFamilyDetails; let i = index">
-          <td>{{ data.FullName }}</td>
-          <td>{{ data.Relationship?.Name }}</td>
+          <td class="tdstyle">{{ data.FullName }}</td>
+          <td class="tdstyle">{{ data.Relationship?.Name }}</td>
 
-          <td>
+          <td class="tdstyle">
             <div nz-row>
               <div
                 nz-col
-                nzSpan="2"
-                class="editable-cell"
+                nzSpan="2" style="color:black;"
                 [hidden]="editId === data.Guid"
                 (click)="startEdit(i)"
               >
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                <i style="color:black;" nz-icon nzType="edit" nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
               <div nz-col nzSpan="2">
-                <a nz-popconfirm (click)="showConfirm(i)"
-                  ><i nz-icon nzType="delete" nzTheme="outline"></i
+                <a nz-popconfirm (click)="showConfirm(i,data.Guid)"
+                  ><i style="color:black;" nz-icon nzType="delete" nzTheme="outline"></i
                 ></a>
               </div>
             </div>

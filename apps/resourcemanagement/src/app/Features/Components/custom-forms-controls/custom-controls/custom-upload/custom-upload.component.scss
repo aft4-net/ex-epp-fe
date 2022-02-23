@@ -9,7 +9,15 @@
     width: 5rem;
     height: 5rem;
     border-radius: 50%;
-    border: solid black;
+    margin-bottom: 10px;
+   // border: solid black;
+   
+}
+
+.profile-pic ::ng-deep .anticon, .anticon svg {
+    align-items: center;
+    vertical-align: middle;
+    padding-bottom: 7%;
 }
 
 .profile-button-add, .profile-button-delete {
@@ -20,6 +28,7 @@
     border: solid 1px #00A551 !important;
     background-color: white !important;
     border-radius: 3px !important;
+    margin-top: 10px;
 }
 
 .profile-button-container {

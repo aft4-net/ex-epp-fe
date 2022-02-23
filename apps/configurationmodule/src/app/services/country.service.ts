@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Country, CountryResponse } from '../models/country';
 import { environment } from './../../environments/environment';
 
@@ -36,5 +36,8 @@ export class CountryService {
 
   delete(country: Country) {
     return this.http.delete<CountryResponse>(this.baseUrl + "Delete", { body: country});
+  }
+  checkifCountryisDeletable(id:string) : Observable<any>{
+    return this.http.get<any>(environment.apiUrl+"Employee/checkCountry/?idNumber="+id);
   }
 }

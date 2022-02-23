@@ -1,4 +1,3 @@
-import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
 
 export const lists = [
     {

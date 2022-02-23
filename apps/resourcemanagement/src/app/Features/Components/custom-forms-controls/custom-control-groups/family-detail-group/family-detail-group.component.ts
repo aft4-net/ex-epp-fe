@@ -3,8 +3,8 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
 import { FormGenerator } from "../../form-generator.model";
+import { genders$, relationships$ } from "../../shared/static-data";
 
 @Component({
     selector: 'exec-epp-family-detail-group',
@@ -15,19 +15,18 @@ export class FamilyDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
 
-    relationships$: Observable<SelectOptionModel[]>
-    genders$:  Observable<SelectOptionModel[]>
+    relationships$: Observable<SelectOptionModel[]>;
+    genders$:  Observable<SelectOptionModel[]>;
 
     endingDate = new Date(Date.now())
 
     isChild = false
 
     constructor(
-        private readonly _formGenerator: FormGenerator,
-        private readonly _employeeStaticDataervice: EmployeeStaticDataMockService
+        private readonly _formGenerator: FormGenerator
     ) {
-        this.genders$=this._employeeStaticDataervice.genders$
-        this.relationships$=this._employeeStaticDataervice.relationships$
+        this.genders$= genders$
+        this.relationships$=relationships$
         .pipe(
             map(response=> {
                 return response.filter(option => {

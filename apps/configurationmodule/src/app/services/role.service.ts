@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ObservableLike } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Role, RolePostModel } from '../models/role';
 import { Pagination } from '../models/pagination';
@@ -51,4 +51,9 @@ export class RoleService {
   deleteRole(id: string): Observable<ResponseDto<Role>> {
     return this.http.delete<ResponseDto<Role>>(this.baseUrl + "Role/?id="+ id);
   }
+
+  checkifRoleisDeletable(id:string) : Observable<any>{
+    return this.http.get<any>(this.baseUrl+"Employee/checkRole/?idNumber="+id);
+  }
+
 }

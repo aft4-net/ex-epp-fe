@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, provideRoutes } from '@angular/router';
+import { Router, } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
 import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
@@ -16,7 +16,7 @@ interface RouteLinks {
 export class AppComponent implements OnInit {
   route = '';
 
-  isLogin=false;
+isLogin=false;
 checker1= false;
 counter = 1;
 

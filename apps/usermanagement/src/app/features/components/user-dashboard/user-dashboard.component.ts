@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router, RouterLink } from '@angular/router';
+import { Data, Router} from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, fromEvent, of } from 'rxjs';
 import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap, timeInterval } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 
 import { AddUserService } from '../../Services/add-user.service';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
@@ -16,13 +16,14 @@ import { IUserModel } from '../../Models/User/UserList';
 import { IUserPostModel } from '../../Models/User/user-post.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { NzButtonSize } from 'ng-zorro-antd/button';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { PaginationResult } from '../../Models/PaginationResult';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { UserParams } from '../../Models/User/UserParams';
 import { UserService } from '../../Services/user.service';
 import { listtToFilter } from '../../Models/listToFilter';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -130,10 +131,8 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       })
     ).subscribe();
 
-    // setTimeout(() => {
-    //   if(!this.authorize('View_User')&&this.isLogin)
-    //   this._router.navigateByUrl('usermanagement/unauthorize')
-    //   }, 100);
+    setTimeout(() => {
+      }, 100);
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
@@ -290,33 +289,33 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   SearchUsersByUserName() {
     this.loading = true;
     this.userParams.userName = this.userDashboardForm.value.userName;
-    this.userService.SearchUsers(this.userParams)
-    .subscribe((response: PaginationResult<IUserModel[]>) => {
-      if(response.Data) {
-        this.userList$=of(response.Data);
-        this.userList = response.Data;
-        this.listOfCurrentPageData = response.Data;
-        this.pageIndex=response.pagination.PageIndex;
-        this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
-        this.totalRows=response.pagination.TotalRows;
-        this.lastRow = this.totalRows;
-        this.beginingRow = 1;
-        this.FillTheFilter();
+      this.userService.SearchUsers(this.userParams)
+      .subscribe((response: PaginationResult<IUserModel[]>) => {
+        if(response.Data) {
+          this.userList$=of(response.Data);
+          this.userList = response.Data;
+          this.listOfCurrentPageData = response.Data;
+          this.pageIndex=response.pagination.PageIndex;
+          this.pageSize=response.pagination.PageSize;
+          this.totalRecord=response.pagination.TotalRecord
+          this.totalRows=response.pagination.TotalRows;
+          this.lastRow = this.totalRows;
+          this.beginingRow = 1;
+          this.FillTheFilter();
+          this.loading = false;
+        }
+        else
+        {
+          this.loading = false;
+          this.userList = [];
+          this.userList$=of([]);
+          this.FillTheFilter();
+        }
+        this.searchStateFound=true;
+      },error => {
         this.loading = false;
-      }
-      else
-      {
-        this.loading = false;
-        this.userList = [];
-        this.userList$=of([]);
-        this.FillTheFilter();
-      }
-      this.searchStateFound=true;
-    },error => {
-      this.loading = false;
-      this.PopulateFilterColumns();
-     });
+        this.PopulateFilterColumns();
+      });
   }
 
 
@@ -533,25 +532,37 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
-    const modal: NzModalRef = this.modal.confirm({
-      nzTitle: 'Deleting User?',
-      nzContent: 'Once you delete the user you can not undo the deletion',
-      nzOkText: 'Delete User',
-      nzOkType: 'default',
-      nzOkDanger: true,
-      nzOnOk: () =>
-        this.userService.RemoveUser(userGuid).subscribe(
-          (result) => {
-            this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
-            if(this.userDashboardForm.value.userName != '')
-            {
-              this.SearchUsersByUserName();
-            }
-            else
-            {
-              this.FeatchAllUsers();
-            }
-          })
+    const modal: NzModalRef = this.modal.create({
+      nzWidth:'350px',
+      nzTitle: 'Delete user?',
+      nzAutofocus : null,
+      nzContent: 'Are you sure you want to delete user?This action can not be undone',
+      nzFooter: [
+        {
+          label: 'Yes, Delete',
+          type: 'primary',
+          danger: false,
+          onClick: () => {
+            this.userService.RemoveUser(userGuid).subscribe(
+              (result) => {
+                this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+                if(this.userDashboardForm.value.userName != '')
+                {
+                  this.SearchUsersByUserName();
+                }
+                else
+                {
+                  this.FeatchAllUsers();
+                }
+              })
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy()
+        }]        
       });
     }
 }

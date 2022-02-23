@@ -3,7 +3,7 @@ import { AddClientComponent } from '../clients/add-client/add-client.component';
 import { AppComponent } from '../app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { ClientsRoutingModule } from '../clients/clients-routing.module';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -14,7 +14,6 @@ import { ViewClientsComponent } from '../clients/view-clients/view-clients.compo
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
-import { ClientsModule } from '../clients/clients.module';
 
 @NgModule({
   declarations: [RemoteEntryComponent],

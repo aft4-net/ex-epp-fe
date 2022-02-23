@@ -5,7 +5,6 @@ import { catchError } from 'rxjs/operators';
 import { environment } from "../../../environments/environment";
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { ErrHandleService } from '../../shared/services/error-handle.service';
-import { GroupSetModel } from '../Models/group-set.model';
 import { IUserPutModel } from '../Models/User/user-put.model';
 import { GroupData } from '../Models/User/UserDetail';
 

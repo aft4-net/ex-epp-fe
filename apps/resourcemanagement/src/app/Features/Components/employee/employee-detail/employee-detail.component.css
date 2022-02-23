@@ -1,8 +1,10 @@
 .table_heading
 {
-background-color: #F5F5F5 !important;
-font-weight: 700;
+background-color: #fafafa !important;
+font-weight: 550;
+font-size:small;
 }
+
 
 .table_evenrow_heading
 {
@@ -22,7 +24,7 @@ background-color: none !important;
 
 .table_heading
 {
-background-color: #F5F5F5 !important;
+background-color: #fafafa !important;
 }
 tr:nth-child(even) {background: white}
 
@@ -99,6 +101,7 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep .ant-table {
   border: 1px solid #ddd !important;
 }
+
 
 
 ::ng-deep .ant-table-pagination.ant-pagination {
@@ -198,4 +201,31 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep .ant-input-affix-wrapper {
   padding: 1px 5px !important;
 
+}
+
+
+
+::ng-deep.ml-1{
+  padding-left: 9px;
+}
+header {
+  padding: 0px 2%;
+}
+
+.tdstyle{
+  font-size: small;
+}
+.Acttdstyle{
+  font-size: small;
+}
+
+::ng-deep .ant-modal-confirm .ant-modal-confirm-btns .ant-btn {
+  color: #00A551;
+  border: solid 1px #00A551;
+}
+
+::ng-deep .ant-modal-confirm .ant-modal-confirm-btns .ant-btn+.ant-btn {
+  background: #00A551;
+  color: white;
+  border: none;
 }

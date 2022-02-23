@@ -26,7 +26,6 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
 import {TimesheetApprovalComponent} from "./timesheet-approval.component"
 import {TimesheetApprovalRoutingModule} from './timesheet-approval-routing.module';
-import { TimesheetModule } from '../timesheet/timesheet.module';
 import { TimesheetDetailViewComponent } from './components/timesheet-detail-view/timesheet-detail-view.component';
 
 
@@ -43,7 +42,6 @@ import { TimesheetDetailViewComponent } from './components/timesheet-detail-view
     CommonModule,
     CommonModule,
     TimesheetApprovalRoutingModule,
-    TimesheetModule,
     NzBreadCrumbModule,
     NzButtonModule,
     NzIconModule,
@@ -68,10 +66,6 @@ import { TimesheetDetailViewComponent } from './components/timesheet-detail-view
     NzNotificationModule,
     NzMenuModule,
     NzDropDownModule,
-    
-    
-    
-    
   ]
 })
 export class TimesheetApprovalModule { }

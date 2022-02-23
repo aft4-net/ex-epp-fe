@@ -2,17 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import {
   EditProjectStateService,
   PaginatedResult,
-  PermissionService,
   Project,
+  ProjectResourceStateService,
   ProjectService,
 } from '../../../../core';
-import { NzModalComponent, NzModalService } from 'ng-zorro-antd/modal';
-
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-view-project-layout',
@@ -39,7 +38,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   editProjectPermission = false;
   searchProject = new FormControl();
   total = 0;
-  loading = false;
+  loading = true;
   pageSize = 10;
   pageIndex = 1;
   totalPage!: number;
@@ -60,52 +59,24 @@ export class ViewProjectLayoutComponent implements OnInit {
   PageIndexChange(index: any): void {
     this.pageIndex = index;
     this.loading = true;
-    if (this.searchProject.value?.length > 1 && this.searchStateFound == true) {
-      this.projectService
-        .getWithPagnationResut(index, this.pageSize, this.searchProject.value)
-        .subscribe((response: PaginatedResult<Project[]>) => {
-          this.projects = response.data;
-
-          this.pageIndex = response.pagination.pageIndex;
-          this.pageSize = response.pagination.pageSize;
-        });
-    } else {
-      this.projectService
-        .getWithPagnationResut(index, 10)
-        .subscribe((response: PaginatedResult<Project[]>) => {
-          this.projects = response.data;
-          this.pageIndex = response.pagination.pageIndex;
-          this.pageSize = response.pagination.pageSize;
-          this.loading = false;
-        });
-      this.searchStateFound = false;
-    }
+    this.getProjects();
   }
 
   constructor(
+    private router: Router, 
+    private  projectResourceStateService:ProjectResourceStateService,
     private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
-    private modal: NzModalService,
     private notification: NzNotificationService
   ) { }
 
   ngOnInit(): void {
-    this.getCurrentUser();
-    this.getfilterDataMenu();
-    this.projectService
-      .getWithPagnationResut(1, 10)
-      .subscribe((response: PaginatedResult<Project[]>) => {
-        this.projects = response.data;
-        this.intiaload = false;
-        this.pageIndex = response.pagination.pageIndex;
-        this.pageSize = response.pagination.pageSize;
-        this.total = response.pagination.totalRecord;
-        this.totalPage = response.pagination.totalPage;
+  
 
-        this.projectService.setFristPageOfProjects(response);
-      });
-
+        this.getfilterDataMenu();
+        this.getCurrentUser();
+        this.getProjects();
     this.valuechangeSearchProject();
   }
 
@@ -151,9 +122,8 @@ export class ViewProjectLayoutComponent implements OnInit {
           this.searchStateFound = true;
         }
         else {
-          this.loading = false;
-
           this.projects = [] as Project[];
+          this.loading = false;
           this.total = 0;
           this.totalPage = 0;
           this.searchStateFound = false;
@@ -166,18 +136,6 @@ export class ViewProjectLayoutComponent implements OnInit {
       } else {
         this.searchKey = '';
         this.getProjects();
-        // console.log(this.projectService.getFirsttPageValue().data);
-
-        // this.projects = this.projectService.getFirsttPageValue().data;
-
-        // this.pageIndex =
-        //   this.projectService.getFirsttPageValue().pagination.pageIndex;
-        // this.pageSize =
-        //   this.projectService.getFirsttPageValue().pagination.pageSize;
-        // this.total =
-        //   this.projectService.getFirsttPageValue().pagination.totalRecord;
-        // this.totalPage =
-        //   this.projectService.getFirsttPageValue().pagination.totalPage;
       }
     });
   }
@@ -214,16 +172,13 @@ export class ViewProjectLayoutComponent implements OnInit {
       this.searchKey,
       this.SortColumn,
       this.sortDirection
-    ).subscribe(response => {
-      this.loading = false;
+    ).subscribe(response => {   
       this.projects = response.data;
       this.pageIndex = response.pagination.pageIndex;
       this.pageSize = response.pagination.pageSize;
       this.total = response.pagination.totalRecord;
       this.totalPage = response.pagination.totalPage;
-
-        console.log(response);
-      this.projectService.setFristPageOfProjects(response);
+      this.loading = false;
     })
   }
   editProject(data: Project) {
@@ -260,4 +215,17 @@ export class ViewProjectLayoutComponent implements OnInit {
   confirmCancel(){
     this.deleteProjectModal=false;
   }
+
+
+  assignResource(data:Project)
+  {
+  this.projectResourceStateService.projectResources(data);
+  }
+
+
+
+  addProjectPage() {
+    this.router.navigateByUrl('projectmanagement/add-project');
+  }
+
 }

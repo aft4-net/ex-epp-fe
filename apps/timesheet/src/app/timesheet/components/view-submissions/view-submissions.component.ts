@@ -108,6 +108,7 @@ export class ViewSubmissionsComponent implements OnInit {
     private state: TimesheetStateService,
     private _permissionService:PermissionListService
   ) {
+    this.state.date = new Date();
     this.state.setTimesheetPageTitle("View Submissions");
   }
 

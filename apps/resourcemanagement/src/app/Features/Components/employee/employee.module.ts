@@ -1,7 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
-import { AddressNewComponent } from './address-new/address-new.component';
 import { AddressViewComponent } from './address-view/address-view.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AuthGuard } from 'libs/common-services/auth.guard';
@@ -12,13 +11,12 @@ import { CustomFormsControlsModule } from '../custom-forms-controls/custom-forms
 import { DemoNgZorroAntdModule } from '../../../ng-zorro-antd.module';
 import { EmergencycontactViewComponent } from './emergencycontact-view/emergencycontact-view.component';
 import { EmployeeComponent } from './employee.component';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { EmployeeRoutingModule } from './employee-routing.module';
-import { FamilyDetailComponent } from './family-detail/family-detail.component';
 import { FamilyDetailViewComponent } from './family-detail-view/family-detail-view.component';
 import { NgModule } from '@angular/core';
 import { OrganizationDetailComponent } from './organization-detail/organization-detail.component';
 import { PageTitleComponent } from '../../../components/page-title/page-title.component';
-import { PersonalAddressesComponent } from './personal-addresses/personal-addresses.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 
@@ -29,11 +27,9 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 @NgModule({
   declarations: [
     EmployeeComponent,
+    EmployeeDetailComponent,
     OrganizationDetailComponent,
-    AddressNewComponent,
     PersonalInfoComponent,
-    PersonalAddressesComponent,
-    FamilyDetailComponent,
     SideBarComponent,
     AddressViewComponent,
     FamilyDetailViewComponent,
