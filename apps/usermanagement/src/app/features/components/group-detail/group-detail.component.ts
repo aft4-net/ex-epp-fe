@@ -192,23 +192,34 @@ export class GroupDetailComponent implements OnInit {
 
   createGroupDeleteModal(): void {
     const groupId = this.groupDetail?.Guid;
+     if(this.groupUserList.length > 0){
+      const modal: NzModalRef = this.modal.confirm({
+       nzTitle: 'This Group Can Not Be Deleted',
+       nzContent: 'This Group Can Not Be Deleted b/c there are users Assigned to the Group',
+       nzOkText: 'OK',
+       nzOkType: 'default',
+       nzOkDanger: true,
+     
+       });
+       }
+   else{
     this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
       if(res == true){
        const modal: NzModalRef = this.modal.confirm({
-         nzTitle: 'This Group Can Not Be Deleted',
-         nzContent: '',
+         nzTitle: 'Super Admin',
+         nzContent: 'This Group Can Not Be Deleted',
          nzOkText: 'OK',
          nzOkType: 'default',
          nzOkDanger: true,
        
          });
       }
+      
       else{
  
     const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
-    nzContent: 'Users in this group will lose all permissions related to the group.' +
-                "Deleting a group can't be undone" ,
+    nzContent: "Deleting a group can't be undone" ,
     nzOkText: 'Delete Group',
     nzOkType: 'default',
     nzOkDanger: true,
@@ -218,7 +229,8 @@ export class GroupDetailComponent implements OnInit {
       }
     });
   }});
-  }
+}
+}
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
     const modal: NzModalRef = this.modal.confirm({
