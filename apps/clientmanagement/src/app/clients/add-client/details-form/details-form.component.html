@@ -79,9 +79,9 @@
     <nz-form-label nzFor="status">Status </nz-form-label>
     <nz-form-control [nzSm]="10">
       <nz-select
+        formControlName="status"
+        id="status"
         [(ngModel)]="selectedValue"
-        [ngModelOptions]="{ standalone: true }"
-
       >
         <nz-option
         *ngFor="let option of clientStatuses"

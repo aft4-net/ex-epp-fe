@@ -46,7 +46,7 @@ clientttOld:clientEditNotify={} as clientEditNotify;
     private clientStatusService: ClientStatusService,
     private addClientStateService: AddClientStateService,
     private clientDetailsService: ClientDetailsService,
-    private updateClientState: UpdateClientStateService,
+    public updateClientState: UpdateClientStateService,
   ) {}
   ngOnInit(): void {
     this.createRegistrationForm();
@@ -59,14 +59,17 @@ clientttOld:clientEditNotify={} as clientEditNotify;
       this.clients = response.Data;
     });
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
-      this.clientStatuses = res;
+       this.clientStatuses = res;
+       if(!this.updateClientState.isEdit)
+       {
       for (let i = 0; i < this.clientStatuses.length; i++) {
         
         if (this.clientStatuses[i].StatusName == 'Active') {
           this.selectedValue = this.clientStatuses[i].Guid;
           this.validateForm.controls.status.setValue(this.clientStatuses[i].Guid);
-        }  
+        }
       }
+    }
     });
 
 
@@ -122,6 +125,7 @@ else{
         );
       } else this.addClientStateService.restAddClientDetails();
     }
+
     });
   }
   // resetUpdateButton()
@@ -140,6 +144,7 @@ else{
         salesPerson: [this.updateClientState.UpdateClientData.SalesPersonGuid],
         description:[this.updateClientState.UpdateClientData.Description],
       });
+      this.selectedValue=this.updateClientState.UpdateClientData.ClientStatusGuid;
     }
 
   }
