@@ -5,14 +5,9 @@
   <div   style="margin-bottom: 10px;">
 
   <div   style="margin-bottom: 10px;">
-   <h6> <p  class="employee-name" style="text-indent: 60px;">Welcome  {{fullName}}</p></h6>
+   <h6> <p  class="employee-name" style="text-indent: 60px;">Welcome,  {{fullName}}</p></h6>
   </div>
-    <div  style="margin-bottom: 10px; ">
-      <div class="row">
-        <p class="designation" style="text-indent: 60px;">  {{thePosition}} </p> 
-        <p class="current-time mt-2 ml-4" style="text-indent: 60px;margin-left: 73.5%;margin-top: -1.5%;">  {{date | date:'MM/dd/yyyy'}} </p>
-      </div>
-    </div>
+
   </div>
 
   <div nz-row  [nzGutter]="20" nzHoverable="true" class="flex flex-row">
@@ -29,7 +24,7 @@
         <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:#00a551; font-size: '30px';"></i>
       </ng-template> -->
       <ng-template #avatarTextTemplate>
-        <a  style="color: black;" (click)="routetoResourceManagement()" > 
+        <a  style="color: black;" (click)="routetoResourceManagement()" >
           <!-- <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:#00a551; font-size: '30px';"></i> -->
           <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'team'" nzMode="inline" style="color:#00a551; font-size: '30px';"> <span> </span>  </i>  Employee Information</p>
         </a>
@@ -49,14 +44,14 @@
         <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: #00a551 ;  font-size: '30px';"> <span> </span>  </i>  Clients</p>
       </a>
 
-      
+
       </ng-template>
     </div>
     <div nz-col [nzSpan]="5" style="padding-top: 2%; padding-right: 7%;" *ngIf="authorize('Timesheet_Module')">
       <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
         <nz-card-meta
         [nzTitle]="timesheetTextTemplate"
-        
+
       ></nz-card-meta>
       </nz-card>
       <!-- <ng-template #timesheetTemplate>
@@ -64,11 +59,11 @@
       </ng-template> -->
       <ng-template #timesheetTextTemplate>
         <a routerLink="timesheet" style="color: black;" >
-         
+
           <p style="font-size:16px; font-weight: normal;">  <i nz-icon [nzType]="'calendar'" nzTheme="outline" style="color: #00a551;  font-size: '30px';" > <span> </span>  </i>  Timesheet</p>
          </a>
-       
-     
+
+
       </ng-template>
     </div>
 
@@ -117,8 +112,8 @@
         <a routerLink="configurationmodule" style="color: black;" >
           <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"> <span> </span>  </i>  Configuration</p>
         </a>
-       
-   
+
+
       </ng-template>
     </div>
 

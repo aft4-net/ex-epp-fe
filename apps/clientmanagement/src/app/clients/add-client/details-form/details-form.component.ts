@@ -3,6 +3,7 @@ AddClientStateService,
 Client,
 ClientDetailCreate,
 ClientDetailsService,
+clientEditNotify,
 ClientStatus,
 ClientStatusService,
 Employee,
@@ -24,6 +25,8 @@ import {
   styleUrls: ['./details-form.component.scss'],
 })
 export class DetailsFormComponent implements OnInit {
+  clienttt:clientEditNotify={} as clientEditNotify;
+clientttOld:clientEditNotify={} as clientEditNotify;
   inputValue?: string;
   filteredOptions: string[] = [];
   employees = [] as Employee[];
@@ -45,7 +48,6 @@ export class DetailsFormComponent implements OnInit {
     private clientDetailsService: ClientDetailsService,
     private updateClientState: UpdateClientStateService,
   ) {}
-
   ngOnInit(): void {
     this.createRegistrationForm();
     this.setValue();
@@ -66,14 +68,20 @@ export class DetailsFormComponent implements OnInit {
       }
     });
 
-    this.validateForm.controls.clientName.valueChanges.subscribe(()=>{
 
+    this.validateForm.controls.clientName.valueChanges.subscribe(()=>{
       this.checkClientName();
     });
 
     this.validateForm.valueChanges.subscribe(() => {
       if(this.updateClientState.isEdit)
       {
+        if(this.validateForm.valueChanges.subscribe(selectedValue  => {
+          this.updateClientState.updateButtonListener=false;
+
+        }))
+
+
         if (this.validateForm.valid) {
           this.updateClient.ClientName =
             this.validateForm.controls.clientName.value;
@@ -91,7 +99,10 @@ export class DetailsFormComponent implements OnInit {
           this.updateClientState.updateClient(
             this.updateClient
           );
+          this.updateClientState.updateButtonListener=true;
+
         }
+
 
       }
 else{
@@ -112,6 +123,10 @@ else{
     }
     });
   }
+  // resetUpdateButton()
+  // {
+  //   this.updateClientState.updateButtonListener=true;
+  // }
   setValue(){
     if(this.updateClientState.isEdit && this.updateClientState.UpdateClientData!==null)
     {

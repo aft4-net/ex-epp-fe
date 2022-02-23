@@ -6,6 +6,7 @@
   <div nz-col nzSpan="6">   <button  class="company-contact-bg-color" (click)="showModal()" nz-button> Add Company Contact</button></div>
 </div>
 <nz-table class="mt-3"
+nzSize="small"
 [nzData]="listData"
 [nzFrontPagination]="false"
 [nzLoading]="loading"
@@ -120,7 +121,7 @@
 
 <span style="color: #ff0000;">{{clientExist}}</span>
 <div class="footer-btn">
-  <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid">Add</button><span class="spacing"></span>
+  <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid">{{dynamicBtnValue}}</button><span class="spacing"></span>
   <button nz-button class="clear-btn" (click)="handleClear()" [disabled]="isClearButtonActive">Clear</button>
 
 
