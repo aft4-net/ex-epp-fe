@@ -17,6 +17,7 @@ tr:nth-child(even) {background: none}
 }
 header {
   padding: 0px 2%;
+
 }
 
 .main_container_homepage {
@@ -170,3 +171,7 @@ header {
   float: right !important;
 }
 
+.ant-col {
+  padding-bottom: 3px;
+
+}
