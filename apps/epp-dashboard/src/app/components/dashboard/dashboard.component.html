@@ -5,12 +5,12 @@
   <div   style="margin-bottom: 10px;">
 
   <div   style="margin-bottom: 10px;">
-   <h6> <p  class="employee-name" style="text-indent: 60px;">Welcome  {{fullName}}</p></h6>
+   <h6> <p  class="employee-name" style="text-indent: 60px;">Welcome,  {{fullName}}</p></h6>
   </div>
-    <div  style="margin-bottom: 10px; ">
+    <div class="hidden" style="margin-bottom: 10px; ">
       <div class="row">
-        <p class="designation" style="text-indent: 60px;">  {{thePosition}} </p> 
-        <p class="current-time mt-2 ml-4" style="text-indent: 60px;margin-left: 73.5%;margin-top: -1.5%;">  {{date | date:'MM/dd/yyyy'}} </p>
+        <p class="designation" style="text-indent: 60px;">  {{thePosition}} </p>
+        <p class="current-time mt-2 ml-4" style="text-indent: 60px;margin-left: 73.5%;margin-top: -2.0%;"> - {{date | date:'MM/dd/yyyy'}} </p>
       </div>
     </div>
   </div>

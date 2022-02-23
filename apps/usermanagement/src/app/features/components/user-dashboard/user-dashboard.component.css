@@ -330,12 +330,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: black !important;
 }
 
-::ng-deep .ant-btn-primary, .ant-btn-primary:active,
-          .ant-btn-primary:hover, .ant-btn-primary:focus {
-    background-color: #00A551 !important;
-    border-color: #00A551 !important;
-    color: white !important;
-}
+
 
 ::ng-deep .actionButtons .ant-btn .ant-btn:active
           .ant-btn:hover .ant-btn:focus {
