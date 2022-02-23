@@ -113,3 +113,9 @@ button.add-btn.ant-btn {
 ::ng-deep .ant-btn-dangerous.ant-btn-primary:hover {
   background: #00A551 !important;
 }
+::ng-deep .ant-table-column-title,h3 {
+  font-size: 16px !important;
+}
+::ng-deep th.table_heading.ant-table-cell {
+  font-size: 16px !important;
+}

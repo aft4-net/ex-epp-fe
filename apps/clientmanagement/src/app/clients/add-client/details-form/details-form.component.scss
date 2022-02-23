@@ -19,7 +19,9 @@
   font-size: 16px;
   line-height: 24px;
 }
-
+::ng-deep label {
+  font-size: 16px !important;
+}
 
 
 
