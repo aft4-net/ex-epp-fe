@@ -28,13 +28,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { LoginComponent } from './features/Account/user/login/login.component';
 import { ChangepasswordComponent } from './features/Account/changepassword/changepassword.component';
-<<<<<<< HEAD
 import { RouterModule } from '@angular/router';
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
-=======
 import { ForgotPasswordComponent } from './features/Account/forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from './features/Account/resetpassword/resetpassword.component';
->>>>>>> 99e88b01be5d411ebd8e0816ded3419b8ff8598e
 
 
 
