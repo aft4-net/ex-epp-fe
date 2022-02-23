@@ -61,10 +61,11 @@ clientttOld:clientEditNotify={} as clientEditNotify;
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
       this.clientStatuses = res;
       for (let i = 0; i < this.clientStatuses.length; i++) {
+        
         if (this.clientStatuses[i].StatusName == 'Active') {
           this.selectedValue = this.clientStatuses[i].Guid;
           this.validateForm.controls.status.setValue(this.clientStatuses[i].Guid);
-        }
+        }  
       }
     });
 
