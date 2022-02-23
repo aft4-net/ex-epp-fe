@@ -52,10 +52,6 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 
-
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-
-
 @NgModule({
   exports: [
     NzBadgeModule,
@@ -113,7 +109,6 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 
    //SharedModule
-
   ]
 })
 export class DemoNgZorroAntdModule {
