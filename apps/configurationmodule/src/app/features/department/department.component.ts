@@ -118,7 +118,7 @@ export class DepartmentComponent implements OnInit {
         nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
-        nzOkDanger: true,
+        nzOkDanger: false,
       //  nzOnOk: () => this.deleteHandler(id),
       //  nzCancelText: 'No'
       });

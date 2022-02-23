@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { Data } from '@angular/router';
 import { EmergencyContacts } from '../../../Models/emergencycontact';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
@@ -104,7 +103,7 @@ export class EmergencycontactViewComponent implements OnInit {
       this.form.generateEmergencyContactForm(
         this.form.allEmergencyContacts[index]
       );
-   
+
     }
   }
 
@@ -131,9 +130,9 @@ export class EmergencycontactViewComponent implements OnInit {
             if (this.form.allEmergencyContacts.length < 1) {
               this.form.allEmergencyContacts = this.emptyData;
             }
-           
+
           }
-         
+
           this._employeeService.deleteEmergencyContact(id);
 
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);

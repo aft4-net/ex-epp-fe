@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AllPermitionData,
-  IPermissionModel,
-  IPermissionResponseModel,
-} from '../../Models/User/Permission-get.model';
+import {AllPermitionData,IPermissionModel,IPermissionResponseModel,} from '../../Models/User/Permission-get.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
@@ -17,13 +12,15 @@ export interface GroupCheckBoxItem {
   checked: boolean;
   Guid: string;
 }
+
 export interface SelecttedPermission {
   Guid: string;
+  
 }
 
 @Component({
   selector: 'exec-epp-permission',
-  templateUrl: './permission.component.html',
+  templateUrl: './permission.component.html', 
   styleUrls: ['./permission.component.scss'],
 })
 export class PermissionComponent implements OnInit {

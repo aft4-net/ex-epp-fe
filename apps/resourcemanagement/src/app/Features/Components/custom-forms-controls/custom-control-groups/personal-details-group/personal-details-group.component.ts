@@ -35,7 +35,8 @@ export class PersonalDetailGroupComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.showData()
+        const date = new Date();
+        this.birthEndDate = new Date(date.getFullYear()-18, date.getMonth(), date.getDate());
     }
 
     getControl(name: string): FormControl {
