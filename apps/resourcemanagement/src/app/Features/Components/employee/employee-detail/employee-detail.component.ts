@@ -738,11 +738,13 @@ FilterData(){
 
   createGroupDeleteModal(employeeId: string): void {
     const modal: NzModalRef = this.modal.confirm({
-      nzTitle: 'Deleting Employee',
-      nzContent: 'Are you sure you want to delete the employee',
-      nzOkText: 'Delete Employee',
+      nzIconType: '',
+      nzTitle: 'Deleting Employee?',
+      nzContent: 'Are you sure you want to delete this employee?\nThis action cannot be undone!',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'default',
       nzOkDanger: true,
+      nzModalType: 'default',
       nzOnOk: () => {
         this.DeleteEmployee(employeeId);
         modal.destroy();
