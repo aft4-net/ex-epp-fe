@@ -6,7 +6,7 @@
     </nz-breadcrumb-item>
     <nz-breadcrumb-item><a [routerLink]="['/clientmanagement/add-client']">{{updateClientState.breadCrumb}}</a></nz-breadcrumb-item>
   </nz-breadcrumb>
-  <div nz-row> 
+  <div nz-row>
     <div class="page-title"> {{updateClientState.titlePage}} </div>
   </div>
 </header>
@@ -15,8 +15,8 @@
   <div class="justify-between" nz-row>
     <div nz-col  class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col >
-      <button nz-button class="action-buttons" (click)="cancelAddClientPage()"  >   Cancel</button>
-      <button  class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
+      <button nz-button class="cancel-button" (click)="cancelAddClientPage()"  >   Cancel</button>
+      <button  [disabled]="updateClientState.updateButtonListener" class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
     </div>
   </div>
 </header>
