@@ -50,7 +50,7 @@ export class CustomUploadComponent implements OnInit {
     employeeguid= "";   
     userEmail=window.sessionStorage.getItem('username')+'';
     empImg : any;
-    removeImg = true;
+    removeImg = false;
     localUrl="";
     
 
@@ -141,9 +141,11 @@ export class CustomUploadComponent implements OnInit {
       return this.http.get<any>(environment.apiUrl+'/EmployeePhoto?id=' 
       + empNumber).subscribe((response:any)=>{
         this.empImg = response.Data;
-        console.log("this is it "+ this.empImg);
         if(this.empImg == null){
           this.removeImg = false;
+        }
+        else{
+          this.removeImg = true;
         }
       });
      }

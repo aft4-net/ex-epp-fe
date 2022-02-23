@@ -115,7 +115,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
       !this.isOnEditstate
     )
       this.router.navigateByUrl('projectmanagement');
-    if (this.isOnEditstate) this.setValueForUpdate();
+
   }
 
   setValueForUpdate() {
@@ -255,11 +255,6 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
-
-    this.clientService.getAll().subscribe((response: any) => {
-      this.clients = response.Data;
-    });
-
     this.projectStatusService.getAll().subscribe((res) => {
       this.projectStatuses = res;
 
@@ -287,6 +282,13 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.projectService.getProjects().subscribe((response: Project[]) => {
       this.projects = response;
     });
+
+    this.clientService.getAll().subscribe((response: any) => {
+      this.clients = response.Data;
+      if (this.isOnEditstate) this.setValueForUpdate();
+    });
+
+
   }
 
   validateParojectNameWithClient() {

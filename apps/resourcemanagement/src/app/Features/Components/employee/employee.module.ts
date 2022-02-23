@@ -20,6 +20,8 @@ import { PageTitleComponent } from '../../../components/page-title/page-title.co
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 //
@@ -38,7 +40,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
   ],
   imports: [
     CommonModule,
-
+    NzSpinModule,
     ReactiveFormsModule,
     FormsModule,
     EmployeeRoutingModule,
