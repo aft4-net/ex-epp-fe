@@ -7,11 +7,10 @@ import { AccountService } from '../../features/Services/logIn/account.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpInterceptor } from '../../interceptor/httpInterceptor';
 import { AuthorizationCheck } from '../../services/autherization/authorizationCheck';
-import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
+import { DemoNgZorroAntdModule } from '../../../../../../libs/ng-zoro/ng-zorro-antd.module';
 
 @NgModule({
   declarations: [
-
   ],
   imports: [
     FormsModule,
