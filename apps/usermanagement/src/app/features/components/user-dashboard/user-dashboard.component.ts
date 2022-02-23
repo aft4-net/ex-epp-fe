@@ -531,6 +531,18 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
+    this.userService.isSuperAdmin(userGuid).subscribe((res)=>{
+     if(res == true){
+      const modal: NzModalRef = this.modal.confirm({
+        nzTitle: 'This User Can Not Be Deleted',
+        nzContent: '',
+        nzOkText: 'OK',
+        nzOkType: 'default',
+        nzOkDanger: true,
+      
+        });
+     }
+     else{
     const modal: NzModalRef = this.modal.confirm({
       nzTitle: 'Deleting User?',
       nzContent: 'Once you delete the user you can not undo the deletion',
@@ -552,4 +564,6 @@ handleGroupCancel() {
           })
       });
     }
-}
+  });
+    }
+  }

@@ -191,10 +191,11 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
+    
     const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
     nzContent: 'Users in this group will lose all permissions related to the group.' +
-                "Deleting a group can't be undone",
+                "Deleting a group can't be undone" ,
     nzOkText: 'Delete Group',
     nzOkType: 'default',
     nzOkDanger: true,
