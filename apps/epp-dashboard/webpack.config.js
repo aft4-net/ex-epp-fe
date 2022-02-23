@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   plugins: [
-    new ModuleFederationPlugin({
+     new ModuleFederationPlugin({
       remotes: {
         usermanagement: 'usermanagement@http://localhost:4231/remoteEntry.js',
         resourcemanagement: 'resourcemanagement@http://localhost:4234/remoteEntry.js',

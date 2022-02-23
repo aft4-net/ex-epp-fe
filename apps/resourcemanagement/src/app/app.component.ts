@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,public _commonData:CommonDataService, private notification: NzNotificationService){
     this.route= router.url;
     _commonData.getPermission();
-    
+
   }
   ngOnInit(): void {
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });

@@ -175,9 +175,13 @@
   display: none !important;
 }
 
+.user-detail-avatar svg {
+  margin-top: -20px;
+}
 .ant-modal-confirm-btns {
   display: flex;
   flex-direction: row-reverse;
+  
   .ant-btn {
     margin-left: 8px;
   }

@@ -7,7 +7,7 @@
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <div class="justify-between" nz-row>
-    <div class="page-title" nz-col nzSpan="22"> Clients </div>
+    <div class="page-title" nz-col nzSpan="2"> Clients </div>
 
    <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
@@ -63,7 +63,7 @@
     ></a></div>
   <!-- <div class="pagination" style="margin-top: 1vh;">
 
-    <div>Showing 1 - {{clientsdata?.length ?? 0}} of {{total}} entries</div>
+    <div class="pagination-text">Showing 1 - {{clientsdata?.length ?? 0}} of {{total}} entries</div>
     <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
     (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
 
@@ -79,7 +79,7 @@
 
 
 
-<nz-table class="mt-3" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
+<nz-table class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
 
 
   <thead>

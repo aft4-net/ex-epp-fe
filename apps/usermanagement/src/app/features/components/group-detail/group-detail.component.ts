@@ -191,10 +191,35 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
+    const groupId = this.groupDetail?.Guid;
+     if(this.groupUserList.length > 0){
+      const modal: NzModalRef = this.modal.confirm({
+       nzTitle: 'This Group Can Not Be Deleted',
+       nzContent: 'This Group Can Not Be Deleted b/c there are users Assigned to the Group',
+       nzOkText: 'OK',
+       nzOkType: 'default',
+       nzOkDanger: true,
+     
+       });
+       }
+   else{
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+       const modal: NzModalRef = this.modal.confirm({
+         nzTitle: 'Super Admin',
+         nzContent: 'This Group Can Not Be Deleted',
+         nzOkText: 'OK',
+         nzOkType: 'default',
+         nzOkDanger: true,
+       
+         });
+      }
+      
+      else{
+ 
     const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
-    nzContent: 'Users in this group will lose all permissions related to the group.' +
-                "Deleting a group can't be undone",
+    nzContent: "Deleting a group can't be undone" ,
     nzOkText: 'Delete Group',
     nzOkType: 'default',
     nzOkDanger: true,
@@ -203,20 +228,30 @@ export class GroupDetailComponent implements OnInit {
       modal.destroy()
       }
     });
-  }
+  }});
+}
+}
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
-    const modal: NzModalRef = this.modal.confirm({
-    nzTitle: 'Remove user form group',
-    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
-               "Removing a user can't be undone",
-    nzOkText: 'Remove User',
-    nzOkType: 'default',
-    nzOkDanger: true,
-    nzOnOk: () => {
-        this.RemoveUserFromGroup(groupUserId);
-        modal.destroy()
-      }
+    const modal: NzModalRef = this.modal.create({
+    nzWidth:'350px',
+    nzTitle: 'Remove user?',
+    nzContent: 'Are you sure you want to remove user? This action can not be undone',
+    nzFooter: [
+        {
+          label: 'Yes, Remove',
+          type: 'primary',
+          onClick: () => {
+            this.RemoveUserFromGroup(groupUserId);
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy()
+        }
+      ]
     });
   }
 

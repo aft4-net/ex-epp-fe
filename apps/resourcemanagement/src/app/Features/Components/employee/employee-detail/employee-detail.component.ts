@@ -5,13 +5,11 @@ import { Observable, fromEvent, of } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
-  filter,
   map,
   startWith,
   switchMap,
 } from 'rxjs/operators';
 
-import { AnyNode } from 'postcss';
 import { AuthenticationService } from './../../../../../../../../libs/common-services/Authentication.service';
 import { ColumnItem } from '../../../Models/EmployeeColumnItem';
 import { Employee } from '../../../Models/Employee';
@@ -20,13 +18,10 @@ import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
-import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
-import { ResponseDTO } from '../../../Models/response-dto.model';
-import { data } from 'autoprefixer';
 import { listtToFilter } from '../../../Models/listToFilter';
 
 @Component({
@@ -189,10 +184,9 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   getfilterDataMenu(): void {
-    console.log('O Noo...222');
+
     this._employeeService.getFilterData().subscribe((data) => {
-      console.log('O Noo...');
-      console.log(data.jobtitleFilter);
+
 
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
@@ -205,22 +199,19 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   getUser() {
-    console.log('response' + this.uemail);
     this._employeeService.getUser(this.uemail).subscribe((response: any) => {
       this.theEmpguid = response.Guid;
-      console.log('GUid ' + this.theEmpguid);
+
       if (this.theEmpguid !== null) {
-        console.log('what');
+
         this.Edit(this.theEmpguid);
       }
-      console.log('response22');
-      console.log(this.theEmpguid);
-      console.log('response');
+
     });
   }
 
   EmployeeFilter(key: string[], name: any) {
-    console.log(key, name.name);
+
     // this.getEmployees();
   }
 
@@ -364,7 +355,6 @@ export class EmployeeDetailComponent implements OnInit {
     });
   }
   nzSortOrderChange(SortColumn: string, direction: string | null) {
-    console.log("was I ? ");
     if (direction == 'ascend') {
       this.sortDirection = 'Ascending';
     }
@@ -375,7 +365,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.sortDirection = "";
     }
     this.SortColumn = SortColumn;
-    
+
     this.FilterData();
   }
 
@@ -569,7 +559,6 @@ FilterData(){
   )
   .subscribe((response: PaginationResult<IEmployeeViewModel[]>) => {
     if(response.Data) {
-      console.log(of(response.Data));
       this.employeeViewModels$=of(response.Data);
       this.employeeViewModel = response.Data;
       this.listOfCurrentPageData = response.Data;
@@ -626,7 +615,6 @@ FilterData(){
     ];
    },(()=>{
 
-    //console.log("Done Now!")
     })
   );
 
@@ -635,15 +623,15 @@ FilterData(){
 }, 5000);
   this.searchStateFound=true;
 }
- 
 
-  
-  
+
+
+
   Edit(employeeId: string): void {
     this._form.employeId = employeeId;
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data: any) => {
-      console.log('what' + employeeId);
+
 
       this._employeeService.empNum = data.EmployeeNumber;
 
@@ -693,7 +681,7 @@ FilterData(){
       .pipe(
         map((event) => event.target.value),
         startWith(''),
-        debounceTime(3000),
+        debounceTime(2000),
         distinctUntilChanged(),
         switchMap(async (search) => {
           (this.fullname = search), this.searchEmployees();
@@ -750,11 +738,13 @@ FilterData(){
 
   createGroupDeleteModal(employeeId: string): void {
     const modal: NzModalRef = this.modal.confirm({
-      nzTitle: 'Deleting Employee',
-      nzContent: 'Are you sure you want to delete the employee',
-      nzOkText: 'Delete Employee',
+      nzIconType: '',
+      nzTitle: 'Deleting Employee?',
+      nzContent: 'Are you sure you want to delete this employee?\nThis action cannot be undone!',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'default',
       nzOkDanger: true,
+      nzModalType: 'default',
       nzOnOk: () => {
         this.DeleteEmployee(employeeId);
         modal.destroy();
