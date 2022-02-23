@@ -30,6 +30,8 @@ import { LoginComponent } from './features/Account/user/login/login.component';
 import { ChangepasswordComponent } from './features/Account/changepassword/changepassword.component';
 import { RouterModule } from '@angular/router';
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
+import { ForgotPasswordComponent } from './features/Account/forgotpassword/forgotpassword.component';
+import { ResetpasswordComponent } from './features/Account/resetpassword/resetpassword.component';
 
 
 

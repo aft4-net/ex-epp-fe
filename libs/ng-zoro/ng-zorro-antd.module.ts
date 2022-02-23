@@ -52,28 +52,6 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 
-//////////////////////////////////////////////////////////////////////////////////////////
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzAnchorModule } from 'ng-zorro-antd/anchor';
-import { NzBackTopModule } from 'ng-zorro-antd/back-top';
-import { NzCalendarModule } from 'ng-zorro-antd/calendar';
-import { NzCarouselModule } from 'ng-zorro-antd/carousel';
-import { NzCascaderModule } from 'ng-zorro-antd/cascader';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { NzI18nModule } from 'ng-zorro-antd/i18n';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzMentionModule } from 'ng-zorro-antd/mention';
-import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-
-
-
-
 @NgModule({
   exports: [
     NzBadgeModule,
@@ -127,31 +105,10 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
    NzAvatarModule,
    NzCheckboxModule,
    NzImageModule,
-   NzMenuModule,
+   NzMenuModule
 
 
    //SharedModule
-
-   NzAffixModule,
-   NzAlertModule,
-   NzAnchorModule,
-   NzBackTopModule,
-   NzCalendarModule,
-   NzCarouselModule,
-   NzCascaderModule,
-   NzCommentModule,
-   NzDescriptionsModule,
-   NzDrawerModule,
-   NzEmptyModule,
-   NzI18nModule,
-  NzListModule,
-  NzMentionModule,
-  NzMessageModule,
-  NzNoAnimationModule,
-  NzPopconfirmModule,
-
-
-
   ]
 })
 export class DemoNgZorroAntdModule {
