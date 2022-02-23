@@ -19,11 +19,7 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 import { environment } from 'libs/environments/environment'
 import { LoginComponent } from '../features/Account/user/login/login.component';
 import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
-<<<<<<< HEAD
 import { DemoNgZorroAntdModule } from '../../../../../libs/ng-zoro/ng-zorro-antd.module';
-=======
-import { DemoNgZorroAntdModule } from 'libs/ng-zoro/ng-zorro-antd.module';
->>>>>>> origin/develop
 import { RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from '../features/Account/forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from '../features/Account/resetpassword/resetpassword.component';
