@@ -191,7 +191,20 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
-    
+    const groupId = this.groupDetail?.Guid;
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+       const modal: NzModalRef = this.modal.confirm({
+         nzTitle: 'This Group Can Not Be Deleted',
+         nzContent: '',
+         nzOkText: 'OK',
+         nzOkType: 'default',
+         nzOkDanger: true,
+       
+         });
+      }
+      else{
+ 
     const modal: NzModalRef = this.modal.confirm({
     nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
     nzContent: 'Users in this group will lose all permissions related to the group.' +
@@ -204,6 +217,7 @@ export class GroupDetailComponent implements OnInit {
       modal.destroy()
       }
     });
+  }});
   }
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
