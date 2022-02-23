@@ -191,7 +191,6 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
-<<<<<<< HEAD
     const groupId = this.groupDetail?.Guid;
      if(this.groupUserList.length > 0){
       const modal: NzModalRef = this.modal.confirm({
@@ -228,28 +227,6 @@ export class GroupDetailComponent implements OnInit {
       this.DeleteGroup();
       modal.destroy()
       }
-=======
-    const modal: NzModalRef = this.modal.create({
-    nzWidth:'350px',
-    nzTitle: 'Delete group?',
-    nzContent: 'Are you sure you want to delete group?' +
-                "This action can not be undone",
-    nzFooter: [
-      {
-        label: 'Yes, Delete',
-        type: 'primary',
-        danger:false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      },
-      {
-        label: 'Cancel',
-        type: 'default',
-        onClick: () => modal.destroy(),
-      }]
->>>>>>> develop
     });
   }});
 }
