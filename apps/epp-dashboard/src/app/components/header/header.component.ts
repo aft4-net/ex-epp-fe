@@ -60,4 +60,10 @@ export class HeaderComponent implements OnInit {
     window.sessionStorage.clear();
     window.location.reload();
   }
+
+  signout() {
+    this._authenticationService.signOut();
+    this._router.navigate(['usermanagement/logIn']);
+
+  }
 }
