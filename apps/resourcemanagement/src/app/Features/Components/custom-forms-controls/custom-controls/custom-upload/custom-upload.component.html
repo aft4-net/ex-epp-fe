@@ -6,7 +6,7 @@
   </div>
   <div class="profile-buttons-container">
     <div class="profile-button-container">
-      <nz-upload [nzCustomRequest]="customUploadReq" [nzSize]="240" [nzPreview]="handlePreview" [nzName]="'file'">
+      <nz-upload [nzCustomRequest]="customUploadReq" [nzSize]="240" [nzPreview]="handlePreview" [nzName]="'file'" nzAccept= "image/png, image/jpg, image/jpeg">
          <button
           class="profile-button-add"
           >
