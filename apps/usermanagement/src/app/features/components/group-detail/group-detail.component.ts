@@ -191,28 +191,46 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
-    const modal: NzModalRef = this.modal.create({
-    nzWidth:'350px',
-    nzTitle: 'Delete group?',
-    nzContent: 'Are you sure you want to delete group?' +
-                "This action can not be undone",
-    nzFooter: [
-      {
-        label: 'Yes, Delete',
-        type: 'primary',
-        danger:false,
-        onClick: () => {
-          this.DeleteGroup();
-          modal.destroy()
-        }
-      },
-      {
-        label: 'Cancel',
-        type: 'default',
-        onClick: () => modal.destroy(),
-      }]
+    const groupId = this.groupDetail?.Guid;
+     if(this.groupUserList.length > 0){
+      const modal: NzModalRef = this.modal.confirm({
+       nzTitle: 'This Group Can Not Be Deleted',
+       nzContent: 'This Group Can Not Be Deleted b/c there are users Assigned to the Group',
+       nzOkText: 'OK',
+       nzOkType: 'default',
+       nzOkDanger: true,
+     
+       });
+       }
+   else{
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+       const modal: NzModalRef = this.modal.confirm({
+         nzTitle: 'Super Admin',
+         nzContent: 'This Group Can Not Be Deleted',
+         nzOkText: 'OK',
+         nzOkType: 'default',
+         nzOkDanger: true,
+       
+         });
+      }
+      
+      else{
+ 
+    const modal: NzModalRef = this.modal.confirm({
+    nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
+    nzContent: "Deleting a group can't be undone" ,
+    nzOkText: 'Delete Group',
+    nzOkType: 'default',
+    nzOkDanger: true,
+    nzOnOk: () => {
+      this.DeleteGroup();
+      modal.destroy()
+      }
     });
-  }
+  }});
+}
+}
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
     const modal: NzModalRef = this.modal.create({
