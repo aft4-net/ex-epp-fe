@@ -15,7 +15,11 @@
 
   <div *ngIf="isOnEditstate" class="tab-title"> {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
   <div>
-    <button class="btn" (click)="showModal()">
+    <button *ngIf="!isOnEditstate"   class="btn" (click)="showModal()">
+      Assign resources
+    </button>
+
+    <button *ngIf="isOnEditstate"   (click)="showModal()">
       Assign resources
     </button>
 

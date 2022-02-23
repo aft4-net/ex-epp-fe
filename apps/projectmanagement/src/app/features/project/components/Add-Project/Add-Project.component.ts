@@ -522,4 +522,12 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   routeOnUpdateValidation(index: number) {
     this.activeTabIndex = index;
   }
+
+  checkStatus(status?:string)
+  {
+   if(status == 'Active')
+     return true;
+    else 
+    return false;
+  }
 }
