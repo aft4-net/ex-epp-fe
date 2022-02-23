@@ -20,9 +20,14 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 import { environment } from 'libs/environments/environment'
 import { LoginComponent } from '../features/Account/user/login/login.component';
 import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
+<<<<<<< HEAD
 import { DemoNgZorroAntdModule } from 'libs/ng-zoro/ng-zorro-antd.module';
 import { RouterModule, Routes } from '@angular/router';
 
+=======
+import { ForgotPasswordComponent } from '../features/Account/forgotpassword/forgotpassword.component';
+import { ResetpasswordComponent } from '../features/Account/resetpassword/resetpassword.component';
+>>>>>>> 99e88b01be5d411ebd8e0816ded3419b8ff8598e
 export function MSALInstanceFactory(): IPublicClientApplication
 {
   return new PublicClientApplication({
@@ -78,7 +83,14 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'changepassword', component:ChangepasswordComponent
           },
-          {path:'unauthorize', component:UnauthorizeComponent,
+          {
+            path:'forgotpassword', component:ForgotPasswordComponent
+          },
+          {
+            path:'resetpassword', component:ResetpasswordComponent
+          },
+          {
+            path:'unauthorize', component:UnauthorizeComponent,
           data: {
             breadcrumb: "Log In"
           }
