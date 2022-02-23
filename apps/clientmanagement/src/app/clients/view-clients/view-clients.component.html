@@ -1,4 +1,5 @@
-<header>
+
+<header >
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item><a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>
@@ -11,6 +12,7 @@
    <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
  </header>
+
 
  <div class="main-content">
 
@@ -58,8 +60,8 @@
 <div nz-row  style="display: flex;justify-content: right;">
   <div nz-col nzSpan="24">   <a style="color: #00A551;background-color: white;margin-right: 2vw;float: right;" nz-popover
     [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottom" nzPopoverTrigger="click"
-    >Manage Columns</a></div>
-  <div class="pagination" style="margin-top: 1vh;">
+    ></a></div>
+  <!-- <div class="pagination" style="margin-top: 1vh;">
 
     <div>Showing 1 - {{clientsdata?.length ?? 0}} of {{total}} entries</div>
     <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
@@ -68,7 +70,7 @@
 
    </nz-pagination>
 
-   </div>
+   </div> -->
 </div>
 
 
@@ -126,19 +128,16 @@
   </tbody>
 </nz-table>
 
-<!-- <div class="pagination mt-2">
-  <div>Showing 1 - {{clientsdata.length}} of {{total}} entries</div>
+<div class="pagination" style="margin-top: 1vh;">
+
+  <div>Showing 1 - {{clientsdata?.length ?? 0}} of {{total}} entries</div>
   <nz-pagination [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="total"
   (nzPageSizeChange)="PageSizeChange($event)" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
 
 
  </nz-pagination>
 
- </div> -->
-
-<br><br>
-
-
+ </div>
 
 </div>
 
