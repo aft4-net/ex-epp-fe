@@ -178,6 +178,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelAddressDetails() {
         const value = this.addressForm.value
         return {
+            Guid: value.guid,
             Country: value.country,
             StateRegionProvice: value.state,
             City: value.city,
@@ -190,6 +191,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelFamilyDetails() {
         const value = this.familyDetail.value
         return [{
+            Guid: value.guid,
             FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
             Relationship: { Name: value.relationship } as Relationship,
             Gender: value.gender,
@@ -201,6 +203,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.value
         return {
+            Guid: value.guid,
             FirstName: value.fullName.firstName,
             FatherName: value.fullName.middleName,
             GrandFatherName: value.fullName.lastName,
@@ -257,6 +260,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createAddressDetailsForm() {
         return this._formBuilder.group({
+            guid: [null],
             country: [null, validateRequired],
             state: [null],
             city: [null, validateCity],
@@ -269,6 +273,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createFamilyDetailsForm() {
         return this._formBuilder.group({
+            guid: [null],
             relationship: [null, validateRequired],
             fullName: this._createFullNameFormGroup(),
             gender: [null],
@@ -278,6 +283,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createEmergencyContactDetailsForm() {
         return this._formBuilder.group({
+            guid: [null],
             fullName: this._createFullNameFormGroup(),
             relationship: [null, validateRequired],
             emailAddresses: this._formBuilder.array([
@@ -550,6 +556,10 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setAddressDetail(address: Address) {
         this._setControlValue(
+            address.Guid,
+            this.getFormControl('guid', this.addressForm)
+        )
+        this._setControlValue(
             address.Country,
             this.getFormControl('country', this.addressForm)
         )
@@ -584,6 +594,10 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setEmergencyContactDetail(emergencyContact: EmergencyContacts) {
 
+        this._setControlValue(
+            emergencyContact.Guid,
+            this.getFormControl('guid', this.emergencyContact)
+        )
        
         if (emergencyContact.FirstName && emergencyContact.FatherName) {
             this._setNames(
@@ -658,6 +672,10 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setFamilyDetail(familyDetail: FamilyDetail) {
         const names = familyDetail.FullName.split(' ')
+        this._setControlValue(
+            familyDetail.Guid,
+            this.getFormControl('guid', this.familyDetail)
+        )
         this._setNames(
             names[0],
             (names.length === 3 ? names[1] : null),
