@@ -18,6 +18,9 @@ export class PersonalInfoComponent implements OnInit {
 
   
   isEdit = false;
+  loading = true;
+
+  
 
   constructor(
     public employeeService: EmployeeService,
@@ -29,11 +32,13 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    setTimeout(() => { 
+      this.loading= false;
+     }, 1000);
     
   }
 
-  
-  
 
   
 }
