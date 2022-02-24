@@ -104,18 +104,15 @@ export class GroupsetComponent implements OnInit {
   onAddNewRecord(): void {
     this.resetForm();
     this.isVisible = true;
+    this.resetForm();
   }
-  // resetForm(){
-  //   this.groupSet.reset();
-  // }
+
   handleCancel(): void {
     this.isVisible = false;
   }
 
   resetForm(){
-    if(this.isVisible){
       this.groupSet.reset();
-    }
   }
 
 

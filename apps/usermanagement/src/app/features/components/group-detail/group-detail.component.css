@@ -288,3 +288,7 @@ tr.ant-table-row.ng-star-inserted {
 .pagination {
   margin-top:10px;
 }
+
+.addMembers {
+  margin-top: -20px;
+}
