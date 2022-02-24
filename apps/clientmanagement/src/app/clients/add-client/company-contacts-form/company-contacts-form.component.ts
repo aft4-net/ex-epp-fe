@@ -17,11 +17,9 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { CompanyContactService } from '../../../core/';
 import { CountryCodeService } from '../../../core/services/country-code.service';
-import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { extractPhoneNumber } from '../../../shared/phonePrefixExtractor/phone-prefix-extractor';
-import { getNames } from '../../../shared/Data/contacts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { getNames } from '../../../shared/Data/contacts';
 
 @Component({
   selector: 'exec-epp-company-contacts-form',
@@ -29,6 +27,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./company-contacts-form.component.scss'],
 })
 export class CompanyContactsFormComponent implements OnInit {
+  dynamicBtnValue={} as string;
+  isClearButtonActive=true;
   emailAdress = new FormControl('');
   phoneNumber = new FormControl('');
   phoneNumberPrefix=new FormControl('');
@@ -99,9 +99,24 @@ clientalreadyExist=false;
 
         emailAdress: ['', []],
       });
+
+
+      this.addContactForm.valueChanges.subscribe(x => {
+        if(this.addContactForm.value['companyContactName']!='' ||
+        this.addContactForm.value['phoneNumber']!='' ||
+        this.addContactForm.value['emailAdress']!=''  ){
+          this.updateClientStateService.updateButtonListener=false;
+         this.isClearButtonActive=false;
+        }
+        else{
+         this.isClearButtonActive=true;
+        }
+
+      });
   }
 
   showModal(): void {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Add";
     this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Company Contact'
     this.isVisible = true;
   }
@@ -113,7 +128,7 @@ clientalreadyExist=false;
         this.clientalreadyExist=true;
 
         }
-
+this.IsEdit
       });
       if(!this.IsEdit){
 
@@ -122,8 +137,9 @@ clientalreadyExist=false;
          const contactPerson={
            Name:this.addContactForm.controls.companyContactName.value,
            Email:this.addContactForm.controls.emailAdress.value,
-           Phone:this.addContactForm.controls.phoneNumber.value,
+          //  Phone:this.addContactForm.controls.phoneNumber.value,
            PhoneNumberPrefix:this.addContactForm.controls.phoneNumber.value,
+
          } as Employee;
         this.listData = [...this.listData, contactPerson];
         if(this.updateClientStateService.isEdit){
@@ -157,7 +173,7 @@ clientalreadyExist=false;
 
         this.listData[this.editAt].Name=this.addContactForm.controls.companyContactName.value;
         this.listData[this.editAt].Email=this.addContactForm.controls.emailAdress.value;
-        this.listData[this.editAt].Phone=this.addContactForm.controls.phoneNumber.value;
+        //this.listData[this.editAt].Phone=this.addContactForm.controls.phoneNumber.value;
         this.listData[this.editAt].PhoneNumberPrefix=this.addContactForm.controls.phoneNumber.value;
 
         if(this.updateClientStateService.UpdateClientData.CompanyContacts.length>0)
@@ -201,26 +217,10 @@ clientalreadyExist=false;
 
   }
   handleOk(): void {
-    // if (this.addContactForm.valid) {
-    //   this.listData = [...this.listData, this.contactDetail];
-    //   this.comapanyContacts.push({
-    //     ContactPersonGuid: this.contactDetail.Guid,
-    //   });
-    //   this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-    //   this.addContactForm.reset();
-    //   this.isVisible = false;
-    // } else {
-    //   Object.values(this.addContactForm.controls).forEach((control) => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    // }
-    // this.addClientStateService.updateCompanyContacts(this.comapanyContacts);
-    // this.addContactForm.reset();
+
   }
   edit(index:number){
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.listData.length;count++){
 
       if(count==index){
@@ -230,17 +230,17 @@ clientalreadyExist=false;
        this.editAt=index;
        this.found=true;
         this.patchValues(this.listData[count]);
+
       }
     }
 
   }
   patchValues(data: any) {
-    const phonePrefix=extractPhoneNumber(data.phoneNumberPrefix)
     this.addContactForm.patchValue({
-      companyContactName: data.companyContactName,
-      phoneNumber: data.phoneNumber,
-      emailAdress: data.emailAdress,
-      phoneNumberPrefix: phonePrefix.prefix,
+      companyContactName: data.Name,
+      //phoneNumber: data.phoneNumber,
+      emailAdress: data.Email,
+      phoneNumber: data.PhoneNumberPrefix,
 
 
     });
@@ -279,14 +279,18 @@ clientalreadyExist=false;
   showDeleteConfirm(element: any,i:number): void {
 
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this contact?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+      nzIconType:'',
+      nzTitle: 'Delete Company Contact ?',
+      nzContent: '<b >Are you sure, you want to delete this company contact? this action cannot be undone</b>',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
+      if(this.updateClientStateService.isEdit)
+      {
         if(typeof this.updateClientStateService.UpdateClientData.CompanyContacts[i].Guid!=='undefined')
         {
+
         this.companyService.DeleteCompany(this.updateClientStateService.UpdateClientData.CompanyContacts[i].Guid).subscribe(
           (res:any)=>{
             if(res.ResponseStatus==='Success')
@@ -305,12 +309,21 @@ clientalreadyExist=false;
         );
         }
         else{
+
           this.removeItem(element,i);
           this.notification.success("Company Deleted Successfully","",{nzPlacement:'bottomRight'}
           );
         }
+      }
+      else{
+
+        this.removeItem(element,i);
+        this.notification.success("Company Deleted Successfully","",{nzPlacement:'bottomRight'}
+        );
+      }
+
       },
-      nzCancelText: 'No',
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
     });
   }
@@ -322,7 +335,8 @@ clientalreadyExist=false;
     );
 
     this.addContactForm.controls['phoneNumber'].setValue(
-      this.contactDetail.PhoneNumberPrefix+''+ this.contactDetail.Phone
+      this.contactDetail.PhoneNumberPrefix
+      //+''+ this.contactDetail.Phone
     );
 
     this.addContactForm.controls['emailAdress'].setValue(

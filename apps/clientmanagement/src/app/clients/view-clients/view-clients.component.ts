@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { AllDataResponse } from '../../core/models/get/AllDataResponse';
 import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
-import { ElementSchemaRegistry } from '@angular/compiler';
 import { FetchclientsService } from '../../core/services/fetchclients.service';
 import { FormControl } from '@angular/forms';
 import { NotificationBar } from '../../utils/feedbacks/notification';
@@ -63,6 +62,8 @@ export class ViewClientsComponent implements OnInit  {
   namesofclientsfilterd = [{ text: '', value: '', checked: false }];
   filteredArray = [''];
   ListOfSalesPerson = [''];
+  salesPerson=[''];
+  clientStatus=[''];
   namesofSalesPerson = '';
   filteredPersonArray = [''];
   namesofSalesfilterd = [{ text: '', value: '', checked: false }];
@@ -111,13 +112,10 @@ _commonData.getPermission()
     console.log("button check");
 
     // authorized=false isdabled = false
-
+    this.fetchAllData();
     this.getClientStatus();
     this.getLocations();
     this.getSalesPerson();
-    this.fetchAllData();
-    this.initializeData();
-
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
@@ -130,18 +128,14 @@ _commonData.getPermission()
       duration: 1,
 
     });
-    // this.notification.error('', '', {
-
-
-
-    //   });
 
   }
   DeleteClient(client:any){
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this client?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+      nzIconType:'',
+      nzTitle: 'Delete Client ?',
+      nzContent: '<span>Are you sure, you want to delete this client?</span>',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
@@ -162,7 +156,8 @@ _commonData.getPermission()
         );
 
       },
-      nzCancelText: 'No',
+
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
     });
   }
@@ -196,6 +191,8 @@ _commonData.getPermission()
   this._editClientService.formTitle='Edit Client Details';
   this._editClientService.isAdd=false;
   this.router.navigate(['/clientmanagement/add-client/']);
+
+
   }
   }
   setClient(client:Client){
@@ -284,15 +281,6 @@ _commonData.getPermission()
   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
-    // if(key==='Create_Client')
-    // {
-    //   this.isAddButtonDisabled=true;
-    // }
-    // else{
-    //   this.isAddButtonDisabled=false;
-    // }
-
-
   }
 
   showModal(): void {
@@ -424,7 +412,7 @@ _commonData.getPermission()
         this.totalPage = response.pagination.totalPage;
         this.loading = false;
         this._clientservice.setFristPageOfClients(response);
-        this.findlistofNames();
+        this.findlistofStatus();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
         console.log(response.data);
@@ -468,7 +456,7 @@ _commonData.getPermission()
             this.total = 0;
             this.totalPage = 0;
             this.searchStateFound = false;
-            this.notification.blank('  Project not found', '', {
+            this.notification.blank('  client not found', '', {
               nzPlacement: 'bottomLeft',
             });
           }
@@ -487,13 +475,13 @@ _commonData.getPermission()
     }
   }
 
-  findlistofNames(): void {
+  findlistofStatus(): void {
     this.listofNames = [''];
-    if(!this.clientStatuses?.length){
+    if(!this.clientStatus?.length){
       return;
     }
-    for (let i = 0; i < this.clientStatuses.length; i++) {
-      this.nameofclient = this.clientStatuses[i].StatusName;
+    for (let i = 0; i < this.clientStatus.length; i++) {
+      this.nameofclient = this.clientStatus[i];
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
@@ -520,11 +508,11 @@ _commonData.getPermission()
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
-    if(!this.employees.length){
+    if(!this.salesPerson.length){
       return;
     }
-    for (let i = 0; i < this.employees.length; i++) {
-      this.namesofSalesPerson = this.employees[i].Name;
+    for (let i = 0; i < this.salesPerson.length; i++) {
+      this.namesofSalesPerson = this.salesPerson[i];
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
       this.filteredPersonArray = this.ListOfSalesPerson.filter((item, pos) => {
         return this.ListOfSalesPerson.indexOf(item) == pos;
@@ -595,7 +583,9 @@ getLocations(){
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
     this.allClients = res.data;
-
+    this.salesPerson=[...new Set(this.allClients.map(item => item.SalesPerson.Name))];
+    this.clientStatus = [...new Set(this.allClients.map(item => item.ClientStatusName))];
+    this.initializeData();
       });
 
 }

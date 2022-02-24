@@ -3,11 +3,9 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
-import { AddressCountryStateService } from "../../../../Services/external-api.services/countries.mock.service";
-import { EmployeeStaticDataMockService } from "../../../../Services/external-api.services/employee-static-data.mock.service";
-import { ExternalCountryApiService } from "../../../../Services/external-api.services/external-countries.api.service";
-import { maxEmployeeDateofBirth, minEmployeeDateofBirth } from "../../../../Services/supporting-services/basic-data.collection";
+import { CountriesMockService } from "../../../../Services/external-api.services/countries.mock.service";
 import { FormGenerator } from "../../form-generator.model";
+import { genders$ } from "../../shared/static-data";
 
 @Component({
     selector: 'exec-epp-personal-details-group',
@@ -17,28 +15,28 @@ import { FormGenerator } from "../../form-generator.model";
 export class PersonalDetailGroupComponent implements OnInit {
 
     formGroup: FormGroup
-    genders$: Observable<SelectOptionModel[]>
+    genders$: Observable<SelectOptionModel[]> = genders$;
     nationalities$: Observable<SelectOptionModel[]>
-    maxDateofBirth = maxEmployeeDateofBirth? maxEmployeeDateofBirth: new Date(Date.now())
+    maxDateofBirth = new Date(Date.now());
     maxEmailQty = 3
     maxPhoneQty = 3
     maxNationality = 3
-    birthEndDate = new Date(Date.now())
+    //birthEndDate = new Date(Date.now())
     
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _employeeStaticDataService: EmployeeStaticDataMockService,
-        private readonly _addressCountryStateService: AddressCountryStateService,
+        private readonly _countriesMockService: CountriesMockService,
         private _employeeService : EmployeeService
     ) {
-        this.genders$ = this._employeeStaticDataService.genders$
-        this.nationalities$ = this._addressCountryStateService.nationalities$
+        this.genders$ = genders$;
+        this.nationalities$ = this._countriesMockService.getCountries();
         this.formGroup = this._formGenerator.personalDetailsForm
     }
 
     ngOnInit(): void {
-        this.showData()
+        const date = new Date();
+        //this.birthEndDate = new Date(date.getFullYear()-18, date.getMonth(), date.getDate());
     }
 
     getControl(name: string): FormControl {

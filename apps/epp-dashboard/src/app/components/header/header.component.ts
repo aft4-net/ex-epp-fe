@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import { Observable } from 'rxjs';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
+import { LoadingSpinnerService} from '../../../../../../libs/common-services/loading-spinner.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from 'libs/environments/environment';
 import { IntialdataService } from '../../services/intialdata.service';
@@ -27,27 +27,22 @@ export class HeaderComponent implements OnInit {
     private authService: MsalService,
     private _authenticationService: AuthenticationService,
     private _router: Router,
-    private _intialdataService: IntialdataService
+    private _intialdataService: IntialdataService,
+    private loadingSpinnerService: LoadingSpinnerService
   ) {
-    //this.fullName = this._intialdataService.getUser( this.loggedInUser.fullName)
-   // this.fullName = _authenticationService.getUserFullName();
    this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName)
     this.thefullName = this.fullName;
-    console.log(this.thefullName + 'ABCDEFG');
     this.firsName = this.loggedInUser.FirstName ;
     this.middleName = this.loggedInUser.MiddleName;
     const namearray = this.firsName.split();
     const namearrays = this.middleName.split();
-   //this.fullName = namearray[0][0].toUpperCase() + namearray[1][0].toUpperCase();
    this.firsName = namearray[0][0].toUpperCase();
    this.middleName = namearrays[0][0].toUpperCase();
    this.fullName = this.firsName + ' '+ this.middleName
     this.uemail = _authenticationService.getUserFullName();
-    //console.log(this.uemail + 'PPPPPPPPP');
   }
   getUser() {
     this._authenticationService.getUser(this.uemail);
-    console.log(this.uemail);
     setTimeout(() => {
       this.theGroup = this._authenticationService.position;
     }, 1000);
@@ -57,8 +52,24 @@ export class HeaderComponent implements OnInit {
     this.getUser();
   }
   routetoResourceManagement() {
+    this.loadingSpinnerService.messageSource.next(true);
     this._authenticationService.setFromViewProfile();
     this._router.navigate(['resourcemanagement']);
+    setTimeout(() => {   
+    this.loadingSpinnerService.messageSource.next(false);
+
+    }, 1500);
+
+    /*this.loadingSpinnerService.messageSource.subscribe((val)=>{
+      if(val == true){
+      this._authenticationService.setFromViewProfile();
+      this._router.navigate(['resourcemanagement']);
+      }
+
+    });*/
+
+
+
   }
 
   logout() {
@@ -66,5 +77,11 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     window.sessionStorage.clear();
     window.location.reload();
+  }
+
+  signout() {
+    this._authenticationService.signOut();
+    this._router.navigate(['usermanagement/logIn']);
+
   }
 }

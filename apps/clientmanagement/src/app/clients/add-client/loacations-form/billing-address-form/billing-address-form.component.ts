@@ -1,4 +1,4 @@
-import { AddClientStateService, BillingAddressCreate, BillingAddressService, UpdateBillingAddress, UpdateClientStateService } from '../../../../core';
+import { AddClientStateService, BillingAddressService, UpdateBillingAddress, UpdateClientStateService } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -24,6 +24,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./billing-address-form.component.scss'],
 })
 export class BillingAddressFormComponent implements OnInit {confirmModal?: NzModalRef;
+  dynamicBtnValue={} as string;
   billingAddressess: any[] = [];
   tabledata:any=[];
   isVisible = false;
@@ -111,7 +112,8 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
       this.forms.value['ZipCode']!='' ||
       this.forms.value['Address']!='' ||
       this.forms.value['Affliation']!='' ){
-       this.isClearButtonActive=false;
+      this.updateStateClientService.updateButtonListener=false;
+      this.isClearButtonActive=false;
       }
       else{
        this.isClearButtonActive=true;
@@ -121,6 +123,7 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
   }
 
   showModal(): void {
+    this.dynamicBtnValue=this.updateStateClientService.actionButton="Add";
     this.isVisible = true;
     this.actionTitle="Add";
   }
@@ -274,6 +277,7 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
     }
   }
   edit(index:number){
+    this.dynamicBtnValue=this.updateStateClientService.actionButton="Update";
     for(let count=0;count<this.billingAddressess.length;count++){
       this.isVisible = true;
       if(count==index){
@@ -308,11 +312,11 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
 }
 showConfirm(index:number): void {
   this.confirmModal = this.modal.confirm({
-    nzTitle: 'Do you want to delete this item?',
-    nzContent: 'The action is not recoverable. ',
-    nzOkType: 'primary',
-    nzOkText: 'Yes',
-    nzCancelText: 'No',
+    nzIconType:'',
+    nzTitle: 'Delete billing adress ?',
+    nzContent: '<b >Are you sure, you want to delete this billing address? this action cannot be undone</b>',
+    nzOkText: 'Yes, Delete',
+    nzCancelText: 'Cancel',
     nzOkDanger: true,
     nzOnOk: () =>
       new Promise((resolve, reject) => {

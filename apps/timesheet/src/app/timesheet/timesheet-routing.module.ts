@@ -4,7 +4,6 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
 import { TimesheetDetailComponent } from './components/timesheet-detail/timesheet-detail.component';
 
 import { TimesheetComponent } from './timesheet.component';
-import { TimesheetConfigurationComponent } from './components/timesheet-configuration/timesheet-configuration.component';
 
 const routes: Routes = [
   {
@@ -23,21 +22,14 @@ const routes: Routes = [
         }
       },
       {
-        path: "timesheet-configuration",
-        component: TimesheetConfigurationComponent,
-        data: {
-          breadcrumb: "Configuration"
-        }
+        path: 'timesheet-approval',
+        loadChildren: () =>
+          import('../timesheet-approval/timesheet-approval.module').then(
+            (m) => m.TimesheetApprovalModule
+          ),
+        data: { breadcrumb: 'Timesheet-approval' },
       }
     ]
-  },
-  {
-    path: 'timesheet-approval',
-    loadChildren: () =>
-      import('../timesheet-approval/timesheet-approval.module').then(
-        (m) => m.TimesheetApprovalModule
-      ),
-    data: { breadcrumb: 'Timesheet-approval' },
   }
 ]
 

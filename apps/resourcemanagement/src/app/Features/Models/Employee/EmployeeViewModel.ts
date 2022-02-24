@@ -1,4 +1,3 @@
-import { uuid } from "uuidv4";
 
 export interface IEmployeeViewModel {
     EmployeeGUid: string;

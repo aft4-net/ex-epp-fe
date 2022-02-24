@@ -4,30 +4,22 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-::ng-deep .ant-table-thead > tr > th {
-  background-color: #e8ffe8;
+.error-block
+{
+  color: red;
 }
+
 
 .tab-title{
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 32px;
-  
+
   color: #262626;
   }
-// ::ng-deep .ant-btn {
-//   background: #00a551;
-//   border-radius: 2px;
-//   font-family: -apple-system, system-ui, BlinkMacSystemFont;
-//   font-style: normal;
-//   font-weight: 500;
-//   font-size: 14px;
-//   line-height: 17px;
-//   color: #e8ffe8;
-// }
+
 
 .clear-button {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
@@ -42,12 +34,12 @@
 }
 
 .page-title {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-
-  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+ color: #262626;
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 32px;
 }
 .assgin-link {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
@@ -100,7 +92,9 @@
   font-size: medium;
   font-weight: 500;
 }
-
+::ng-deep .ant-spin-dot-item  {
+  background-color: #00A551;
+}
 
 form {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
@@ -121,31 +115,25 @@ form {
   border-color: #00a551;
 }
 
-::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list, .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
 
-  background: #FFFFFF !important;
-
-box-shadow: inset -2px 0px 0px #DADADA !important;
-
-  }
 
   ::ng-deep .popover-edit-delete .ant-popover-inner-content {
     padding: 0;
   }
-  
+
   ::ng-deep .popover-edit-delete .ant-popover-inner-content #edit:hover {
     background-color: #dcffdc;
     border-color: #dcffdc;
     border-radius: 2px 2px 0 0;
   }
-  
+
   ::ng-deep .popover-edit-delete .ant-popover-inner-content #delete:hover {
     background-color: #dcffdc;
     border-color: #dcffdc;
     border-radius: 0 0 2px 2px;
   }
-  
-  
+
+
   .btn {
     border: #00a551;
     color: #FFFFFF;
@@ -159,18 +147,18 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
   .btn:hover{
     background-color: #006E36;
   }
-  
+
   .btn:active{
     background: #005228;
   }
-  
+
   .bnt:focus{
     background-color: #00A551;
   }
-  
+
   .btn:disabled{
     background-color:  #BFBFBF;
-    border-color:#F5F5F5; 
+    border-color:#F5F5F5;
   }
 
   .btn-cancel{
@@ -183,7 +171,7 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
     background: white;
    border-radius: 2px;
   }
-  
+
 ::ng-deep .ant-btn-primary  {
   background-color: #00a551;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -198,7 +186,7 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
   background-color: #006E36;
 }
 
-   
+
 ::ng-deep .ant-btn-primary:active{
   background: #005228;
 }
@@ -208,7 +196,7 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
 
 ::ng-deep:disabled{
   background-color:  #BFBFBF;
-  border-color:#F5F5F5; 
+  border-color:#F5F5F5;
 }
 
 
@@ -218,6 +206,7 @@ border: 0.5px solid #00a551;
 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 width: 400px;
 height: 147px !important;
+padding-top: 0px !important;
 background: #ffffff;
 align-self: center;
 justify-self: center;
@@ -228,7 +217,7 @@ justify-self: center;
   padding-bottom: 3px;
   color: rgba(0,0,0,.85);
   background: #fff;
-  border-bottom: none; 
+  border-bottom: none;
 
 }
 ::ng-deep .conform-modal .ant-modal-body {
@@ -245,15 +234,7 @@ font-size: 20px;
 margin-bottom: 40%;
 }
 
-::ng-deep tr.ant-table-row  {
-  background-color: #F0F0F0; 
-}
-
-::ng-deep .ant-table-thead>tr>th {
-
-  background: #FFFFFF !important;
-}
-
 nz-table  {
   padding: 0px !important;
  }
+

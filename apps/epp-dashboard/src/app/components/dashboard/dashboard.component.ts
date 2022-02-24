@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import {PermissionListService} from './../../../../../../libs/common-services/permission.service';
 import {CommonDataService} from './../../../../../../libs/common-services/commonData.service';
+import { LoadingSpinnerService} from '../../../../../../libs/common-services/loading-spinner.service';
 import { IntialdataService } from '../../services/intialdata.service';
 import { Router } from '@angular/router';
 @Component({
@@ -14,33 +15,32 @@ export class DashboardComponent implements OnInit {
   fullName:any
   actions='Add_Employee';
   localData = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
-  cposition = '';
+
+  loading = false;
+
   thePosition : any;
   userEmail=window.sessionStorage.getItem('username')+'';
   userEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
-  constructor(private _intialdataService: IntialdataService,private _authenticationService:AuthenticationService,private _router:Router,public _commonData:CommonDataService,private _permissionService:PermissionListService )  { 
-  // this.fullName=_authenticationService.getUserFullName();
-  // this.fullName = this.userEmails.FirstName ;
+  constructor(
+    private _intialdataService: IntialdataService,
+    private _authenticationService:AuthenticationService,
+    private _router:Router,
+    public _commonData:CommonDataService,
+    private _permissionService:PermissionListService,
+    private loadingSpinnerService: LoadingSpinnerService
+    )  { 
    this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName)
-   //debugger
-  // this.thePosition = this.userEmails.empGuid.EmployeeOrganization.Role.Name
-   
-   // this.fullName = _authenticationService.getUsersName();
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
-   // this.thePosition = _authenticationService.getPosition(this.userEmails.Email);
-    
-    console.log(this.thePosition + "BBBBBB");
-  
-  }
+    }
 update(){
   this.actions='Update_Employee'
 }
 
 getUsers() {
   this._authenticationService.getUser(this.userEmails.Email);
-  console.log(this.userEmails.Email + "PPPPPPPPPPPPPPP");
+
   setTimeout(() => {
     this.thePosition = this._authenticationService.position;
   }, 1000);
@@ -48,31 +48,29 @@ getUsers() {
 
   ngOnInit(): void {
     this.getUsers();
-    console.log(this.thePosition+"ZZZZZZZZZZZZZ")
-  
-  // console.log(this.cposition.);
-  // console.log('*************');
     this.getUser();
-    //this.getFullName();
     this._commonData.getPermission();   
+    this.loadingSpinnerService.messageSource.subscribe((message) => {
+      console.log('------ --- -- -- -- - -11111');
+      console.log('Moa Message: ', message); // => Hello from child 1!
+      this.loading = message;
+    });
   }
   getUser(){
-    console.log('response1'+ this.userEmails.Email)
-    console.log('response2'+ this.userEmail )
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
-      console.log('response4'+ this.userEmails.FirstName)
-      this.thePosition=response.EmployeeOrganization.JobTitle;
-      //this.fullName = this.userEmails.FirstName;
-      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.LastName)
-      console.log('Who is there' +  this.fullName);
+      this.thePosition=response.EmployeeOrganization.Role.Name;
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName);
     });
-  //  setTimeout(() => {
-  //    this.thePosition = this._authenticationService.position;
-  //  }, 2000); 
  }
 
 
   routetoResourceManagement(){
+    this.loading = true;
+    console.log('jjjjj');
+    console.log(this.loading);
+    // setTimeout(() => { 
+    //   this.loading= false;
+    //  }, 1000);
     this._authenticationService.setFromViewProfile2();
     this._router.navigate(['resourcemanagement']);
   }

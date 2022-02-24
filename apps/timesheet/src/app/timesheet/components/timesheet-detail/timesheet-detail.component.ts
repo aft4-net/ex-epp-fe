@@ -6,7 +6,7 @@ Timesheet,
 TimesheetApproval,
 TimesheetConfiguration,
 } from '../../../models/timesheetModels';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   DateColumnEvent,
   TimeEntryEvent,
@@ -17,7 +17,6 @@ import {
   NzNotificationService,
 } from 'ng-zorro-antd/notification';
 
-import { ActivatedRoute } from '@angular/router';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Client } from '../../../models/client';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
@@ -27,7 +26,7 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import {
   Observable,
 } from 'rxjs';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { Project } from '../../../models/project';
 import { TimeEntryFormData } from '../../../models/timeEntryFormData';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
@@ -46,7 +45,7 @@ export const startingDateCriteria = {} as {
   templateUrl: './timesheet-detail.component.html',
   styleUrls: ['./timesheet-detail.component.scss'],
 })
-export class TimesheetDetailComponent implements OnInit {
+export class TimesheetDetailComponent implements OnInit,AfterViewInit {
   userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
@@ -148,6 +147,9 @@ export class TimesheetDetailComponent implements OnInit {
     this.$disableProject = this._clientAndProjectStateService.$disableProject;
     this.$disableDates = this._clientAndProjectStateService.$disableDate;
   }
+  ngAfterViewInit(): void {
+    this.checkForCurrentWeek();
+  }
 
   initializeClient() {
     this.$selectedClient.subscribe(clientId => {
@@ -210,8 +212,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.timesheetStateService.getTimesheet(this.userId);
     }
 
-    this.checkForCurrentWeek();
-    this.calculateWeeklyTotalHours();
+       this.calculateWeeklyTotalHours();
 
     this.validateForm = this.fb.group({
       fromDate: [null, [Validators.required]],

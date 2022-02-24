@@ -1,6 +1,12 @@
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
-import { Component, KeyValueDiffer, KeyValueDiffers, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
+import {
+  Component,
+  KeyValueDiffer,
+  KeyValueDiffers,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import {
   FormBuilder,
@@ -23,24 +29,20 @@ import {
   ProjectStatusService,
   AddProjectStateService,
   EditProjectStateService,
-  ProjectEdit
+  ProjectEdit,
+  ProjectResourceStateService,
 } from '../../../../core';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { NotificationBar } from 'apps/projectmanagement/src/app/utils/feedbacks/notification';
-import { PermissionListService } from 'libs/common-services/permission.service';
-
-import { map } from 'rxjs/operators';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css'],
 })
-export class AddProjectComponent implements OnInit , OnDestroy  {
+export class AddProjectComponent implements OnInit, OnDestroy {
   position: NzTabPosition = 'left';
   projectStatus!: boolean;
   selectedStatus!: string;
@@ -64,130 +66,142 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   disallowResource = true;
   addResourcePermission = false;
   createPermisson = false;
-
-  disabled= true;
-  isOnEditstate=false;
-  projectUpdate:ProjectEdit={} as  ProjectEdit;
-  projectOld:ProjectEdit={} as  ProjectEdit;
-  projectEditStateData!:Project;
-  modifiedforUpdate=false;
-  enableUpdateButton=false;
-  updateValueSeted=false;
-  cancelModal=false;
-  activeTabIndex=0;
+  isSpinning = false;
+  disabled = true;
+  isOnEditstate = false;
+  projectUpdate: ProjectEdit = {} as ProjectEdit;
+  projectOld: ProjectEdit = {} as ProjectEdit;
+  projectEditStateData!: Project;
+  modifiedforUpdate = false;
+  enableUpdateButton = false;
+  updateValueSeted = false;
+  cancelModal = false;
+  activeTabIndex = 0;
   resources: projectResourceType[] = [] as projectResourceType[];
   private projectEditDiffer!: KeyValueDiffer<string, any>;
-
 
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private projectResourceStateService: ProjectResourceStateService,
     private differs: KeyValueDiffers,
-    private projectCreateState:AddProjectStateService,
-     private editProjectStateService:EditProjectStateService, 
+    private projectCreateState: AddProjectStateService,
+    private editProjectStateService: EditProjectStateService,
     private fb: FormBuilder,
     private projectService: ProjectService,
     private modalService: NzModalService,
     private clientService: ClientService,
     private employeeService: EmployeeService,
     private projectStatusService: ProjectStatusService,
-    private router: Router,
-    private notification: NotificationBar,
-    private _permissionService: PermissionListService
-  ) { }
+    private router: Router
+  ) {}
   ngOnDestroy(): void {
     this.projectCreateState.restAddProjectDetails();
     this.editProjectStateService.restUpdateProjectState();
-
   }
 
-
   ngOnInit(): void {
-   this.isOnEditstate=this.editProjectStateService.isOnEditstate;
+    this.isOnEditstate = this.editProjectStateService.isOnEditstate;
+    this.isSpinning = true;
     this.createRegistrationForm();
     this.apiCalls();
     this.projectMapper();
     this.typeChanged();
     this.validateParojectNameWithClient();
-     if( this.isOnEditstate)
-     {this. setValueForUpdate();
-    
-     }
+
+    if (
+      '/projectmanagement/edit-project' === this.router.url &&
+      !this.isOnEditstate
+    )
+      this.router.navigateByUrl('projectmanagement');
+    if (this.isOnEditstate) this.setValueForUpdate();
   }
 
+  setValueForUpdate() {
+    this.projectEditStateData = this.editProjectStateService.projectEditData;
+    this.validateForm.controls.projectName.setValue(
+      this.editProjectStateService.projectEditData.ProjectName
+    );
+    this.validateForm.controls.supervisor.setValue(
+      this.editProjectStateService.projectEditData.SupervisorGuid
+    );
+    this.validateForm.controls.projectType.setValue(
+      this.editProjectStateService.projectEditData.ProjectType
+    );
+    this.validateForm.controls.status.setValue(
+      this.editProjectStateService.projectEditData.ProjectStatus?.Guid
+    );
+    this.validateForm.controls.client.setValue(
+      this.editProjectStateService.projectEditData.Client?.Guid
+    );
+    this.validateForm.controls.startValue.setValue(
+      this.editProjectStateService.projectEditData.StartDate
+    );
+    this.validateForm.controls.endValue.setValue(
+      this.editProjectStateService.projectEditData.EndDate
+    );
+    this.validateForm.controls.description.setValue(
+      this.editProjectStateService.projectEditData.Description
+    );
+    this.projectUpdate.Guid = this.projectEditStateData.Guid;
+    this.projectOld.Guid = this.projectEditStateData.Guid;
+    this.projectOld.ProjectName =
+      this.editProjectStateService.projectEditData.ProjectName;
+    this.projectOld.Description =
+      this.editProjectStateService.projectEditData.Description;
+    this.projectOld.ProjectType =
+      this.editProjectStateService.projectEditData.ProjectType;
+    this.projectOld.ProjectStatusGuid =
+      this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
+    this.projectOld.ClientGuid =
+      this.editProjectStateService.projectEditData.Client?.Guid;
+    this.projectOld.SupervisorGuid =
+      this.editProjectStateService.projectEditData.SupervisorGuid;
+    this.projectOld.StartDate =
+      this.editProjectStateService.projectEditData.StartDate;
+    this.projectOld.EndDate =
+      this.editProjectStateService.projectEditData.EndDate;
+    this.disabled = false;
 
- setValueForUpdate()
- {
-  this.projectEditStateData=this.editProjectStateService.projectEditData;
-  this.validateForm.controls.projectName.setValue(this.editProjectStateService.projectEditData.ProjectName);
-  this.validateForm.controls.supervisor.setValue(this.editProjectStateService.projectEditData.SupervisorGuid);
-  this.validateForm.controls.projectType.setValue(this.editProjectStateService.projectEditData.ProjectType);
-  this.validateForm.controls.status.setValue(this.editProjectStateService.projectEditData.ProjectStatus?.Guid);
-  this.validateForm.controls.client.setValue(this.editProjectStateService.projectEditData.Client?.Guid);
-  this.validateForm.controls.startValue.setValue(this.editProjectStateService.projectEditData.StartDate);
-  this.validateForm.controls.endValue.setValue(this.editProjectStateService.projectEditData.EndDate);
-
-  this.projectUpdate.Guid=this.projectEditStateData.Guid;
-  this.projectOld.Guid=this.projectEditStateData.Guid;
-  this.projectOld.ProjectName=   this.editProjectStateService.projectEditData.ProjectName;
-       
-  this.projectOld.ProjectType=this.editProjectStateService.projectEditData.ProjectType;
-   this.projectOld.ProjectStatusGuid=this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
-   this.projectOld.ClientGuid=this.editProjectStateService.projectEditData.Client?.Guid;
-   this.projectOld.SupervisorGuid=this.editProjectStateService.projectEditData.SupervisorGuid;
-   this.projectOld.StartDate= this.editProjectStateService.projectEditData.StartDate;
-   this.projectOld.EndDate=this.editProjectStateService.projectEditData.EndDate;
-
- 
-   if (this.validateForm.controls.endValue.value != null)
-   this.projectOld.EndDate=this.validateForm.controls.endValue.value
- else   this.projectOld.EndDate= ""
- this.updateValueSeted=true;
-
- }
-   
-
-  authorize(key: string) {
-    return this._permissionService.authorizedPerson(key);
+    if (this.validateForm.controls.endValue.value != null)
+      this.projectOld.EndDate = this.validateForm.controls.endValue.value;
+    else this.projectOld.EndDate = '';
+    this.updateValueSeted = true;
+    this.isSpinning = false;
   }
 
   projectMapper() {
     this.validateForm.valueChanges.subscribe(() => {
       if (this.validateForm.valid) {
-       
-        const status=this.projectStatuses.find(p=>p.Guid==this.validateForm.controls.status.value);
-   
-        if(status)
-       if ( status.AllowResource) 
-        {
-          this.disallowResource = false;
-        } 
-        else
-        this.disallowResource = true;
-        
+        const status = this.projectStatuses.find(
+          (p) => p.Guid == this.validateForm.controls.status.value
+        );
+
+        if (status)
+          if (status.AllowResource) {
+            this.projectResourceStateService.updateDisallowResource(false);
+          } else this.projectResourceStateService.updateDisallowResource(true);
+
         this.projectStartdDate = this.validateForm.controls.startValue.value;
-        if(!this.isOnEditstate)
-        {
-  
-        this.projectCreate.ProjectName =
-          this.validateForm.controls.projectName.value;
-        
-         this.projectCreate.SupervisorGuid =
-          this.validateForm.controls.supervisor.value;
-        this.projectCreate.StartDate =
-          this.validateForm.controls.startValue.value;
-        this.projectCreate.ProjectType =
-          this.validateForm.controls.projectType.value;
+        if (!this.isOnEditstate) {
+          this.projectCreate.ProjectName =
+            this.validateForm.controls.projectName.value;
 
-        this.projectCreate.ProjectStatusGuid =
-          this.validateForm.controls.status.value;
+          this.projectCreate.SupervisorGuid =
+            this.validateForm.controls.supervisor.value;
+          this.projectCreate.StartDate =
+            this.validateForm.controls.startValue.value;
+          this.projectCreate.ProjectType =
+            this.validateForm.controls.projectType.value;
 
-        this.projectCreate.Description =
-          this.validateForm.controls.description.value;
+          this.projectCreate.ProjectStatusGuid =
+            this.validateForm.controls.status.value;
 
-          if (this.projectCreate.ProjectType=='Internal')
-          {
+          this.projectCreate.Description =
+            this.validateForm.controls.description.value;
+
+          if (this.projectCreate.ProjectType == 'Internal') {
             for (let i = 0; i < this.clients.length; i++) {
               if (
                 this.clients[i].ClientName.toLowerCase() ===
@@ -196,27 +210,22 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
                 this.projectCreate.ClientGuid = this.clients[i].Guid;
               }
             }
-
+          } else {
+            this.projectCreate.ClientGuid =
+              this.validateForm.controls.client.value;
           }
-          else{
-            this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
-          }
-        }
-        else{
+        } else {
           this.updateProject();
         }
-        
 
-        
-        
         if (this.validateForm.controls.endValue.value != null)
-        this.projectCreate.EndDate = this.validateForm.controls.endValue.value;
-      else this.projectCreate.EndDate = '';
-        this.projectCreateState.updateProjectDetails(this.projectCreate)
-
+          this.projectCreate.EndDate =
+            this.validateForm.controls.endValue.value;
+        else this.projectCreate.EndDate = '';
+        this.projectCreateState.updateProjectDetails(this.projectCreate);
       } else {
-        this.projectCreateState.updateProjectDetails({} as ProjectCreate)
-        this.disallowResource = true;
+        this.projectCreateState.updateProjectDetails({} as ProjectCreate);
+        this.projectResourceStateService.updateDisallowResource(true);
       }
     });
   }
@@ -238,11 +247,9 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     });
   }
 
-  checkClientInternal(client:string) {
-    if(client ==="Excellerent")
-             return true;
-             else 
-             return false;
+  checkClientInternal(client: string) {
+    if (client === 'Excellerent') return true;
+    else return false;
   }
   apiCalls() {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
@@ -256,28 +263,30 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     this.projectStatusService.getAll().subscribe((res) => {
       this.projectStatuses = res;
 
-      if(!this.isOnEditstate)
-        for (let i = 0; i < this.projectStatuses .length; i++) {
-          if (this.projectStatuses [i].StatusName == 'Active') {   
-            this.validateForm.controls.status.setValue(this.projectStatuses [i].Guid);
+      if (!this.isOnEditstate)
+        for (let i = 0; i < this.projectStatuses.length; i++) {
+          if (this.projectStatuses[i].StatusName == 'Active') {
+            this.validateForm.controls.status.setValue(
+              this.projectStatuses[i].Guid
+            );
             break;
           }
-        }else{
-          const status=this.projectStatuses.find(p=>p.Guid==this.validateForm.controls.status.value);
-     
-          if(status)
-         if ( status.AllowResource) 
-          {
-            this.disallowResource = false;
-         
-          } 
         }
-  
-    
+      else {
+        const status = this.projectStatuses.find(
+          (p) => p.Guid == this.validateForm.controls.status.value
+        );
+
+        if (status)
+          if (status.AllowResource) {
+            this.projectResourceStateService.updateDisallowResource(false);
+          }
+      }
     });
 
     this.projectService.getProjects().subscribe((response: Project[]) => {
       this.projects = response;
+      this.isSpinning=false;
     });
   }
 
@@ -293,9 +302,9 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
           for (let i = 0; i < this.projects.length; i++) {
             if (
               this.validateForm.controls.client.value ==
-              this.projects[i].Client?.Guid &&
+                this.projects[i].Client?.Guid &&
               this.validateForm.controls.projectName.value.toLowerCase() ===
-              this.projects[i].ProjectName.toString().toLowerCase()
+                this.projects[i].ProjectName.toString().toLowerCase()
             ) {
               found = true;
 
@@ -341,85 +350,103 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
       endValue: [null],
       description: [''],
     });
-
-
   }
 
   createProject() {
-
-     this.projectService.createProject();
-
+    this.projectService.createProject();
   }
 
-  saveProjectUpdate()
-  {
-  this.projectService.updateProject(this.projectUpdate);
-
+  saveProjectUpdate() {
+    this.projectService.updateProject(this.projectUpdate);
   }
-  updateProject()
-  {
-  
-    if(this.updateValueSeted &&  this.validateForm.valid)
-    {
-      this.projectUpdate.ProjectName=   this.validateForm.controls.projectName.value;
-       
-      this.projectUpdate.ProjectType=this.validateForm.controls.projectType.value;
-       this.projectUpdate.ProjectStatusGuid=this.validateForm.controls.status.value;
-       this.projectUpdate.ClientGuid=this.validateForm.controls.client.value;
-       this.projectUpdate.SupervisorGuid=this.validateForm.controls.supervisor.value;
-       this.projectUpdate.StartDate= this.validateForm.controls.startValue.value;
-       this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
-     
-     
-       if (this.validateForm.controls.endValue.value != null)
-       this.projectUpdate.EndDate=this.validateForm.controls.endValue.value
-     else   this.projectUpdate.EndDate= ""
+  updateProject() {
+    if (this.updateValueSeted && this.validateForm.valid) {
+      this.projectUpdate.ProjectName =
+        this.validateForm.controls.projectName.value;
 
-     if( ( this.updateValueSeted && this.validateForm.valid) && (this.projectUpdate.ProjectName!= this.projectOld.ProjectName ||
-      this.projectUpdate.ProjectType != this.projectOld.ProjectType ||
-      this.projectUpdate.ProjectStatusGuid !=this.projectOld.ProjectStatusGuid ||
-      this.projectUpdate.ClientGuid!=this.projectOld.ClientGuid ||
-      this.projectUpdate.SupervisorGuid!=this.projectOld.SupervisorGuid ||
-      this.projectUpdate.StartDate != this.projectOld.StartDate ||
-      this.projectUpdate.EndDate != this.projectOld.EndDate)
-      )
-     {
-    
-     this.enableUpdateButton=true;
-     }
-     else
-     this.enableUpdateButton=false;
+      this.projectUpdate.ProjectType =
+        this.validateForm.controls.projectType.value;
+      this.projectUpdate.ProjectStatusGuid =
+        this.validateForm.controls.status.value;
+      this.projectUpdate.ClientGuid = this.validateForm.controls.client.value;
+      this.projectUpdate.SupervisorGuid =
+        this.validateForm.controls.supervisor.value;
+      this.projectUpdate.StartDate =
+        this.validateForm.controls.startValue.value;
+      this.projectUpdate.EndDate = this.validateForm.controls.endValue.value;
+      this.projectUpdate.Description =
+        this.validateForm.controls.description.value;
+
+      if (this.validateForm.controls.endValue.value != null)
+        this.projectUpdate.EndDate = this.validateForm.controls.endValue.value;
+      else this.projectUpdate.EndDate = '';
+ 
+        
+
+      if(this.updateValueSeted &&
+      this.validateForm.valid &&
+      (this.projectUpdate.ProjectName !== this.projectOld.ProjectName    ||
+        this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
+        this.projectUpdate.ProjectStatusGuid !=
+          this.projectOld.ProjectStatusGuid ||
+        this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
+        this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
+        new Date(this.projectUpdate.StartDate).getTime() !==
+          new Date(this.projectOld.StartDate).getTime() ||
+        (this.validateForm.controls.endValue.value!=null &&
+          new Date(this.projectUpdate.EndDate).getTime() !=
+            new Date(this.projectOld.EndDate).getTime()) ||
+            (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
+        this.projectUpdate.Description !== this.projectOld.Description)
+      ) {
+        this.enableUpdateButton = true;
+      } else this.enableUpdateButton = false;
     }
-    
-
-
-
   }
-
 
   disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.validateForm.controls.endValue.value ||this.isOnEditstate) {
+    if (!startValue) {
       return false;
     }
-  
-    return (
-      startValue.getTime() > this.validateForm.controls.endValue.value.getTime()
-    );
+    if (
+      this.isOnEditstate &&
+      (this.projectUpdate.EndDate != '' || this.projectUpdate.EndDate)
+    )
+      return (
+        startValue.getTime() > new Date(this.projectUpdate.EndDate).getTime()
+      );
+
+    if (this.validateForm.controls.endValue.value)
+      return (
+        startValue.getTime() >
+        this.validateForm.controls.endValue.value.getTime()
+      );
+    return false;
   };
 
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.validateForm.controls.startValue.value || this.isOnEditstate ) {
+    if (!endValue || !this.validateForm.controls.startValue.value) {
       return false;
     }
-    return (
-      endValue.getTime() <=
-      this.validateForm.controls.startValue.value.getTime()
-    );
+    if (
+      this.isOnEditstate &&
+      (this.projectUpdate.StartDate != '' || this.projectUpdate.StartDate)
+    )
+      return (
+        endValue.getTime() < new Date(this.projectUpdate.StartDate).getTime()
+      );
+
+    if (this.validateForm.controls.startValue.value)
+      return (
+        endValue.getTime() <=
+        this.validateForm.controls.startValue.value.getTime()
+      );
+    return false;
   };
 
   onProjectDateSelected() {
-    if(this.startValue.value!==null){
-      this.disabled= false;
+    if (this.startValue.value !== null) {
+      this.disabled = false;
     }
   }
   handleStartOpenChange(open: boolean): void {
@@ -428,7 +455,7 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
     // }
   }
 
-  handleEndOpenChange(open: boolean): void { }
+  handleEndOpenChange(open: boolean): void {}
 
   //Getter methods
 
@@ -469,34 +496,28 @@ export class AddProjectComponent implements OnInit , OnDestroy  {
   }
 
   showDeleteConfirm(): void {
-    if(!this.enableUpdateButton && this.isOnEditstate)
-    this.confimeresredirect();
-    else if(this.validateForm.invalid)
-    this.confimeresredirect();
-    this.activeTabIndex=0
-      this.cancelModal=true;
+    if (!this.enableUpdateButton && this.isOnEditstate)
+      this.confimeresredirect();
+    else if (this.validateForm.invalid) this.confimeresredirect();
+
+    this.cancelModal = true;
   }
 
-  confimeresredirect()
-  {
+  confimeresredirect() {
     this.userSubmitted = false;
-    this.cancelModal=false;
+    this.cancelModal = false;
     this.router.navigateByUrl('projectmanagement');
   }
 
-  rediretCancel()
-  {
-    this.cancelModal=false;
+  rediretCancel() {
+    this.cancelModal = false;
   }
 
-  confirmCancel()
-  {
-  
-    this.cancelModal=false;
+  confirmCancel() {
+    this.cancelModal = false;
   }
 
-  routeOnUpdateValidation(index:number)
-  {
-    this.activeTabIndex=index;
+  routeOnUpdateValidation(index: number) {
+    this.activeTabIndex = index;
   }
 }

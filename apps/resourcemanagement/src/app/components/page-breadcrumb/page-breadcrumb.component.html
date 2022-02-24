@@ -6,9 +6,9 @@
           <a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
         <nz-breadcrumb-item> <a [routerLink]="['/resourcemanagement']">Resources</a></nz-breadcrumb-item> <br />
 
-        <h3 *ngIf="isdefault; else employees">Employees</h3>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="isdefault; else employees">Employees</h3>
         <ng-template #employees>
-          <h3>Employees</h3>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic">Employees</h3>
         </ng-template>
       </div>
 

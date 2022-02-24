@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { filter, map } from "rxjs/operators";
-import { Employee } from "../../Models/Employee";
 import { BasicSeedState } from "../../Models/state-models/basic-seed.state.model";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
 import { BasicSeedStateService } from "../../state-services/seed-state-services/basic-seed.state.service";
@@ -128,13 +126,13 @@ extends BasicSeedStateService<DutyStation, EmployeeStaticStateModel, CountryServ
         //     selectedCountry: value,
         //     dutyStations: this._countryService.loadDutyBranch(value)
         // } as unknown as Partial<EmployeeStaticStateModel>
-        
+
     }
 
     load(): void {
         // this._countryService.loadCountries()
         // .subscribe((response: SelectOptionModel[]) => {
-            
+
         // this.State = {
         //     countries: response,
         //     dutyStations: []

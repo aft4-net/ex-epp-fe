@@ -46,7 +46,6 @@
   <exec-epp-custom-datepicker
     [label]="'Joining Date'"
     [myControl]="getControl('joiningDate')"
-    [endingDate]="joinigStartDate"
     >
   </exec-epp-custom-datepicker>
   <ng-container *ngIf="isContract">
@@ -61,6 +60,7 @@
     label="Current Status"
     [myControl]="getControl('status')"
     [list$]="employementStatuses$"
-    [required]="true">
+    [required]="true"
+    [disabled]="isNew">
   </exec-epp-custom-select>
 </form>

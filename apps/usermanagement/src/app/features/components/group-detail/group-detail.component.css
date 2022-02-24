@@ -1,7 +1,8 @@
 .table_heading
 {
-background-color: #F5F5F5 !important;
-font-weight: 700;
+  background-color: #fafafa !important;
+  font-weight: 550;
+  font-size:small;
 }
 
 .table_evenrow_heading
@@ -115,6 +116,7 @@ tr.ant-table-row.ng-star-inserted {
 .removeButton {
   color: #00a551;
   text-align: center;
+  font-size: small;
 }
 
 .defaultButton {
@@ -170,6 +172,7 @@ tr.ant-table-row.ng-star-inserted {
 }
 
 .disableSaveUser {
+    color: rgba(0,0,0,.25) !important;
     border-color: #d9d9d9 !important;
     background: #f5f5f5 !important;
     text-shadow: none;
@@ -221,4 +224,55 @@ tr.ant-table-row.ng-star-inserted {
   background-color: #ff4d4f !important;
   border-color: #ff4d4f !important;
   color: white !important;
+}
+
+
+::ng-deep .ant-modal-footer > .ant-btn-primary:hover {
+  background-color:#00A551 !important;
+  border-color:#00A551 !important;
+  color: white !important;
+}
+
+::ng-deep .ant-modal-footer > .ant-btn:hover {
+  background-color: white;
+  border-color:black;
+  color: black;
+}
+
+::ng-deep .addUserActions .ant-btn-primary.primary[disabled]
+          .ant-btn-primary.primary[disabled]:hover,
+          .ant-btn-primary.primary[disabled]:active
+          .ant-btn-primary.primary[disabled]:focus {
+    color: rgba(0,0,0,.25);
+    border-color: #d9d9d9;
+    background-color: #f5f5f5;
+    text-shadow: none;
+    box-shadow: none;
+    
+}
+
+.addUserActions {
+  text-align: right;
+}
+
+::ng-deep .editDescriptionActions .ant-btn-primary.primary[disabled]
+.ant-btn-primary.primary[disabled]:hover,
+.ant-btn-primary.primary[disabled]:active,
+.ant-btn-primary.primary[disabled]:focus {
+    color: rgba(0,0,0,.25);
+    border-color: #d9d9d9;
+    background: #f5f5f5;
+    text-shadow: none;
+    box-shadow: none;
+    text-shadow: none;
+    box-shadow: none;
+
+}
+
+.editDescriptionActions {
+  text-align: right;
+}
+
+.tdstyle{
+  font-size: small;
 }

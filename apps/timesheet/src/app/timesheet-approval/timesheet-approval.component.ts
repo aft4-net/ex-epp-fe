@@ -1,20 +1,18 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TimesheetApproval, TimesheetApprovalProjectDetails } from '../models/timesheetModels';
+import { BehaviorSubject } from 'rxjs';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { TimesheetApproval } from '../models/timesheetModels';
 
 import { CommonDataService } from 'libs/common-services/commonData.service';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
-import { delay } from 'rxjs/operators';
 import { TimesheetStateService } from '../timesheet/state/timesheet-state.service';
 
 @Component({
@@ -140,12 +138,14 @@ export class TimesheetApprovalComponent implements OnInit {
     private _permissionService:PermissionListService,
     private _timesheetStateService: TimesheetStateService
   ) {
+    this._timesheetStateService.date = new Date();
     this._timesheetStateService.setTimesheetPageTitle("Approve Timesheet");
    }
 
 
 
   ngOnInit(): void {
+    this._timesheetStateService.setApproval(true);
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
     this.initialDataforTab();
@@ -390,7 +390,8 @@ sortDirectionMethod() {
 
   stateReset():void
   {
-
+    this.searchKeyGBinded ='';
+    this.weekGBinded = null;
     this.sortByG = '';
 
     this.pageIndexG=1;

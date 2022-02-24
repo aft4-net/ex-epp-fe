@@ -1,27 +1,29 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Data, Router, RouterLink } from '@angular/router';
-import { NzTableFilterList } from 'ng-zorro-antd/table';
-import { fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap, timeInterval } from 'rxjs/operators';
-import { ColumnItem } from '../../Models/ColumnItem';
-import { listtToFilter } from '../../Models/listToFilter';
-import { PaginationResult } from '../../Models/PaginationResult';
-import { IUserModel } from '../../Models/User/UserList';
-import { UserParams } from '../../Models/User/UserParams';
+import { Data, Router} from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NotificationType, NotifierService } from '../../../shared/services/notifier.service';
-import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
-import { IEmployeeModel } from '../../Models/employee.model';
-import { IUserPostModel } from '../../Models/User/user-post.model';
-import { GroupSetModel } from '../../Models/group-set.model';
-import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
-import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { UserService } from '../../Services/user.service';
+import { Observable, fromEvent, of } from 'rxjs';
+import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+
 import { AddUserService } from '../../Services/add-user.service';
+import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
+import { ColumnItem } from '../../Models/ColumnItem';
+import { GroupSetModel } from '../../Models/group-set.model';
+import { IEmployeeModel } from '../../Models/employee.model';
+import { IUserModel } from '../../Models/User/UserList';
+import { IUserPostModel } from '../../Models/User/user-post.model';
+import { NotificationBar } from '../../../utils/feedbacks/notification';
+import { NzButtonSize } from 'ng-zorro-antd/button';
+
+import { NzTableFilterList } from 'ng-zorro-antd/table';
+import { PaginationResult } from '../../Models/PaginationResult';
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
+import { UserParams } from '../../Models/User/UserParams';
+import { UserService } from '../../Services/user.service';
+import { listtToFilter } from '../../Models/listToFilter';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-user-dashboard',
@@ -31,7 +33,7 @@ import { AddUserService } from '../../Services/add-user.service';
 export class UserDashboardComponent implements AfterViewInit, OnInit  {
 
   userfrm: any;
-  employeeList: IEmployeeModel [] = [] 
+  employeeList: IEmployeeModel [] = []
   selectedUserValue = '';
   isUserModalVisible=false;
 
@@ -110,7 +112,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       this.isLogin=_authenticationService.loginStatus();
   }
   authorize(key:string){
-    
+
     return this._permissionService.authorizedPerson(key);
   }
 
@@ -130,15 +132,13 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     ).subscribe();
 
     setTimeout(() => {
-      if(!this.authorize('View_User')&&this.isLogin)
-      this._router.navigateByUrl('usermanagement/unauthorize')
       }, 100);
   }
- 
+
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
 
   ngOnInit(): void {
- 
+
     this.userfrm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
       GroupsOnUser: new FormControl([]),
@@ -174,8 +174,8 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     this.loading = true;
     this.userParams.userName = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
-      if(response.Data) 
-      { 
+      if(response.Data)
+      {
         this.userList$=of(response.Data);
         this.userList = response.Data;
         this.listOfCurrentPageData = response.Data;
@@ -289,33 +289,33 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   SearchUsersByUserName() {
     this.loading = true;
     this.userParams.userName = this.userDashboardForm.value.userName;
-    this.userService.SearchUsers(this.userParams)
-    .subscribe((response: PaginationResult<IUserModel[]>) => {
-      if(response.Data) {
-        this.userList$=of(response.Data);
-        this.userList = response.Data;
-        this.listOfCurrentPageData = response.Data;
-        this.pageIndex=response.pagination.PageIndex;
-        this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord
-        this.totalRows=response.pagination.TotalRows;
-        this.lastRow = this.totalRows;
-        this.beginingRow = 1;
-        this.FillTheFilter();
+      this.userService.SearchUsers(this.userParams)
+      .subscribe((response: PaginationResult<IUserModel[]>) => {
+        if(response.Data) {
+          this.userList$=of(response.Data);
+          this.userList = response.Data;
+          this.listOfCurrentPageData = response.Data;
+          this.pageIndex=response.pagination.PageIndex;
+          this.pageSize=response.pagination.PageSize;
+          this.totalRecord=response.pagination.TotalRecord
+          this.totalRows=response.pagination.TotalRows;
+          this.lastRow = this.totalRows;
+          this.beginingRow = 1;
+          this.FillTheFilter();
+          this.loading = false;
+        }
+        else
+        {
+          this.loading = false;
+          this.userList = [];
+          this.userList$=of([]);
+          this.FillTheFilter();
+        }
+        this.searchStateFound=true;
+      },error => {
         this.loading = false;
-      }
-      else
-      {
-        this.loading = false;
-        this.userList = [];
-        this.userList$=of([]);
-        this.FillTheFilter();
-      }
-      this.searchStateFound=true;
-    },error => {
-      this.loading = false;
-      this.PopulateFilterColumns();
-     });
+        this.PopulateFilterColumns();
+      });
   }
 
 
@@ -396,9 +396,9 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
             this.groupList = r;
-            if(userId === '') 
+            if(userId === '')
             return;
-            
+
             this.addUserService.getUserGroups(userId).subscribe(
                 (r: ResponseDTO<GroupSetModel[]>) => {
                     r.Data.forEach(el => {
@@ -424,7 +424,7 @@ onSaveGroups() {
   this.selectedGroups = [];
   this.loadingOnSave = true;
       const x = this.groupfrm.get('Groups').value;
-      
+
       x.forEach((el: string) => {
           this.selectedGroups.push(el as string);
       });
@@ -482,7 +482,7 @@ handleGroupCancel() {
           UserName: res.Data.EmployeeOrganization?.CompaynEmail,
           GroupIds: selectedGroups?selectedGroups:[]
         };
-        
+
 
         this.addUserService.add(user).subscribe(
           (r: ResponseDTO<any>) => {
@@ -513,11 +513,11 @@ handleGroupCancel() {
   Remove(userId: string) {
 
   }
-  
+
   ShowDetail(userId: string) {
     this._router.navigateByUrl('/usermanagement/userdetails/'+ userId);
   }
-  
+
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isUserModalVisible = false;
@@ -532,6 +532,18 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
+    this.userService.isSuperAdmin(userGuid).subscribe((res)=>{
+     if(res == true){
+      const modal: NzModalRef = this.modal.confirm({
+        nzTitle: 'This User Can Not Be Deleted',
+        nzContent: '',
+        nzOkText: 'OK',
+        nzOkType: 'default',
+        nzOkDanger: true,
+      
+        });
+     }
+     else{
     const modal: NzModalRef = this.modal.confirm({
       nzTitle: 'Deleting User?',
       nzContent: 'Once you delete the user you can not undo the deletion',
@@ -546,11 +558,13 @@ handleGroupCancel() {
             {
               this.SearchUsersByUserName();
             }
-            else 
+            else
             {
               this.FeatchAllUsers();
             }
           })
       });
     }
-}
+  });
+    }
+  }

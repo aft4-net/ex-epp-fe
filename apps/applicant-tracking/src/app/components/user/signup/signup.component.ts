@@ -68,7 +68,6 @@ export class SignupComponent implements OnInit {
       });
     }, error => {
       this.loading = false;
-      console.log(error);
       this.notification.showNotification({
         type: 'error',
         content: error,

@@ -10,17 +10,18 @@
     <div class="page-title"> {{updateClientState.titlePage}} </div>
   </div>
 </header>
-<exec-epp-header-line> </exec-epp-header-line>
+<hr class="header-separator">
 <header>
   <div class="justify-between" nz-row>
     <div nz-col  class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col >
-      <button nz-button class="action-buttons" (click)="cancelAddClientPage()"  >   Cancel</button>
-      <button  class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
+      <button nz-button class="cancel-button" (click)="cancelAddClientPage()"  >   Cancel</button>
+      <button  [disabled]="updateClientState.updateButtonListener" class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
     </div>
   </div>
 </header>
-<hr>
+<hr class="header-separator">
+
 <nz-tabset  [nzTabPosition]="position" [(nzSelectedIndex)]="activeTabIndex">
   <div>
     <nz-tab [nzTitle]="detailsTitleTemplate" nzSelected>
@@ -86,7 +87,7 @@
 
     <ng-template #ComapnyConatactsTitle let-visible="visible">
 
-      <span class="ml-10"> Company Conatacts </span>
+      <span class="ml-10"> Company Contacts </span>
 
     </ng-template>
 

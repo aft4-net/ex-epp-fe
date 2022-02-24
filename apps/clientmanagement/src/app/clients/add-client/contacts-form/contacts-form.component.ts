@@ -1,5 +1,5 @@
-import { AddClientStateService,ClientContactService, ClientContactCreate, UpdateClientContact, UpdateClientStateService } from '../../../core';
-import { Component, Input, OnInit } from '@angular/core';
+import { AddClientStateService, ClientContactCreate, ClientContactService, UpdateClientContact, UpdateClientStateService } from '../../../core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { CountryCodeService } from '../../../core/services/country-code.service';
@@ -12,6 +12,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./contacts-form.component.scss'],
 })
 export class ContactsFormComponent implements OnInit {
+  dynamicBtnValue={} as string;
   isClearButtonActive=true;
   isDisabled = true;
   isVisible=false;
@@ -41,6 +42,7 @@ export class ContactsFormComponent implements OnInit {
   editAt=-1;
   found=false;
   updateContacts:UpdateClientContact[]=[];
+  clientContactUpdateBtn!:boolean;
   // ContactPersonName= new FormControl('');
 
   constructor(
@@ -51,7 +53,7 @@ export class ContactsFormComponent implements OnInit {
     private notification: NzNotificationService,
     private addClientStateService: AddClientStateService,
 
-    private updateClientStateService: UpdateClientStateService,
+    public updateClientStateService: UpdateClientStateService,
   ) {
     this.listofCodes = this._countryService.getPhonePrefices();
 
@@ -63,6 +65,7 @@ export class ContactsFormComponent implements OnInit {
     if(this.updateClientStateService.isEdit && this.updateClientStateService.UpdateClientData.ClientContacts!==null)
 
     {
+
       for(let i=0;i<this.updateClientStateService.UpdateClientData.ClientContacts.length;i++)
       {
         const clientContact={
@@ -90,19 +93,26 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       this.addContactForm.value['PhoneNumberPrefix']!='' ||
       this.addContactForm.value['PhoneNumber']!='' ||
       this.addContactForm.value['Email']!=''  ){
-
+        this.updateClientStateService.updateButtonListener=false;
        this.isClearButtonActive=false;
+       console.log("fssssssssssssssssssssssss")
+       console.log(this.clientContactUpdateBtn=false);
+       console.log("fssssssssssssssssssssssss")
       }
       else{
        this.isClearButtonActive=true;
+
       }
 
     });
 
+
   }
   showModal(): void {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Add";
     this.modalTitle = (this.IsEdit? 'Edit': 'Add') + ' Client Contact'
     this.isVisible = true;
+
   }
   submitForm(): void {
     if (this.addContactForm.valid) {
@@ -159,11 +169,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
 
 
   handleOk(): void {
-    if(this.ContactPersonName.valid)
-    {
 
-
-    }
     if (this.addContactForm.valid) {
 
       // this.listData.push(this.addContactForm.value);
@@ -190,6 +196,10 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
     this.editAt=-1;
     this.IsEdit=false;
   }
+  actionBtnValue()
+  {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton;
+  }
   handleClear(): void {
     this.addContactForm.reset();
     this.editAt=-1;
@@ -214,12 +224,17 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
   }
   showDeleteConfirm(element: any,i:number): void {
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this contact?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+      nzIconType:'',
+      nzTitle: 'Delete Client Contact ?',
+      nzContent: '<b >Are you sure, you want to delete this client contact? this action cannot be undone</b>',
+      nzOkText: 'Yes, Delete ',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
+        if(this.updateClientStateService.isEdit)
+        {
+
+
         if(typeof this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid!=='undefined')
         {
         this.contactService.DeleteContact(this.updateClientStateService.UpdateClientData.ClientContacts[i].Guid).subscribe(
@@ -244,12 +259,25 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
           this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
           );
         }
+      }
+      else{
+
+        this.removeItem(element);
+        this.notification.success("Contact Deleted Successfully","",{nzPlacement:'bottomRight'}
+        );
+      }
       },
-      nzCancelText: 'No',
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
     });
   }
+
+
   edit(index:number){
+    console.log("checking edit mode")
+    console.log(this.clientContactUpdateBtn=true);
+    console.log("checking edit mode")
+     this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.listData.length;count++){
 
       if(count==index){
@@ -263,6 +291,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
     }
 
   }
+
   patchValues(data: any) {
     this.addContactForm.patchValue({
       ContactPersonName: data.ContactPersonName,
