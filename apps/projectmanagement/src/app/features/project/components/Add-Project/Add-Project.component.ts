@@ -399,7 +399,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
             (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
         this.projectUpdate.Description !== this.projectOld.Description)
       ) {
-        this.enableUpdateButton = true;s
+        this.enableUpdateButton = true;
       } else this.enableUpdateButton = false;
     }
   }
