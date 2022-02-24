@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Employee } from '../../../Models/Employee';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
+//import { LoadingSpinnerService} from '../../../../../../../../libs/common-services/loading-spinner.service';
 
 @Component({
   selector: 'exec-epp-personal-info',
@@ -18,27 +19,26 @@ export class PersonalInfoComponent implements OnInit {
 
   
   isEdit = false;
-  loading = true;
+  
 
   
 
   constructor(
     public employeeService: EmployeeService,
     private readonly _form: FormGenerator,
+    //private loadingSpinnerService: LoadingSpinnerService
   ) {
     this.isEdit = this._form.IsEdit;
 
     this.employeeService.isdefault = false;
   }
 
-  ngOnInit(): void {
-
-    setTimeout(() => { 
-      this.loading= false;
-     }, 1000);
-    
+  ngOnInit(): void { 
+    //setTimeout(() => { 
+     
+     //}, 5000);  
   }
 
-
+  
   
 }
