@@ -1,9 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Data, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, fromEvent, of, observable } from 'rxjs';
+import { Observable, fromEvent, of, observable, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-
 import { ColumnItem } from '../../Models/ColumnItem';
 import { FormValidator } from '../../../utils/validator';
 import { GroupParams } from '../../Models/User/GroupParams';
@@ -65,13 +64,9 @@ export class GroupsetComponent implements OnInit {
     }
   ]
 
-  @ViewChild('searchInput')
-  public input!: ElementRef;
+  @ViewChild('searchInput', {static: false}) public input!: ElementRef;
 
-  
   ngAfterViewInit() {
-
-
     fromEvent<any>(this.input.nativeElement,'keyup')
     .pipe(
       map(event => event.target.value),
@@ -81,7 +76,8 @@ export class GroupsetComponent implements OnInit {
       switchMap( async (search) => {this.groupDashboardForm.value.groupName = search,
       this.SearchgroupsByName()
       })
-    ).subscribe();
+    );
+    
   }
 
   constructor(
@@ -93,13 +89,13 @@ export class GroupsetComponent implements OnInit {
     private notification: NotificationBar,
     private validator: FormValidator,
     private fb: FormBuilder
-  ) {
-  this.isLogin=_authenticationService.loginStatus();
-}
-authorize(key:string){
+    ) {
+    this.isLogin=_authenticationService.loginStatus();
+  }
+  authorize(key:string){
 
-  return this._permissionService.authorizedPerson(key);
-}
+    return this._permissionService.authorizedPerson(key);
+  }
 // getPermission(): void {
  // this._intialdataService.getUserPermission().subscribe((res:any)=>{
    // this.permissionList=res.Data;
@@ -108,13 +104,17 @@ authorize(key:string){
   onAddNewRecord(): void {
     this.resetForm();
     this.isVisible = true;
+    this.resetForm();
   }
-  resetForm(){
-    this.groupSet.reset();
-  }
+
   handleCancel(): void {
     this.isVisible = false;
   }
+
+  resetForm(){
+      this.groupSet.reset();
+  }
+
 
   onSaveGroup(): void{
     const dataToPost = this.groupSet.value;
@@ -136,11 +136,8 @@ authorize(key:string){
           duration: 5000,
         });
         console.log('error:' + err.error.Message);
-
       }
     );
-
-    this.groupSet.reset();
   }
   ngOnInit(): void {
     this.creategroupDashboardControls();
@@ -284,5 +281,11 @@ authorize(key:string){
 
   ShowDetail(groupId : string) {
     this.router.navigateByUrl('usermanagement/group-detail/' + groupId);
+  }
+
+  CheckGroupNamExistance(event: any) {
+    // const group_Name  = event.target.value;
+    // alert(group_Name);
+    this.ngAfterViewInit();
   }
 }

@@ -16,7 +16,7 @@ background-color: none !important;
 }
 
 .inner-content {
-    padding: 40px;
+    padding: 24px;
     background: #fff;
     height: 100%;
 }
@@ -142,7 +142,7 @@ tr.ant-table-row.ng-star-inserted {
 .permissionlist {
   border: 0.1px solid;
   margin-left: 20px;
-  width: 300px;
+  width: 320px;
 }
 
 .title-holder {
@@ -275,4 +275,20 @@ tr.ant-table-row.ng-star-inserted {
 
 .tdstyle{
   font-size: small;
+}
+
+::ng-deep .defaultcolor .anticon {
+  color: gray !important;
+}
+
+::ng-deep .defaultcolor .ant-table-filter-open {
+  color: #595959;
+}
+
+.pagination {
+  margin-top:10px;
+}
+
+.addMembers {
+  margin-top: -20px;
 }
