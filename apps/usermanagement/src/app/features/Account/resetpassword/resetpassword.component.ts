@@ -1,37 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
 import { AccountService } from '../../Services/logIn/account.service';
+import { ResponseDTO } from '../../../models/ResponseDTO';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-resetpassword',
   templateUrl: './resetpassword.component.html',
-  styleUrls: ['./resetpassword.component.scss']
+  styleUrls: ['./resetpassword.component.scss'],
 })
 export class ResetpasswordComponent implements OnInit {
   showPassword = false;
-  showOldPassword = false;
   loading = false;
-  loggedInUser = JSON.parse(
-    localStorage.getItem('loggedInUserInfo') ?? '{}'
-  );
-  
+  isValidUser = false;
+  taskCompleted = false;
+  message ='';
+  loggedInUser = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
+  email = '';
+  redirectUrl = environment.redirectUri + '/usermanagement/logIn';
   constructor(
-    private _authenticationService:AccountService,
-    private _changePass:AuthenticationService,
-    private validator: FormValidator, 
-    private router: Router, 
-    private notification: NotificationBar) {}
+    private _authenticationService: AccountService,
+    private _changePass: AuthenticationService,
+    private validator: FormValidator,
+    private router: Router,
+    private notification: NotificationBar,
+    private route: ActivatedRoute
+  ) {}
 
   changePasswordForm = new FormGroup({
-    OldPassword: new FormControl(null, [
-      Validators.required,
-      Validators.minLength(8),
-      
-    ]),
     Password: new FormControl(null, [
       this.validator.validatePassword(),
       Validators.required,
@@ -42,58 +42,93 @@ export class ResetpasswordComponent implements OnInit {
       Validators.required,
       Validators.minLength(8),
     ]),
-    Email: new FormControl()
+    Email: new FormControl(),
   });
 
   changePassword() {
     this.loading = true;
     const dataToPost = this.changePasswordForm.value;
-    dataToPost.Email = this.loggedInUser.Email;
-    console.log(this.loggedInUser);
-    this._authenticationService.changePassword(dataToPost).subscribe(() => {
-      this.loading = false;
-      this._changePass.hasData(true);
-      this.notification.showNotification({
-        type: 'success',
-        content: 'Successfully changed password!',
-        duration: 5000,
-      });
-      window.location.replace(window.location.origin);    
-      this.router.navigateByUrl('');
-
-    }, (error:any) => {
-      this.loading = false;
-      console.log(error);
-      this.notification.showNotification({
-        type: 'error',
-        content: 'Error occured, Please try again', 
-        duration: 5000,
-      });
-    })
+    dataToPost.Email = this.email;
+    
+    this._authenticationService.resetPassword(dataToPost).subscribe(
+      () => {
+        this.loading = false;
+        this._changePass.hasData(true);
+        this.message = "You have successfully changed your password. Login with your updated password."
+        this.taskCompleted=true;
+      },
+      (error: any) => {
+        this.loading = false;
+        console.log(error);
+        this.notification.showNotification({
+          type: 'error',
+          content: 'Error occured, Please try again',
+          duration: 5000,
+        });
+      }
+    );
   }
 
   togglePasswordView() {
     this.showPassword = !this.showPassword;
   }
-  toggleOldPasswordView() {
-    this.showOldPassword = !this.showOldPassword;
-  }
-  ngOnInit(): void {
-    this.changePasswordForm.controls.OldPassword.valueChanges.subscribe((val) => {
 
-      this.changePasswordForm.controls.Password.setValidators([
-        this.validator.validatePassword(),
-        this.validator.validateNewPassword(val),
-      ]);
-      this.changePasswordForm.controls.Password.updateValueAndValidity();
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const token = params?.token;
+      const email = params?.uid;
+
+    
+      if (!token || !email) {
+        this.isValidUser = false;
+        this.router.navigate(['usermanagement/login']);
+        return;
+      } else {
+        this._authenticationService
+          .ValidatePasswordResetToken(email, token)
+          .subscribe(
+            (res: ResponseDTO<any>) => {
+              if(res.ResponseStatus.toString()==='Success')
+              {
+                this.isValidUser=true;
+                this.email = email;
+                localStorage.removeItem('loggedInUserInfo');
+
+              }
+              else
+              {
+              this.taskCompleted = true;
+                if(res?.Message?.toLowerCase() == 'token expired')
+                {
+                  this.message = "Your token  has expired! You need to apply the request again."
+                }
+                else
+                {
+                  this.router.navigateByUrl('/usermanagement/logIn');
+                }
+              }
+            },
+            (err:ResponseDTO<any>) => {
+              this.notification.showNotification({
+                type: 'error',
+                content: 'Some error occured. Please try again or contact the admin.',
+                duration: 5000,
+              });
+              
+            }
+          );
+      }
     });
+
     this.changePasswordForm.controls.Password.valueChanges.subscribe((val) => {
       this.changePasswordForm.controls.ConfirmPassword.setValidators([
         this.validator.validateConfirmPassword(val),
       ]);
-      this.validator.validateNewPassword(this.changePasswordForm.controls.OldPassword.value);
       this.changePasswordForm.controls.ConfirmPassword.updateValueAndValidity();
     });
   }
-
+  navigateToLogin()
+  {
+    this.router.navigate(['/usermanagement/logIn']);
+  }
 }

@@ -8,7 +8,7 @@ import { ResponseDTO } from '../../../models/ResponseDTO';
 import { ChangePasswordRequest } from '../../../models/user/changePasswordRequest';
 import { LogInRequest } from '../../../models/user/logInRequest';
 import { LogInResponse } from '../../../models/user/logInResponse';
-
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AccountService {
 
   header = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router,private location: Location) {
     this.userSubject = new BehaviorSubject<LogInResponse|null>(JSON.parse(localStorage.getItem('loggedInUserInfo')||'{}'));
     this.user = this.userSubject.asObservable();
   }
@@ -48,7 +48,14 @@ export class AccountService {
   changePassword(body: ChangePasswordRequest): Observable<any> {
     return this.http.put(`${environment.apiUrl}/User/ChangePassword`, body, {headers:this.header});
   }
-  resetPassword(email: string): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/User/ResetPassword?Email=${email}`, {headers:this.header});
+  resetPassword(body: ChangePasswordRequest): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/User/ResetPasswordByUser`,body, {headers:this.header});
   }
+  ApplyRequestForPasswordReset(email: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/PasswordReset/ApplyRequestForPasswordReset?Email=${email}&&resetHandlingURL=${environment.redirectUri}/usermanagement/resetpassword`, {headers:this.header});
+  }
+  ValidatePasswordResetToken(email: string, token:string): Observable<ResponseDTO<any>> {
+    return this.http.get<ResponseDTO<any>>(`${environment.apiUrl}/PasswordReset/VerifyResetPassword?Email=${email}&&Token=${token}`, {headers:this.header});
+  }
+  
 }

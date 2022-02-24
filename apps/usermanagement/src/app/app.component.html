@@ -21,7 +21,12 @@
         <li nz-menu-item [nzSelected]='activePath("/usermanagement/groups")'>
           <i nz-icon nzType="group" nzTheme="outline"></i> <a [routerLink]="['/usermanagement/group']">Groups</a>
         </li>
-        
+         <li nz-menu-item [nzSelected]='activePath("/usermanagement/forgotpassword")'>
+          <i nz-icon nzType="group" nzTheme="outline"></i> <a [routerLink]="['/usermanagement/forgotpassword']">forgotpassword</a>
+        </li>
+         <li nz-menu-item [nzSelected]='activePath("/usermanagement/resetpassword")'>
+          <i nz-icon nzType="group" nzTheme="outline"></i> <a [routerLink]="['/usermanagement/resetpassword']">resetpassword</a>
+        </li>
       </ul>
     </nz-sider>
 

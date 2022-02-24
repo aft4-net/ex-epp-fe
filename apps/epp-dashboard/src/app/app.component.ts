@@ -10,10 +10,10 @@ export class AppComponent {
   title = 'epp-dashboard';
   isLogin=false
   constructor(private _authenticationService:AuthenticationService, private router:Router ){
-     this.isLogin=_authenticationService.loginStatus();
-     if(!this.isLogin){
-      // window.location.reload();
-       this.router.navigateByUrl('usermanagement');
-     }
+    //  this.isLogin=_authenticationService.loginStatus();
+    //  if(!this.isLogin){
+    //   // window.location.reload();
+    //    this.router.navigateByUrl('usermanagement');
+     //}
   }
 }

@@ -74,18 +74,11 @@ export function MSALInstanceFactory(): IPublicClientApplication
               breadcrumb: "Group-Detail"
             }
           },
-          {
-            path:'logIn', component:LoginComponent
-          },
+          
           {
             path:'changepassword', component:ChangepasswordComponent
           },
-          {
-            path:'forgotpassword', component:ForgotPasswordComponent
-          },
-          {
-            path:'resetpassword', component:ResetpasswordComponent
-          },
+          
           {
             path:'unauthorize', component:UnauthorizeComponent,
           data: {
@@ -93,6 +86,15 @@ export function MSALInstanceFactory(): IPublicClientApplication
           }
         }
         ]
+      },
+      {
+        path:'logIn', component:LoginComponent
+      },
+      {
+        path:'forgotpassword', component:ForgotPasswordComponent
+      },
+      {
+        path:'resetpassword', component:ResetpasswordComponent
       },
   ]
 @NgModule({
