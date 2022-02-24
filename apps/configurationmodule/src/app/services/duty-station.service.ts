@@ -23,7 +23,7 @@ export class DutyStationService {
     });
   }
 
-  add(dutyStation: DutyStation) {
+  add(dutyStation: DutyStation) {debugger;
     const headers = { 'content-type': 'application/json' };
 
     return this.http.post<DutyStationResponse>(this.baseUrl + 'RegisterDutyBranch', dutyStation, {headers: headers});
