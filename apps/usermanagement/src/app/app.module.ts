@@ -33,8 +33,6 @@ import { UserManagementModule } from './modules/userManagment/user-management.mo
 import { LoginComponent } from './features/Account/user/login/login.component';
 import { ChangepasswordComponent } from './features/Account/changepassword/changepassword.component';
 
-
-
 registerLocaleData(en);
 
 export function MSALInstanceFactory(): IPublicClientApplication {

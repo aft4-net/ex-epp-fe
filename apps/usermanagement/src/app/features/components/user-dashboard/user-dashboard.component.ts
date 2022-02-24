@@ -123,7 +123,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     .pipe(
       map(event => event.target.value),
       startWith(''),
-      debounceTime(3000),
+      debounceTime(2000),
       distinctUntilChanged(),
       switchMap( async (search) => {this.userDashboardForm.value.userName = search,
       this.SearchUsersByUserName()
@@ -560,7 +560,8 @@ handleGroupCancel() {
         {
           label: 'cancel',
           type: 'default',
-          onClick: () => modal.destroy()
+          onClick: () => modal.destroy(),
+
         }]        
       });
     }
