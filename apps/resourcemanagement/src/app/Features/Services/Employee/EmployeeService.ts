@@ -106,6 +106,15 @@ export class EmployeeService {
 
   add(employee: Employee) {
     delete employee.guid;
+    employee.FamilyDetails?.forEach(element => {
+      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+     });
+     employee.EmergencyContact?.forEach(element =>{
+       if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+     });
+     employee.EmployeeAddress?.forEach(element =>{
+      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+     });
     return this.http.post(this.baseUrl, employee);
   }
 
