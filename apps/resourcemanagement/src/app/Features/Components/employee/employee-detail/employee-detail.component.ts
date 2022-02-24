@@ -23,6 +23,7 @@ import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { PaginationResult } from '../../../Models/PaginationResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { listtToFilter } from '../../../Models/listToFilter';
+import { LoadingSpinnerService } from 'libs/common-services/loading-spinner.service';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -69,9 +70,10 @@ export class EmployeeDetailComponent implements OnInit {
     private notification: NotificationBar,
     private _message: NzNotificationService,
     private modal: NzModalService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private loadingSpinnerService: LoadingSpinnerService
   ) {
-
+   
     route.params.subscribe(val => {
       this.ngOnInit();
     });
@@ -147,12 +149,21 @@ export class EmployeeDetailComponent implements OnInit {
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void {
+    
+    this.loadingSpinnerService.messageSource.next(true);
+
     this.getfilterDataMenu();
 
     if (this._authenticationService.isFromViewProfile() === 'true') {
+      
+   // this.loadingSpinnerService.messageSource.next(true);
       this.uemail = this._authenticationService.getEmail();
       this.getUser();
+      // setTimeout(() => {
+      //   this.loadingSpinnerService.messageSource.next(false);
+      // }, 1500);
       return;
+
     }
     //  else{
     this.employeeViewModel as IEmployeeViewModel[];
