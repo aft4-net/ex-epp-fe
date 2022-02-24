@@ -103,7 +103,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isOnEditstate = this.editProjectStateService.isOnEditstate;
-    if (this.isOnEditstate) this.isSpinning = true;
+    this.isSpinning = true;
     this.createRegistrationForm();
     this.apiCalls();
     this.projectMapper();
@@ -115,7 +115,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
       !this.isOnEditstate
     )
       this.router.navigateByUrl('projectmanagement');
-
+    if (this.isOnEditstate) this.setValueForUpdate();
   }
 
   setValueForUpdate() {
@@ -255,6 +255,11 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response;
     });
+
+    this.clientService.getAll().subscribe((response: any) => {
+      this.clients = response.Data;
+    });
+
     this.projectStatusService.getAll().subscribe((res) => {
       this.projectStatuses = res;
 
@@ -281,14 +286,8 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
     this.projectService.getProjects().subscribe((response: Project[]) => {
       this.projects = response;
+      this.isSpinning=false;
     });
-
-    this.clientService.getAll().subscribe((response: any) => {
-      this.clients = response.Data;
-      if (this.isOnEditstate) this.setValueForUpdate();
-    });
-
-
   }
 
   validateParojectNameWithClient() {
@@ -384,24 +383,23 @@ export class AddProjectComponent implements OnInit, OnDestroy {
  
         
 
-      if (
-        this.updateValueSeted &&
-        this.validateForm.valid &&
-        (this.projectUpdate.ProjectName !== this.projectOld.ProjectName    ||
-          this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
-          this.projectUpdate.ProjectStatusGuid !=
-            this.projectOld.ProjectStatusGuid ||
-          this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
-          this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
-          new Date(this.projectUpdate.StartDate).getTime() !==
-            new Date(this.projectOld.StartDate).getTime() ||
-          (this.validateForm.controls.endValue.value!=null &&
-            new Date(this.projectUpdate.EndDate).getTime() !=
-              new Date(this.projectOld.EndDate).getTime()) ||
-              (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
-          this.projectUpdate.Description !== this.projectOld.Description)
+      if(this.updateValueSeted &&
+      this.validateForm.valid &&
+      (this.projectUpdate.ProjectName !== this.projectOld.ProjectName    ||
+        this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
+        this.projectUpdate.ProjectStatusGuid !=
+          this.projectOld.ProjectStatusGuid ||
+        this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
+        this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
+        new Date(this.projectUpdate.StartDate).getTime() !==
+          new Date(this.projectOld.StartDate).getTime() ||
+        (this.validateForm.controls.endValue.value!=null &&
+          new Date(this.projectUpdate.EndDate).getTime() !=
+            new Date(this.projectOld.EndDate).getTime()) ||
+            (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
+        this.projectUpdate.Description !== this.projectOld.Description)
       ) {
-        this.enableUpdateButton = true;
+        this.enableUpdateButton = true;s
       } else this.enableUpdateButton = false;
     }
   }
@@ -521,13 +519,5 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
   routeOnUpdateValidation(index: number) {
     this.activeTabIndex = index;
-  }
-
-  checkStatus(status?:string)
-  {
-   if(status == 'Active')
-     return true;
-    else 
-    return false;
   }
 }
