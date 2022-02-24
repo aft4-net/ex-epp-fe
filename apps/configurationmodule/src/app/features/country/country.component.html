@@ -1,61 +1,71 @@
-
 <div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">
-    <h1 class="opacity-0">Country</h1>
-    <div class="flex flex-row justify-center content-between">
-        <div class="w-full m-0 mb-6 opacity-0">
-            <nz-form-control [nzSm]="10" [nzXs]="20">
-                <nz-input-group nzSearch [nzSuffix]="suffixIconSearch">
-                    <input type="text" nz-input placeholder="Country">
-                </nz-input-group>
-            </nz-form-control>
-        </div>
-        <div class="config-add-button">
-            <button nz-button nzType="primary" (click)="openModal()">
-                <span>Add Country</span>
-            </button>
-        </div>
-
-        <ng-template #suffixIconSearch>
-            <i nz-icon nzType="search" nzTheme="outline"></i>
-        </ng-template>
+  <h1 class="opacity-0">Country</h1>
+  <div class="flex flex-row justify-center content-between">
+    <div class="w-full m-0 mb-3 opacity-0">
+      <nz-form-control [nzSm]="10" [nzXs]="20">
+        <nz-input-group nzSearch [nzSuffix]="suffixIconSearch">
+          <input type="text" nz-input placeholder="Country">
+        </nz-input-group>
+      </nz-form-control>
+    </div>
+    <div class="config-add-button">
+      <button nz-button nzType="primary" (click)="openModal()">
+        <span>Add Country</span>
+      </button>
     </div>
 
-    <div>
-        <nz-table #countryTable [nzData]="(countries$ | async) ?? []">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let country of countryTable.data">
-                    <td>{{ country.Name }}</td>
-                    <td>
-                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
-    </div>
+    <ng-template #suffixIconSearch>
+      <i nz-icon nzType="search" nzTheme="outline"></i>
+    </ng-template>
+  </div>
+
+  <div>
+    <nz-table #countryTable [nzData]="(countries$ | async) ?? []">
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let country of countryTable.data">
+          <td>{{ country.Name }}</td>
+          <td>
+            <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
+            <nz-divider nzType="vertical"></nz-divider>
+            <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </div>
 
-<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="closeModal()">
-    <ng-container *nzModalContent>
-        <form (ngSubmit)="save()" class="flex flex-col">
-            <div class="w-full m-0 mb-6">
-                <label for="Name">Name:</label>
-                <div class="m-0 mt-2">
-                    <input nz-input id="Name" placeholder="Name" [formControl]="country" />
-                </div>
-            </div>
+<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal"
+  (nzOnCancel)="closeModal()">
+  <ng-container *nzModalContent>
+    <form #countryForm="ngForm" (ngSubmit)="save(countryForm)">
+      <nz-form-item>
+        <nz-form-label nz-row>
+          {{label}}
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item class="form-item ">
+        <nz-form-control nz-row nzHasFeedback>
+          <nz-select class="excel-single-control" [(ngModel)]="selectedValue" name="countr" nzAllowClear nzShowSearch
+            nzPlaceHolder="Choose Country">
+            <nz-option *ngFor="let choice of (nationalities$ | async)" [nzValue]="choice.value"
+              [nzLabel]="choice.label">
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
 
-            <div class="w-auto m-0 ml-auto mr-auto">
-                <button *ngIf="isNew" nz-button nzType="primary" type="submit">Save</button>
-                <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
-            </div>
-        </form>
-    </ng-container>
+      <div>
+        <button *ngIf="isNew" nz-button nzType="primary" type="submit">Add</button>
+        <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
+      </div>
+
+    </form>
+  </ng-container>
 </nz-modal>

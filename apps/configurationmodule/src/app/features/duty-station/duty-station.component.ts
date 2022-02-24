@@ -6,6 +6,9 @@ import { CountryService } from '../../services/country.service';
 import { Country } from './../../models/country';
 import { DutyStation } from './../../models/duty-station';
 import { DutyStationService } from './../../services/duty-station.service';
+import { CountriesMockConfigService } from "../../services/countries.mock.config.service";
+import { SelectOptionConfigModel } from "../../models/select-option.config.model";
+import { NzNotificationService } from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'exec-epp-duty-station',
@@ -19,24 +22,32 @@ export class DutyStationComponent implements OnInit {
   isNew: boolean = true;
   dutyStationId: string = "";
   country: FormControl = new FormControl("");
+  country1: FormControl = new FormControl("");
   dutyStation: FormControl = new FormControl("");
-
+  label: any;
+  selectedValue: any;
+  nationalities$: Observable<SelectOptionConfigModel[]>;
   constructor(
     private countryService: CountryService,
     private dutyStationService: DutyStationService,
-    private modalService: NzModalService
-  ) { }
+    private _addressCountryStateService: CountriesMockConfigService,
+    private modalService: NzModalService,
+    private notification: NzNotificationService
+  ) {
+    this.label = 'Country'
+    this.nationalities$ = this._addressCountryStateService.getCountries();
+  }
 
   ngOnInit(): void {
     this.getCountries();
   }
 
-  getCountries(){
+  getCountries() {
     this.countries$ = this.countryService.get();
   }
 
   getDutyStation() {
-    if(!this.country.value && this.country.value === "") {
+    if (!this.country.value && this.country.value === "") {
       return;
     }
 
@@ -45,12 +56,14 @@ export class DutyStationComponent implements OnInit {
 
   updateModalState() {
     this.addDutyStation = !this.addDutyStation;
+    this.getDutyStation();
   }
-  
+
   openModal() {
     this.addDutyStation = true;
+    this.getDutyStation();
   }
-  
+
   closeModal() {
     this.addDutyStation = false;
 
@@ -58,34 +71,47 @@ export class DutyStationComponent implements OnInit {
   }
 
   save() {
-    if((!this.country.value && this.country.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")){
+    if ((!this.country1.value && this.country1.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")) {
       return;
     }
 
     let dutyStation: DutyStation = {
       Guid: "00000000-0000-0000-0000-000000000000",
-      CountryId: this.country.value,
+      CountryId: this.country1.value,
       Name: this.dutyStation.value
     };
 
-    if (this.isNew){
+    if (this.isNew) {
       this.dutyStationService.add(dutyStation).subscribe(response => {
-        if(response.ResponseStatus === "Success") {
+        if (response.ResponseStatus === "Success") {
+          this.notification.success('Duty Station Added Successfully', '', {
+            nzPlacement: 'bottomRight',
+          });
           this.getDutyStation();
           this.closeModal();
         }
       }, error => {
-
+        this.notification.error('Duty Station Registration Failed', '', {
+          nzPlacement: 'bottomRight',
+        });
       });
-    }
-    else {
-      this.dutyStationService.update({Guid: this.dutyStationId, CountryId: this.country.value, Name: this.dutyStation.value}).subscribe(response => {
-        if(response.ResponseStatus === "Success") {
+    } else {
+      this.dutyStationService.update({
+        Guid: this.dutyStationId,
+        CountryId: this.country1.value,
+        Name: this.dutyStation.value
+      }).subscribe(response => {
+        if (response.ResponseStatus === "Success") {
+          this.notification.error('Duty Station Update Successful', '', {
+            nzPlacement: 'bottomRight',
+          });
           this.getDutyStation();
           this.closeModal();
         }
       }, error => {
-
+        this.notification.error('Duty Station Update Failed', '', {
+          nzPlacement: 'bottomRight',
+        });
       });
     }
   }
@@ -99,39 +125,38 @@ export class DutyStationComponent implements OnInit {
   }
 
   delete(dutyStation: DutyStation) {
-    this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res)=>{
-    if(res == true){
-      this.modalService.confirm({
-        nzTitle: 'This Duty Station can not be deleted b/c it is assigned to employee',
-        nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
-        nzOkText: 'Ok',
-        nzOkType: 'primary',
-        nzOkDanger: true,
-      //  nzOnOk: () => this.deleteHandler(id),
-      //  nzCancelText: 'No'
-      });
-    }
-    else{
-    this.modalService.confirm({
-      nzTitle: 'Delete Country?',
-      nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.dutyStationService.delete(dutyStation).subscribe(response => {
-          if(response.ResponseStatus === "Success") {
-            this.getDutyStation();
-          }
-        }, error => {
-         //
-        })
-      },
-      nzCancelText: 'No'
-    });
+    this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res) => {
+      if (res == true) {
+        this.modalService.confirm({
+          nzTitle: 'This Duty Station can not be deleted b/c it is assigned to employee',
+          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+        });
+      }
+      else {
+        this.modalService.confirm({
+          nzTitle: 'Delete Duty Station?',
+          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
+          nzOkText: 'Yes',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+          nzOnOk: () => {
+            this.dutyStationService.delete(dutyStation).subscribe(response => {
+              if (response.ResponseStatus === "Success") {
+                this.getDutyStation();
+              }
+            }, error => {
+              //
+            })
+          },
+          nzCancelText: 'No'
+        });
+      }
+    });    
   }
-});
-  }
+
 
   clearData() {
     this.isNew = true;
