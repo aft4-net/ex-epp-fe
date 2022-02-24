@@ -41,7 +41,7 @@ export class CustomDatepickerComponent implements OnInit {
         this.todaysYear = parseInt(this.wanteddateFormat.substring(this.wanteddateFormat.lastIndexOf('/')+1)); 
        console.log(this.todaysYear - 18);
        if(this.Birthday){
-       this.currentDate = new Date("01/01/2004");
+       //this.currentDate = new Date("01/01/2004");
        }
     }
 
