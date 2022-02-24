@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-
 import { ApplicationRoutingModule } from './user-routing.module';
 import { SiderComponent } from '../../components/application/sider/sider.component';
-import { SharedModule } from '../../shared/modules/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 import { HttpClientModule } from '@angular/common/http';
+import { DemoNgZorroAntdModule } from '../../../../../../libs/ng-zoro/ng-zorro-antd.module';
 
 @NgModule({
   declarations: [SiderComponent],
@@ -13,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
     ApplicationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule,
+    //SharedModule,
     DemoNgZorroAntdModule,
     HttpClientModule
   ]

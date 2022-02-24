@@ -1,9 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'libs/environments/environment';
 import { Role } from '../../../../../../configurationmodule/src/app/models/role';
-import { ResponseDto } from '../../../../../../configurationmodule/src/app/models/response-dto.model';
 import { map } from 'rxjs/operators';
 import { SelectOptionModel } from '../../Models/supporting-models/select-option.model';
 

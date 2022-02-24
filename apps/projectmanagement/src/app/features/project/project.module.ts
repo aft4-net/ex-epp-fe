@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ProjectRoutingModule } from './project-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ViewProjectLayoutComponent } from './components/view-project-layout/view-project-layout.component';
-import { ClientProjectComponent } from '../client-project/client-project.component';
 import { DemoNgZorroAntdModule } from '../../ng-zorro-antd.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AddProjectComponent } from './components/Add-Project/Add-Project.component';
@@ -13,7 +12,6 @@ import { AddresourceComponent } from './components/addresource/addresource.compo
 
 @NgModule({
   declarations: [
-    ClientProjectComponent,
     ViewProjectLayoutComponent,
     AddProjectComponent,
     ProjectResourceComponent,

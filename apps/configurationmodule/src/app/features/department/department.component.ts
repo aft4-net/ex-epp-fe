@@ -114,11 +114,11 @@ export class DepartmentComponent implements OnInit {
     
     if(res === true){
       this.modal.confirm({
-        nzTitle: 'This Department can not be delete b/c it is assigned to employee and/or job title',
+        nzTitle: 'This Department can not be deleted b/c it is assigned to employee and/or job title',
         nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
-        nzOkDanger: true,
+        nzOkDanger: false,
       //  nzOnOk: () => this.deleteHandler(id),
       //  nzCancelText: 'No'
       });

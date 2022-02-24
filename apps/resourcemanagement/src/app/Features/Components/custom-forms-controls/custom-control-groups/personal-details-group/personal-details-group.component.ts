@@ -21,7 +21,7 @@ export class PersonalDetailGroupComponent implements OnInit {
     maxEmailQty = 3
     maxPhoneQty = 3
     maxNationality = 3
-    birthEndDate = new Date(Date.now())
+    //birthEndDate = new Date(Date.now())
     
 
     constructor(
@@ -35,7 +35,8 @@ export class PersonalDetailGroupComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.showData()
+        const date = new Date();
+        //this.birthEndDate = new Date(date.getFullYear()-18, date.getMonth(), date.getDate());
     }
 
     getControl(name: string): FormControl {

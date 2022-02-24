@@ -142,4 +142,7 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
         })
       )
     }
+    isSuperAdmin(id:string) : Observable<any>{
+      return this.http.get<any>(this.baseUrl+"/IsSuperAdmin/?id="+id);
+    }
 }

@@ -116,11 +116,11 @@ export class RoleComponent implements OnInit {
       if(res === true){
 
         this.modal.confirm({
-          nzTitle: 'This Role can not be delete b/c it is assigned to employee',
+          nzTitle: 'This Role can not be deleted b/c it is assigned to employee',
           nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
           nzOkText: 'Ok',
           nzOkType: 'primary',
-          nzOkDanger: true,
+          nzOkDanger: false,
         //  nzOnOk: () => this.deleteHandler(id),
         //  nzCancelText: 'No'
         });

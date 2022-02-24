@@ -166,6 +166,16 @@ import { map } from 'rxjs/operators';
     this.changPassdataSource.next(value);
   }
 
+  signOut() {
+    localStorage.removeItem('loggedInUserInfo');
+    this.userSubject.next(null);
+    console.log('ddd')
+    this.router.navigate(['usermanagement/logIn']);
+    console.log('ddd'+ this.router)
+    window.location.reload();
+
+  }
+
   //hasPosition(value: string) {
    // this.positionSubject.next(value);
  // }

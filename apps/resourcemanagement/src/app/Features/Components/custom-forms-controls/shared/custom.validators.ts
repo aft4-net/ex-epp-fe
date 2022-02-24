@@ -331,9 +331,9 @@ function checkrequired(
 ) {
     if (!control.value) {
         errorLog.message = 'Input is required! Please provide a valid input.'
-        return { required: false }
+        return { required: true }
     }
-    return false
+    return null
 }
 
 function checkLength(

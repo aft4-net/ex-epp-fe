@@ -27,8 +27,8 @@
 
     <hr>
     <section class="add-project">
-      <nz-tabset class="side-nav p-2" [nzTabPosition]="position" *ngIf="authorize('Create_Project')" [(nzSelectedIndex)]="activeTabIndex" >
-        <nz-tab class="side-nav-tab" nzSelected [nzTitle]="detailsTitleTemplate">  
+      <nz-tabset   class="side-nav p-2" [nzTabPosition]="position" *ngIf="authorize('Create_Project')" [(nzSelectedIndex)]="activeTabIndex" >
+        <nz-tab  class="side-nav-tab" nzSelected [nzTitle]="detailsTitleTemplate">  
             <ng-template #detailsTitleTemplate>
              <span > <i nz-icon [nzType]="'project'"nzMode="inline" nzTheme="outline" style=" font-size: '24px'; "></i>
               Project Details

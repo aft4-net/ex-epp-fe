@@ -13,6 +13,7 @@ import {
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
+
 const iniitalAddClientState: UpdateClient = {
   Guid:'',
   SalesPersonGuid: '',
@@ -30,6 +31,8 @@ const iniitalAddClientState: UpdateClient = {
 })
 export class UpdateClientStateService extends StateService<UpdateClient> {
   private comapanyContacts = new BehaviorSubject<Employee[]>([] as Employee[]);
+  updateButtonListener=true;
+  actionButton="Add";
    isEdit=false;
    isAdd=false;
    isDefault=false;

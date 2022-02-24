@@ -4,12 +4,11 @@ import { Employee } from '../../Models/Employee';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseDTO, ResponseDto } from '../../Models/response-dto.model';
-import { map, shareReplay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { EmployeeOrganization } from '../../Models/EmployeeOrganization/EmployeeOrganization';
 import { IEmployeeViewModel } from '../../Models/Employee/EmployeeViewModel';
 import { EmployeeParams } from '../../Models/Employee/EmployeeParams';
 import { PaginationResult } from '../../Models/PaginationResult';
-import { Result } from 'postcss';
 import { Pagination } from '../../Models/Pagination';
 import { environment } from '../../../../environments/environment';
 
@@ -21,6 +20,7 @@ export class EmployeeService {
   public empNum="ec0001";
   public ephoto:any;
   public EmrContact:any | undefined;
+  public isEdited = false;
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -147,7 +147,7 @@ export class EmployeeService {
       })
     );
 
-    
+
     return result;
   }
   saveEmployee() {
@@ -245,7 +245,7 @@ export class EmployeeService {
   filterEmployeeData(
     employeeParams: EmployeeParams,JobType:string,Location:string,Status:string
   ): Observable<PaginationResult<IEmployeeViewModel[]>> {
-    
+
     return this.http
       .get<PaginationResult<IEmployeeViewModel[]>>(
         this.baseUrl + '/GetAllEmployeeDashboardFilter',
@@ -272,7 +272,7 @@ export class EmployeeService {
           };
           return this.paginatedResult;
         }),
-        
+
       );
   }
 
@@ -335,7 +335,7 @@ export class EmployeeService {
       text: string;
       value: string;
     }[];
-    
+
     return this.http.get(environment.apiUrl+"/Employee/FilterData").pipe(map((response:any)=>{
       console.log((response.Data.Status[0]));
       if(Object.keys(response.Data).length!= 0)
@@ -409,12 +409,12 @@ export class EmployeeService {
 
     }
 
-    
+
     //let paginatedResult = this.paginatedResult;
     return this.http.get<PaginationResult<IEmployeeViewModel[]>>(  this.baseUrl + '/GetAllEmployeeDashboardFilter', {params})
     .pipe(
       map((result: any) => {
-      
+
         this.paginatedResult = {
           Data: result.Data,
           pagination: {
