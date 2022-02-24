@@ -51,7 +51,7 @@ c::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
 header {
   padding: 0px 1.15%;
-  margin-bottom: 0.75% !important;
+
 }
 
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
@@ -161,12 +161,22 @@ span.ng-star-inserted.invalisForm {
 }
 
 
-.justify-between.ant-row {
-  border-bottom: 2px solid #D9D9D9 !important;
-  border-top: 2px solid #D9D9D9 !important;
-}
+// .justify-between.ant-row {
+//   border-bottom: 2px solid #D9D9D9 !important;
+//   border-top: 2px solid #D9D9D9 !important;
+// }
 .ant-col {
-  padding-bottom: 5px;
-  padding-top:5px;
+  padding-bottom: 12px;
+  padding-top:12px;
 
+}
+
+::ng-deep .ant-tabs-nav-wrap {
+  padding-top: 8px  !important;
+}
+.header-separator{
+  border-top: 1px solid #ccc !important;
+}
+nz-breadcrumb.mt-4.ant-breadcrumb {
+  padding-top: 0.75rem !important;
 }
