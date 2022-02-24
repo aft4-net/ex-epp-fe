@@ -132,9 +132,10 @@ _commonData.getPermission()
   }
   DeleteClient(client:any){
     this.modal.confirm({
-      nzTitle: 'Are you sure, you want to delete this client?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
+      nzIconType:'',
+      nzTitle: 'Delete Client ?',
+      nzContent: '<span>Are you sure, you want to delete this client?</span>',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
@@ -156,7 +157,7 @@ _commonData.getPermission()
 
       },
 
-      nzCancelText: 'No',
+      nzCancelText: 'Cancel',
       nzOnCancel: () => console.log('Cancel'),
     });
   }
@@ -190,6 +191,8 @@ _commonData.getPermission()
   this._editClientService.formTitle='Edit Client Details';
   this._editClientService.isAdd=false;
   this.router.navigate(['/clientmanagement/add-client/']);
+
+
   }
   }
   setClient(client:Client){
