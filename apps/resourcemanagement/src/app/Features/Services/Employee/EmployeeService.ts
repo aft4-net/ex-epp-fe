@@ -110,6 +110,17 @@ export class EmployeeService {
   }
 
   update(employee: Employee) {
+  employee.FamilyDetails?.forEach(element => {
+   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+  });
+  employee.EmergencyContact?.forEach(element =>{
+    if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+  });
+  employee.EmployeeAddress?.forEach(element =>{
+   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+  });
+    console.log("gaga");
+    console.log(employee);
     return this.http.put(this.baseUrl, employee);
   }
 
