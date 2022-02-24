@@ -41,18 +41,27 @@ export class CustomDatepickerComponent implements OnInit {
         this.todaysYear = parseInt(this.wanteddateFormat.substring(this.wanteddateFormat.lastIndexOf('/')+1)); 
        console.log(this.todaysYear - 18);
        if(this.Birthday){
-       //this.currentDate = new Date("01/01/2004");
+       this.currentDate = new Date("01/01/2004");
        }
     }
 
     disabledDate = (startValue: Date): boolean => {
         const validStart = new Date(this.startingDate.getFullYear(), this.startingDate.getMonth(), this.startingDate.getDate())
-        const validEnd = new Date(this.endingDate.getFullYear(), this.endingDate.getMonth(), this.endingDate.getDate(), 23, 59, 59)
-       // const validEnd = new Date(this.todaysYear-18, this.endingDate.getMonth(), this.endingDate.getDate(), 23, 59, 59)
+       if(this.Birthday){
+        const validEnd = new Date(this.todaysYear-18, this.endingDate.getMonth(), this.endingDate.getDate(), 23, 59, 59)
         return (
             (startValue.getTime() < validStart.getTime())
             || (startValue.getTime() > validEnd.getTime())
         )
+    }
+       else{
+        const validEnd = new Date(this.endingDate.getFullYear(), this.endingDate.getMonth(), this.endingDate.getDate(), 23, 59, 59)
+        return (
+            (startValue.getTime() < validStart.getTime())
+            || (startValue.getTime() > validEnd.getTime())
+        )
+       }
+      
     }
 
     onChange() {
