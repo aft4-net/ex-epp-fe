@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {NzModalService} from 'ng-zorro-antd/modal';
-import {Observable} from 'rxjs';
-import {Country} from '../../models/country';
-import {CountryService} from '../../services/country.service';
-import {CountriesMockConfigService} from "../../services/countries.mock.config.service";
-import {SelectOptionConfigModel} from "../../models/select-option.config.model";
-import {FormGenerator} from "../../../../../resourcemanagement/src/app/Features/Components/custom-forms-controls/form-generator.model";
-import {NgForm} from "@angular/forms";
-import {NzNotificationService} from "ng-zorro-antd/notification";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { Country } from '../../models/country';
+import { CountryService } from '../../services/country.service';
+import { CountriesMockConfigService } from "../../services/countries.mock.config.service";
+import { SelectOptionConfigModel } from "../../models/select-option.config.model";
+import { FormGenerator } from "../../../../../resourcemanagement/src/app/Features/Components/custom-forms-controls/form-generator.model";
+import { NgForm } from "@angular/forms";
+import { NzNotificationService } from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'exec-epp-country',
@@ -89,20 +89,23 @@ export class CountryComponent implements OnInit {
         }
       }, error => {
         this.notification.error(' Registration Failed!', '', {
-          nzPlacement: 'bottomRight',});
+          nzPlacement: 'bottomRight',
+        });
       });
     } else {
       console.log('entered in the else part');
-      this.countryService.update({Guid: this.countryId, Name: this.country.value}).subscribe(response => {
+      this.countryService.update({ Guid: this.countryId, Name: this.country.value }).subscribe(response => {
         if (response.ResponseStatus === "Success") {
           this.getCountries();
           this.notification.success('Country Update Successfully', '', {
-            nzPlacement: 'bottomRight',});
+            nzPlacement: 'bottomRight',
+          });
           this.closeModal();
         }
       }, error => {
         this.notification.error(' Update Failed!', '', {
-          nzPlacement: 'bottomRight',});
+          nzPlacement: 'bottomRight',
+        });
       });
     }
   }
@@ -115,22 +118,37 @@ export class CountryComponent implements OnInit {
   }
 
   delete(country: Country) {
-    this.modalService.confirm({
-      nzTitle: 'Delete Country?',
-      nzContent: 'Name: <b style="color: red;">' + country.Name + '</b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.countryService.delete(country).subscribe(response => {
-          if (response.ResponseStatus === "Success") {
-            this.getCountries();
-          }
-        }, error => {
+    this.countryService.checkifCountryisDeletable(country.Guid).subscribe((res) => {
+      if (res === true) {
+        this.modalService.confirm({
+          nzTitle: 'This Country can not be deleted b/c it is assigned to employee and/or duty station',
+          nzContent: 'Name: <b style="color: red;">' + country.Name + '</b>',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+          //  nzOnOk: () => this.deleteHandler(id),
+          //  nzCancelText: 'No'
+        });
+      }
+      else {
+        this.modalService.confirm({
+          nzTitle: 'Delete Country?',
+          nzContent: 'Name: <b style="color: red;">' + country.Name + '</b>',
+          nzOkText: 'Yes',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+          nzOnOk: () => {
+            this.countryService.delete(country).subscribe(response => {
+              if (response.ResponseStatus === "Success") {
+                this.getCountries();
+              }
+            }, error => {
 
-        })
-      },
-      nzCancelText: 'No'
+            })
+          },
+          nzCancelText: 'No'
+        });
+      }
     });
   }
 

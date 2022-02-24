@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {NzModalService} from 'ng-zorro-antd/modal';
-import {Observable} from 'rxjs';
-import {CountryService} from '../../services/country.service';
-import {Country} from './../../models/country';
-import {DutyStation} from './../../models/duty-station';
-import {DutyStationService} from './../../services/duty-station.service';
-import {CountriesMockConfigService} from "../../services/countries.mock.config.service";
-import {SelectOptionConfigModel} from "../../models/select-option.config.model";
-import {NzNotificationService} from "ng-zorro-antd/notification";
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { CountryService } from '../../services/country.service';
+import { Country } from './../../models/country';
+import { DutyStation } from './../../models/duty-station';
+import { DutyStationService } from './../../services/duty-station.service';
+import { CountriesMockConfigService } from "../../services/countries.mock.config.service";
+import { SelectOptionConfigModel } from "../../models/select-option.config.model";
+import { NzNotificationService } from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'exec-epp-duty-station',
@@ -30,7 +30,7 @@ export class DutyStationComponent implements OnInit {
   constructor(
     private countryService: CountryService,
     private dutyStationService: DutyStationService,
-    private  _addressCountryStateService: CountriesMockConfigService,
+    private _addressCountryStateService: CountriesMockConfigService,
     private modalService: NzModalService,
     private notification: NzNotificationService
   ) {
@@ -42,12 +42,12 @@ export class DutyStationComponent implements OnInit {
     this.getCountries();
   }
 
-  getCountries(){
+  getCountries() {
     this.countries$ = this.countryService.get();
   }
 
   getDutyStation() {
-    if(!this.country.value && this.country.value === "") {
+    if (!this.country.value && this.country.value === "") {
       return;
     }
 
@@ -81,7 +81,7 @@ export class DutyStationComponent implements OnInit {
       Name: this.dutyStation.value
     };
 
-    if (this.isNew){
+    if (this.isNew) {
       this.dutyStationService.add(dutyStation).subscribe(response => {
         if (response.ResponseStatus === "Success") {
           this.notification.success('Duty Station Added Successfully', '', {
@@ -125,23 +125,36 @@ export class DutyStationComponent implements OnInit {
   }
 
   delete(dutyStation: DutyStation) {
-    this.modalService.confirm({
-      nzTitle: 'Delete Country?',
-      nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.dutyStationService.delete(dutyStation).subscribe(response => {
-          if(response.ResponseStatus === "Success") {
-            this.getDutyStation();
-          }
-        }, error => {
-          //
-        })
-      },
-      nzCancelText: 'No'
-    });
+    this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res) => {
+      if (res == true) {
+        this.modalService.confirm({
+          nzTitle: 'This Duty Station can not be deleted b/c it is assigned to employee',
+          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+        });
+      }
+      else {
+        this.modalService.confirm({
+          nzTitle: 'Delete Duty Station?',
+          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
+          nzOkText: 'Yes',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+          nzOnOk: () => {
+            this.dutyStationService.delete(dutyStation).subscribe(response => {
+              if (response.ResponseStatus === "Success") {
+                this.getDutyStation();
+              }
+            }, error => {
+              //
+            })
+          },
+          nzCancelText: 'No'
+        });
+      }
+    });    
   }
 
 

@@ -22,53 +22,40 @@
   <div>
     <nz-table #countryTable [nzData]="(countries$ | async) ?? []">
       <thead>
-      <tr>
-        <th>Country</th>
-        <th>Actions</th>
-      </tr>
+        <tr>
+          <th>Country</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let country of countryTable.data">
-        <td>{{ country.Name }}</td>
-        <td>
-          <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
-          <nz-divider nzType="vertical"></nz-divider>
-          <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
-        </td>
-      </tr>
+        <tr *ngFor="let country of countryTable.data">
+          <td>{{ country.Name }}</td>
+          <td>
+            <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
+            <nz-divider nzType="vertical"></nz-divider>
+            <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
+          </td>
+        </tr>
       </tbody>
     </nz-table>
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="addCountry"
-          nzTitle="Add Country" [nzFooter]="null"
-          nzClassName="config-add-country-modal"
-          (nzOnCancel)="closeModal()">
+<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal"
+  (nzOnCancel)="closeModal()">
   <ng-container *nzModalContent>
-    <form #countryForm="ngForm"
-          (ngSubmit)="save(countryForm)">
+    <form #countryForm="ngForm" (ngSubmit)="save(countryForm)">
       <nz-form-item>
-        <nz-form-label
-          nz-row
-        >
+        <nz-form-label nz-row>
           {{label}}
         </nz-form-label>
       </nz-form-item>
-      <nz-form-item
-        class="form-item ">
-        <nz-form-control
-          nz-row
-          nzHasFeedback>
-          <nz-select
-            class="excel-single-control"
-            [(ngModel)]="selectedValue" name="countr"
-            nzAllowClear
-            nzPlaceHolder="Choose Country"
-          >
-            <nz-option
-              *ngFor="let choice of (nationalities$ | async)"
-              [nzValue]="choice.value" [nzLabel]="choice.label">
+      <nz-form-item class="form-item ">
+        <nz-form-control nz-row nzHasFeedback>
+          <nz-select class="excel-single-control" [(ngModel)]="selectedValue" name="countr" nzAllowClear nzShowSearch
+            nzPlaceHolder="Choose Country">
+            <nz-option *ngFor="let choice of (nationalities$ | async)" [nzValue]="choice.value"
+              [nzLabel]="choice.label">
             </nz-option>
           </nz-select>
         </nz-form-control>
