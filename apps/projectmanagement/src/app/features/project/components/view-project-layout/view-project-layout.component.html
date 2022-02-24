@@ -22,7 +22,7 @@
   <div *ngIf="authorize('View_Project')">
     <div nz-row >
       <div class="search">
-        <nz-input-group class="ml-1 w-76 h-9" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
+        <nz-input-group style="height: 33px; width: 320px;" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
           <input [formControl]="searchProject" type="text" nz-input placeholder="Search " />
         </nz-input-group>
         <ng-template #suffixIconSearch>

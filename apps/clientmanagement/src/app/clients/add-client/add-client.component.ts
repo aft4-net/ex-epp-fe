@@ -88,6 +88,7 @@ enableUpdateButton=true;
             this.notification.success('Client Updated Successfully', '', {
               nzPlacement: 'bottomRight',
             });
+            this.updateClientState.isEdit=false;
               setTimeout(() => {
                 this.router.navigateByUrl('clientmanagement');
               }, 1000);

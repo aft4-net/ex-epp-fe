@@ -24,7 +24,7 @@
 <nz-spin [nzSpinning]="isSpinning">
   <div [ngClass]="isOnEditstate ? 'page-edit' : ''">
     <div class="flex flex-row justify-between" nz-row>
-      <div *ngIf="!isOnEditstate" class="tab-title">Project Details</div>
+      <div *ngIf="!isOnEditstate" class="page-title">Project Details</div>
     </div>
 
     <form class="w-full max-w-4xl" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">

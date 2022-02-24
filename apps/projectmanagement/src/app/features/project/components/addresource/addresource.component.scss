@@ -14,21 +14,12 @@
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 32px;
 
   color: #262626;
   }
-// ::ng-deep .ant-btn {
-//   background: #00a551;
-//   border-radius: 2px;
-//   font-family: -apple-system, system-ui, BlinkMacSystemFont;
-//   font-style: normal;
-//   font-weight: 500;
-//   font-size: 14px;
-//   line-height: 17px;
-//   color: #e8ffe8;
-// }
+
 
 .clear-button {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
@@ -43,12 +34,12 @@
 }
 
 .page-title {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-
-  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+ color: #262626;
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 32px;
 }
 .assgin-link {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
@@ -101,7 +92,9 @@
   font-size: medium;
   font-weight: 500;
 }
-
+::ng-deep .ant-spin-dot-item  {
+  background-color: #00A551;
+}
 
 form {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;

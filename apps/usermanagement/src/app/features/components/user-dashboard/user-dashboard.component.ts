@@ -532,37 +532,39 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
-    const modal: NzModalRef = this.modal.create({
-      nzWidth:'350px',
-      nzTitle: 'Delete user?',
-      nzAutofocus : null,
-      nzContent: 'Are you sure you want to delete user?This action can not be undone',
-      nzFooter: [
-        {
-          label: 'Yes, Delete',
-          type: 'primary',
-          danger: false,
-          onClick: () => {
-            this.userService.RemoveUser(userGuid).subscribe(
-              (result) => {
-                this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
-                if(this.userDashboardForm.value.userName != '')
-                {
-                  this.SearchUsersByUserName();
-                }
-                else
-                {
-                  this.FeatchAllUsers();
-                }
-              })
-            modal.destroy()
-          }
-        },
-        {
-          label: 'cancel',
-          type: 'default',
-          onClick: () => modal.destroy()
-        }]        
+    this.userService.isSuperAdmin(userGuid).subscribe((res)=>{
+     if(res == true){
+      const modal: NzModalRef = this.modal.confirm({
+        nzTitle: 'This User Can Not Be Deleted',
+        nzContent: '',
+        nzOkText: 'OK',
+        nzOkType: 'default',
+        nzOkDanger: true,
+      
+        });
+     }
+     else{
+    const modal: NzModalRef = this.modal.confirm({
+      nzTitle: 'Deleting User?',
+      nzContent: 'Once you delete the user you can not undo the deletion',
+      nzOkText: 'Delete User',
+      nzOkType: 'default',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.userService.RemoveUser(userGuid).subscribe(
+          (result) => {
+            this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+            if(this.userDashboardForm.value.userName != '')
+            {
+              this.SearchUsersByUserName();
+            }
+            else
+            {
+              this.FeatchAllUsers();
+            }
+          })
       });
     }
-}
+  });
+    }
+  }
