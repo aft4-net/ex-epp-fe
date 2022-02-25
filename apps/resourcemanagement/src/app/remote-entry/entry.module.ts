@@ -8,13 +8,12 @@ import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 import { AddressViewComponent } from '../Features/Components/employee/address-view/address-view.component';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
+
 import { AppComponent } from '../app.component';
-import { AuthGuard } from 'libs/common-services/auth.guard';
+import { AuthGuard } from '../../../../../libs/common-services/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { CustomFormsControlsModule } from '../Features/Components/custom-forms-controls/custom-forms-controls.module';
 import { DemoNgZorroAntdModule } from '../ng-zorro-antd.module';
 import { EmergencycontactViewComponent } from '../Features/Components/employee/emergencycontact-view/emergencycontact-view.component';
 import { EmployeeDetailComponent } from '../Features/Components/employee/employee-detail/employee-detail.component';
