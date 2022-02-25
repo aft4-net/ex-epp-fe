@@ -153,9 +153,9 @@
 .ant-picker-focused {
   box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
 }
-// .ant-table-column-sorter-down.active, .ant-table-column-sorter-up.active {
-//     color: #00A551 !important;
-// }
+.ant-table-column-sorter-down.active, .ant-table-column-sorter-up.active {
+    color: #00A551 !important;
+}
 
 .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   display: none !important;
