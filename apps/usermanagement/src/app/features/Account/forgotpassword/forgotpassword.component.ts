@@ -21,18 +21,20 @@ export class ForgotPasswordComponent {
     private actService: AccountService,
     private notification: NotificationBar,) { }
   submit(){
-   
+    this.loading = true;
     this.actService.ApplyRequestForPasswordReset(this.email?.value)
     .subscribe(
       (res: any) => 
       {
         this.notification.showNotification({
           type: 'success',
-          content: 'A password reset link has been sent to your email. Please complete the task from your email.',
-          duration: 5000,
+          content: 'A password reset link has been sent to your email. Please complete the task from your email in 30 minutes duration.',
+          duration: 20000,
         });
         this.pForgotForm.reset();
+        this.loading = false;
         this.disable=true;
+
       },
       (err: any) => 
       {

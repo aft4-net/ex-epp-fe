@@ -7,6 +7,7 @@ import { FormValidator } from '../../../utils/validator';
 import { AccountService } from '../../Services/logIn/account.service';
 import { ResponseDTO } from '../../../models/ResponseDTO';
 import { environment } from '../../../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'exec-epp-resetpassword',
@@ -16,11 +17,13 @@ import { environment } from '../../../../environments/environment';
 export class ResetpasswordComponent implements OnInit {
   showPassword = false;
   loading = false;
-  isValidUser = false;
-  taskCompleted = false;
+  //isValidUser = false;
+  tasksCompletedSource = new BehaviorSubject<boolean>(false);
+  tasksCompleted$ = this.tasksCompletedSource.asObservable();
   message ='';
   loggedInUser = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
   email = '';
+  title='';
   redirectUrl = environment.redirectUri + '/usermanagement/logIn';
   constructor(
     private _authenticationService: AccountService,
@@ -53,9 +56,12 @@ export class ResetpasswordComponent implements OnInit {
     this._authenticationService.resetPassword(dataToPost).subscribe(
       () => {
         this.loading = false;
-        this._changePass.hasData(true);
-        this.message = "You have successfully changed your password. Login with your updated password."
-        this.taskCompleted=true;
+        this.title = "Password changed successfully!";
+        this.tasksCompletedSource.next(true);
+        this.message = "You have successfully changed your password. Login with your updated password.";
+       // this._changePass.hasData(true);
+        return;
+       
       },
       (error: any) => {
         this.loading = false;
@@ -65,6 +71,7 @@ export class ResetpasswordComponent implements OnInit {
           content: 'Error occured, Please try again',
           duration: 5000,
         });
+
       }
     );
   }
@@ -80,7 +87,7 @@ export class ResetpasswordComponent implements OnInit {
 
     
       if (!token || !email) {
-        this.isValidUser = false;
+        this.tasksCompletedSource.next(true);
         this.router.navigate(['usermanagement/login']);
         return;
       } else {
@@ -90,25 +97,27 @@ export class ResetpasswordComponent implements OnInit {
             (res: ResponseDTO<any>) => {
               if(res.ResponseStatus.toString()==='Success')
               {
-                this.isValidUser=true;
+                this.tasksCompletedSource.next(false);
                 this.email = email;
                 localStorage.removeItem('loggedInUserInfo');
 
               }
               else
               {
-              this.taskCompleted = true;
+                this.tasksCompletedSource.next(true);
                 if(res?.Message?.toLowerCase() == 'token expired')
                 {
                   this.message = "Your token  has expired! You need to apply the request again."
+                  this.title = "Oops.. session expired.";
                 }
                 else
                 {
+                  this.tasksCompletedSource.next(true);
                   this.router.navigateByUrl('/usermanagement/logIn');
                 }
               }
             },
-            (err:ResponseDTO<any>) => {
+            () => {
               this.notification.showNotification({
                 type: 'error',
                 content: 'Some error occured. Please try again or contact the admin.',
