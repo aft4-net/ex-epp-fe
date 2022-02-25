@@ -65,7 +65,7 @@ getUsers() {
 
 
   routetoResourceManagement(){
-    this.loading = true;
+   // this.loading = true;
     console.log('jjjjj');
     console.log(this.loading);
     // setTimeout(() => { 
