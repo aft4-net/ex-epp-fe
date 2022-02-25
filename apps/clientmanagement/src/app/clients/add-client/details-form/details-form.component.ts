@@ -3,6 +3,7 @@ AddClientStateService,
 Client,
 ClientDetailCreate,
 ClientDetailsService,
+clientEditNotify,
 ClientStatus,
 ClientStatusService,
 Employee,
@@ -24,6 +25,8 @@ import {
   styleUrls: ['./details-form.component.scss'],
 })
 export class DetailsFormComponent implements OnInit {
+  clienttt:clientEditNotify={} as clientEditNotify;
+clientttOld:clientEditNotify={} as clientEditNotify;
   inputValue?: string;
   filteredOptions: string[] = [];
   employees = [] as Employee[];
@@ -43,9 +46,8 @@ export class DetailsFormComponent implements OnInit {
     private clientStatusService: ClientStatusService,
     private addClientStateService: AddClientStateService,
     private clientDetailsService: ClientDetailsService,
-    private updateClientState: UpdateClientStateService,
+    public updateClientState: UpdateClientStateService,
   ) {}
-
   ngOnInit(): void {
     this.createRegistrationForm();
     this.setValue();
@@ -57,23 +59,33 @@ export class DetailsFormComponent implements OnInit {
       this.clients = response.Data;
     });
     this.clientStatusService.getAll().subscribe((res: ClientStatus[]) => {
-      this.clientStatuses = res;
+       this.clientStatuses = res;
+       if(!this.updateClientState.isEdit)
+       {
       for (let i = 0; i < this.clientStatuses.length; i++) {
+        
         if (this.clientStatuses[i].StatusName == 'Active') {
           this.selectedValue = this.clientStatuses[i].Guid;
           this.validateForm.controls.status.setValue(this.clientStatuses[i].Guid);
         }
       }
+    }
     });
 
-    this.validateForm.controls.clientName.valueChanges.subscribe(()=>{
 
+    this.validateForm.controls.clientName.valueChanges.subscribe(()=>{
       this.checkClientName();
     });
 
     this.validateForm.valueChanges.subscribe(() => {
       if(this.updateClientState.isEdit)
       {
+        if(this.validateForm.valueChanges.subscribe(selectedValue  => {
+          this.updateClientState.updateButtonListener=false;
+
+        }))
+
+
         if (this.validateForm.valid) {
           this.updateClient.ClientName =
             this.validateForm.controls.clientName.value;
@@ -91,7 +103,10 @@ export class DetailsFormComponent implements OnInit {
           this.updateClientState.updateClient(
             this.updateClient
           );
+          this.updateClientState.updateButtonListener=true;
+
         }
+
 
       }
 else{
@@ -110,8 +125,13 @@ else{
         );
       } else this.addClientStateService.restAddClientDetails();
     }
+
     });
   }
+  // resetUpdateButton()
+  // {
+  //   this.updateClientState.updateButtonListener=true;
+  // }
   setValue(){
     if(this.updateClientState.isEdit && this.updateClientState.UpdateClientData!==null)
     {
@@ -124,6 +144,7 @@ else{
         salesPerson: [this.updateClientState.UpdateClientData.SalesPersonGuid],
         description:[this.updateClientState.UpdateClientData.Description],
       });
+      this.selectedValue=this.updateClientState.UpdateClientData.ClientStatusGuid;
     }
 
   }

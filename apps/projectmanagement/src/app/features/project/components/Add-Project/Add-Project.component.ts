@@ -103,7 +103,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isOnEditstate = this.editProjectStateService.isOnEditstate;
-    if (this.isOnEditstate) this.isSpinning = true;
+    this.isSpinning = true;
     this.createRegistrationForm();
     this.apiCalls();
     this.projectMapper();
@@ -286,6 +286,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
     this.projectService.getProjects().subscribe((response: Project[]) => {
       this.projects = response;
+      this.isSpinning=false;
     });
   }
 
@@ -382,22 +383,21 @@ export class AddProjectComponent implements OnInit, OnDestroy {
  
         
 
-      if (
-        this.updateValueSeted &&
-        this.validateForm.valid &&
-        (this.projectUpdate.ProjectName !== this.projectOld.ProjectName    ||
-          this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
-          this.projectUpdate.ProjectStatusGuid !=
-            this.projectOld.ProjectStatusGuid ||
-          this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
-          this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
-          new Date(this.projectUpdate.StartDate).getTime() !==
-            new Date(this.projectOld.StartDate).getTime() ||
-          (this.validateForm.controls.endValue.value!=null &&
-            new Date(this.projectUpdate.EndDate).getTime() !=
-              new Date(this.projectOld.EndDate).getTime()) ||
-              (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
-          this.projectUpdate.Description !== this.projectOld.Description)
+      if(this.updateValueSeted &&
+      this.validateForm.valid &&
+      (this.projectUpdate.ProjectName !== this.projectOld.ProjectName    ||
+        this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
+        this.projectUpdate.ProjectStatusGuid !=
+          this.projectOld.ProjectStatusGuid ||
+        this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
+        this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
+        new Date(this.projectUpdate.StartDate).getTime() !==
+          new Date(this.projectOld.StartDate).getTime() ||
+        (this.validateForm.controls.endValue.value!=null &&
+          new Date(this.projectUpdate.EndDate).getTime() !=
+            new Date(this.projectOld.EndDate).getTime()) ||
+            (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
+        this.projectUpdate.Description !== this.projectOld.Description)
       ) {
         this.enableUpdateButton = true;
       } else this.enableUpdateButton = false;

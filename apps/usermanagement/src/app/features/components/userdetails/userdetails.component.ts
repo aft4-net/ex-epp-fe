@@ -354,10 +354,10 @@ AddToGroup()  {
         });
          return;
        }
-      this.notification.showNotification({
+       usrDetail.Status
+       this.notification.showNotification({
         type: 'success',
-
-        content: `User status changed to  '${usrDetail.Status}' successfully`,  
+        content: `User status changed to  ${usrDetail.Status != 'Active' ? 'Not Active' : 'Active'} successfully`,  
         duration: 5000,
       });
     },
