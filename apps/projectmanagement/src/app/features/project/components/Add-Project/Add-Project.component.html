@@ -173,12 +173,9 @@
   </div>
 </nz-spin>
 
-<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="cancelModal" [nzTitle]="confirmTile" [nzFooter]="null"
+<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="cancelModal"  nzTitle="Exit" [nzFooter]="null"
   [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
-  <ng-template #confirmTile>
-    <i class="mr-2" style="color: coral" nz-icon nzType="question-circle" nzTheme="outline"></i>
-    Exit
-  </ng-template>
+
   <ng-container *nzModalContent>
     <p *ngIf="isOnEditstate">Are you sure to exit before updating project ?</p>
     <span class="flex justify-end">

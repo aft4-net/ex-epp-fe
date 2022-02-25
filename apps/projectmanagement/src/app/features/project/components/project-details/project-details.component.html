@@ -56,12 +56,8 @@
     </section>
   </div>
     
-    <nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="cancelModal"  [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+    <nz-modal (nzOnCancel)="confirmCancel()"  nzTitle="Exit " [(nzVisible)]="cancelModal"   [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
       nzClassName="conform-modal">
-    
-      <ng-template #confirmTile>
-    <i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i> Exit
-     </ng-template>
       <ng-container *nzModalContent>
         <p *ngIf="!isOnEditstate"> Are you sure to exit before saving project ? </p>
         <p *ngIf="isOnEditstate" > Are you sure to exit before updating project ? </p>
