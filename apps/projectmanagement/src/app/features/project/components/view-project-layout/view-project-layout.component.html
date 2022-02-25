@@ -78,16 +78,15 @@
   </div>
 </section>
 </div>
-<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="deleteProjectModal" [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
-  nzClassName="conform-modal">
+<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="deleteProjectModal" nzTitle="Delete project ?" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="delete-conform-modal">
 
-  <ng-template #confirmTile>
-<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Delete project
- </ng-template>
   <ng-container *nzModalContent>
   <p>
-    Are you sure to delete this project ?
+    Are you sure to delete this project ?<br>
+    This action cannot be undone.
   </p>
+ 
     <span class="flex justify-end">
       <button   class="btn mr-8" (click)="deleteProject()">Yes,Delete</button>
       <button  class="btn-cancel " (click)="hidedeleteProjectModal()">Cancel</button>
