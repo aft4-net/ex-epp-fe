@@ -6,6 +6,8 @@ import { PermissionListService } from '../../../../../../libs/common-services/pe
 import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'exec-epp-role',
@@ -23,6 +25,7 @@ export class RoleComponent implements OnInit {
   sortOrder!: string;
   pagination!: Pagination;
   idForEdit: string | null = null;
+  searchTerm$ = new Subject<string>();
 
   constructor(private roleConfigService: RoleService, 
     private notification:NzNotificationService,
@@ -30,7 +33,10 @@ export class RoleComponent implements OnInit {
    public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
     private modal: NzModalService
-    ) { }
+    ) {
+      this.search(this.searchTerm$).subscribe(results => {
+      });
+    }
 
   ngOnInit(): void {
     this.getRoles();
@@ -100,14 +106,28 @@ export class RoleComponent implements OnInit {
     this.getPaginatedRoles();
   }
 
-  onSearchChange() {
-    if (this.searchInput.length > 1) {
-      this.searchValue = this.searchInput;
-      this.getPaginatedRoles();
-    } else if (this.searchInput.length == 0){
-      this.searchValue = '';
-      this.getPaginatedRoles();
-    }
+  onSearchChange(event: any) {
+    // if (this.searchInput.length > 1) {
+    //   this.searchValue = this.searchInput;
+    //   this.getPaginatedRoles();
+    // } else if (this.searchInput.length == 0){
+    //   this.searchValue = '';
+    //   this.getPaginatedRoles();
+    // }
+    this.searchTerm$.next(event.target.value);
+  }
+
+  search(terms: Observable<string>) {
+    return terms.pipe(
+      debounceTime(1000),
+      distinctUntilChanged(),
+      switchMap(async (term) => this.searchEntries(term))
+    );
+  }
+
+  searchEntries(term: any) {
+    this.searchValue = term;
+    this.getPaginatedRoles();
   }
 
   showDeleteConfirm(id: string, name: string) {
@@ -116,7 +136,7 @@ export class RoleComponent implements OnInit {
       if(res === true){
 
         this.modal.confirm({
-          nzTitle: 'This Role can not be delete b/c it is assigned to employee',
+          nzTitle: 'This Role can not be deleted b/c it is assigned to employee',
           nzContent: 'Name: <b style="color: red;">'+ name + '</b>',
           nzOkText: 'Ok',
           nzOkType: 'primary',

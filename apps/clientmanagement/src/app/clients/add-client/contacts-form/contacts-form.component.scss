@@ -62,7 +62,7 @@ button.add-btn.ant-btn {
   background: red !important;
 }
 ::ng-deep .ant-modal-confirm .ant-modal-confirm-btns {
-  float: $floatConfirmationBox !important;
+  //float: $floatConfirmationBox !important;
   padding-left: $padding-left !important;
 
 }

@@ -25,7 +25,7 @@
               </div>
                
             </div>
-            <div style="margin-top:-20px">
+            <div>
               <nz-avatar class="user-detail-avatar" [nzSize]="64" nzIcon="user"></nz-avatar>
             </div>
             <br />
@@ -46,7 +46,10 @@
                 </div>
               </div>
               <div nz-col class="gutter-row" nzSpan="2">
-      <a style="float:right" nz-button nzType="link" (click)="resetPassword()">RESET PASSWORD</a>
+                <div class="resetPassword">
+                  <a nz-button nzType="link" (click)="resetPassword()">
+                    Reset Password</a>
+                </div>
             </div>
             </div>
             <div style="margin-top:-10px">
@@ -54,9 +57,6 @@
               <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
               ></nz-switch>
               </a>
-
-            
-              
             </div>
           </div>
         </div>
