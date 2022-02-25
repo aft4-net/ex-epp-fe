@@ -66,7 +66,8 @@ import { map } from 'rxjs/operators';
     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
    
      (response) => {
-      this.user=response;
+      this.useEmails=response;
+      console.log(this.useEmails + 'ZZZZZZZZZZZZZ')
       this.position  = response["EmployeeOrganization"]["Role"]["Name"];
       console.log(this.position + 'addUSerPosition')
       this.empGuid = response["Guid"];
@@ -109,9 +110,9 @@ import { map } from 'rxjs/operators';
 
    storeLoginUsers(users:any)
    {
-    window.sessionStorage.getItem('email');
-    window.sessionStorage.getItem('password');
-    window.sessionStorage.setItem('isLogin','true');
+   // window.sessionStorage.getItem('email');
+    //window.sessionStorage.getItem('password');
+    //window.sessionStorage.setItem('isLogin','true');
     //window.location.replace('http://localhost:4200');
 
     localStorage.getItem('email');
