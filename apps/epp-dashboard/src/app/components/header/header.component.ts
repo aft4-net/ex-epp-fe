@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
+import { LoadingSpinnerService} from '../../../../../../libs/common-services/loading-spinner.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from 'libs/environments/environment';
 import { IntialdataService } from '../../services/intialdata.service';
@@ -26,7 +27,8 @@ export class HeaderComponent implements OnInit {
     private authService: MsalService,
     private _authenticationService: AuthenticationService,
     private _router: Router,
-    private _intialdataService: IntialdataService
+    private _intialdataService: IntialdataService,
+    private loadingSpinnerService: LoadingSpinnerService
   ) {
    this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName)
     this.thefullName = this.fullName;
@@ -50,8 +52,24 @@ export class HeaderComponent implements OnInit {
     this.getUser();
   }
   routetoResourceManagement() {
+    this.loadingSpinnerService.messageSource.next(true);
     this._authenticationService.setFromViewProfile();
     this._router.navigate(['resourcemanagement']);
+    setTimeout(() => {   
+    this.loadingSpinnerService.messageSource.next(false);
+
+    }, 1500);
+
+    /*this.loadingSpinnerService.messageSource.subscribe((val)=>{
+      if(val == true){
+      this._authenticationService.setFromViewProfile();
+      this._router.navigate(['resourcemanagement']);
+      }
+
+    });*/
+
+
+
   }
 
   logout() {
