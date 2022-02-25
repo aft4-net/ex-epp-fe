@@ -14,11 +14,11 @@
         <div *ngIf="!isOnEditstate"  class="page-title">  Add Project </div>
         <div *ngIf="isOnEditstate"  class="page-title">  Edit Project </div>
         <div *ngIf="!isOnEditstate" > 
-          <button class="btn mr-4"   [disabled]="!forrmvalid"   (click)="createProject() "
-            [ngClass]="forrmvalid ? '':'cursor-not-allowed' ">
+          <button nz-button class="btn"   [disabled]="!forrmvalid"   (click)="createProject() "
+            [nzLoading]="isLoading" >
             Save </button>
       
-            <button   (click)="showDeleteConfirm()" class="btn-cancel ">
+            <button   (click)="showDeleteConfirm()" class="btn-cancel ml-5">
                  Cancel
             </button>
         </div>

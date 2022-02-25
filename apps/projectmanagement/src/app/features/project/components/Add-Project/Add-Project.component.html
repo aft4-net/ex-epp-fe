@@ -12,10 +12,10 @@
   <div class="flex flex-row justify-between" nz-row>
     <div *ngIf="isOnEditstate" class="page-title">Edit Project</div>
     <div *ngIf="isOnEditstate">
-      <button class="btn mr-4" (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
+      <button   nz-button class="btn"   [nzLoading]="saveUpdateload"   (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
         Update
       </button>
-      <button (click)="showDeleteConfirm()" class="btn-cancel">Cancel</button>
+      <button (click)="showDeleteConfirm()" class="btn-cancel ml-4" >Cancel</button>
     </div>
   </div>
   <hr *ngIf="isOnEditstate" />
@@ -24,7 +24,7 @@
 <nz-spin [nzSpinning]="isSpinning">
   <div [ngClass]="isOnEditstate ? 'page-edit' : ''">
     <div class="flex flex-row justify-between" nz-row>
-      <div *ngIf="!isOnEditstate" class="page-title">Project Details</div>
+      <div *ngIf="!isOnEditstate" class="tab-title mb-2">Project Details</div>
     </div>
 
     <form class="w-full max-w-4xl" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">

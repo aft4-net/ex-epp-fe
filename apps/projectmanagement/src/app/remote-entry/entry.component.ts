@@ -5,7 +5,11 @@ import { CommonDataService } from '.././../../../../libs/common-services/commonD
 @Component({
   selector: 'exec-epp-projectmanagement-entry',
   template: ` <router-outlet></router-outlet>`,
-  styles: [``,],
+  styles: [`
+  body {
+  overflow-y: hidden; 
+  overflow-x: hidden; 
+}`,],
 })
 export class RemoteEntryComponent implements OnInit  {
   constructor(private permissionList: PermissionListService,
