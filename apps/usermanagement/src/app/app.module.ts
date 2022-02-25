@@ -33,8 +33,6 @@ import { CustomFormModule } from './shared/modules/forms/custom-form.module';
 import { ForgotPasswordComponent } from './features/Account/forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from './features/Account/resetpassword/resetpassword.component';
 
-
-
 registerLocaleData(en);
 
 export function MSALInstanceFactory(): IPublicClientApplication {
