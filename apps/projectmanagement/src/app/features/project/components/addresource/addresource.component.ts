@@ -35,7 +35,6 @@ export class AddresourceComponent implements OnInit {
     private fb: FormBuilder,
     private permissionList: PermissionListService,
     private notification: NzNotificationService,
-    private modal: NzModalService,
     private projectResourceStateService: ProjectResourceStateService,
     private assignResourceService: AssignResourceService,
     private router: Router,

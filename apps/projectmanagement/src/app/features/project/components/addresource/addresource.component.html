@@ -15,7 +15,11 @@
 
   <div *ngIf="isOnEditstate" class="tab-title"> {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
   <div>
-    <button    class="btn" (click)="showModal()">
+    <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
+      Assign resources
+    </button>
+
+    <button *ngIf="isOnEditstate && authorize('Assign_Resource') " class="btn" (click)="showModal()">
       Assign resources
     </button>
 
@@ -176,8 +180,8 @@
 
 
 
-<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="removeResourceModel" nzTitle="Resource unassign" [nzFooter]="null"
-  [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
+<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="removeResourceModel" nzTitle="Resource unassign"
+  [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
   <ng-container *nzModalContent>
     <p> Are you sure to unassign this resource ? </p>
     <span class="flex justify-end">
