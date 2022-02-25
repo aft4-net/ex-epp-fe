@@ -11,7 +11,6 @@ header {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
-    color: #FFFFFF ;
    border-radius: 2px;
   }
   
@@ -51,10 +50,24 @@ header {
   
   .btn:disabled{
 
-    background-color:  #BFBFBF;
-    border-color:#F5F5F5; 
+    background-color:  #BFBFBF !important;
+    border-color:#F5F5F5 !important; 
   }
+  .btn:disabled:hover{
 
+    background-color:  #BFBFBF !important;
+    border-color:#F5F5F5 !important; 
+  }
+  ::ng-deep .ant-btn:active, .ant-btn:focus, .ant-btn:hover {
+
+    background:none !important;
+  
+  }
+  .ant-btn:not([disabled]):hover {
+  
+    background: #00a551 !important;
+    color: white;
+  }
   hr {
     display: block;
     height: 1px;
@@ -76,8 +89,10 @@ header {
   }
   
 .tab-content {
-    padding:0px 20px 25px;
-    height: 80vh;
+    padding:0px 20px 0px;
+
+  }
+  .page{
     overflow-y: hidden; 
     overflow-x: hidden; 
   }

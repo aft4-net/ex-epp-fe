@@ -12,7 +12,7 @@
   <div class="flex flex-row justify-between" nz-row>
     <div *ngIf="isOnEditstate" class="page-title">Edit Project</div>
     <div *ngIf="isOnEditstate">
-      <button   nz-button class="btn"   [nzLoading]="saveUpdateload"   (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
+      <button   nz-button class="btn"  [nzLoading]="saveUpdateload"   (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
         Update
       </button>
       <button (click)="showDeleteConfirm()" class="btn-cancel ml-4" >Cancel</button>
@@ -23,10 +23,7 @@
 
 <nz-spin [nzSpinning]="isSpinning">
   <div [ngClass]="isOnEditstate ? 'page-edit' : ''">
-    <div class="flex flex-row justify-between" nz-row>
-      <div *ngIf="!isOnEditstate" class="tab-title mb-2">Project Details</div>
-    </div>
-
+<div  *ngIf="!isOnEditstate" nz-row class="tab-title mb-1">Project Details</div>
     <form class="w-full max-w-4xl" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">
       <nz-form-item>
         <nz-form-label class="" [nzSm]="6" [nzXs]="24" nzFor="projectName">Project Name &nbsp;
@@ -35,7 +32,7 @@
             <path
               d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
             </svg></nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-form-control [nzSm]="14" [nzXs]="20">
           <input nz-input formControlName="projectName" id="projectName" />
 
           <span *ngIf="!projectName.valid && (projectName.touched || userSubmitted)" class="error-block">
