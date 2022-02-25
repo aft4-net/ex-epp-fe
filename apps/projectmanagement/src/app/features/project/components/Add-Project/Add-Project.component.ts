@@ -287,7 +287,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.projectService.getProjects().subscribe((response: Project[]) => {
+    this.projectService.getProjects().subscribe((response:any) => {
       this.projects = response;
       this.isSpinning=false;
     });
