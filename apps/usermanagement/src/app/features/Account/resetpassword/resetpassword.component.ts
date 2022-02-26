@@ -25,6 +25,7 @@ export class ResetpasswordComponent implements OnInit {
   email = '';
   title='';
   redirectUrl = environment.redirectUri + '/usermanagement/logIn';
+  token = '';
   constructor(
     private _authenticationService: AccountService,
     private _changePass: AuthenticationService,
@@ -53,7 +54,7 @@ export class ResetpasswordComponent implements OnInit {
     const dataToPost = this.changePasswordForm.value;
     dataToPost.Email = this.email;
     
-    this._authenticationService.resetPassword(dataToPost).subscribe(
+    this._authenticationService.resetPasswordByUser(dataToPost, this.token).subscribe(
       () => {
         this.loading = false;
         this.title = "Password changed successfully!";
@@ -82,23 +83,21 @@ export class ResetpasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      const token = params?.token;
-      const email = params?.uid;
-
+      this.token = params?.token;
+      this.email = params?.uid;
     
-      if (!token || !email) {
+      if (!this.token || !this.email) {
         this.tasksCompletedSource.next(true);
         this.router.navigate(['usermanagement/login']);
         return;
       } else {
         this._authenticationService
-          .ValidatePasswordResetToken(email, token)
+          .ValidatePasswordResetToken(this.email, this.token)
           .subscribe(
             (res: ResponseDTO<any>) => {
               if(res.ResponseStatus.toString()==='Success')
               {
                 this.tasksCompletedSource.next(false);
-                this.email = email;
                 localStorage.removeItem('loggedInUserInfo');
 
               }
@@ -113,7 +112,9 @@ export class ResetpasswordComponent implements OnInit {
                 else
                 {
                   this.tasksCompletedSource.next(true);
-                  this.router.navigateByUrl('/usermanagement/logIn');
+                  this.message = "The request you made was invalid.";
+                  this.title = 'Invalid Request!';
+                  //this.router.navigateByUrl('/usermanagement/logIn');
                 }
               }
             },
@@ -123,6 +124,7 @@ export class ResetpasswordComponent implements OnInit {
                 content: 'Some error occured. Please try again or contact the admin.',
                 duration: 5000,
               });
+              this.tasksCompletedSource.next(true);
               
             }
           );

@@ -49,7 +49,10 @@ export class AccountService {
     return this.http.put(`${environment.apiUrl}/User/ChangePassword`, body, {headers:this.header});
   }
   resetPassword(body: ChangePasswordRequest): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/User/ResetPasswordByUser`,body, {headers:this.header});
+    return this.http.put(`${environment.apiUrl}/User/ResetPassword`,body, {headers:this.header});
+  }
+  resetPasswordByUser(body: ChangePasswordRequest, token: string): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/User/ResetPasswordByUser?Token=${token}`,body, {headers:this.header});
   }
   ApplyRequestForPasswordReset(email: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/PasswordReset/ApplyRequestForPasswordReset?Email=${email}&&resetHandlingURL=${environment.redirectUri}/usermanagement/resetpassword`, {headers:this.header});
