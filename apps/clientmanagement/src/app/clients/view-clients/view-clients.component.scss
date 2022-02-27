@@ -193,3 +193,7 @@ nz-breadcrumb.mt-4.ant-breadcrumb {
 ::ng-deep .main-content {
   padding-top: 16px !important;
 }
+::ng-deep body {
+
+  overflow: hidden !important;
+}
