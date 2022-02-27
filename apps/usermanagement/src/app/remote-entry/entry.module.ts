@@ -90,10 +90,16 @@ export function MSALInstanceFactory(): IPublicClientApplication
         path:'logIn', component:LoginComponent
       },
       {
-        path:'forgotpassword', component:ForgotPasswordComponent
+        path:'forgotpassword', component:ForgotPasswordComponent,
+        data: {
+          breadcrumb: "Permission"
+        }
       },
       {
-        path:'resetpassword', component:ResetpasswordComponent
+        path:'resetpassword', component:ResetpasswordComponent,
+        data: {
+          breadcrumb: "Log In"
+        }
       },
   ]
 @NgModule({
