@@ -9,12 +9,12 @@
   <div class="justify-between" nz-row>
     <div class="page-title" nz-col nzSpan="2"> Clients </div>
 
-   <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
+    <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
   <hr>
  </header>
 
-
+ <hr class="header-separator">
  <div class="main-content">
 
 <div nz-row class="ml-1 w-8 h-4">
@@ -30,7 +30,6 @@
 
 
   <div>
-
     <ng-template #contentTemplate>
       <div style="width: 190px;">
 

@@ -532,6 +532,20 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
+    this.userService.isSuperAdmin(userGuid).subscribe((res)=>{
+    
+      if(res === true){
+        this.modal.confirm({
+          nzTitle: 'Super Admin Can Not Be Deleted !',
+          nzContent: '',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: false,
+        //  nzOnOk: () => this.deleteHandler(id),
+        //  nzCancelText: 'No'
+        });
+      }
+      else{
     const modal: NzModalRef = this.modal.create({
       nzWidth:'350px',
       nzTitle: 'Delete user?',
@@ -565,5 +579,7 @@ handleGroupCancel() {
 
         }]        
       });
+    }
+  });
     }
   }
