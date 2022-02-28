@@ -11,12 +11,13 @@
       
     </nz-page-header-title>
     <nz-page-header-extra class="flex flex-row">
-      <div *ngIf="isLogin">
+   
       <button nz-button nzType="text" style="background-color: #fff; display: none;">
         <nz-badge [nzCount]="12" >
           <i nz-icon [nzType]="'bell'" [nzTheme]="'outline'" style="size: 20%;"></i>
         </nz-badge>
       </button>
+ 
       <button nz-button class="userIcon" nz-primary nzDanger nzShape="circle"    nzPopoverTrigger="click" 
       nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
       <ng-template #contentTemplate>      
@@ -36,7 +37,6 @@
         </div>
 
       </ng-template>
-   </div>
     </nz-page-header-extra>
   </nz-page-header>
 </div>
