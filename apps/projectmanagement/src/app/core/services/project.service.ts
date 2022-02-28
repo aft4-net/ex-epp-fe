@@ -1,19 +1,11 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { PaginatedResult, Project, ProjectCreate } from '../models';
-
+import { BehaviorSubject, Observable} from 'rxjs';
+import { PaginatedResult, Project } from '../models';
 import { ApiService } from '../models/apiService';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-
 import { map } from 'rxjs/operators';
-
-
 import { environment } from '../../../environments/environment';
 import { AddProjectStateService } from '../state';
-
-import { Router } from '@angular/router';
-
 
 
 @Injectable({
@@ -26,19 +18,14 @@ export class ProjectService extends ApiService<Project> {
   fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
 
 
-  constructor(private addProjectState:AddProjectStateService, protected httpClient: HttpClient,private  notification: NzNotificationService,private router:Router ) {
+  constructor(private addProjectState:AddProjectStateService, protected httpClient: HttpClient) {
     super(httpClient);
   }
 
 
   updateProject(resource:any)
   {
-  this.httpClient.put(environment.baseApiUrl+"Project",resource).subscribe
-    (suceess=>{
-      this.router.navigateByUrl('projectmanagement');
-      this.notification.success('Project updated successfully','');
-      }  
-      ,error=>   this.notification.error('Project updated not saved','Please try again letter'));
+  return  this.httpClient.put(environment.baseApiUrl+"Project",resource);
   }
 
   getFirsttPageValue()
@@ -52,36 +39,18 @@ export class ProjectService extends ApiService<Project> {
 
   }
 
-
-
-
   getResourceUrl(): string {
-
     return 'Project';
   }
 
-
-
   createProject()
    {
-     this.post(this.addProjectState.projectData).subscribe
-         ((response:any)=>{
-          this.router.navigateByUrl('projectmanagement');
-           this.notification.success('Project Added successfully','');  
-      }
-      ,(errr:any)=>{
-        this.notification.error('Project Not saved','Please try again letter');
-      }
-    )
+     return this.post(this.addProjectState.projectData);
   }
 
   getProjects()
   {
-    return  this.httpClient.get(environment.baseApiUrl+"Project/all").pipe(map((response:any)=>{
-
-      return response.Data;
-
-    }))
+    return  this.httpClient.get(environment.baseApiUrl+"Project/all");
   }
 
   getFilterData(){

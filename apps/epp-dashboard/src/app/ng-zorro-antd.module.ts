@@ -10,6 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   exports: [
@@ -24,6 +25,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzLayoutModule,
     NzPageHeaderModule,
     NzPopoverModule,
+    NzSpinModule
   ]
 })
 export class DemoNgZorroAntdModule {

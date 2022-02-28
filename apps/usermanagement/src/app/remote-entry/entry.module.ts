@@ -6,7 +6,6 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { AppComponent } from '../app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-//import { DemoNgZorroAntdModule } from '../../../../../libs/ng-zoro/ng-zorro-antd.module'; 
 import { GroupDetailComponent } from '../features/components/group-detail/group-detail.component';
 import { GroupsetComponent } from '../features/components/groupset/groupset.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -20,7 +19,7 @@ import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/li
 import { environment } from 'libs/environments/environment'
 import { LoginComponent } from '../features/Account/user/login/login.component';
 import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
-import { DemoNgZorroAntdModule } from 'libs/ng-zoro/ng-zorro-antd.module';
+import { DemoNgZorroAntdModule } from '../../../../../libs/ng-zoro/ng-zorro-antd.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from '../features/Account/forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from '../features/Account/resetpassword/resetpassword.component';
@@ -74,18 +73,11 @@ export function MSALInstanceFactory(): IPublicClientApplication
               breadcrumb: "Group-Detail"
             }
           },
-          {
-            path:'logIn', component:LoginComponent
-          },
+          
           {
             path:'changepassword', component:ChangepasswordComponent
           },
-          {
-            path:'forgotpassword', component:ForgotPasswordComponent
-          },
-          {
-            path:'resetpassword', component:ResetpasswordComponent
-          },
+          
           {
             path:'unauthorize', component:UnauthorizeComponent,
           data: {
@@ -93,6 +85,21 @@ export function MSALInstanceFactory(): IPublicClientApplication
           }
         }
         ]
+      },
+      {
+        path:'logIn', component:LoginComponent
+      },
+      {
+        path:'forgotpassword', component:ForgotPasswordComponent,
+        data: {
+          breadcrumb: "Permission"
+        }
+      },
+      {
+        path:'resetpassword', component:ResetpasswordComponent,
+        data: {
+          breadcrumb: "Log In"
+        }
       },
   ]
 @NgModule({

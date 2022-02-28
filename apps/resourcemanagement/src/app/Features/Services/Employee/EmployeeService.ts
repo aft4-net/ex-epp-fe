@@ -20,6 +20,7 @@ export class EmployeeService {
   public empNum="ec0001";
   public ephoto:any;
   public EmrContact:any | undefined;
+  public isEdited = false;
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -105,10 +106,30 @@ export class EmployeeService {
 
   add(employee: Employee) {
     delete employee.guid;
+    employee.FamilyDetails?.forEach(element => {
+      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+     });
+     employee.EmergencyContact?.forEach(element =>{
+       if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+     });
+     employee.EmployeeAddress?.forEach(element =>{
+      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+     });
     return this.http.post(this.baseUrl, employee);
   }
 
   update(employee: Employee) {
+  employee.FamilyDetails?.forEach(element => {
+   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+  });
+  employee.EmergencyContact?.forEach(element =>{
+    if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+  });
+  employee.EmployeeAddress?.forEach(element =>{
+   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+  });
+    console.log("gaga");
+    console.log(employee);
     return this.http.put(this.baseUrl, employee);
   }
 

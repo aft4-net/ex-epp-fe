@@ -8,19 +8,22 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
+import{clientEditNotify} from '../../core/models/get/clientEditNotify';
 @Component({
   selector: 'exec-epp-add-client',
   templateUrl: './add-client.component.html',
   styleUrls: ['./add-client.component.scss'],
 })
 export class AddClientComponent implements OnInit {
+enableUpdateButton=true;
+
   position: NzTabPosition = 'left';
   validateAddClientFormState$?: Observable<ValidtyAddClientForms>;
   validateAddClientFormState?: ValidtyAddClientForms;
   addButtonClicked = false;
   contactDetailsTabEnabled = false;
   activeTabIndex = 0;
+  isLoading=false;
   locationTabEnabled = false;
   constructor(
     private router: Router,
@@ -31,8 +34,13 @@ export class AddClientComponent implements OnInit {
     private modal: NzModalService
   ) {}
   ngOnInit(): void {
+    this.updateClientState.updateButtonListener=false;
+
     if(this.updateClientState.isEdit)
     {
+
+
+
       this.validateAddClientFormState$ =
         this.updateClientState.validateUpdateClientFormState();
 
@@ -60,6 +68,7 @@ export class AddClientComponent implements OnInit {
     this.addButtonClicked = true;
     if(this.updateClientState.isEdit)
     {
+
       this.updateClientState
       .validateUpdateClientFormState()
       .subscribe((res: ValidtyAddClientForms) => {
@@ -80,6 +89,7 @@ export class AddClientComponent implements OnInit {
             this.notification.success('Client Updated Successfully', '', {
               nzPlacement: 'bottomRight',
             });
+            this.updateClientState.isEdit=false;
               setTimeout(() => {
                 this.router.navigateByUrl('clientmanagement');
               }, 1000);
@@ -141,7 +151,7 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientContactsForm &&
       this.validateAddClientFormState?.clientContactsForm
     ) {
-
+     this.isLoading=true;
       this.clientService.addClient();
       setTimeout(() => {
         this.router.navigateByUrl('clientmanagement');

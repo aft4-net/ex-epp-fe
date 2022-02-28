@@ -124,7 +124,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     .pipe(
       map(event => event.target.value),
       startWith(''),
-      debounceTime(3000),
+      debounceTime(2000),
       distinctUntilChanged(),
       switchMap( async (search) => {this.userDashboardForm.value.userName = search,
       this.SearchUsersByUserName()
@@ -532,6 +532,20 @@ handleGroupCancel() {
   }
 
   showConfirm(userGuid : string): void {
+    this.userService.isSuperAdmin(userGuid).subscribe((res)=>{
+    
+      if(res === true){
+        this.modal.confirm({
+          nzTitle: 'Super Admin Can Not Be Deleted !',
+          nzContent: '',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: false,
+        //  nzOnOk: () => this.deleteHandler(id),
+        //  nzCancelText: 'No'
+        });
+      }
+      else{
     const modal: NzModalRef = this.modal.create({
       nzWidth:'350px',
       nzTitle: 'Delete user?',
@@ -561,8 +575,11 @@ handleGroupCancel() {
         {
           label: 'cancel',
           type: 'default',
-          onClick: () => modal.destroy()
+          onClick: () => modal.destroy(),
+
         }]        
       });
     }
-}
+  });
+    }
+  }

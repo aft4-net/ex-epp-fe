@@ -8,4 +8,5 @@ export * from './employee';
 
 export * from  './PaginatedResult';
 export * from './Pagination';
+export * from './clientEditNotify';
 

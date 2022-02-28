@@ -20,17 +20,20 @@
 
 
 .page-title {
-
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 20px;
   line-height: 28px;
+  padding-bottom: 5px;
+  /* or 140% */
+
   display: flex;
   align-items: center;
-  color: #262626;
-  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
 }
+*{
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
+ }
 .tab-content {
   padding: 0px 20px 25px;
   height: 85vh;
@@ -49,7 +52,7 @@ c::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
 header {
   padding: 0px 1.15%;
-  margin-bottom: 0.75% !important;
+
 }
 
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
@@ -115,7 +118,15 @@ header {
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+.cancel-button{
+  background: white;
+  color: #00A551;
+  border: 0.5px solid #00a551;
+  font-size: 1rem;
+  font-style: normal;
+  margin-right: 0.7vw;
 
+}
 
 .action-buttons{
   background: #00A551;
@@ -151,3 +162,22 @@ span.ng-star-inserted.invalisForm {
 }
 
 
+// .justify-between.ant-row {
+//   border-bottom: 2px solid #D9D9D9 !important;
+//   border-top: 2px solid #D9D9D9 !important;
+// }
+.ant-col {
+  padding-bottom: 12px;
+  padding-top:12px;
+
+}
+
+::ng-deep .ant-tabs-nav-wrap {
+  padding-top: 8px  !important;
+}
+.header-separator{
+  border-top: 1px solid #ccc !important;
+}
+nz-breadcrumb.mt-4.ant-breadcrumb {
+  padding-top: 0.75rem !important;
+}

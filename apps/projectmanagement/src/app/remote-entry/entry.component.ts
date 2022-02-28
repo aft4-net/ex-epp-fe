@@ -4,8 +4,7 @@ import { PermissionListService } from '../../../../../libs/common-services/permi
 import { CommonDataService } from '.././../../../../libs/common-services/commonData.service';
 @Component({
   selector: 'exec-epp-projectmanagement-entry',
-  template: ` <router-outlet></router-outlet>`,
-  styles: [``,],
+  template: ` <router-outlet></router-outlet>`
 })
 export class RemoteEntryComponent implements OnInit  {
   constructor(private permissionList: PermissionListService,

@@ -15,6 +15,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
 import { environment } from './../../../../libs/environments/environment';
+import { HeaderAnonymousComponent } from './components/header/header-anonymous/header-anonymous.component';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -30,6 +31,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
+    HeaderAnonymousComponent,
   ],
   imports: [
     BrowserModule,

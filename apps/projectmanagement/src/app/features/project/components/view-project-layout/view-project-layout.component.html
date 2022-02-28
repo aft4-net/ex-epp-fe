@@ -18,11 +18,11 @@
   </div>
   <hr>
 
-<section class="projects mb-2">
+<section class="projects ">
   <div *ngIf="authorize('View_Project')">
     <div nz-row >
       <div class="search">
-        <nz-input-group class="ml-1 w-76 h-9" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
+        <nz-input-group style="height: 33px; width: 320px;" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
           <input [formControl]="searchProject" type="text" nz-input placeholder="Search " />
         </nz-input-group>
         <ng-template #suffixIconSearch>
@@ -52,43 +52,42 @@
         <td>{{ data.ProjectStatus?.StatusName }}</td>
         <td>{{ data.Supervisor?.Name }} </td>
         <td>
-          <a (click)="assignResource(data)">  
+          <a (click)="assignResource(data)">
 
             <i *ngIf="authorize('View_Resources')"  nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline" style="color:black;"></i>
           </a>
-          &nbsp; 
+          &nbsp;
           <a *ngIf="authorize('Update_Project')" (click)="editProject(data)" nzTooltipTitle="Edit" >
             <i nz-icon nzType="edit" style="color:black;" ></i>
           </a>
-          &nbsp; 
+          &nbsp;
           <a   *ngIf="authorize('Delete_Project')" (click)="deleteProjectConformation(data)" >
             <i nz-icon nzType="delete" style="color:black;"></i>
           </a>
-  
+
         </td>
       </tr>
       </tbody>
     </nz-table>
 
-    <span nz-row   class="pagination flex justify-end mt-1 ">
+    <span   class="pagination flex justify-end  ">
       Showing {{pageIndex}} - {{totalPage}} of {{total}} entries
       <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
       </nz-pagination>
     </span>
   </div>
 </section>
+</div>
+<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="deleteProjectModal" nzTitle="Delete project" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+  nzClassName="delete-conform-modal">
 
-<nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="deleteProjectModal" [nzTitle]="confirmTile" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
-  nzClassName="conform-modal">
-
-  <ng-template #confirmTile>
-<i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i>   Delete project 
- </ng-template>
   <ng-container *nzModalContent>
-  <p> 
-    Are you sure to delete this project ? 
+  <p>
+    Are you sure to delete this project ?<br>
+    This action cannot be undone.
   </p>
-    <span class="flex justify-end">  
+ 
+    <span class="flex justify-end">
       <button   class="btn mr-8" (click)="deleteProject()">Yes,Delete</button>
       <button  class="btn-cancel " (click)="hidedeleteProjectModal()">Cancel</button>
     </span>

@@ -9,7 +9,6 @@ import { CustomFormModule } from '../forms/custom-form.module';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     PrimaryPageTemplateComponent,
     SecondaryPageTemplateComponent,
   ],

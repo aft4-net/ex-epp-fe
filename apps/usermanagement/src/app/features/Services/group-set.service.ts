@@ -47,6 +47,15 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
         catchError(this.errHandler.formatErrors)
       );
     }
+
+    CheckGroupNameExistance(groupName: string):Observable<ResponseDTO<boolean>> {
+      return this.http.get<ResponseDTO<any>>(`${libEnvironment.apiUrl}/GroupSet`+'/CheckGroupNameExistance?groupName' + groupName).pipe(
+        map((result: ResponseDTO<boolean>) => {
+          console.log(result);
+          return result;   
+        })
+      );
+    }
       
     SearchUsers(groupParams: GroupParams): Observable<PaginationResult<GroupSetModel[]>> {
       let params = new HttpParams(); 
@@ -132,5 +141,8 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
           return result;
         })
       )
+    }
+    isSuperAdmin(id:string) : Observable<any>{
+      return this.http.get<any>(this.baseUrl+"/IsSuperAdmin/?id="+id);
     }
 }

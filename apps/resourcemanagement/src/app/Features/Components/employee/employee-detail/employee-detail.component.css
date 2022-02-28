@@ -93,7 +93,7 @@ nz-table.table-container.ant-table-wrapper {
 }
 
 .ant-table-column-sorter:active {
-  color: #bfbfbf;
+  color: #00A551;
 
   transition: color .3s;
 }
