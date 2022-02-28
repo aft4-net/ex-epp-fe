@@ -1,7 +1,6 @@
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { DemoNgZorroAntdModule } from './../../../../libs/ng-zoro/ng-zorro-antd.module';
-import { EppdashboardComponent } from './features/components/eppdashboard/eppdashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -10,7 +9,6 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { RemoteEntryModule } from './remote-entry/entry.module';
 import { SiderComponent } from './components/application/sider/sider.component';
 import { PermissionComponent } from './features/components/permission/permission.component';
-import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 import { GroupsetComponent } from './features/components/groupset/groupset.component';
 import { GroupDetailComponent } from './features/components/group-detail/group-detail.component';
 import { AddUserComponent } from './features/components/user/add-user/add-user.component';
@@ -25,8 +23,7 @@ import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
 import { SharedModule } from './shared/modules/shared.module';
 //import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserManagementModule } from './modules/userManagment/user-management.module';
-import { LoginComponent } from './features/Account/user/login/login.component';
+//import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { ChangepasswordComponent } from './features/Account/changepassword/changepassword.component';
 import { RouterModule } from '@angular/router';
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
@@ -46,18 +43,18 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 @NgModule({
   declarations: [
     AppComponent,
-    EppdashboardComponent,
+    //EppdashboardComponent,
     HeaderComponent,
     SiderComponent,
     //SigninComponent,
     PermissionComponent,
-    UserDashboardComponent,
+    //UserDashboardComponent,
     GroupsetComponent,
     GroupDetailComponent,
     AddUserComponent,
     UserToGroupComponent,
     UserdetailsComponent,
-    LoginComponent,
+    //LoginComponent,
     ChangepasswordComponent,
     ForgotPasswordComponent,
     ResetpasswordComponent
@@ -75,7 +72,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     SharedModule,
     MsalModule,
     BrowserAnimationsModule,
-    UserManagementModule,
+    //UserManagementModule,
     RouterModule.forRoot([
 
     ], { initialNavigation: 'enabledBlocking' }),

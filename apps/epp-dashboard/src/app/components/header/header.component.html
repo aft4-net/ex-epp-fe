@@ -17,11 +17,11 @@
           <i nz-icon [nzType]="'bell'" [nzTheme]="'outline'" style="size: 20%;"></i>
         </nz-badge>
       </button>
-      <button nz-button class="userIcon" nz-primary nzDanger nzShape="circle"    nzPopoverTrigger="click" 
+      <button *ngIf="isLogin" nz-button class="userIcon" nz-primary nzDanger nzShape="circle"    nzPopoverTrigger="click" 
       nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
       <ng-template #contentTemplate>      
-        <div  nz-col>
-            <button nz-row style="border: none; color: black;"  nz-button nzType="default"  >
+        <div  nz-col *ngIf="isLogin">
+            <button  nz-row style="border: none; color: black;"  nz-button nzType="default"  >
                {{thefullName}}  | {{theGroup}}
             </button>
            
