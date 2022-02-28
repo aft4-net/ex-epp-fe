@@ -5,7 +5,6 @@
   <nz-form-control [nzSm]="controlConfig.nzSm" [nzXs]="controlConfig.nzXs" [nzErrorTip]="errMessage"
     nzHasFeedback>
     <nz-date-picker
-     [(ngModel)]="currentDate"
       class="excel-single-control"
       nzFormat="MM/dd/yyyy" [formControl]="myControl" nzPlaceHolder="MM/DD/YYYY"
     [nzDisabledDate]="disabledDate">

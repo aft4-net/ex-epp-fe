@@ -7,6 +7,7 @@ import { FormValidator } from '../../../../utils/validator';
 import { AuthenticationService } from 'libs/common-services/Authentication.service';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class LoginComponent {
   showPassword = false;
   loading = false;
   cposition = '';
+  forgotPasswordUrl = environment.redirectUri + '/usermanagement/forgotpassword'
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
@@ -115,12 +117,15 @@ export class LoginComponent {
           return;
         }
         let msg = error.error?.Message;
+        if(msg)
+        {
         msg = msg.length > 200? msg.substring(0, 200-1) + '...':msg;
         this.notification.showNotification({
           type: 'error',
           content: msg,
           duration: 5000,
         });
+      }
       }
     );
   }

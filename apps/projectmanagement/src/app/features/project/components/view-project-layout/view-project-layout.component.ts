@@ -221,6 +221,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   {
   this.projectResourceStateService.projectResources(data);
   }
+   
 
 
 

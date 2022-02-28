@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
+import { LoadingSpinnerService} from '../../../../../../libs/common-services/loading-spinner.service';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from 'libs/environments/environment';
 import { IntialdataService } from '../../services/intialdata.service';
@@ -12,10 +13,11 @@ import { IntialdataService } from '../../services/intialdata.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  isLogin = false;
   uemail: any;
   fullName: any;
   firsName:any;
-  middleName:any
+  middleName:any;
   thefullName = '';
   theGroup: any;
   redirectUrl = environment.redirectUri;
@@ -26,7 +28,9 @@ export class HeaderComponent implements OnInit {
     private authService: MsalService,
     private _authenticationService: AuthenticationService,
     private _router: Router,
-    private _intialdataService: IntialdataService
+    private _intialdataService: IntialdataService,
+    private loadingSpinnerService: LoadingSpinnerService,
+
   ) {
    this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName)
     this.thefullName = this.fullName;
@@ -37,6 +41,7 @@ export class HeaderComponent implements OnInit {
    this.firsName = namearray[0][0].toUpperCase();
    this.middleName = namearrays[0][0].toUpperCase();
    this.fullName = this.firsName + ' '+ this.middleName
+
     this.uemail = _authenticationService.getUserFullName();
   }
   getUser() {
@@ -48,10 +53,28 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+    this.isLogin = this._authenticationService.loginStatus();
+
   }
   routetoResourceManagement() {
+    this.loadingSpinnerService.messageSource.next(true);
     this._authenticationService.setFromViewProfile();
     this._router.navigate(['resourcemanagement']);
+    setTimeout(() => {   
+    this.loadingSpinnerService.messageSource.next(false);
+
+    }, 1500);
+
+    /*this.loadingSpinnerService.messageSource.subscribe((val)=>{
+      if(val == true){
+      this._authenticationService.setFromViewProfile();
+      this._router.navigate(['resourcemanagement']);
+      }
+
+    });*/
+
+
+
   }
 
   logout() {
