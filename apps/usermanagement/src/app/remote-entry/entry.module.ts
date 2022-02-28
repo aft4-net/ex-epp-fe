@@ -12,12 +12,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { PermissionComponent } from '../features/components/permission/permission.component';
 import { RemoteEntryComponent } from './entry.component';
-import { UserDashboardComponent } from '../features/components/user-dashboard/user-dashboard.component';
 import { UserdetailsComponent } from '../features/components/userdetails/userdetails.component';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import {UnauthorizeComponent} from '../../../../../libs/shared-components/src/lib/components/unauthorize/unauthorize.component'
 import { environment } from 'libs/environments/environment'
-import { LoginComponent } from '../features/Account/user/login/login.component';
 import { ChangepasswordComponent } from '../features/Account/changepassword/changepassword.component';
 import { DemoNgZorroAntdModule } from '../../../../../libs/ng-zoro/ng-zorro-antd.module';
 import { RouterModule, Routes } from '@angular/router';
@@ -37,11 +35,11 @@ export function MSALInstanceFactory(): IPublicClientApplication
         component: AppComponent,
         children : [
           {
-            path:'',component:UserDashboardComponent,
+            path:'',
+            loadChildren: () => import('../features/components/user-dashboard/user-dashboard.module').then(m=>m.UserDashboardModule),
             data: {
               breadcrumb: "Users"
             }
-
           },
           {
             path:'permission/:id',component:PermissionComponent,
@@ -49,12 +47,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
               breadcrumb: "Permission"
             }
           },
-          {
-            path:'user-dashboard',component:UserDashboardComponent,
-            data: {
-              breadcrumb: "Users"
-            }
-          },
+          
           {
             path:'userdetails/:id',component:UserdetailsComponent,
             data: {
@@ -87,7 +80,8 @@ export function MSALInstanceFactory(): IPublicClientApplication
         ]
       },
       {
-        path:'logIn', component:LoginComponent
+        path:'logIn', 
+        loadChildren: () => import('../features/Account/user/login/login.module').then(m=>m.LoginModule)
       },
       {
         path:'forgotpassword', component:ForgotPasswordComponent,
