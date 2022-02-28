@@ -37,7 +37,7 @@
       </ng-template>
 
       <div style="padding-left: 10px">
-        <div *ngFor="let item of permission.Childs">
+        <div *ngFor="let item of permission.Childs; let j = index">
           <label
             nz-checkbox
             [(ngModel)]="item.checked"
