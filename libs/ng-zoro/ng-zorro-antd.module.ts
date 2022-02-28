@@ -136,8 +136,6 @@ import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
     NzUploadModule
     // NzWaveModule,
     // NzResizableModule
-
-
    //SharedModule
   ]
 })

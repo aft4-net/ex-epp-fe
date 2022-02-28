@@ -167,7 +167,7 @@
       <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid" [nzLoading]="loading" 
        *ngIf="authorize('Add_User')" (click)="onSaveUser()">Add</button>
        &nbsp;
-      <button  nz-button nzType="default" [disabled]="userfrm.invalid"(click)="handleCancel()">Clear</button>
+      <button  nz-button nzType="default" [disabled]="userfrm.invalid || loadingOnSave"(click)="handleCancel()">Clear</button>
     </div>
 </form>
 
@@ -214,7 +214,7 @@
           {{ selectedGroups.length > 0 ? 'Update': 'Add' }}
       </button>
       &nbsp;
-      <button nz-button nzType="default" [disabled]="groupfrm.invalid" (click)="handleGroupCancel()">Clear</button>
+      <button nz-button nzType="default" [disabled]="groupfrm.invalid || loadingOnSaveGroup" (click)="handleGroupCancel()">Clear</button>
   </div>
 </form>
 
