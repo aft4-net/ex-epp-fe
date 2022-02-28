@@ -51,9 +51,7 @@ getUsers() {
     this.getUser();
     this._commonData.getPermission();   
     this.loadingSpinnerService.messageSource.subscribe((message) => {
-      console.log('------ --- -- -- -- - -11111');
-      console.log('Moa Message: ', message); // => Hello from child 1!
-      this.loading = message;
+    this.loading = message;
     });
   }
   getUser(){
@@ -65,7 +63,7 @@ getUsers() {
 
 
   routetoResourceManagement(){
-    this.loading = true;
+   // this.loading = true;
     console.log('jjjjj');
     console.log(this.loading);
     // setTimeout(() => { 

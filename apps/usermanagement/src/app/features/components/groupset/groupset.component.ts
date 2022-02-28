@@ -71,7 +71,7 @@ export class GroupsetComponent implements OnInit {
     .pipe(
       map(event => event.target.value),
       startWith(''),
-      debounceTime(3000),
+      debounceTime(2000),
       distinctUntilChanged(),
       switchMap( async (search) => {this.groupDashboardForm.value.groupName = search,
       this.SearchgroupsByName()

@@ -71,7 +71,7 @@ export class EmployeeDetailComponent implements OnInit {
     private _message: NzNotificationService,
     private modal: NzModalService,
     private route:ActivatedRoute,
-    private loadingSpinnerService: LoadingSpinnerService
+    //private loadingSpinnerService: LoadingSpinnerService
   ) {
    
     route.params.subscribe(val => {
@@ -150,7 +150,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.loadingSpinnerService.messageSource.next(true);
+    //this.loadingSpinnerService.messageSource.next(true);
 
     this.getfilterDataMenu();
 

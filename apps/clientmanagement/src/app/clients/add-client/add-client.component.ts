@@ -23,6 +23,7 @@ enableUpdateButton=true;
   addButtonClicked = false;
   contactDetailsTabEnabled = false;
   activeTabIndex = 0;
+  isLoading=false;
   locationTabEnabled = false;
   constructor(
     private router: Router,
@@ -150,7 +151,7 @@ enableUpdateButton=true;
       this.validateAddClientFormState?.clientContactsForm &&
       this.validateAddClientFormState?.clientContactsForm
     ) {
-
+     this.isLoading=true;
       this.clientService.addClient();
       setTimeout(() => {
         this.router.navigateByUrl('clientmanagement');
