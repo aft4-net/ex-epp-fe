@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject, from, BehaviorSubject } from 'rxjs';
 import { CountryService } from '../../services/country.service';
 import { Country } from './../../models/country';
-import { DutyStation } from './../../models/duty-station';
+import { DutyStation, DutyStationAndCountry } from './../../models/duty-station';
 import { DutyStationService } from './../../services/duty-station.service';
 
 @Component({
@@ -14,10 +14,12 @@ import { DutyStationService } from './../../services/duty-station.service';
 })
 export class DutyStationComponent implements OnInit {
   countries$: Observable<Country[]> = new Observable<Country[]>();
-  dutyStation$: Observable<DutyStation[]> = new Observable<DutyStation[]>();
-  addDutyStation: boolean = false;
-  isNew: boolean = true;
-  dutyStationId: string = "";
+  dutyStationSource = new BehaviorSubject<DutyStationAndCountry[]>([]);
+  dutyStation$ = this.dutyStationSource.asObservable();
+  dutyStationList: DutyStationAndCountry[] = [];
+  addDutyStation = false;
+  isNew = true;
+  dutyStationId = "";
   country: FormControl = new FormControl("");
   dutyStation: FormControl = new FormControl("");
 
@@ -28,23 +30,50 @@ export class DutyStationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCountries();
+      this.getDutyStation();
+  }
+
+  getDutyStation() {
+    this.countryService.get().subscribe(countries => {
+      if(!countries) {
+        return;
+      }
+
+      this.dutyStationList = [];
+
+      countries.forEach(country => {
+        this.dutyStationService.get(country.Guid).subscribe(dutyStations => {
+          if(!dutyStations) {
+            return;
+          }
+
+          this.dutyStationList.push(...dutyStations.map(ds => {
+            return {
+              Guid: ds.Guid,
+              CountryId: ds.CountryId,
+              Name: ds.Name,
+              CountryName: country.Name
+            } as DutyStationAndCountry
+          }));
+
+          if(countries.indexOf(country) === countries.length - 1) {
+            this.dutyStationSource.next([...this.dutyStationList]);
+          }
+          
+        })
+      });
+    }, error => {
+      console.log(error);
+    });
   }
 
   getCountries(){
     this.countries$ = this.countryService.get();
   }
 
-  getDutyStation() {
-    if(!this.country.value && this.country.value === "") {
-      return;
-    }
-
-    this.dutyStation$ = this.dutyStationService.get(this.country.value);
-  }
-
   updateModalState() {
     this.addDutyStation = !this.addDutyStation;
+    this.getCountries();
   }
   
   openModal() {
@@ -62,7 +91,7 @@ export class DutyStationComponent implements OnInit {
       return;
     }
 
-    let dutyStation: DutyStation = {
+    const dutyStation: DutyStation = {
       Guid: "00000000-0000-0000-0000-000000000000",
       CountryId: this.country.value,
       Name: this.dutyStation.value
@@ -75,7 +104,7 @@ export class DutyStationComponent implements OnInit {
           this.closeModal();
         }
       }, error => {
-
+        console.log(error);
       });
     }
     else {
@@ -85,7 +114,7 @@ export class DutyStationComponent implements OnInit {
           this.closeModal();
         }
       }, error => {
-
+        console.log(error);
       });
     }
   }
@@ -106,9 +135,7 @@ export class DutyStationComponent implements OnInit {
         nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
         nzOkText: 'Ok',
         nzOkType: 'primary',
-        nzOkDanger: true,
-      //  nzOnOk: () => this.deleteHandler(id),
-      //  nzCancelText: 'No'
+        nzOkDanger: true
       });
     }
     else{
@@ -124,7 +151,7 @@ export class DutyStationComponent implements OnInit {
             this.getDutyStation();
           }
         }, error => {
-         //
+          console.log(error);
         })
       },
       nzCancelText: 'No'
