@@ -19,8 +19,8 @@
       </button>
  
       <button nz-button class="userIcon" nz-primary nzDanger nzShape="circle"    nzPopoverTrigger="click" 
-      nz-popover nzPopoverTitle=""  nzPopoverPlacement= "right">{{fullName}} </button>
-      <ng-template >      
+      nz-popover nzPopoverTitle="" [nzPopoverContent]="contentTemplate" nzPopoverPlacement= "right">{{fullName}} </button>
+      <ng-template #contentTemplate>      
         <div  nz-col>
             <button nz-row style="border: none; color: black;"  nz-button nzType="default"  >
                {{thefullName}}  | {{theGroup}}
