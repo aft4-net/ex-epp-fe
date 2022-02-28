@@ -19,7 +19,7 @@ import { UserdetailsComponent } from './features/components/userdetails/userdeta
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
 import { environment } from '../../../../libs/environments/environment';
-import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
+//import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
 import { SharedModule } from './shared/modules/shared.module';
 //import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -70,7 +70,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     DemoNgZorroAntdModule,
     RemoteEntryModule, 
     SharedModule,
-    MsalModule,
+    //MsalModule,
     BrowserAnimationsModule,
     //UserManagementModule,
     RouterModule.forRoot([
@@ -80,7 +80,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   providers   : [
     { provide: NZ_I18N, useValue: en_US }, 
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
-    {provide: MSAL_INSTANCE, useFactory: MSALInstanceFactory},
+    //{provide: MSAL_INSTANCE, useFactory: MSALInstanceFactory},
      
   ],
  

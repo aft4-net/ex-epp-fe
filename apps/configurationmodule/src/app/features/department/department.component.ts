@@ -26,7 +26,7 @@ export class DepartmentComponent implements OnInit {
   idForEdit: string | null = null;
   searchTerm$ = new Subject<string>();
 
-  constructor(private departmentConfigService: DepartmentService, 
+  constructor(private departmentConfigService: DepartmentService,
     private notification:NzNotificationService,
    // private toastrService: ToastrService,
     private _permissionService:PermissionListService,
@@ -131,7 +131,7 @@ export class DepartmentComponent implements OnInit {
 
   showDeleteConfirm(id: string, name: string) {
     this.departmentConfigService.checkifDepartmentisDeletable(id).subscribe((res)=>{
-    
+
     if(res === true){
       this.modal.confirm({
         nzTitle: 'This Department can not be deleted b/c it is assigned to employee and/or job title',
@@ -142,7 +142,7 @@ export class DepartmentComponent implements OnInit {
       //  nzOnOk: () => this.deleteHandler(id),
       //  nzCancelText: 'No'
       });
-     
+
     }
     else{
     this.modal.confirm({
@@ -161,9 +161,9 @@ export class DepartmentComponent implements OnInit {
 
   deleteHandler(id: string) {
     this.departmentConfigService.deleteDepartment(id).subscribe((response) => {
-      this.notification.create(
-        'success',
-        'Successfully Deleted!',
+       this.notification.create(
+        response.responseStatus,
+        response.message,
         'Department'
       );
       //this.toastrService.success(response.message, "Department");

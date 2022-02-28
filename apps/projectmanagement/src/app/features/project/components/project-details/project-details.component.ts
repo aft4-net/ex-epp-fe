@@ -8,6 +8,7 @@ import {
 } from '../../../../core';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Component({
   selector: 'exec-epp-project-details',
   templateUrl: './project-details.component.html',
@@ -21,7 +22,9 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
   activeTabIndex = 0;
   cancelModal = false;
   forrmvalid = false;
+  isLoading=false;
   constructor(
+    private  notification: NzNotificationService,
     private router: Router,
     private projectService: ProjectService,
     private projectResourceStateService: ProjectResourceStateService,
@@ -71,6 +74,16 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
   }
 
   createProject() {
-    this.projectService.createProject();
+    this.isLoading=true;
+    this.projectService.createProject().subscribe(()=>{  
+        this.router.navigateByUrl('projectmanagement');
+        this.notification.success('Project Added successfully','');
+    },()=>
+      {
+        this.isLoading=false;
+        this.notification.error('Project Not saved','Please try again  ');
+      }
+    )
+
   }
 }
