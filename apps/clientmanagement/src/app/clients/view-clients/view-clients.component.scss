@@ -95,12 +95,7 @@ header {
   border: 1px solid #ddd !important;
 
 }
-::ng-deep  .ant-table-wrapper {
 
-  padding-left: 25px;
-  padding-right:25px;
-
-}
 
 .addButton {
   background-color: #00A551;
@@ -183,6 +178,11 @@ header {
 nz-breadcrumb.mt-4.ant-breadcrumb {
   padding-top: 0.75rem !important;
 }
+
+hr { display: block; height: 1px;
+  border: 0; border-top: 1px solid #ccc;
+  margin: 1em 0; padding: 0; }
+
 .header-separator{
   border-top: 1px solid #ccc !important;
 }

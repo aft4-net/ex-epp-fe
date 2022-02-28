@@ -11,6 +11,7 @@
 
     <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
+  <hr>
  </header>
 
  <hr class="header-separator">
@@ -78,7 +79,7 @@
 
 
 
-<nz-table class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
+<nz-table style="padding: 0px 2%;" class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
 
 
   <thead>

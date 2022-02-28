@@ -1,7 +1,6 @@
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { Employee } from '@exec-epp/core-models';
 import { ErrHandleService } from './error-handle.service';
 import { Injectable } from '@angular/core';
 import { LogInRequest } from 'apps/usermanagement/src/app/models/user/logInRequest';
@@ -67,7 +66,8 @@ import { map } from 'rxjs/operators';
     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
    
      (response) => {
-      this.user=response;
+      this.useEmails=response;
+      console.log(this.useEmails + 'ZZZZZZZZZZZZZ')
       this.position  = response["EmployeeOrganization"]["Role"]["Name"];
       console.log(this.position + 'addUSerPosition')
       this.empGuid = response["Guid"];
@@ -82,15 +82,26 @@ import { map } from 'rxjs/operators';
 
    storeLoginUser(user:any){
 
-    window.sessionStorage.removeItem('name');
-    window.sessionStorage.removeItem('username');
-    window.sessionStorage.removeItem('isLogin');
-    window.sessionStorage.removeItem('email');
-    window.sessionStorage.removeItem('fromViewer');
-    window.sessionStorage.setItem("name",user.name);
-    window.sessionStorage.setItem("username",user.username);
-    window.sessionStorage.setItem('isLogin','true');
-    window.sessionStorage.setItem('fromViewer','false');
+    // window.sessionStorage.removeItem('name');
+    // window.sessionStorage.removeItem('username');
+    // window.sessionStorage.removeItem('isLogin');
+    // window.sessionStorage.removeItem('email');
+    // window.sessionStorage.removeItem('fromViewer');
+    // window.sessionStorage.setItem("name",user.name);
+    // window.sessionStorage.setItem("username",user.username);
+    // window.sessionStorage.setItem('isLogin','true');
+    // window.sessionStorage.setItem('fromViewer','false');
+    
+    /////////////////////////////////////////////////
+    localStorage.removeItem('name');
+    localStorage.removeItem('username');
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('email');
+    localStorage.removeItem('fromViewer');
+    localStorage.setItem("name",user.name);
+    localStorage.setItem("username",user.username);
+    localStorage.setItem('isLogin','true');
+    localStorage.setItem('fromViewer','false');
 
     //this.router.navigateByUrl('');
     //window.location.replace('http://localhost:4200');
@@ -99,10 +110,14 @@ import { map } from 'rxjs/operators';
 
    storeLoginUsers(users:any)
    {
-    window.sessionStorage.getItem('email');
-    window.sessionStorage.getItem('password');
-    window.sessionStorage.setItem('isLogin','true');
+   // window.sessionStorage.getItem('email');
+    //window.sessionStorage.getItem('password');
+    //window.sessionStorage.setItem('isLogin','true');
     //window.location.replace('http://localhost:4200');
+
+    localStorage.getItem('email');
+    localStorage.getItem('password');
+    localStorage.setItem('isLogin','true');
    }
    getEmail(){
      //return window.sessionStorage.getItem('username');
@@ -121,14 +136,18 @@ import { map } from 'rxjs/operators';
     return this.fullName
   }
    getUsersName(){
-    return  window.sessionStorage.getItem('username');
+    //return  window.sessionStorage.getItem('username');
+    return  localStorage.getItem('username');
   }
    getUsername(){
-    return window.sessionStorage.getItem('username');
+    //return window.sessionStorage.getItem('username');
+    return  localStorage.getItem('username');
   }
   isLogin(){
 
-   let result= window.sessionStorage.getItem('isLogin');
+   //let result= window.sessionStorage.getItem('isLogin');
+   let result = localStorage.getItem('isLogin')
+   console.log(result)
    if(!result){
      return false;
    }
@@ -137,13 +156,17 @@ import { map } from 'rxjs/operators';
    }
   }
    isFromViewProfile(){
-    return window.sessionStorage.getItem('fromViewer');
+    //return window.sessionStorage.getItem('fromViewer');
+    return localStorage.getItem('fromViewer');
   }
   setFromViewProfile(){
-    window.sessionStorage.setItem('fromViewer','true');
+    //window.sessionStorage.setItem('fromViewer','true');
+    localStorage.setItem('fromViewer','true');
+
   }
   setFromViewProfile2(){
-    window.sessionStorage.setItem('fromViewer','false');
+   // window.sessionStorage.setItem('fromViewer','false');
+    localStorage.setItem('fromViewer','false');
   }
 
   signIn(logInRequest: LogInRequest) {

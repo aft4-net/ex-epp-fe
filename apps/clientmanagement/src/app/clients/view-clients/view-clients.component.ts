@@ -128,6 +128,7 @@ _commonData.getPermission()
       duration: 1,
 
     });
+    //new FormControl(searchProject.value || '', [Validators.required, this.noWhitespaceValidator
 
   }
   DeleteClient(client:any){
@@ -431,6 +432,12 @@ _commonData.getPermission()
       }
     );
   }
+//   public noWhitespaceValidator(control: FormControl) {
+//     const isWhitespace = (control.value || '').trim().length === 0;
+//     const isValid = !isWhitespace;
+//     return isValid ? null : { 'whitespace': true };
+// }
+
   SearchData(): void {
     if (this.searchProject.value?.length > 1) {
       this.loading = true;
