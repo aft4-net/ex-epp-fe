@@ -101,7 +101,7 @@ goupPermissions:IPermissionModel[] = [];
           ...this.listOfPermistion,
           {
             Parent: this.parentPermission,
-            Childs: this.childPermissions,
+            Childs: this.childPermissions.sort((a, b)=> a.PermissionCode < b.PermissionCode?-1:1),
           },
         ];
         this.childPermissions = [];
