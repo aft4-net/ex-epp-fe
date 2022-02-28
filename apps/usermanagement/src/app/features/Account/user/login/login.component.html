@@ -42,7 +42,9 @@
     <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="signin()">
       Sign in
     </app-button>
+
   </form>
+   <a nz-button nzType="link" [href]="forgotPasswordUrl" class="btn-forgot-text">Forgot password?</a>
 
   <ng-template #passwordSuffixIcon>
     <i
