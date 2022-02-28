@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { AccountService } from '../../Services/logIn/account.service';
