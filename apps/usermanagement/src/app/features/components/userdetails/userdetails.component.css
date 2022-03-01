@@ -241,3 +241,7 @@
   background-color: white !important;
   color: #00a551;
 }
+
+.ant-avatar {
+  margin-top: -40px !important
+}

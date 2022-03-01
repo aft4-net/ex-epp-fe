@@ -79,7 +79,8 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this._authenticationService.loginCount = 0;
-    this.authService.logout();
+    localStorage.clear();
+    //this.authService.logout();
     window.sessionStorage.clear();
     window.location.reload();
   }

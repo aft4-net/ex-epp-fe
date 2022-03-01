@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-
+import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
+import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,10 +27,13 @@ export class CountryComponent implements OnInit {
   constructor(
     private countryService: CountryService,
     private countryListSerive: CountryListService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private commonDataService: CommonDataService,
+    private permissionListService: PermissionListService
   ) { }
 
   ngOnInit(): void {
+    this.commonDataService.getPermission();
     this.getCountries();
   }
 
@@ -129,7 +133,6 @@ export class CountryComponent implements OnInit {
           nzCancelText: 'No'
         });
       }
-
     });
   }
 
@@ -137,5 +140,9 @@ export class CountryComponent implements OnInit {
     this.isNew = true;
     this.countryId = "";
     this.country.setValue("");
+  }
+
+  authorize(key:string){
+    return this.permissionListService.authorizedPerson(key);
   }
 }
