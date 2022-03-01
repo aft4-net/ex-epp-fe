@@ -146,7 +146,7 @@ import { map } from 'rxjs/operators';
   isLogin(){
 
    //let result= window.sessionStorage.getItem('isLogin');
-   let result = localStorage.getItem('isLogin')
+   let result = localStorage.getItem('isLogin');
    console.log(result)
    if(!result){
      return false;

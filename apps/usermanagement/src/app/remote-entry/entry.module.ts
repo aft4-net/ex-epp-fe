@@ -24,7 +24,7 @@ import { DemoNgZorroAntdModule } from '../../../../../libs/ng-zoro/ng-zorro-antd
 import { RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from '../features/Account/forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from '../features/Account/resetpassword/resetpassword.component';
-
+import { AuthGuard } from '../../../../../libs/common-services/auth.guard'
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
@@ -36,7 +36,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
+    component: AppComponent, canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -50,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'permission/:id',
-        component: PermissionComponent,
+        component: PermissionComponent, canActivate: [AuthGuard],
         data: {
           breadcrumb: 'Permission',
         },
