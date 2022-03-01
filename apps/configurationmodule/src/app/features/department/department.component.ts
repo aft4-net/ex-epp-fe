@@ -162,8 +162,8 @@ export class DepartmentComponent implements OnInit {
   deleteHandler(id: string) {
     this.departmentConfigService.deleteDepartment(id).subscribe((response) => {
        this.notification.create(
-        response.responseStatus,
-        response.message,
+        'success',
+        'Successfully Deleted!',
         'Department'
       );
       //this.toastrService.success(response.message, "Department");
