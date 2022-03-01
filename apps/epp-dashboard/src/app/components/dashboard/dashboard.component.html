@@ -86,7 +86,7 @@
        </a>
       </ng-template>
     </div>
-    <div nz-col [nzSpan]="5" style="padding-top: 2%;" >
+    <div nz-col [nzSpan]="5" style="padding-top: 2%;" [hidden]="!hasSingleUserPermission && !hasSingleGroupPermission" >
       <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
         <nz-card-meta
         [nzTitle]="userTextTemplate"
