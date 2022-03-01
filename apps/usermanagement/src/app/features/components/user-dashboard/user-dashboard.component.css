@@ -332,11 +332,18 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
     color: black !important;
 }
 
-::ng-deep .right-footer .ant-btn-primary:hover {
+::ng-deep .ant-btn-primary, .ant-btn-primary:hover,
+          .ant-btn-primary:active, .ant-btn-primary:focus{
   background-color: #00A551 !important;
   border-color: #00A551 !important;
   color: white !important;
 }
+
+/* ::ng-deep .right-footer .ant-btn-primary:hover {
+  background-color: #00A551 !important;
+  border-color: #00A551 !important;
+  color: white !important;
+} */
 
 ::ng-deep .defaultcolor .ant-icon {
   color: #595959;
@@ -354,32 +361,26 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   text-align: right;
 }
 
-::ng-deep .addUserActions .ant-btn-primary[disabled]
-.ant-btn-primary[disabled]:hover
-.ant-btn-primary[disabled]:focus {
-  color: rgba(0,0,0,.25) !important;
-  border-color: #d9d9d9 !important;
-  background-color: #f5f5f5 !important;
+
+
+::ng-deep  .ant-btn-primary
+ {
+  color: white;
+  border-color: #00a551;
+  background-color: #00a551;
   text-shadow: none;
   box-shadow: none;
 }
-
-::ng-deep .addUserActions .ant-btn-primary
-.ant-btn-primary:hover
-.ant-btn-primary:focus
+::ng-deep .ant-btn-primary:hover,
+.ant-btn-primary:focus,
 .ant-btn-primary:active {
-  color: white !important;
-  border-color: #00a551 !important;
-  background-color: #00a551 !important;
-  text-shadow: none;
-  box-shadow: none;
+  background-color: #2fad6c;
+  border-color: #00a551;
 }
-
-
-::ng-deep .addUserActions .ant-btn[disabled]
-.ant-btn[disabled]:hover
-.ant-btn[disabled]:focus
-.ant-btn[disabled]:active {
+::ng-deep  .ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,
+.ant-btn-primary[disabled]:active {
   color: rgba(0,0,0,.25) !important;
   border-color: #d9d9d9 !important;
   background-color: #f5f5f5 !important;

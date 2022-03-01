@@ -73,9 +73,10 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   userListFullName : NzTableFilterList=[];
   fullName = '';
   loadingOnSave = false;
+  loadingOnSaveGroup = false;
   listOfColumns!: ColumnItem<IUserModel>[];
   confirmModal?: NzModalRef;
-  listOfColumnsUser: ColumnItem<IUserModel>[] = [
+   listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
       name: 'Name',
       sortOrder: null,
@@ -392,7 +393,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     this.fullName = fullName;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
-    this.loadingOnSave = true;
+    this.loadingOnSaveGroup = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
             this.groupList = r;
@@ -405,13 +406,13 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
-                    this.loadingOnSave = false;
+                    this.loadingOnSaveGroup = false;
                 },
                 (error: any) => {
                     console.log(error);
                 }
             );
-            this.loadingOnSave = false;
+            this.loadingOnSaveGroup = false;
         },
         (error: any) => {
             console.log(error);
@@ -422,7 +423,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
 onSaveGroups() {
 
   this.selectedGroups = [];
-  this.loadingOnSave = true;
+  this.loadingOnSaveGroup = true;
       const x = this.groupfrm.get('Groups').value;
 
       x.forEach((el: string) => {
@@ -434,14 +435,14 @@ onSaveGroups() {
         if( r.ResponseStatus == ResponseStatus.error)
        {
          this.onShowError('Some error has occured. Review your inputs and try again');
-         this.loadingOnSave = false;
+         this.loadingOnSaveGroup = false;
          return;
        }
           this.notifier.notify(
               NotificationType.success,
               'User has added to group successfully'
           );
-          this.loadingOnSave = false;
+          this.loadingOnSaveGroup = false;
           this.isGroupModalVisible = false;
           this.selectedGroups = [];
           this.groupfrm.reset();
@@ -461,9 +462,11 @@ handleGroupCancel() {
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
     this.loadingOnSave = false;
+    this.loadingOnSaveGroup = false;
   }
   onSaveUser()
   {
+
     if(this.selectedUserValue == null || '')
       this.onShowError('Select employee');
     this.loadingOnSave = true;
