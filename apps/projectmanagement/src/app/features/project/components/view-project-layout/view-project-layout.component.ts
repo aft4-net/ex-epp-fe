@@ -72,12 +72,11 @@ export class ViewProjectLayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  
 
         this.getfilterDataMenu();
         this.getCurrentUser();
         this.getProjects();
-    this.valuechangeSearchProject();
+        this.valuechangeSearchProject();
   }
 
   nzSortOrderChange(SortColumn: string, direction: string | null) {
