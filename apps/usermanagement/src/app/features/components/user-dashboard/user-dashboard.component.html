@@ -15,7 +15,7 @@
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-input-group style="height: 33px; width: 320px;" nzSearch [nzSuffix]="suffixIconButton">
-              <input  type="text" #userNameInput  formControlName="userName" nzSize="small" nz-input placeholder="Search" (onchange)="SearchUsersByUserName()"  />
+              <input  type="text" #userNameInput  formControlName="userName" nzSize="small" nz-input placeholder="Search by user name" (onchange)="SearchUsersByUserName()"  />
             </nz-input-group>
             <ng-template #suffixIconButton>
                 <i nz-icon nzType="search" (click)="SearchUsersByUserName()"></i>
