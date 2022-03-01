@@ -52,7 +52,6 @@ export class AddEditRoleComponent implements OnInit {
   }
 
   submitForm() {
-    this.closeModal.emit("close");
     if (this.isEdit) {
       this.updateForm();
     } else {
@@ -62,6 +61,7 @@ export class AddEditRoleComponent implements OnInit {
 
   saveForm() {
     if (this.roleForm.valid) {
+      this.closeModal.emit("close");
       this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
         this.update.emit("save");
         // this.closeModal.emit("close");
@@ -91,6 +91,7 @@ export class AddEditRoleComponent implements OnInit {
 
   updateForm() {
     if (this.roleForm.valid) {
+      this.closeModal.emit("close");
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
         .subscribe((response)=>{
           this.update.emit("update");
