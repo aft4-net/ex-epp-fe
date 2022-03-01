@@ -439,7 +439,11 @@ _commonData.getPermission()
 // }
 
   SearchData(): void {
-    if (this.searchProject.value?.length > 1) {
+    if (this.searchProject.value?.length > 1 ) {
+      const x = this.searchProject.value as string;
+      if(x.substring(x.length -1) === ' ') {
+        return;
+      }
       this.loading = true;
       this._clientservice
         .getWithPagnationResut(1, 10, this.searchProject.value)
