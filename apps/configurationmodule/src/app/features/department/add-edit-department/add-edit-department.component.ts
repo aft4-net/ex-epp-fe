@@ -46,7 +46,6 @@ export class AddEditDepartmentComponent implements OnInit {
   }
 
   submitForm() {
-    this.closeModal.emit("close");
     if (this.isEdit) {
       this.updateForm();
     } else {
@@ -56,6 +55,7 @@ export class AddEditDepartmentComponent implements OnInit {
 
   saveForm() {
     if (this.departmentForm.valid) {
+      this.closeModal.emit("close");
       this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
         this.update.emit("save");
         // this.closeModal.emit("close");
@@ -69,7 +69,7 @@ export class AddEditDepartmentComponent implements OnInit {
         this.notification.create(
           'error',
           'Error!',
-          error
+          error.message
         );
         console.log(error);
       });
@@ -85,6 +85,7 @@ export class AddEditDepartmentComponent implements OnInit {
 
   updateForm() {
     if (this.departmentForm.valid) {
+      this.closeModal.emit("close");
       this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
         .subscribe((response)=>{
           this.update.emit("update");
