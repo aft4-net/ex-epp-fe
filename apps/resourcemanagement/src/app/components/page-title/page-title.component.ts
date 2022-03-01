@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 export class PageTitleComponent implements OnInit {
   @Input() title = 'Personal Detail'
   save = 'Save';
+  isClicked = false;
 
   constructor(
     private _formGenerator: FormGenerator,
@@ -54,6 +55,7 @@ export class PageTitleComponent implements OnInit {
   }
 
   saveNext() {
+
     if (!this._formGenerator.personalDetailsForm.valid) {
       this.notification.create("error",'Employee Registration','Please enter a valid Personal detail!');
       this._formGenerator.errorMessageforPersonalDetails(
@@ -71,16 +73,19 @@ export class PageTitleComponent implements OnInit {
         'resourcemanagement/employee/add-employee/Organization-Detail',
       ]);
     } else {
+      this.isClicked = true;
       if (this._employeeService.isEdit) {
         this._formGenerator.updateOneEmployee();
         setTimeout(() => {
           this._employeeService.sendempphoto();
+          this.isClicked=false;
           this._router.navigate(['resourcemanagement']); //.then(() => {
         }, 1000);
       } else {
         this._formGenerator.save();
         setTimeout(() => {
           this._employeeService.sendempphoto();
+          this.isClicked=false;
           this._router.navigate(['resourcemanagement']); //.then(() => {
         }, 1000);
       }

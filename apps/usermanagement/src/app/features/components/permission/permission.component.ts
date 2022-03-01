@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import {AllPermitionData,IPermissionModel,IPermissionResponseModel,} from '../../Models/User/Permission-get.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
 import { PermissionService } from '../../Services/permission/permission.service';
+import { fromEvent } from 'rxjs';
 
 export interface GroupCheckBoxItem {
   label: string;
@@ -42,6 +43,9 @@ export class PermissionComponent implements OnInit {
 goupPermissions:IPermissionModel[] = [];
   selectedPermissionList: SelecttedPermission[] = [];
   groupId: any;
+  @ViewChild('myDIVName') myDIVName: any;
+  disableOutsideClick = true;
+
   constructor(
     public _commonData:CommonDataService,
     private _notification: NzNotificationService,
@@ -340,6 +344,10 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
 
 
   }
+
+  
+
+
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
       let found=false;
@@ -439,6 +447,21 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
 
     this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
   }
+
+  showModal(): void {
+    this.isLoding = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isLoding = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isLoding = false;
+  }
+
   checkWhileAllSelected(){
    let interm=0;
    let check=0;
