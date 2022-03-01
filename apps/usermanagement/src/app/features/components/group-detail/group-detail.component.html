@@ -151,11 +151,12 @@
                     </tr>
                   </tbody>
               </nz-table>
-              <div class="pagination"  nz-row nzJustify="end" *ngIf="groupUserList.length > 0">
-                <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
-                <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-                  nzSimple (nzPageIndexChange)="GroupUsersPageIndexChange($event)"></nz-pagination>
-              </div>
+             <div class="pagination"  nz-row nzJustify="end" *ngIf="groupUserList.length > 0">
+                  <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
+                  <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+                    nzSimple (nzPageIndexChange)="GroupUsersPageIndexChange($event)"></nz-pagination>
+                </div>
+         
           </div>
           <div nz-col nzSpan="8">
               <div class="permissionlist">

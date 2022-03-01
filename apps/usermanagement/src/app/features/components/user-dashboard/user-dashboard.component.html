@@ -25,7 +25,7 @@
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24" class="userlist">
-              <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table [nzLoading]="loading" nzSize="small" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
                 <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
