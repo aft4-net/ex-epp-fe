@@ -192,5 +192,10 @@ hr { display: block; height: 1px;
 }
 ::ng-deep .main-content {
   padding-top: 16px !important;
+
+}
+
+::ng-deep body {
+  overflow: hidden;
 }
 
