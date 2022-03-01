@@ -7,20 +7,15 @@
                   {{groupDetail?.Name}}
               </h2>
           </div>
-          <div nz-col nzSpan="8" style="text-align: left; margin-left:-70px">
+          <div nz-col nzSpan="8" style="text-align: center;">
               <nz-space>
-                <div style="padding-left: 5px;">
-                  <button class="defaultButton" nz-button nzType="default" (click)="ShowAddUserToGroupModal()">
-                   Add Members
-                  </button>
-                </div>
                 <div *ngIf="authorize('Update_Group')" style="padding-left: 5px;">
-                  <button class="defaultButton" nz-button nzType="default" (click)="EditGroupDescription()">
+                  <button class="defaultButton"  nz-button nzType="default" (click)="EditGroupDescription()">
                       Edit Descriptions
                   </button>
                 </div>
-                <div *ngIf="authorize('Delete_Group')" style="padding-left: 5px;">
-                  <button class="defaultButton" nz-button nzType="default" (click)="createGroupDeleteModal()" >
+                <div *ngIf="authorize('Delete_Group') || authorize('Update_Group')" style="padding-left: 5px;">
+                  <button class="defaultButton"    nz-button nzType="default" (click)="createGroupDeleteModal()" >
                     Delete Group
                 </button>
                 </div>
@@ -84,7 +79,7 @@
           <div nz-col nzSpan="8"></div>
         </div> -->
         <br/>
-        <div nz-row  style="margin-top:-30px">
+        <div nz-row>
           <div nz-col nzSpan="16">
               <!-- <div nz-row>
                   <div nz-col nzSpan="20">
@@ -97,7 +92,9 @@
                       <label class="UserCountPerGroup">{{totalRecord}}</label> 
                   </div> -->
                   <div class="addMembers" nz-col style="text-align: right;"  nzSpan="24">
-                    
+                    <button *ngIf="authorize('Update_Group')" class="defaultButton" nz-button nzType="default" (click)="ShowAddUserToGroupModal()">
+                        Add Members
+                    </button>
                     <nz-modal [(nzVisible)]="isAddToGroupVisible" nzTitle="Add members to group"
                     [nzContent]="addUserToGroupmodalContent" [nzFooter]="null" (nzOnCancel)="CloseAddUserToGroup()">
                       <ng-template #addUserToGroupmodalContent>
@@ -121,52 +118,51 @@
                   </nz-modal>                  
                 </div> 
               </div>
-              <div>
-                <nz-table #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupUserList" 
-                    nzTableLayout="auto" nzSize="small" style="margin-top:-20px">
-                    <div *ngIf="groupUserList.length > 0; else normalHeader">
-                      <thead>
-                        <tr>
-                          <th class="tdstyle defaultcolor" style="font-weight: bold;"  *ngFor="let column of listOfColumn"
-                              [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                              [nzSortDirections]="column.sortDirections">{{column.title}}</th>
-                          <th class="tdstyle" style="font-weight: bold;">Options</th>
-                        </tr>
-                      </thead>
-                    </div>
-                    <ng-template #normalHeader>
-                      <thead>
-                        <tr>
-                          <th class="tdstyle" style="font-weight: bold;">Name</th>
-                          <th class="tdstyle" style="font-weight: bold;">Action</th>
-                        </tr>
-                      </thead>
-                    </ng-template>
-                    <tbody>
-                      <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;">
-                        <td class="tdstyle">{{user.FullName}}</td>
-                        <td>
-                            <button class="removeButton" style="margin-left:-7px" nz-button [nzSize]="size" nzType="link" 
-                            (click)="createGroupMemeberDeleteModal(user.Guid)">
-                              Remove
-                            </button>
-                        </td>
+              <br>
+              <nz-table nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupUserList" 
+                  nzTableLayout="auto">
+                  <div *ngIf="groupUserList.length > 0; else normalHeader">
+                    <thead>
+                      <tr>
+                        <th class="tdstyle defaultcolor" style="font-weight: bold;"  *ngFor="let column of listOfColumn"
+                            [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                            [nzSortDirections]="column.sortDirections">{{column.title}}</th>
+                        <th class="tdstyle" style="font-weight: bold;">Options</th>
                       </tr>
-                    </tbody>
-                </nz-table>
-                <div class="pagination"  nz-row nzJustify="end" *ngIf="groupUserList.length > 0">
+                    </thead>
+                  </div>
+                  <ng-template #normalHeader>
+                    <thead>
+                      <tr>
+                        <th class="tdstyle" style="font-weight: bold;">Name</th>
+                        <th class="tdstyle" style="font-weight: bold;" *ngIf="authorize('Delete_Group')">Action</th>
+                      </tr>
+                    </thead>
+                  </ng-template>
+                  <tbody>
+                    <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;">
+                      <td class="tdstyle">{{user.FullName}}</td>
+                      <td>
+                          <button *ngIf="authorize('Update_Group')" class="removeButton" style="margin-left:-7px" nz-button [nzSize]="size" nzType="link" 
+                          (click)="createGroupMemeberDeleteModal(user.Guid)">
+                            Remove
+                          </button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </nz-table>
+             <div class="pagination"  nz-row nzJustify="end" *ngIf="groupUserList.length > 0">
                   <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
                   <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
                     nzSimple (nzPageIndexChange)="GroupUsersPageIndexChange($event)"></nz-pagination>
                 </div>
-              </div>
-              
+         
           </div>
           <div nz-col nzSpan="8">
               <div class="permissionlist">
                   <div class="title-holder">
                       <p class="TabTitleStyle">Group Permissions</p>
-                      <a routerLink="/usermanagement/permission/{{groupId}}" *ngIf="authorize('Create_Group')">
+                      <a routerLink="/usermanagement/permission/{{groupId}}" *ngIf="authorize('Update_Group')">
                       <button class="editPermissionButton" nz-button [nzSize]="size" nzType="link" >
                       Edit group's access
                         </button>

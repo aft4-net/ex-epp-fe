@@ -13,7 +13,7 @@
 <div class="justify-between mb-3" nz-row>
   <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>
 
-  <div *ngIf="isOnEditstate" class="tab-title"> {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
+  <div *ngIf="isOnEditstate" style=" font-size: '22px'; " > {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
   <div>
     <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
       Assign resources
