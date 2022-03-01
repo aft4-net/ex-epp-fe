@@ -164,7 +164,7 @@
         </div>
     </div>
     <div class="addUserActions" style="margin-left:-8px">
-      <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid" [nzLoading]="loading" 
+      <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid || loadingOnSave" [nzLoading]="loading" 
        *ngIf="authorize('Add_User')" (click)="onSaveUser()">Add</button>
        &nbsp;
       <button  nz-button nzType="default" [disabled]="userfrm.invalid || loadingOnSave"(click)="handleCancel()">Clear</button>
