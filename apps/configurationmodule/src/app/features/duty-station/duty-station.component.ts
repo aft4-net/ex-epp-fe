@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Observable, of, Subject, from, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { CountryService } from '../../services/country.service';
 import { Country } from './../../models/country';
 import { DutyStation, DutyStationAndCountry } from './../../models/duty-station';
@@ -82,11 +82,11 @@ export class DutyStationComponent implements OnInit {
 
   openModal() {
     this.addDutyStation = true;
+    this.getCountries();
   }
 
   closeModal() {
     this.addDutyStation = false;
-
     this.clearData();
   }
 
@@ -168,6 +168,7 @@ export class DutyStationComponent implements OnInit {
     this.isNew = true;
     this.dutyStationId = "";
     this.dutyStation.setValue("");
+    this.country.setValue("");
   }
 
   authorize(key: string) {
