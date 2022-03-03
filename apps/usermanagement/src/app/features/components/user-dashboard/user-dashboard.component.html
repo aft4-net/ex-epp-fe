@@ -7,7 +7,7 @@
             Users
           </h2></div>
           <div  nz-col nzSpan="12" style="text-align: right;">
-            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" *ngIf="authorize('Add_User')" (click)="onAddUser()">
+            <button nz-button [nzSize]="'large'" nzType="primary" class="ant-btn-primary" *ngIf="authorize('Add_User')" (click)="onAddUser()">
               Add User
             </button>
           </div>
@@ -15,7 +15,7 @@
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-input-group style="height: 33px; width: 320px;" nzSearch [nzSuffix]="suffixIconButton">
-              <input  type="text" #userNameInput  formControlName="userName" nzSize="small" nz-input placeholder="Search" (onchange)="SearchUsersByUserName()"  />
+              <input  type="text" #userNameInput  formControlName="userName" nzSize="small" nz-input placeholder="Search by user name" (onchange)="SearchUsersByUserName()"  />
             </nz-input-group>
             <ng-template #suffixIconButton>
                 <i nz-icon nzType="search" (click)="SearchUsersByUserName()"></i>
@@ -86,12 +86,12 @@
                         </button>
                     </td>
                     <ng-template #contentTemplate>
-                      <div>
+                      <div *ngIf="authorize('View_User') || authorize('Update_User') || authorize('Delete_User') "> 
                         <nz-space nzDirection="vertical">
                           <button class="actionButtons tdstyle"  [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons tdstyle" *ngIf="authorize('Add_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
+                          <button class="actionButtons tdstyle" *ngIf="authorize('Update_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
                           <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
@@ -164,10 +164,10 @@
         </div>
     </div>
     <div class="addUserActions" style="margin-left:-8px">
-      <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid" [nzLoading]="loading" 
+      <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid || loadingOnSave" [nzLoading]="loading" 
        *ngIf="authorize('Add_User')" (click)="onSaveUser()">Add</button>
        &nbsp;
-      <button  nz-button nzType="default" [disabled]="userfrm.invalid"(click)="handleCancel()">Clear</button>
+      <button  nz-button nzType="default" [disabled]="userfrm.invalid || loadingOnSave"(click)="handleCancel()">Clear</button>
     </div>
 </form>
 
@@ -214,7 +214,7 @@
           {{ selectedGroups.length > 0 ? 'Update': 'Add' }}
       </button>
       &nbsp;
-      <button nz-button nzType="default" [disabled]="groupfrm.invalid" (click)="handleGroupCancel()">Clear</button>
+      <button nz-button nzType="default" [disabled]="groupfrm.invalid || loadingOnSaveGroup" (click)="handleGroupCancel()">Clear</button>
   </div>
 </form>
 

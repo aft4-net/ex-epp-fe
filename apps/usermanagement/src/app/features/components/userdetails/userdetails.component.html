@@ -3,7 +3,7 @@
 
   <div>
     <h2 class="font-bold azk">Account</h2>
-    <form [formGroup]="userdetail" nzSpan="24" *ngIf="authorize('User_Management_Admin')">
+    <form [formGroup]="userdetail" nzSpan="24">
       <div nz-row>
         <div class="user-detail" style="margin-left: 3px;">
           <div class="user-detail-upper">
@@ -46,14 +46,14 @@
                 </div>
               </div>
               <div nz-col class="gutter-row" nzSpan="2">
-                <div class="resetPassword">
+                <div class="resetPassword" *ngIf="authorize('Update_User')">
                   <a nz-button nzType="link" (click)="resetPassword()">
                     Reset Password</a>
                 </div>
             </div>
             </div>
             <div style="margin-top:-10px">
-             <a (click)="UpdateStatus()">
+             <a (click)="UpdateStatus()" *ngIf="authorize('Update_User')">
               <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
               ></nz-switch>
               </a>

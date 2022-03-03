@@ -128,10 +128,7 @@ else{
 
     });
   }
-  // resetUpdateButton()
-  // {
-  //   this.updateClientState.updateButtonListener=true;
-  // }
+
   setValue(){
     if(this.updateClientState.isEdit && this.updateClientState.UpdateClientData!==null)
     {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Routes, } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
 import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
 import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
@@ -27,7 +28,9 @@ activePath(routePath: string) {
   return this.route == routePath;
 }
 
-constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService, 
+constructor(public _commonData:CommonDataService,
+  private _authenticationService:AuthenticationService, 
+  private _permissionService: PermissionListService,
    private router: Router, private authService: MsalService){
   this._commonData.getPermission();
 }
@@ -56,4 +59,13 @@ ngAfterContentInit() {
 isLoggedIn(): boolean {
   return this.authService.instance.getActiveAccount() != null;
 }
+get hasSingleGroupPermission() :boolean
+{
+  return this._permissionService.hasSingleGroupPermission;
 }
+get hasSingleUserPermission() :boolean
+{
+  return this._permissionService.hasSingleUserPermission;
+}
+}
+
