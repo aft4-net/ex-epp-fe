@@ -284,7 +284,7 @@ AddToGroup()  {
           type: 'primary',
           danger: false,
           onClick: () => {
-            this.deleteItem(guid,name);
+            this.deleteItem(guid);
             modal.destroy()
           }
         },
@@ -296,11 +296,11 @@ AddToGroup()  {
     });
   }
 
-  deleteItem(guid: string | null,name:string|null) {
+  deleteItem(guid: string | null) {
     const groupName:string | undefined = this.getGroupName(name);
     const id = guid ? guid : '';
     this.userDetailService.deleteGroupFromUser(id).subscribe(
-      () => {
+      (rs)  => {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
