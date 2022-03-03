@@ -593,8 +593,18 @@ getLocations(){
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
+
     this.allClients = res.data;
-    this.salesPerson=[...new Set(this.allClients.map(item => item.SalesPerson.Name))];
+    if(this.allClients!=null)
+    {
+      for (let i=0;i<this.allClients.length;i++)
+      {
+        if(this.allClients[i].SalesPerson)
+        this.salesPerson.push(this.allClients[i].SalesPerson.Name);
+      }
+     
+    }
+    
     this.clientStatus = [...new Set(this.allClients.map(item => item.ClientStatusName))];
     this.initializeData();
       });
@@ -602,7 +612,11 @@ fetchAllData(){
 }
 getSalesPerson(){
   this.employeeService.getAll().subscribe((response: Employee[]) => {
-    this.employees = response;
+    if(response!=null)
+    {
+      this.employees = response;
+    }
+   
   })
 }
   search(
@@ -659,6 +673,6 @@ getSalesPerson(){
       this.total=this.totalRecordBackup;
     }
 
-    // console.log(data);
+   
   }
 }
