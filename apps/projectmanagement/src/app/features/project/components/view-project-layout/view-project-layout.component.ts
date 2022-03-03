@@ -164,7 +164,7 @@ export class ViewProjectLayoutComponent implements OnInit {
         this.SortColumn,
         this.sortDirection
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         this.projects = response.data;
         this.pageIndex = response.pagination.pageIndex;
         this.pageSize = response.pagination.pageSize;
@@ -174,7 +174,7 @@ export class ViewProjectLayoutComponent implements OnInit {
         if (Object.keys(response.pagination.filter).length != 0) {
           this.cleints = response.pagination.filter.clientNameFliter;
           this.supervisors = response.pagination.filter.supervisorFilter;
-          this.statuses = response.pagination.filter.projectStatusFliter;
+          this.statuses = response.pagination?.filter.projectStatusFliter;
         }
         this.loading = false;
       });
