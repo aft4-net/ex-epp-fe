@@ -366,6 +366,7 @@ AddToGroup()  {
     }
     resetPassword()
     {
+      alert(this.userdetailInfo.Email);
       this.accountService.resetPassword(this.userdetailInfo.Email)
       .subscribe(()=>{
         this.notification.showNotification({
