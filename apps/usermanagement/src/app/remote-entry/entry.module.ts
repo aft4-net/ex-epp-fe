@@ -36,21 +36,21 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent, canActivate: [AuthGuard],
+    component: AppComponent,
     children: [
       {
-        path: '',
+        path: '', 
         loadChildren: () =>
           import(
             '../features/components/user-dashboard/user-dashboard.module'
           ).then((m) => m.UserDashboardModule),
         data: {
           breadcrumb: 'Users',
-        },
+        }
       },
       {
         path: 'permission/:id',
-        component: PermissionComponent, canActivate: [AuthGuard],
+        component: PermissionComponent,
         data: {
           breadcrumb: 'Permission',
         },
