@@ -9,6 +9,7 @@ import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
 import { Router } from '@angular/router';
 import { environment } from "./../environments/environment";
 import { map } from 'rxjs/operators';
+import {  JwtHelperService } from "@auth0/angular-jwt";
 
 @Injectable({
     providedIn: 'root',
@@ -144,16 +145,21 @@ import { map } from 'rxjs/operators';
     return  localStorage.getItem('username');
   }
   isLogin(){
-
-   //let result= window.sessionStorage.getItem('isLogin');
-   let result = localStorage.getItem('isLogin');
-   console.log(result)
-   if(!result){
-     return false;
-   }
-   else{
-     return true;
-   }
+    const jwt = new JwtHelperService();
+    const loggeInUser = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
+    if(loggeInUser?.Token && !jwt.isTokenExpired(loggeInUser.Token))
+    return true;
+    else
+    return false;
+  //  //let result= window.sessionStorage.getItem('isLogin');
+  //  let result = localStorage.getItem('isLogin');
+  //  console.log(result)
+  //  if(!result){
+  //    return false;
+  //  }
+  //  else{
+  //    return true;
+  //  }
   }
    isFromViewProfile(){
     //return window.sessionStorage.getItem('fromViewer');
