@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import {AbstractControl,FormControl, FormGroup, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../../../Services/logIn/account.service';
 import { NotificationBar } from '../../../../utils/feedbacks/notification';
@@ -8,7 +13,6 @@ import { AuthenticationService } from 'libs/common-services/Authentication.servi
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { environment } from '../../../../../environments/environment';
-
 
 @Component({
   selector: 'exec-epp-app-login',
@@ -19,16 +23,17 @@ export class LoginComponent {
   showPassword = false;
   loading = false;
   cposition = '';
-  forgotPasswordUrl = environment.redirectUri + '/usermanagement/forgotpassword'
+  forgotPasswordUrl =
+    environment.redirectUri + '/usermanagement/forgotpassword';
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
       Validators.required,
     ]),
     password: new FormControl('', [
-      this.validator.validatePassword(),
+      //this.validator.validatePassword(),
       Validators.required,
-      Validators.minLength(8),
+      // Validators.minLength(8),
     ]),
   });
   get loginEmail(): AbstractControl | null {
@@ -39,42 +44,46 @@ export class LoginComponent {
   }
 
   loginWithMSAccount() {
-   
-    this.authService.loginPopup()
+    this.authService
+      .loginPopup()
       .subscribe((response: AuthenticationResult) => {
-       const data=   this.authService.instance.setActiveAccount(response.account);
-      
-       if(response.account?.username){
-        this._authenticationService.getLoggedInUserAuthToken(response.account?.username).subscribe(
-          (res) => {            
-            if(res.Data && res.Data.Token){
-              localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
-            }
-            this._authenticationService.storeLoginUser(response.account);
-            console.log(response.account);
-            this._authenticationService.hasData(true);
-            this.router.navigateByUrl('');
-          },
-          (error) => {
-            this.logout();
-            if ([401].includes(error.status)) {
-              this.notification.showNotification({
-                type: 'error',
-                content: "Unauthorized, please contact admin",
-                duration: 5000,
-              });
-            }
-          }
-        ); 
-        
-        
-       // window.location.reload();
-        //this.router.navigateByUrl('user-dashboard');
-       }
-       else{
-        this.router.navigateByUrl('usermanagement');
-       }
-        
+        const data = this.authService.instance.setActiveAccount(
+          response.account
+        );
+
+        if (response.account?.username) {
+          this._authenticationService
+            .getLoggedInUserAuthToken(response.account?.username)
+            .subscribe(
+              (res) => {
+                if (res.Data && res.Data.Token) {
+                  localStorage.setItem(
+                    'loggedInUserInfo',
+                    JSON.stringify(res.Data || '{}')
+                  );
+                }
+                this._authenticationService.storeLoginUser(response.account);
+                console.log(response.account);
+                this._authenticationService.hasData(true);
+                this.router.navigateByUrl('');
+              },
+              (error) => {
+                this.logout();
+                if ([401].includes(error.status)) {
+                  this.notification.showNotification({
+                    type: 'error',
+                    content: 'Unauthorized, please contact admin',
+                    duration: 5000,
+                  });
+                }
+              }
+            );
+
+          // window.location.reload();
+          //this.router.navigateByUrl('user-dashboard');
+        } else {
+          this.router.navigateByUrl('usermanagement');
+        }
       });
   }
 
@@ -83,32 +92,38 @@ export class LoginComponent {
     window.sessionStorage.clear();
     localStorage.removeItem('loggedInUserInfo');
     window.location.reload();
-}
+  }
 
   signin() {
     this.loading = true;
+    if (this.loginPassword?.value.length < 8)
+      this.notification.showNotification({
+        type: 'error',
+        content: 'Email or password is incorrect! Please try again',
+        duration: 5000,
+      });
+
     this._authenticationService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        if(res.Data && res.Data.Token){
-          localStorage.setItem('loggedInUserInfo', JSON.stringify(res.Data ||'{}'));
-        } 
+        if (res.Data && res.Data.Token) {
+          localStorage.setItem(
+            'loggedInUserInfo',
+            JSON.stringify(res.Data || '{}')
+          );
+        }
         this._authenticationService.storeLoginUsers(res.Data);
-        if(res.ResponseStatus.toString().toLowerCase() === 'info'){
+        if (res.ResponseStatus.toString().toLowerCase() === 'info') {
           this.router.navigateByUrl('usermanagement/changepassword');
-        } 
-        
-        else{
+        } else {
           window.location.replace(window.location.origin);
           this.router.navigateByUrl('');
           this.loading = false;
         }
-        
       },
       (error) => {
         this.loading = false;
         console.log(error);
-        if(error?.error?.Message === 'Unauthorized')
-        {
+        if (error?.error?.Message === 'Unauthorized') {
           this.notification.showNotification({
             type: 'error',
             content: 'Email or password is incorrect! Please try again',
@@ -117,15 +132,14 @@ export class LoginComponent {
           return;
         }
         let msg = error.error?.Message;
-        if(msg)
-        {
-        msg = msg.length > 200? msg.substring(0, 200-1) + '...':msg;
-        this.notification.showNotification({
-          type: 'error',
-          content: msg,
-          duration: 5000,
-        });
-      }
+        if (msg) {
+          msg = msg.length > 200 ? msg.substring(0, 200 - 1) + '...' : msg;
+          this.notification.showNotification({
+            type: 'error',
+            content: msg,
+            duration: 5000,
+          });
+        }
       }
     );
   }
@@ -135,12 +149,10 @@ export class LoginComponent {
   }
 
   constructor(
-   
     private router: Router,
     private notification: NotificationBar,
     private validator: FormValidator,
-    private authService: MsalService, 
-    private _authenticationService:AuthenticationService
+    private authService: MsalService,
+    private _authenticationService: AuthenticationService
   ) {}
-
 }

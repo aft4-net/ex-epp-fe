@@ -1,4 +1,6 @@
-<div style="padding-right: 20px; padding-bottom: 10px;">
+
+
+<div  style="padding-right: 20px; padding-bottom: 10px;" >
   <div style="padding-left: 10px; padding-top: 15px">
     <div style="float: right">
       <button nz-button class="cancel-button" (click)="cancelPermission()" >Cancel</button>
@@ -37,7 +39,7 @@
       </ng-template>
 
       <div style="padding-left: 10px">
-        <div *ngFor="let item of permission.Childs">
+        <div *ngFor="let item of permission.Childs; let j = index">
           <label
             nz-checkbox
             [(ngModel)]="item.checked"
@@ -50,3 +52,12 @@
     </nz-collapse-panel>
   </nz-collapse>
 </div>
+
+
+<nz-modal [nzVisible]="isLoding" nzTitle=" Updating Permissions ! " [nzClosable]="'false'"  nzClassName="permission-spinner">
+  <ng-container *nzModalContent>
+   <p>Please wait while permissions are being updated</p> 
+      <nz-spin [nzSpinning]="isLoding" nzSimple [nzSize]="'small'"  nzTip=""></nz-spin>
+ 
+  </ng-container>
+</nz-modal>

@@ -24,4 +24,19 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
           });
           return found;
       }
+      get hasSingleUserPermission()
+      {
+        return this.authorizedPerson('Add_User')
+        || this.authorizedPerson('Update_User')
+        || this.authorizedPerson('Delete_User')
+        || this.authorizedPerson('View_User')
+      }
+      get hasSingleGroupPermission()
+      {
+        return this.authorizedPerson('Create_Group')
+        || this.authorizedPerson('Update_Group')
+        || this.authorizedPerson('Delete_Group')
+        || this.authorizedPerson('View_Group')
+      }
+    
     } 

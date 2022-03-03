@@ -48,9 +48,10 @@ export class AccountService {
   changePassword(body: ChangePasswordRequest): Observable<any> {
     return this.http.put(`${environment.apiUrl}/User/ChangePassword`, body, {headers:this.header});
   }
-  resetPassword(body: ChangePasswordRequest): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/User/ResetPassword`,body, {headers:this.header});
+  resetPassword(email: string): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/User/ResetPassword?Email=${email}`, {headers:this.header});
   }
+  
   resetPasswordByUser(body: ChangePasswordRequest, token: string): Observable<any> {
     return this.http.put(`${environment.apiUrl}/User/ResetPasswordByUser?Token=${token}`,body, {headers:this.header});
   }
