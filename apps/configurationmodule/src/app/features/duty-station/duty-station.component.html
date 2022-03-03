@@ -1,20 +1,10 @@
-<div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">    
-    <h1>Country</h1>
-    <div class="flex flex-row justify-center content-between">
-        <div class="w-full m-0 mb-6">
-            <nz-select id="country" [formControl]="country" class="ml-8 w-80 h-9 rounded-sm border-gray-300" (ngModelChange)="getDutyStation()">
-                <nz-option *ngFor="let country of (countries$ | async)" nzValue="{{country.Guid}}" nzLabel="{{country.Name}}" class="font-normal text-base not-italic"></nz-option>
-            </nz-select>
-        </div>
+<div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">
+    <div class="flex flex-row justify-end content-between mb-7 text-center">
         <div class="config-add-button">
-            <button nz-button nzType="primary" (click)="updateModalState()" *ngIf="authorize('Create_DutyStation')">
+            <button nz-button nzType="primary" (click)="openModal()" *ngIf="authorize('Create_DutyStation')">
                 <span>Add Duty Station</span>
             </button>
         </div>
-
-        <ng-template #suffixIconSearch>
-            <i nz-icon nzType="search" nzTheme="outline" ></i>
-        </ng-template>
     </div>
 
     <div>
@@ -22,12 +12,14 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Country</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let dutyStation of dutyStationTable.data">
                     <td>{{ dutyStation.Name }}</td>
+                    <td>{{ dutyStation.CountryName }}</td>
                     <td>
                         <i nz-icon nzType="edit" nzTheme="outline" (click)="update(dutyStation)" *ngIf="authorize('Update_DutyStation')"></i>
                         <nz-divider nzType="vertical"></nz-divider>
@@ -39,9 +31,19 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="addDutyStation" nzTitle="Add Duty Station" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
+<nz-modal [(nzVisible)]="addDutyStation" nzTitle="Add Duty Station" [nzFooter]="null"
+    nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
     <ng-container *nzModalContent>
         <form (ngSubmit)="save()" class="flex flex-col">
+            <div class="w-full m-0 mb-2">
+                <label for="country">Country</label>
+                <div class="w-full m-0 mt-2">
+                    <nz-select id="country" [formControl]="country" class="w-full ml-8 h-9 rounded-sm border-gray-300">
+                        <nz-option *ngFor="let country of (countries$ | async)" nzValue="{{country.Guid}}"
+                            nzLabel="{{country.Name}}" class="font-normal text-base not-italic"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
             <div class="w-full m-0 mb-6">
                 <label for="Name">Name:</label>
                 <div class="m-0 mt-2">

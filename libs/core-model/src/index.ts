@@ -5,3 +5,4 @@ export * from './lib/project';
 export * from  './lib/Pagination';
 export * from './lib/PaginatedResult';
 export * from './lib/projectResourceRequirement';
+export * from './lib/country';
