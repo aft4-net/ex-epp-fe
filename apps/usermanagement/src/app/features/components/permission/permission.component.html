@@ -1,13 +1,13 @@
 <div style="padding-right: 20px; padding-bottom: 10px;">
   <div style="padding-left: 10px; padding-top: 15px">
     <div style="float: right">
-      <button nz-button class="cancel-button" (click)="cancelPermission()" >Cancel</button>
+      <button nz-button class="cancel-button" (click)="cancelPermission()">Cancel</button>
       <button nz-button class="button-style" [nzLoading]='isLoding' (click)="updatePermission()">
         Update Permissions
       </button>
     </div>
     <div>
-      <h3>Permissions</h3>
+      <h3>{{groupDetail?.Name}} Permissions</h3>
       <p>View and configure groups access.</p>
     </div>
   </div>

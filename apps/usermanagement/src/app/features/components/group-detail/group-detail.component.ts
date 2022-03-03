@@ -194,8 +194,9 @@ export class GroupDetailComponent implements OnInit {
     const groupId = this.groupDetail?.Guid;
      if(this.groupUserList.length > 0) {
       const modal: NzModalRef = this.modal.create({
-       nzTitle: 'This Group Can Not Be Deleted',
-       nzContent: 'This Group Can Not Be Deleted b/c there are users Assigned to the Group',
+       nzWidth:'400px',
+       nzTitle: 'Group Deletion',
+       nzContent: 'This group can not be deleted because there are users assigned to the group',
        nzFooter: [
         {
           label: 'Ok',
@@ -216,6 +217,7 @@ export class GroupDetailComponent implements OnInit {
     this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
       if(res == true){
        const modal: NzModalRef = this.modal.create({
+         nzWidth:'400px',
          nzTitle: 'Super Admin',
          nzContent: 'This Group Can Not Be Deleted',
          nzFooter: [
@@ -235,6 +237,7 @@ export class GroupDetailComponent implements OnInit {
       }
       else {
         const modal: NzModalRef = this.modal.create({
+        nzWidth:'400px',
         nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group?',
         nzContent: "Are you sure you want to delete the group? Deleting a group can't be undone" ,
         nzFooter: [
@@ -259,7 +262,7 @@ export class GroupDetailComponent implements OnInit {
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
     const modal: NzModalRef = this.modal.create({
-    nzWidth:'350px',
+    nzWidth:'400px',
     nzTitle: 'Remove user?',
     nzContent: 'Are you sure you want to remove user? This action can not be undone',
     nzFooter: [

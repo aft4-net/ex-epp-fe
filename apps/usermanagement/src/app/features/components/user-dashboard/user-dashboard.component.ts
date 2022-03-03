@@ -368,10 +368,10 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       this.loading = false;
     }
   }
+  
   onAddUser()
   {
     this.isUserModalVisible = true;
-
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;

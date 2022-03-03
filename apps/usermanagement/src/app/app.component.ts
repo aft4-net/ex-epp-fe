@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, } from '@angular/router';
+import { Router, Routes, } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
 import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
+import { UserDashboardComponent } from './features/components/user-dashboard/user-dashboard.component';
 interface RouteLinks {
   name: string;
   link: string;
@@ -19,7 +20,6 @@ export class AppComponent implements OnInit {
 isLogin=false;
 checker1= false;
 counter = 1;
-
 //user = this.accountService.userInfo;
 
 activePath(routePath: string) {
@@ -57,4 +57,3 @@ isLoggedIn(): boolean {
   return this.authService.instance.getActiveAccount() != null;
 }
 }
-

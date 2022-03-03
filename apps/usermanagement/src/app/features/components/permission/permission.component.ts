@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
 import { PermissionService } from '../../Services/permission/permission.service';
+import { GroupSetService } from '../../Services/group-set.service';
+import { GroupSetModel } from '../../Models/group-set.model';
 
 export interface GroupCheckBoxItem {
   label: string;
@@ -25,6 +27,7 @@ export interface SelecttedPermission {
 })
 export class PermissionComponent implements OnInit {
   permissionResponse?: IPermissionResponseModel;
+  groupDetail? : GroupSetModel;
   permissionData:any;
   parentPermission: any;
   onePermission: any;
@@ -41,6 +44,7 @@ export class PermissionComponent implements OnInit {
   listCheckBox: GroupCheckBoxItem[] = [];
 goupPermissions:IPermissionModel[] = [];
   selectedPermissionList: SelecttedPermission[] = [];
+  groupName : string | undefined;
   groupId: any;
   constructor(
     public _commonData:CommonDataService,
@@ -48,12 +52,18 @@ goupPermissions:IPermissionModel[] = [];
     private route: ActivatedRoute,
     private _permissionService: PermissionService,
     private notification: NotificationBar,
-    private router:Router
+    private router:Router,
+    private _groupSetService: GroupSetService
   ) {}
 
   ngOnInit(): void {
 
     this.groupId = this.route.snapshot.paramMap.get('id');
+    this._groupSetService.LoadGroupDeatil(this.groupId).subscribe (
+      (result : any) => {
+        this.groupDetail = result
+      }
+    );
     this._permissionService.goupPermissions.forEach(element => {
       this.selectedPermissionList = [
         ...this.selectedPermissionList,

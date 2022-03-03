@@ -39,7 +39,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'',component:UserDashboardComponent,
             data: {
-              breadcrumb: "Users"
+              breadcrumb: "Users Management"
             }
 
           },
@@ -52,7 +52,7 @@ export function MSALInstanceFactory(): IPublicClientApplication
           {
             path:'user-dashboard',component:UserDashboardComponent,
             data: {
-              breadcrumb: "Users"
+              breadcrumb: "Users Management"
             }
           },
           {

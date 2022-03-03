@@ -2,16 +2,23 @@
   <div *ngIf="isLogin" class="flex-2 sm:w-2/4 lg:w-1/4 ml-4 sm:mt-3 sm:mb-3 sm:ml-0">
     <nz-breadcrumb [nzAutoGenerate]="true" class="flex sm:contents">
       <nz-breadcrumb-item [routerLink]="['/']"><a>Home</a></nz-breadcrumb-item>
-      <nz-breadcrumb-item [routerLink]="['/usermanagement']"><a>Users</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item [routerLink]="['/usermanagement']"><a>Users Management</a></nz-breadcrumb-item>
+      <!-- <nz-breadcrumb-item [routerLink]="['/usermanagement']"><a>Users</a></nz-breadcrumb-item> -->
     </nz-breadcrumb>
-    <div class="w-auto h-7">
-      <h3 class="w-auto h-full font-semibold text-xl not-italic">Manage Users</h3>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="20" style="width:100%">
+        <h3 class="w-auto h-full font-semibold text-xl not-italic">Manage Users</h3>
     </div>
   </div>
+    <!-- <div class="w-auto h-7">
+     
+    </div>
+    <div class="w-auto h-21">
+      <h3 class="w-auto h-full font-semibold text-xl not-italic">Manage Users</h3>
+    </div> -->
 </div>
-
   <nz-layout class="inner-layout">
-
     <nz-sider *ngIf="isLogin" [style.box-shadow]="{'box-shadow': 'inset -2px 0px 0px #DADADA'}" nzWidth="228px"
       nzHight="715px" class="inner-side-bar" nzTheme="light">
       <ul nz-menu nzMode="inline" class="sider-menu">
@@ -21,10 +28,8 @@
         <li nz-menu-item [nzSelected]='activePath("/usermanagement/groups")'>
           <i nz-icon nzType="group" nzTheme="outline"></i> <a [routerLink]="['/usermanagement/group']">Groups</a>
         </li>
-       
       </ul>
     </nz-sider>
-
     <nz-content class="inner-content" nzWidth="978px" nzHeight="715px">
       <router-outlet></router-outlet>
     </nz-content>
