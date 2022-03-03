@@ -171,6 +171,7 @@ header {
 .pagination-text {
   font-size: 16px;
 }
+
 ::ng-deep .ant-spin-dot-item {
 
   background-color: #00A551 !important;
@@ -178,7 +179,6 @@ header {
 nz-breadcrumb.mt-4.ant-breadcrumb {
   padding-top: 0.75rem !important;
 }
-
 hr { display: block; height: 1px;
   border: 0; border-top: 1px solid #ccc;
   margin: 1em 0; padding: 0; }
@@ -198,3 +198,4 @@ hr { display: block; height: 1px;
 ::ng-deep body {
   overflow: hidden;
 }
+

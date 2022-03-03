@@ -93,7 +93,7 @@
         <div nz-col class="gutter-row" [nzSpan]="6">
           <nz-input-group style="height: 33px; width: 320px;" [nzSuffix] ="suffixIconButton">
             <input  type="text"  #searchInput formControlName="groupName" nzSize="large"
-             style="border: none;" nz-input placeholder="Search" (onchange)="SearchgroupsByName()" />
+             style="border: none;" nz-input placeholder="Search by name" (onchange)="SearchgroupsByName()" />
           </nz-input-group>
           <ng-template #suffixIconButton>
               <i nz-icon nzType="search" (click)="SearchgroupsByName()"></i>
