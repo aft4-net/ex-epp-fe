@@ -29,6 +29,8 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   configWeeklyTotalHour: number = 0;
   startingDateCriteria = startingDateCriteria
 
+  timesheetSubmitted = false;
+  timesheetApproved = false;
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
   timeSheetStatus = "not-submitted-enable";
@@ -81,12 +83,14 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     let timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+      this.timesheetSubmitted = true;
       for (let i = 0; i < this.timesheetApprovals.length; i++) {
         if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()) {
           break;
         }
 
         if (i === this.timesheetApprovals.length - 1) {
+          this.timesheetApproved = true;
           this.btnText = "Approved";
           this.timeSheetStatus = "submitted-class";
           return;
@@ -223,6 +227,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
         break;
     }
   }
+
   authorize(key: string){
     return this._permissionService.authorizedPerson(key);
   }

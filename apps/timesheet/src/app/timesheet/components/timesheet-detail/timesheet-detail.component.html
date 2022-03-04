@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<nz-drawer *ngIf="authorize('Edit_Timesheet')" [nzWrapClassName]="'timesheet-drawer'" [nzVisible]="drawerVisible" [nzClosable]="false" [nzMaskClosable]="true" (nzOnClose)="closeFormDrawer()">
+<nz-drawer *ngIf="authorize('Edit_TimeEntry')" [nzWrapClassName]="'timesheet-drawer'" [nzVisible]="drawerVisible" [nzClosable]="false" [nzMaskClosable]="true" (nzOnClose)="closeFormDrawer()">
     <div *nzDrawerContent class="mb-48">
         <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
             <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">
