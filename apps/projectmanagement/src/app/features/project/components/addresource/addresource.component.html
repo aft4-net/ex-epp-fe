@@ -13,7 +13,8 @@
 <div class="justify-between mb-3" nz-row>
   <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>
 
-  <div *ngIf="isOnEditstate" style=" font-size: '22px'; " > {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
+  <div *ngIf="isOnEditstate" style=" font-size: '22px'; "> {{  projectForResource?.ProjectName | titlecase }} -
+    Resources </div>
   <div>
     <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
       Assign resources
@@ -27,13 +28,14 @@
 
 </div>
 
-<nz-table [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="false"
+<nz-table [nzPageSize]="10" [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="true"
   [nzData]="projectResources" nzTableLayout="fixed">
   <thead>
     <tr>
       <th>Resource</th>
       <th>Assigned Date</th>
-      <th>Action</th>
+      <th *ngIf="!isOnEditstate">Action</th>
+      <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -67,6 +69,8 @@
     </tr>
   </tbody>
 </nz-table>
+
+
 
 <nz-modal class="resourceModal" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
   (nzOnCancel)="handleCancel()" [nzFooter]="null">

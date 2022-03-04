@@ -4,8 +4,12 @@ import { CommonDataService } from './../../../../../../libs/common-services/comm
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Observable } from 'rxjs';
-import { Country } from '../../models/country';
+import { map } from 'rxjs/operators';
+
+import { Country, SelectOption } from '../../models/country';
 import { CountryService } from '../../services/country.service';
+import { CountryListService } from './../../../../../../libs/common-services/country-list.service'
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-country',
@@ -16,11 +20,13 @@ export class CountryComponent implements OnInit {
   countries$: Observable<Country[]> = new Observable<Country[]>();
   addCountry = false;
   isNew = true;
+  countryList$ = new Observable<SelectOption[]>();
   countryId = "";
   country: FormControl = new FormControl("");
 
   constructor(
     private countryService: CountryService,
+    private countryListSerive: CountryListService,
     private modalService: NzModalService,
     private commonDataService: CommonDataService,
     private permissionListService: PermissionListService
@@ -41,6 +47,14 @@ export class CountryComponent implements OnInit {
   }
 
   openModal() {
+    this.countryList$ = this.countryListSerive.getCountry(environment.apiUrl).pipe(
+      map(res => res?.data ?? []),
+      map(data => {
+        return data.map(c => {
+          return {value: c.country, label: c.country} as SelectOption;
+        })
+      })
+    );
     this.addCountry = true;
   }
 
@@ -55,7 +69,7 @@ export class CountryComponent implements OnInit {
       return;
     }
 
-    let country: Country = {
+    const country: Country = {
       Guid: "00000000-0000-0000-0000-000000000000",
       Name: this.country.value
     };
@@ -67,7 +81,7 @@ export class CountryComponent implements OnInit {
           this.closeModal();
         }
       }, error => {
-
+        console.log(error);
       });
     }
     else {
@@ -77,7 +91,7 @@ export class CountryComponent implements OnInit {
           this.closeModal();
         }
       }, error => {
-
+        console.log(error);
       });
     }
   }
@@ -97,9 +111,7 @@ export class CountryComponent implements OnInit {
           nzContent: 'Name: <b style="color: red;">' + country.Name + '</b>',
           nzOkText: 'Ok',
           nzOkType: 'primary',
-          nzOkDanger: true,
-          //  nzOnOk: () => this.deleteHandler(id),
-          //  nzCancelText: 'No'
+          nzOkDanger: true
         });
       }
       else {
@@ -115,13 +127,12 @@ export class CountryComponent implements OnInit {
                 this.getCountries();
               }
             }, error => {
-              //
+              console.log(error);
             })
           },
           nzCancelText: 'No'
         });
       }
-
     });
   }
 
