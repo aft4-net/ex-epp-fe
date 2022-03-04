@@ -159,7 +159,7 @@ getCurrentUser(){
     // eslint-disable-next-line prefer-const
     this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
     const user = JSON.parse(this.loggedInUserInfo);
-    this.supervisorId = user['EmployeeGuid'];
+    this.supervisorId = user['EmployeeId'];
   }
 }
 getProjectsList() {
@@ -207,7 +207,7 @@ authorize(key:string){
         // eslint-disable-next-line prefer-const
         this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
         const user = JSON.parse(this.loggedInUserInfo);
-        this.supervisorId = user['EmployeeGuid'];
+        this.supervisorId = user['EmployeeId'];
       }
     }
 
@@ -224,7 +224,6 @@ authorize(key:string){
          this.weekG,
          this.sortG,
          this.statusG
-
       )
 
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
