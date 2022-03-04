@@ -27,7 +27,7 @@
                                 View Submision
                         </button>
                 </div>
-                <div *ngIf="authorize('Approve_Timesheet') || authorize('Reject_Timesheet')">
+                <div *ngIf="authorize('Approve_Timesheet') || authorize('Return_for_Review')">
                         <button [routerLink]="['/timesheet/timesheet-approval']" nzSize="large" nz-button>
                                 Approve Timesheet
                         </button>
