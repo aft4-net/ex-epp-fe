@@ -163,7 +163,7 @@
                   <div class="title-holder">
                       <p class="TabTitleStyle">Group Permissions</p>
                       <a routerLink="/usermanagement/permission/{{groupId}}" *ngIf="authorize('Update_Group')">
-                      <button class="editPermissionButton" nz-button [nzSize]="size" nzType="link" >
+                      <button *ngIf="isNotsuperAdmin" class="editPermissionButton" nz-button [nzSize]="size" nzType="link" >
                       Edit group's access
                         </button>
                       </a>
