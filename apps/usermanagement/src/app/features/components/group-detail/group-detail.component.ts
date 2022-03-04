@@ -84,7 +84,10 @@ export class GroupDetailComponent implements OnInit {
     }
   ];
 
+  isNotsuperAdmin = true;
+
   ngOnInit() {
+    
     this.createGroupDescriptionControls();
     this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -95,7 +98,20 @@ export class GroupDetailComponent implements OnInit {
     this._permissionService.Permission=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
+    this.disableEdit();
+
   }
+  
+  disableEdit(){
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+        this.isNotsuperAdmin = false;
+        console.log(res);
+        console.log("was");
+      }
+      });
+  }
+
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
       description: [[this.groupDetail?.Description],
