@@ -29,7 +29,7 @@ export class CountryListService {
     return this.http.get<CountryListResponse>(baseUrl + 'CountryList/iso', { params: params });
   }
 
-  getCountryAndStat(baseUrl: string, country?: string) {
+  getCountryAndState(baseUrl: string, country?: string) {
     let params = new HttpParams();
 
     if (country) {

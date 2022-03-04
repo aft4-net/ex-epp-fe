@@ -34,7 +34,7 @@ export class ViewProjectLayoutComponent implements OnInit {
     text: string;
     value: string;
   }[];
-  deleteProjectModal=false;
+  deleteProjectModal = false;
   editProjectPermission = false;
   searchProject = new FormControl();
   total = 0;
@@ -43,7 +43,7 @@ export class ViewProjectLayoutComponent implements OnInit {
   pageIndex = 1;
   totalPage!: number;
   searchKey = '';
- projectToDelete:Project={} as Project;
+  projectToDelete: Project = {} as Project;
   id!: string;
   clientlist: string[] = [];
   superVisorlist: string[] = [];
@@ -63,30 +63,25 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
 
   constructor(
-    private router: Router, 
-    private  projectResourceStateService:ProjectResourceStateService,
+    private router: Router,
+    private projectResourceStateService: ProjectResourceStateService,
     private editProjectStateService: EditProjectStateService,
     private permissionList: PermissionListService,
     private projectService: ProjectService,
     private notification: NzNotificationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
-        this.getfilterDataMenu();
-        this.getCurrentUser();
-        this.getProjects();
-        this.valuechangeSearchProject();
+    this.getProjects();
+    this.valuechangeSearchProject();
   }
 
   nzSortOrderChange(SortColumn: string, direction: string | null) {
     if (direction == 'ascend') {
       this.sortDirection = 'Ascending';
-    }
-    else if (direction == 'descend') {
+    } else if (direction == 'descend') {
       this.sortDirection = 'Descending';
-    }
-    else {
+    } else {
       this.sortDirection = null;
     }
     this.SortColumn = SortColumn;
@@ -107,7 +102,6 @@ export class ViewProjectLayoutComponent implements OnInit {
       const user = JSON.parse(this.loggedInUserInfo);
 
       this.id = user['EmployeeGuid'];
-
     }
   }
   valuechangeSearchProject() {
@@ -119,8 +113,7 @@ export class ViewProjectLayoutComponent implements OnInit {
         if (this.projects.length > 0) {
           this.loading = false;
           this.searchStateFound = true;
-        }
-        else {
+        } else {
           this.projects = [] as Project[];
           this.loading = false;
           this.total = 0;
@@ -130,8 +123,6 @@ export class ViewProjectLayoutComponent implements OnInit {
             nzPlacement: 'bottomLeft',
           });
         }
-
-
       } else {
         this.searchKey = '';
         this.getProjects();
@@ -159,41 +150,49 @@ export class ViewProjectLayoutComponent implements OnInit {
   }
   getProjects() {
     if (this.authorize('Projects_Admin')) {
-      this.id = ''
+      this.id = '';
     }
-    this.projectService.getWithPagnationResut(
-      this.pageIndex,
-      this.pageSize,
-      this.id,
-      this.clientlist,
-      this.superVisorlist,
-      this.statuslist,
-      this.searchKey,
-      this.SortColumn,
-      this.sortDirection
-    ).subscribe(response => {   
-      this.projects = response.data;
-      this.pageIndex = response.pagination.pageIndex;
-      this.pageSize = response.pagination.pageSize;
-      this.total = response.pagination.totalRecord;
-      this.totalPage = response.pagination.totalPage;
-      this.loading = false;
-    })
+    this.projectService
+      .getWithPagnationResut(
+        this.pageIndex,
+        this.pageSize,
+        this.id,
+        this.clientlist,
+        this.superVisorlist,
+        this.statuslist,
+        this.searchKey,
+        this.SortColumn,
+        this.sortDirection
+      )
+      .subscribe((response:any) => {
+        this.projects = response.data;
+        this.pageIndex = response.pagination.pageIndex;
+        this.pageSize = response.pagination.pageSize;
+        this.total = response.pagination.totalRecord;
+        this.totalPage = response.pagination.totalPage;
+
+        if (Object.keys(response.pagination.filter).length != 0) {
+          this.cleints = response.pagination.filter.clientNameFliter;
+          this.supervisors = response.pagination.filter.supervisorFilter;
+          this.statuses = response.pagination?.filter.projectStatusFliter;
+        }
+        this.loading = false;
+      });
   }
   editProject(data: Project) {
     this.editProjectStateService.editProjectState(data);
   }
 
-  deleteProjectConformation(data:Project)
-  {
-    this.projectToDelete=data;
-   this.deleteProjectModal=true;
+  deleteProjectConformation(data: Project) {
+    this.projectToDelete = data;
+    this.deleteProjectModal = true;
   }
 
   deleteProject() {
     this.loading = true;
-    this.deleteProjectModal=false;
-    this.projectService.deleteProjectByState(this.projectToDelete.Guid)
+    this.deleteProjectModal = false;
+    this.projectService
+      .deleteProjectByState(this.projectToDelete.Guid)
       .subscribe((result: any) => {
         if (result.success === true) {
           this.notification.success('Deleted', result.message);
@@ -204,28 +203,21 @@ export class ViewProjectLayoutComponent implements OnInit {
         }
         this.loading = false;
       });
-      this.projectToDelete={} as Project;
+    this.projectToDelete = {} as Project;
   }
-  hidedeleteProjectModal()
-  {
-    this.deleteProjectModal=false;
-    this.projectToDelete={} as Project;
+  hidedeleteProjectModal() {
+    this.deleteProjectModal = false;
+    this.projectToDelete = {} as Project;
   }
-  confirmCancel(){
-    this.deleteProjectModal=false;
+  confirmCancel() {
+    this.deleteProjectModal = false;
   }
 
-
-  assignResource(data:Project)
-  {
-  this.projectResourceStateService.projectResources(data);
+  assignResource(data: Project) {
+    this.projectResourceStateService.projectResources(data);
   }
-   
-
-
 
   addProjectPage() {
     this.router.navigateByUrl('projectmanagement/add-project');
   }
-
 }
