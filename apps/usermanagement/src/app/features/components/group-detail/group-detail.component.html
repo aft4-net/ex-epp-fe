@@ -2,13 +2,16 @@
   <nz-content>
       <div style="margin-top: -20px;" class="inner-content">
         <div nz-row>  
-          <div nz-col nzSpan="16">
+          <div nz-col nzSpan="10">
               <h2 class="PageHeader">
                   {{groupDetail?.Name}}
               </h2>
           </div>
-          <div nz-col nzSpan="8" style="text-align: center;">
+          <div nz-col nzSpan="14" style="text-align: right; margin-left:-60px">
               <nz-space>
+                <button *ngIf="authorize('Update_Group')" class="defaultButton" nz-button nzType="default" (click)="ShowAddUserToGroupModal()">
+                  Add Members
+              </button>
                 <div *ngIf="authorize('Update_Group')" style="padding-left: 5px;">
                   <button class="defaultButton"  nz-button nzType="default" (click)="EditGroupDescription()">
                       Edit Descriptions
@@ -27,7 +30,13 @@
                       <label>
                         Group's description
                       </label>
-                      <textarea  rows="4" nz-input formControlName="description"></textarea>
+                      <textarea  rows="4" nz-input formControlName="description">
+                      </textarea>
+                      <div *ngIf="groupDescriptionEditForm.get('description')?.invalid" class="text-danger-error">
+                        <div *ngIf="groupDescriptionEditForm.get('description')?.errors?.['maxlength']">
+                          Group's description must be no more than 250 characters long.
+                        </div>
+                      </div>
                       <br /> <br />
                       <div class="editDescriptionActions">
                         <nz-space>
@@ -41,8 +50,8 @@
           </div>     
         </div>
         <div nz-row>  
-          <div nz-col nzSpan="16">
-            {{groupDetail?.Description}}
+          <div nz-col nzSpan="15" class="box">
+           {{groupDetail?.Description}}
           </div>
         </div>
         <br/>
@@ -80,7 +89,7 @@
         </div> -->
         <br/>
         <div nz-row>
-          <div nz-col nzSpan="16">
+          <div nz-col nzSpan="16" style="margin-top:-70px">
               <!-- <div nz-row>
                   <div nz-col nzSpan="20">
                       <nz-form-label [nzSpan]="14">Group members - Manual assignments</nz-form-label>
@@ -92,9 +101,6 @@
                       <label class="UserCountPerGroup">{{totalRecord}}</label> 
                   </div> -->
                   <div class="addMembers" nz-col style="text-align: right;"  nzSpan="24">
-                    <button *ngIf="authorize('Update_Group')" class="defaultButton" nz-button nzType="default" (click)="ShowAddUserToGroupModal()">
-                        Add Members
-                    </button>
                     <nz-modal [(nzVisible)]="isAddToGroupVisible" nzTitle="Add members to group"
                     [nzContent]="addUserToGroupmodalContent" [nzFooter]="null" (nzOnCancel)="CloseAddUserToGroup()">
                       <ng-template #addUserToGroupmodalContent>
@@ -158,7 +164,7 @@
                 </div>
          
           </div>
-          <div nz-col nzSpan="8">
+          <div nz-col nzSpan="8" style="margin-top:-30px">
               <div class="permissionlist">
                   <div class="title-holder">
                       <p class="TabTitleStyle">Group Permissions</p>
