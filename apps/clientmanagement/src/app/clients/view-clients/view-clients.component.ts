@@ -128,6 +128,7 @@ _commonData.getPermission()
       duration: 1,
 
     });
+    //new FormControl(searchProject.value || '', [Validators.required, this.noWhitespaceValidator
 
   }
   DeleteClient(client:any){
@@ -431,8 +432,18 @@ _commonData.getPermission()
       }
     );
   }
+//   public noWhitespaceValidator(control: FormControl) {
+//     const isWhitespace = (control.value || '').trim().length === 0;
+//     const isValid = !isWhitespace;
+//     return isValid ? null : { 'whitespace': true };
+// }
+
   SearchData(): void {
-    if (this.searchProject.value?.length > 1) {
+    if (this.searchProject.value?.length > 1 ) {
+      const x = this.searchProject.value as string;
+      if(x.substring(x.length -1) === ' ') {
+        return;
+      }
       this.loading = true;
       this._clientservice
         .getWithPagnationResut(1, 10, this.searchProject.value)
@@ -582,8 +593,18 @@ getLocations(){
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
+
     this.allClients = res.data;
-    this.salesPerson=[...new Set(this.allClients.map(item => item.SalesPerson.Name))];
+    if(this.allClients!=null)
+    {
+      for (let i=0;i<this.allClients.length;i++)
+      {
+        if(this.allClients[i].SalesPerson)
+        this.salesPerson.push(this.allClients[i].SalesPerson.Name);
+      }
+     
+    }
+    
     this.clientStatus = [...new Set(this.allClients.map(item => item.ClientStatusName))];
     this.initializeData();
       });
@@ -591,7 +612,11 @@ fetchAllData(){
 }
 getSalesPerson(){
   this.employeeService.getAll().subscribe((response: Employee[]) => {
-    this.employees = response;
+    if(response!=null)
+    {
+      this.employees = response;
+    }
+   
   })
 }
   search(
@@ -648,6 +673,6 @@ getSalesPerson(){
       this.total=this.totalRecordBackup;
     }
 
-    // console.log(data);
+   
   }
 }

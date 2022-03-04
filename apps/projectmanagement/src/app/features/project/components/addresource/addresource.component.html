@@ -13,13 +13,14 @@
 <div class="justify-between mb-3" nz-row>
   <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>
 
-  <div *ngIf="isOnEditstate" class="tab-title"> {{  projectForResource?.ProjectName | titlecase }} - Resources </div>
+  <div *ngIf="isOnEditstate" style=" font-size: '22px'; "> {{  projectForResource?.ProjectName | titlecase }} -
+    Resources </div>
   <div>
-    <button *ngIf="!isOnEditstate"   class="btn" (click)="showModal()">
+    <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
       Assign resources
     </button>
 
-    <button *ngIf="isOnEditstate"   (click)="showModal()">
+    <button *ngIf="isOnEditstate && authorize('Assign_Resource') " class="btn" (click)="showModal()">
       Assign resources
     </button>
 
@@ -27,13 +28,14 @@
 
 </div>
 
-<nz-table [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="false"
+<nz-table [nzPageSize]="10" [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="true"
   [nzData]="projectResources" nzTableLayout="fixed">
   <thead>
     <tr>
       <th>Resource</th>
       <th>Assigned Date</th>
-      <th>Action</th>
+      <th *ngIf="!isOnEditstate">Action</th>
+      <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -67,6 +69,8 @@
     </tr>
   </tbody>
 </nz-table>
+
+
 
 <nz-modal class="resourceModal" class="p-28" [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
   (nzOnCancel)="handleCancel()" [nzFooter]="null">
@@ -180,17 +184,10 @@
 
 
 
-<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="removeResourceModel" [nzTitle]="confirmTile" [nzFooter]="null"
-  [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
-
-  <ng-template #confirmTile>
-
-    <i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i> Resource unassign
-
-  </ng-template>
-
+<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="removeResourceModel" nzTitle="Resource unassign"
+  [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
   <ng-container *nzModalContent>
-    <p> Are you sure to unassign project's resource ? </p>
+    <p> Are you sure to unassign this resource ? </p>
     <span class="flex justify-end">
       <button class="btn mr-8" (click)="removeResource()">Yes ,Unasssign</button>
       <button class="btn-cancel  " (click)="deleteCancel()">Cancel</button>
@@ -198,12 +195,8 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal *ngIf="isOnEditstate" (nzOnCancel)="confirmCancelExit()" [(nzVisible)]="cancelModal" [nzTitle]="confirmTile"
+<nz-modal *ngIf="isOnEditstate" (nzOnCancel)="confirmCancelExit()" [(nzVisible)]="cancelModal" nzTitle="Exit"
   [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
-
-  <ng-template #confirmTile>
-    <i class="mr-2" style="color: coral;" nz-icon nzType="question-circle" nzTheme="outline"></i> Exit
-  </ng-template>
   <ng-container *nzModalContent>
     <p> Are you sure to exit before updating project ? </p>
     <span class="flex justify-end">

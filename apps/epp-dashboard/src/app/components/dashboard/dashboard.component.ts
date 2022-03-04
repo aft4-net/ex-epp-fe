@@ -51,9 +51,7 @@ getUsers() {
     this.getUser();
     this._commonData.getPermission();   
     this.loadingSpinnerService.messageSource.subscribe((message) => {
-      console.log('------ --- -- -- -- - -11111');
-      console.log('Moa Message: ', message); // => Hello from child 1!
-      this.loading = message;
+    this.loading = message;
     });
   }
   getUser(){
@@ -61,6 +59,7 @@ getUsers() {
       this.thePosition=response.EmployeeOrganization.Role.Name;
       this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName);
     });
+  
  }
 
 
@@ -80,6 +79,15 @@ getUsers() {
     
      return this._permissionService.authorizedPerson(key);
    }
+   get hasSingleUserPermission(): boolean
+  {
+    return this._permissionService.hasSingleUserPermission;
+  }
+  get hasSingleGroupPermission():boolean
+  {
+    return this._permissionService.hasSingleGroupPermission;
+  }
+
 
 }
 

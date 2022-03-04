@@ -5,7 +5,7 @@
     <nz-form-item>
       <nz-form-control class="search" [nzSm]="8" [nzXs]="10" nzErrorTip="Please input search!">
         <nz-input-group nzSearch [nzSuffix]="suffixIconSearch" >
-          <input  [(ngModel)]="searchInput" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search" />
+          <input  (keyup)="onSearchChange($event)" type="text" nz-input placeholder="Search by department" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
           <i nz-icon nzType="search"></i>

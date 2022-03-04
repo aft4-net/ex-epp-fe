@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
+import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { CountryService } from '../../services/country.service';
 import { Country } from './../../models/country';
-import { DutyStation } from './../../models/duty-station';
+import { DutyStation, DutyStationAndCountry } from './../../models/duty-station';
 import { DutyStationService } from './../../services/duty-station.service';
 
 @Component({
@@ -14,78 +16,109 @@ import { DutyStationService } from './../../services/duty-station.service';
 })
 export class DutyStationComponent implements OnInit {
   countries$: Observable<Country[]> = new Observable<Country[]>();
-  dutyStation$: Observable<DutyStation[]> = new Observable<DutyStation[]>();
-  addDutyStation: boolean = false;
-  isNew: boolean = true;
-  dutyStationId: string = "";
+  dutyStationSource = new BehaviorSubject<DutyStationAndCountry[]>([]);
+  dutyStation$ = this.dutyStationSource.asObservable();
+  dutyStationList: DutyStationAndCountry[] = [];
+  addDutyStation = false;
+  isNew = true;
+  dutyStationId = "";
   country: FormControl = new FormControl("");
   dutyStation: FormControl = new FormControl("");
 
   constructor(
     private countryService: CountryService,
     private dutyStationService: DutyStationService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private commonDataService: CommonDataService,
+    private permissionListService: PermissionListService
   ) { }
 
   ngOnInit(): void {
-    this.getCountries();
-  }
-
-  getCountries(){
-    this.countries$ = this.countryService.get();
+    this.getDutyStation();
   }
 
   getDutyStation() {
-    if(!this.country.value && this.country.value === "") {
-      return;
-    }
+    this.countryService.get().subscribe(countries => {
+      if (!countries) {
+        return;
+      }
 
-    this.dutyStation$ = this.dutyStationService.get(this.country.value);
+      this.dutyStationList = [];
+
+      countries.forEach(country => {
+        this.dutyStationService.get(country.Guid).subscribe(dutyStations => {
+          if (!dutyStations) {
+            return;
+          }
+
+          this.dutyStationList.push(...dutyStations.map(ds => {
+            return {
+              Guid: ds.Guid,
+              CountryId: ds.CountryId,
+              Name: ds.Name,
+              CountryName: country.Name
+            } as DutyStationAndCountry
+          }));
+
+          if (countries.indexOf(country) === countries.length - 1) {
+            this.dutyStationSource.next([...this.dutyStationList]);
+          }
+
+        })
+      });
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  getCountries() {
+    this.countries$ = this.countryService.get();
   }
 
   updateModalState() {
     this.addDutyStation = !this.addDutyStation;
+    this.getCountries();
   }
-  
+
   openModal() {
     this.addDutyStation = true;
+    this.getCountries();
   }
-  
+
   closeModal() {
     this.addDutyStation = false;
-
     this.clearData();
   }
 
   save() {
-    if((!this.country.value && this.country.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")){
+    if ((!this.country.value && this.country.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")) {
       return;
     }
 
-    let dutyStation: DutyStation = {
+    const dutyStation: DutyStation = {
       Guid: "00000000-0000-0000-0000-000000000000",
       CountryId: this.country.value,
       Name: this.dutyStation.value
     };
 
-    if (this.isNew){
+    if (this.isNew) {
       this.dutyStationService.add(dutyStation).subscribe(response => {
-        if(response.ResponseStatus === "Success") {
+        if (response.ResponseStatus === "Success") {
           this.getDutyStation();
           this.closeModal();
         }
       }, error => {
-
+        console.log(error);
       });
     }
     else {
-      this.dutyStationService.update({Guid: this.dutyStationId, CountryId: this.country.value, Name: this.dutyStation.value}).subscribe(response => {
-        if(response.ResponseStatus === "Success") {
+      this.dutyStationService.update({ Guid: this.dutyStationId, CountryId: this.country.value, Name: this.dutyStation.value }).subscribe(response => {
+        if (response.ResponseStatus === "Success") {
           this.getDutyStation();
           this.closeModal();
         }
       }, error => {
-
+        console.log(error);
       });
     }
   }
@@ -99,43 +132,46 @@ export class DutyStationComponent implements OnInit {
   }
 
   delete(dutyStation: DutyStation) {
-    this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res)=>{
-    if(res == true){
-      this.modalService.confirm({
-        nzTitle: 'This Duty Station can not be deleted b/c it is assigned to employee',
-        nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
-        nzOkText: 'Ok',
-        nzOkType: 'primary',
-        nzOkDanger: true,
-      //  nzOnOk: () => this.deleteHandler(id),
-      //  nzCancelText: 'No'
-      });
-    }
-    else{
-    this.modalService.confirm({
-      nzTitle: 'Delete Country?',
-      nzContent: 'Name: <b style="color: red;">'+ dutyStation.Name + '</b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.dutyStationService.delete(dutyStation).subscribe(response => {
-          if(response.ResponseStatus === "Success") {
-            this.getDutyStation();
-          }
-        }, error => {
-         //
-        })
-      },
-      nzCancelText: 'No'
+    this.dutyStationService.checkifDutyStationisDeletable(dutyStation.Guid).subscribe((res) => {
+      if (res == true) {
+        this.modalService.confirm({
+          nzTitle: 'This Duty Station can not be deleted b/c it is assigned to employee',
+          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: true
+        });
+      }
+      else {
+        this.modalService.confirm({
+          nzTitle: 'Delete Country?',
+          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
+          nzOkText: 'Yes',
+          nzOkType: 'primary',
+          nzOkDanger: true,
+          nzOnOk: () => {
+            this.dutyStationService.delete(dutyStation).subscribe(response => {
+              if (response.ResponseStatus === "Success") {
+                this.getDutyStation();
+              }
+            }, error => {
+              console.log(error);
+            })
+          },
+          nzCancelText: 'No'
+        });
+      }
     });
-  }
-});
   }
 
   clearData() {
     this.isNew = true;
     this.dutyStationId = "";
     this.dutyStation.setValue("");
+    this.country.setValue("");
+  }
+
+  authorize(key: string) {
+    return this.permissionListService.authorizedPerson(key);
   }
 }

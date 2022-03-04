@@ -35,6 +35,7 @@ import {
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -77,6 +78,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   updateValueSeted = false;
   cancelModal = false;
   activeTabIndex = 0;
+  saveUpdateload=false;
   resources: projectResourceType[] = [] as projectResourceType[];
   private projectEditDiffer!: KeyValueDiffer<string, any>;
 
@@ -84,6 +86,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   @ViewChild('startDatePicker') startDatepicker!: NzDatePickerComponent;
 
   constructor(
+    private  notification: NzNotificationService,
     private projectResourceStateService: ProjectResourceStateService,
     private differs: KeyValueDiffers,
     private projectCreateState: AddProjectStateService,
@@ -253,7 +256,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   }
   apiCalls() {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
-      this.employees = response;
+      this.employees = response.filter(p=>p.IsActive && !p.IsDeleted);
     });
 
     this.clientService.getAll().subscribe((response: any) => {
@@ -284,7 +287,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.projectService.getProjects().subscribe((response: Project[]) => {
+    this.projectService.getProjects().subscribe((response:any) => {
       this.projects = response;
       this.isSpinning=false;
     });
@@ -357,7 +360,17 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   }
 
   saveProjectUpdate() {
-    this.projectService.updateProject(this.projectUpdate);
+    this.saveUpdateload=true;
+    this.projectService.updateProject(this.projectUpdate).subscribe
+    (suceess=>{
+      this.saveUpdateload=false;
+      this.router.navigateByUrl('projectmanagement');
+      this.notification.success('Project updated successfully','');
+      }  
+      ,error=>  {
+        this.saveUpdateload=false;
+         this.notification.error('Project updated not saved','Please try again letter')
+    });;
   }
   updateProject() {
     if (this.updateValueSeted && this.validateForm.valid) {

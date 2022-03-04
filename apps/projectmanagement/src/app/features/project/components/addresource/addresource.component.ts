@@ -35,7 +35,6 @@ export class AddresourceComponent implements OnInit {
     private fb: FormBuilder,
     private permissionList: PermissionListService,
     private notification: NzNotificationService,
-    private modal: NzModalService,
     private projectResourceStateService: ProjectResourceStateService,
     private assignResourceService: AssignResourceService,
     private router: Router,
@@ -69,7 +68,7 @@ export class AddresourceComponent implements OnInit {
       this.loading = true;
     }
     this.employeeService.getAll().subscribe((response: Employee[]) => {
-      this.employees = response;
+      this.employees =  response.filter(p=>p.IsActive && !p.IsDeleted);
       if (this.projectResourceStateService.isOnEditstate) {
         this.projectResourceStateService.projectResourceList$.subscribe(
           (res) => {
@@ -160,6 +159,7 @@ export class AddresourceComponent implements OnInit {
   }
 
   addResource() {
+    this.isModalVisible = false;
     if (this.addResorceForm.valid) {
       if (this.isOnEditstate) {
         this.assignResourceService
@@ -200,7 +200,7 @@ export class AddresourceComponent implements OnInit {
           (s) => s.Guid !== this.addResorceForm.controls.resource.value.Guid
         );
       }
-      this.isModalVisible = false;
+  
       this.handleCancel();
     } else {
       Object.values(this.addResorceForm.controls).forEach((control) => {
@@ -252,6 +252,7 @@ export class AddresourceComponent implements OnInit {
   }
 
   submitEditdValue() {
+    this.isEditMode = false;
     if (this.editResorceForm.valid) {
       if (this.isOnEditstate) {
         this.assignResourceService
@@ -321,7 +322,7 @@ export class AddresourceComponent implements OnInit {
           }
         }
 
-      this.isEditMode = false;
+    
       this.isModalVisible = false;
       this.editResorceForm.reset();
       this.asignedResourseToEdit = {} as AssignResource;

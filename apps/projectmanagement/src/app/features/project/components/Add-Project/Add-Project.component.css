@@ -1,18 +1,21 @@
 
 
 
+::ng-deep .ant-form-item{
+  margin: 0 0 15px;
+}
 
 ::ng-deep .ant-form-item-label {
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 17px;
 }
-
-
 
 .container_homepage{
   padding: 0px 1.6% ;
+  overflow-y: hidden; 
+  overflow-x: hidden; 
 }
 
 
@@ -38,17 +41,19 @@
 
 .btn {
   border: #00a551;
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   padding: 5px 16px;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   background: #00A551;
- border-radius: 2px;
+ border-radius: 4px;
+ height: 37px;
 }
 .btn:hover{
   background-color: #006E36;
 }
+
 
 .btn:active{
   background: #005228;
@@ -56,13 +61,15 @@
 
 .bnt:focus{
   background-color: #00A551;
+  color: #FFFFFF;
 }
 
 .btn:disabled{
+
   background-color:  #BFBFBF;
   border-color:#F5F5F5; 
-  cursor:not-allowed;
 }
+
 
 
 .redAstrics {
@@ -75,27 +82,28 @@
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
-  line-height: 28px; 
-  display: flex;
-  align-items: center;
-  color: #262626;
-
+  line-height: 28px;
+display: flex;
+align-items: center;
+color: #262626;
 }
+
 
 .tab-title{
 font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 font-style: normal;
 font-weight: 500;
-font-size: 24px;
+font-size: 22px;
 line-height: 32px;
-
+display: flex;
+align-items: center;
 color: #262626;
 }
 
 .page-edit{
-  height: 102vh;
   width: 65%;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 *{
@@ -107,6 +115,11 @@ color: #262626;
 .error-block
 {
   color: red;
+}
+.btn:disabled:hover{
+
+  background-color:  #BFBFBF !important;
+  border-color:#F5F5F5 !important; 
 }
 
 
@@ -134,8 +147,6 @@ hr { display: block; height: 1px;
   margin: 1em 0; padding: 0; }
 
   
-
-
 ::ng-deep .conform-modal .ant-modal-content {
 border: 0.5px solid #00a551;
 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
