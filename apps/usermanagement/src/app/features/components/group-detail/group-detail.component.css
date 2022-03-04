@@ -143,7 +143,7 @@ tr.ant-table-row.ng-star-inserted {
   border: 0.1px solid;
   margin-left: 20px;
   width: 320px;
-  height: min-content;
+  max-height: 490px;
 }
 
 .title-holder {
