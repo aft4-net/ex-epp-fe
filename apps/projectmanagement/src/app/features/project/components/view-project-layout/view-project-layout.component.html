@@ -54,9 +54,13 @@
 
           <tr *ngFor="let data of  basicTable.data; ">
             <td>{{ data.ProjectName }}</td>
-            <td>{{ data.Client?.ClientName }}</td>
+            <td>
+              <ng-template [ngIf]="data.Client?.ClientName ==='' || data.Client?.ClientName ===null "> N/A </ng-template>
+              {{ data.Client?.ClientName }}</td>
             <td>{{ data.ProjectStatus?.StatusName }}</td>
-            <td>{{ data.Supervisor?.Name }} </td>
+            <td>
+              <ng-template [ngIf]="data.Supervisor?.Name ==='' || data.Supervisor?.Name===null "> N/A </ng-template>
+              {{ data.Supervisor?.Name }} </td>
             <td>
               <a (click)="assignResource(data)">
 
@@ -75,10 +79,13 @@
             </td>
           </tr>
         </tbody>
+        
       </nz-table>
 
-      <span class="pagination flex justify-end  ">
-        Showing {{pageIndex}} - {{totalPage}} of {{total}} entries
+      <span *ngIf="total>0" class="pagination flex justify-end  ">
+        Showing  {{10 * (pageIndex -1) + 1 }}  -       
+        {{ 10 * (pageIndex) > total? 
+          total : 10 * (pageIndex) }} of {{total}} entries
         <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
           nzSimple>
         </nz-pagination>
@@ -101,3 +108,5 @@
     </span>
   </ng-container>
 </nz-modal>
+
+
