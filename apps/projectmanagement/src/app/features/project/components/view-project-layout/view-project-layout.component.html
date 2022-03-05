@@ -53,14 +53,14 @@
         <tbody>
 
           <tr *ngFor="let data of  basicTable.data; ">
-            <td>{{ data.ProjectName }}</td>
+            <td>{{ data.ProjectName | titlecase }}</td>
             <td>
               <ng-template [ngIf]="data.Client?.ClientName ==='' || data.Client?.ClientName ===null "> N/A </ng-template>
-              {{ data.Client?.ClientName }}</td>
+              {{ data.Client?.ClientName | titlecase }}</td>
             <td>{{ data.ProjectStatus?.StatusName }}</td>
             <td>
               <ng-template [ngIf]="data.Supervisor?.Name ==='' || data.Supervisor?.Name===null "> N/A </ng-template>
-              {{ data.Supervisor?.Name }} </td>
+              {{ data.Supervisor?.Name | titlecase }} </td>
             <td>
               <a (click)="assignResource(data)">
 
