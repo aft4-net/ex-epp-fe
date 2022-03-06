@@ -82,7 +82,7 @@
           <nz-select nzShowSearch nzAllowClear id="clientName" formControlName="client"
             nzPlaceHolder="Select client Name">
             <ng-container *ngFor="let client of clients">
-              <nz-option *ngIf="client.ClientName !== 'Excellerent'" nzLabel="{{ client.ClientName }}"
+              <nz-option *ngIf="client.ClientName !== 'Excellerent'" nzLabel="{{ client.ClientName | titlecase }}"
                 [nzValue]="client.Guid"></nz-option>
             </ng-container>
           </nz-select>
@@ -122,7 +122,7 @@
         <nz-form-control [nzSm]="14">
           <nz-select nzShowSearch nzAllowClear id="supervisor" formControlName="supervisor"
             nzPlaceHolder="Select Supervisor Name">
-            <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name }}-{{ employee.Role }}"
+            <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name | titlecase }}-{{ employee.Role | titlecase }}"
               [nzValue]="employee.Guid"></nz-option>
           </nz-select>
           <div class="error-block" *ngIf="supervisor.invalid && supervisor.touched">
