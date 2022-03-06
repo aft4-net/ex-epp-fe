@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
   routetoResourceManagement() {
     this.loadingSpinnerService.messageSource.next(true);
     this._authenticationService.setFromViewProfile();
-    this._router.navigate(['resourcemanagement']);
+    this._router.navigate(['/resourcemanagement/profile']);
     setTimeout(() => {   
     this.loadingSpinnerService.messageSource.next(false);
 

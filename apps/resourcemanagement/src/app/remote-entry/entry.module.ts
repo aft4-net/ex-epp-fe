@@ -26,6 +26,7 @@ import { PersonalInfoComponent } from '../Features/Components/employee/personal-
 import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
+import { EmployeeComponent } from '../Features/Components/employee/employee.component';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -57,6 +58,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
           {
             path: '',
             component: EmployeeDetailComponent,
+          },
+          {
+            path: 'profile',
+            component: EmployeeComponent,
           },
 
           {
