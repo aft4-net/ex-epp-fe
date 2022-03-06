@@ -114,8 +114,7 @@ export class GroupDetailComponent implements OnInit {
 
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
-      description: [[this.groupDetail?.Description],
-                    [Validators.required]]
+      description: [[this.groupDetail?.Description],[Validators.maxLength(250)]]
     })
   }
   authorize(key:string){
