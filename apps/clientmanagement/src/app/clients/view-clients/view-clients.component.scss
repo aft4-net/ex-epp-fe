@@ -87,9 +87,9 @@ header {
 
 }
 
-.main-content {
-  height:110vh;
- }
+// .main-content {
+//   height:110vh;
+//  }
 
 ::ng-deep .ant-table {
   border: 1px solid #ddd !important;
@@ -187,8 +187,4 @@ hr { display: block; height: 1px;
   border-top: 1px solid #ccc !important;
 }
 
-
-::ng-deep body {
-  overflow: hidden;
-}
 
