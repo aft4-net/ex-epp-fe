@@ -439,9 +439,14 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
           data.ResponseStatus,
           data.Message
         );
-        this.isLoding=false;
+        //this.isLoding=false;
         this._commonData.getPermission();
       });
+
+     setTimeout(()=>{
+       this.isLoding = false;
+       this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
+     },3000);
   }
 
   permissionAssigned(id:string){
@@ -464,12 +469,12 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
 
   handleOk(): void {
     console.log('Button ok clicked!');
-    this.isLoding = false;
+   // this.isLoding = false;
   }
 
   handleCancel(): void {
     console.log('Button cancel clicked!');
-    this.isLoding = false;
+  //  this.isLoding = false;
   }
 
   checkWhileAllSelected(){
