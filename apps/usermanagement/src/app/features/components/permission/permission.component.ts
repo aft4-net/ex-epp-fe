@@ -441,7 +441,10 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
         );
         this.isLoding=false;
         this._commonData.getPermission();
+        this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
       });
+
+
   }
 
   permissionAssigned(id:string){
@@ -464,12 +467,12 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
 
   handleOk(): void {
     console.log('Button ok clicked!');
-    this.isLoding = false;
+   // this.isLoding = false;
   }
 
   handleCancel(): void {
     console.log('Button cancel clicked!');
-    this.isLoding = false;
+  //  this.isLoding = false;
   }
 
   checkWhileAllSelected(){

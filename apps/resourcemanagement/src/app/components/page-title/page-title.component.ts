@@ -64,7 +64,7 @@ export class PageTitleComponent implements OnInit {
       this._router.navigate([
         'resourcemanagement/employee/add-employee/personal-info',
       ]);
-    } else if (!this._formGenerator.organizationalForm.valid) {
+    } else if (!this._formGenerator.organizationalForm.valid && !this._formGenerator.isProfile) {
       this.notification.create("error",'Employee Registration','Please enter a valid  Organizational detail');
       this._formGenerator.errorMessageforOrganizationDetails(
         this._formGenerator.organizationalForm
@@ -79,7 +79,13 @@ export class PageTitleComponent implements OnInit {
         setTimeout(() => {
           this._employeeService.sendempphoto();
           this.isClicked=false;
-          this._router.navigate(['resourcemanagement']); //.then(() => {
+          if(this._formGenerator.isProfile) {
+            this._formGenerator.isProfile = false;
+            this._router.navigateByUrl('');
+          } else {
+            this._router.navigate(['resourcemanagement']);
+          }
+           //.then(() => {
         }, 1000);
       } else {
         this._formGenerator.save();

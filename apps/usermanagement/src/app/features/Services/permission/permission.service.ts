@@ -37,16 +37,7 @@ export class PermissionService {
     return this.http.get(this.baseUrl3 + guid);
   }
   addGroupPermission(data:any){
-    this.http.get<Permission>(this.baseUrl5 + data.GroupSetId).subscribe((res:any)=>{
-      this.PermissionList=res.Data
-     
-      this.PermissionList.forEach((element) => {
-        this.http.delete(this.baseUrl6 + element.Guid).subscribe((data:any)=>{
-        
-         console.log()
-        })
-      });
-    })
+ 
     return this.http.post(this.baseUrl2,data);
   }
   getGroupPermissionById(id:any){

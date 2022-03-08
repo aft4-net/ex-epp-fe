@@ -87,9 +87,9 @@ header {
 
 }
 
-.main-content {
-  height:110vh;
- }
+// .main-content {
+//   height:110vh;
+//  }
 
 ::ng-deep .ant-table {
   border: 1px solid #ddd !important;
@@ -186,12 +186,5 @@ hr { display: block; height: 1px;
 .header-separator{
   border-top: 1px solid #ccc !important;
 }
-.ant-row {
 
-  padding-bottom: 10px !important;
-}
-::ng-deep .main-content {
-  padding-top: 16px !important;
-
-}
 

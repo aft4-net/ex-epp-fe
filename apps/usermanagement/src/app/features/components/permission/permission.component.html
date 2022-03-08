@@ -1,6 +1,6 @@
 
 
-<div  style="padding-right: 20px; padding-bottom: 10px;" >
+<div  style="padding-right: 20px; padding-bottom: 10px; margin-top: -20px;">
   <div style="padding-left: 10px; padding-top: 15px">
     <div style="float: right">
       <button nz-button class="cancel-button" (click)="cancelPermission()">Cancel</button>
@@ -22,7 +22,7 @@
   
     >Select All</label>
   </div>
-  <nz-collapse>
+  <nz-collapse style="margin-left: 15px;">
     <nz-collapse-panel
       *ngFor="let permission of listOfPermistion; let i = index"
       [nzHeader]="header"
