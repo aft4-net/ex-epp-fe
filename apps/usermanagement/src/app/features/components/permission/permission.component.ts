@@ -439,14 +439,12 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
           data.ResponseStatus,
           data.Message
         );
-        //this.isLoding=false;
+        this.isLoding=false;
         this._commonData.getPermission();
+        this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
       });
 
-     setTimeout(()=>{
-       this.isLoding = false;
-       this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
-     },3000);
+
   }
 
   permissionAssigned(id:string){
