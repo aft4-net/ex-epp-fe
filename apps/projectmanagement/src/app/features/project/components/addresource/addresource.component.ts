@@ -159,8 +159,8 @@ export class AddresourceComponent implements OnInit {
   }
 
   addResource() {
-    this.isModalVisible = false;
     if (this.addResorceForm.valid) {
+      this.isModalVisible = false;
       if (this.isOnEditstate) {
         this.assignResourceService
           .addResource({
@@ -252,8 +252,8 @@ export class AddresourceComponent implements OnInit {
   }
 
   submitEditdValue() {
-    this.isEditMode = false;
     if (this.editResorceForm.valid) {
+      this.isEditMode = false;
       if (this.isOnEditstate) {
         this.assignResourceService
           .updateAssignResource({
