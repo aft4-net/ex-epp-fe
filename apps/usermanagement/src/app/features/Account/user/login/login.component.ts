@@ -99,7 +99,7 @@ export class LoginComponent {
     if (this.loginPassword?.value.length < 8)
       this.notification.showNotification({
         type: 'error',
-        content: 'Password lenth is required to be minimum 8',
+        content: 'Password length is required to be minimum 8',
         duration: 5000,
       });
 
