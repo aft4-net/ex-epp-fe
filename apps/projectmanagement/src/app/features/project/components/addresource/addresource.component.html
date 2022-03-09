@@ -32,7 +32,7 @@
   [nzData]="projectResources" nzTableLayout="fixed">
   <thead>
     <tr>
-      <th>Resource</th>
+      <th>Resources</th>
       <th>Assigned Date</th>
       <th *ngIf="!isOnEditstate">Action</th>
       <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>
