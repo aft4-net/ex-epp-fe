@@ -52,6 +52,8 @@ export class GroupsetComponent implements OnInit {
   isLogin=false;
   listOfColumns!: ColumnItem<GroupSetModel>[];
 
+
+
   listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
     {
       name: 'Group',
@@ -64,21 +66,8 @@ export class GroupsetComponent implements OnInit {
     }
   ]
 
-  @ViewChild('searchInput', {static: false}) public input!: ElementRef;
 
-  ngAfterViewInit() {
-    fromEvent<any>(this.input.nativeElement,'keyup')
-    .pipe(
-      map(event => event.target.value),
-      startWith(''),
-      debounceTime(2000),
-      distinctUntilChanged(),
-      switchMap( async (search) => {this.groupDashboardForm.value.groupName = search,
-      this.SearchgroupsByName()
-      })
-    );
-    
-  }
+  @ViewChild('searchInput') public input!: ElementRef;
 
   constructor(
     //private _intialdataService: IntialdataService,
@@ -101,6 +90,23 @@ export class GroupsetComponent implements OnInit {
    // this.permissionList=res.Data;
  // })
 //}
+
+ngAfterViewInit() {
+
+
+  fromEvent<any>(this.input.nativeElement,'keyup')
+  .pipe(
+    map(event => event.target.value),
+    startWith(''),
+    debounceTime(2000),
+    distinctUntilChanged(),
+    switchMap( async (search) => {this.groupDashboardForm.value.userName = search,
+    this.SearchgroupsByName()
+    })
+  ).subscribe();
+
+}
+
   onAddNewRecord(): void {
     this.resetForm();
     this.isVisible = true;
@@ -149,6 +155,7 @@ export class GroupsetComponent implements OnInit {
       duration: 1,
     });
   }
+  
   creategroupDashboardControls() {
     this.groupDashboardForm = this.fb.group({
       groupName: [''],
@@ -190,7 +197,8 @@ export class GroupsetComponent implements OnInit {
 
   SearchgroupsByName() {
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
-    if(this.groupParams.searchKey.length >= 2) { 
+    if(this.groupParams.searchKey.length >= 2 || this.groupParams.searchKey == "") {
+       console.log("who is in 3");
       this.groupSetService.SearchUsers(this.groupParams)
       .subscribe((response: PaginationResult<GroupSetModel[]>) => {
         if(response.Data) {
@@ -286,6 +294,6 @@ export class GroupsetComponent implements OnInit {
   CheckGroupNamExistance(event: any) {
     // const group_Name  = event.target.value;
     // alert(group_Name);
-    this.ngAfterViewInit();
+  //  this.ngAfterViewInit();
   }
 }

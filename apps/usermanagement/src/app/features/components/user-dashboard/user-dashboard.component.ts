@@ -132,8 +132,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       })
     ).subscribe();
 
-    setTimeout(() => {
-      }, 100);
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
