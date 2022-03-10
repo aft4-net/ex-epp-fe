@@ -197,8 +197,7 @@ ngAfterViewInit() {
 
   SearchgroupsByName() {
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
-    if(this.groupParams.searchKey.length >= 2 || this.groupParams.searchKey == "") {
-       console.log("who is in 3");
+    if(this.groupParams.searchKey.length >= 2 || this.groupParams.searchKey == "") 
       this.groupSetService.SearchUsers(this.groupParams)
       .subscribe((response: PaginationResult<GroupSetModel[]>) => {
         if(response.Data) {

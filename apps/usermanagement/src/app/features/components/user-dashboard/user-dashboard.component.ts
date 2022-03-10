@@ -520,7 +520,6 @@ handleGroupCancel() {
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
     this.isUserModalVisible = false;
   }
 
