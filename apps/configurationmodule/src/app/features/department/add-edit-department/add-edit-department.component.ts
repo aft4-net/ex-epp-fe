@@ -66,14 +66,16 @@ export class AddEditDepartmentComponent implements OnInit {
         this.notification.create(
           'success',
           'Successfully Added!',
-          'Department'
+          'Department',
+          { nzPlacement: 'bottomRight' }
         );
         this.update.emit("save");
       }, (error) => {
         this.notification.create(
           'error',
           'Error!',
-          error.message
+          error.message,
+          { nzPlacement: 'bottomRight' }
         );
         console.log(error);
       });
@@ -98,7 +100,8 @@ export class AddEditDepartmentComponent implements OnInit {
           this.notification.create(
             'success',
             'Successfully Updated!',
-            'Department'
+            'Department',
+            { nzPlacement: 'bottomRight' }
           );
           this.update.emit("update");
         });
