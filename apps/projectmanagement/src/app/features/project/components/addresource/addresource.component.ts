@@ -19,7 +19,6 @@ import {
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 
 @Component({
@@ -42,12 +41,18 @@ export class AddresourceComponent implements OnInit {
     private employeeService: EmployeeService,
     private projectService: ProjectService
   ) {}
-
+  total = 0;
+  loading = false;
+  isTablePagnation=true;
+  pageSize = 9;
+  pageIndex = 1;
+  totalPage!: number;
   resources: projectResourceType[] = [] as projectResourceType[];
   employees: Employee[] = [];
   asignedResourseToEdit!: AssignResource;
   removeResourceModel = false;
   projectResources: AssignResource[] = [];
+  projectResourcesView: AssignResource[] = [];
   isModalVisible = false;
   isEditMode = false;
   assignedDateError = false;
@@ -57,13 +62,14 @@ export class AddresourceComponent implements OnInit {
   resourceEdit: AssignResource = {} as AssignResource;
   resoureRemove!: AssignResource;
   projectForResource: Project = {} as Project;
-  loading = false;
+  nzSortDirections = Array<'Ascending' | 'Descending' | null>();
   ngOnInit(): void {
     this.projectResourceStateService.isOnEditstate$.subscribe((res) => {
       this.isOnEditstate = res;
     });
 
     if (this.isOnEditstate) {
+      this.isTablePagnation=false;
       this.projectForResource = this.projectResourceStateService.project;
       this.loading = true;
     }
@@ -72,10 +78,13 @@ export class AddresourceComponent implements OnInit {
       if (this.projectResourceStateService.isOnEditstate) {
         this.projectResourceStateService.projectResourceList$.subscribe(
           (res) => {
-            this.projectResources = res;
+            this.projectResourcesView= res.reverse();
+            this. PageIndexChange(1);
+            this.pageIndex=1;
+            this.total= this.projectResourcesView.length;
             this.loading = false;
-            if (this.projectResources)
-              this.projectResources.forEach((p) => {
+            if ( this.projectResourcesView)
+              this.projectResourcesView.forEach((p) => {
                 this.employees = this.employees.filter(
                   (x) => x.Guid != p.EmployeeGuid
                 );
@@ -375,6 +384,9 @@ export class AddresourceComponent implements OnInit {
     this.projectResources = this.projectResources.filter(
       (s) => s.Empolyee.Guid !== id
     );
+    this.projectResourcesView =  this.projectResourcesView.filter(
+      (s) => s.Empolyee.Guid !== id
+    );
     this.resources = this.resources.filter((s) => s.EmployeeGuid != id);
   }
 
@@ -461,5 +473,45 @@ export class AddresourceComponent implements OnInit {
   }
   authorize(key: string) {
     return this.permissionList.authorizedPerson(key);
+  }
+
+  PageIndexChange(pageIndex:number)
+  {
+    this.pageIndex=pageIndex
+   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*9).slice(0,9);
+  }
+
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    if(SortColumn==="resource")
+   {    
+    if (direction == 'ascend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() > b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
+       else
+       this.projectResources.sort((a, b) => (a.Empolyee.Name.toLocaleLowerCase().trim() > b.Empolyee.Name.toLowerCase().trim() ? 1 : -1)); 
+    } else if (direction == 'descend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() < b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
+       else
+       this.projectResources.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() < b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
+   
+    } 
+  }
+  else if(SortColumn==="date")
+  {
+    if (direction == 'ascend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.AssignDate > b.AssignDate  ? 1 : -1));
+      else
+      this.projectResources.sort((a, b) => (a.AssignDate > b.AssignDate  ? 1 : -1));
+    } else if (direction == 'descend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
+      else
+      this.projectResources.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
+    } 
+  }
+  if(direction!=null&& this.isOnEditstate)
+  this.PageIndexChange(this.pageIndex);    
   }
 }
