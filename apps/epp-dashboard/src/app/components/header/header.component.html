@@ -1,7 +1,7 @@
 <div class="page-header" style="background: white">
   <nz-page-header style="padding: 0px 24px; box-shadow: 0px 1px 1px rgba(84, 84, 84, 0.25);">
     <nz-page-header-title class="flex flex-row">
-      <img style="height: 22px" src="assets/images/icon_nav.png" />
+      <img style="height: 22px" src="assets/images/icon_nav.png" (click)="openSidenav()" />
      <a [href]="redirectUrl">
       <img style="height: 22.48px; padding-left: 12px" src="assets/images/Union.png"/>
      </a>
@@ -39,4 +39,21 @@
       </ng-template>
     </nz-page-header-extra>
   </nz-page-header>
+
+  <!-- <button nz-button nzType="primary" (click)="openSidenav()">Open</button> -->
+  <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="visible"
+      [nzPlacement]="placement"
+      nzTitle="Basic Drawer"
+      (nzOnClose)="closeSidenav(false)"
+    >
+      <ng-container *nzDrawerContent>
+        <exec-epp-sidenav (newSidenavEvent)="closeSidenav($event)"></exec-epp-sidenav>
+      </ng-container>
+    </nz-drawer>
+
+</div>
+<div style="height: 50px;">
+<!-- Do not delete this div, It is for space below header-->
 </div>

@@ -6,6 +6,7 @@ import { LoadingSpinnerService} from '../../../../../../libs/common-services/loa
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { environment } from 'libs/environments/environment';
 import { IntialdataService } from '../../services/intialdata.service';
+import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'exec-epp-page-header',
@@ -23,6 +24,9 @@ export class HeaderComponent implements OnInit {
   loggedInUser = JSON.parse(
     localStorage.getItem('loggedInUserInfo') ?? ''
   );
+  visible = false;
+  placement: NzDrawerPlacement = 'left';
+
   constructor(
     private authService: MsalService,
     private _authenticationService: AuthenticationService,
@@ -79,9 +83,19 @@ export class HeaderComponent implements OnInit {
     window.location.reload();
   }
 
-  signout() {
-    this._authenticationService.signOut();
-    this._router.navigate(['usermanagement/logIn']);
+  // signout() {
+  //   this._authenticationService.signOut();
+  //   this._router.navigate(['usermanagement/logIn']);
 
+  // }
+
+  openSidenav(): void {
+    this.visible = true;
   }
+
+  closeSidenav(val: boolean): void {
+    this.visible = val;
+  }
+
+
 }
