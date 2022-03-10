@@ -17,7 +17,7 @@
                       Edit Descriptions
                   </button>
                 </div>
-                <div *ngIf="authorize('Delete_Group') || authorize('Update_Group')" style="padding-left: 5px;">
+                <div *ngIf="authorize('Delete_Group')" style="padding-left: 5px;">
                   <button class="defaultButton"    nz-button nzType="default" (click)="createGroupDeleteModal()" >
                     Delete Group
                 </button>
@@ -149,7 +149,7 @@
                     <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;">
                       <td class="tdstyle">{{user.FullName}}</td>
                       <td>
-                          <button *ngIf="authorize('Update_Group')" class="removeButton" style="margin-left:-7px" nz-button [nzSize]="size" nzType="link" 
+                          <button *ngIf="authorize('Update_User')" class="removeButton" style="margin-left:-7px" nz-button [nzSize]="size" nzType="link" 
                           (click)="createGroupMemeberDeleteModal(user.Guid)">
                             Remove
                           </button>
