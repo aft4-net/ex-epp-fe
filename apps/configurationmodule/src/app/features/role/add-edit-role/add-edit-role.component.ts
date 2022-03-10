@@ -23,6 +23,7 @@ export class AddEditRoleComponent implements OnInit {
   role!: RolePostModel;
   isEdit!: boolean;
   departments: Department[] = [];
+  onSubmitClick!: boolean;
   
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         private departmentService: DepartmentService,
@@ -60,22 +61,24 @@ export class AddEditRoleComponent implements OnInit {
   }
 
   saveForm() {
+    this.onSubmitClick = true;
     if (this.roleForm.valid) {
-      this.closeModal.emit("close");
+      // this.closeModal.emit("close");
       this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
-        this.update.emit("save");
         // this.closeModal.emit("close");
         this.roleForm.reset();
+        this.closeModal.emit("close");
         this.notification.create(
           'success',
           'Successfully Added!',
           'Job Title'
         );
+        this.update.emit("save");
       }, (error) => {
         this.notification.create(
           'error',
           'Error!',
-          error
+          error.message
         );
         console.log(error);
       });
@@ -90,17 +93,19 @@ export class AddEditRoleComponent implements OnInit {
   }
 
   updateForm() {
+    this.onSubmitClick = true;
     if (this.roleForm.valid) {
-      this.closeModal.emit("close");
+      // this.closeModal.emit("close");
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
         .subscribe((response)=>{
-          this.update.emit("update");
-          // this.closeModal.emit("close");
+          this.onSubmitClick = false;
+          this.closeModal.emit("close");
           this.notification.create(
             'success',
             'Successfully Updated!',
             'Job Title'
           );
+          this.update.emit("update");
         });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {
