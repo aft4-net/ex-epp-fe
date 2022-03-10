@@ -16,7 +16,7 @@
         Update
       </button>
       <button (click)="showDeleteConfirm()" class="btn-cancel ml-4" >Cancel</button>
-    
+
     </div>
   </div>
   <hr *ngIf="isOnEditstate" />
@@ -34,7 +34,7 @@
               d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
             </svg></nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="20">
-          <input nz-input formControlName="projectName" id="projectName" />
+          <input nz-input formControlName="projectName" id="projectName" style="text-transform:capitalize;" />
 
           <span *ngIf="!projectName.valid && (projectName.touched || userSubmitted)" class="error-block">
             <span *ngIf="projectName.hasError('required')">
@@ -167,12 +167,12 @@
       <nz-form-item nz-col nzSpan="14">
         <nz-form-label>Description</nz-form-label>
         <div class="form-control">
-          <textarea formControlName="description" nz-input rows="3" placeholder="Description"></textarea>
+          <textarea formControlName="description" nz-input rows="3" placeholder="Description" style="text-transform:capitalize;"></textarea>
         </div>
       </nz-form-item>
     </form>
   </div>
- 
+
 </nz-spin>
 
 <nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="cancelModal"  nzTitle="Exit" [nzFooter]="null"
