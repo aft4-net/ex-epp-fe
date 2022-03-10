@@ -14,9 +14,10 @@
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 22px;
+  font-size: 24px;
   line-height: 32px;
-
+  display: flex;
+  align-items: center;
   color: #262626;
   }
 
@@ -35,13 +36,15 @@
 
 .page-title {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
- color: #262626;
-font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 32px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+display: flex;
+align-items: center;
+color: #262626;
 }
-.assgin-link {
+ssgin-link {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
   font-style: normal;
   font-weight: 500;
@@ -204,7 +207,7 @@ form {
 ::ng-deep .conform-modal .ant-modal-content {
 border: 0.5px solid #00a551;
 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-width: 400px;
+  width: 390px;
 height: 147px !important;
 padding-top: 0px !important;
 background: #ffffff;
@@ -222,7 +225,7 @@ justify-self: center;
 }
 ::ng-deep .conform-modal .ant-modal-body {
 padding-top: 0px;
-font-weight: 500;
+font-weight: 485;
 height: 70%;
 width: auto;
 font-size: 16px;
@@ -237,4 +240,9 @@ margin-bottom: 40%;
 nz-table  {
   padding: 0px !important;
  }
+ .btn:disabled:hover{
+
+  background-color:  #BFBFBF !important;
+  border-color:#F5F5F5 !important; 
+}
 

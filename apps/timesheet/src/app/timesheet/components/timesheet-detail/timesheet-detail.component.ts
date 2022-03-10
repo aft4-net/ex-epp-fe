@@ -6,7 +6,7 @@ Timesheet,
 TimesheetApproval,
 TimesheetConfiguration,
 } from '../../../models/timesheetModels';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   DateColumnEvent,
   TimeEntryEvent,
@@ -45,7 +45,7 @@ export const startingDateCriteria = {} as {
   templateUrl: './timesheet-detail.component.html',
   styleUrls: ['./timesheet-detail.component.scss'],
 })
-export class TimesheetDetailComponent implements OnInit {
+export class TimesheetDetailComponent implements OnInit,AfterViewInit {
   userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
@@ -147,6 +147,9 @@ export class TimesheetDetailComponent implements OnInit {
     this.$disableProject = this._clientAndProjectStateService.$disableProject;
     this.$disableDates = this._clientAndProjectStateService.$disableDate;
   }
+  ngAfterViewInit(): void {
+    this.checkForCurrentWeek();
+  }
 
   initializeClient() {
     this.$selectedClient.subscribe(clientId => {
@@ -209,8 +212,7 @@ export class TimesheetDetailComponent implements OnInit {
       this.timesheetStateService.getTimesheet(this.userId);
     }
 
-    this.checkForCurrentWeek();
-    this.calculateWeeklyTotalHours();
+       this.calculateWeeklyTotalHours();
 
     this.validateForm = this.fb.group({
       fromDate: [null, [Validators.required]],

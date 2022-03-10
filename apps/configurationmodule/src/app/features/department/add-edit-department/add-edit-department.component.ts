@@ -20,6 +20,7 @@ export class AddEditDepartmentComponent implements OnInit {
   @Output() closeModal = new EventEmitter<string>();
   department!: Department;
   isEdit!: boolean;
+  onSubmitClick!: boolean;
   
   constructor(private fb: FormBuilder, private departmentConfigService: DepartmentService,
         private notification: NzNotificationService,
@@ -54,21 +55,27 @@ export class AddEditDepartmentComponent implements OnInit {
   }
 
   saveForm() {
+    this.onSubmitClick = true;
     if (this.departmentForm.valid) {
+      // this.closeModal.emit("close");
       this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
-        this.update.emit("save");
-        this.closeModal.emit("close");
+        // this.closeModal.emit("close");
         this.departmentForm.reset();
+        this.closeModal.emit("close");
+        this.onSubmitClick = false;
         this.notification.create(
           'success',
           'Successfully Added!',
-          'Department'
+          'Department',
+          { nzPlacement: 'bottomRight' }
         );
+        this.update.emit("save");
       }, (error) => {
         this.notification.create(
           'error',
           'Error!',
-          error
+          error.message,
+          { nzPlacement: 'bottomRight' }
         );
         console.log(error);
       });
@@ -83,16 +90,20 @@ export class AddEditDepartmentComponent implements OnInit {
   }
 
   updateForm() {
+    this.onSubmitClick = true;
     if (this.departmentForm.valid) {
+      // this.closeModal.emit("close");
       this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
         .subscribe((response)=>{
-          this.update.emit("update");
+          this.onSubmitClick = false;
           this.closeModal.emit("close");
           this.notification.create(
             'success',
             'Successfully Updated!',
-            'Department'
+            'Department',
+            { nzPlacement: 'bottomRight' }
           );
+          this.update.emit("update");
         });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {

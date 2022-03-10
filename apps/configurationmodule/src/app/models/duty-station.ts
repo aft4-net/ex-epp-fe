@@ -1,7 +1,11 @@
 export interface DutyStation {
     Guid: string;
     CountryId: string;
-    Name: string
+    Name: string;
+}
+
+export interface DutyStationAndCountry extends DutyStation {
+    CountryName: string;
 }
 
 interface Response {

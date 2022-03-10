@@ -33,3 +33,8 @@
   background-color: #00a551;
   border-color: #00a551;
 }
+
+::ng-deep .permission-spinner .ant-modal-body .ng-star- {
+  display: flex;
+  justify-content: center;
+}

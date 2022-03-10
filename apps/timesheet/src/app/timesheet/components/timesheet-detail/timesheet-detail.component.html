@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<nz-drawer *ngIf="authorize('Edit_Timesheet')" [nzWrapClassName]="'timesheet-drawer'" [nzVisible]="drawerVisible" [nzClosable]="true" [nzMask]="false" (nzOnClose)="closeFormDrawer()">
+<nz-drawer *ngIf="authorize('Edit_TimeEntry')" [nzWrapClassName]="'timesheet-drawer'" [nzVisible]="drawerVisible" [nzClosable]="false" [nzMaskClosable]="true" (nzOnClose)="closeFormDrawer()">
     <div *nzDrawerContent class="mb-48">
         <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
             <div class="timesheet-date-range flex items-center ml-4 mt-6 w-full">
@@ -37,6 +37,7 @@
                         [nzDisabledDate]="disabledDates" class="w-24  rounded-none border-0 border-t-0">
                     </nz-date-picker>
                 </div>
+                <i nz-icon nzType="close" nzTheme="outline" class="ml-8 cursor-pointer" (click)="closeFormDrawer()"></i>
             </div>
 
 

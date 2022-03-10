@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { TimesheetConfiguration } from '../../models/timesheetModels';
+import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -34,11 +35,14 @@ export class TimesheetConfigurationComponent implements OnInit {
   constructor(
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-    private _permissionService:PermissionListService
+    private _permissionService:PermissionListService,
+    private _commonDataService: CommonDataService
   ) { 
   }
 
   ngOnInit(): void {
+    this._commonDataService.getPermission();
+
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
     this.timesheetConfig$.subscribe(tsc => {
@@ -61,6 +65,10 @@ export class TimesheetConfigurationComponent implements OnInit {
         }
       });
     });
+
+    if(!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
+      this.timesheetConfigForm.disable();
+    }
   }
 
   saveTimesheetConfiguration() {
@@ -125,6 +133,7 @@ export class TimesheetConfigurationComponent implements OnInit {
 
     return workingDays;
   }
+
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
   }

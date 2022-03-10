@@ -69,6 +69,8 @@ nzSize="small"
 </nz-table>
 
 <nz-modal
+[nzStyle]="{ top: '10px' }"
+[nzWidth]="'26%'"
   [(nzVisible)]="isVisible"
   nzTitle="{{actionTitle}} Billing Address"
   (nzOnCancel)="handleCancel()"
@@ -83,7 +85,7 @@ nzSize="small"
       (ngSubmit)="submitForm()"
     >
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name"
+        <nz-form-label  nzFor="name"
           >Name
           <svg
             width="7"
@@ -114,7 +116,7 @@ nzSize="small"
         </div>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="affliation"
+        <nz-form-label  nzFor="affliation"
           >Affliation
           <svg
             width="7"
@@ -192,8 +194,8 @@ nzSize="small"
         >
 
         <nz-form-label
-          [nzSm]="6"
-          [nzXs]="24"
+          [nzSm]="16"
+          [nzXs]="28"
           nzFor="state"
           *ngIf="selectedCountry !== 'Ethiopia'"
           >State/Province</nz-form-label

@@ -213,3 +213,35 @@
   font-weight: 550;
   font-size:small;
 }
+
+.resetPassword {
+  float: right;
+}
+
+::ng-deep .resetPassword .ant-btn-link {
+  border-color: white !important;
+  background-color: white !important;
+  color: #00a551;
+}
+
+::ng-deep .resetPassword .ant-btn-link:active {
+  border-color: white !important;
+  background-color: white !important;
+  color: #00a551;
+}
+
+::ng-deep .resetPassword .ant-btn-link:hover {
+  border-color: white !important;
+  background-color: white !important;
+  color: #00a551;
+}
+
+::ng-deep .resetPassword .ant-btn-link:focus {
+  border-color: white !important;
+  background-color: white !important;
+  color: #00a551;
+}
+
+.ant-avatar {
+  margin-top: -40px !important
+}

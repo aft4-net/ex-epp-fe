@@ -9,17 +9,17 @@
   <div class="justify-between" nz-row>
     <div class="page-title" nz-col nzSpan="2"> Clients </div>
 
-   <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
+    <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
  </header>
 
-
+ <hr class="header-separator">
  <div class="main-content">
 
 <div nz-row class="ml-1 w-8 h-4">
   <div nz-col nzSpan="6" class="ml-1">
     <nz-input-group [nzSuffix]="suffixIconSearch" >
-      <input [formControl]="searchProject" type="text" nz-input placeholder="Search" />
+      <input [formControl]="searchProject" type="text" nz-input placeholder="search by client name" />
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <i nz-icon nzType="search"></i>
@@ -29,7 +29,6 @@
 
 
   <div>
-
     <ng-template #contentTemplate>
       <div style="width: 190px;">
 
@@ -79,7 +78,7 @@
 
 
 
-<nz-table class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
+<nz-table style="padding: 0px 2%;" class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
 
 
   <thead>
@@ -140,7 +139,6 @@
  </div>
 
 </div>
-
 
 
 

@@ -1,23 +1,12 @@
 
 <div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">
     <h1 class="opacity-0">Country</h1>
-    <div class="flex flex-row justify-center content-between">
-        <div class="w-full m-0 mb-6 opacity-0">
-            <nz-form-control [nzSm]="10" [nzXs]="20">
-                <nz-input-group nzSearch [nzSuffix]="suffixIconSearch">
-                    <input type="text" nz-input placeholder="Country">
-                </nz-input-group>
-            </nz-form-control>
-        </div>
+    <div class="flex flex-row justify-end content-between mb-7">
         <div class="config-add-button">
-            <button nz-button nzType="primary" (click)="openModal()">
+            <button nz-button nzType="primary" (click)="openModal()" *ngIf="authorize('Create_Country')">
                 <span>Add Country</span>
             </button>
         </div>
-
-        <ng-template #suffixIconSearch>
-            <i nz-icon nzType="search" nzTheme="outline"></i>
-        </ng-template>
     </div>
 
     <div>
@@ -32,9 +21,9 @@
                 <tr *ngFor="let country of countryTable.data">
                     <td>{{ country.Name }}</td>
                     <td>
-                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)"></i>
+                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)" *ngIf="authorize('Update_Country')"></i>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)"></i>
+                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)" *ngIf="authorize('Delete_Country')"></i>
                     </td>
                 </tr>
             </tbody>
@@ -48,7 +37,9 @@
             <div class="w-full m-0 mb-6">
                 <label for="Name">Name:</label>
                 <div class="m-0 mt-2">
-                    <input nz-input id="Name" placeholder="Name" [formControl]="country" />
+                    <nz-select id="Name" [formControl]="country" class="w-full" nzPlaceHolder="Country" [nzShowSearch]="true">
+                        <nz-option *ngFor="let country of (countryList$ | async)" nzValue="{{country.value}}" nzLabel="{{country.label}}" class="font-normal text-base not-italic"></nz-option>
+                    </nz-select>
                 </div>
             </div>
 

@@ -28,7 +28,6 @@ export class ContactsFormComponent implements OnInit {
 
   buttonClicked = 0;
 
-
   addContactForm!: FormGroup;
   listData = [] as ClientContactCreate[];
   isModalVisible = false;
@@ -43,7 +42,6 @@ export class ContactsFormComponent implements OnInit {
   found=false;
   updateContacts:UpdateClientContact[]=[];
   clientContactUpdateBtn!:boolean;
-  // ContactPersonName= new FormControl('');
 
   constructor(
     private fb: FormBuilder,
@@ -84,7 +82,7 @@ else{
 this.addContactForm = this.fb.group({
 ContactPersonName: ['', [Validators.required,Validators.minLength(2),Validators.maxLength(70)]],
 PhoneNumber: ['', [Validators.required,Validators.pattern("^[0-9]*$"),Validators.minLength(9), Validators.maxLength(15)]],
-PhoneNumberPrefix:['+251',[Validators.required]],
+PhoneNumberPrefix:['',[Validators.required]],
 Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Validators.email,Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]]
     });
 
@@ -95,9 +93,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
       this.addContactForm.value['Email']!=''  ){
         this.updateClientStateService.updateButtonListener=false;
        this.isClearButtonActive=false;
-       console.log("fssssssssssssssssssssssss")
        console.log(this.clientContactUpdateBtn=false);
-       console.log("fssssssssssssssssssssssss")
       }
       else{
        this.isClearButtonActive=true;
@@ -274,9 +270,7 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
 
 
   edit(index:number){
-    console.log("checking edit mode")
     console.log(this.clientContactUpdateBtn=true);
-    console.log("checking edit mode")
      this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.listData.length;count++){
 

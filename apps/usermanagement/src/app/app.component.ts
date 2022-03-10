@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
 import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
 interface RouteLinks {
@@ -27,16 +28,14 @@ activePath(routePath: string) {
   return this.route == routePath;
 }
 
-constructor(public _commonData:CommonDataService,private _authenticationService:AuthenticationService, 
+constructor(public _commonData:CommonDataService,
+  private _authenticationService:AuthenticationService, 
+  private _permissionService: PermissionListService,
    private router: Router, private authService: MsalService){
   this._commonData.getPermission();
 }
 
 ngOnInit(): void {
-  console.log()
-}
-ngAfterContentInit() {
- 
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
    // window.location.reload();
@@ -44,17 +43,37 @@ ngAfterContentInit() {
     this.router.navigateByUrl('usermanagement/logIn');
   }
   else{
-    if(this._authenticationService.loginCount==0){
-      this._authenticationService.loginCount=1
-      this.router.navigateByUrl('usermanagement');
-    }
-    else{
-      this.router.navigateByUrl('usermanagement');
-    }
+    let route ='usermanagement';
+    this._commonData.permissionList$.subscribe(res => {
+      if(res.map(res => res.KeyValue).indexOf("View_User") === -1) {
+        route =this.route= 'usermanagement/group';
+      }
+      else {
+        route = 'usermanagement'
+      }
+      this.router.navigateByUrl(route);
+    });
   }
+  
+
+}
+authorize(key: string): boolean {
+  return this._permissionService.authorizedPerson(key);
+}
+ngAfterContentInit() {
+ ;
+  
 }
 isLoggedIn(): boolean {
   return this.authService.instance.getActiveAccount() != null;
+}
+get hasSingleGroupPermission() :boolean
+{
+  return this._permissionService.hasSingleGroupPermission;
+}
+get hasSingleUserPermission() :boolean
+{
+  return this._permissionService.hasSingleUserPermission;
 }
 }
 

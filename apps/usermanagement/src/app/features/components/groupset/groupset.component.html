@@ -93,7 +93,7 @@
         <div nz-col class="gutter-row" [nzSpan]="6">
           <nz-input-group style="height: 33px; width: 320px;" [nzSuffix] ="suffixIconButton">
             <input  type="text"  #searchInput formControlName="groupName" nzSize="large"
-             style="border: none;" nz-input placeholder="Search" (onchange)="SearchgroupsByName()" />
+             style="border: none;" nz-input placeholder="Search by name"  (onchange)="SearchgroupsByName()"/>
           </nz-input-group>
           <ng-template #suffixIconButton>
               <i nz-icon nzType="search" (click)="SearchgroupsByName()"></i>
@@ -111,11 +111,6 @@
             </div> -->
         </div>
       </div>
-      <div  nz-row nzJustify="end" *ngIf="groupList.length > 0">
-        <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
-        <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-          nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
-      </div>
       <br/>
       <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" nzSpan="24">
@@ -123,22 +118,22 @@
               nzTableLayout="auto">
               <thead>
                 <tr>
-                  <th class="tdstyle" style="font-weight:bold" *ngFor="let column of listOfColumnsFullName"
+                  <th class="tdstyle defaultcolor" style="font-weight:bold" *ngFor="let column of listOfColumnsFullName"
                     [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                     [nzSortDirections]="column.sortDirections">{{column.name}}</th>
 
-                  <th class="tdstyle" style="font-weight:bold" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                  <th class="tdstyle defaultcolor" style="font-weight:bold" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                     [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                     [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                     [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                  <th class="tdstyle" style="font-weight:bold">Action</th>
+                  <th class="tdstyle defaultcolor" style="font-weight:bold">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let group of rowSelectionTable.data; let indexOfelement=index;" >
                   <td class="tdstyle">{{group.Name}}</td>
                   <td >
-                    <button nz-button class="tdstyle"  style="border:0px; color: green;" nzType="link" [nzSize]="size"
+                    <button nz-button class="tdstyle"  style="border:0px; color: green; margin-left:-7px" nzType="link" [nzSize]="size"
                       (click)="ShowDetail(group.Guid)">Show Detail
                     </button>
                   </td>
@@ -147,6 +142,11 @@
             </nz-table>
         </div>
       </div>
+        <div class="pagination" nz-row nzJustify="end" *ngIf="groupList.length > 0">
+          <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+          <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+            nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
+        </div>
     </div>
   </nz-content>
 </nz-layout>

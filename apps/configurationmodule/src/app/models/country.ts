@@ -12,3 +12,9 @@ interface Response {
 export interface CountryResponse extends Response {
     Data: Country;
 }
+
+export interface SelectOption {
+    value: string;
+    label: string;
+}
+

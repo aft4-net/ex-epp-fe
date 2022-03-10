@@ -8,9 +8,26 @@
 }
 
 
+::ng-deep .ant-table.ant-table-middle .ant-table-footer, .ant-table.ant-table-middle .ant-table-tbody>tr>td, .ant-table.ant-table-middle .ant-table-thead>tr>th, .ant-table.ant-table-middle .ant-table-title, .ant-table.ant-table-middle tfoot>tr>td, .ant-table.ant-table-middle tfoot>tr>th {
+  padding: 12px 8px;
+  font-size: 16px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont !important;
+align-items: center;
+color: #262626;
+}
+
 ::ng-deep .ant-table-thead>tr>th {
 
   background: #F0F0F0 !important;
+  font-style: normal;
+font-weight: 500;
+font-size: 16px;
+
+align-items: center;
+
+/* Body Text/ Shade 1 */
+
+color: #262626;
 }
 
 tr:nth-child(even) {
@@ -28,19 +45,9 @@ nz-table.table-container.ant-table-wrapper {
   padding-top: 1%;
 }
 
-
-
 .main_container_homepage {
   padding: 0px 2%;
 }
-
-
-
-::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
-  content: none !important;
-}
-
-
 
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
@@ -140,36 +147,37 @@ background-color: #00A551;
 
 
 
-::ng-deep .conform-modal .ant-modal-content {
+
+::ng-deep .delete-conform-modal .ant-modal-content {
   border: 0.5px solid #00a551;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-  width: 400px;
-  height: 147px !important;
+  width: 360px;
+  height: 162px !important;
   padding-top: 0px !important;
   background: #ffffff;
   align-self: center;
   justify-self: center;
 }
 
-::ng-deep .conform-modal .ant-modal-header {
+::ng-deep .delete-conform-modal .ant-modal-header {
   font-size: 16px;
-  padding-bottom: 3px;
+  padding-bottom: 4px;
   color: rgba(0, 0, 0, .85);
   background: #fff;
   border-bottom: none;
 
 }
 
-::ng-deep .conform-modal .ant-modal-body {
+::ng-deep .delete-conform-modal .ant-modal-body {
   padding-top: 0px;
-  font-weight: 500;
+  font-weight: 485;
   height: 70%;
   width: auto;
   font-size: 16px;
   line-height: 24px;
 }
 
-::ng-deep .conform-modal .anticon svg {
+::ng-deep .delete-conform-modal .anticon svg {
   font-size: 20px;
   margin-bottom: 40%;
 }
@@ -281,30 +289,21 @@ nz-table {
 
 .main_container_homepage {
   padding: 0px 1.6% ;
-  padding-bottom: 2rem ;
-  margin-bottom: 2rem ;
+
+
 
 }
 
 
 .page-title {
-
-
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
-  /* or 140% */
-  
-  display: flex;
-  align-items: center;
-
-
-
-  color: #262626;
-
-
+display: flex;
+align-items: center;
+color: #262626;
 }
 
 
@@ -320,8 +319,4 @@ hr {
 
 
 
-.tab-content {
 
-  height: 100vh;
-
-}

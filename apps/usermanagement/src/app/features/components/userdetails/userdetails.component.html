@@ -1,9 +1,9 @@
 <nz-layout *ngIf="isLogin" style="background: white;" >
   <nz-content style="padding-right: 10%; padding-bottom: 3%;">
 
-  <div>
+  <div style="margin-top: -20px;">
     <h2 class="font-bold azk">Account</h2>
-    <form [formGroup]="userdetail" nzSpan="24" *ngIf="authorize('User_Management_Admin')">
+    <form [formGroup]="userdetail" nzSpan="24">
       <div nz-row>
         <div class="user-detail" style="margin-left: 3px;">
           <div class="user-detail-upper">
@@ -19,13 +19,13 @@
               <div nz-row >
                 <div nz-col class="gutter-row" nzSpan="24">
                   <div class="inner-box">
-                    <p style="font-size: 14px"> {{thePosition?.JobTitle }}</p> 
+                    <p style="font-size: 14px"> {{thePosition}} 
                   </div>
                 </div>
               </div>
                
             </div>
-            <div style="margin-top:-20px">
+            <div>
               <nz-avatar class="user-detail-avatar" [nzSize]="64" nzIcon="user"></nz-avatar>
             </div>
             <br />
@@ -46,17 +46,17 @@
                 </div>
               </div>
               <div nz-col class="gutter-row" nzSpan="2">
-      <a style="float:right" nz-button nzType="link" (click)="resetPassword()">RESET PASSWORD</a>
+                <div class="resetPassword" *ngIf="authorize('Update_User')">
+                  <a nz-button nzType="link" (click)="resetPassword()">
+                    Reset Password</a>
+                </div>
             </div>
             </div>
             <div style="margin-top:-10px">
-             <a (click)="UpdateStatus()">
+             <a (click)="UpdateStatus()" *ngIf="authorize('Update_User')">
               <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
               ></nz-switch>
               </a>
-
-            
-              
             </div>
           </div>
         </div>
@@ -111,7 +111,7 @@
   </ng-template>
   </nz-modal>
 <br />
-<div class="m-5">
+<div style="margin-top:-35px">
   <h2 class="font-bold azk">Permission groups</h2>
   <p class="azk">
     Use groups to precisely manage a user's access & roles (e.g. give them

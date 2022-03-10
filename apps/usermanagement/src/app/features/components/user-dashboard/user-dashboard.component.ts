@@ -73,9 +73,10 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   userListFullName : NzTableFilterList=[];
   fullName = '';
   loadingOnSave = false;
+  loadingOnSaveGroup = false;
   listOfColumns!: ColumnItem<IUserModel>[];
   confirmModal?: NzModalRef;
-  listOfColumnsUser: ColumnItem<IUserModel>[] = [
+   listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
       name: 'Name',
       sortOrder: null,
@@ -124,15 +125,13 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     .pipe(
       map(event => event.target.value),
       startWith(''),
-      debounceTime(3000),
+      debounceTime(2000),
       distinctUntilChanged(),
       switchMap( async (search) => {this.userDashboardForm.value.userName = search,
       this.SearchUsersByUserName()
       })
     ).subscribe();
 
-    setTimeout(() => {
-      }, 100);
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
@@ -368,10 +367,10 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
       this.loading = false;
     }
   }
+  
   onAddUser()
   {
     this.isUserModalVisible = true;
-
     this.addUserService.getEmployeesNotInUsers().subscribe(
       (r:ResponseDTO<[IEmployeeModel]>) => {
         this.employeeList= r.Data;
@@ -392,7 +391,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     this.fullName = fullName;
     this.selectedGroups = [];
     this.isGroupModalVisible = true;
-    this.loadingOnSave = true;
+    this.loadingOnSaveGroup = true;
     this.addUserService.getGroups().subscribe(
         (r:  GroupSetModel[]) => {
             this.groupList = r;
@@ -405,13 +404,13 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
                         this.selectedGroups.push(el.Guid);
                     });
                     this.groupfrm.setValue({'Groups': this.selectedGroups});
-                    this.loadingOnSave = false;
+                    this.loadingOnSaveGroup = false;
                 },
                 (error: any) => {
                     console.log(error);
                 }
             );
-            this.loadingOnSave = false;
+            this.loadingOnSaveGroup = false;
         },
         (error: any) => {
             console.log(error);
@@ -422,7 +421,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
 onSaveGroups() {
 
   this.selectedGroups = [];
-  this.loadingOnSave = true;
+  this.loadingOnSaveGroup = true;
       const x = this.groupfrm.get('Groups').value;
 
       x.forEach((el: string) => {
@@ -434,14 +433,14 @@ onSaveGroups() {
         if( r.ResponseStatus == ResponseStatus.error)
        {
          this.onShowError('Some error has occured. Review your inputs and try again');
-         this.loadingOnSave = false;
+         this.loadingOnSaveGroup = false;
          return;
        }
           this.notifier.notify(
               NotificationType.success,
               'User has added to group successfully'
           );
-          this.loadingOnSave = false;
+          this.loadingOnSaveGroup = false;
           this.isGroupModalVisible = false;
           this.selectedGroups = [];
           this.groupfrm.reset();
@@ -461,9 +460,11 @@ handleGroupCancel() {
     console.log(err);
     this.notifier.notify(NotificationType.error, errMsg);
     this.loadingOnSave = false;
+    this.loadingOnSaveGroup = false;
   }
   onSaveUser()
   {
+
     if(this.selectedUserValue == null || '')
       this.onShowError('Select employee');
     this.loadingOnSave = true;
@@ -519,7 +520,6 @@ handleGroupCancel() {
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
     this.isUserModalVisible = false;
   }
 
@@ -533,36 +533,51 @@ handleGroupCancel() {
 
   showConfirm(userGuid : string): void {
     this.userService.isSuperAdmin(userGuid).subscribe((res)=>{
-     if(res == true){
-      const modal: NzModalRef = this.modal.confirm({
-        nzTitle: 'This User Can Not Be Deleted',
-        nzContent: '',
-        nzOkText: 'OK',
-        nzOkType: 'default',
-        nzOkDanger: true,
-      
+    
+      if(res === true){
+        this.modal.confirm({
+          nzTitle: 'Super Admin Can Not Be Deleted !',
+          nzContent: '',
+          nzOkText: 'Ok',
+          nzOkType: 'primary',
+          nzOkDanger: false,
+        //  nzOnOk: () => this.deleteHandler(id),
+        //  nzCancelText: 'No'
         });
-     }
-     else{
-    const modal: NzModalRef = this.modal.confirm({
-      nzTitle: 'Deleting User?',
-      nzContent: 'Once you delete the user you can not undo the deletion',
-      nzOkText: 'Delete User',
-      nzOkType: 'default',
-      nzOkDanger: true,
-      nzOnOk: () =>
-        this.userService.RemoveUser(userGuid).subscribe(
-          (result) => {
-            this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
-            if(this.userDashboardForm.value.userName != '')
-            {
-              this.SearchUsersByUserName();
-            }
-            else
-            {
-              this.FeatchAllUsers();
-            }
-          })
+      }
+      else{
+    const modal: NzModalRef = this.modal.create({
+      nzWidth:'350px',
+      nzTitle: 'Delete user?',
+      nzAutofocus : null,
+      nzContent: 'Are you sure you want to delete user?This action can not be undone',
+      nzFooter: [
+        {
+          label: 'Yes, Delete',
+          type: 'primary',
+          danger: false,
+          onClick: () => {
+            this.userService.RemoveUser(userGuid).subscribe(
+              (result) => {
+                this.createNotification("Deleting User",result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
+                if(this.userDashboardForm.value.userName != '')
+                {
+                  this.SearchUsersByUserName();
+                }
+                else
+                {
+                  this.FeatchAllUsers();
+                }
+              })
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy(),
+
+        }]        
       });
     }
   });

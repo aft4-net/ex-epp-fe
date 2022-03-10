@@ -1,8 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "./../../../../environments/environment";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
+import { CountryListService } from "./../../../../../../../libs/common-services/country-list.service";
 
 function mapPrefix(values?: { name: string, dial_code: string }[] | null) {
     return (values ? values : [
@@ -21,94 +23,47 @@ function mapPrefix(values?: { name: string, dial_code: string }[] | null) {
 })
 export class CountriesMockService {
 
-    private readonly _baseURL = 'https://countriesnow.space/api/v0.1/countries';
+    private readonly _baseURL = environment.apiUrl;
 
     constructor(
-        protected readonly _httpClient: HttpClient
+        protected readonly _httpClient: HttpClient,
+        private _countryListService: CountryListService
     ) {
     }
 
 
     getStates(countryName?: string | null): Observable<SelectOptionModel[]> {
         if (countryName && countryName !== null && countryName !== '') {
-            return this._httpClient.post(
-                this._baseURL + '/states',
-                { country: countryName }
-            )
-                .pipe(
-                    map((response: any) => {
-                        return response.data.states.map((state: any) => {
-                            return {
-                                value: state.name,
-                                label: state.name
-                            } as SelectOptionModel
-                        })
-                    })
-                )
-        }
-        return of([])
-    }
-
-    getCountries(): Observable<SelectOptionModel[]> {
-        return this._httpClient.get(
-            this._baseURL + '/iso'
-        )
-            .pipe(
+            return this._countryListService.getCountryAndState(this._baseURL, countryName ?? "").pipe(
                 map((response: any) => {
-                    return response.data.map((country: any) => {
+                    return response.data.state.map((state: any) => {
                         return {
-                            value: country.name,
-                            label: country.name
+                            value: state.name,
+                            label: state.name
                         } as SelectOptionModel
                     })
                 })
             )
+        }
+        return of([]);
     }
 
-    getCities(countryName?: string | null, stateName?: string | null): Observable<SelectOptionModel[]> {
-        if (countryName && countryName !== null && countryName !== '') {
-            if (stateName && stateName !== null && stateName !== '') {
-                return this._httpClient.post(
-                    this._baseURL + '/state/cities',
-                    { country: countryName, state: stateName }
-                )
-                    .pipe(
-                        map((response: any) => {
-                            return response.data.map((city: any) => {
-                                return {
-                                    value: city,
-                                    label: city
-                                } as SelectOptionModel
-                            })
-                        })
-                    )
-            } else {
-                return this._httpClient.post(
-                    this._baseURL + '/state/cities',
-                    { country: countryName, state: stateName }
-                )
-                    .pipe(
-                        map((response: any) => {
-                            return response.data.states.map((state: any) => {
-                                return {
-                                    value: state.name,
-                                    label: state.name
-                                } as SelectOptionModel
-                            })
-                        })
-                    )
-            }
-        }
-        return of([])
+    getCountries(): Observable<SelectOptionModel[]> {
+        return this._countryListService.getCountry(this._baseURL).pipe(
+            map((response: any) => {
+                return response.data.map((country: any) => {
+                    return {
+                        value: country.country,
+                        label: country.country
+                    } as SelectOptionModel
+                })
+            })
+        );
     }
 
     getCountriesPhonePrefices(): Observable<SelectOptionModel[]> {
-        return this._httpClient.get(
-            this._baseURL + '/codes'
-        )
-            .pipe(
-                map((response: any) => mapPrefix(response.data))
-            )
+        return this._countryListService.getCountryAndCode(this._baseURL).pipe(
+            map((response: any) => mapPrefix(response.data))
+        );
     }
-
 }

@@ -15,7 +15,8 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
 
 }
       authorizedPerson(key:string){
-        let found=false; 
+       // console.log( this._commonData.permissionList);
+        let found=false;
           this._commonData.permissionList.forEach(element => {
            
               if(element.KeyValue==key){
@@ -24,4 +25,19 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
           });
           return found;
       }
+      get hasSingleUserPermission()
+      {
+        return this.authorizedPerson('Add_User')
+        || this.authorizedPerson('Update_User')
+        || this.authorizedPerson('Delete_User')
+        || this.authorizedPerson('View_User')
+      }
+      get hasSingleGroupPermission()
+      {
+        return this.authorizedPerson('Create_Group')
+        || this.authorizedPerson('Update_Group')
+        || this.authorizedPerson('Delete_Group')
+        || this.authorizedPerson('View_Group')
+      }
+    
     } 

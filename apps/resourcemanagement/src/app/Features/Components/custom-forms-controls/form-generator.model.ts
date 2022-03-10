@@ -40,9 +40,15 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _status = 'Active'
     private _isEdit = false
+    public isProfile = false;
+    private _validate = false;
+    private _employee?: Employee;
 
     get IsEdit(): boolean {
         return this._isEdit
+    }
+    get Validate(): boolean {
+        return this._validate
     }
 
     constructor(
@@ -50,7 +56,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         private readonly _employeeService: EmployeeService,
         addressCountryService: CountriesMockService,
         private notification: NzNotificationService,
-        private _router:Router
+        private _router: Router
     ) {
         super(
             addressCountryService
@@ -64,7 +70,50 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     }
 
+    private _enableForms() {
+        this.organizationalForm.enable({ onlySelf: true });
+        this.personalDetailsForm.enable({ onlySelf: true });
+    }
+
+    private _disableForms() {
+
+        if (this.isProfile) {
+            this.organizationalForm.disable({ onlySelf: true });
+            this.personalDetailsForm.disable({ onlySelf: true });
+            this.personalDetailsForm.get('phoneNumbers')?.enable();
+            this.personalDetailsForm.get('emailAddresses')?.enable()
+        } else if (this.IsEdit) {
+            this.personalDetailsForm.get('employeeIdNumber')?.disable();
+        } else {
+            this.organizationalForm.get('status')?.disable();
+        }
+
+    }
+
+    validatePersonalDetail() {
+        let valid = true;
+        this._enableForms();
+        if(!this.personalDetailsForm.valid){
+            this.personalDetailsForm.updateValueAndValidity();
+            valid = false;
+        }
+        this._disableForms();
+        return valid;
+    }
+
+    validateOrganizationalDetail() {
+        let valid = true;
+        this._enableForms();
+        if(!this.organizationalForm.valid){
+            this.organizationalForm.updateValueAndValidity();
+            valid = false;
+        }
+        this._disableForms();
+        return valid;
+    }
+
     save() {
+        this._enableForms()
         let employee: Employee = {} as Employee
         employee = {
             ...employee,
@@ -77,6 +126,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
+        this._disableForms()
         this._employeeService.empNum = employee.EmployeeNumber;
         this._employeeService.add(employee)
             .subscribe((response: any) => {
@@ -96,7 +146,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     }
     updateOneEmployee() {
-        
+        this._enableForms()
         let employee: Employee = {} as Employee
         employee = {
             ...employee,
@@ -107,6 +157,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
+        this._disableForms()
         this._employeeService.empNum = employee.EmployeeNumber;
         this._employeeService.update(employee)
             .subscribe((response: any) => {
@@ -127,6 +178,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     getModelPersonalDetails() {
+
         const value = this.personalDetailsForm.value
         this._employeeService.empNum = value.employeeIdNumber;
 
@@ -552,6 +604,9 @@ export class FormGenerator extends FormGeneratorAssistant {
         this.errorMessageforOrganizationDetails(
             this.organizationalForm
         )
+        if (this.isProfile) {
+            this.organizationalForm.disable({ onlySelf: true });
+        }
     }
 
     private _setAddressDetail(address: Address) {
@@ -598,7 +653,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.Guid,
             this.getFormControl('guid', this.emergencyContact)
         )
-       
+
         if (emergencyContact.FirstName && emergencyContact.FatherName) {
             this._setNames(
                 emergencyContact.FirstName,
@@ -646,8 +701,8 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.city,
             this.getFormControl('city', this.emergencyAddress)
         )
-    
-       
+
+
         this._setControlValue(
             emergencyContact.subCityZone,
             this.getFormControl('subCityZone', this.emergencyAddress)
@@ -708,6 +763,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
+        this._employee = employee;
         this._regenerateForm()
         if (employee) {
             this.emplyeeNumber = employee.EmployeeNumber;
@@ -726,9 +782,12 @@ export class FormGenerator extends FormGeneratorAssistant {
             if (employee?.EmergencyContact) {
                 this.allEmergencyContacts = employee?.EmergencyContact
             }
+            this._validate = true;
         } else {
             this._isEdit = false
+            this._validate = false;
         }
+        this._disableForms()
     }
 
     generateAddressForm(address?: Addresss) {
@@ -763,6 +822,36 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     triggerValidation(control: FormControl | FormArray | FormGroup) {
         console.log()
+    }
+
+    private _formValidation(formGroup: FormGroup) {
+        this._enableForms();
+        const value = formGroup.value;
+        formGroup.reset();
+        formGroup.setValue(value);
+        this._disableForms();
+    }
+
+    errorMessageforPersonalDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforOrganizationDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforAddressDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforFamilyDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforEmergencyContactDetails(emergencyGroup: FormGroup, addressGroup: FormGroup) {
+        this._formValidation(emergencyGroup);
+        this._formValidation(addressGroup);
+
     }
 
 }
