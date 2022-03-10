@@ -26,7 +26,7 @@ export class GroupsetComponent implements OnInit {
   isVisible = false;
   groupSet = new FormGroup({
     Name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(70),
-                              Validators.pattern('^[a-zA-Z][a-zA-Z0-9-_ ]+$')]),
+    Validators.pattern('^[a-zA-Z][a-zA-Z0-9-_ ]+$')]),
     Description: new FormControl('', [Validators.maxLength(250)])
   });
 
@@ -35,21 +35,21 @@ export class GroupsetComponent implements OnInit {
   loading = false;
   indeterminate = false;
   setOfCheckedId = new Set<string>();
-  groupList$ : Observable<GroupSetModel[]>= new Observable<GroupSetModel[]>();
+  groupList$: Observable<GroupSetModel[]> = new Observable<GroupSetModel[]>();
   listOfData: readonly Data[] = [];
   listOfCurrentPageData: readonly Data[] = [];
-  groupList : GroupSetModel[] = [];
+  groupList: GroupSetModel[] = [];
   paginatedResult !: PaginationResult<GroupSetModel[]>;
   groupParams = new GroupParams();
   searchStateFound !: boolean;
   pageSize = 10;
   pageIndex = 1;
-  totalRows !:number;
+  totalRows !: number;
   totalRecord !: number;
   beginingRow !: number;
   lastRow !: number;
   groupName!: string;
-  isLogin=false;
+  isLogin = false;
   listOfColumns!: ColumnItem<GroupSetModel>[];
 
 
@@ -71,41 +71,42 @@ export class GroupsetComponent implements OnInit {
 
   constructor(
     //private _intialdataService: IntialdataService,
-    private _authenticationService:AuthenticationService,
-    private _permissionService:PermissionListService,
+    private _authenticationService: AuthenticationService,
+    private _permissionService: PermissionListService,
     private groupSetService: GroupSetService,
     private router: Router,
     private notification: NotificationBar,
     private validator: FormValidator,
     private fb: FormBuilder
-    ) {
-    this.isLogin=_authenticationService.loginStatus();
+  ) {
+    this.isLogin = _authenticationService.loginStatus();
   }
-  authorize(key:string){
+  authorize(key: string) {
 
     return this._permissionService.authorizedPerson(key);
   }
-// getPermission(): void {
- // this._intialdataService.getUserPermission().subscribe((res:any)=>{
-   // this.permissionList=res.Data;
- // })
-//}
+  // getPermission(): void {
+  // this._intialdataService.getUserPermission().subscribe((res:any)=>{
+  // this.permissionList=res.Data;
+  // })
+  //}
 
-ngAfterViewInit() {
+  ngAfterViewInit() {
 
 
-  fromEvent<any>(this.input.nativeElement,'keyup')
-  .pipe(
-    map(event => event.target.value),
-    startWith(''),
-    debounceTime(2000),
-    distinctUntilChanged(),
-    switchMap( async (search) => {this.groupDashboardForm.value.userName = search,
-    this.SearchgroupsByName()
-    })
-  ).subscribe();
+    fromEvent<any>(this.input.nativeElement, 'keyup')
+      .pipe(
+        map(event => event.target.value),
+        startWith(''),
+        debounceTime(2000),
+        distinctUntilChanged(),
+        switchMap(async (search) => {
+          this.groupDashboardForm.value.userName = search,
+          this.SearchgroupsByName()
+        })
+      ).subscribe();
 
-}
+  }
 
   onAddNewRecord(): void {
     this.resetForm();
@@ -117,12 +118,12 @@ ngAfterViewInit() {
     this.isVisible = false;
   }
 
-  resetForm(){
-      this.groupSet.reset();
+  resetForm() {
+    this.groupSet.reset();
   }
 
 
-  onSaveGroup(): void{
+  onSaveGroup(): void {
     const dataToPost = this.groupSet.value;
 
     this.groupSetService.createGroup(dataToPost).subscribe(
@@ -155,7 +156,7 @@ ngAfterViewInit() {
       duration: 1,
     });
   }
-  
+
   creategroupDashboardControls() {
     this.groupDashboardForm = this.fb.group({
       groupName: [''],
@@ -166,133 +167,125 @@ ngAfterViewInit() {
   FeatchAllgroups() {
     this.loading = true;
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
-    this.groupSetService.SearchUsers(this.groupParams).subscribe((response:PaginationResult<GroupSetModel[]>) => {
-      if(response.Data) {
+    this.groupSetService.SearchUsers(this.groupParams).subscribe((response: PaginationResult<GroupSetModel[]>) => {
+      if (response.Data) {
 
-        this.groupList$=of(response.Data);
+        this.groupList$ = of(response.Data);
         this.groupList = response.Data;
         this.listOfCurrentPageData = response.Data;
-        this.pageIndex=response.pagination.PageIndex;
-        this.pageSize=response.pagination.PageSize;
-        this.totalRecord=response.pagination.TotalRecord;
-        this.totalRows=response.pagination.TotalRows;
+        this.pageIndex = response.pagination.PageIndex;
+        this.pageSize = response.pagination.PageSize;
+        this.totalRecord = response.pagination.TotalRecord;
+        this.totalRows = response.pagination.TotalRows;
         this.lastRow = this.totalRows;
         this.beginingRow = 1;
         this.loading = false;
       }
-      else
-      {
+      else {
         this.loading = false;
         this.groupList = [];
-        this.groupList$=of([]);
+        this.groupList$ = of([]);
 
       }
 
-    },error => {
+    }, error => {
       this.loading = false;
 
-     });
-    this.searchStateFound=false;
+    });
+    this.searchStateFound = false;
   }
 
   SearchgroupsByName() {
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
-    if(this.groupParams.searchKey.length >= 2 || this.groupParams.searchKey == "") 
+    if (this.groupParams.searchKey.length >= 2 || this.groupParams.searchKey == "")
       this.groupSetService.SearchUsers(this.groupParams)
-      .subscribe((response: PaginationResult<GroupSetModel[]>) => {
-        if(response.Data) {
-          this.loading = true;
-          this.groupList$=of(response.Data);
-          this.groupList = response.Data;
-          this.listOfCurrentPageData = response.Data;
-          this.pageIndex=response.pagination.PageIndex;
-          this.pageSize=response.pagination.PageSize;
-          this.totalRecord=response.pagination.TotalRecord;
-          this.totalRows=response.pagination.TotalRows;
-          this.lastRow = this.totalRows;
-          this.beginingRow = 1;
-          this.loading = false;
-        }
-        else
-        {
-          this.loading = false;
-          this.groupList = [];
-          this.groupList$=of([]);
+        .subscribe((response: PaginationResult<GroupSetModel[]>) => {
+          if (response.Data) {
+            this.loading = true;
+            this.groupList$ = of(response.Data);
+            this.groupList = response.Data;
+            this.listOfCurrentPageData = response.Data;
+            this.pageIndex = response.pagination.PageIndex;
+            this.pageSize = response.pagination.PageSize;
+            this.totalRecord = response.pagination.TotalRecord;
+            this.totalRows = response.pagination.TotalRows;
+            this.lastRow = this.totalRows;
+            this.beginingRow = 1;
+            this.loading = false;
+          }
+          else {
+            this.loading = false;
+            this.groupList = [];
+            this.groupList$ = of([]);
 
-        }
-        this.searchStateFound=true;
-      },error => {
-        this.loading = false;
-      });
-    }
+          }
+          this.searchStateFound = true;
+        }, error => {
+          this.loading = false;
+        });
   }
-  
+
 
 
   PageIndexChange(index: any): void {
 
     this.groupParams.pageIndex = index;
     this.groupParams.searchKey = this.groupName ?? "";
-    if(this.searchStateFound == true)
-    {
+    if (this.searchStateFound == true) {
       this.groupSetService.SearchUsers(this.groupParams).subscribe(
-        (response:PaginationResult<GroupSetModel[]>)=>{
-          this.loading =true;
+        (response: PaginationResult<GroupSetModel[]>) => {
+          this.loading = true;
           this.groupList$ = of(response.Data);
-          this.groupList= response.Data;
+          this.groupList = response.Data;
           this.totalRows = response.pagination.TotalRows;
           this.pageIndex = response.pagination.PageIndex;
-          if(this.totalRows === this.pageSize)
-          {
+          if (this.totalRows === this.pageSize) {
             this.lastRow = this.pageSize * index;
-            this.beginingRow = (this.totalRows * (index-1)) + 1;
+            this.beginingRow = (this.totalRows * (index - 1)) + 1;
           }
-          else if((this.totalRows < this.pageSize))
-          {
+          else if ((this.totalRows < this.pageSize)) {
             this.lastRow = this.totalRecord;
             this.beginingRow = (this.totalRecord - this.totalRows) + 1;
           }
-          this.loading =false;
+          this.loading = false;
         });
     } else {
       this.groupSetService.SearchUsers(this.groupParams)
-      .subscribe((response:PaginationResult<GroupSetModel[]>)=>{
-        this.groupList$=of(response.Data);
-        this.groupList = response.Data;
-        this.totalRows = response.pagination.TotalRows;
-        this.pageIndex = response.pagination.PageIndex;
-        if(this.totalRows === this.pageSize)
-        {
-          this.lastRow = this.pageSize * index;
-          this.beginingRow = (this.totalRows * (index-1)) + 1;
-        }
-        else if((this.totalRows < this.pageSize))
-        {
-          this.lastRow = this.totalRecord;
-          this.beginingRow = (this.totalRecord - this.totalRows) + 1;
-        }
-        this.loading =false;
-      });
-      this.searchStateFound=false;
+        .subscribe((response: PaginationResult<GroupSetModel[]>) => {
+          this.groupList$ = of(response.Data);
+          this.groupList = response.Data;
+          this.totalRows = response.pagination.TotalRows;
+          this.pageIndex = response.pagination.PageIndex;
+          if (this.totalRows === this.pageSize) {
+            this.lastRow = this.pageSize * index;
+            this.beginingRow = (this.totalRows * (index - 1)) + 1;
+          }
+          else if ((this.totalRows < this.pageSize)) {
+            this.lastRow = this.totalRecord;
+            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
+          }
+          this.loading = false;
+        });
+      this.searchStateFound = false;
       this.loading = false;
     }
   }
 
   AddToGroup(userId: string) {
- // to do
+    // to do
   }
 
   Remove(userId: string) {
-// to do
+    // to do
   }
 
-  ShowDetail(groupId : string) {
+  ShowDetail(groupId: string) {
     this.router.navigateByUrl('usermanagement/group-detail/' + groupId);
   }
 
   CheckGroupNamExistance(event: any) {
     // const group_Name  = event.target.value;
     // alert(group_Name);
-  //  this.ngAfterViewInit();
+    //  this.ngAfterViewInit();
   }
 }
