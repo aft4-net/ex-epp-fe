@@ -94,7 +94,7 @@
                           <button class="actionButtons tdstyle" *ngIf="authorize('Update_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                          <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
+                          <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User') && (user.FullName.toLowerCase() !== 'admin admin admin')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
                         </nz-space>
