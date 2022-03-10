@@ -16,8 +16,8 @@
         <li  nz-menu-item [nzSelected]='activePath("/configurationmodule")' *ngIf="authorize('View_Department')">
           <i nz-icon nzType="apartment" nzTheme="outline"></i><a [routerLinkActive]="['/configurationmodule']" [routerLink]="['/configurationmodule']" >Department</a>
         </li>
-        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/role")' *ngIf="authorize('View_Role')">
-          <i nz-icon nzType="user" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/role']" >Job Title</a>
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/job-title")' *ngIf="authorize('View_Role')">
+          <i nz-icon nzType="user" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/job-title']" >Job Title</a>
         </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/country")' *ngIf="authorize('View_Country')">
           <i nz-icon nzType="flag" nzTheme="outline"></i>
