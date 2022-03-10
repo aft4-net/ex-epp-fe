@@ -103,7 +103,7 @@ export class AddEditDepartmentComponent implements OnInit {
             'Department',
             { nzPlacement: 'bottomRight' }
           );
-          this.update.emit("bottomRight");
+          this.update.emit("update");
         });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
