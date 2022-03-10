@@ -71,14 +71,16 @@ export class AddEditRoleComponent implements OnInit {
         this.notification.create(
           'success',
           'Successfully Added!',
-          'Job Title'
+          'Job Title',
+          { nzPlacement: 'bottomRight' }
         );
         this.update.emit("save");
       }, (error) => {
         this.notification.create(
           'error',
           'Error!',
-          error.message
+          error.message,
+          { nzPlacement: 'bottomRight' }
         );
         console.log(error);
       });
@@ -103,7 +105,8 @@ export class AddEditRoleComponent implements OnInit {
           this.notification.create(
             'success',
             'Successfully Updated!',
-            'Job Title'
+            'Job Title',
+            { nzPlacement: 'bottomRight' }
           );
           this.update.emit("update");
         });
