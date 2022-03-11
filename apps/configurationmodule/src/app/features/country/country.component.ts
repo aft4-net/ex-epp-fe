@@ -18,11 +18,17 @@ import { environment } from './../../../environments/environment';
 })
 export class CountryComponent implements OnInit {
   countries$: Observable<Country[]> = new Observable<Country[]>();
+  countries:Country[] =[] as Country[];
+  countriesView:Country[] =[] as Country[];
   addCountry = false;
   isNew = true;
   countryList$ = new Observable<SelectOption[]>();
   countryId = "";
   country: FormControl = new FormControl("");
+  total = 0;
+  loading = true;
+  pageIndex = 1;
+ 
 
   constructor(
     private countryService: CountryService,
@@ -42,8 +48,14 @@ export class CountryComponent implements OnInit {
       this.countries$ = this.countryService.get(id);
     }
     else {
-      this.countries$ = this.countryService.get();
+    this.countryService.get().subscribe((res:Country[])=>{
+     this.countries=res.reverse();
+     this.pageIndexChange(this.pageIndex);
+     this.total=this.countries.length;
+      });
+
     }
+    this.loading=false;
   }
 
   openModal() {
@@ -80,8 +92,6 @@ export class CountryComponent implements OnInit {
           this.getCountries();
           this.closeModal();
         }
-      }, error => {
-        console.log(error);
       });
     }
     else {
@@ -90,8 +100,6 @@ export class CountryComponent implements OnInit {
           this.getCountries();
           this.closeModal();
         }
-      }, error => {
-        console.log(error);
       });
     }
   }
@@ -144,5 +152,11 @@ export class CountryComponent implements OnInit {
 
   authorize(key:string){
     return this.permissionListService.authorizedPerson(key);
+  }
+
+  pageIndexChange(pageIndex:number)
+  {
+    this.pageIndex=pageIndex
+   this.countriesView=  this.countries.slice((pageIndex-1)*10).slice(0,10);
   }
 }
