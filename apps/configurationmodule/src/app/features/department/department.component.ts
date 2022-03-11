@@ -164,7 +164,8 @@ export class DepartmentComponent implements OnInit {
        this.notification.create(
         'success',
         'Successfully Deleted!',
-        'Department'
+        'Department',
+        { nzPlacement: 'bottomRight' }
       );
       //this.toastrService.success(response.message, "Department");
       // this.listOfDepartments = this.listOfDepartments.filter((d) => d.Guid !== id);

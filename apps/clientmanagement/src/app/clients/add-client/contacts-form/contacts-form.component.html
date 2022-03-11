@@ -59,7 +59,7 @@
       <nz-form-item>
         <nz-form-label class="client-label" [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
         <nz-form-control  nzErrorTip="Contact name is required"  [nzSm]="24" [nzXs]="24" nzHasFeedback>
-          <input  (keyup)="checkClientName()"   placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName" />
+          <input  (keyup)="checkClientName()"   placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName" style="text-transform: capitalize;"/>
           <span *ngIf="!ContactPersonName.valid && (ContactPersonName.touched )" class="error-block" >
             <span *ngIf="ContactPersonName.hasError('required')" >
               Client's name is required

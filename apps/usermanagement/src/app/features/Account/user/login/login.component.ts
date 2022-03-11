@@ -33,7 +33,7 @@ export class LoginComponent {
     password: new FormControl('', [
       //this.validator.validatePassword(),
       Validators.required,
-      // Validators.minLength(8),
+      //Validators.minLength(8),
     ]),
   });
   get loginEmail(): AbstractControl | null {
@@ -95,14 +95,15 @@ export class LoginComponent {
   }
 
   signin() {
-    this.loading = true;
-    if (this.loginPassword?.value.length < 8)
+    if (this.loginPassword?.value.length < 8){
       this.notification.showNotification({
         type: 'error',
-        content: 'Email or password is incorrect! Please try again',
+        content: 'Password length is required to be 8 minimum.',
         duration: 5000,
       });
-
+      return;
+      }
+    this.loading = true;
     this._authenticationService.signIn(this.loginForm.value).subscribe(
       (res) => {
         if (res.Data && res.Data.Token) {

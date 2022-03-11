@@ -36,7 +36,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   timeSheetStatus = "not-submitted-enable";
   notSubmittedTooltip = "";
   toolTipColor = "red";
-  toolTipText = "The time is passed total hour"
+  toolTipText = "Total time logged has passed the weekly expected amount"
   rejectedTimesheet: TimesheetApproval | null = null;
 
   title$ = this.timesheetStateService.timesheetPageTitle$;
