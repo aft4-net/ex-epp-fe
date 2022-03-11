@@ -174,15 +174,6 @@ nz-table.table-container.ant-table-wrapper {
   color: black;
 }
 
-::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down {
-  color: #595959 !important;
-}
-::ng-deep.ant-table-column-sorter-down.active,
-         .ant-table-column-sorter-up.active {
-          color: #595959 !important;
-}
-
 ::ng-deep.ant-checkbox-inner {
   border-color: black !important;
 }
