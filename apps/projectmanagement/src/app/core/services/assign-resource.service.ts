@@ -36,9 +36,8 @@ export class AssignResourceService extends ApiService<AssignResource> {
   {
     return this.httpClient.post(environment.baseApiUrl+'AssignResource',resource)
   }
-  checkAssignmentStatus(id:string):Observable<boolean>{debugger;
-
-    const x=this.httpClient.get<boolean>(environment.baseApiUrl+'AssignResource/check_assignment_status/?id='+ id);console.log(x);
-return x;
+  checkAssignmentStatus(id:string):Observable<boolean>
+  {
+    return this.httpClient.get<boolean>(environment.baseApiUrl+'AssignResource/check_assignment_status/?id='+ id);
  }
 }

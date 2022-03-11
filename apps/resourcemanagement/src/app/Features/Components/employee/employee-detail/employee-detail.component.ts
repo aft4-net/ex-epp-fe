@@ -25,6 +25,7 @@ import { PermissionListService } from 'libs/common-services/permission.service';
 import { listtToFilter } from '../../../Models/listToFilter';
 import { LoadingSpinnerService } from 'libs/common-services/loading-spinner.service';
 import {AssignResourceService} from '../../../../../../../projectmanagement/src/app/core/services/assign-resource.service';
+import {ClientDetailsService} from '../../../../../../../clientmanagement/src/app/core/services/client-details.service';
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -61,8 +62,10 @@ export class EmployeeDetailComponent implements OnInit {
     value: string;
   }[];
   assignmentStatus: any;
+  salesPersonStatus: any;
 
   constructor(
+    private _clientDetailsService:ClientDetailsService,
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
     private _router: Router,
@@ -795,9 +798,10 @@ FilterData(){
       });
     }
     OnDelete(employeeId: string): void {debugger
-      this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>this.assignmentStatus=res);console.log(this.assignmentStatus)
-      if(this.assignmentStatus==true){
-        this.createNotification("","warning","Cannot delete an employee assigned to a project");
+      this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>this.assignmentStatus=res);console.log(this.assignmentStatus);
+      this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>this.salesPersonStatus=res);
+      if(this.assignmentStatus==true || this.salesPersonStatus==true){
+        this.createNotification("","warning","Cannot delete a Sales person or an employee assigned to a project");
       }
       else{
         this.createGroupDeleteModal(employeeId);
