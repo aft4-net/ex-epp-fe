@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { Observable, fromEvent, of } from 'rxjs';
+import { Observable, fromEvent, of, BehaviorSubject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -24,7 +24,7 @@ import { PaginationResult } from '../../../Models/PaginationResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { listtToFilter } from '../../../Models/listToFilter';
 import { LoadingSpinnerService } from 'libs/common-services/loading-spinner.service';
-
+import {AssignResourceService} from '../../../../../../../projectmanagement/src/app/core/services/assign-resource.service';
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -60,6 +60,7 @@ export class EmployeeDetailComponent implements OnInit {
     text: string;
     value: string;
   }[];
+  assignmentStatus$: any;
 
   constructor(
     private _employeeService: EmployeeService,
@@ -71,9 +72,10 @@ export class EmployeeDetailComponent implements OnInit {
     private _message: NzNotificationService,
     private modal: NzModalService,
     private route:ActivatedRoute,
+    private _assignResourceService:AssignResourceService
     //private loadingSpinnerService: LoadingSpinnerService
   ) {
-   
+
     route.params.subscribe(val => {
       this.ngOnInit();
     });
@@ -149,13 +151,13 @@ export class EmployeeDetailComponent implements OnInit {
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void {
-    
+this.assignmentStatus$=new BehaviorSubject(false);
     //this.loadingSpinnerService.messageSource.next(true);
 
     this.getfilterDataMenu();
 
     if (this._authenticationService.isFromViewProfile() === 'true') {
-      
+
    // this.loadingSpinnerService.messageSource.next(true);
       this.uemail = this._authenticationService.getEmail();
       this.getUser();
@@ -776,9 +778,13 @@ FilterData(){
     this._message.create(type, title, message);
   }
 
-  DeleteEmployee(employeeId: string): void {
-    this._employeeService
-      .DeleteEmployee(employeeId)
+  DeleteEmployee(employeeId: string): void {debugger;
+    this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>this.assignmentStatus$=res);console.log(this.assignmentStatus$.GetValue())
+    if(this.assignmentStatus$.GetValue()==true){
+      this.createNotification("","warning","Cannot delete an employee assigned to a project");
+    }
+    else{
+    this._employeeService.DeleteEmployee(employeeId)
       .subscribe((result: any) => {
         this.createNotification(
           'Deleting Employee',
@@ -791,5 +797,6 @@ FilterData(){
           this.FeatchAllEmployees();
         }
       });
+    }
   }
 }
