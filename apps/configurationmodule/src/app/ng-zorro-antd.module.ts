@@ -16,6 +16,7 @@ import { NzPipesModule } from 'ng-zorro-antd/pipes';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzSelectModule,
     NzTableModule,
     NzPipesModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzCheckboxModule
   ]
 })
 export class DemoNgZorroAntdModule {

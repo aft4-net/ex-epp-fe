@@ -23,7 +23,7 @@ export class TimesheetConfigurationComponent implements OnInit {
       wednesday: new FormControl(true),
       thursday: new FormControl(true),
       friday: new FormControl(true),
-      starday: new FormControl(false),
+      saturday: new FormControl(false),
       sunday: new FormControl(false),
     }),
     workingHours: new FormGroup({
@@ -56,7 +56,7 @@ export class TimesheetConfigurationComponent implements OnInit {
           wednesday: this.timesheetConfig.WorkingDays.indexOf("Wednesday") >= 0,
           thursday: this.timesheetConfig.WorkingDays.indexOf("Thursday") >= 0,
           friday: this.timesheetConfig.WorkingDays.indexOf("Friday") >= 0,
-          starday: this.timesheetConfig.WorkingDays.indexOf("Starday") >= 0,
+          saturday: this.timesheetConfig.WorkingDays.indexOf("Saturday") >= 0,
           sunday: this.timesheetConfig.WorkingDays.indexOf("Sunday") >= 0,
         },
         workingHours: {
@@ -121,14 +121,14 @@ export class TimesheetConfigurationComponent implements OnInit {
       workingDays.push("Friday");
     }
 
-    // Starday
-    if(configValues.workingDays.starday) {
-      workingDays.push("Starday");
+    // Saturday
+    if(configValues.workingDays.saturday) {
+      workingDays.push("Saturday");
     }
 
     // Sunday
     if(configValues.workingDays.sunday) {
-      workingDays.push("sunday");
+      workingDays.push("Sunday");
     }
 
     return workingDays;
