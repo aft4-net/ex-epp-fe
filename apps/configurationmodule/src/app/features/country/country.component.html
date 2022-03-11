@@ -1,90 +1,58 @@
-<div class="main-content" style="margin: 0px 24px; padding-bottom: 58px">
-  <div nz-row>
-    <div nz-col nzSpan="22">
-        <nz-form-item>
-            <h1>Countries</h1>
-        </nz-form-item>
-      
-    </div>
-    <div nz-col nzSpan="2">
-        <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Country')" (click)="openModal()">
-            <span>Add Country</span>
-          </button>
 
-      <nz-modal
-        [(nzVisible)]="addCountry"
-        nzTitle="Add Country"
-        [nzFooter]="null"
-        nzClassName="config-add-country-modal"
-        (nzOnCancel)="closeModal()"
-      >
-        <ng-container *nzModalContent>
-          <form (ngSubmit)="save()" class="flex flex-col">
+    <div  class="content">
+    <div class="justify-between mb-3" nz-row>
+        <div class="tab-title"> Countries </div>
+    
+        <button  nz-button nzType="primary"   (click)="openModal()" *ngIf="authorize('Create_Country')" >
+            Add Country
+        </button>
+      </div>
+
+        <nz-table #countryTable [nzData]="countriesView" 
+        [nzLoading]="loading"  #basicTable nzSize="small" [nzFrontPagination]="false">
+            <thead>
+                <tr>
+                    <th>Country Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let country of countryTable.data">
+                    <td>{{ country.Name }}</td>
+                    <td>
+                        <i nz-icon nzType="edit" nzTheme="outline" (click)="update(country)" *ngIf="authorize('Update_Country')"></i>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <i nz-icon nzType="delete" nzTheme="outline" (click)="delete(country)" *ngIf="authorize('Delete_Country')"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <span *ngIf="total>0"  class="pagination flex justify-end ">
+            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
+              total : 10 * (pageIndex) }} of {{total}} entries
+            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="pageIndexChange($event)"
+              nzSimple>
+            </nz-pagination>
+          </span>
+        </div>
+
+
+<nz-modal [(nzVisible)]="addCountry" nzTitle="Add Country" [nzFooter]="null" nzClassName="config-add-country-modal" (nzOnCancel)="closeModal()">
+    <ng-container *nzModalContent>
+        <form (ngSubmit)="save()" class="flex flex-col">
             <div class="w-full m-0 mb-6">
-              <label for="Name">Name:</label>
-              <div class="m-0 mt-2">
-                <nz-select
-                  id="Name"
-                  [formControl]="country"
-                  class="w-full"
-                  nzPlaceHolder="Country"
-                  [nzShowSearch]="true"
-                >
-                  <nz-option
-                    *ngFor="let country of countryList$ | async"
-                    nzValue="{{ country.value }}"
-                    nzLabel="{{ country.label }}"
-                    class="font-normal text-base not-italic"
-                  ></nz-option>
-                </nz-select>
-              </div>
+                <label for="Name">Name:</label>
+                <div class="m-0 mt-2">
+                    <nz-select id="Name" [formControl]="country" class="w-full" nzPlaceHolder="Country" [nzShowSearch]="true">
+                        <nz-option *ngFor="let country of (countryList$ | async)" nzValue="{{country.value}}" nzLabel="{{country.label}}" class="font-normal text-base not-italic"></nz-option>
+                    </nz-select>
+                </div>
             </div>
 
             <div class="w-auto m-0 ml-auto mr-auto">
-              <button *ngIf="isNew" nz-button nzType="primary" type="submit">
-                Save
-              </button>
-              <button *ngIf="!isNew" nz-button nzType="primary" type="submit">
-                Update
-              </button>
+                <button *ngIf="isNew" nz-button nzType="primary" type="submit">Save</button>
+                <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
             </div>
-          </form>
-        </ng-container>
-      </nz-modal>
-    </div>
-  </div>
-  <div nz-row>
-    <div nz-col nzSpan="24">
-      <nz-table #countryTable [nzData]="(countries$ | async) ?? []">
-        <thead>
-          <tr>
-            <th>Country Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let country of countryTable.data">
-            <td>{{ country.Name }}</td>
-            <td>
-              <i
-                nz-icon
-                nzType="edit"
-                nzTheme="outline"
-                (click)="update(country)"
-                *ngIf="authorize('Update_Country')"
-              ></i>
-              <nz-divider nzType="vertical"></nz-divider>
-              <i
-                nz-icon
-                nzType="delete"
-                nzTheme="outline"
-                (click)="delete(country)"
-                *ngIf="authorize('Delete_Country')"
-              ></i>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </div>
-  </div>
-</div>
+        </form>
+    </ng-container>
+</nz-modal>

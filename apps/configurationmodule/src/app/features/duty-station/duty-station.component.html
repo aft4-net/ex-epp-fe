@@ -3,7 +3,8 @@
     <div nz-row>
         <div nz-col nzSpan="22">
             <nz-form-item>
-             <h1>Duty Stations</h1>
+                <div class="tab-title">Duty Stations</div>
+    
             </nz-form-item>
           
         </div>
@@ -43,7 +44,8 @@
     <div nz-row>
         <div nz-col nzSpan="24">
 
-        <nz-table #dutyStationTable [nzData]="(dutyStation$ | async) ?? []">
+            <nz-table   [nzLoading]="loading"   nzSize="small"   [nzFrontPagination]="false"  #dutyStationTable [nzData]="dutyStationListView">
+
             <thead>
                 <tr>
                     <th>Duty Station Name</th>
@@ -63,8 +65,13 @@
                 </tr>
             </tbody>
         </nz-table>
+        <span *ngIf="total>0"  class="pagination flex justify-end ">
+            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
+              total : 10 * (pageIndex) }} of {{total}} entries
+            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="pageIndexChange($event)"
+              nzSimple>
+            </nz-pagination>
+          </span>
     </div>
-</div>
-
-
+  </div>
 </div>

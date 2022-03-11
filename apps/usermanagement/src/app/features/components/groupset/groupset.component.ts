@@ -197,6 +197,7 @@ export class GroupsetComponent implements OnInit {
 
   SearchgroupsByName() {
     this.groupParams.searchKey = this.groupDashboardForm.value.groupName;
+    this.groupParams.pageIndex = 1;
     if (this.groupParams.searchKey.length >= 2 || this.groupParams.searchKey == "")
       this.groupSetService.SearchUsers(this.groupParams)
         .subscribe((response: PaginationResult<GroupSetModel[]>) => {

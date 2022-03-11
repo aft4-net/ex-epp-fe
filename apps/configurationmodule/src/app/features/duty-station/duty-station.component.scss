@@ -89,120 +89,95 @@ button.ant-btn-primary {
     color: #FFFFFF;
     border-color: #00A551;
 }
-.ant-btn:focus {
-  border-color: #00A551;
-  color: #00A551;
-}
-.ant-btn:hover {
-  border-color: #006E36;
-  color: #006E36;
-}
-.ant-btn-primary {
-  border-color: #00A551;
-  background: #00A551;
-}
-
-.ant-btn-primary:focus{
-  border-color: #00A551;
-  background: #00A551;
-  color: #fff;
-}
-.ant-btn-primary:hover {
-  border-color: #006E36;
-  background: #006E36;
-  color: #fff;
-}
-.ant-btn-primary:active {
-  color: #fff;
-  border-color: #005228;
-  background: #005228;
-}
-
-
-.ant-table-filter-trigger.active {
-    color: #00a551;
+.pagination {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #595959;
   }
-
-  .ant-dropdown-menu-item-selected,
-  .ant-dropdown-menu-submenu-title-selected {
-    color: #00a551;
-    background-color: #f5f5f5;
+  .content {
+    padding:0px 20px 0px;
   }
-
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #00a551;
-    border-color: #00a551;
-  }
-
-  .ant-checkbox-input:focus + .ant-checkbox-inner,
-  .ant-checkbox-wrapper:hover .ant-checkbox-inner,
-  .ant-checkbox:hover .ant-checkbox-inner {
-    border-color: #00a551;
-  }
-
-  .ant-btn-link:focus,
-  .ant-btn-link:hover {
-    color: #00a551;
-  }
-
-  .ant-table-column-sorter-down.active,
-  .ant-table-column-sorter-up.active {
-    color: #00a551;
-  }
-  .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-    border-color: #00a551;
-  }
-
-  .ant-input-affix-wrapper-focused,
-  .ant-input-affix-wrapper:focus {
-    border-color: #00a551;
-    box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
-  }
-
-  .ant-tabs-tab-btn:active,
-  .ant-tabs-tab-btn:focus,
-  .ant-tabs-tab-remove:active,
-  .ant-tabs-tab-remove:focus,
-  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:active,
-  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-add:focus,
-  .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:active,
-  .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-add:focus {
-    color: #00a551;
-  }
-  .ant-tabs-tab:hover {
-    color: #00a551;
-  }
-
-
-.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
-.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
-.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
-  background-color: #00a551;
-}
-.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before {
-  border: 1px solid #00a551;
-}
-.ant-picker-today-btn,
-.ant-picker-today-btn:hover {
-  color: #00a551;
-}
-.ant-picker-header-view button:hover {
-  color: #00a551;
-}
-.ant-picker-focused,
-.ant-picker:hover {
-  border-color: #00a551;
-}
-.ant-picker-focused {
-  box-shadow: 0 0 0 2px rgb(0 165 81 / 20%);
-}
-.ant-table-column-sorter-down.active, .ant-table-column-sorter-up.active {
-    color: #00A551;
-}
-
-.ant-table-column-sorters {
-    float: left;
-}
-.ant-table-column-title {
- padding-right: 10px;   
-}
+  .tab-title{
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    color: #262626;
+    }
+    button {
+        height: 38px;
+        border-radius: 2px;
+        font-style: normal;
+        font-weight: 500;
+      }
+      button.ant-btn-primary {
+        background-color: #00A551;
+        color: white;
+        font-style: normal;
+        font-weight: 500;
+      }
+      
+      .ant-btn-primary.ant-btn:active {
+        background-color: #00A551;
+        border-color: #00A551;
+      }
+      
+      .ant-btn-primary:focus{
+        border-color: #00A551;
+        background: #00A551;
+        color: #fff;
+      }
+      .ant-btn-primary:hover {
+        border-color: #006E36;
+        background: #006E36;
+        color: #fff;
+      }
+      .ant-btn-primary:active {
+        color: #fff;
+        border-color: #005228;
+        background: #005228;
+      }
+      
+      .ant-btn-primary {
+        border-color: #00A551;
+        background: #00A551;
+      }
+      
+      .ant-btn:focus, .ant-btn:hover {
+          color: #00A551;
+          border-color: #00A551;
+      }
+      
+      .ant-btn:focus {
+        border-color: #00A551;
+        color: #00A551;
+      }
+      .ant-btn:hover {
+        border-color: #006E36;
+        color: #006E36;
+      }
+      .ant-btn-primary {
+        border-color: #00A551;
+        background: #00A551;
+      }
+      
+      .ant-btn-primary:focus{
+        border-color: #00A551;
+        background: #00A551;
+        color: #fff;
+      }
+      .ant-btn-primary:hover {
+        border-color: #006E36;
+        background: #006E36;
+        color: #fff;
+      }
+      .ant-btn-primary:active {
+        color: #fff;
+        border-color: #005228;
+        background: #005228;
+      }
+ 
