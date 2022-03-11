@@ -384,9 +384,14 @@ export class AddresourceComponent implements OnInit {
     this.projectResources = this.projectResources.filter(
       (s) => s.Empolyee.Guid !== id
     );
-    this.projectResourcesView =  this.projectResourcesView.filter(
-      (s) => s.Empolyee.Guid !== id
-    );
+      if(this.isOnEditstate)
+      {
+        this.projectResourcesView =  this.projectResourcesView.filter(
+          (s) => s.Empolyee.Guid !== id
+        );
+        this.total= this.projectResourcesView.length;
+      }
+  
     this.resources = this.resources.filter((s) => s.EmployeeGuid != id);
   }
 
