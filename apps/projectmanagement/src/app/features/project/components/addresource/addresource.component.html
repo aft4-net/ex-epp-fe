@@ -32,7 +32,7 @@
   [nzData]="projectResources" >
   <thead>
     <tr>
-      <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('resource',$event)">Resources</th>
+      <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('resource',$event)">Employee Name</th>
       <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('date',$event)" >Assigned Date</th>
       <th *ngIf="!isOnEditstate">Action</th>
       <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>

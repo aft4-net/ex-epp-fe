@@ -78,7 +78,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   confirmModal?: NzModalRef;
    listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
-      name: 'Name',
+      name: 'User Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
