@@ -60,7 +60,7 @@ export class EmployeeDetailComponent implements OnInit {
     text: string;
     value: string;
   }[];
-  assignmentStatus$: any;
+  assignmentStatus: any;
 
   constructor(
     private _employeeService: EmployeeService,
@@ -151,7 +151,7 @@ export class EmployeeDetailComponent implements OnInit {
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void {
-this.assignmentStatus$=new BehaviorSubject(false);
+
     //this.loadingSpinnerService.messageSource.next(true);
 
     this.getfilterDataMenu();
@@ -779,11 +779,7 @@ FilterData(){
   }
 
   DeleteEmployee(employeeId: string): void {debugger;
-    this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>this.assignmentStatus$=res);console.log(this.assignmentStatus$.GetValue())
-    if(this.assignmentStatus$.GetValue()==true){
-      this.createNotification("","warning","Cannot delete an employee assigned to a project");
-    }
-    else{
+    
     this._employeeService.DeleteEmployee(employeeId)
       .subscribe((result: any) => {
         this.createNotification(
@@ -798,5 +794,16 @@ FilterData(){
         }
       });
     }
+    OnDelete(employeeId: string): void {debugger
+      this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>this.assignmentStatus=res);console.log(this.assignmentStatus)
+      if(this.assignmentStatus==true){
+        this.createNotification("","warning","Cannot delete an employee assigned to a project");
+      }
+      else{
+        this.createGroupDeleteModal(employeeId);
+    }
   }
-}
+
+  
+  }
+ 
