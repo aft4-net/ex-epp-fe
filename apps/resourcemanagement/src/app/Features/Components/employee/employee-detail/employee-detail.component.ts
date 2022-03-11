@@ -26,6 +26,7 @@ import { listtToFilter } from '../../../Models/listToFilter';
 import { LoadingSpinnerService } from 'libs/common-services/loading-spinner.service';
 import {AssignResourceService} from '../../../../../../../projectmanagement/src/app/core/services/assign-resource.service';
 import {ClientDetailsService} from '../../../../../../../clientmanagement/src/app/core/services/client-details.service';
+
 @Component({
   selector: 'exec-epp-employee-detail',
   templateUrl: './employee-detail.component.html',
@@ -63,6 +64,7 @@ export class EmployeeDetailComponent implements OnInit {
   }[];
   assignmentStatus: any;
   salesPersonStatus: any;
+  supervisorStatus: any;
 
   constructor(
     private _clientDetailsService:ClientDetailsService,
@@ -75,8 +77,8 @@ export class EmployeeDetailComponent implements OnInit {
     private _message: NzNotificationService,
     private modal: NzModalService,
     private route:ActivatedRoute,
-    private _assignResourceService:AssignResourceService
-    //private loadingSpinnerService: LoadingSpinnerService
+    private _assignResourceService:AssignResourceService,
+       //private loadingSpinnerService: LoadingSpinnerService
   ) {
 
     route.params.subscribe(val => {
@@ -800,7 +802,8 @@ FilterData(){
     OnDelete(employeeId: string): void {debugger
       this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>this.assignmentStatus=res);console.log(this.assignmentStatus);
       this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>this.salesPersonStatus=res);console.log(this.salesPersonStatus);
-      if(this.assignmentStatus==true || this.salesPersonStatus==true){
+      this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>this.supervisorStatus=res);console.log(this.supervisorStatus);
+      if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
         this.createNotification("","warning","Cannot delete a Sales person or an employee assigned to a project");
       }
       else{

@@ -460,7 +460,9 @@ export class EmployeeService {
 
     return this.http.delete<any>(environment.apiUrl + "/PersonalAddress/?id="+ id).subscribe();
   }
-
+  IsEmployeeSupervisor(id: string):Observable<boolean> {
+    return this.http.get<boolean>(environment.apiUrl+'/project/isEmployeeSupervisor/?id='+id);
+  }
 }
 
 
