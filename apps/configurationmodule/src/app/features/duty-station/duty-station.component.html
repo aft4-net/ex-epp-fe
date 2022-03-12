@@ -31,8 +31,13 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="addDutyStation" nzTitle="Add Duty Station" [nzFooter]="null"
-    nzClassName="config-add-country-modal" (nzOnCancel)="updateModalState()">
+<nz-modal 
+    [(nzVisible)]="addDutyStation" 
+    nzTitle="Add Duty Station" 
+    [nzFooter]="null"
+    nzClassName="config-add-country-modal" 
+    (nzOnCancel)="updateModalState()"
+    [nzWidth]="'410px'">
     <ng-container *nzModalContent>
         <form (ngSubmit)="save()" class="flex flex-col">
             <div class="w-full m-0 mb-2">
@@ -51,9 +56,10 @@
                 </div>
             </div>
 
-            <div class="w-auto m-0 ml-auto mr-auto">
-                <button *ngIf="isNew" nz-button nzType="primary" type="submit">Save</button>
-                <button *ngIf="!isNew" nz-button nzType="primary" type="submit">Update</button>
+            <div class="modal-footer">
+                <button *ngIf="isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Save</button>
+                <button *ngIf="!isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Update</button>
+                <button  nz-button nzType="default" (click)="clearData()" [disabled]="isFormDisabled">Clear</button>
             </div>
         </form>
     </ng-container>
