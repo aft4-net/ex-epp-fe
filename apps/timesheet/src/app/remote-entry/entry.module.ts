@@ -9,9 +9,10 @@ import { NgModule } from '@angular/core';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
-import { TimesheetHttpInterceptorService } from '../timesheet/services/timesheet-http-interceptor.service';
+import { TimesheetHttpInterceptorService } from '../timesheet/interceptors/timesheet-http-interceptor.service';
 import { TimesheetModule } from '../timesheet/timesheet.module';
 import en from '@angular/common/locales/en';
+import { LoadingIntercptorService } from '../timesheet/interceptors/loading-intercptor.service';
 
 registerLocaleData(en);
 
@@ -29,6 +30,7 @@ registerLocaleData(en);
   providers: [
     {provide: NZ_I18N, useValue: en_US},
     {provide: HTTP_INTERCEPTORS, useClass: TimesheetHttpInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingIntercptorService, multi: true},
     DatePipe
   ],
 })
