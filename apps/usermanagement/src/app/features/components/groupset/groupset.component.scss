@@ -273,15 +273,6 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: #262626;
 }
 
-
-::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down,
-          .ant-table-column-sorter-down.active,
-          .ant-table-column-sorter-up.active {
-  color: #595959 !important;
-}
-
-
 ::ng-deep .ant-input-affix-wrapper {
   padding: 1px 5px !important;
 }

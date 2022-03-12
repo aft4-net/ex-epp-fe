@@ -1,9 +1,183 @@
-::ng-deep .config-add-button .ant-btn {
-    background-color: #00A551;
+
+input {
+    padding: 5.5px 12px;
+}
+
+.search button {
+    width: 40px;
+    height: 35px;
+}
+
+.ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open
+{
+    color: #262626;
+    background-color: #DCFFDC;
+}
+.ant-menu-inline .ant-menu-item::after, .ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after {
+    border-right: none;
+}
+.ant-menu-item-selected, .ant-menu-item-selected a, .ant-menu-item-selected a:hover, .ant-menu-item>.ant-badge a:hover {
+    color: #262626;
+    background-color: #DCFFDC;
+}
+.ant-menu-item:active, .ant-menu-submenu-title:active {
+    color: #262626;
+    background-color: #DCFFDC;
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    color: #262626;
+    background-color: #DCFFDC;
+}
+[nz-icon] {
+    padding-right: 18.63px;
+}
+.sidebar {
+   box-shadow: -3px 0px 0px 0px #EAEAEA inset;
+}
+.sidebar ul {
+    box-shadow: -3px 0px 0px 0px #EAEAEA inset;
+    padding-right: 4px;
+
+}
+.sidebar .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+    border-right: none;
+}
+.content {
+    padding-left: 24px;
+}
+button {
+  height: 38px;
+  border-radius: 2px;;
+}
+button.ant-btn-primary {
+  background-color: #00A551;
+  color: white;
+}
+
+.ant-btn-primary.ant-btn:active {
+  background-color: #00A551;
+  border-color: #00A551;
+}
+
+.ant-btn-primary:focus{
+  border-color: #00A551;
+  background: #00A551;
+  color: #fff;
+}
+.ant-btn-primary:hover {
+  border-color: #006E36;
+  background: #006E36;
+  color: #fff;
+}
+.ant-btn-primary:active {
+  color: #fff;
+  border-color: #005228;
+  background: #005228;
+}
+
+.ant-btn-primary {
+  border-color: #00A551;
+  background: #00A551;
+}
+
+.ant-btn:focus, .ant-btn:hover {
+    color: #00A551;
     border-color: #00A551;
 }
 
-::ng-deep .config-add-country-modal .ant-btn {
-    background-color: #00A551;
+.ant-btn-primary.ant-btn:focus, .ant-btn-primary.ant-btn:hover {
+    color: #FFFFFF;
     border-color: #00A551;
 }
+.pagination {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #595959;
+  }
+  .content {
+    padding:0px 20px 0px;
+  }
+  .tab-title{
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    color: #262626;
+    }
+    button {
+        height: 38px;
+        border-radius: 2px;
+        font-style: normal;
+        font-weight: 500;
+      }
+      button.ant-btn-primary {
+        background-color: #00A551;
+        color: white;
+        font-style: normal;
+        font-weight: 500;
+      }
+      
+      .ant-btn-primary.ant-btn:active {
+        background-color: #00A551;
+        border-color: #00A551;
+      }
+      
+      .ant-btn-primary:focus{
+        border-color: #00A551;
+        background: #00A551;
+        color: #fff;
+      }
+      .ant-btn-primary:hover {
+        border-color: #006E36;
+        background: #006E36;
+        color: #fff;
+      }
+      .ant-btn-primary:active {
+        color: #fff;
+        border-color: #005228;
+        background: #005228;
+      }
+      
+      .ant-btn-primary {
+        border-color: #00A551;
+        background: #00A551;
+      }
+      
+      .ant-btn:focus, .ant-btn:hover {
+          color: #00A551;
+          border-color: #00A551;
+      }
+      
+      .ant-btn:focus {
+        border-color: #00A551;
+        color: #00A551;
+      }
+      .ant-btn:hover {
+        border-color: #006E36;
+        color: #006E36;
+      }
+      .ant-btn-primary {
+        border-color: #00A551;
+        background: #00A551;
+      }
+      
+      .ant-btn-primary:focus{
+        border-color: #00A551;
+        background: #00A551;
+        color: #fff;
+      }
+      .ant-btn-primary:hover {
+        border-color: #006E36;
+        background: #006E36;
+        color: #fff;
+      }
+      .ant-btn-primary:active {
+        color: #fff;
+        border-color: #005228;
+        background: #005228;
+      }
+ 

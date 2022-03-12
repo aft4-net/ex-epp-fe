@@ -25,7 +25,7 @@
         <li [hidden]="!hasSingleUserPermission" nz-menu-item [nzSelected]='activePath("/usermanagement")'>
           <i nz-icon nzType="user" nzTheme="outline"></i> <a [routerLink]="['/usermanagement']">Users</a>
         </li>
-        <li [hidden]="!hasSingleGroupPermission" nz-menu-item [nzSelected]='activePath("/usermanagement/groups")'>
+        <li [hidden]="!hasSingleGroupPermission" nz-menu-item [nzSelected]='activePath("/usermanagement/group")'>
           <i nz-icon nzType="group" nzTheme="outline"></i> <a [routerLink]="['/usermanagement/group']">Groups</a>
         </li>
       </ul>

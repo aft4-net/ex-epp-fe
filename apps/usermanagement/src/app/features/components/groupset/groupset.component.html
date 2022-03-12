@@ -33,7 +33,7 @@
                       <div class="label required">Group's name</div>
                       <nz-form-item>
                         <nz-form-control [formGroup]='groupSet' [nzSpan]="24" >
-                          <input nz-input formControlName="Name" touched form="groupSet">
+                          <input nz-input formControlName="Name" touched form="groupSet" style="text-transform:capitalize;">
                           <span class="groupSetSpan">You won't be able to change the group's name in the future.</span>
                           <div *ngIf="groupSet.get('Name')?.invalid && (groupSet.get('Name')?.dirty || groupSet.get('Name')?.touched)"
                               class="text-danger-error">
@@ -64,6 +64,7 @@
                           nz-input
                           form="groupSet"
                           formControlName="Description"
+                          style="text-transform:capitalize;"
                         >
                         </textarea>
                         <span class="groupSetSpan">A description will help you organize and manage your groups.</span>
@@ -107,7 +108,7 @@
               <ng-template #suffixIconSearch>
                 <i nz-icon nzType="search" style="border: none;"  (click)="SearchgroupsByName()"></i>
               </ng-template>
-          
+
             </div> -->
         </div>
       </div>

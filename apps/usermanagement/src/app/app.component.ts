@@ -36,10 +36,6 @@ constructor(public _commonData:CommonDataService,
 }
 
 ngOnInit(): void {
-  console.log()
-}
-ngAfterContentInit() {
- 
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
    // window.location.reload();
@@ -47,14 +43,26 @@ ngAfterContentInit() {
     this.router.navigateByUrl('usermanagement/logIn');
   }
   else{
-    if(this._authenticationService.loginCount==0){
-      this._authenticationService.loginCount=1
-      this.router.navigateByUrl('usermanagement');
-    }
-    else{
-      this.router.navigateByUrl('usermanagement');
-    }
+    let route ='usermanagement';
+    this._commonData.permissionList$.subscribe(res => {
+      if(res.map(res => res.KeyValue).indexOf("View_User") === -1) {
+        route =this.route= 'usermanagement/group';
+      }
+      else {
+        route = 'usermanagement'
+      }
+      this.router.navigateByUrl(route);
+    });
   }
+  
+
+}
+authorize(key: string): boolean {
+  return this._permissionService.authorizedPerson(key);
+}
+ngAfterContentInit() {
+ ;
+  
 }
 isLoggedIn(): boolean {
   return this.authService.instance.getActiveAccount() != null;

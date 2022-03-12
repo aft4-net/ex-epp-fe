@@ -259,15 +259,6 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   margin-left: 5px !important;
 }
 
-::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down {
-  color: #595959 !important;
-}
-::ng-deep.ant-table-column-sorter-down.active,
-         .ant-table-column-sorter-up.active {
-          color: #595959 !important;
-}
-
 ::ng-deep .defaultcolor .ant-btn .ant-btn-primary .ant-btn-sm .ant-btn-primary:focus
           .ant-btn-primary:hover
 {
@@ -280,18 +271,6 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   background-color: #00A551 !important;
   border-color: #00A551 !important;
   color: black !important;
-}
-
-::ng-deep .defaultcolor .ant-dropdown-menu-item-selected,
-         .ant-dropdown-menu-submenu-title-selected {
-  color: black;
-}
-
-::ng-deep .defaultcolor .ant-table-column-sorter-up,
-          .ant-table-column-sorter-down,
-          .ant-table-column-sorter-down.active,
-          .ant-table-column-sorter-up.active {
-  color: #595959 !important;
 }
 
 ::ng-deep .defaultcolor .ant-checkbox-inner {

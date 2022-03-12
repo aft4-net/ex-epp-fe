@@ -165,7 +165,8 @@ export class RoleComponent implements OnInit {
       this.notification.create(
         'success',
         'Successfully Deleted!',
-        'Job Title'
+        'Job Title',
+        { nzPlacement: 'bottomRight' }
       );
       //this.toastrService.success(response.message, "Role");
       // this.listOfRoles = this.listOfRoles.filter((d) => d.Guid !== id);

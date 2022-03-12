@@ -19,11 +19,15 @@ export class DutyStationComponent implements OnInit {
   dutyStationSource = new BehaviorSubject<DutyStationAndCountry[]>([]);
   dutyStation$ = this.dutyStationSource.asObservable();
   dutyStationList: DutyStationAndCountry[] = [];
+  dutyStationListView: DutyStationAndCountry[] = [];
   addDutyStation = false;
   isNew = true;
   dutyStationId = "";
   country: FormControl = new FormControl("");
   dutyStation: FormControl = new FormControl("");
+  total = 0;
+  loading = true;
+  pageIndex = 1;
 
   constructor(
     private countryService: CountryService,
@@ -35,6 +39,12 @@ export class DutyStationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDutyStation();
+    this.dutyStation$.subscribe((res: DutyStationAndCountry[])=>{
+      this.dutyStationList=res.reverse();
+      this.pageIndexChange(this.pageIndex);
+      this.total=this.dutyStationList.length;
+      this.loading=false;
+    })
   }
 
   getDutyStation() {
@@ -173,5 +183,11 @@ export class DutyStationComponent implements OnInit {
 
   authorize(key: string) {
     return this.permissionListService.authorizedPerson(key);
+  }
+
+  pageIndexChange(pageIndex:number)
+  {
+    this.pageIndex=pageIndex
+   this.dutyStationListView=  this.dutyStationList.slice((pageIndex-1)*10).slice(0,10);
   }
 }
