@@ -86,22 +86,15 @@ export class TimesheetApprovalComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   public arrayOfCheckedId:string[] =[];
 
-  //setOfCheckedId:Set<Number>;
+  
 
   ids: number[]=[];
   resources: any;
-
-  // variables for generic method
-    // variables for generic method
-    // variables for generic method
-  // variables for generic method
     supervisorId!: string | null;
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
-    // searchKeyG :string | null = null;
     sortByG = '';
-    // weekG = '';
     sortG = 'Ascending';
     searchKeyGBinded :string | null = null;
     searchKeyG = '';
@@ -452,7 +445,7 @@ sortDirectionMethod() {
           console.log("startttttttttt")
         }
       }
-      //this.UpdateData();
+      
     }
 
   onWeekChange() {
@@ -472,8 +465,7 @@ sortDirectionMethod() {
      this.statusG,
      this.projectNameG,
      this.clientNameG);
-console.log("dddddddddddddddddddddddddddddddddddddddddd")
-     console.log(this.TimesheetApprovalResponse);
+
 
   }
 }

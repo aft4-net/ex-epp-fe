@@ -37,7 +37,7 @@ export class PermissionService {
     return this.http.get(this.baseUrl3 + guid);
   }
   addGroupPermission(data:any){
- 
+   
     return this.http.post(this.baseUrl2,data);
   }
   getGroupPermissionById(id:any){

@@ -88,22 +88,8 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.getProjects();
   }
 
-  getfilterDataMenu(): void {
-    this.projectService.getFilterData().subscribe((data) => {
-      this.cleints = data.ClientFilter;
-      this.supervisors = data.supervisorFilter;
-      this.statuses = data.StatusFilter;
-    });
-  }
-  getCurrentUser() {
-    if (localStorage.getItem('loggedInUserInfo')) {
-      // eslint-disable-next-line prefer-const
-      this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
-      const user = JSON.parse(this.loggedInUserInfo);
+ 
 
-      this.id = user['EmployeeGuid'];
-    }
-  }
   valuechangeSearchProject() {
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       if (this.searchProject.value?.length > 1) {

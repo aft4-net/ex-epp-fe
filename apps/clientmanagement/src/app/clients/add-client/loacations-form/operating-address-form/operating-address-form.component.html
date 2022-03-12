@@ -65,7 +65,10 @@
       </tr>
     </tbody>
   </nz-table>
+  <div >
   <nz-modal
+  [nzStyle]="{ top: '10px' }"
+  [nzWidth]="'26%'"
     [(nzVisible)]="isVisible"
     nzTitle="{{actionTitle}} Operating Address"
     (nzOnCancel)="handleCancel()"
@@ -75,7 +78,7 @@
       <form
         nz-form
         [formGroup]="forms"
-        class="w-full max-w-4xl"
+        class="k"
         [nzLayout]="'vertical'"
         (ngSubmit)="submitForm()"
       >
@@ -128,8 +131,8 @@
           >
 
           <nz-form-label
-            [nzSm]="6"
-            [nzXs]="24"
+            [nzSm]="16"
+            [nzXs]="28"
             nzFor="state"
             *ngIf="selectedCountry !== 'Ethiopia'"
             >State/Province</nz-form-label
@@ -229,5 +232,5 @@
       </form>
     </div>
   </nz-modal>
-
+</div>
 

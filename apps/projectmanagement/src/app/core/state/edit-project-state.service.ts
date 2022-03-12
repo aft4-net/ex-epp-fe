@@ -1,27 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { AssignResource, Client, Employee, Project, ProjectStatus, StateService } from '../models';
-import { AssignResourceService } from '../services';
-
-
-const iniitalAddProjectState: Project={
-  ProjectName:"",
-  ProjectType: "",
-  StartDate:"",
-  EndDate:"",
-  Supervisor:{} as Employee,
-  Client:{} as Client,
-  ProjectStatus:{} as ProjectStatus,
-  SupervisorGuid:"",
-  ClientGuid:"",
-  ProjectStatusGuid:"",
-  Guid:"",
-  IsActive:false,
-  IsDeleted:false,
-  CreatedDate:"",
-  CreatedbyUserGuid:""  
-  }
+import { AssignResource,  Project, } from '../models';
 
 
 @Injectable({
@@ -34,7 +14,7 @@ private isOnEditstateSource=  new BehaviorSubject<boolean>(false);
 private projectResourceList=  new BehaviorSubject<AssignResource[]>({} as AssignResource[]);
 private projectSource= new BehaviorSubject<Project>({} as Project);
 projectResourceList$=this.projectResourceList.asObservable();
-  constructor(private router:Router, private assignResoursceService:AssignResourceService)
+  constructor(private router:Router)
   {
    
   }
@@ -56,14 +36,9 @@ projectResourceList$=this.projectResourceList.asObservable();
   {
     this.isOnEditstateSource.next(true);
     this.projectSource.next(data);
-    this. assignResoursceService.getResourceOfProject(data.Guid).subscribe((d:AssignResource[])=>this.updateProjectList(d));
     this.router.navigateByUrl('projectmanagement/edit-project');
   }
 
-  updateAssignResources()
-  {
-    this. assignResoursceService.getResourceOfProject( this.projectEditData.Guid).subscribe((d:AssignResource[])=>this.updateProjectList(d));
-  }
   
   restUpdateProjectState()
   {

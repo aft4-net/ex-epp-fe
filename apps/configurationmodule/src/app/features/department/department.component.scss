@@ -47,7 +47,9 @@ input {
 }
 button {
   height: 38px;
-  border-radius: 2px;;
+  border-radius: 2px;
+  font-style: normal;
+  font-weight: 500;
 }
 button.ant-btn-primary {
   background-color: #00A551;
@@ -201,3 +203,23 @@ button.ant-btn-primary {
 .ant-table-column-title {
  padding-right: 10px;   
 }
+.tab-title{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+  }
+  ::ng-deep .ant-table-content {
+    font-size: 16px !important;
+  }
+
+  .pagination {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #595959;
+  }

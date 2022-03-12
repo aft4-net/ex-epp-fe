@@ -8,7 +8,7 @@
     </div>
 
     <div>
-        <nz-table #dutyStationTable [nzData]="(dutyStation$ | async) ?? []">
+        <nz-table #dutyStationTable [nzData]="(dutyStation$ | async) ?? []" [nzFrontPagination]="false">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -28,6 +28,13 @@
                 </tr>
             </tbody>
         </nz-table>
+        <span *ngIf="total>0 && authorize('View_DutyStation')"  class="pagination flex justify-end">
+            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
+              total : 10 * (pageIndex) }} of {{total}} entries
+            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="pageIndexChange($event)"
+              nzSimple>
+            </nz-pagination>
+          </span>
     </div>
 </div>
 
@@ -37,7 +44,7 @@
     [nzFooter]="null"
     nzClassName="config-add-country-modal" 
     (nzOnCancel)="updateModalState()"
-    [nzWidth]="'410px'">
+     [nzWidth]="'410px'">
     <ng-container *nzModalContent>
         <form (ngSubmit)="save()" class="flex flex-col">
             <div class="w-full m-0 mb-2">
