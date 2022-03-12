@@ -53,7 +53,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="authorize('View_DutyStation')">
                 <tr *ngFor="let dutyStation of dutyStationTable.data">
                     <td>{{ dutyStation.Name }}</td>
                     <td>{{ dutyStation.CountryName }}</td>
@@ -65,7 +65,7 @@
                 </tr>
             </tbody>
         </nz-table>
-        <span *ngIf="total>0"  class="pagination flex justify-end ">
+        <span *ngIf="total>0 && authorize('View_DutyStation')"  class="pagination flex justify-end ">
             Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
               total : 10 * (pageIndex) }} of {{total}} entries
             <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="pageIndexChange($event)"
