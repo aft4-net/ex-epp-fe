@@ -2,19 +2,17 @@
       <div class="content">
   <form nz-form (ngSubmit)="submitForm()" [nzLayout]="'vertical'" [formGroup]="departmentForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="Name" nzRequired>Name</nz-form-label>
-      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Please input Name!">
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="Name">Name</nz-form-label>
+      <nz-form-control  nzErrorTip="Please input Name!">
         <input nz-input id="Name" placeholder="Name" formControlName="Name" style="text-transform:capitalize;"/>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item nz-row *ngIf="authorize('Update_Department') || authorize('Create_Department')">
-      <nz-form-control [nzSpan]="14">
-        <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Department')" [disabled]="!departmentForm.valid || !departmentForm.dirty || onSubmitClick">Update</button>
+      <div class="modal-footer" *ngIf="authorize('Update_Department') || authorize('Create_Department')">
+        <button nz-button nzType="primary" type="submit" *ngIf="isEdit && authorize('Update_Department')" [disabled]="!departmentForm.valid ||  onSubmitClick">Update</button>
         <button nz-button nzType="primary" type="submit" *ngIf="!isEdit && authorize('Create_Department')" [disabled]="!departmentForm.valid || onSubmitClick">Add</button>
-        <button nz-button nzType="default" style="margin-left: 8px;" (click)="resetForm()">Clear</button>
-      </nz-form-control>
-    </nz-form-item>
+        <button nz-button nzType="default" style="margin-left: 8px;" (click)="resetForm()" [disabled]="!departmentForm.valid">Clear</button>
+      </div>
   </form>
 </div>
 </div>

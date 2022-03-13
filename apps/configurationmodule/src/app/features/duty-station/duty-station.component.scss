@@ -1,9 +1,15 @@
-
+* {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
 .modal-footer{
     text-align: right;
     button {
       margin-right: 8px;
     }
+}
+button {
+  height: 38px;
+  border-radius: 2px;;
 }
 ::ng-deep  .ant-btn-primary
  {
