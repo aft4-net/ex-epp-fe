@@ -3,4 +3,5 @@ export * from './project-status.service';
 export * from './employee.service';
 export *  from './client.service';
 export * from './assign-resource.service';
+export *  from  './project-validation.service';
 
