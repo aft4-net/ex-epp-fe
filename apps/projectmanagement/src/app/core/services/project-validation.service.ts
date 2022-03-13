@@ -93,8 +93,10 @@ export class ProjectValidationService {
      ) {
        control?.setErrors({ invalidName: true });
        this.projectNameExitsErrorMessage =
-       'Project name already exists by this ' +
-       this.projectsSource.getValue()[i].Client?.ClientName + ' client';
+       `Project name already exists by
+       
+       this 
+       ${this.projectsSource.getValue()[i].Client?.ClientName}  client `;
        control.setErrors({invalidName: true });
        return ({ invalidName: true });
      }
