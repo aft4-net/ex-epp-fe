@@ -33,7 +33,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   disallowResource = true;
   addResourcePermission = false;
   createPermisson = false;
-  isSpinning = false;
+  isSpinning = true;
   disabled = true;
   isOnEditstate = false;
   projectUpdate: ProjectEdit = {} as ProjectEdit;
@@ -78,10 +78,10 @@ export class AddProjectComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isOnEditstate = this.editProjectStateService.isOnEditstate;
     this.isSpinning = true;
-    this.apiCalls();
     this.createRegistrationForm();
+    this.apiCalls();
     this.projectMapper();
-    this.typeChanged();
+    this.projectTypeChanged();
 
     if ('/projectmanagement/edit-project' === this.router.url && !this.isOnEditstate)
       this.router.navigateByUrl('projectmanagement');
@@ -122,7 +122,6 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     else
     this.projectOld.EndDate = '';
     this.updateValueSeted = true;
-    this.isSpinning = false;
   }
 
   projectMapper() {
@@ -201,11 +200,17 @@ export class AddProjectComponent implements OnInit, OnDestroy {
       
     }
   }
-  typeChanged() {
+  projectTypeChanged() {
     this.validateForm.controls.projectType.valueChanges.subscribe(() => {
-      if (this.validateForm.controls.projectType.value == 'Internal') {
+      if (this.validateForm.controls.projectType.value == 'Internal') 
         this.validateForm.controls.client.setValue(this.internalClinetGuid);
-      }    
+       else{
+        //  if(!this.isOnEditstate)
+        //  this.validateForm.controls.client.setValue(null);
+        //  else if(this.updateValueSeted && this.isOnEditstate)
+        //  this.validateForm.controls.client.setValue(null);
+       }
+  
     });
   }
 
@@ -219,6 +224,9 @@ export class AddProjectComponent implements OnInit, OnDestroy {
           break;
         }
       }
+      this.validation.projects$.subscribe(()=> {    
+        this.isSpinning = false;
+      });
     });
 
     this.projectStatusService.getAll().subscribe((res) => {
@@ -245,9 +253,6 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees = response.filter((p) => p.IsActive && !p.IsDeleted);
-      this.validation.projects$.subscribe(()=> {    
-        this.isSpinning = false;
-      });
     });
 
   }
@@ -268,7 +273,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
         description: [null],
       },
       {validators:  this.validation.projectNameExitWithClient(
-        'projectName','client', this.isOnEditstate)}
+        'projectName','client')}
     );
   }
   saveProjectUpdate() {

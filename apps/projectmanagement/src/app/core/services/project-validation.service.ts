@@ -72,13 +72,13 @@ export class ProjectValidationService {
     return formErrors    
  }  
  
- projectNameExitWithClient(projectControlName: string,clientControlName:string,isEditstate:boolean)  {  
+ projectNameExitWithClient(projectControlName: string,clientControlName:string)  {  
 
   return (formGroup: FormGroup) => { 
 
-   if(this.projectsSource.getValue().length==0 || isEditstate)
-   return null;
-   
+   if(this.projectsSource.getValue().length==0 )
+   return null; 
+
    const control = formGroup.get(projectControlName);  
    const clientControl = formGroup.get(clientControlName);  
 
@@ -93,10 +93,9 @@ export class ProjectValidationService {
      ) {
        control?.setErrors({ invalidName: true });
        this.projectNameExitsErrorMessage =
-       `Project name already exists by
-       
-       this 
-       ${this.projectsSource.getValue()[i].Client?.ClientName}  client `;
+       `Project name already exists 
+       ${ this.projectsSource.getValue()[i].ProjectType== "External" ? `by this 
+       ${this.projectsSource.getValue()[i].Client?.ClientName}  client  `:` `} `;
        control.setErrors({invalidName: true });
        return ({ invalidName: true });
      }
