@@ -78,7 +78,7 @@
                 nz-col
                 nzSpan="2"
                 
-                [hidden]="editId === data.Guid"
+                [hidden]="editId === data.Guid || editId !=='00000000-0000-0000-0000-000000000000'"
                 (click)="startEdit(i,data.Guid)"
               >
                 <i style="color:black;" nz-icon nzType="edit" nzTheme="outline"></i>
