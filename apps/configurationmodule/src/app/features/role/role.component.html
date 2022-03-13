@@ -1,9 +1,9 @@
 <div class="main-content" style="margin: 0px 24px;padding-bottom: 58px;">
-  <h1>Job Titles</h1>
+  <h1 class="tab-title" >Job Titles</h1>
   <div nz-row>
     <div nz-col nzSpan="18">
     <nz-form-item>
-      <nz-form-control class="search" [nzSm]="8" [nzXs]="10" nzErrorTip="Please input search!">
+      <nz-form-control class="search"  style="height: 40px !important; "   [nzSm]="8" [nzXs]="10" nzErrorTip="Please input search!">
         <nz-input-group nzSearch [nzSuffix]="suffixIconSearch" >
           <input (keyup)="onSearchChange($event)" type="text" nz-input placeholder="Search by job title" />
         </nz-input-group>
@@ -14,7 +14,7 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Role')" (click)="showAddModal()">
+      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Job_Title')" (click)="showAddModal()">
         <span>Add Job Title</span>
       </button>
     <nz-modal
@@ -35,15 +35,15 @@
 
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #basicTable [nzData]="listOfRoles" [nzShowPagination]="false" [nzFrontPagination]=false>
+      <nz-table nzSize="small" #basicTable [nzData]="listOfRoles" [nzShowPagination]="false" [nzFrontPagination]=false>
         <thead>
           <tr>
-            <th [nzSortFn]="true" (nzSortOrderChange)="nameSortOrderChange($event)">Name</th>
+            <th [nzSortFn]="true" (nzSortOrderChange)="nameSortOrderChange($event)">Job Title Name</th>
             <th>Department</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody *ngIf="authorize('View_Role')">
+        <tbody *ngIf="authorize('View_Job_Title')">
           <tr *ngFor="let data of listOfRoles">
             <td>{{ data.Name }}</td>
             <td>{{ data.DepartmentName }}</td>
@@ -55,7 +55,7 @@
           </tr>
         </tbody>
       </nz-table>
-      <div class="pagination" style="float: right; display: inline-flex; margin-top: 16px;" *ngIf="this.pagination">
+      <div class="pagination" style="float: right; display: inline-flex; margin-top: 16px;" *ngIf="this.pagination && authorize('View_Job_Title')">
         Showing {{ this.pagination.PageSize * (this.pagination.PageIndex -1) + 1 }}-
         {{ this.pagination.PageSize * (this.pagination.PageIndex) > this.pagination.TotalRecord ? this.pagination.TotalRecord : this.pagination.PageSize * (this.pagination.PageIndex) }} of
         {{this.pagination.TotalRecord}} entries

@@ -37,8 +37,14 @@ export class AppComponent implements OnInit {
     if (this.route === '') this.route = this.router.url;
     return this.route == routePath;
   }
-  authorize(key: string) {
-    return this._permissionService.authorizedPerson(key);
+  authorize(keys: string[]) {
+    for(const key of keys) {
+      if(this._permissionService.authorizedPerson(key)){
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

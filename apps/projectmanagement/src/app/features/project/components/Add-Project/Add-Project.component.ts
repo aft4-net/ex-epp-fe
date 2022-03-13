@@ -398,7 +398,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
 
       if(this.updateValueSeted &&
       this.validateForm.valid &&
-      (this.projectUpdate.ProjectName !== this.projectOld.ProjectName    ||
+      (this.projectUpdate.ProjectName.trim() !== this.projectOld.ProjectName ||
         this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
         this.projectUpdate.ProjectStatusGuid !=
           this.projectOld.ProjectStatusGuid ||
@@ -410,7 +410,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
           new Date(this.projectUpdate.EndDate).getTime() !=
             new Date(this.projectOld.EndDate).getTime()) ||
             (this.projectUpdate.EndDate==''&& this.projectOld.EndDate!='')||
-        this.projectUpdate.Description !== this.projectOld.Description)
+        this.projectUpdate.Description?.trim() !== this.projectOld.Description)
       ) {
         this.enableUpdateButton = true;
       } else this.enableUpdateButton = false;

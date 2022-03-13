@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from "../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 import {IntialdataService} from "./intialdata.service"
@@ -11,6 +12,8 @@ import {IntialdataService} from "./intialdata.service"
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
     path = `${environment.apiUrl}/GroupSet`;
+    permissionListSource = new BehaviorSubject<any[]>([]);
+    permissionList$ = this.permissionListSource.asObservable();
 permissionList:any[]=[ ];
 modulePermission:any[]=[];
 count=23;
@@ -20,6 +23,7 @@ constructor(private _intialdataService: IntialdataService,private http: HttpClie
 
 getPermission(): void {
   this._intialdataService.getUserPermission().subscribe((res:any)=>{
+    this.permissionListSource.next(res.Data);
     this.permissionList=res.Data;  
     this.permissionList=this.permissionList;
     this._intialdataService.getModulePermission().subscribe((res:any)=>{
@@ -44,7 +48,7 @@ getPermission(): void {
 
 getPermissionByEmail(): void {
   this._intialdataService.getUsersPermissionByEmail().subscribe((res:any)=>{
-  
+    this.permissionListSource.next(res.Data);
     this.permissionList=res.Data;  
     this.permissionList=this.permissionList;
     this._intialdataService.getModulePermission().subscribe((res:any)=>{
