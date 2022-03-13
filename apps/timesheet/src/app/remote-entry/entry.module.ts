@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 import { TimesheetHttpInterceptorService } from '../timesheet/interceptors/timesheet-http-interceptor.service';
 import { TimesheetModule } from '../timesheet/timesheet.module';
 import en from '@angular/common/locales/en';
-import { LoadingIntercptorService } from '../timesheet/interceptors/loading-intercptor.service';
+import { LoadingInterceptorService } from '../timesheet/interceptors/loading-interceptor.service';
 
 registerLocaleData(en);
 
@@ -30,7 +30,7 @@ registerLocaleData(en);
   providers: [
     {provide: NZ_I18N, useValue: en_US},
     {provide: HTTP_INTERCEPTORS, useClass: TimesheetHttpInterceptorService, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingIntercptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true},
     DatePipe
   ],
 })

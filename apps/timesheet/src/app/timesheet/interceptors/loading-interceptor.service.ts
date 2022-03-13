@@ -1,13 +1,13 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { delay, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { LoadingStateService } from '../state/loading-state.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingIntercptorService implements HttpInterceptor {
+export class LoadingInterceptorService implements HttpInterceptor {
 
   constructor(private loadingStateService: LoadingStateService) { }
 
