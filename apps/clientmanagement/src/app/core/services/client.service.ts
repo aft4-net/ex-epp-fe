@@ -42,7 +42,7 @@ export class ClientService extends ApiService<any> {
         if (response.ResponseStatus.toString().toLowerCase() == 'error') {
           this.notification.error(
             'Client not added',
-            'Please try again letter'
+            'Please try again'
           );
           this.addClientStateService.restAddClientState();
         } else {
@@ -51,7 +51,7 @@ export class ClientService extends ApiService<any> {
         }
       },
       () => {
-        this.notification.error('Client  not added', 'Please try again letter');
+        this.notification.error('Client  not added', 'Please try again');
         this.addClientStateService.restAddClientState();
       }
     );
@@ -64,4 +64,6 @@ export class ClientService extends ApiService<any> {
   {
     return this.delete(id);
   }
+ 
+  
 }

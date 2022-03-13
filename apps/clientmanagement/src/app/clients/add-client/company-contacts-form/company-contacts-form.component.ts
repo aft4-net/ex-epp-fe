@@ -280,8 +280,8 @@ this.IsEdit
 
     this.modal.confirm({
       nzIconType:'',
-      nzTitle: 'Delete Company Contact ?',
-      nzContent: '<b >Are you sure, you want to delete this company contact? this action cannot be undone</b>',
+      nzTitle: 'Delete Company Contact?',
+      nzContent: 'Are you sure, you want to delete this company contact? <br/>This action cannot be undone!',
       nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,

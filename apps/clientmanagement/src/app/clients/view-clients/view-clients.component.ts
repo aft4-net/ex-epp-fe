@@ -29,6 +29,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 
 export class ViewClientsComponent implements OnInit  {
+  viewClient:Client[] = [];
   isAddButtonDisabled = false;
   isVisible = false;
 
@@ -130,17 +131,41 @@ _commonData.getPermission()
 
   }
 
+  isCheckng(client:any)
+  {
+
+  
+    this._clientservice.deleteClient(client.Guid,true).subscribe((res:any)=>{
+    console.log(res);
+    console.log("fsfsfsfsfsfsfsf")
+      if(res.ResponseStatus==='Success') 
+      {
+        
+    
+        this.DeleteClient(client);
+      }
+      else{
+        this.checkClientWithProject();
+      }
+      
+    })
+    
+  }
+  
+
   DeleteClient(client:any){
+   
+  
     this.modal.confirm({
       nzIconType:'',
       nzTitle: 'Delete Client ?',
-      nzContent: '<span>Are you sure, you want to delete this client?</span>',
+      nzContent: '<span>Are you sure, you want to delete this client?<br/>This action cannot be undone!</span>',
       nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
 
-        this._clientservice.deleteClient(client.Guid).subscribe(
+        this._clientservice.deleteClient(client.Guid,false).subscribe(
           (res:any)=>{
             if(res.ResponseStatus==='Success')
             {
@@ -149,7 +174,11 @@ _commonData.getPermission()
              this.
              initializeData();
             }
-            this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
+            else{
+             // this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
+
+                          this.checkClientWithProject();
+            }
 
            },
           err=>{
@@ -173,6 +202,20 @@ _commonData.getPermission()
       nzOkDanger: true,
       nzOnOk: () => {
         this.DeleteClient(element);
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
+  checkClientWithProject(): void {
+    this.modal.confirm({
+      nzTitle: 'This Client can not be deleted ',
+      nzContent: '<span">becuase it is has a project under it</span>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+//
       },
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
@@ -596,6 +639,8 @@ fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
 
     this.allClients = res.data;
+    this.viewClient = [];
+    this.viewClient = [...res.data];
     if(this.allClients!=null)
     {
       for (let i=0;i<this.allClients.length;i++)

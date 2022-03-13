@@ -1,11 +1,12 @@
+import { AddClientStateService, OperationalAddressService, UpdateClientStateService, UpdateOperatingAddress } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { AddClientStateService, OperationalAddressService, UpdateClientStateService, UpdateOperatingAddress } from '../../../../core';
+
 import { CityInStateService } from '../../../../core/services/CityInState.service';
 import { CityService } from '../../../../core/services/city.service';
-import { StateService } from '../../../../core/services/State.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { StateService } from '../../../../core/services/State.service';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 
@@ -284,8 +285,8 @@ export class OperatingAddressFormComponent implements OnInit {
   showConfirm(index:number): void {
     this.confirmModal = this.modal.confirm({
       nzIconType:'',
-      nzTitle: 'Delete Operating Address ?',
-      nzContent: '<b >Are you sure, you want to delete this operating adress? this action cannot be undone</b>',
+      nzTitle: 'Delete Operating Address?',
+      nzContent: 'Are you sure, you want to delete this operating adress? <br/>This action cannot be undone!',
       nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
