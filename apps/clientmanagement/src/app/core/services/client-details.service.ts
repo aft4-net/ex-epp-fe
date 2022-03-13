@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '../models/apiService';
 import { Client } from '..';
 import { environment } from '../../../../../../libs/environments/environment';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,14 @@ export class ClientDetailsService extends ApiService<Client> {
     return 'ClientDetails';
   }
   checkSalesPersonStatus(id:string):Observable<boolean> {
-    return this.httpClient.get<boolean>(environment.apiUrl+'/ClientDetails/isEmployeeSalesPerson/?id='+id);
- }
+    const params = new HttpParams().set('id', id);
+    const result = this.httpClient.get(environment.apiUrl+'/ClientDetails/isEmployeeSalesPerson/?'+ params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        return response as boolean;
+      })
+    );
+    return result;
+  }
 }
