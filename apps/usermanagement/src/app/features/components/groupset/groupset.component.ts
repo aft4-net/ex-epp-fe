@@ -56,7 +56,7 @@ export class GroupsetComponent implements OnInit {
 
   listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
     {
-      name: 'Group',
+      name: 'Group Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: GroupSetModel, b: GroupSetModel) => a.Name.localeCompare(b.Name),
