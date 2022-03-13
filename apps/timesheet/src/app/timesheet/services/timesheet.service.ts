@@ -69,10 +69,11 @@ export class TimesheetService {
     return response.pipe(map((r) => r.body?.Data));
   }
 
-  getTimeEntry(timeEntryId: string) {
+  getTimeEntry(timeEntryId: string, requestedForApproval: boolean = false) {
     let params = new HttpParams();
 
     params = params.append('id', timeEntryId);
+    params = params.append('requestedForApproval', requestedForApproval);
 
     let response = this.http.get<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
@@ -82,10 +83,11 @@ export class TimesheetService {
     return response.pipe(map((r) => r.body?.Data));
   }
 
-  getTimeEntries(timesheetId: string, date?: Date, projectId?: string) {
+  getTimeEntries(timesheetId: string, date?: Date, projectId?: string, requestedForApproval: boolean = false) {
     let params = new HttpParams();
 
     params = params.append('timesheetId', timesheetId);
+    params = params.append('requestedForApproval', requestedForApproval);
 
     if (date) {
       date = new Date(
@@ -210,70 +212,6 @@ export class TimesheetService {
 
   //#endregion
 
-  //#region client and poject from mock server
-
-  getClients(clientIds?: string[]) {
-    if (clientIds) {
-      let params = new HttpParams();
-
-      for (const index in clientIds) {
-        params = params.append('id', clientIds[index]);
-      }
-
-      let response = this.http.get<Client[]>('http://localhost:3000/clients', {
-        observe: 'response',
-        params: params,
-      });
-
-      return response.pipe(map((r) => r.body));
-    } else {
-      return this.http.get<Client[]>('http://localhost:3000/clients');
-    }
-  }
-
-  getClient(clientId: string) {
-    let params = new HttpParams();
-
-    params = params.append('id', clientId);
-
-    let response = this.http.get<Client[]>('http://localhost:3000/clients', {
-      observe: 'response',
-      params: params,
-    });
-
-    return response.pipe(map((r) => r.body));
-  }
-
-  getProjects(userId: string, clientId?: string) {
-    let params = new HttpParams();
-
-    params = params.append('employeeId', userId);
-
-    if (clientId) {
-      params = params.append('clientId', clientId);
-    }
-
-    let response = this.http.get<Project[]>('http://localhost:3000/projects', {
-      observe: 'response',
-      params: params,
-    });
-
-    return response.pipe(map((r) => r.body));
-  }
-
-  getProject(projectId: string) {
-    let params = new HttpParams();
-
-    params = params.append('id', projectId);
-
-    let response = this.http.get<Project[]>('http://localhost:3000/projects', {
-      observe: 'response',
-      params: params,
-    });
-
-    return response.pipe(map((r) => r.body));
-  }
-  //#endregion
   getUserTimesheetApprovalSubmissions(
     pageIndex: number,
     pageSize: number,

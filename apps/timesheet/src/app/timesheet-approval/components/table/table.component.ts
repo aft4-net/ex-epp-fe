@@ -164,7 +164,7 @@ updateTimesheetAfterStatusChanged(row:boolean)
     const timesheetId = row.TimesheetId;
     const projectId=row.ProjectId;
     const date =this.entryDate;
-    this.timesheetService.getTimeEntries(timesheetId, date,projectId).subscribe(
+    this.timesheetService.getTimeEntries(timesheetId, date,projectId, true).subscribe(
       (entries)=>{this.timesheetEntries=entries;
             });
   }
