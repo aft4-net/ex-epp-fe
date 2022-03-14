@@ -7,6 +7,8 @@ To quickly check the capability, please run the Dockerized build.
 
 > Run docker-compose up -d
 
+User Name aexcellerent@outlook.com Password : adminAdmin@123
+
 ## Quick Start & Documentation
 To get started 
 
@@ -16,8 +18,8 @@ To get started
 | Application | Directory | Description |
 | ------ | ------ | ------ |
 | Micro frontends shell | [apps/epp-dashboard] | Main application to load micro frontends |
-| Usermanagement | [apps/Usermanagement] |user registration managment project created with ng|
 | Timesheet | apps/Timesheet] | an employee time sheet management project using angular |
+| Usermanagement | [apps/Usermanagement] |user registration managment project created with ng|
 | ClientManagement| [apps/ClientManagent] |client management |
 | ProjectMangement| [apps/Projectmanagement] Excllerent's Project Mangement |
 | ConfigurationModule| [apps/ConfigurationModule] |Configuration management for the whole system |
