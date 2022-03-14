@@ -22,8 +22,6 @@ const routes: Routes = [
   {
     path: 'employee/add-employee/personal-address',
     component: AddressViewComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['Create_Employee'] },
   },
   {
     path: 'employee/add-employee/personal-info',
@@ -32,29 +30,21 @@ const routes: Routes = [
   {
     path: 'employee/add-employee/Organization-Detail',
     component: OrganizationDetailComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['Create_Employee'] },
   },
 
   {
     path: 'employee/add-employee/address-view',
     component: AddressViewComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['Create_Employee'] },
   },
 
   {
     path: 'employee/add-employee/family-detail-view',
     component: FamilyDetailViewComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['Create_Employee'] },
   },
 
   {
     path: 'employee/add-employee/emergencycontacts-view',
     component: EmergencycontactViewComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['Create_Employee'] },
   },
 ];
 
