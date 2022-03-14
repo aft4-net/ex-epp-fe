@@ -107,26 +107,26 @@ export class EmployeeService {
   add(employee: Employee) {
     delete employee.guid;
     employee.FamilyDetails?.forEach(element => {
-      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000'
      });
      employee.EmergencyContact?.forEach(element =>{
-       if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+       if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000'
      });
      employee.EmployeeAddress?.forEach(element =>{
-      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+      if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000'
      });
     return this.http.post(this.baseUrl, employee);
   }
 
   update(employee: Employee) {
   employee.FamilyDetails?.forEach(element => {
-   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000'
   });
   employee.EmergencyContact?.forEach(element =>{
-    if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+    if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000'
   });
   employee.EmployeeAddress?.forEach(element =>{
-   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000' 
+   if(element.Guid == null) element.Guid = '00000000-0000-0000-0000-000000000000'
   });
     console.log("gaga");
     console.log(employee);
@@ -338,7 +338,7 @@ export class EmployeeService {
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
 
-  DeleteEmployee(employeeId:string) {
+  DeleteEmployee(employeeId:string) {debugger;
     return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
   }
 
@@ -460,7 +460,17 @@ export class EmployeeService {
 
     return this.http.delete<any>(environment.apiUrl + "/PersonalAddress/?id="+ id).subscribe();
   }
-
+  IsEmployeeSupervisor(id: string):Observable<boolean> {
+    const params = new HttpParams().set('id', id);
+    const result = this.http.get(environment.apiUrl+'/project/isEmployeeSupervisor/?'+params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        return response as boolean;
+      })
+    );
+    return result;
+   }
 }
 
 

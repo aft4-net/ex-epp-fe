@@ -14,7 +14,7 @@
     </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Role')" (click)="showAddModal()">
+      <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Job_Title')" (click)="showAddModal()">
         <span>Add Job Title</span>
       </button>
     <nz-modal
@@ -43,7 +43,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody *ngIf="authorize('View_Role')">
+        <tbody *ngIf="authorize('View_Job_Title')">
           <tr *ngFor="let data of listOfRoles">
             <td>{{ data.Name }}</td>
             <td>{{ data.DepartmentName }}</td>
@@ -55,7 +55,7 @@
           </tr>
         </tbody>
       </nz-table>
-      <div class="pagination" style="float: right; display: inline-flex; margin-top: 16px;" *ngIf="this.pagination">
+      <div class="pagination" style="float: right; display: inline-flex; margin-top: 16px;" *ngIf="this.pagination && authorize('View_Job_Title')">
         Showing {{ this.pagination.PageSize * (this.pagination.PageIndex -1) + 1 }}-
         {{ this.pagination.PageSize * (this.pagination.PageIndex) > this.pagination.TotalRecord ? this.pagination.TotalRecord : this.pagination.PageSize * (this.pagination.PageIndex) }} of
         {{this.pagination.TotalRecord}} entries

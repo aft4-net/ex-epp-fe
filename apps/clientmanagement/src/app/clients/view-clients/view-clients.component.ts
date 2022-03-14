@@ -147,9 +147,11 @@ _commonData.getPermission()
              this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
              );
              this.initializeData();
-            } 
+             
+            }
+            else{
             this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
-
+            }
            },
           err=>{
             this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})

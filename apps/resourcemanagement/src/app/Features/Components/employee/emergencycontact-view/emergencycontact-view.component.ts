@@ -20,7 +20,7 @@ export class EmergencycontactViewComponent implements OnInit {
   listOfData: any[] = [];
   confirmModal?: NzModalRef;
   i = 0;
-  editId: string | null = null;
+  editId='00000000-0000-0000-0000-000000000000';
   IsEdit = false;
   editAt = -10;
   emptyData = [];
