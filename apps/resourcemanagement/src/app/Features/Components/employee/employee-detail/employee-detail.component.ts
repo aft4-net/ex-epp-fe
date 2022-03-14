@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { Observable, fromEvent, of } from 'rxjs';
+import { Observable, fromEvent, of, BehaviorSubject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -24,6 +24,8 @@ import { PaginationResult } from '../../../Models/PaginationResult';
 import { PermissionListService } from 'libs/common-services/permission.service';
 import { listtToFilter } from '../../../Models/listToFilter';
 import { LoadingSpinnerService } from 'libs/common-services/loading-spinner.service';
+import {AssignResourceService} from '../../../../../../../projectmanagement/src/app/core/services/assign-resource.service';
+import {ClientDetailsService} from '../../../../../../../clientmanagement/src/app/core/services/client-details.service';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -60,8 +62,12 @@ export class EmployeeDetailComponent implements OnInit {
     text: string;
     value: string;
   }[];
+  assignmentStatus: any;
+  salesPersonStatus: any;
+  supervisorStatus: any;
 
   constructor(
+    private _clientDetailsService:ClientDetailsService,
     private _employeeService: EmployeeService,
     private _form: FormGenerator,
     private _router: Router,
@@ -71,9 +77,10 @@ export class EmployeeDetailComponent implements OnInit {
     private _message: NzNotificationService,
     private modal: NzModalService,
     private route:ActivatedRoute,
-    //private loadingSpinnerService: LoadingSpinnerService
+    private _assignResourceService:AssignResourceService,
+       //private loadingSpinnerService: LoadingSpinnerService
   ) {
-   
+    this._form.isProfile=false;
     route.params.subscribe(val => {
       this.ngOnInit();
     });
@@ -149,13 +156,13 @@ export class EmployeeDetailComponent implements OnInit {
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void {
-    
+
     //this.loadingSpinnerService.messageSource.next(true);
 
     this.getfilterDataMenu();
 
     if (this._authenticationService.isFromViewProfile() === 'true') {
-      
+
    // this.loadingSpinnerService.messageSource.next(true);
       this.uemail = this._authenticationService.getEmail();
       this.getUser();
@@ -776,9 +783,9 @@ FilterData(){
     this._message.create(type, title, message);
   }
 
-  DeleteEmployee(employeeId: string): void {
-    this._employeeService
-      .DeleteEmployee(employeeId)
+  DeleteEmployee(employeeId: string): void {debugger;
+
+    this._employeeService.DeleteEmployee(employeeId)
       .subscribe((result: any) => {
         this.createNotification(
           'Deleting Employee',
@@ -791,5 +798,27 @@ FilterData(){
           this.FeatchAllEmployees();
         }
       });
-  }
+    }
+    OnDelete(employeeId: string): void {
+      this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>{
+        this.assignmentStatus=res;
+             console.log(this.assignmentStatus)
+          this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>{
+            this.salesPersonStatus=res;
+             console.log(this.salesPersonStatus);
+          this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>{
+            this.supervisorStatus=res;
+            console.log(this.supervisorStatus);
+     if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
+        this.createNotification("","warning","Cannot delete a Sales person or an employee assigned to a project");
+      }
+      else{debugger;
+        this.createGroupDeleteModal(employeeId);
+    }
+          });
+           
+        }
+    );
+  });
+ }
 }

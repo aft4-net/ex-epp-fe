@@ -134,28 +134,28 @@ _commonData.getPermission()
   isCheckng(client:any)
   {
 
-  
+
     this._clientservice.deleteClient(client.Guid,true).subscribe((res:any)=>{
     console.log(res);
     console.log("fsfsfsfsfsfsfsf")
-      if(res.ResponseStatus==='Success') 
+      if(res.ResponseStatus==='Success')
       {
-        
-    
+
+
         this.DeleteClient(client);
       }
       else{
         this.checkClientWithProject();
       }
-      
+
     })
-    
+
   }
-  
+
 
   DeleteClient(client:any){
-   
-  
+
+
     this.modal.confirm({
       nzIconType:'',
       nzTitle: 'Delete Client ?',

@@ -17,22 +17,20 @@
     Resources </div>
   <div>
     <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
-      Assign resources
+      Assign resource
     </button>
 
     <button *ngIf="isOnEditstate && authorize('Assign_Resource') " class="btn" (click)="showModal()">
-      Assign resources
+      Assign resource
     </button>
-
   </div>
-
 </div>
 
 <nz-table  [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="false"
   [nzData]="projectResources" >
   <thead>
     <tr>
-      <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('resource',$event)">Employee Name</th>
+      <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('resource',$event)"> Resources </th>
       <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('date',$event)" >Assigned Date</th>
       <th *ngIf="!isOnEditstate">Action</th>
       <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>
@@ -62,10 +60,7 @@
         <a class="text-black" (click)="removeForAddReource(resource)">
           <i nz-icon nzType="delete" style="color: black"></i>
         </a>
-
       </td>
-
-
     </tr>
   </tbody>
 </nz-table>
@@ -78,9 +73,7 @@
   </nz-pagination>
 </span>
 
-
-
-<nz-modal class="resourceModal" [ngClass]="isModalVisible ? 'p-28':''"  [(nzVisible)]="isModalVisible" nzTitle="Assign Resources"
+<nz-modal class="resourceModal" [ngClass]="isModalVisible ? 'p-28':''"  [(nzVisible)]="isModalVisible" nzTitle="Assign Resource"
   (nzOnCancel)="handleCancel()" [nzFooter]="null">
   <ng-container *nzModalContent>
     <form *ngIf="!isEditMode; else editForm" [formGroup]="addResorceForm" nz-form [nzLayout]="'vertical'"
