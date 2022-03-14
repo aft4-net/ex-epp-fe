@@ -187,6 +187,9 @@ export class DutyStationComponent implements OnInit {
   get isFormDisabled():boolean{
     return this.dutyStation.invalid || this.country.invalid;
   }
+  get enableClear():boolean{
+    return this.dutyStation.valid || this.country.valid;
+  }
   pageIndexChange(pageIndex:number)
   {
     this.pageIndex=pageIndex
