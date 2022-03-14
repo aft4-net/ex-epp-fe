@@ -803,20 +803,22 @@ FilterData(){
       this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>{
         this.assignmentStatus=res;
              console.log(this.assignmentStatus)
-          this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>this.salesPersonStatus=res);
+          this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>{
+            this.salesPersonStatus=res;
              console.log(this.salesPersonStatus);
-          this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>this.supervisorStatus=res);
-             console.log(this.supervisorStatus);
-        }
-        );
-     
-      if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
+          this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>{
+            this.supervisorStatus=res;
+            console.log(this.supervisorStatus);
+     if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
         this.createNotification("","warning","Cannot delete a Sales person or an employee assigned to a project");
       }
       else{debugger;
         this.createGroupDeleteModal(employeeId);
     }
-  }
-
-
-  }
+          });
+           
+        }
+    );
+  });
+ }
+}
