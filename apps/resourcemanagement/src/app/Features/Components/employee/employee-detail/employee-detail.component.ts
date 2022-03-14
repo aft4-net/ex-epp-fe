@@ -73,7 +73,7 @@ export class EmployeeDetailComponent implements OnInit {
     private route:ActivatedRoute,
     //private loadingSpinnerService: LoadingSpinnerService
   ) {
-   
+   this._form.isProfile=false
     route.params.subscribe(val => {
       this.ngOnInit();
     });
