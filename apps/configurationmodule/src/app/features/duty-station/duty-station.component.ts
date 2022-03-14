@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -19,11 +19,15 @@ export class DutyStationComponent implements OnInit {
   dutyStationSource = new BehaviorSubject<DutyStationAndCountry[]>([]);
   dutyStation$ = this.dutyStationSource.asObservable();
   dutyStationList: DutyStationAndCountry[] = [];
+  dutyStationListView: DutyStationAndCountry[] = [];
   addDutyStation = false;
   isNew = true;
   dutyStationId = "";
-  country: FormControl = new FormControl("");
-  dutyStation: FormControl = new FormControl("");
+  country: FormControl = new FormControl("", Validators.required);
+  dutyStation: FormControl = new FormControl("", Validators.required);
+  total = 0;
+  loading = true;
+  pageIndex = 1;
 
   constructor(
     private countryService: CountryService,
@@ -35,6 +39,12 @@ export class DutyStationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDutyStation();
+    this.dutyStation$.subscribe((res: DutyStationAndCountry[])=>{
+      this.dutyStationList=res.reverse();
+      this.pageIndexChange(this.pageIndex);
+      this.total=this.dutyStationList.length;
+      this.loading=false;
+    })
   }
 
   getDutyStation() {
@@ -173,5 +183,16 @@ export class DutyStationComponent implements OnInit {
 
   authorize(key: string) {
     return this.permissionListService.authorizedPerson(key);
+  }
+  get isFormDisabled():boolean{
+    return this.dutyStation.invalid || this.country.invalid;
+  }
+  get enableClear():boolean{
+    return this.dutyStation.valid || this.country.valid;
+  }
+  pageIndexChange(pageIndex:number)
+  {
+    this.pageIndex=pageIndex
+   this.dutyStationListView=  this.dutyStationList.slice((pageIndex-1)*10).slice(0,10);
   }
 }

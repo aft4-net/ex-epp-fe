@@ -56,6 +56,7 @@
         id="clientName"
         (keyup)="checkClientName()"
         [ngClass]="{'border-red ,border-none' : clientNameExistErrorMessage}"
+        style="text-transform: capitalize;"
       />
       <span *ngIf="!clientName.valid && (clientName.touched )" class="error-block" >
         <span *ngIf="clientName.hasError('required')" >
@@ -98,7 +99,8 @@
         <textarea
         rows="4"
         formControlName="description"
-        nz-input placeholder="A maximum of 250 characters">
+        nz-input placeholder="A maximum of 250 characters"
+        style="text-transform: capitalize;">
       </textarea>
       <span *ngIf="description.errors?.maxlength" style="color: red">
         About the client should not be more than 250 characters

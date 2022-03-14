@@ -146,11 +146,12 @@ _commonData.getPermission()
             {
              this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
              );
-             this.
-             initializeData();
+             this.initializeData();
+             
             }
+            else{
             this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
-
+            }
            },
           err=>{
             this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
@@ -160,21 +161,6 @@ _commonData.getPermission()
       },
 
       nzCancelText: 'Cancel',
-      nzOnCancel: () => console.log('Cancel'),
-    });
-  }
-
-  showDeleteConfirm(element: any): void {
-    this.modal.confirm({
-      nzTitle: 'Are you sure, you want to cancel this client?',
-      nzContent: '<b style="color: red;"></b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.DeleteClient(element);
-      },
-      nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel'),
     });
   }

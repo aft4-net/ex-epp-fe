@@ -29,6 +29,7 @@ import {TimesheetRoutingModule} from './timesheet-routing.module';
 import { TimesheetService } from './services/timesheet.service';
 import { TimesheetValidationService } from './services/timesheet-validation.service';
 import { ViewSubmissionsComponent } from './components/view-submissions/view-submissions.component';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ViewSubmissionsComponent } from './components/view-submissions/view-sub
     NzToolTipModule,
     NzPaginationModule,
     NzInputNumberModule,
+    NzSpinModule
   ],
   exports: [],
   providers: [TimesheetValidationService,TimesheetService],
