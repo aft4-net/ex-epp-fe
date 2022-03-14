@@ -209,9 +209,10 @@ _commonData.getPermission()
   }
   checkClientWithProject(): void {
     this.modal.confirm({
+      nzIconType:'',
       nzTitle: 'This Client can not be deleted ',
       nzContent: '<span">becuase it is has a project under it</span>',
-      nzOkText: 'Yes',
+      nzOkText: 'Ok',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
