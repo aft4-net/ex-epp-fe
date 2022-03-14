@@ -34,7 +34,7 @@ export class TimesheetDetailViewComponent implements OnInit {
           content: '',
           duration: 1,
         });
-  
+
     }
 
 
