@@ -3,7 +3,7 @@
 
 tr:nth-child(even) {background: none}
 .page-title {
-  font-family: 'apple-system, BlinkMacSystemFont, sans-serif;';
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif ;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -36,7 +36,7 @@ header {
 }
 
 .page-title {
-  font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -59,7 +59,6 @@ header {
 }
 .add-button-bg{
   background-color: #00A551;
-  font-family: '-apple-system, BlinkMacSystemFont, sans-serif';
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -88,20 +87,15 @@ header {
 
 }
 
-.main-content {
-  height:110vh;
- }
+// .main-content {
+//   height:110vh;
+//  }
 
 ::ng-deep .ant-table {
   border: 1px solid #ddd !important;
 
 }
-::ng-deep  .ant-table-wrapper {
 
-  padding-left: 25px;
-  padding-right:25px;
-
-}
 
 .addButton {
   background-color: #00A551;
@@ -177,6 +171,7 @@ header {
 .pagination-text {
   font-size: 16px;
 }
+
 ::ng-deep .ant-spin-dot-item {
 
   background-color: #00A551 !important;
@@ -184,3 +179,12 @@ header {
 nz-breadcrumb.mt-4.ant-breadcrumb {
   padding-top: 0.75rem !important;
 }
+hr { display: block; height: 1px;
+  border: 0; border-top: 1px solid #ccc;
+  margin: 1em 0; padding: 0; }
+
+.header-separator{
+  border-top: 1px solid #ccc !important;
+}
+
+

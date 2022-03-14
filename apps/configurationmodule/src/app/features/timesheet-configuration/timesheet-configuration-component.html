@@ -1,7 +1,7 @@
-<h3 class="w-96 h-9 mt-6 ml-6 font-semibold text-xl  text-black">Timing settings</h3>
+<h3 class="w-96 h-9 mt-6 ml-6 font-semibold text-xl  text-black">Time Settings</h3>
 
 <form [formGroup]="timesheetConfigForm" (ngSubmit)="saveTimesheetConfiguration()" class="mt-4 ml-6">
-    <div class="w-4/6 pt-8 pr-10 pb-8 pl-10 rounded-lg border-gray-400 border">
+    <div class="w-4/6 pt-8 pr-10 pb-8 pl-10 rounded-lg border-gray-400 border" *ngIf="authorize('View_Timesheet_Configuration')">
         <div class="flex flex-row content-center">
             <h5 class="mt-auto mb-auto font-medium text-base text-right not-italic">Start of Week: </h5>
             <nz-select id="startOfWeekk" formControlName="startOfWeek" class="ml-8 w-80 h-9 rounded-sm border-gray-300">
@@ -10,48 +10,21 @@
                 <nz-option nzValue="Wednesday" nzLabel="Wednesday" class="font-normal text-base not-italic"></nz-option>
                 <nz-option nzValue="Thursday" nzLabel="Thursday" class="font-normal text-base not-italic"></nz-option>
                 <nz-option nzValue="Friday" nzLabel="Friday" class="font-normal text-base not-italic"></nz-option>
-                <nz-option nzValue="Starday" nzLabel="Starday" class="font-normal text-base not-italic"></nz-option>
+                <nz-option nzValue="Saturday" nzLabel="Saturday" class="font-normal text-base not-italic"></nz-option>
                 <nz-option nzValue="Sunday" nzLabel="Sunday" class="font-normal text-base not-italic"></nz-option>
             </nz-select>
         </div>
         <nz-divider></nz-divider>
         <div class="flex flex-row content-center">
-            <h5 class="mt-auto mb-auto font-medium text-base not-italic">Work Week:</h5>
+            <h5 class="mt-auto mb-auto font-medium text-base not-italic">Working Days:</h5>
             <div formGroupName="workingDays" class="ml-6">
-                <label class="ml-6">
-                        <input type="checkbox" name="Monday" formControlName="monday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Monday
-                </label>
-
-                <label class="ml-6">
-                        <input type="checkbox" name="Tuesday" formControlName="tuesday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Tuesday
-                </label>
-
-                <label class="ml-6">
-                        <input type="checkbox" name="Wednesday" formControlName="wednesday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Wednesday
-                </label>
-
-                <label class="ml-6">
-                        <input type="checkbox" name="Thursday" formControlName="thursday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Thursday
-                </label>
-
-                <label class="ml-6">
-                        <input type="checkbox" name="Friday" formControlName="friday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Friday
-                </label>
-
-                <label class="ml-6">
-                        <input type="checkbox" name="Starday" formControlName="starday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Saturday
-                </label>
-
-                <label class="ml-6">
-                        <input type="checkbox" name="Sunday" formControlName="sunday" class="mr-2 w-4 h-4 rounded-sm font-normal text-base not-italic">
-                        Sunday
-                </label>
+                <label nz-checkbox formControlName="monday">Monday</label>
+                <label nz-checkbox formControlName="tuesday">Tuesday</label>
+                <label nz-checkbox formControlName="wednesday">Wednesday</label>
+                <label nz-checkbox formControlName="thursday">Thursday</label>
+                <label nz-checkbox formControlName="friday">Friday</label>
+                <label nz-checkbox formControlName="saturday">Saturday</label>
+                <label nz-checkbox formControlName="sunday">Sunday</label>
             </div>
         </div>
         <nz-divider></nz-divider>
@@ -71,5 +44,5 @@
             </div>
         </div>
     </div>
-    <button *ngIf="authorize('Update_Timesheet_Configuration')" class="w-32 h-10 mt-6 rounded-sm bg-green-500 hover:bg-green-600 pt-2 pr-4 pb-2 pl-4 font-medium not-italic text-white">Save Changes</button>
+    <button *ngIf="authorize('Update_Timesheet_Configuration')" nz-button nzType="primary" style="margin-top: 24px;">Save Changes</button>
 </form>

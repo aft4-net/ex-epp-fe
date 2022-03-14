@@ -86,3 +86,7 @@
         display: none;
     }
 }
+
+::ng-deep .loading-timesheet .ant-spin-dot-item {
+    background-color: #00A551;
+}

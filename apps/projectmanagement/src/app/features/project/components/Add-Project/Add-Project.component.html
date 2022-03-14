@@ -9,13 +9,14 @@
     <nz-breadcrumb-item *ngIf="isOnEditstate"> Edit Project</nz-breadcrumb-item>
   </nz-breadcrumb>
 
-  <div class="flex flex-row justify-between" nz-row>
-    <div *ngIf="isOnEditstate" class="page-title">Edit Project</div>
-    <div *ngIf="isOnEditstate">
-      <button class="btn mr-4" (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
+  <div *ngIf="isOnEditstate" class="flex flex-row justify-between" nz-row>
+    <div  class="page-title">Edit Project</div>
+    <div >
+      <button   nz-button class="btn"  [nzLoading]="saveUpdateload"   (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
         Update
       </button>
-      <button (click)="showDeleteConfirm()" class="btn-cancel">Cancel</button>
+      <button (click)="showDeleteConfirm()" class="btn-cancel ml-4" >Cancel</button>
+    
     </div>
   </div>
   <hr *ngIf="isOnEditstate" />
@@ -23,10 +24,7 @@
 
 <nz-spin [nzSpinning]="isSpinning">
   <div [ngClass]="isOnEditstate ? 'page-edit' : ''">
-    <div class="flex flex-row justify-between" nz-row>
-      <div *ngIf="!isOnEditstate" class="page-title">Project Details</div>
-    </div>
-
+<div  *ngIf="!isOnEditstate" nz-row class="tab-title mb-1">Project Details</div>
     <form class="w-full max-w-4xl" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">
       <nz-form-item>
         <nz-form-label class="" [nzSm]="6" [nzXs]="24" nzFor="projectName">Project Name &nbsp;
@@ -35,7 +33,7 @@
             <path
               d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
             </svg></nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-form-control [nzSm]="14" [nzXs]="20">
           <input nz-input formControlName="projectName" id="projectName" />
 
           <span *ngIf="!projectName.valid && (projectName.touched || userSubmitted)" class="error-block">
@@ -84,7 +82,7 @@
           <nz-select nzShowSearch nzAllowClear id="clientName" formControlName="client"
             nzPlaceHolder="Select client Name">
             <ng-container *ngFor="let client of clients">
-              <nz-option *ngIf="client.ClientName !== 'Excellerent'" nzLabel="{{ client.ClientName }}"
+              <nz-option *ngIf="client.ClientName !== 'Excellerent'" nzLabel="{{ client.ClientName | titlecase }}"
                 [nzValue]="client.Guid"></nz-option>
             </ng-container>
           </nz-select>
@@ -124,7 +122,7 @@
         <nz-form-control [nzSm]="14">
           <nz-select nzShowSearch nzAllowClear id="supervisor" formControlName="supervisor"
             nzPlaceHolder="Select Supervisor Name">
-            <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name }}-{{ employee.Role }}"
+            <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name | titlecase }}-{{ employee.Role | titlecase }}"
               [nzValue]="employee.Guid"></nz-option>
           </nz-select>
           <div class="error-block" *ngIf="supervisor.invalid && supervisor.touched">
@@ -160,7 +158,7 @@
 
             <nz-form-control [nzXs]="24">
               <nz-date-picker [nzShowToday]="false" style="display: block" #endDatePicker [nzDisabled]="disabled"
-                [nzDisabledDate]="disabledEndDate" nzFormat="dd-MM-yyyy" formControlName="endValue" nzPlaceHolder="End"
+                [nzDisabledDate]="disabledEndDate" nzFormat="dd-MM-yyyy" formControlName="endValue" nzPlaceHolder="End Date"
                 (nzOnOpenChange)="handleEndOpenChange($event)"></nz-date-picker>
             </nz-form-control>
           </nz-form-item>
@@ -169,19 +167,17 @@
       <nz-form-item nz-col nzSpan="14">
         <nz-form-label>Description</nz-form-label>
         <div class="form-control">
-          <textarea formControlName="description" nz-input rows="4" placeholder="Description"></textarea>
+          <textarea formControlName="description" nz-input rows="3" placeholder="Description"></textarea>
         </div>
       </nz-form-item>
     </form>
   </div>
+ 
 </nz-spin>
 
-<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="cancelModal" [nzTitle]="confirmTile" [nzFooter]="null"
+<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="cancelModal"  nzTitle="Exit" [nzFooter]="null"
   [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
-  <ng-template #confirmTile>
-    <i class="mr-2" style="color: coral" nz-icon nzType="question-circle" nzTheme="outline"></i>
-    Exit
-  </ng-template>
+
   <ng-container *nzModalContent>
     <p *ngIf="isOnEditstate">Are you sure to exit before updating project ?</p>
     <span class="flex justify-end">

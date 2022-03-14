@@ -87,7 +87,6 @@ export class UserdetailsComponent implements OnInit {
   getAllUserGroups() {
     this.userDetailService.getAllUserGroupsByUserId(this.userId).subscribe((res) => {
       this.listUserGroups = res.Data;
-      console.log(this.listUserGroups)
     });
   }
   getAllGroupList(){
@@ -95,14 +94,12 @@ export class UserdetailsComponent implements OnInit {
       (res) => {
         this.listOfGroups = res.Data;
       }
-      // (err) => this.onShowError(err)
     );
   }
 
   getUsers() {
     this.userDetailService.getUserInfo(this.userId).subscribe((res) => {
       this.userDetals = res.Data;
-      console.log(this.userDetals);
     });
   }
 
@@ -147,9 +144,8 @@ export class UserdetailsComponent implements OnInit {
         this.isActive = this.userdetailInfo.Status as string ==='Active'?true:false;
         //this.thePosition = response.Data.userListJobTitle; 
     this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
-     this.thePosition=res.EmployeeOrganization.JobTitle;
-      console.log('test')
-      console.log(this.thePosition)
+     this.thePosition=res.EmployeeOrganization.Role.Name;
+   
     });
       
      
@@ -175,13 +171,11 @@ AddToGroup()  {
                   this.loading = false;
               },
               (error: any) => {
-                  console.log(error);
               }
           );
           this.loading = false;
       },
       (error: any) => {
-          console.log(error);
           this.onShowError(error.Error);
       }
   );
@@ -290,7 +284,7 @@ AddToGroup()  {
           type: 'primary',
           danger: false,
           onClick: () => {
-            this.deleteItem(guid,name);
+            this.deleteItem(guid);
             modal.destroy()
           }
         },
@@ -302,11 +296,11 @@ AddToGroup()  {
     });
   }
 
-  deleteItem(guid: string | null,name:string|null) {
+  deleteItem(guid: string | null) {
     const groupName:string | undefined = this.getGroupName(name);
     const id = guid ? guid : '';
     this.userDetailService.deleteGroupFromUser(id).subscribe(
-      () => {
+      (rs)  => {
         this.loading = false;
         this.notification.showNotification({
           type: 'success',
@@ -325,7 +319,6 @@ AddToGroup()  {
           content: 'Group entry not deleted. Please try again.',
           duration: 5000,
         });
-        console.log('error:' + err);
       }
     );
   }
@@ -344,7 +337,6 @@ AddToGroup()  {
 
     this.userDetailService.updateUser(usrDetail).subscribe(
       (r: ResponseDTO<any>) => {
-        console.log(ResponseStatus.error);
         if( r.ResponseStatus.toString() === 'Error')
        {
         this.notification.showNotification({
@@ -354,10 +346,10 @@ AddToGroup()  {
         });
          return;
        }
-      this.notification.showNotification({
+       usrDetail.Status
+       this.notification.showNotification({
         type: 'success',
-
-        content: `User status changed to  '${usrDetail.Status}' successfully`,  
+        content: `User status changed to  ${usrDetail.Status != 'Active' ? 'Not Active' : 'Active'} successfully`,  
         duration: 5000,
       });
     },
@@ -368,7 +360,6 @@ AddToGroup()  {
         content: 'Error occured. Status not updated.',
         duration: 5000,
       });
-      console.log('error:' + err);
     }
     )
      
@@ -389,7 +380,6 @@ AddToGroup()  {
             content: 'Some error has occured.',
             duration: 5000,
           });
-          console.log('error:' + err);
         }
         
       );

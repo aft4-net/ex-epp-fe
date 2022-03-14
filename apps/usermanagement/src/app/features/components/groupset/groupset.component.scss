@@ -273,15 +273,6 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: #262626;
 }
 
-
-::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down,
-          .ant-table-column-sorter-down.active,
-          .ant-table-column-sorter-up.active {
-  color: #595959 !important;
-}
-
-
 ::ng-deep .ant-input-affix-wrapper {
   padding: 1px 5px !important;
 }
@@ -305,7 +296,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 }
 
 .groupCreateActions {
-  text-align: right;
+  text-align: left;
 }
 
 ::ng-deep .groupCreateActions .ant-btn-primary[disabled]
@@ -332,4 +323,23 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 
 .tdstyle{
   font-size: small;
+}
+
+::ng-deep .ant-spin-dot-item  {
+
+  background-color: #00A551;
+
+}
+
+
+::ng-deep .defaultcolor .anticon {
+  color: gray !important;
+}
+
+::ng-deep .defaultcolor .ant-table-filter-open {
+  color: #595959;
+}
+
+.pagination {
+  margin-top:10px;
 }

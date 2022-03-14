@@ -47,6 +47,7 @@
     "@angular/router": "^12.2.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/icons-angular": "^13.0.1",
+    "@auth0/angular-jwt": "^5.0.2",
     "@azure/msal-angular": "^2.0.6",
     "@azure/msal-browser": "^2.20.0",
     "@nrwl/angular": "12.9.0",

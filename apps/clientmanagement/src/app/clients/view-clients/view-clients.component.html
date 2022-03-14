@@ -9,17 +9,17 @@
   <div class="justify-between" nz-row>
     <div class="page-title" nz-col nzSpan="2"> Clients </div>
 
-   <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
+    <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
  </header>
 
-
+ <hr class="header-separator">
  <div class="main-content">
 
 <div nz-row class="ml-1 w-8 h-4">
   <div nz-col nzSpan="6" class="ml-1">
     <nz-input-group [nzSuffix]="suffixIconSearch" >
-      <input [formControl]="searchProject" type="text" nz-input placeholder="Search" />
+      <input [formControl]="searchProject" type="text" nz-input placeholder="search by client name" />
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <i nz-icon nzType="search"></i>
@@ -29,7 +29,6 @@
 
 
   <div>
-
     <ng-template #contentTemplate>
       <div style="width: 190px;">
 
@@ -79,12 +78,12 @@
 
 
 
-<nz-table class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
+<nz-table style="padding: 0px 2%;" class="view-client-table"nzSize="small" [nzLoading]="loading" [nzData]="clientsdata" [nzShowPagination]="false" >
 
 
   <thead>
     <tr>
-      <th [nzSortFn]="true"  (click)="sorter(1)" class="table_heading">Client</th>
+      <th [nzSortFn]="true"  (click)="sorter(1)" class="table_heading">Client Name</th>
       <th *ngIf="locationCheckbox" [nzFilters]="namesofLocationsfilterd" (nzFilterChange)="search($event,searchstatusList,searchsalesPersonList)" [nzSortFn]="true"  (click)="sorter(2)" class="table_heading">Location</th>
       <th *ngIf="statusCheckbox" [nzFilters]="namesofclientsfilterd" (nzFilterChange)="search(searchAddressList,$event,searchsalesPersonList)" [nzSortFn]="true" [nzSortFn]="true"  (click)="sorter(3)" class="table_heading">Status</th>
       <th *ngIf="salesCheckbox" [nzFilters]="namesofSalesfilterd" (nzFilterChange)="search(searchAddressList,searchstatusList,$event)" [nzSortFn]="true" [nzSortFn]="true"  (click)="sorter(4)" class="table_heading">Sales Person</th>
@@ -140,7 +139,6 @@
  </div>
 
 </div>
-
 
 
 

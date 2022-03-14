@@ -86,22 +86,15 @@ export class TimesheetApprovalComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   public arrayOfCheckedId:string[] =[];
 
-  //setOfCheckedId:Set<Number>;
+  
 
   ids: number[]=[];
   resources: any;
-
-  // variables for generic method
-    // variables for generic method
-    // variables for generic method
-  // variables for generic method
     supervisorId!: string | null;
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
-    // searchKeyG :string | null = null;
     sortByG = '';
-    // weekG = '';
     sortG = 'Ascending';
     searchKeyGBinded :string | null = null;
     searchKeyG = '';
@@ -159,7 +152,7 @@ getCurrentUser(){
     // eslint-disable-next-line prefer-const
     this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
     const user = JSON.parse(this.loggedInUserInfo);
-    this.supervisorId = user['EmployeeGuid'];
+    this.supervisorId = user['EmployeeId'];
   }
 }
 getProjectsList() {
@@ -207,7 +200,7 @@ authorize(key:string){
         // eslint-disable-next-line prefer-const
         this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
         const user = JSON.parse(this.loggedInUserInfo);
-        this.supervisorId = user['EmployeeGuid'];
+        this.supervisorId = user['EmployeeId'];
       }
     }
 
@@ -224,7 +217,6 @@ authorize(key:string){
          this.weekG,
          this.sortG,
          this.statusG
-
       )
 
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
@@ -453,7 +445,7 @@ sortDirectionMethod() {
           console.log("startttttttttt")
         }
       }
-      //this.UpdateData();
+      
     }
 
   onWeekChange() {
@@ -473,8 +465,7 @@ sortDirectionMethod() {
      this.statusG,
      this.projectNameG,
      this.clientNameG);
-console.log("dddddddddddddddddddddddddddddddddddddddddd")
-     console.log(this.TimesheetApprovalResponse);
+
 
   }
 }

@@ -84,7 +84,10 @@ export class GroupDetailComponent implements OnInit {
     }
   ];
 
+  isNotsuperAdmin = true;
+
   ngOnInit() {
+    
     this.createGroupDescriptionControls();
     this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -95,11 +98,23 @@ export class GroupDetailComponent implements OnInit {
     this._permissionService.Permission=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
+    this.disableEdit();
+
   }
+  
+  disableEdit(){
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+        this.isNotsuperAdmin = false;
+        console.log(res);
+        console.log("was");
+      }
+      });
+  }
+
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
-      description: [[this.groupDetail?.Description],
-                    [Validators.required]]
+      description: [[this.groupDetail?.Description],[Validators.maxLength(250)]]
     })
   }
   authorize(key:string){
@@ -192,49 +207,77 @@ export class GroupDetailComponent implements OnInit {
 
   createGroupDeleteModal(): void {
     const groupId = this.groupDetail?.Guid;
-     if(this.groupUserList.length > 0){
-      const modal: NzModalRef = this.modal.confirm({
-       nzTitle: 'This Group Can Not Be Deleted',
-       nzContent: 'This Group Can Not Be Deleted b/c there are users Assigned to the Group',
-       nzOkText: 'OK',
-       nzOkType: 'default',
-       nzOkDanger: true,
-     
-       });
-       }
-   else{
+     if(this.groupUserList.length > 0) {
+      const modal: NzModalRef = this.modal.create({
+       nzWidth:'400px',
+       nzTitle: 'Group Deletion',
+       nzContent: 'This group can not be deleted because there are users assigned to the group',
+       nzFooter: [
+        {
+          label: 'Ok',
+          type: 'primary',
+          onClick: () => {
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy()
+        }
+      ]
+    });
+  }
+   else {
     this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
       if(res == true){
-       const modal: NzModalRef = this.modal.confirm({
+       const modal: NzModalRef = this.modal.create({
+         nzWidth:'400px',
          nzTitle: 'Super Admin',
          nzContent: 'This Group Can Not Be Deleted',
-         nzOkText: 'OK',
-         nzOkType: 'default',
-         nzOkDanger: true,
-       
-         });
+         nzFooter: [
+          {
+            label: 'Ok',
+            type: 'primary',
+            onClick: () => {
+              modal.destroy()
+            }
+          },
+          {
+            label: 'cancel',
+            type: 'default',
+            onClick: () => modal.destroy()
+          }
+        ]});
       }
-      
-      else{
- 
-    const modal: NzModalRef = this.modal.confirm({
-    nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
-    nzContent: "Deleting a group can't be undone" ,
-    nzOkText: 'Delete Group',
-    nzOkType: 'default',
-    nzOkDanger: true,
-    nzOnOk: () => {
-      this.DeleteGroup();
-      modal.destroy()
-      }
-    });
-  }});
-}
+      else {
+        const modal: NzModalRef = this.modal.create({
+        nzWidth:'400px',
+        nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group?',
+        nzContent: "Are you sure you want to delete the group? Deleting a group can't be undone" ,
+        nzFooter: [
+          {
+            label: 'Delete Group?',
+            type: 'primary',
+            onClick: () => {
+              this.DeleteGroup();
+              modal.destroy()
+            }
+          },
+          {
+            label: 'cancel',
+            type: 'default',
+            onClick: () => modal.destroy()
+          }
+        ]
+      });
+    }
+  });}
 }
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
     const modal: NzModalRef = this.modal.create({
-    nzWidth:'350px',
+    nzWidth:'400px',
     nzTitle: 'Remove user?',
     nzContent: 'Are you sure you want to remove user? This action can not be undone',
     nzFooter: [
@@ -386,4 +429,4 @@ export class GroupDetailComponent implements OnInit {
   this.AddUserToGroupForm.controls["Users"].markAsPristine()
  }
 
-}
+}  

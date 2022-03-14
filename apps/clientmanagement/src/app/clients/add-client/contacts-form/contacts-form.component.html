@@ -10,7 +10,7 @@
     <tr>
 
 
-      <th class="table_heading" nzColumnKey="clients">Clients</th>
+      <th class="table_heading" nzColumnKey="clients">Client Name</th>
       <th class="table_heading" nzColumnKey="email">Email</th>
       <th class="table_heading" nzColumnKey="contactno">Contact Number</th>
       <th class="table_heading" nzColumnKey="action">Action</th>
@@ -58,8 +58,8 @@
     <form nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
       <nz-form-item>
         <nz-form-label class="client-label" [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
-        <nz-form-control  [nzSm]="24" [nzXs]="24" nzHasFeedback>
-          <input  (keyup)="checkClientName()"   placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName" />
+        <nz-form-control  nzErrorTip="Contact name is required"  [nzSm]="24" [nzXs]="24" nzHasFeedback>
+          <input  (keyup)="checkClientName()"   placeholder="contact person" id="contactName" nz-input formControlName="ContactPersonName" style="text-transform: capitalize;"/>
           <span *ngIf="!ContactPersonName.valid && (ContactPersonName.touched )" class="error-block" >
             <span *ngIf="ContactPersonName.hasError('required')" >
               Client's name is required
@@ -103,19 +103,21 @@
 
             <ng-template #addOnBeforeTemplate>
 
-              <nz-select formControlName="PhoneNumberPrefix" nzPlaceHolder="+251" nzShowSearch class="phone-select">
+              <nz-form-control   >
+              <nz-select  formControlName="PhoneNumberPrefix" nzPlaceHolder="--Please Select--" nzShowSearch class="phone-select">
 
                 <ng-container *ngFor="let code of listofCodes">
 
-                  <nz-option nzValue="{{code.value}}" nzLabel="{{code.label}}"></nz-option>
+                  <nz-option   nzValue="{{code.value}}" nzLabel="{{code.label}}"></nz-option>
 
                 </ng-container>
 
               </nz-select>
+            </nz-form-control>
 
             </ng-template>
 
-            <input nzErrorTip="Please add contact number!" formControlName="PhoneNumber" id="'residencialPhoneNumber'"
+            <input  formControlName="PhoneNumber" id="'residencialPhoneNumber'"
               nzPlaceHolder="911223344" nz-input />
 
           </nz-input-group>

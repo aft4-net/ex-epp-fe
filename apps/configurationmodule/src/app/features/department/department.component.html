@@ -1,11 +1,11 @@
 <div class="main-content" style="margin: 0px 24px; padding-bottom: 58px;">
-  <h1>Departments</h1>
+  <h1 class="tab-title">Departments</h1>
   <div nz-row>
     <div nz-col nzSpan="18">
     <nz-form-item>
-      <nz-form-control class="search" [nzSm]="8" [nzXs]="10" nzErrorTip="Please input search!">
+      <nz-form-control class="search" style="height: 40px !important;"    [nzSm]="8" [nzXs]="10" nzErrorTip="Please input search!">
         <nz-input-group nzSearch [nzSuffix]="suffixIconSearch" >
-          <input  [(ngModel)]="searchInput" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search" />
+          <input  (keyup)="onSearchChange($event)" type="text" nz-input placeholder="Search by department" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
           <i nz-icon nzType="search"></i>
@@ -24,6 +24,7 @@
       [nzFooter]="null"
       [nzMaskClosable]=false
       (nzOnCancel)="handleCancel()"
+       [nzWidth]="'410px'"
     >
       <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Department</ng-template>
       <ng-template #modalContent>
@@ -35,10 +36,10 @@
 
   <div nz-row>
     <div nz-col nzSpan="24">
-      <nz-table #basicTable [nzData]="listOfDepartments" [nzShowPagination]="false" [nzFrontPagination]=false>
+      <nz-table nzSize="small" #basicTable [nzData]="listOfDepartments" [nzShowPagination]="false" [nzFrontPagination]=false>
         <thead>
           <tr>
-            <th [nzSortFn]="true" (nzSortOrderChange)="nameSortOrderChange($event)">Name</th>
+            <th [nzSortFn]="true" (nzSortOrderChange)="nameSortOrderChange($event)">Department Name</th>
             <th>Actions</th>
           </tr>
         </thead>

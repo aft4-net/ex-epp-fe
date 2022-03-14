@@ -38,11 +38,7 @@ export class ClientService extends ApiService<any> {
 
   addClient() {
     this.post(this.addClientStateService.addClientData).subscribe(
-
       (response: any) => {
-        console.log("this.addClientStateService.addClientData")
-        console.log(this.addClientStateService.addClientData.BillingAddress)
-        console.log('this.addClientStateService.addClientData')
         if (response.ResponseStatus.toString().toLowerCase() == 'error') {
           this.notification.error(
             'Client not added',

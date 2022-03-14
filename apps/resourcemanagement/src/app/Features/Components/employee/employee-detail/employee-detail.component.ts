@@ -71,7 +71,7 @@ export class EmployeeDetailComponent implements OnInit {
     private _message: NzNotificationService,
     private modal: NzModalService,
     private route:ActivatedRoute,
-    private loadingSpinnerService: LoadingSpinnerService
+    //private loadingSpinnerService: LoadingSpinnerService
   ) {
    
     route.params.subscribe(val => {
@@ -150,7 +150,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.loadingSpinnerService.messageSource.next(true);
+    //this.loadingSpinnerService.messageSource.next(true);
 
     this.getfilterDataMenu();
 
@@ -580,6 +580,13 @@ FilterData(){
       this.lastRow = this.totalRows;
       this.beginingRow = 1;
       this.holdflag = true;
+      if (this.totalRows === this.pageSize) {
+        this.lastRow = this.pageSize * this.pageIndex;
+        this.beginingRow = this.totalRows * (this.pageIndex - 1) + 1;
+      } else if (this.totalRows < this.pageSize) {
+        this.lastRow = this.totalRecord;
+        this.beginingRow = this.totalRecord - this.totalRows + 1;
+      }
      // this.FillTheFilter();
       this.loading = false;
     }
@@ -625,13 +632,13 @@ FilterData(){
       }
     ];
    },(()=>{
-
+      //
     })
   );
 
-  setTimeout(()=>{
-    subsc.unsubscribe();
-}, 5000);
+  //setTimeout(()=>{
+  //  subsc.unsubscribe();
+//}, 5000);
   this.searchStateFound=true;
 }
 
@@ -702,7 +709,9 @@ FilterData(){
   }
 
   PageIndexChange(index: any): void {
-    this.loading = true;
+    this.pageIndex=index;
+    this.FilterData();
+    /*this.loading = true;
 
     this.employeeParams.pageIndex = index;
     this.employeeParams.searchKey = this.fullname ?? '';
@@ -744,7 +753,7 @@ FilterData(){
         });
       this.searchStateFound = false;
       this.loading = false;
-    }
+    }*/
   }
 
   createGroupDeleteModal(employeeId: string): void {

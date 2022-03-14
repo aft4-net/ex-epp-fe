@@ -2,18 +2,18 @@
     class="form-item">
     <nz-form-label
       class="form-label"
-      [nzSm]="labelConfig.nzSm" 
+      [nzSm]="labelConfig.nzSm"
       [nzXs]="labelConfig.nzXs"
       [nzRequired]="required">
       {{label}}
     </nz-form-label>
     <nz-form-control
-    [nzSm]="controlConfig.nzSm" 
+    [nzSm]="controlConfig.nzSm"
     [nzXs]="controlConfig.nzXs"
     [nzErrorTip]="errMessage"
     nzHasFeedback>
       <input
-        class="excel-single-control"
+        class="excel-single-control " style="text-transform: capitalize;"
         [formControl]="myControl" nzPlaceHolder="Smith"
          (ngModelChange)="onChange()" nz-input />
     </nz-form-control>

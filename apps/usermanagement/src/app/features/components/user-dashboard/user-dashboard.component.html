@@ -1,6 +1,5 @@
 <nz-layout  *ngIf="isLogin">
     <nz-content>
-
       <div style="margin-top: -20px;" class="inner-content">
       <div>
         <div nz-row>
@@ -8,7 +7,7 @@
             Users
           </h2></div>
           <div  nz-col nzSpan="12" style="text-align: right;">
-            <button nz-button [nzSize]="'large'" nzType="primary" class="adduser" *ngIf="authorize('Add_User')" (click)="onAddUser()">
+            <button nz-button [nzSize]="'large'" nzType="primary" class="ant-btn-primary" *ngIf="authorize('Add_User')" (click)="onAddUser()">
               Add User
             </button>
           </div>
@@ -16,44 +15,39 @@
         <div [formGroup]="userDashboardForm" nz-row>
           <div nz-col class="gutter-row" [nzSpan]="6">
             <nz-input-group style="height: 33px; width: 320px;" nzSearch [nzSuffix]="suffixIconButton">
-              <input  type="text" #userNameInput  formControlName="userName" nzSize="small" nz-input placeholder="Search" (onchange)="SearchUsersByUserName()"  />
+              <input  type="text" #userNameInput  formControlName="userName" nzSize="small" nz-input placeholder="Search by user name" (onchange)="SearchUsersByUserName()"  />
             </nz-input-group>
             <ng-template #suffixIconButton>
                 <i nz-icon nzType="search" (click)="SearchUsersByUserName()"></i>
             </ng-template>
           </div>
         </div>
-        <div  nz-row nzJustify="end" *ngIf="userList.length > 0">
-          <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
-          <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
-            nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
-        </div>
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24" class="userlist">
-              <nz-table class="defaultcolor" [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table [nzLoading]="loading" nzSize="small" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
-                <div *ngIf="userList.length > 0; else normalHeader">
+                <div  *ngIf="userList.length > 0; else normalHeader">
                   <thead>
                     <tr>
-                      <th style="font-weight: bold;" class="tdstyle" *ngFor="let column of listOfColumnsUser"
+                      <th style="font-weight: bold;" class="tdstyle defaultcolor" *ngFor="let column of listOfColumnsUser"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="font-weight: bold;" class="tdstyle" style="text-align:center !important; display:none"  *ngFor="let column of listOfColumnsLastActivityDate"
+                      <th style="font-weight: bold;" class="tdstyle defaultcolor" style="text-align:center !important; display:none"  *ngFor="let column of listOfColumnsLastActivityDate"
                         [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="font-weight: bold;" class="tdstyle" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
+                      <th style="font-weight: bold;" class="tdstyle defaultcolor" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
                         [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
                         [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
                         [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                      <th class="tdstyle" style="text-align:justify !important; font-weight: bold;" >Actions</th>
+                      <th class="tdstyle defaultcolor" style="text-align:justify !important; font-weight: bold;" >Actions</th>
                     </tr>
                   </thead>
                 </div>
                 <ng-template #normalHeader>
                   <thead>
                     <tr>
-                      <th class="tdstyle" style="font-weight: bold;">Name</th>
+                      <th class="tdstyle" style="font-weight: bold;">User Name</th>
                       <th class="tdstyle" style="display:none" >Last Activity Date</th>
                       <th class="tdstyle" style="font-weight: bold;" >Department</th>
                       <th class="tdstyle" style="font-weight: bold;">Role</th>
@@ -64,8 +58,8 @@
                 </ng-template>
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" >
-                    <td class="tdstyle " style="padding-left: 0">
-                      <button class="tdstyle showDetail" nz-button  nzType="link" (click)="ShowDetail(user.UserId)">
+                    <td class="tdstyle" style="padding-left: 0">
+                      <button class="tdstyle " nz-button style="margin-left:0px"  nzType="link" (click)="ShowDetail(user.UserId)">
                         {{user.FullName }}
                       </button>
                     </td>
@@ -92,15 +86,15 @@
                         </button>
                     </td>
                     <ng-template #contentTemplate>
-                      <div>
+                      <div *ngIf="authorize('View_User') || authorize('Update_User') || authorize('Delete_User') "> 
                         <nz-space nzDirection="vertical">
                           <button class="actionButtons tdstyle"  [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons tdstyle" *ngIf="authorize('Add_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
+                          <button class="actionButtons tdstyle" *ngIf="authorize('Update_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                          <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
+                          <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User') && (user.FullName.toLowerCase() !== 'admin admin admin')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
                         </nz-space>
@@ -110,6 +104,11 @@
                 </tbody>
               </nz-table>
           </div>
+        </div>
+        <div class="pagination" nz-row nzJustify="end" *ngIf="userList.length > 0">
+          <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
+          <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
+            nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
         </div>
         </div>
       </div>
@@ -163,14 +162,15 @@
 </nz-form-control>
 
         </div>
-    </div><br>
+    </div>
+    <div class="addUserActions" style="margin-left:-8px">
+      <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid || loadingOnSave" [nzLoading]="loading" 
+       *ngIf="authorize('Add_User')" (click)="onSaveUser()">Add</button>
+       &nbsp;
+      <button  nz-button nzType="default" [disabled]="userfrm.invalid || loadingOnSave"(click)="handleCancel()">Clear</button>
+    </div>
 </form>
-<div class="addUserActions">
-  <button nz-button nzType="primary" [ngClass]="userfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="userfrm.invalid" [nzLoading]="loading" 
-   *ngIf="authorize('Add_User')" (click)="onSaveUser()">Add</button>
-   &nbsp;
-  <button  nz-button nzType="default" [disabled]="userfrm.invalid"(click)="handleCancel()">Clear</button>
-</div>
+
 
 </ng-container>
   </nz-modal>
@@ -208,15 +208,16 @@
               </nz-form-control>
             </nz-form-item>
         </div>
-    </div><br>
+    </div>
+    <div class="addUserActions" style="margin-left: -8px;">
+      <button nz-button nzType="primary"  [ngClass]="groupfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loadingOnSave">
+          {{ selectedGroups.length > 0 ? 'Update': 'Add' }}
+      </button>
+      &nbsp;
+      <button nz-button nzType="default" [disabled]="groupfrm.invalid || loadingOnSaveGroup" (click)="handleGroupCancel()">Clear</button>
+  </div>
 </form>
-<div class="addUserActions">
-    <button nz-button nzType="primary"  [ngClass]="groupfrm.invalid ? 'disableAddUserButton' : 'addUser'" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loadingOnSave">
-        {{ selectedGroups.length > 0 ? 'Update': 'Add' }}
-    </button>
-    &nbsp;
-    <button nz-button nzType="default" [disabled]="groupfrm.invalid" (click)="handleGroupCancel()">Clear</button>
-</div>
+
 </ng-template>
 </nz-modal>
 

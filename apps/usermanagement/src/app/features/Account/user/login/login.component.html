@@ -35,14 +35,16 @@
       placeholder="Enter your password"
       [suffixIcon]="passwordSuffixIcon"
       [showErrorIcon]="false"
-      errorMsg="Password must be atleast 8 characters long and contain either a number or special character."
+      errorMsg="Password is recquired!"
       [displayError]="password.focusout"
       [maxLength]="50"
     ></app-input>
     <app-button [loading]="loading" class="login-button" [disabled]="!loginForm.valid" type="primary" (click)="signin()">
       Sign in
     </app-button>
+
   </form>
+   <a nz-button nzType="link" [href]="forgotPasswordUrl" class="btn-forgot-text">Forgot password?</a>
 
   <ng-template #passwordSuffixIcon>
     <i
