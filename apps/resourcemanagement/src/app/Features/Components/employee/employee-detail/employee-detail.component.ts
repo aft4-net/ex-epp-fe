@@ -784,7 +784,7 @@ FilterData(){
   }
 
   DeleteEmployee(employeeId: string): void {debugger;
-    
+
     this._employeeService.DeleteEmployee(employeeId)
       .subscribe((result: any) => {
         this.createNotification(
@@ -811,6 +811,5 @@ FilterData(){
     }
   }
 
-  
+
   }
- 
