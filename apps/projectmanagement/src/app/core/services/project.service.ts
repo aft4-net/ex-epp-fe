@@ -1,5 +1,5 @@
-import { BehaviorSubject, Observable} from 'rxjs';
-import { PaginatedResult, Pagination, Project } from '../models';
+import { Observable} from 'rxjs';
+import {  Pagination, Project } from '../models';
 import { ApiService } from '../models/apiService';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,11 +13,6 @@ import { AddProjectStateService } from '../state';
 })
 export class ProjectService extends ApiService<Project> {
 
-
-  private fristPagantionProjectsSource=  new BehaviorSubject<PaginatedResult<Project[]>>(  {} as PaginatedResult<Project[]>);
-  fristPagantionProjects$=this.fristPagantionProjectsSource.asObservable();
-
-
   constructor(private addProjectState:AddProjectStateService, protected httpClient: HttpClient) {
     super(httpClient);
   }
@@ -26,17 +21,6 @@ export class ProjectService extends ApiService<Project> {
   updateProject(resource:any)
   {
   return  this.httpClient.put(environment.baseApiUrl+"Project",resource);
-  }
-
-  getFirsttPageValue()
-  {
-    return this.fristPagantionProjectsSource.value;
-  }
-
-  setFristPageOfProjects(data:PaginatedResult<Project[]>)
-  {
-    this.fristPagantionProjectsSource.next(data);
-
   }
 
   getResourceUrl(): string {

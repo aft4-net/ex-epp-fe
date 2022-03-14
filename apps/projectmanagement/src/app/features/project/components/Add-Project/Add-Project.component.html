@@ -36,20 +36,8 @@
         <nz-form-control [nzSm]="14" [nzXs]="20">
           <input nz-input formControlName="projectName" id="projectName" />
 
-          <span *ngIf="!projectName.valid && (projectName.touched || userSubmitted)" class="error-block">
-            <span *ngIf="projectName.hasError('required')">
-              Please provide Project name
-            </span>
-            <span *ngIf="projectName.errors?.maxlength">
-              Project name should not be more than 70 character
-            </span>
-            <span *ngIf="projectName.errors?.minlength">
-              Project name should not be lesser than 2 character
-            </span>
-
-            <span *ngIf="projectName.errors?.invalidName">
-              {{ projectNameExitsErrorMessage }}
-            </span>
+          <span *ngIf="formErrors.projectName" class="error-block">
+           {{formErrors.projectName}}
           </span>
         </nz-form-control>
       </nz-form-item>
@@ -66,8 +54,8 @@
             <nz-option nzValue="External" nzLabel="External"></nz-option>
             <nz-option nzValue="Internal" nzLabel="Internal"></nz-option>
           </nz-select>
-          <div class="error-block" *ngIf="projectType.invalid && projectType.touched">
-            Please select Project Type
+          <div class="error-block" *ngIf="formErrors.projectType">
+            {{ formErrors.projectType}}
           </div>
         </nz-form-control>
       </nz-form-item>
@@ -86,8 +74,8 @@
                 [nzValue]="client.Guid"></nz-option>
             </ng-container>
           </nz-select>
-          <div class="error-block" *ngIf="clientName.invalid && clientName.touched">
-            Please select project client
+          <div class="error-block" *ngIf="formErrors.client">
+           {{formErrors.client}}
           </div>
         </nz-form-control>
       </nz-form-item>
@@ -106,8 +94,8 @@
               <nz-option nzLabel="{{ status.StatusName }}" [nzValue]="status.Guid"></nz-option>
             </ng-container>
           </nz-select>
-          <div class="error-block" *ngIf="status.invalid && status.touched">
-            Please select Project status
+          <div class="error-block" *ngIf="formErrors.status">
+            {{formErrors.status}}
           </div>
         </nz-form-control>
       </nz-form-item>
@@ -125,8 +113,8 @@
             <nz-option *ngFor="let employee of employees" nzLabel="{{ employee.Name | titlecase }}-{{ employee.Role | titlecase }}"
               [nzValue]="employee.Guid"></nz-option>
           </nz-select>
-          <div class="error-block" *ngIf="supervisor.invalid && supervisor.touched">
-            Please Select Project Supervisor
+          <div class="error-block" *ngIf="formErrors.supervisor">
+          {{formErrors.supervisor}}
           </div>
         </nz-form-control>
       </nz-form-item>
@@ -144,10 +132,10 @@
             <nz-form-control [nzXs]="24">
               <nz-date-picker style="display: block" #startDatePicker (ngModelChange)="onProjectDateSelected()"
                 [nzDisabledDate]="disabledStartDate" nzFormat="dd-MM-yyyy" formControlName="startValue"
-                nzPlaceHolder="Start Date" (nzOnOpenChange)="handleStartOpenChange($event)"></nz-date-picker>
+                nzPlaceHolder="Start Date" ></nz-date-picker>
             </nz-form-control>
-            <div class="error-block" *ngIf="startValue.invalid && startValue.touched">
-              Please enter project start date
+            <div class="error-block" *ngIf="formErrors.startValue">
+             {{formErrors.startValue}}
             </div>
           </nz-form-item>
         </nz-col>
@@ -159,7 +147,7 @@
             <nz-form-control [nzXs]="24">
               <nz-date-picker [nzShowToday]="false" style="display: block" #endDatePicker [nzDisabled]="disabled"
                 [nzDisabledDate]="disabledEndDate" nzFormat="dd-MM-yyyy" formControlName="endValue" nzPlaceHolder="End Date"
-                (nzOnOpenChange)="handleEndOpenChange($event)"></nz-date-picker>
+               ></nz-date-picker>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
