@@ -2,20 +2,54 @@
 
 🔎 **Excellerent Enterprize portfolio(EPP)*
 
-This project was generated using [Nx](https://nx.dev). It uses Mono-repo Micro-front end architecture with Webpack 5's Module federation.
+This project was generated using [Nx](https://nx.dev). It uses Mono-repo Micro-front end architecture with Webpack 5's Module federation. 
+To quickly check the capability, please run the Dockerized build.
 
-
-
+> Run docker-compose up -d
 
 ## Quick Start & Documentation
 To get started 
+
+
+## Project details
+
+| Application | Directory | Description |
+| ------ | ------ | ------ |
+| Micro frontends shell | [apps/epp-dashboard] | Main application to load micro frontends |
+| Usermanagement | [apps/Usermanagement] |user registration managment project created with ng|
+| Timesheet | apps/Timesheet] | an employee time sheet management project using angular |
+| ClientManagement| [apps/ClientManagent] |client management |
+| ProjectMangement| [apps/Projectmanagement] Excllerent's Project Mangement |
+| ConfigurationModule| [apps/ConfigurationModule] |Configuration management for the whole system |
+| ResourceMangement| [apps/ResourceManagement] |Allocate resources to project and client |
+
+# Installation and startup
+**Shell**
 ```
-git clone git@bitbucket.org:Excellerent_Solutions/excellerent-epp-fe.git cd excellerent-epp-fe
+git clone git@bitbucket.org:Excellerent_Solutions/excellerent-epp-fe.git 
+cd excellerent-epp-fe
 npm install
 npm run serve-all
 ```
 
+**Epp Dashboard**
+```sh
+$ cd mf-angular
+$ npm i
+$ npm run serve-all
+```
+```
+// runs on http://localhost:4200
+```
 
+## Dockerized Build
+To run docekrized build run
+```sh
+$ docker-compose up -d
+```
+```
+//Epp-Dashboard runs on http://localhost:3200
+```
 
 ## Adding capabilities to your workspace
 
@@ -46,21 +80,19 @@ Run `npm run serve {app-Name}` for a dev server. Navigate to http://localhost:42
 
 
 Run `npm run serve:all` to serve all applications with development server.
-## Dockerized Build
-To run docekrized build run
 
-> docker-compose up -d
 ## Code scaffolding
 
-Run `npm run component my-component --project=my-app` to generate a new component.
+> Run `npm run component my-component --project=my-app` to generate a new component.
+
+## Building artifacts
+
+> Run `npm run deploy` 
 
 ## Build
 
 Run `npm run build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Building multiple projects
-
-Run ``
 
 ## Running unit tests
 
@@ -74,27 +106,6 @@ Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cy
 
 Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
-## Understand your workspace
+## Running Webpack analyzer
 
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
-
-
-
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Run `npm run analyze:appname` to see webpack parameters
