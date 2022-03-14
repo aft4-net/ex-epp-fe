@@ -22,7 +22,7 @@ export class FamilyDetailViewComponent implements OnInit {
   indeterminate = false;
   listOfFamilies: FamilyDetail[] = [];
   confirmModal?: NzModalRef;
-  editId: string | null = null;
+  editId = '00000000-0000-0000-0000-000000000000';
   IsEdit = false;
   editAt = -10;
   addButton = 'Add';
@@ -61,7 +61,7 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
   stopEdit(): void {
-    this.editId = null;
+    this.editId = '00000000-0000-0000-0000-000000000000';
   }
 
   showConfirm(index: number,id:string): void {
