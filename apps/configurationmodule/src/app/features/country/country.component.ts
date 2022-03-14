@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -24,7 +24,7 @@ export class CountryComponent implements OnInit {
   isNew = true;
   countryList$ = new Observable<SelectOption[]>();
   countryId = "";
-  country: FormControl = new FormControl("");
+  country: FormControl = new FormControl("", Validators.required);
   total = 0;
   loading = true;
   pageIndex = 1;
@@ -158,5 +158,8 @@ export class CountryComponent implements OnInit {
   {
     this.pageIndex=pageIndex
    this.countriesView=  this.countries.slice((pageIndex-1)*10).slice(0,10);
+  }
+  get isFormDisabled():boolean{
+    return this.country.invalid;
   }
 }

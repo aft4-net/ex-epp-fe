@@ -24,6 +24,7 @@
       [nzFooter]="null"
       [nzMaskClosable]=false
       (nzOnCancel)="handleCancel()"
+       [nzWidth]="'410px'"
     >
       <ng-template #modalTitle>{{ idForEdit !== null ? 'Edit' : 'Add '}} Department</ng-template>
       <ng-template #modalContent>
