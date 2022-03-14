@@ -80,7 +80,7 @@ export class EmployeeDetailComponent implements OnInit {
     private _assignResourceService:AssignResourceService,
        //private loadingSpinnerService: LoadingSpinnerService
   ) {
-
+    this._form.isProfile=false;
     route.params.subscribe(val => {
       this.ngOnInit();
     });
