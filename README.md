@@ -1,20 +1,21 @@
 
 
-# ExecEpp
+🔎 **Excellerent Enterprize portfolio(EPP)*
 
-This project was generated using [Nx](https://nx.dev).
+This project was generated using [Nx](https://nx.dev). It uses Mono-repo Micro-front end architecture with Webpack 5's Module federation.
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
-🔎 **Smart, Extensible Build Framework**
+
 
 ## Quick Start & Documentation
+To get started 
+```
+git clone git@bitbucket.org:Excellerent_Solutions/excellerent-epp-fe.git cd excellerent-epp-fe
+npm install
+npm run serve-all
+```
 
-[Nx Documentation](https://nx.dev/angular)
 
-[10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
-
-[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
 
 ## Adding capabilities to your workspace
 
@@ -24,28 +25,12 @@ These capabilities include generating applications, libraries, etc as well as th
 
 Below are our core plugins:
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
-
-There are also many [community plugins](https://nx.dev/community) you could add.
 
 ## Generate an application
 
 Run `ng g @nrwl/angular:app my-app` to generate an application.
 
 > You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
 
 ## Generate a library
 
@@ -57,15 +42,25 @@ Libraries are shareable across libraries and applications. They can be imported 
 
 ## Development server
 
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `npm run serve {app-Name}` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
+
+Run `npm run serve:all` to serve all applications with development server.
+## Dockerized Build
+To run docekrized build run
+
+> docker-compose up -d
 ## Code scaffolding
 
-Run `ng g component my-component --project=my-app` to generate a new component.
+Run `npm run component my-component --project=my-app` to generate a new component.
 
 ## Build
 
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `npm run build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Building multiple projects
+
+Run ``
 
 ## Running unit tests
 
