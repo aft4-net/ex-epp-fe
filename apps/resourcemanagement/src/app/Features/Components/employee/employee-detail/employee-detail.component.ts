@@ -810,7 +810,6 @@ FilterData(){
         }
         );
      
-     
       if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
         this.createNotification("","warning","Cannot delete a Sales person or an employee assigned to a project");
       }
