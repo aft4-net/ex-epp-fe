@@ -53,7 +53,8 @@ flex-grow: 0;
 
 }
 ::ng-deep .overflow-scroll{
-overflow: hidden;
+  height: 80vh;
+  overflow-x: auto !important;
 }
 
 ::ng-deep .ant-table-pagination-right {
