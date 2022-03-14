@@ -8,6 +8,7 @@ import { ProjectService } from './project.service';
 export class ProjectValidationService {
 
   projectsSource = new BehaviorSubject<Project[]>([]);
+  validateUpdateProject= new BehaviorSubject<boolean>(false);
   projects$ = this.projectsSource.asObservable();
   projectNameExitsErrorMessage=""
   get validationMessages():any{
@@ -34,8 +35,7 @@ export class ProjectValidationService {
         'required': 'Please enter project start date',
       }
     };
-  
-    }
+  }
 
 
   constructor(private _projectService:ProjectService) { 
@@ -63,7 +63,7 @@ export class ProjectValidationService {
              }    
           }    
        }    
-   
+
        if (abstractControl instanceof FormGroup) {    
           const  groupError = this.getValidationErrors(abstractControl);    
           formErrors = { ...formErrors, ...groupError }    
@@ -72,11 +72,11 @@ export class ProjectValidationService {
     return formErrors    
  }  
  
- projectNameExitWithClient(projectControlName: string,clientControlName:string)  {  
+ projectNameExitWithClient(projectControlName: string,clientControlName:string,isOnEditstate:boolean)  {  
 
   return (formGroup: FormGroup) => { 
 
-   if(this.projectsSource.getValue().length==0 )
+   if(this.projectsSource.getValue().length==0 || (isOnEditstate && !this.validateUpdateProject.getValue()))
    return null; 
 
    const control = formGroup.get(projectControlName);  
@@ -84,12 +84,13 @@ export class ProjectValidationService {
 
    if (!control || !clientControl ) 
    return null;
+   
    for (let i = 0; i < this.projectsSource.getValue().length; i++) {
-     if (
+     if ( this.projectsSource.getValue()[i].ProjectStatus?.AllowResource &&
        clientControl?.value  ==
        this.projectsSource.getValue()[i].Client?.Guid &&
-         control?.value.toLowerCase().trim() ===
-         this.projectsSource.getValue()[i].ProjectName.toLowerCase().trim()
+         control?.value?.toLowerCase().trim() ===
+         this.projectsSource.getValue()[i].ProjectName?.toLowerCase()?.trim()
      ) {
        control?.setErrors({ invalidName: true });
        this.projectNameExitsErrorMessage =

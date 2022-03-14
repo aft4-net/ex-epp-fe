@@ -56,7 +56,6 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     status:null
   };
 
-
   constructor(
     private validation: ProjectValidationService,
     private notification: NzNotificationService,
@@ -105,11 +104,13 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.validateForm.controls.endValue.setValue(
       this.editProjectStateService.projectEditData.EndDate);
     this.validateForm.controls.description.setValue(
-      this.editProjectStateService.projectEditData.Description );
+       typeof this.editProjectStateService.projectEditData.Description  != 'undefined'? 
+       this.editProjectStateService.projectEditData.Description:""  );
     this.projectUpdate.Guid = this.projectEditStateData.Guid;
     this.projectOld.Guid = this.projectEditStateData.Guid;
     this.projectOld.ProjectName =this.editProjectStateService.projectEditData.ProjectName;
-    this.projectOld.Description =this.editProjectStateService.projectEditData.Description;
+
+     this.projectOld.Description=this.editProjectStateService.projectEditData.Description
     this.projectOld.ProjectType =this.editProjectStateService.projectEditData.ProjectType;
     this.projectOld.ProjectStatusGuid =this.editProjectStateService.projectEditData.ProjectStatus?.Guid;
     this.projectOld.ClientGuid = this.editProjectStateService.projectEditData.Client?.Guid;
@@ -117,6 +118,7 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.projectOld.StartDate =this.editProjectStateService.projectEditData.StartDate;
     this.projectOld.EndDate = this.editProjectStateService.projectEditData.EndDate;
     this.disabled = false;
+
     if(this.validateForm.controls.endValue.value != null )
     this.projectOld.EndDate = this.validateForm.controls.endValue.value
     else
@@ -145,9 +147,9 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     );
 
     if (status)
-      if (status.AllowResource) {
-        this.projectResourceStateService.updateDisallowResource(false);
-      } else this.projectResourceStateService.updateDisallowResource(true);
+      if (status.AllowResource) 
+        this.projectResourceStateService.updateDisallowResource(false); 
+       else this.projectResourceStateService.updateDisallowResource(true);
 
     this.projectStartdDate = this.validateForm.controls.startValue.value;
     if (!this.isOnEditstate)          
@@ -163,52 +165,87 @@ export class AddProjectComponent implements OnInit, OnDestroy {
     this.projectCreate.EndDate = "";
     else
     this.projectCreate.EndDate =this.validateForm.controls.endValue.value;
-      this.projectCreate.ProjectName = this.validateForm.controls.projectName.value;
+      this.projectCreate.ProjectName = this.validateForm.controls.projectName.value?.trim();;
       this.projectCreate.SupervisorGuid = this.validateForm.controls.supervisor.value;
       this.projectCreate.StartDate= this.validateForm.controls.startValue.value;
       this.projectCreate.ProjectType = this.validateForm.controls.projectType.value;
       this.projectCreate.ProjectStatusGuid =this.validateForm.controls.status.value;
-      this.projectCreate.Description =  this.validateForm.controls.description.value;
+      this.projectCreate.Description =  this.validateForm.controls.description.value?.trim();;
       this.projectCreate.ClientGuid = this.validateForm.controls.client.value;
     this.projectCreateState.updateProjectDetails(this.projectCreate);
   }
 
-  onUpdateProject() {
-    if (this.updateValueSeted && this.validateForm.valid) {
-      this.projectUpdate.ProjectName =this.validateForm.controls.projectName.value;
-      this.projectUpdate.ProjectType =this.validateForm.controls.projectType.value;
-      this.projectUpdate.ProjectStatusGuid =this.validateForm.controls.status.value;
-      this.projectUpdate.ClientGuid = this.validateForm.controls.client.value;
-      this.projectUpdate.SupervisorGuid =this.validateForm.controls.supervisor.value;
-      this.projectUpdate.StartDate =this.validateForm.controls.startValue.value;
+  onUpdateProject() { 
+    if (this.updateValueSeted ) {
+  this.projectUpdate.ProjectName =
+  this.validateForm.controls.projectName.value?.trim();
+    this.projectUpdate.ProjectType =this.validateForm.controls.projectType.value;
+    this.projectUpdate.ProjectStatusGuid =this.validateForm.controls.status.value;
+    this.projectUpdate.ClientGuid = this.validateForm.controls.client.value;
+    this.projectUpdate.SupervisorGuid =this.validateForm.controls.supervisor.value;
+    this.projectUpdate.StartDate =this.validateForm.controls.startValue.value;
+    this.projectUpdate.EndDate = this.validateForm.controls.endValue.value;
+    this.projectUpdate.Description =( 
+      typeof this.validateForm.controls.description.value == 'undefined') ? 
+    "":  this.validateForm.controls.description.value?.trim()  ;
+ 
+    if (this.validateForm.controls.endValue.value != null)
       this.projectUpdate.EndDate = this.validateForm.controls.endValue.value;
-      this.projectUpdate.Description =this.validateForm.controls.description.value;
-      this.validateForm.controls.endValue.value != null ?
-      this.projectUpdate.EndDate = this.validateForm.controls.endValue.value:
-      this.projectUpdate.EndDate = ''; 
+    else this.projectUpdate.EndDate = '';
 
-      this.enableUpdateButton= (this.updateValueSeted && this.validateForm.valid && 
-     (this.projectUpdate.ProjectName.trim() !== this.projectOld.ProjectName.trim() ||
-     this.projectUpdate.ProjectType !== this.projectOld.ProjectType ||
-     this.projectUpdate.ProjectStatusGuid !=this.projectOld.ProjectStatusGuid ||
-     this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
-     this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
-     this.projectUpdate.Description?.trim() !== this.projectOld.Description?.trim())||
-      (this.validateForm.controls.endValue.value != null &&
-      new Date(this.projectUpdate.EndDate).getTime() != new Date(this.projectOld.EndDate).getTime()) ||
-      (this.projectUpdate.EndDate == '' && this.projectOld.EndDate != '') )
-      
-    }
+    if((this.projectUpdate.ProjectName.trim() == this.projectOld.ProjectName
+    && this.projectUpdate.ClientGuid == this.projectOld.ClientGuid)   &&
+    this. isUpdateValueChange()
+  )
+    this.validation.validateUpdateProject.next(false);
+else
+if( this.projectUpdate.ProjectName !== this.projectOld.ProjectName  ||
+  this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
+  this. isUpdateValueChange()) 
+       this.validation.validateUpdateProject.next(true);     
+     else 
+      this.validation.validateUpdateProject.next(false);
+  
+  if( this.projectUpdate.ProjectName !== this.projectOld.ProjectName  ||
+    this.projectUpdate.ClientGuid !== this.projectOld.ClientGuid ||
+    this. isUpdateValueChange())
+  this.enableUpdateButton = true;   
+ else this.enableUpdateButton = false; 
+
   }
+
+  }
+
+
+  isUpdateValueChange()
+  {
+    return (
+      this.projectUpdate.ProjectType != this.projectOld.ProjectType ||
+      this.projectUpdate.ProjectStatusGuid !=this.projectOld.ProjectStatusGuid || 
+      this.projectUpdate.SupervisorGuid !== this.projectOld.SupervisorGuid ||
+      new Date(this.projectUpdate.StartDate).getTime() !=new Date(this.projectOld.StartDate).getTime() ||
+        (this.validateForm.controls.endValue.value==null && this.projectOld.EndDate!='')||
+        (this.validateForm.controls.endValue.value!=null && this.projectOld.EndDate=='')||
+        (this.validateForm.controls.description.value!=null && 
+        typeof this.validateForm.controls.description.value != 'undefined' && 
+        (this.projectUpdate.Description!= this.projectOld.Description))||
+        (
+          (this.validateForm.controls.endValue.value!=null &&
+          this.projectOld.EndDate!='' &&
+          new Date(this.projectUpdate.EndDate).getTime() !=
+            new Date(this.projectOld.EndDate).getTime()))      
+          )
+  }
+
   projectTypeChanged() {
     this.validateForm.controls.projectType.valueChanges.subscribe(() => {
       if (this.validateForm.controls.projectType.value == 'Internal') 
         this.validateForm.controls.client.setValue(this.internalClinetGuid);
        else{
-        //  if(!this.isOnEditstate)
-        //  this.validateForm.controls.client.setValue(null);
-        //  else if(this.updateValueSeted && this.isOnEditstate)
-        //  this.validateForm.controls.client.setValue(null);
+         if(!this.isOnEditstate)
+         this.validateForm.controls.client.setValue(null);
+         else if(this.updateValueSeted && this.isOnEditstate)
+         this.validateForm.controls.client.setValue(null);
        }
   
     });
@@ -267,13 +304,14 @@ export class AddProjectComponent implements OnInit, OnDestroy {
         client: [null, { validators:[Validators.required]} ],
         projectType: ['External', { validators:[Validators.required] }],
         status: [null, { validators:[Validators.required]}],
+        
         supervisor: [null, { validators:[Validators.required]}],
         startValue: [null, { validators:[Validators.required]}],
         endValue: [""],
-        description: [null],
+        description: [""],
       },
       {validators:  this.validation.projectNameExitWithClient(
-        'projectName','client')}
+        'projectName','client',this.isOnEditstate)}
     );
   }
   saveProjectUpdate() {
