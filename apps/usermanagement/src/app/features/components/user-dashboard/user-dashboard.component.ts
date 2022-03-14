@@ -78,7 +78,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   confirmModal?: NzModalRef;
    listOfColumnsUser: ColumnItem<IUserModel>[] = [
     {
-      name: 'Name',
+      name: 'User Name',
       sortOrder: null,
       sortDirections: ['ascend', 'descend', null],
       sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
@@ -288,6 +288,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   SearchUsersByUserName() {
     this.loading = true;
     this.userParams.userName = this.userDashboardForm.value.userName;
+    this.userParams.pageIndex = 1;
       this.userService.SearchUsers(this.userParams)
       .subscribe((response: PaginationResult<IUserModel[]>) => {
         if(response.Data) {

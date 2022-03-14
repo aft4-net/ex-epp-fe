@@ -22,19 +22,30 @@ export class AssignResourceService extends ApiService<AssignResource> {
   {
     const params = new HttpParams()
     .set('projectGuid', projectId)
-    return  this.httpClient.get(environment.baseApiUrl+'AssignResource/ByProject'+"?"+params.toString()).pipe(map((response:any)=>{ 
-  
-      return response.Data;     
+    return  this.httpClient.get(environment.baseApiUrl+'AssignResource/ByProject'+"?"+params.toString()).pipe(map((response:any)=>{
+
+      return response.Data;
   }));
   }
   updateAssignResource(resourseEdit:AssignedResoureEdit)
   {
   return this.httpClient.put(environment.baseApiUrl+'AssignResource',resourseEdit)
   }
-  
+
   addResource(resource:AssignResoureCreate)
   {
     return this.httpClient.post(environment.baseApiUrl+'AssignResource',resource)
   }
-
+  checkAssignmentStatus(id:string):Observable<boolean>
+  {
+    const params = new HttpParams().set('id', id);
+    const result = this.httpClient.get(environment.baseApiUrl+'AssignResource/check_assignment_status/?'+params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        return response as boolean;
+      })
+    );
+    return result;
+  }
 }

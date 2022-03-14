@@ -18,7 +18,7 @@ export class AddressViewComponent implements OnInit {
   canAddAddressDetail = false;
   isConfirmLoading = false;
   confirmModal?: NzModalRef;
-  editId: string | null = null;
+  editId ='00000000-0000-0000-0000-000000000000';
   listOfaddress: Address[] = [];
   IsEdit = false;
   editAt = -10;
@@ -64,7 +64,7 @@ export class AddressViewComponent implements OnInit {
   }
 
   stopEdit(): void {
-    this.editId = null;
+    this.editId = '00000000-0000-0000-0000-000000000000';
   }
 
   handleOk(): void {
