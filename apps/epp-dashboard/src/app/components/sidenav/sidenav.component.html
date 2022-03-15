@@ -1,40 +1,42 @@
 
 <div id="mobile-nav">
-<div *ngIf="authorize('Employee_Module')">
-    <nz-card nz-button  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
+<div *ngIf="authorize('Employee_Module')" class="mb-4">
+    <div nz-button  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
       <nz-card-meta
       [nzTitle]="avatarTextTemplate"
       ></nz-card-meta>
-    </nz-card>
+    </div>
 
     <ng-template #avatarTextTemplate>
       <a  style="color: black;" (click)="routetoResourceManagement();closeSidenav();" >
         <!-- <i nz-icon [nzType]="'team'" [nzTheme]="'outline'" style="color:#00a551; font-size: '30px';"></i> -->
-        <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'team'" nzMode="inline" style="color:#00a551; font-size: '30px';"> <span> </span>  </i>  Employee Information</p>
+        <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'team'" nzMode="inline" style="color:#00a551; font-size: '30px';">
+           <span> </span>  </i>  Employee Information</p>
       </a>
       </ng-template>
   </div>
-  <div *ngIf="authorize('Client_Module')">
-    <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+  <div *ngIf="authorize('Client_Module')" class="mb-4">
+    <div style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
       <nz-card-meta
       [nzTitle]="clientTextTemplate"
     ></nz-card-meta>
-    </nz-card>
+    </div>
     <ng-template #clientTextTemplate >
     <a (click)="closeSidenav()" routerLink="clientmanagement" style="color: black;">
-      <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: #00a551 ;  font-size: '30px';"> <span> </span>  </i>  Clients</p>
+      <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'contacts'" nzTheme="outline" style="color: #00a551 ;  font-size: '30px';">
+         <span> </span>  </i>  Clients</p>
     </a>
 
 
     </ng-template>
   </div>
-  <div *ngIf="authorize('Timesheet_Module')">
-    <nz-card style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
+  <div *ngIf="authorize('Timesheet_Module')" class="mb-4">
+    <div style="background-color: #fdfcfc; height: 110%;  "  nzHoverable="true" nzSize="small" >
       <nz-card-meta
       [nzTitle]="timesheetTextTemplate"
 
     ></nz-card-meta>
-    </nz-card>
+    </div>
     <ng-template #timesheetTextTemplate>
       <a (click)="closeSidenav()" routerLink="timesheet" style="color: black;" >
 
@@ -48,50 +50,54 @@
     </ng-template>
   </div>
 
-  <div *ngIf="authorize('Project_Module')">
-    <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+  <div *ngIf="authorize('Project_Module')" class="mb-4">
+    <div style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
       <nz-card-meta
       [nzTitle]="projectTextTemplate"
     ></nz-card-meta>
-    </nz-card>
+    </div>
     <ng-template #projectTemplate>
       <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i>
     </ng-template>
     <ng-template #projectTextTemplate>
       <a (click)="closeSidenav()" routerLink="projectmanagement" style="color: black;" >
-      <p style="font-size:16px; font-weight: normal;">  <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"> <span> </span> </i>  Project Management</p>
+      <p style="font-size:16px; font-weight: normal;">  <i nz-icon [nzType]="'project'" nzTheme="outline" style="color: #00a551;  font-size: '30px';">
+         <span> </span> </i>  Project Management</p>
      </a>
     </ng-template>
   </div>
-  <div>
-    <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+  <div class="mb-4">
+    <div style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
       <nz-card-meta
       [nzTitle]="userTextTemplate"
     ></nz-card-meta>
-    </nz-card>
+    </div>
     <ng-template #userTemplate>
       <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: #00a551; font-size: '30px';"></i>
     </ng-template>
     <ng-template #userTextTemplate>
       <a (click)="closeSidenav()" routerLink="usermanagement" style="color: black;" >
-        <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: #00a551; font-size: '30px';"> <span> </span>  </i>  User Management</p>
+        <p style="font-size:16px; font-weight: normal;"> 
+          <i nz-icon [nzType]="'tool'" nzTheme="outline" style="color: #00a551; font-size: '30px';">
+             <span> </span>  </i>  User Management</p>
       </a>
     </ng-template>
   </div>
 
-  <div *ngIf="authorize('Configuration_Module')">
-    <nz-card style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+  <div *ngIf="authorize('Configuration_Module')" class="mb-4">
+    <div style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
       <nz-card-meta
       [nzTitle]="confTextTemplate"
       [nzAvatar]="configurationTemplate"
     ></nz-card-meta>
-    </nz-card>
+    </div>
     <ng-template #configurationTemplate>
       <!-- <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i> -->
     </ng-template>
     <ng-template #confTextTemplate>
       <a (click)="closeSidenav()" routerLink="configurationmodule" style="color: black;" >
-        <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"> <span> </span>  </i>  Configuration</p>
+        <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"> 
+          <span> </span>  </i>  Configuration</p>
       </a>
 
 
