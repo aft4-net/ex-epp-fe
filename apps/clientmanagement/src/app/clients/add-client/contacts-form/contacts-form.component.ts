@@ -221,8 +221,8 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
   showDeleteConfirm(element: any,i:number): void {
     this.modal.confirm({
       nzIconType:'',
-      nzTitle: 'Delete Client Contact ?',
-      nzContent: '<b >Are you sure, you want to delete this client contact? this action cannot be undone</b>',
+      nzTitle: 'Delete Client Contact?',
+      nzContent: 'Are you sure, you want to delete this client contact? <br/>This action cannot be undone!',
       nzOkText: 'Yes, Delete ',
       nzOkType: 'primary',
       nzOkDanger: true,
