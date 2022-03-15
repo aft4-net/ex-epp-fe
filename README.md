@@ -83,6 +83,7 @@ Run `npm run serve {app-Name}` for a dev server. Navigate to http://localhost:42
 
 Run `npm run serve:all` to serve all applications with development server.
 
+Run `npm run serve:all` to serve all applications with development server.
 ## Code scaffolding
 
 > Run `npm run component my-component --project=my-app` to generate a new component.

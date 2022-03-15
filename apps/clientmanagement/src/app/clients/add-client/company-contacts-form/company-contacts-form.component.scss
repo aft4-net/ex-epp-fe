@@ -35,14 +35,7 @@ button.add-btn.ant-btn {
   color: red !important;
 }
 
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #FFFFFF;
-}
+
 .clear-btn {
   background: white;
   color: #00a551;

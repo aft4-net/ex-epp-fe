@@ -82,18 +82,13 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
-      this.clickEventType = ClickEventType.none;
-      return;
-    }
-
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
     }
 
     this.clickEventType = ClickEventType.showFormDrawer;
-    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
+    const timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     this.projectNamePaletClicked.emit(timeEntryEvent);
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.
