@@ -74,18 +74,18 @@
                 <nz-form-item class="timesheet-hour">
                     <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
                         <input [(ngModel)]="formData.hours" nz-input formControlName="hours"
-                            placeholder="Please enter {{24-dateColumnTotalHour}} hours or less." type="number" min="1"
-                            max="{{24-dateColumnTotalHour}}" />
+                            placeholder="Please enter {{maxDateColumnTotalHour-dateColumnTotalHour}} hours or less." type="number" min="1"
+                            max="{{maxDateColumnTotalHour-dateColumnTotalHour}}" />
                         <ng-template #userErrorTpl let-control>
                             <ng-container *ngIf="formData.hours && formData.hours <=0 ">Time entry should not have less
                                 than or equal
                                 to 0 hours. Please enter more than 0 hours.</ng-container>
-                            <ng-container *ngIf="formData.hours && formData.hours > (24-dateColumnTotalHour) ">Time
+                            <ng-container *ngIf="formData.hours && formData.hours > (maxDateColumnTotalHour-dateColumnTotalHour) ">Time
                                 entry should not
-                                have more than 24 hours. Please enter {{24 - dateColumnTotalHour}} hours or less.
+                                have more than {{maxDateColumnTotalHour}} hours. Please enter {{maxDateColumnTotalHour - dateColumnTotalHour}} hours or less.
                             </ng-container>
-                            <ng-container *ngIf="control>=24">Time entry should not have more than 24 hours. Please
-                                enter 24 hours or
+                            <ng-container *ngIf="control>=maxDateColumnTotalHour">Time entry should not have more than {{maxDateColumnTotalHour}} hours. Please
+                                enter {{maxDateColumnTotalHour}} hours or
                                 less.</ng-container>
                         </ng-template>
                     </nz-form-control>
@@ -95,15 +95,15 @@
                 <textarea [(ngModel)]="formData.note" formControlName="note" nz-input rows="4">
                     {{ formData.note }}
                 </textarea>
-                <div *ngIf="timesheetApproval" class="mt-6">
+                <div *ngIf="timesheetApproval?.Comment" class="mt-6">
                     <strong>Manager's Note</strong>
                     <p>
-                      {{ timesheetApproval.Comment }}
+                      {{ timesheetApproval?.Comment }}
                     </p>
                 </div>
                 <div class="save-and-clear" *ngIf="!timesheetApproved">
                     <button id="save" class="mt-6 font-bold" nz-button
-                        [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-dateColumnTotalHour)">Save
+                        [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (maxDateColumnTotalHour-dateColumnTotalHour)">Save
 
                     </button>
                     <button id="clear" class="mr-6 font-bold" nz-button (click)="resetForm($event)"

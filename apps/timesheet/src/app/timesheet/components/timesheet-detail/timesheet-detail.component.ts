@@ -92,6 +92,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   dateColumnContainerClass = '';
   dateColumnTotalHour = 0;
+  maxDateColumnTotalHour = 24;
   date: Date;
   curr: Date;
   firstday1: Date;
@@ -167,6 +168,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.timesheetConfig$.subscribe((tsc) =>{
       this.timesheetConfig = tsc ?? this.timesheetConfigurationStateService.defaultTimesheetConfig;
       this.startingWeek(this.timesheetConfig.StartOfWeeks);
+      this.maxDateColumnTotalHour = this.timesheetConfig.WorkingHours.Max;
     });
     this.timesheet$.subscribe((ts) => (this.timesheet = ts ?? null));
     this.timeEntries$.subscribe((te) => (this.timeEntries = te ?? null));
@@ -445,13 +447,13 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.dateColumnTotalHour < 24) {
+    if (this.dateColumnTotalHour < this.maxDateColumnTotalHour) {
       this.scrollPageToTop();
       this.checkForApproalAndShowFormDrawer();
     } else {
       this.createNotification(
         'error',
-        'Day is already filled up to 24 hours',
+        `Day is already filled up to ${this.maxDateColumnTotalHour} hours`,
         'bottomRight'
       );
     }
@@ -715,8 +717,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
           this.timesheetValidationService.isValidForAdd(
             timeEntryClone,
             this.timeEntries ?? [],
-            this.timesheetApprovals ?? [],
-            this.timesheetConfig
+            this.timesheetApprovals ?? []
           )
         ) {
           timeEntries.push(timeEntryClone);
@@ -737,8 +738,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
           this.timesheetValidationService.isValidForAdd(
             timeEntry,
             this.timeEntries ?? [],
-            this.timesheetApprovals ?? [],
-            this.timesheetConfig
+            this.timesheetApprovals ?? []
           )
         ) {
           timeEntries.push(timeEntryClone);
