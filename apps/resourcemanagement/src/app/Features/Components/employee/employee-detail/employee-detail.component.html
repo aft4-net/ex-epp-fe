@@ -65,9 +65,9 @@
                  <!-- <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>-->
                   <td class="tdstyle capitalize">{{employeeView.FullName }} </td>
                   <td class="tdstyle ">{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
-                  <td class="tdstyle uppercase ">{{employeeView.JobTitle }}</td>
+                  <td class="tdstyle capitalize ">{{employeeView.JobTitle }}</td>
                   <td class="tdstyle capitalize">{{employeeView.Location }}</td>
-                  <td class="tdstyle uppercase">{{employeeView.Status }}</td>
+                  <td class="tdstyle capitalize">{{employeeView.Status }}</td>
                   <td class="actions Acttdstyle" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
 
                     <span (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
