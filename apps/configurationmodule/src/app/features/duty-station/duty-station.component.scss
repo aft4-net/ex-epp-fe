@@ -55,3 +55,20 @@ button {
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
 }
+
+.tab-title{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+  }
+  ::ng-deep .ant-table-content {
+    font-size: 16px !important;
+  }
+  .content {
+    padding:0px 20px 0px;
+  }
