@@ -15,6 +15,9 @@ constructor(private http: HttpClient, private errHandler: ErrHandleService,priva
 
 }
       authorizedPerson(key:string){
+        if(key==='Update_My_Profile') {
+          return false;
+        }
        // console.log( this._commonData.permissionList);
         let found=false;
           this._commonData.permissionList.forEach(element => {

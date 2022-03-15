@@ -32,7 +32,7 @@
       <div nz-col nzSpan="4">
         <button
           class="addButton"
-          *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))"
+          *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))"
           nz-button
           nzType="primary"
           (click)="addemergencycontact()"
@@ -54,7 +54,7 @@
           <th class="table_heading">Relationship with Employee</th>
           <th class="table_heading">Contact Numbber</th>
           <th class="table_heading">Location</th>
-          <th class="table_heading">Actions</th>
+          <th class="table_heading" *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +72,7 @@
           <td class="tdstyle">{{ data.PhoneNumber }}</td>
           <td class="tdstyle">{{ data.Country }}</td>
 
-          <td class="tdstyle">
+          <td class="tdstyle" *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">
             <div nz-row>
               <a
                 nz-col
