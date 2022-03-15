@@ -6,7 +6,7 @@ Timesheet,
 TimesheetApproval,
 TimesheetConfiguration,
 } from '../../../models/timesheetModels';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   DateColumnEvent,
   TimeEntryEvent,
@@ -24,7 +24,7 @@ import { DayAndDateService } from '../../services/day-and-date.service';
 import { Employee } from '../../../models/employee';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import {
-  Observable,
+  Observable, Subscription,
 } from 'rxjs';
 import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { Project } from '../../../models/project';
@@ -46,7 +46,7 @@ export const startingDateCriteria = {} as {
   templateUrl: './timesheet-detail.component.html',
   styleUrls: ['./timesheet-detail.component.scss'],
 })
-export class TimesheetDetailComponent implements OnInit {
+export class TimesheetDetailComponent implements OnInit, OnDestroy {
   userId: string | null = null;
   clickEventType = ClickEventType.none;
   drawerVisible = false;
@@ -68,9 +68,10 @@ export class TimesheetDetailComponent implements OnInit {
   timesheetApproval: TimesheetApproval | null = null;
   timesheetReview: TimeEntry[] | null = [];
   timesheetApprovals$: Observable<TimesheetApproval[] | null> =  new Observable();
+  timesheetApproved = false;
 
   timeEntry: TimeEntry | null = null;
-  weeklyTotalHours: number = 0;
+  weeklyTotalHours = 0;
 
   invalidEntries: { Date: Date; Message: string }[] = [];
 
@@ -89,8 +90,8 @@ export class TimesheetDetailComponent implements OnInit {
     note: '',
   };
 
-  dateColumnContainerClass: string = '';
-  dateColumnTotalHour: number = 0;
+  dateColumnContainerClass = '';
+  dateColumnTotalHour = 0;
   date: Date;
   curr: Date;
   firstday1: Date;
@@ -103,7 +104,7 @@ export class TimesheetDetailComponent implements OnInit {
   timesheetId: string | undefined;
   startValue: Date | null = null;
   endValue: Date | null = null;
-  isSubmitted: boolean = false;
+  isSubmitted = false;
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria;
@@ -118,6 +119,7 @@ export class TimesheetDetailComponent implements OnInit {
   $disableDates: Observable<boolean>
 
   loading$: Observable<number>;
+  loadingSubscription = new Subscription();
 
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -182,8 +184,8 @@ export class TimesheetDetailComponent implements OnInit {
       this.timesheetStateService.getTimesheet(this.userId);
     }
 
-    this.loading$.subscribe(res => {
-      if(res == 0) {
+    this.loadingSubscription = this.loading$.subscribe(res => {
+      if(res == 0 && !this.drawerVisible) {
         this.checkForCurrentWeek();
       }
     })
@@ -200,6 +202,10 @@ export class TimesheetDetailComponent implements OnInit {
     });
 
     this.calcualteNoOfDaysBetweenDates();
+  }
+  
+  ngOnDestroy(): void {
+    this.loadingSubscription.unsubscribe();
   }
 
   initializeClient() {
@@ -241,7 +247,7 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   startingWeek(startOfWeeks: StartOfWeek[]) {
-    let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
     this.dayAndDateService.fs = this.setFirstDay(startOfWeeks);
     this.weekDays = this.dayAndDateService.getWeekByDate(date);
@@ -259,7 +265,7 @@ export class TimesheetDetailComponent implements OnInit {
         WorkingHours: {Min: 0, Max: 24}
       }
       this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + 7);
-      let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+      const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
       this.dayAndDateService.fs = this.setFirstDay(this.timesheetConfig.StartOfWeeks);
       this.weekDays = this.dayAndDateService.getWeekByDate(date);
@@ -285,7 +291,7 @@ export class TimesheetDetailComponent implements OnInit {
 
       this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 7);
       this.isToday = false;
-      let date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+      const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
       this.dayAndDateService.fs = this.setFirstDay(this.timesheetConfig.StartOfWeeks);
       this.weekDays = this.dayAndDateService.getWeekByDate(date);
@@ -302,12 +308,12 @@ export class TimesheetDetailComponent implements OnInit {
 
   // To calculate the time difference of two dates
   calcualteNoOfDaysBetweenDates() {
-    let date1 = new Date('06/21/2019');
-    let date2 = new Date('07/30/2019');
-    let Difference_In_Time = date2.getTime() - date1.getTime();
+    const date1 = new Date('06/21/2019');
+    const date2 = new Date('07/30/2019');
+    const Difference_In_Time = date2.getTime() - date1.getTime();
 
     // To calculate the no. of days between two dates
-    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   }
 
   checkTimeOverThreeWeeks(date: Date): void {
@@ -504,20 +510,20 @@ export class TimesheetDetailComponent implements OnInit {
           return;
         }
 
-        let timesheetApproval = this.timesheetApprovals.filter(
+        const timesheetApproval = this.timesheetApprovals.filter(
           (tsa) => tsa.ProjectId === this.timeEntry?.ProjectId
         );
 
         if (
           timesheetApproval.length > 0 &&
-          timesheetApproval[0].Status == ApprovalStatus.Approved
+          timesheetApproval[0].Status === Object.values(ApprovalStatus)[1].valueOf()
         ) {
-          this.notification.error(
-            'error',
-            "You can't edit entries that are approved or submitted for approval."
-          );
-          this.clearFormData();
+          this.timesheetApproved = true;
+          this.validateForm.disable();
+          this.showFormDrawer();
         } else {
+          this.timesheetApproved = false;
+          this.validateForm.enable();
           this.showFormDrawer();
         }
       });
@@ -592,7 +598,7 @@ export class TimesheetDetailComponent implements OnInit {
     }
 
     try {
-      let timeEntry: TimeEntry = {
+      const timeEntry: TimeEntry = {
         Guid: '00000000-0000-0000-0000-000000000000',
         Note: this.validateForm.value.note,
         Date: new Date(
@@ -657,9 +663,9 @@ export class TimesheetDetailComponent implements OnInit {
       return;
     }
 
-    let timeEntries: TimeEntry[] = [];
+    const timeEntries: TimeEntry[] = [];
     let tmpTimeEntry: TimeEntry | null;
-    let dates = this.dayAndDateService.getRangeOfDates(
+    const dates = this.dayAndDateService.getRangeOfDates(
       this.formData.fromDate,
       this.formData.toDate
     );
@@ -725,7 +731,7 @@ export class TimesheetDetailComponent implements OnInit {
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
-        let timeEntryClone = {...timeEntry};
+        const timeEntryClone = {...timeEntry};
 
         if (
           this.timesheetValidationService.isValidForAdd(
@@ -764,7 +770,7 @@ export class TimesheetDetailComponent implements OnInit {
       return;
     }
 
-    let date = new Date(timeEntry.Date);
+    const date = new Date(timeEntry.Date);
     timeEntry.Date = new Date(
       date.getFullYear(),
       date.getMonth(),
@@ -796,8 +802,8 @@ export class TimesheetDetailComponent implements OnInit {
       return;
     }
 
-    for (let timeEntry of timeEntries) {
-      let date = timeEntry.Date;
+    for (const timeEntry of timeEntries) {
+      const date = timeEntry.Date;
       timeEntry.Date = new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -883,7 +889,7 @@ export class TimesheetDetailComponent implements OnInit {
   setDateColumnTotalHour() {
     let fromDate = this.formData.fromDate;
     let toDate = this.formData.toDate;
-    let totalHour = this.timeEntries
+    const totalHour = this.timeEntries
       ?.filter(
         (timeEntry) =>
           new Date(timeEntry.Date).getTime() === this.date.getTime()
@@ -989,17 +995,17 @@ export class TimesheetDetailComponent implements OnInit {
   }
 
   disabledDates = (current: Date): boolean => {
-    let date = new Date(
+    const date = new Date(
       current.getFullYear(),
       current.getMonth(),
       current.getDate()
     );
-    let fromDate = new Date(
+    const fromDate = new Date(
       this.firstday1.getFullYear(),
       this.firstday1.getMonth(),
       this.firstday1.getDate()
     );
-    let toDate = new Date(
+    const toDate = new Date(
       this.lastday1.getFullYear(),
       this.lastday1.getMonth(),
       this.lastday1.getDate()
