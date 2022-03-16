@@ -1,7 +1,7 @@
 <h3 class="w-96 h-9 mt-6 ml-6 font-semibold text-xl  text-black">Time Settings</h3>
 
 <form [formGroup]="timesheetConfigForm" (ngSubmit)="saveTimesheetConfiguration()" class="mt-4 ml-6">
-    <div class="w-4/6 pt-8 pr-10 pb-8 pl-10 rounded-lg border-gray-400 border" *ngIf="authorize('View_Timesheet_Configuration')">
+    <div class="pt-8 pr-10 pb-8 pl-10 rounded-lg border-gray-400 border" *ngIf="authorize('View_Timesheet_Configuration')" style="width: 70%;">
         <div class="flex flex-row content-center">
             <h5 class="mt-auto mb-auto font-medium text-base text-right not-italic">Start of Week: </h5>
             <nz-select id="startOfWeekk" formControlName="startOfWeek" class="ml-8 w-80 h-9 rounded-sm border-gray-300">
