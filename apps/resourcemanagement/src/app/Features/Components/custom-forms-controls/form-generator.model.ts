@@ -1,58 +1,25 @@
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Address, Addresss } from "../../Models/address.model";
-import { AddressCountryStateService, CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
-import { EmergencyContact, EmergencyContacts } from "../../Models/emergencycontact";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateLastName, validateMiddleName, validateNationality, validatePhoneNumber, validateRequired } from "../../Services/supporting-services/custom.validators";
+import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
+import { EmergencyContacts } from "../../Models/emergencycontact";
+import { Observable, of } from "rxjs";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
-import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FormGeneratorAssistant } from "./form-generator-assistant.service";
 import { Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
-import { ResponseDto } from "../../Models/response-dto.model";
 import { NzNotificationService } from "ng-zorro-antd/notification";
-
-export type FormNaming = {
-    name: string
-    type: string
-    controls?: FormNaming[]
-    array?: FormNaming[]
-    groups?: FormNaming[]
-}
-export const formGroups = {
-    personalDetailForm: {
-        name: 'personalDetailsForm',
-        controls: {
-            gender: 'gender',
-            dateofBirth: 'dateofBirth',
-            nationalities: 'nationalities'
-        },
-        arrays: {
-            phoneNumbers: 'phoneNumbers',
-            emailAddresses: 'emailAddresses'
-        },
-        groups: {
-            employeeIdNumber: 'employeeIdNumber',
-            fullName: 'fullName'
-        }
-    },
-    employeeIdNumber: {
-
-    }
-}
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class FormGenerator extends FormGeneratorAssistant {
-
-    private _defaultEmployeeIdNumberPrefix: any
-    private _defaultPhonePrefix: any
 
     public readonly countriesData$: Observable<string[]> = of(['+1', '+251'])
 
@@ -66,25 +33,33 @@ export class FormGenerator extends FormGeneratorAssistant {
     public allAddresses: Address[] = []
     public allFamilyDetails: FamilyDetail[] = []
     public allEmergencyContacts: EmergencyContacts[] = []
-    public employeId="";
+    public employeId = "";
     public readonly address: Address[] = []
 
+    private emplyeeNumber = '';
+
+    private _status = 'Active'
     private _isEdit = false
+    public isProfile = false;
+    private _validate = false;
+    private _employee?: Employee;
 
     get IsEdit(): boolean {
         return this._isEdit
+    }
+    get Validate(): boolean {
+        return this._validate
     }
 
     constructor(
         private readonly _formBuilder: FormBuilder,
         private readonly _employeeService: EmployeeService,
-        employeeStaticDataMockService: EmployeeStaticDataMockService,
-        addressCountryStateService: CountriesMockService,
-        private notification: NzNotificationService
+        addressCountryService: CountriesMockService,
+        private notification: NzNotificationService,
+        private _router: Router
     ) {
         super(
-            employeeStaticDataMockService,
-            addressCountryStateService
+            addressCountryService
         )
         this.personalDetailsForm = this._createPersonalDetailsForm()
         this.organizationalForm = this._createOrganizationalnalDetailsForm()
@@ -95,88 +70,157 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     }
 
-    save(){
-        let employee: Employee = {} as Employee
-        employee = {
-            ...employee,
-            ...this.getModelPersonalDetails(),
-            EmployeeOrganization: this.getModelOrganizationDetails(),
-            EmployeeAddress: this.allAddresses,
-            FamilyDetails: this.allFamilyDetails,
-            EmergencyContact: this.allEmergencyContacts
-        } as Employee
-        console.log("This employee profile" + employee.EmergencyContact);
-        this._employeeService.add(employee)
-        .subscribe( (response: any)=>{
-            this._employeeService.isdefault=true;
-            this.notification.create(
-                response.ResponseStatus.toLowerCase() ,"", response.Message
-            );
-              },
-              (error) => {
-                console.log(error);
-              }
+    private _enableForms() {
+        this.organizationalForm.enable({ onlySelf: true });
+        this.personalDetailsForm.enable({ onlySelf: true });
+    }
 
+    private _disableForms() {
 
-        )
+        if (this.isProfile) {
+            this.organizationalForm.disable({ onlySelf: true });
+            this.personalDetailsForm.disable({ onlySelf: true });
+            this.personalDetailsForm.get('phoneNumbers')?.enable();
+            this.personalDetailsForm.get('emailAddresses')?.enable()
+        } else if (this.IsEdit) {
+            this.personalDetailsForm.get('employeeIdNumber')?.disable();
+        } else {
+            this.organizationalForm.get('status')?.disable();
+        }
 
     }
-    updateOneEmployee(){
+
+    validatePersonalDetail() {
+        let valid = true;
+        this._enableForms();
+        if(!this.personalDetailsForm.valid){
+            this.personalDetailsForm.updateValueAndValidity();
+            valid = false;
+        }
+        this._disableForms();
+        return valid;
+    }
+
+    validateOrganizationalDetail() {
+        let valid = true;
+        this._enableForms();
+        if(!this.organizationalForm.valid){
+            this.organizationalForm.updateValueAndValidity();
+            valid = false;
+        }
+        this._disableForms();
+        return valid;
+    }
+
+    save() {
+        this._enableForms()
         let employee: Employee = {} as Employee
         employee = {
             ...employee,
+            ...this.getModelPersonalDetails(),
+            EmployeeOrganization: {
+                ...this.getModelOrganizationDetails(),
+                ...(this._employeeService.isEdit ? {} : { Status: 'Active' })
+            },
+            EmployeeAddress: this.allAddresses,
+            FamilyDetails: this.allFamilyDetails,
+            EmergencyContact: this.allEmergencyContacts
+        } as Employee
+        this._disableForms()
+        this._employeeService.empNum = employee.EmployeeNumber;
+        this._employeeService.add(employee)
+            .subscribe((response: any) => {
+                this._employeeService.isdefault = true;
+                this.notification.create(
+                    response.ResponseStatus.toLowerCase(), "", response.Message
+                );
+            },
+                (error) => {
+                    this.notification.create(
+                        "error", "Save Failed", error.message
+                    );
+                }
+
+
+            )
+
+    }
+    updateOneEmployee() {
+        this._enableForms()
+        let employee: Employee = {} as Employee
+        employee = {
+            ...employee,
+            EmployeeNumber: this.emplyeeNumber,
             ...this.getModelPersonalDetails(),
             EmployeeOrganization: this.getModelOrganizationDetails(),
             EmployeeAddress: this.allAddresses,
             FamilyDetails: this.allFamilyDetails,
             EmergencyContact: this.allEmergencyContacts
         } as Employee
-
+        this._disableForms()
+        this._employeeService.empNum = employee.EmployeeNumber;
         this._employeeService.update(employee)
-        .subscribe(()=>{
+            .subscribe((response: any) => {
+                this._employeeService.isdefault = true;
+                this.notification.create(
+                    response.ResponseStatus.toLowerCase(), "", response.Message
+                );
+            },
+                (error) => {
+                    this.notification.create(
+                        "error", "Update Failed", error.message
+                    );
+                }
 
-            this._employeeService.isdefault=true;
-        })
+
+            )
 
     }
 
     getModelPersonalDetails() {
+
         const value = this.personalDetailsForm.value
+        this._employeeService.empNum = value.employeeIdNumber;
+
         return {
-           guid:this.employeId,
-            EmployeeNumber: value.employeeIdNumber.prefix + value.employeeIdNumber.idNumber,
+            guid: this.employeId,
+            EmployeeNumber: value.employeeIdNumber,
             FirstName: value.fullName.firstName,
             FatherName: value.fullName.middleName,
             GrandFatherName: value.fullName.lastName,
             Gender: value.gender,
             PersonalEmail: value.emailAddresses[0],
-            PersonalEmail2: value.emailAddresses.length > 1? value.emailAddresses[1]: undefined,
-            PersonalEmail3: value.emailAddresses.length > 2? value.emailAddresses[2]: undefined,
+            PersonalEmail2: value.emailAddresses.length > 1 ? value.emailAddresses[1] : undefined,
+            PersonalEmail3: value.emailAddresses.length > 2 ? value.emailAddresses[2] : undefined,
             MobilePhone: value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
-            Phone1: value.phoneNumbers.length > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1]: undefined,
-            Phone2: value.phoneNumbers.length > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2]: undefined,
+            Phone1: value.phoneNumbers.length > 1 ? value.phoneNumbers[1].prefix + value.phoneNumbers[1] : undefined,
+            Phone2: value.phoneNumbers.length > 2 ? value.phoneNumbers[2].prefix + value.phoneNumbers[2] : undefined,
             DateofBirth: value.dateofBirth,
-            Nationality: value.nationalities.map((nationality: string)=>{
+            Nationality: value.nationalities && value.nationalities.length > 0 ? value.nationalities.map((nationality: string) => {
                 return {
-                    ...{} as Nationality,
-                    ...{
-                        Name: nationality
-                    } as Partial<Nationality>
+                    Name: nationality
                 }
-            })
+            }) : [],
         } as Partial<Employee>
     }
     getModelOrganizationDetails() {
         const value = this.organizationalForm.value
+        let temprepmanager = "";
+        if (value.reportingManager == null) {
+            console.log("it was empty");
+            temprepmanager = "00000000-0000-0000-0000-000000000000";
+        }
+        else {
+            temprepmanager = value.reportingManager;
+        }
         return {
-            Country: value.country,
-            DutyBranch: value.dutyStation,
-            CompaynEmail:  value.companyEmail[0],
-            PhoneNumber: value.phoneNumber[0].prefix + value.phoneNumber[0].phone,
-            JobTitle: value.jobTitle,
-            BusinessUnit: value.businessUnit,
-            Department: value.department,
-            ReportingManager: value.reportingManager,
+            CountryId: value.country,
+            DutyBranchId: value.dutyStation,
+            CompaynEmail: value.companyEmail[0],
+            JobTitleId: value.jobTitle,
+            DepartmentId: value.department,
+
+            ReportingManager: temprepmanager,//value.reportingManager,
             EmploymentType: value.employeementType,
             JoiningDate: value.joiningDate,
             TerminationDate: value.terminationDate,
@@ -186,21 +230,22 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelAddressDetails() {
         const value = this.addressForm.value
         return {
+            Guid: value.guid,
             Country: value.country,
             StateRegionProvice: value.state,
             City: value.city,
             SubCityZone: value.subCityZone,
             Woreda: value.woreda,
             HouseNumber: value.houseNumber,
-            PostalCode: value.postalCode,
-            PhoneNumber: value.phoneNumber[0].prefix + value.phoneNumber[0].phone
+            PostalCode: value.postalCode
         } as Partial<Address>
     }
     getModelFamilyDetails() {
         const value = this.familyDetail.value
         return [{
+            Guid: value.guid,
             FullName: value.fullName.firstName + ' ' + value.fullName.middleName + ' ' + value.fullName.lastName,
-            Relationship: {Name: value.relationship } as Relationship,
+            Relationship: { Name: value.relationship } as Relationship,
             Gender: value.gender,
             DoB: value.dateofBirth
         }] as Partial<FamilyDetail>
@@ -210,17 +255,18 @@ export class FormGenerator extends FormGeneratorAssistant {
         const value = this.emergencyContact.value
         const valueAddress = this.emergencyAddress.value
         return {
+            Guid: value.guid,
             FirstName: value.fullName.firstName,
-            FatherName:value.fullName.middleName ,
+            FatherName: value.fullName.middleName,
             GrandFatherName: value.fullName.lastName,
-            Relationship:value.relationship,
-            PhoneNumber:value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
-            phoneNumber2: value.phoneNumbers.length > 1? value.phoneNumbers[1].prefix + value.phoneNumbers[1].phone: undefined,
-            phoneNumber3: value.phoneNumbers.length > 2? value.phoneNumbers[2].prefix + value.phoneNumbers[2].phone: undefined,
-            email:value.emailAddresses[0],
-            email2: value.emailAddresses.length > 1? value.emailAddresses[1]: undefined,
-            email3: value.emailAddresses.length > 2? value.emailAddresses[2] : undefined,
-            Country:valueAddress.country,
+            Relationship: value.relationship,
+            PhoneNumber: value.phoneNumbers[0].prefix + value.phoneNumbers[0].phone,
+            phoneNumber2: value.phoneNumbers.length > 1 ? value.phoneNumbers[1].prefix + value.phoneNumbers[1].phone : undefined,
+            phoneNumber3: value.phoneNumbers.length > 2 ? value.phoneNumbers[2].prefix + value.phoneNumbers[2].phone : undefined,
+            email: value.emailAddresses[0],
+            email2: value.emailAddresses.length > 1 ? value.emailAddresses[1] : undefined,
+            email3: value.emailAddresses.length > 2 ? value.emailAddresses[2] : undefined,
+            Country: valueAddress.country,
             stateRegionProvice: valueAddress.state,
             city: valueAddress.city,
             subCityZone: valueAddress.subCityZone,
@@ -233,7 +279,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createPersonalDetailsForm() {
         return this._formBuilder.group({
-            employeeIdNumber: this._createEmployeeIdNumberFormGroup(),
+            employeeIdNumber: [null, validateRequired],
             fullName: this._createFullNameFormGroup(),
             gender: [null, validateRequired],
             dateofBirth: [null, validateRequired],
@@ -243,7 +289,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             phoneNumbers: this._formBuilder.array([
                 this.createPhoneNumberFormGroup()
             ]),
-            nationalities: [null, [validateNationality]]
+            nationalities: [null]
         });
     }
 
@@ -254,11 +300,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             companyEmail: this._formBuilder.array([
                 this.createEmailControl()
             ]),
-            phoneNumber: this._formBuilder.array([
-                this.createPhoneNumberFormGroup()
-            ]),
             jobTitle: [null, validateRequired],
-            businessUnit: [null, validateRequired],
             department: [null, validateRequired],
             reportingManager: [null],
             employeementType: [null, validateRequired],
@@ -270,21 +312,20 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createAddressDetailsForm() {
         return this._formBuilder.group({
+            guid: [null],
             country: [null, validateRequired],
             state: [null],
             city: [null, validateCity],
             subCityZone: [null, validateAddressRequired],
             woreda: [null, validateAddressNonRequired],
             houseNumber: [null, validateAddressNonRequired],
-            postalCode: [null, validateAddressNonRequired],
-            phoneNumber: this._formBuilder.array([
-                this.createPhoneNumberFormGroup()
-            ]),
+            postalCode: [null, validateAddressNonRequired]
         });
     }
 
     private _createFamilyDetailsForm() {
         return this._formBuilder.group({
+            guid: [null],
             relationship: [null, validateRequired],
             fullName: this._createFullNameFormGroup(),
             gender: [null],
@@ -294,6 +335,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _createEmergencyContactDetailsForm() {
         return this._formBuilder.group({
+            guid: [null],
             fullName: this._createFullNameFormGroup(),
             relationship: [null, validateRequired],
             emailAddresses: this._formBuilder.array([
@@ -360,14 +402,14 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     getFormControlfromArray(index: number, formArray: FormArray): FormControl | undefined {
-        if(index >= formArray.length) {
+        if (index >= formArray.length) {
             return undefined
         }
         return formArray.at(index) as FormControl
     }
 
     getFormGroupfromArray(index: number, formArray: FormArray): FormGroup | undefined {
-        if(index >= formArray.length) {
+        if (index >= formArray.length) {
             return undefined
         }
         return formArray.at(index) as FormGroup
@@ -378,17 +420,13 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setControlValue(value: any, control?: FormControl) {
-        if(control) {
+        if (control) {
             control.setValue(value)
         }
     }
 
     private _setEmployeeIdNumber(employeeIdNumber: string, formGroup: FormGroup) {
-        const segments = this._extractEmployeeIdNumber(employeeIdNumber)
-        if (segments.value !== null) {
-            this._setControlValue(segments.prefix, this.getFormControl('prefix', formGroup))
-            this._setControlValue(segments.value, this.getFormControl('idNumber', formGroup))
-        }
+        this._setControlValue(employeeIdNumber, this.getFormControl('employeeIdNumber', formGroup))
     }
 
     private _setNames(first: string | null, middle: string | null, last: string | null, formGroup: FormGroup) {
@@ -399,17 +437,17 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setPhoneNumber(phoneNumber: string, formGroup: FormGroup) {
         const segemets = this._extractPhoneNumber(phoneNumber)
-        if(segemets.value !== null) {
+        if (segemets.value !== null) {
             this._setControlValue(segemets.prefix, this.getFormControl('prefix', formGroup))
             this._setControlValue(segemets.value, this.getFormControl('phone', formGroup))
         }
     }
 
     private _setEmailArray(emails: string[] | null, formArray: FormArray) {
-        if(emails !== null && emails.length > 0) {
+        if (emails !== null && emails.length > 0) {
             for (let i = 0; i < emails.length; i++) {
                 const existingControl = this.getFormControlfromArray(i, formArray)
-                if(existingControl !== undefined) {
+                if (existingControl !== undefined) {
                     this._setControlValue(emails[i], existingControl)
                 } else {
                     const newControl = this.createEmailControl()
@@ -423,7 +461,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     private _setPhoneArray(phoneNumbers: string[], formArray: FormArray) {
         for (let i = 0; i < phoneNumbers.length; i++) {
             const existingFormGroup = this.getFormGroupfromArray(i, formArray)
-            if(existingFormGroup !== undefined) {
+            if (existingFormGroup !== undefined) {
                 this._setPhoneNumber(phoneNumbers[i], existingFormGroup)
             } else {
                 const newFormGroup = this.createPhoneNumberFormGroup()
@@ -435,14 +473,16 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private _setPresonalDetail(employee: Employee) {
 
-        if(employee.EmployeeNumber) {
+        if (employee.EmployeeNumber) {
+
             this._setEmployeeIdNumber(
                 employee.EmployeeNumber,
-                this.getFormGroup('employeeIdNumber', this.personalDetailsForm)
+                this.personalDetailsForm
             )
         }
 
-        if(employee.FirstName && employee.FatherName) {
+        if (employee.FirstName && employee.FatherName) {
+
             this._setNames(
                 employee.FirstName,
                 employee.FatherName,
@@ -451,25 +491,29 @@ export class FormGenerator extends FormGeneratorAssistant {
             )
         }
 
-        if(employee.Gender) {
+        if (employee.Gender) {
+
             this._setControlValue(
                 employee.Gender,
                 this.getFormControl('gender', this.personalDetailsForm)
             )
         }
 
-        if(employee.DateofBirth) {
+        if (employee.DateofBirth) {
+
             this._setControlValue(
                 employee.DateofBirth,
                 this.getFormControl('dateofBirth', this.personalDetailsForm)
             )
         }
 
-        const emailArray: string[] = [ employee.PersonalEmail ]
+        const emailArray: string[] = [employee.PersonalEmail]
         if (employee.PersonalEmail2 && employee.PersonalEmail2 !== null && employee.PersonalEmail2 !== '') {
+
             emailArray.push(employee.PersonalEmail2)
         }
         if (employee.PersonalEmail3 && employee.PersonalEmail3 !== null && employee.PersonalEmail3 !== '') {
+
             emailArray.push(employee.PersonalEmail3)
         }
         this._setEmailArray(
@@ -477,34 +521,41 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormArray('emailAddresses', this.personalDetailsForm)
         )
 
-        const phonerray: string[] = [ employee.MobilePhone ]
+        const phonerray: string[] = [];//[employee.MobilePhone]
         if (employee.Phone1 && employee.Phone1 !== null && employee.Phone1 !== '') {
-            phonerray.push(employee.Phone1)
+
+            phonerray.push(employee.MobilePhone)
         }
         if (employee.Phone2 && employee.Phone2 !== null && employee.Phone2 !== '') {
+
             phonerray.push(employee.Phone2)
         }
+        if (employee.MobilePhone && employee.MobilePhone !== null && employee.MobilePhone !== '') {
+            phonerray.push(employee.MobilePhone);
+        }
+
         this._setPhoneArray(
             phonerray,
             this.getFormArray('phoneNumbers', this.personalDetailsForm)
         )
 
+
         this._setControlValue(
             employee.Nationality?.map(nationality => nationality.Name),
             this.getFormControl('nationalities', this.personalDetailsForm)
         )
-        this.errorMessageforPersonalDetails(
-          this.personalDetailsForm
-        )
+        //  this.errorMessageforPersonalDetails(
+        //      this.personalDetailsForm
+        //  )
     }
 
     private _setOrganizationalDetail(organizationalDetail: EmployeeOrganization) {
         this._setControlValue(
-            organizationalDetail.Country,
+            organizationalDetail.CountryId,
             this.getFormControl('country', this.organizationalForm)
         )
         this._setControlValue(
-            organizationalDetail.DutyBranch,
+            organizationalDetail.DutyBranchId,
             this.getFormControl('dutyStation', this.organizationalForm)
         )
         this._setEmailArray(
@@ -513,25 +564,21 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('companyEmail', this.organizationalForm)
         )
-
-        this._setPhoneArray(
+        /* this._setPhoneArray(
             [
                 organizationalDetail.PhoneNumber
             ],
             this.getFormArray('phoneNumber', this.organizationalForm)
-        )
-        this._setControlValue(
-            organizationalDetail.JobTitle,
-            this.getFormControl('jobTitle', this.organizationalForm)
-        )
-        this._setControlValue(
-            organizationalDetail.BusinessUnit,
-            this.getFormControl('businessUnit', this.organizationalForm)
-        )
+        )*/
+
 
         this._setControlValue(
-            organizationalDetail.Department,
+            organizationalDetail.DepartmentId,
             this.getFormControl('department', this.organizationalForm)
+        )
+        this._setControlValue(
+            organizationalDetail.JobTitleId,
+            this.getFormControl('jobTitle', this.organizationalForm)
         )
         this._setControlValue(
             organizationalDetail.ReportingManager,
@@ -555,11 +602,18 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormControl('status', this.organizationalForm)
         )
         this.errorMessageforOrganizationDetails(
-          this.organizationalForm
+            this.organizationalForm
         )
+        if (this.isProfile) {
+            this.organizationalForm.disable({ onlySelf: true });
+        }
     }
 
     private _setAddressDetail(address: Address) {
+        this._setControlValue(
+            address.Guid,
+            this.getFormControl('guid', this.addressForm)
+        )
         this._setControlValue(
             address.Country,
             this.getFormControl('country', this.addressForm)
@@ -588,19 +642,19 @@ export class FormGenerator extends FormGeneratorAssistant {
             address.PostalCode,
             this.getFormControl('postalCode', this.addressForm)
         )
-        this._setPhoneArray(
-            [
-                address.PhoneNumber
-            ],
-            this.getFormArray('phoneNumber', this.addressForm)
-        )
         this.errorMessageforAddressDetails(
-          this.addressForm
+            this.addressForm
         )
     }
 
     private _setEmergencyContactDetail(emergencyContact: EmergencyContacts) {
-        if(emergencyContact.FirstName && emergencyContact.FatherName) {
+
+        this._setControlValue(
+            emergencyContact.Guid,
+            this.getFormControl('guid', this.emergencyContact)
+        )
+
+        if (emergencyContact.FirstName && emergencyContact.FatherName) {
             this._setNames(
                 emergencyContact.FirstName,
                 emergencyContact.FatherName,
@@ -612,7 +666,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.Relationship,
             this.getFormControl('relationship', this.emergencyContact)
         )
-        const emailArray: string[] = [ emergencyContact.email ]
+        const emailArray: string[] = [emergencyContact.email]
         if (emergencyContact.email2 && emergencyContact.email2 !== null && emergencyContact.email2 !== '') {
             emailArray.push(emergencyContact.email2)
         }
@@ -624,7 +678,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormArray('emailAddresses', this.emergencyContact)
         )
 
-        const phonerray: string[] = [ emergencyContact.PhoneNumber ]
+        const phonerray: string[] = [emergencyContact.PhoneNumber]
         if (emergencyContact.phoneNumber2 && emergencyContact.phoneNumber2 !== null && emergencyContact.phoneNumber2 !== '') {
             phonerray.push(emergencyContact.phoneNumber2)
         }
@@ -647,6 +701,8 @@ export class FormGenerator extends FormGeneratorAssistant {
             emergencyContact.city,
             this.getFormControl('city', this.emergencyAddress)
         )
+
+
         this._setControlValue(
             emergencyContact.subCityZone,
             this.getFormControl('subCityZone', this.emergencyAddress)
@@ -664,17 +720,21 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormControl('postalCode', this.emergencyAddress)
         )
         this.errorMessageforEmergencyContactDetails(
-          this.emergencyContact,
-          this.emergencyAddress
+            this.emergencyContact,
+            this.emergencyAddress
         )
     }
 
     private _setFamilyDetail(familyDetail: FamilyDetail) {
         const names = familyDetail.FullName.split(' ')
+        this._setControlValue(
+            familyDetail.Guid,
+            this.getFormControl('guid', this.familyDetail)
+        )
         this._setNames(
             names[0],
-            (names.length === 3? names[1]: null),
-            (names.length === 3? names[2]: names[1]),
+            (names.length === 3 ? names[1] : null),
+            (names.length === 3 ? names[2] : names[1]),
             this.getFormGroup('fullName', this.familyDetail)
         )
         this._setControlValue(
@@ -690,7 +750,7 @@ export class FormGenerator extends FormGeneratorAssistant {
             this.getFormControl('dateofBirth', this.familyDetail)
         )
         this.errorMessageforFamilyDetails(
-          this.familyDetail
+            this.familyDetail
         )
     }
 
@@ -703,32 +763,36 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     generateForms(employee?: Employee) {
-      
+        this._employee = employee;
         this._regenerateForm()
-        if(employee) {
-            
+        if (employee) {
+            this.emplyeeNumber = employee.EmployeeNumber;
+            console.log("What2");
             this._isEdit = true
             this._setPresonalDetail(employee)
-            if(employee.EmployeeOrganization) {
-                this._setOrganizationalDetail(employee.EmployeeOrganization)
+            if (employee?.EmployeeOrganization) {
+                this._setOrganizationalDetail(employee?.EmployeeOrganization)
             }
-            if(employee.EmployeeAddress) {
+            if (employee?.EmployeeAddress) {
                 this.allAddresses = employee.EmployeeAddress
             }
-            if(employee.FamilyDetails) {
-                this.allFamilyDetails = employee.FamilyDetails
+            if (employee?.FamilyDetails) {
+                this.allFamilyDetails = employee?.FamilyDetails
             }
-            if(employee.EmergencyContact) {
-                this.allEmergencyContacts = employee.EmergencyContact
+            if (employee?.EmergencyContact) {
+                this.allEmergencyContacts = employee?.EmergencyContact
             }
+            this._validate = true;
         } else {
             this._isEdit = false
+            this._validate = false;
         }
+        this._disableForms()
     }
 
     generateAddressForm(address?: Addresss) {
         this.addressForm = this._createAddressDetailsForm()
-        if(address) {
+        if (address) {
             this._setAddressDetail(address)
         }
     }
@@ -736,14 +800,14 @@ export class FormGenerator extends FormGeneratorAssistant {
     generateEmergencyContactForm(emergencyContact?: EmergencyContacts) {
         this.emergencyContact = this._createEmergencyContactDetailsForm()
         this.emergencyAddress = this._createEmergencyAddressDetailsForm()
-        if(emergencyContact) {
+        if (emergencyContact) {
             this._setEmergencyContactDetail(emergencyContact)
         }
     }
 
     generateFamilyDetailForm(familyDetail?: FamilyDetail) {
         this.familyDetail = this._createFamilyDetailsForm()
-        if(familyDetail) {
+        if (familyDetail) {
             this._setFamilyDetail(familyDetail)
         }
     }
@@ -757,7 +821,37 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     triggerValidation(control: FormControl | FormArray | FormGroup) {
-console.log()
+        console.log()
+    }
+
+    private _formValidation(formGroup: FormGroup) {
+        this._enableForms();
+        const value = formGroup.value;
+        formGroup.reset();
+        formGroup.setValue(value);
+        this._disableForms();
+    }
+
+    errorMessageforPersonalDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforOrganizationDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforAddressDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforFamilyDetails(formGroup: FormGroup) {
+        this._formValidation(formGroup);
+    }
+
+    errorMessageforEmergencyContactDetails(emergencyGroup: FormGroup, addressGroup: FormGroup) {
+        this._formValidation(emergencyGroup);
+        this._formValidation(addressGroup);
+
     }
 
 }

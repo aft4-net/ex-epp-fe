@@ -1,4 +1,4 @@
-import { AddClientStateService, ApiService, Client, PaginatedResult } from '..';
+import { AddClientStateService, ApiService, Client, PaginatedResult, UpdateClientStateService } from '..';
 
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Injectable({
   providedIn: 'root',
 })
-export class ClientService extends ApiService<Client> {
+export class ClientService extends ApiService<any> {
   private fristPagantionClientsSource = new BehaviorSubject<
     PaginatedResult<Client[]>
   >({} as PaginatedResult<Client[]>);
@@ -17,7 +17,9 @@ export class ClientService extends ApiService<Client> {
   constructor(
     protected httpClient: HttpClient,
     private notification: NzNotificationService,
-    private addClientStateService: AddClientStateService
+    private addClientStateService: AddClientStateService,
+    private updateClientStateService: UpdateClientStateService
+
   ) {
     super(httpClient);
   }
@@ -36,15 +38,11 @@ export class ClientService extends ApiService<Client> {
 
   addClient() {
     this.post(this.addClientStateService.addClientData).subscribe(
-
       (response: any) => {
-        console.log("this.addClientStateService.addClientData")
-        console.log(this.addClientStateService.addClientData.BillingAddress)
-        console.log('this.addClientStateService.addClientData')
         if (response.ResponseStatus.toString().toLowerCase() == 'error') {
           this.notification.error(
             'Client not added',
-            'Please try again letter'
+            'Please try again'
           );
           this.addClientStateService.restAddClientState();
         } else {
@@ -53,9 +51,19 @@ export class ClientService extends ApiService<Client> {
         }
       },
       () => {
-        this.notification.error('Client  not added', 'Please try again letter');
+        this.notification.error('Client  not added', 'Please try again');
         this.addClientStateService.restAddClientState();
       }
     );
   }
+  updateClient()
+  {
+    return this.update(this.updateClientStateService.UpdateClientData);
+  }
+  DeleteClient(id:string|number)
+  {
+    return this.delete(id);
+  }
+ 
+  
 }

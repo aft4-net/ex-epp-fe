@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../../models/department';
 import { ResponseDTO } from '../../../models/response-dto.model';
 import { DepartmentService } from '../../../services/department.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-add-edit-department',
@@ -16,16 +17,17 @@ export class AddEditDepartmentComponent implements OnInit {
   departmentForm!: FormGroup;
   @Input() id!: string | null;
   @Output() update = new EventEmitter<string>();
+  @Output() closeModal = new EventEmitter<string>();
   department!: Department;
   isEdit!: boolean;
+  onSubmitClick!: boolean;
   
   constructor(private fb: FormBuilder, private departmentConfigService: DepartmentService,
-        // private toastr: ToastrService,
+        private notification: NzNotificationService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.createDepartmentForm();
     if (this.id !== null) {
       this.isEdit = true;
@@ -53,11 +55,29 @@ export class AddEditDepartmentComponent implements OnInit {
   }
 
   saveForm() {
+    this.onSubmitClick = true;
     if (this.departmentForm.valid) {
+      // this.closeModal.emit("close");
       this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
-        this.update.emit("save");
+        // this.closeModal.emit("close");
         this.departmentForm.reset();
-        // this.toastr.success("Successfully Added", "Department")
+        this.closeModal.emit("close");
+        this.onSubmitClick = false;
+        this.notification.create(
+          'success',
+          'Successfully Added!',
+          'Department',
+          { nzPlacement: 'bottomRight' }
+        );
+        this.update.emit("save");
+      }, (error) => {
+        this.notification.create(
+          'error',
+          'Error!',
+          error.message,
+          { nzPlacement: 'bottomRight' }
+        );
+        console.log(error);
       });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -66,17 +86,24 @@ export class AddEditDepartmentComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
   updateForm() {
+    this.onSubmitClick = true;
     if (this.departmentForm.valid) {
+      // this.closeModal.emit("close");
       this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
         .subscribe((response)=>{
+          this.onSubmitClick = false;
+          this.closeModal.emit("close");
+          this.notification.create(
+            'success',
+            'Successfully Updated!',
+            'Department',
+            { nzPlacement: 'bottomRight' }
+          );
           this.update.emit("update");
-          // this.departmentForm.reset();
-          // this.toastr.success("Successfully Updated", "Department")
         });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -85,12 +112,12 @@ export class AddEditDepartmentComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
   resetForm() {
     this.departmentForm.reset();
+    this.onSubmitClick = false;
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);

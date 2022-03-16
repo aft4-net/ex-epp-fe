@@ -1,12 +1,9 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { PaginatedResult } from '../../../models/PaginatedResult';
 import { TimesheetApproval } from '../../../models/timesheetModels';
 import { DayAndDateService } from '../../services/day-and-date.service';
 import { TimesheetService } from '../../services/timesheet.service';
-import { UserPermissionStateService } from '../../state/user-permission-state.service';
-//import { PaginatedResult } from ''
 
 @Component({
   selector: 'app-date-selector',
@@ -59,6 +56,10 @@ export class DateSelectorComponent implements OnInit {
      this.clientNameG);
     
   }
+  authorize(key: string){
+    return this._permissionService.authorizedPerson(key);
+  }
+  
   timesheetSubmissionPagination(pageIndex: number,pageSize: number,
     searchKey: string,sortBy: string, week: string, sort: string ,status:string,projectName?: string[],
     clientName?: string[]) {
@@ -69,7 +70,7 @@ export class DateSelectorComponent implements OnInit {
     this.sortByG = sortBy;
     this.projectNameG = projectName;
     this.clientNameG = clientName;
-    this.weekG = "";
+    this.weekG = week;
     this.sortG = sort;
     this.statusG = status;
     if(this.authorize('Timesheet_Admin')){
@@ -80,28 +81,32 @@ export class DateSelectorComponent implements OnInit {
         // eslint-disable-next-line prefer-const
         this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
         const user = JSON.parse(this.loggedInUserInfo);
-        this.supervisorId = user['EmployeeGuid'];
+        this.supervisorId = user['EmployeeId'];
       }
     }
 
     this.timeSheetService
 
       .getTimesheetApprovalPagination(
-        this.pageIndexG,
+         this.pageIndexG,
          this.pageSizeG,
          this.supervisorId,
          this.searchKeyG,
          this.sortByG,
          this.projectNameG,
-         this.clientNameG,this.weekG,this.sortG,this.statusG
-
+         this.clientNameG,
+         this.weekG,
+         this.sortG,
+         this.statusG
       )
 
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
-       this.totalResponse = response.pagination.totalRecord;
-      });
 
+        this.totalResponse = response.pagination.totalRecord;
+
+      });
   }
+
 
 
   onTodaysButtonClick() {
@@ -121,8 +126,6 @@ export class DateSelectorComponent implements OnInit {
     this.CounterLastWeek = this.CounterLastWeek;
     this.valueChangeLastWeek.emit(this.CounterLastWeek);
   }
-  authorize(key: string){
-    return this._permissionService.authorizedPerson(key);
-  }
+  
 
 }

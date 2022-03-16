@@ -1,9 +1,11 @@
+import { AddClientStateService, OperationalAddressService, UpdateClientStateService, UpdateOperatingAddress } from '../../../../core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { AddClientStateService, OperatingAddressCreate, UpdateClientStateService, UpdateOperatingAddress } from '../../../../core';
+
 import { CityInStateService } from '../../../../core/services/CityInState.service';
 import { CityService } from '../../../../core/services/city.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { StateService } from '../../../../core/services/State.service';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
@@ -22,7 +24,8 @@ import { StateService } from '../../../../core/services/State.service';
   styleUrls: ['./operating-address-form.component.scss']
 })
 export class OperatingAddressFormComponent implements OnInit {
-  operatingAddress: OperatingAddressCreate[] = [];
+  dynamicBtnValue={} as string;
+  operatingAddress: any[] = [];
   isVisible = false;
   isOkLoading = false;
   footer = null;
@@ -53,9 +56,11 @@ export class OperatingAddressFormComponent implements OnInit {
     private _state: StateService,
     private _city: CityService,
     private _cityInState: CityInStateService,
-    private  addClientStateService:AddClientStateService,
-    private modal: NzModalService,
     private  updateClientStateService:UpdateClientStateService,
+    private  addClientStateService:AddClientStateService,
+    private  notification:NzNotificationService,
+    private  operatingAddressService:OperationalAddressService,
+    private modal: NzModalService
   ) {
     this.forms = _fb.group({
       Country: ['',Validators.required],
@@ -81,22 +86,21 @@ export class OperatingAddressFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.updateClientStateService.isEdit && this.updateClientStateService.UpdateClientData.OperatingAddress!==null)
-    {
-     this. operatingAddress = this.updateClientStateService.UpdateClientData.OperatingAddress;
+     if(this.updateClientStateService.isEdit && this.updateClientStateService.UpdateClientData.OperatingAddress!==null)
+     {
+      this. operatingAddress = this.updateClientStateService.UpdateClientData.OperatingAddress;
 
-    }
-    else{
-      console.log("data="+ this.data)
+     }
+     else{
       this. operatingAddress = this.addClientStateService.addClientData.OperatingAddress;
-    }
-
+     }
     this.forms.valueChanges.subscribe(x => {
       if(this.forms.value['Country']!='' ||
       this.forms.value['City']!='' ||
       this.forms.value['State']!='' ||
       this.forms.value['ZipCode']!='' ||
       this.forms.value['Address']!='' ){
+        this.updateClientStateService.updateButtonListener=false;
        this.isClearButtonActive=false;
       }
       else{
@@ -107,6 +111,7 @@ export class OperatingAddressFormComponent implements OnInit {
   }
 
   showModal(): void {
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Add";
     this.isVisible = true;
     this.actionTitle="Add";
   }
@@ -138,37 +143,40 @@ export class OperatingAddressFormComponent implements OnInit {
         } as UpdateOperatingAddress;
         this.updateClientStateService.UpdateClientData.OperatingAddress[this.editAt]=opAddress;
 
-      }else{
+      }
+      else
+      {
         this.addClientStateService.updateOperatingAddress(this.operatingAddress);
       }
-
       this.IsEdit=false;
       this.editAt=-1;
       }
-      else{
-        if(this.updateClientStateService.isEdit)
-        {
-          const opAddress={
-            Country:this.forms.controls.Country.value,
-            City:this.forms.controls.City.value,
-            State:this.forms.controls.State.value,
-            ZipCode:this.forms.controls.ZipCode.value,
-            Address: this.forms.controls.Address.value,
-          } as UpdateOperatingAddress;
-          this.updateClientStateService.UpdateClientData.OperatingAddress.push(opAddress);
-      }
      else{
+      if(this.updateClientStateService.isEdit)
+      {
+        const opAddress={
+          Country:this.forms.controls.Country.value,
+          City:this.forms.controls.City.value,
+          State:this.forms.controls.State.value,
+          ZipCode:this.forms.controls.ZipCode.value,
+          Address: this.forms.controls.Address.value,
+        } as UpdateOperatingAddress;
+        this.operatingAddress =[
+          ...this.operatingAddress,
+          opAddress
+        ]
+        this.updateClientStateService.UpdateClientData.OperatingAddress.push(opAddress);
+    }
+
+    else{
       this.operatingAddress =[
         ...this.operatingAddress,
         this.forms.value
       ]
       this.addClientStateService.updateOperatingAddress(this.operatingAddress);
-      console.log("checking the lcoation")
-      console.log(this.addClientStateService.addClientData.OperatingAddress)
-      console.log("checking the lcoation")
 
-
-     }}
+    }
+    }
     this.isVisible = false;
     this.forms.reset();
     this.isClearButtonActive=true;
@@ -228,18 +236,28 @@ export class OperatingAddressFormComponent implements OnInit {
 
   resetForm() {
     this.forms.reset();
+    if(this.IsEdit)
+    {
+      this.editAt=-1;
+    }
     this.isClearButtonActive= true;
   }
   removeOperatingAddress(index: number) {
     if (index > -1) {
-      this.operatingAddress.splice(index, 1);
-      if(!this.operatingAddress.length){
-        this.operatingAddress=this.emptyData;
+      this.operatingAddress=this.operatingAddress.filter(x=>x!==this.operatingAddress[index]);
+
+      if(this.updateClientStateService.isEdit)
+      {
+        this.updateClientStateService.updateOperatingAddress(this.operatingAddress);
       }
-      this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+      else{
+        this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+
+      }
     }
   }
   edit(index:number){
+    this.dynamicBtnValue=this.updateClientStateService.actionButton="Update";
     for(let count=0;count<this.operatingAddress.length;count++){
       this.isVisible = true;
       if(count==index){
@@ -266,22 +284,41 @@ export class OperatingAddressFormComponent implements OnInit {
   }
   showConfirm(index:number): void {
     this.confirmModal = this.modal.confirm({
-      nzTitle: 'Do you want to delete this item?',
-      nzContent: 'The action is not recoverable. ',
+      nzIconType:'',
+      nzTitle: 'Delete Operating Address?',
+      nzContent: 'Are you sure, you want to delete this operating adress? <br/>This action cannot be undone!',
+      nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
-      nzOkText: 'Yes',
-      nzCancelText: 'No',
+
+      nzCancelText: 'Cancel',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          if (index > -1) {
-            this.operatingAddress.splice(index, 1);
-            if(!this.operatingAddress.length){
-              this.operatingAddress=this.emptyData;
+          if(typeof this.updateClientStateService.UpdateClientData.OperatingAddress[index].Guid!=='undefined'){
+          this.operatingAddressService.DeleteOperatingAddress(this.updateClientStateService.UpdateClientData.OperatingAddress[index].Guid).subscribe(
+            (res:any)=>{
+              if(res.ResponseStatus==='Success')
+              {
+               this.notification.success("Operating Address  Deleted Successfully","",{nzPlacement:'bottomRight'}
+               );
+               this.removeOperatingAddress(index);
+               setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+              }
+
+             },
+            ()=>{
+              this.notification.error("Operating Address was not Deleted",'',{nzPlacement:'bottomRight'})
             }
-            this.addClientStateService.updateOperatingAddress(this.operatingAddress);
+          );
           }
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+          else{
+            this.removeOperatingAddress(index);
+
+            setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+            this.notification.success("Operating Address  Deleted Successfully","",{nzPlacement:'bottomRight'}
+            );
+          }
+
         }).catch(() => console.log('Error.'))
     });
   }

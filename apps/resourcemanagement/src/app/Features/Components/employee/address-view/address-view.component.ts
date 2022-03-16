@@ -2,8 +2,6 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { Address } from '../../../Models/address.model';
-import { AddressNewComponent } from '../address-new/address-new.component';
-import { Data } from '@angular/router';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
@@ -20,35 +18,35 @@ export class AddressViewComponent implements OnInit {
   canAddAddressDetail = false;
   isConfirmLoading = false;
   confirmModal?: NzModalRef;
-  editId: string | null = null;
+  editId ='00000000-0000-0000-0000-000000000000';
   listOfaddress: Address[] = [];
-  IsEdit=false;
-  editAt=-10;
-  addButton='Add';
+  IsEdit = false;
+  editAt = -10;
+  addButton = 'Add';
 
-  employeeAddress?:Address;
-  emptyData=[];
+  employeeAddress?: Address;
+  emptyData = [];
   @ViewChild('drawerTemplate')
-  drawerTemplate: TemplateRef<{
-      $implicit: { value: string; list: []; };
-      drawerRef: NzDrawerRef<any>;
-    }> | undefined;
+  drawerTemplate:
+    | TemplateRef<{
+        $implicit: { value: string; list: [] };
+        drawerRef: NzDrawerRef<any>;
+      }>
+    | undefined;
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator,
     private readonly _formGenerator: FormGenerator,
-    private employeeService: EmployeeService,
+    public employeeService: EmployeeService,
     private notification: NotificationBar,
-    private _permissionService: PermissionListService) {
-
-  }
+    private _permissionService: PermissionListService
+  ) {}
   addaddress(): void {
     this.form.generateAddressForm();
     this.isVisible = true;
-    this.addButton="Add"
-    this.IsEdit=false;
-  this.editAt=-10;
-
+    this.addButton = 'Add';
+    this.IsEdit = false;
+    this.editAt = -10;
   }
 
   handleCancel(): void {
@@ -56,17 +54,17 @@ export class AddressViewComponent implements OnInit {
   }
 
   startEdit(index: number): void {
-    if(index>=0){
-      this.IsEdit=true;
-      this.editAt=index;
+    if (index >= 0) {
+      this.IsEdit = true;
+      this.editAt = index;
       this.isVisible = true;
-      this.addButton="Update"
+      this.addButton = 'Update';
       this._formGenerator.generateAddressForm(this.form.allAddresses[index]);
     }
   }
 
   stopEdit(): void {
-    this.editId = null;
+    this.editId = '00000000-0000-0000-0000-000000000000';
   }
 
   handleOk(): void {
@@ -80,10 +78,10 @@ export class AddressViewComponent implements OnInit {
     this.isVisible = false;
   }
 
-  showConfirm(index:number): void {
-
+  showConfirm(index: number,id:string): void {
+    console.log(id);
     this.confirmModal = this.modalService.confirm({
-      nzTitle: 'Do you want to delete this item?',
+      nzTitle: 'Do you want to delete Address ?',
       nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
       nzOkText: 'Yes',
@@ -93,12 +91,16 @@ export class AddressViewComponent implements OnInit {
         new Promise((resolve, reject) => {
           if (index > -1) {
             this.form.allAddresses.splice(index, 1);
-            if(this.form.allAddresses.length<1){
-              this.form.allAddresses= this.emptyData;
+            if (this.form.allAddresses.length < 1) {
+              this.form.allAddresses = this.emptyData;
             }
-           }
+          }
+
+        
+          this.employeeService.deletePersonalAddress(id);
+
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-        }).catch(() => console.log('Error.'))
+        }).catch(() => console.log('Error.')),
     });
   }
 
@@ -107,36 +109,32 @@ export class AddressViewComponent implements OnInit {
   }
 
   add(): void {
-
     if (this.form.addressForm.valid) {
-    const address =this.form.getModelAddressDetails() as Address;
-    if(!this.IsEdit){
-     this.form.allAddresses=[...this.form.allAddresses ,address]
-
-
+      const address = this.form.getModelAddressDetails() as Address;
+      if (!this.IsEdit) {
+        this.form.allAddresses = [...this.form.allAddresses, address];
+      } else {
+        this.form.allAddresses[this.editAt] = address;
+        this.editAt = -10;
+        this.IsEdit = false;
+        this.addButton = 'Add';
+      }
+      if (this.form.addressForm.valid) {
+        this.isVisible = false;
+        this.form.generateAddressForm();
+      }
     }
-    else{
-     this.form.allAddresses[this.editAt]=address;
-     this.editAt=-10
-     this.IsEdit=false;
-     this.addButton="Add"
-    }
-    if(this.form.addressForm.valid){
-     this.isVisible=false;
-     this.form.generateAddressForm();
-   }}
   }
 
-  authorize(key:string){
-    return this._permissionService.authorizedPerson(key)
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
   }
 
   ngOnInit(): void {
     this.notification.showNotification({
-          type: 'success',
-          content: '',
-          duration: 1,
-        });
-       
+      type: '',
+      content: '',
+      duration: 1,
+    });
   }
 }

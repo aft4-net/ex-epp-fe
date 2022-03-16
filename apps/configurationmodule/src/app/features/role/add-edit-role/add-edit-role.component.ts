@@ -8,6 +8,7 @@ import { RoleService } from '../../../services/role.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { DepartmentService } from '../../../services/department.service';
 import { Department } from '../../../models/department';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-add-edit-role',
@@ -18,18 +19,19 @@ export class AddEditRoleComponent implements OnInit {
   roleForm!: FormGroup;
   @Input() id!: string | null;
   @Output() update = new EventEmitter<string>();
+  @Output() closeModal = new EventEmitter<string>();
   role!: RolePostModel;
   isEdit!: boolean;
   departments: Department[] = [];
+  onSubmitClick!: boolean;
   
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         private departmentService: DepartmentService,
-        // private toastr: ToastrService,
+        private notification: NzNotificationService,
         private activatedRoute: ActivatedRoute,
         private _permissionService:PermissionListService) { }
 
   ngOnInit(): void {
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.getAllDepartments();
     this.createRoleForm();
     if (this.id !== null) {
@@ -59,11 +61,29 @@ export class AddEditRoleComponent implements OnInit {
   }
 
   saveForm() {
+    this.onSubmitClick = true;
     if (this.roleForm.valid) {
+      // this.closeModal.emit("close");
       this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
-        this.update.emit("save");
+        // this.closeModal.emit("close");
         this.roleForm.reset();
-        // this.toastr.success("Successfully Added", "Role")
+        this.closeModal.emit("close");
+        this.onSubmitClick = false;
+        this.notification.create(
+          'success',
+          'Successfully Added!',
+          'Job Title',
+          { nzPlacement: 'bottomRight' }
+        );
+        this.update.emit("save");
+      }, (error) => {
+        this.notification.create(
+          'error',
+          'Error!',
+          error.message,
+          { nzPlacement: 'bottomRight' }
+        );
+        console.log(error);
       });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {
@@ -72,17 +92,24 @@ export class AddEditRoleComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
   updateForm() {
+    this.onSubmitClick = true;
     if (this.roleForm.valid) {
+      // this.closeModal.emit("close");
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
         .subscribe((response)=>{
+          this.onSubmitClick = false;
+          this.closeModal.emit("close");
+          this.notification.create(
+            'success',
+            'Successfully Updated!',
+            'Job Title',
+            { nzPlacement: 'bottomRight' }
+          );
           this.update.emit("update");
-          // this.roleForm.reset();
-          // this.toastr.success("Successfully Updated", "Role")
         });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {
@@ -91,12 +118,12 @@ export class AddEditRoleComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      // this.toastr.error("Error", "Form is not valid");
     }
   }
 
   resetForm() {
     this.roleForm.reset();
+    this.onSubmitClick = false;
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);

@@ -8,19 +8,22 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTabPosition } from 'ng-zorro-antd/tabs';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
+import{clientEditNotify} from '../../core/models/get/clientEditNotify';
 @Component({
   selector: 'exec-epp-add-client',
   templateUrl: './add-client.component.html',
   styleUrls: ['./add-client.component.scss'],
 })
 export class AddClientComponent implements OnInit {
+enableUpdateButton=true;
+
   position: NzTabPosition = 'left';
   validateAddClientFormState$?: Observable<ValidtyAddClientForms>;
   validateAddClientFormState?: ValidtyAddClientForms;
   addButtonClicked = false;
   contactDetailsTabEnabled = false;
   activeTabIndex = 0;
+  isLoading=false;
   locationTabEnabled = false;
   constructor(
     private router: Router,
@@ -31,8 +34,13 @@ export class AddClientComponent implements OnInit {
     private modal: NzModalService
   ) {}
   ngOnInit(): void {
+    this.updateClientState.updateButtonListener=false;
+
     if(this.updateClientState.isEdit)
     {
+
+
+
       this.validateAddClientFormState$ =
         this.updateClientState.validateUpdateClientFormState();
 
@@ -47,13 +55,11 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState$ =
         this.addClientState.validateAddClientFormState();
 
-
       this.addClientState
         .validateAddClientFormState()
         .subscribe((res: ValidtyAddClientForms) => {
           this.validateAddClientFormState = res;
         });
-
     }
 
   }
@@ -62,6 +68,7 @@ export class AddClientComponent implements OnInit {
     this.addButtonClicked = true;
     if(this.updateClientState.isEdit)
     {
+
       this.updateClientState
       .validateUpdateClientFormState()
       .subscribe((res: ValidtyAddClientForms) => {
@@ -74,14 +81,20 @@ export class AddClientComponent implements OnInit {
         this.validateAddClientFormState?.clientContactsForm &&
         this.updateClientState.UpdateClientData!=null
       ) {
-        console.log('updating')
-        console.log(this.updateClientState.UpdateClientData);
-        this.clientService.updateClient(this.updateClientState.UpdateClientData).subscribe(
-          ()=>{
+
+        this.clientService.updateClient().subscribe(
+          (res:any)=>{
+          if(res.ResponseStatus==='Success')
+          {
             this.notification.success('Client Updated Successfully', '', {
               nzPlacement: 'bottomRight',
             });
-            this.router.navigateByUrl('clients');
+            this.updateClientState.isEdit=false;
+              setTimeout(() => {
+                this.router.navigateByUrl('clientmanagement');
+              }, 1000);
+
+          }
           },
           ()=>{
             this.notification.error('Client not Updated!', '', {
@@ -123,15 +136,14 @@ export class AddClientComponent implements OnInit {
           });
         }
       }
-
     }
+
     else{
-    this.addClientState
+      this.addClientState
       .validateAddClientFormState()
       .subscribe((res: ValidtyAddClientForms) => {
         this.validateAddClientFormState = res;
       });
-
 
     if (
       this.validateAddClientFormState?.clientDetailsForm &&
@@ -139,10 +151,13 @@ export class AddClientComponent implements OnInit {
       this.validateAddClientFormState?.clientContactsForm &&
       this.validateAddClientFormState?.clientContactsForm
     ) {
-      console.log("checking the client")
-      console.log(this.addClientState.addClientData)
-      this.router.navigateByUrl('clientmanagement');
+     this.isLoading=true;
       this.clientService.addClient();
+      setTimeout(() => {
+        this.router.navigateByUrl('clientmanagement');
+      }, 1000);
+     // this.router.navigateByUrl('clientmanagement');
+
     }
     // eslint-disable-next-line no-empty
     else {
@@ -207,6 +222,7 @@ export class AddClientComponent implements OnInit {
         nzOkDanger: true,
 
         nzOnOk: () => {
+          console.log('in cancel')
           this.router.navigateByUrl('clientmanagement');
           this.addClientState.restAddClientState();
         },

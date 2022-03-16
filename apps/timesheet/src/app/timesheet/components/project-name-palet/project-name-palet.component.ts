@@ -1,14 +1,11 @@
 
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
 import { Project } from '../../../models/project';
 import { ApprovalStatus, TimeEntry, TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
-import { NzModalService } from "ng-zorro-antd/modal";
-import { DayAndDateService } from '../../services/day-and-date.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
-import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { ClientAndProjectStateService } from '../../state/client-and-projects-state.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
@@ -34,9 +31,6 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   isRejected = false;
 
   constructor(private timesheetService: TimesheetService,
-    private readonly _dayAndDateService: DayAndDateService,
-    private modal: NzModalService,
-    private timesheetStateService: TimesheetStateService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService,
     private readonly _permissionService: PermissionListService
   ) { }
@@ -88,18 +82,13 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (this.timesheetApproval?.Status === Object.values(ApprovalStatus)[1].valueOf()) {
-      this.clickEventType = ClickEventType.none;
-      return;
-    }
-
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
     }
 
     this.clickEventType = ClickEventType.showFormDrawer;
-    let timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
+    const timeEntryEvent: TimeEntryEvent = { clickEventType: ClickEventType.showFormDrawer, timeEntry: this.timeEntry };
 
     this.projectNamePaletClicked.emit(timeEntryEvent);
     this.clickEventType = ClickEventType.none; //Use this line of code when the element is the container element.

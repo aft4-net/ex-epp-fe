@@ -1,4 +1,3 @@
-import { TimesheetApproval } from '../../../models/timesheetModels';
 import { Component, OnInit } from '@angular/core';
 import {
   NzTableFilterFn,
@@ -8,10 +7,11 @@ import {
   NzTableSortOrder,
 } from 'ng-zorro-antd/table';
 
+import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { Router } from '@angular/router';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
-import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 
 interface ColumnItem {
   name: string;
@@ -108,6 +108,7 @@ export class ViewSubmissionsComponent implements OnInit {
     private state: TimesheetStateService,
     private _permissionService:PermissionListService
   ) {
+    this.state.date = new Date();
     this.state.setTimesheetPageTitle("View Submissions");
   }
 

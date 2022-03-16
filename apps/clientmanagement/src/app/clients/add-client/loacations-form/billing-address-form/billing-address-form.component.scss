@@ -9,9 +9,8 @@ $border:red;
   color: white;
   border: 0.5px solid #00a551;
   padding: 4px;
-}
-.button-style:hover {
-  background: #04d86a;
+  font-size: 1rem;
+  font-style: normal;
 }
 .table_heading {
   background-color: #B4DFB4 !important;
@@ -53,7 +52,7 @@ $border:red;
 
 
 .action-column {
-  float: right;
+  display: flex;
 }
 .column-padding-center{
   padding-left: 35%;
@@ -66,9 +65,39 @@ $border:red;
 
   border: $border;
 }
+.add-billing-button{
+  padding-bottom:0.75%;
+}
+::ng-deep .add-btn-wrapper{
+  background: #00A551 !important;
+    color: white !important;
+    float: left !important;
+    margin-right: 1vw;
+    position: relative;
+
+}
+.ant-table-tbody>tr>td {
+  border-bottom: none !important;
+
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+  border-color: #00A551 !important;
+  background: #00A551 !important;
+
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary:hover {
+  background: #00A551 !important;
+}
+h3{
+  font-size: 16px;
+}
 /* You can add global styles to this file, and also import other style files */
 // @import "~ng-zorro-antd/ng-zorro-antd.css";
 
+.ant-form-item {
+  margin: 0 0 0px !important;
+
+}
 
 
 

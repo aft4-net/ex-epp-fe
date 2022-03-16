@@ -1,47 +1,100 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProjectResource, ProjectService, EmployeeService, projectResourceType, Employee } from '../../../../core';
-import { Output, EventEmitter } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  AddProjectStateService,
+  ProjectService,
+  EmployeeService,
+  projectResourceType,
+  Employee,
+  AssignResource,
+  AssignResourceService,
+  ProjectResourceStateService,
+  Project,
+} from '../../../../core';
 import { formatDate } from '@angular/common';
-
-
-
+import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { PermissionListService } from '../../../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-addresource',
   templateUrl: './addresource.component.html',
-  styleUrls: ['./addresource.component.scss']
+  styleUrls: ['./addresource.component.scss'],
 })
 export class AddresourceComponent implements OnInit {
-
-
-
   addResorceForm!: FormGroup;
   editResorceForm!: FormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
+    private permissionList: PermissionListService,
+    private notification: NzNotificationService,
+    private projectResourceStateService: ProjectResourceStateService,
+    private assignResourceService: AssignResourceService,
+    private router: Router,
+    private projectCreateState: AddProjectStateService,
     private employeeService: EmployeeService,
     private projectService: ProjectService
-  ) { }
-
-
+  ) {}
+  total = 0;
+  loading = false;
+  isTablePagnation=true;
+  pageSize = 9;
+  pageIndex = 1;
+  totalPage!: number;
   resources: projectResourceType[] = [] as projectResourceType[];
-  employees!: Employee[];;
-  asignedResourseToEdit!: ProjectResource;
-
-  projectResources: ProjectResource[] = [];
+  employees: Employee[] = [];
+  asignedResourseToEdit!: AssignResource;
+  removeResourceModel = false;
+  projectResources: AssignResource[] = [];
+  projectResourcesView: AssignResource[] = [];
   isModalVisible = false;
   isEditMode = false;
   assignedDateError = false;
-
-  @Output() addProjectResourceEvent = new EventEmitter<projectResourceType[]>();
-
+  disableUpdateButton = true;
+  cancelModal = false;
+  isOnEditstate = false;
+  resourceEdit: AssignResource = {} as AssignResource;
+  resoureRemove!: AssignResource;
+  projectForResource: Project = {} as Project;
+  nzSortDirections = Array<'Ascending' | 'Descending' | null>();
   ngOnInit(): void {
-    this.employeeService.getAll().subscribe((response: Employee[]) => {
-      this.employees = response;
-
-      this.sortEmployees();
+    this.projectResourceStateService.isOnEditstate$.subscribe((res) => {
+      this.isOnEditstate = res;
     });
+
+    if (this.isOnEditstate) {
+      this.isTablePagnation=false;
+      this.projectForResource = this.projectResourceStateService.project;
+      this.loading = true;
+    }
+    this.employeeService.getAll().subscribe((response: Employee[]) => {
+      this.employees =  response.filter(p=>p.IsActive && !p.IsDeleted);
+      if (this.projectResourceStateService.isOnEditstate) {
+        this.projectResourceStateService.projectResourceList$.subscribe(
+          (res) => {
+            this.projectResourcesView= res.reverse();
+            this. PageIndexChange(1);
+            this.pageIndex=1;
+            this.total= this.projectResourcesView.length;
+            this.loading = false;
+            if ( this.projectResourcesView)
+              this.projectResourcesView.forEach((p) => {
+                this.employees = this.employees.filter(
+                  (x) => x.Guid != p.EmployeeGuid
+                );
+              });
+          }
+        );
+        this.sortEmployees();
+      }
+    });
+
     this.addResorceForm = this.fb.group({
       resource: [null, Validators.required],
 
@@ -54,37 +107,57 @@ export class AddresourceComponent implements OnInit {
 
     this.addResorceForm.valueChanges.subscribe(() => {
       if (this.addResorceForm.valid) {
-        const projectAssignDate = formatDate(this.addResorceForm.controls.assignDate.value, 'yyyy-MM-dd', 'en_US');
-        const hiredDate = formatDate(this.addResorceForm.controls.resource.value.HiredDate, 'yyyy-MM-dd', 'en_US');
+        const projectAssignDate = formatDate(
+          this.addResorceForm.controls.assignDate.value,
+          'yyyy-MM-dd',
+          'en_US'
+        );
+        const hiredDate = formatDate(
+          this.addResorceForm.controls.resource.value.HiredDate,
+          'yyyy-MM-dd',
+          'en_US'
+        );
 
         if (projectAssignDate < hiredDate)
-          this.addResorceForm.controls.assignDate.setErrors({ 'invalidDate': true });
-        else
-          this.addResorceForm.controls.assignDate.setErrors(null);
-
-
+          this.addResorceForm.controls.assignDate.setErrors({
+            invalidDate: true,
+          });
+        else this.addResorceForm.controls.assignDate.setErrors(null);
       }
     });
-
 
     this.editResorceForm.valueChanges.subscribe(() => {
       if (this.editResorceForm.valid) {
-        const projectAssignDate = formatDate(this.editResorceForm.controls.assignDate.value, 'yyyy-MM-dd', 'en_US');
-        const hiredDate = formatDate(this.editResorceForm.controls.resource.value.HiredDate, 'yyyy-MM-dd', 'en_US');
+        const projectAssignDate = formatDate(
+          this.editResorceForm.controls.assignDate.value,
+          'yyyy-MM-dd',
+          'en_US'
+        );
+        const hiredDate = formatDate(
+          this.editResorceForm.controls.resource.value.HiredDate,
+          'yyyy-MM-dd',
+          'en_US'
+        );
+
+        if (
+          this.editResorceForm &&
+          this.isOnEditstate &&
+          (new Date(this.editResorceForm.controls.assignDate.value).getTime() !=
+            new Date(this.resourceEdit.AssignDate).getTime() ||
+            this.editResorceForm.controls.resource.value.Guid !=
+              this.resourceEdit.EmployeeGuid)
+        )
+          this.disableUpdateButton = false;
+        else this.disableUpdateButton = true;
 
         if (projectAssignDate < hiredDate) {
-          this.editResorceForm.controls.assignDate.setErrors({ 'invalidDate': true });
-
-        }
-        else
-          this.editResorceForm.controls.assignDate.setErrors(null);
-      }
-      else
-        this.addResorceForm.controls.assignDate.setErrors(null);
+          this.editResorceForm.controls.assignDate.setErrors({
+            invalidDate: true,
+          });
+        } else this.editResorceForm.controls.assignDate.setErrors(null);
+      } else this.addResorceForm.controls.assignDate.setErrors(null);
     });
-
   }
-
 
   get assignDateControl() {
     return this.addResorceForm.controls.assignDate as FormControl;
@@ -96,22 +169,50 @@ export class AddresourceComponent implements OnInit {
 
   addResource() {
     if (this.addResorceForm.valid) {
-      this.projectResources.push({
-        employee: this.addResorceForm.controls.resource.value, assignedDate: this.addResorceForm.controls.assignDate.value
-      });
       this.isModalVisible = false;
+      if (this.isOnEditstate) {
+        this.assignResourceService
+          .addResource({
+            EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
+            ProjectGuid: this.projectResourceStateService.project.Guid,
+            AssignDate: this.addResorceForm.controls.assignDate.value,
+          })
+          .subscribe(
+            (res) => {
+              this.projectResourceStateService.updateAssignResources();
 
-      this.resources.push({
-        EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
-        AssignDate: this.addResorceForm.controls.assignDate.value
-      })
+              this.addResorceForm.reset();
+              this.notification.success('Resource assigned successfully', '');
+            },
+            (error) => {
+              this.notification.error("Project's resource add fail", '');
+              this.addResorceForm.reset();
+            }
+          );
+      } else {
+        this.resources.push({
+          EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
+          AssignDate: this.addResorceForm.controls.assignDate.value,
+        });
 
-      this.addProjectResourceEvent.emit(this.resources)
-      this.sortEmployees();
-      this.employees = this.employees.filter(s => s.Guid !== this.addResorceForm.controls.resource.value.Guid);
-      this.addResorceForm.reset();
+        this.projectResources = [
+          {
+            Empolyee: this.addResorceForm.controls.resource.value,
+            AssignDate: this.addResorceForm.controls.assignDate.value,
+          },
+          ...this.projectResources,
+        ];
+
+        this.projectCreateState.updateAssignResource(this.resources);
+        this.sortEmployees();
+        this.employees = this.employees.filter(
+          (s) => s.Guid !== this.addResorceForm.controls.resource.value.Guid
+        );
+      }
+  
+      this.handleCancel();
     } else {
-      Object.values(this.addResorceForm.controls).forEach(control => {
+      Object.values(this.addResorceForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.markAsTouched();
@@ -119,11 +220,9 @@ export class AddresourceComponent implements OnInit {
         }
       });
     }
-
   }
 
   showModal(): void {
-
     this.isModalVisible = true;
   }
 
@@ -132,28 +231,29 @@ export class AddresourceComponent implements OnInit {
     this.editResorceForm.reset();
     this.addResorceForm.reset();
     this.isEditMode = false;
-
   }
 
   resetForm() {
-    this.addResorceForm.controls.resource.setValue("");
-    this.addResorceForm.controls.assignDate.setValue("");
-
+    this.addResorceForm.controls.resource.setValue('');
+    this.addResorceForm.controls.assignDate.setValue('');
   }
   resetEditForm() {
-    this.editResorceForm.controls.assignDate.setValue("");
-    this.editResorceForm.controls.resource.setValue("");
+    this.editResorceForm.controls.assignDate.setValue('');
+    this.editResorceForm.controls.resource.setValue('');
   }
-
-
 
   editResource(id: string) {
     this.addResorceForm.reset();
-    const projectResource = this.projectResources.find(s => s.employee.Guid == id);
-    if (projectResource) {
+    const projectResource = this.projectResources.find(
+      (s) => s.Empolyee.Guid == id
+    );
 
-      this.editResorceForm.controls.resource.setValue(projectResource.employee);
-      this.editResorceForm.controls.assignDate.setValue(projectResource.assignedDate);
+    if (projectResource) {
+      this.resourceEdit = projectResource;
+      this.editResorceForm.controls.resource.setValue(projectResource.Empolyee);
+      this.editResorceForm.controls.assignDate.setValue(
+        projectResource.AssignDate
+      );
       this.asignedResourseToEdit = projectResource;
       this.isEditMode = true;
       this.isModalVisible = true;
@@ -161,74 +261,262 @@ export class AddresourceComponent implements OnInit {
   }
 
   submitEditdValue() {
-
     if (this.editResorceForm.valid) {
-      if (this.asignedResourseToEdit.employee.Guid != this.editResorceForm.controls.resource.value.Guid) {
-        this.employees.push(this.asignedResourseToEdit.employee);
-        this.employees = this.employees.filter(s => s.Guid !== this.editResorceForm.controls.resource.value.EmployeeGUid);
+      this.isEditMode = false;
+      if (this.isOnEditstate) {
+        this.assignResourceService
+          .updateAssignResource({
+            Guid: this.asignedResourseToEdit.Guid,
+            EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
+            ProjectGuid: this.projectResourceStateService.project.Guid,
+            AssignDate: this.editResorceForm.controls.assignDate.value,
+          })
+          .subscribe(
+            (res) => {
+              this.projectResourceStateService.updateAssignResources();
+
+              this.addResorceForm.reset();
+              this.notification.success('Resource updated successfully', '');
+            },
+            (error) => {
+              this.notification.error('Resource updated failed', '');
+              this.addResorceForm.reset();
+            }
+          );
+      }
+
+      if (
+        this.asignedResourseToEdit.Empolyee.Guid !=
+        this.editResorceForm.controls.resource.value.Guid
+      ) {
+        this.employees.push(this.asignedResourseToEdit.Empolyee);
+        this.employees = this.employees.filter(
+          (s) =>
+            s.Guid !== this.editResorceForm.controls.resource.value.EmployeeGUid
+        );
         this.sortEmployees();
       }
-      this.asignedResourseToEdit.assignedDate = this.editResorceForm.controls.assignDate.value;
-      this.asignedResourseToEdit.employee = this.editResorceForm.controls.resource.value;
+      this.asignedResourseToEdit.AssignDate =
+        this.editResorceForm.controls.assignDate.value;
+      this.asignedResourseToEdit.Empolyee =
+        this.editResorceForm.controls.resource.value;
 
-      this.projectResources.map(s => s.employee.Guid === this.asignedResourseToEdit.employee.Guid ? s : this.asignedResourseToEdit)
+      this.projectResources.map((s) =>
+        s.Empolyee.Guid === this.asignedResourseToEdit.Empolyee.Guid
+          ? s
+          : this.asignedResourseToEdit
+      );
 
-      this.resources.map(s => s.EmployeeGuid == this.asignedResourseToEdit.employee.Guid ? s :
-        {
-          employeeId: this.editResorceForm.controls.resource.value.Guid,
-          assignedDate: this.editResorceForm.controls.assignDate.value,
+      this.resources.map((s) =>
+        s.EmployeeGuid == this.asignedResourseToEdit.Empolyee.Guid
+          ? s
+          : {
+              employeeId: this.editResorceForm.controls.resource.value.Guid,
+              assignedDate: this.editResorceForm.controls.assignDate.value,
+            }
+      );
+      if (!this.isOnEditstate)
+        for (let i = 0; i < this.resources.length; i++) {
+          if (
+            this.resources[i].EmployeeGuid ==
+            this.asignedResourseToEdit.Empolyee.Guid
+          ) {
+            this.resources[i] = {
+              EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
+              AssignDate: this.editResorceForm.controls.assignDate.value,
+            };
+
+            this.projectCreateState.updateAssignResource(this.resources);
+            break;
+          }
         }
-      )
 
-      for (let i = 0; i < this.resources.length; i++) {
-        if (this.resources[i].EmployeeGuid == this.asignedResourseToEdit.employee.Guid) {
-          this.resources[i] = {
-            EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
-            AssignDate: this.editResorceForm.controls.assignDate.value
-          };
-
-          this.addProjectResourceEvent.emit(this.resources);
-          break;
-        }
-      }
-
-
-      this.isEditMode = false;
+    
       this.isModalVisible = false;
       this.editResorceForm.reset();
-      this.asignedResourseToEdit = {} as ProjectResource;
+      this.asignedResourseToEdit = {} as AssignResource;
     } else {
-      Object.values(this.editResorceForm.controls).forEach(control => {
+      Object.values(this.editResorceForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
     }
+  }
+  conformationDelete(resource: AssignResource) {
+    this.resoureRemove = resource;
 
+    this.removeResourceModel = true;
+  }
+  deleteCancel() {
+    this.removeResourceModel = false;
+    this.resoureRemove = {} as AssignResource;
   }
 
-  removeResource(id: string) {
-    const projectResourece = this.projectResources.find(s => s.employee.Guid == id);
-    if (projectResourece)
-      this.employees.push(projectResourece.employee);
-    this.sortEmployees();
-    this.projectResources = this.projectResources.filter(s => s.employee.Guid !== id);
-    this.resources = this.resources.filter(s => s.EmployeeGuid != id);
-    this.addProjectResourceEvent.emit(this.resources);
+  removeResource() {
+    this.removeResourceModel = false;
 
+    this.assignResourceService.delete(this.resoureRemove.Guid ?? '').subscribe(
+      (res) => {
+        this.removeResourceFromtable(this.resoureRemove.Empolyee.Guid);
+        this.notification.success('Resource unassigned successfully', '');
+        this.resoureRemove = {} as AssignResource;
+      },
+      (error) => {
+        this.notification.error("Project's resource remove fail", '');
+        this.resoureRemove = {} as AssignResource;
+      }
+    );
+  }
+
+  removeForAddReource(resource: AssignResource) {
+    this.projectCreateState.updateAssignResource(this.resources);
+    this.removeResourceFromtable(resource.Empolyee.Guid);
+  }
+
+  removeResourceFromtable(id: string) {
+    const projectResourece = this.projectResources.find(
+      (s) => s.Empolyee.Guid == id
+    );
+    if (projectResourece) this.employees.push(projectResourece.Empolyee);
+    this.sortEmployees();
+    this.projectResources = this.projectResources.filter(
+      (s) => s.Empolyee.Guid !== id
+    );
+      if(this.isOnEditstate)
+      {
+        this.projectResourcesView =  this.projectResourcesView.filter(
+          (s) => s.Empolyee.Guid !== id
+        );
+        this.total= this.projectResourcesView.length;
+      }
+  
+    this.resources = this.resources.filter((s) => s.EmployeeGuid != id);
   }
 
   sortEmployees() {
-    this.employees.sort((a, b) => a.Name.localeCompare(b.Name))
+    if (this.employees.length != 0)
+      this.employees.sort((a, b) => a.Name.localeCompare(b.Name));
+  }
+
+  onReset() {
+    this.router.navigateByUrl('projectmanagement');
+  }
+
+  disabledEndDate = (startValue: Date): boolean => {
+    if (!this.isOnEditstate) {
+      if (
+        !this.projectCreateState.projectData.StartDate ||
+        !startValue ||
+        new Date(this.projectCreateState.projectData.StartDate).getDate() ===
+          startValue.getDate()
+      ) {
+        return false;
+      }
+
+      if (
+        this.projectCreateState.projectData.EndDate != null &&
+        typeof this.projectCreateState.projectData.EndDate != 'undefined'
+      )
+        return (
+          startValue.getTime() <
+            new Date(this.projectCreateState.projectData.StartDate).getTime() ||
+          startValue.getTime() >
+            new Date(this.projectCreateState.projectData.EndDate).getTime()
+        );
+      else
+        return (
+          startValue.getTime() <
+          new Date(this.projectCreateState.projectData.StartDate).getTime()
+        );
+    } else if (this.isOnEditstate) {
+      if (
+        !startValue ||
+        !this.projectForResource.StartDate ||
+        new Date(this.projectForResource.StartDate).getDate() ==
+          startValue.getDate()
+      ) {
+        return false;
+      }
+      if (
+        this.projectForResource.EndDate != null &&
+        typeof this.projectForResource.EndDate != 'undefined'
+      )
+        return (
+          startValue.getTime() <
+            new Date(this.projectForResource.StartDate).getTime() ||
+          startValue.getTime() >
+            new Date(this.projectForResource.EndDate).getTime()
+        );
+      else
+        return (
+          startValue.getTime() <
+          new Date(this.projectForResource.StartDate).getTime()
+        );
+    }
+    return false;
+  };
+
+  confirmCancel() {
+    this.removeResourceModel = false;
+  }
+  confirmCancelExit() {
+    this.cancelModal = false;
+  }
+
+  confimeresredirect() {
+    this.router.navigateByUrl('projectmanagement');
+    this.cancelModal = false;
+  }
+  rediretCancel() {
+    this.cancelModal = false;
+  }
+  navaigateToProject() {
+    this.router.navigateByUrl('projectmanagement');
+    this.projectResourceStateService.restUpdateProjectState();
+  }
+  authorize(key: string) {
+    return this.permissionList.authorizedPerson(key);
+  }
+
+  PageIndexChange(pageIndex:number)
+  {
+    this.pageIndex=pageIndex
+   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*9).slice(0,9);
+  }
+
+  nzSortOrderChange(SortColumn: string, direction: string | null) {
+    if(SortColumn==="resource")
+   {    
+    if (direction == 'ascend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() > b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
+       else
+       this.projectResources.sort((a, b) => (a.Empolyee.Name.toLocaleLowerCase().trim() > b.Empolyee.Name.toLowerCase().trim() ? 1 : -1)); 
+    } else if (direction == 'descend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() < b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
+       else
+       this.projectResources.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() < b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
+   
+    } 
+  }
+  else if(SortColumn==="date")
+  {
+    if (direction == 'ascend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.AssignDate > b.AssignDate  ? 1 : -1));
+      else
+      this.projectResources.sort((a, b) => (a.AssignDate > b.AssignDate  ? 1 : -1));
+    } else if (direction == 'descend') {
+      if(this.isOnEditstate)
+      this.projectResourcesView.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
+      else
+      this.projectResources.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
+    } 
+  }
+  if(direction!=null&& this.isOnEditstate)
+  this.PageIndexChange(this.pageIndex);    
   }
 }
-
-
-
-
-
-
-
-
-

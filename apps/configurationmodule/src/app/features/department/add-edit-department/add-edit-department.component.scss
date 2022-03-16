@@ -1,3 +1,12 @@
+* {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+.modal-footer {
+    text-align: right;
+    button{
+        margin-right: 8px;
+    }
+}
 .ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open
 {
     color: #262626;
@@ -39,24 +48,10 @@ button {
     height: 38px;
     border-radius: 2px;;
 }
-button.ant-btn-primary {
-    background-color: #00A551;
-    color: white;
-}
-
 .ant-btn-primary.ant-btn:active {
     background-color: #00A551;
     border-color: #00A551;
 }
-
-.ant-btn-primary:focus, .ant-btn-primary:hover {
-    background-color: #00A551;
-    border-color: #00A551;
-}
-.ant-btn-primary {
-    border-color: #00A551;
-}
-
 
 .ant-btn:focus, .ant-btn:hover {
     color: #00A551;
@@ -66,4 +61,48 @@ button.ant-btn-primary {
 .ant-btn-primary.ant-btn:focus, .ant-btn-primary.ant-btn:hover {
     color: #FFFFFF;
     border-color: #00A551;
+}
+.ant-btn:focus {
+  border-color: #00A551;
+  color: #00A551;
+}
+.ant-btn:hover {
+  border-color: #2fad6c;
+  color: #2fad6c;
+}
+.ant-btn-primary {
+  border-color: #00A551;
+  background: #00A551;
+}
+
+.ant-btn-primary:focus{
+  border-color: #00A551;
+  background: #00A551;
+  color: #fff;
+}
+.ant-btn-primary:hover {
+  border-color: #2fad6c;
+  background: #2fad6c;
+  color: #fff;
+}
+.ant-btn-primary:active {
+  color: #fff;
+  border-color: #2fad6c;
+  background: #2fad6c;
+}
+
+.ant-btn-primary[disabled], .ant-btn-primary[disabled]:active, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
+    color: rgba(0,0,0,.25);
+    border-color: #d9d9d9;
+    background: #f5f5f5;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.ant-btn-default[disabled], .ant-btn-default[disabled]:active, .ant-btn-default[disabled]:focus, .ant-btn-default[disabled]:hover {
+    color: rgba(0,0,0,.25);
+    border-color: #d9d9d9;
+    background: #f5f5f5;
+    text-shadow: none;
+    box-shadow: none;
 }

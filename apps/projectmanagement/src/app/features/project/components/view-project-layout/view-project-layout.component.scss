@@ -1,57 +1,54 @@
-.table_heading
-{
-background-color: none !important;
-font-weight: 700;
+.table_heading {
+  background-color: none !important;
+  font-weight: 700;
 }
 
+* {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont !important;
+}
+
+
+::ng-deep .ant-table.ant-table-middle .ant-table-footer, .ant-table.ant-table-middle .ant-table-tbody>tr>td, .ant-table.ant-table-middle .ant-table-thead>tr>th, .ant-table.ant-table-middle .ant-table-title, .ant-table.ant-table-middle tfoot>tr>td, .ant-table.ant-table-middle tfoot>tr>th {
+  padding: 12px 8px;
+  font-size: 16px;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont !important;
+align-items: center;
+color: #262626;
+}
 
 ::ng-deep .ant-table-thead>tr>th {
 
-  background: #F5F5F5 !important;
+  background: #F0F0F0 !important;
+  font-style: normal;
+font-weight: 500;
+font-size: 16px;
+
+align-items: center;
+
+/* Body Text/ Shade 1 */
+
+color: #262626;
 }
 
-.table_heading
-{
-background-color: none !important;
+tr:nth-child(even) {
+  background: none
 }
-tr:nth-child(even) {background: none}
 
 a {
   padding-right: 0.6vw;
   color: #262626;
 }
-.ant-btn-primary {
-  color: #262626 !important;
-  background: none !important;
-  border: 1px solid #d9d9d9 !important;
-}
+
+
 
 nz-table.table-container.ant-table-wrapper {
   padding-top: 1%;
 }
 
-
-tr.ant-table-row.ng-star-inserted {
-  height: 56px !important;
-  padding:16px !important;
-}
 .main_container_homepage {
   padding: 0px 2%;
 }
 
-
-
-::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
-  content:none !important;
-}
-
-
-
-::ng-deep .ant-tabs-content-holder {
-
-  font-family: SF Pro Display !important;
-
-}
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
 }
@@ -68,10 +65,7 @@ tr.ant-table-row.ng-star-inserted {
 
 
 
-tr.ant-table-row.ng-star-inserted {
-  height: 56px !important;
-  padding:16px !important;
-}
+
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
 }
@@ -94,14 +88,13 @@ tr.ant-table-row.ng-star-inserted {
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
 }
+
 .manage-columns {
 
   padding-bottom: 10px;
 }
 
-.projects{
-  height: 95vh;
-}
+
 
 ::ng-deep ant-table-filter-trigger {
   position: relative;
@@ -113,7 +106,7 @@ tr.ant-table-row.ng-star-inserted {
   font-size: 12px;
   border-radius: 2px;
   cursor: pointer;
-
+background-color: #00A551;
   transition: all .3s;
 }
 
@@ -121,27 +114,209 @@ tr.ant-table-row.ng-star-inserted {
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  line-height: 24px;
   color: #595959;
 }
-* {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
+
+
+
 ::ng-deep .ant-table-column-sorters {
   float: left;
 }
-::ng-deep .ant-table-filter-column{
-  float:left !important;
+
+::ng-deep .ant-table-filter-column {
+  float: left !important;
 }
 
-::ng-deep .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-tbody>tr>td, .ant-table.ant-table-small .ant-table-thead>tr>th, .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small tfoot>tr>td, .ant-table.ant-table-small tfoot>tr>th {
-  padding: 8px !important;
+::ng-deep .ant-table.ant-table-small .ant-table-footer,
+.ant-table.ant-table-small .ant-table-tbody>tr>td,
+.ant-table.ant-table-small .ant-table-thead>tr>th,
+.ant-table.ant-table-small .ant-table-title,
+.ant-table.ant-table-small tfoot>tr>td,
+.ant-table.ant-table-small tfoot>tr>th {
+  padding: 7px !important;
 }
 
-::ng-deep .ant-table-filter-open{
-  color:#595959 !important;
- }
- ::ng-deep .ant-checkbox-checked .ant-checkbox-inner{
-  background-color:#00A551;
-  border-color:#00A551;
+::ng-deep .ant-table-filter-open {
+  color: #595959 !important;
 }
+
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00A551;
+  border-color: #00A551;
+}
+
+
+
+
+::ng-deep .delete-conform-modal .ant-modal-content {
+  border: 0.5px solid #00a551;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  width: 360px;
+  height: 162px !important;
+  padding-top: 0px !important;
+  background: #ffffff;
+  align-self: center;
+  justify-self: center;
+}
+
+::ng-deep .delete-conform-modal .ant-modal-header {
+  font-size: 16px;
+  padding-bottom: 4px;
+  color: rgba(0, 0, 0, .85);
+  background: #fff;
+  border-bottom: none;
+
+}
+
+::ng-deep .delete-conform-modal .ant-modal-body {
+  padding-top: 0px;
+  font-weight: 485;
+  height: 70%;
+  width: auto;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+::ng-deep .delete-conform-modal .anticon svg {
+  font-size: 20px;
+  margin-bottom: 40%;
+}
+
+
+.btn-cancel {
+  border: 1px solid #00A551;
+  color: #00A551;
+  padding: 5px 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  background: white;
+  border-radius: 2px;
+}
+
+.btn-cancel:hover {
+  border: 1px solid #006E36;
+  color: #006E36;
+}
+
+.btn-cancel:active {
+  border: 1px solid #006E36;
+  color: #006E36;
+}
+
+.btn {
+  border: #00a551;
+  color: #FFFFFF;
+  padding: 5px 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  background: #00A551;
+  border-radius: 2px;
+}
+
+.btn:hover {
+  background-color: #006E36;
+}
+
+.btn:active {
+  background: #005228;
+}
+
+.bnt:focus {
+  background-color: #00A551;
+}
+
+
+::ng-deep tr.ant-table-row.ng-star-inserted {
+
+  background-color: #ffffff;
+}
+
+nz-table {
+  padding: 0px !important;
+
+}
+::ng-deep .ant-spin-dot-item  {
+  background-color: #00A551;
+}
+::ng-deep .ant-btn-primary{
+  background-color: #00A551;
+  border-color: #00A551;
+  background:#00A551;
+}
+::ng-deep .ant-btn-primary:hover{
+  background-color: #006E36;
+  border-color: #006E36;
+  background:#006E36;
+}
+
+::ng-deep .ant-btn-primary:active {
+  background: #005228;
+  border-color: #006E36;
+  background:#006E36;
+}
+::ng-deep .ant-btn-primary:focus {
+  background-color: #00A551;
+  border-color: #00A551;
+  background:#00A551;
+}
+
+::ng-deep .ant-table-filter-trigger.active{
+  color: 	#808080
+}
+
+::ng-deep .ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected{
+  color: #151615;
+}
+
+::ng-deep .ant-btn-link{
+  color: #00A551;
+}
+
+::ng-deep .ant-btn-link:hover{
+  color: #006E36;
+}
+::ng-deep .ant-btn-link:focus{
+  color: #00A551;
+}
+
+
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.main_container_homepage {
+  padding: 0px 1.6% ;
+
+
+
+}
+
+
+.page-title {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+display: flex;
+align-items: center;
+color: #262626;
+}
+
+
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+
+
+

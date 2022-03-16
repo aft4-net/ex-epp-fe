@@ -1,7 +1,4 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {DaydateModel} from "../../models/daydate.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +12,7 @@ export class DayAndDateService {
   lastday1: any;
   fs = 1;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor() { }
 
   getWeeksFirstDate(date: Date) {
     let firstDayOfTheWeek;

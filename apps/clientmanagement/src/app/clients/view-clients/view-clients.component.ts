@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { AllDataResponse } from '../../core/models/get/AllDataResponse';
 import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
-import { ElementSchemaRegistry } from '@angular/compiler';
 import { FetchclientsService } from '../../core/services/fetchclients.service';
 import { FormControl } from '@angular/forms';
 import { NotificationBar } from '../../utils/feedbacks/notification';
@@ -30,6 +29,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 
 export class ViewClientsComponent implements OnInit  {
+  viewClient:Client[] = [];
   isAddButtonDisabled = false;
   isVisible = false;
 
@@ -55,8 +55,6 @@ export class ViewClientsComponent implements OnInit  {
   locationCheckbox = true;
   statusCheckbox = true;
   salesCheckbox = true;
-  clientContactCheckbox = false;
-  companyContactCheckbox = false;
   isFilter= false;
   listOfSearchName: string[] = [];
   searchAddress!: string;
@@ -65,6 +63,8 @@ export class ViewClientsComponent implements OnInit  {
   namesofclientsfilterd = [{ text: '', value: '', checked: false }];
   filteredArray = [''];
   ListOfSalesPerson = [''];
+  salesPerson=[''];
+  clientStatus=[''];
   namesofSalesPerson = '';
   filteredPersonArray = [''];
   namesofSalesfilterd = [{ text: '', value: '', checked: false }];
@@ -101,6 +101,7 @@ export class ViewClientsComponent implements OnInit  {
     private _notification: NotificationBar,
     private _permission:PermissionListService,
    private _commonData:CommonDataService,
+   private modal: NzModalService,
    private _editClientService:UpdateClientStateService
   ) {
 
@@ -108,17 +109,12 @@ _commonData.getPermission()
   }
   ngOnInit(): void {
     this.isAddButtonDisabled=this._permission.authorizedPerson('Create_Client');
-    console.log(this.isAddButtonDisabled);
-    console.log("button check");
 
     // authorized=false isdabled = false
-
+    this.fetchAllData();
     this.getClientStatus();
     this.getLocations();
     this.getSalesPerson();
-    this.fetchAllData();
-    this.initializeData();
-
     this.searchProject.valueChanges.pipe(debounceTime(1500)).subscribe(() => {
       this.SearchData();
     });
@@ -131,14 +127,101 @@ _commonData.getPermission()
       duration: 1,
 
     });
-    // this.notification.error('', '', {
 
-
-
-    //   });
 
   }
 
+  isCheckng(client:any)
+  {
+
+
+    this._clientservice.deleteClient(client.Guid,true).subscribe((res:any)=>{
+    console.log(res);
+    console.log("fsfsfsfsfsfsfsf")
+      if(res.ResponseStatus==='Success')
+      {
+
+
+        this.DeleteClient(client);
+      }
+      else{
+        this.checkClientWithProject();
+      }
+
+    })
+
+  }
+
+
+  DeleteClient(client:any){
+
+
+    this.modal.confirm({
+      nzIconType:'',
+      nzTitle: 'Delete Client ?',
+      nzContent: '<span>Are you sure, you want to delete this client?<br/>This action cannot be undone!</span>',
+      nzOkText: 'Yes, Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+
+        this._clientservice.deleteClient(client.Guid,false).subscribe(
+          (res:any)=>{
+            if(res.ResponseStatus==='Success')
+            {
+             this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
+             );
+             this.
+             initializeData();
+            }
+            else{
+             // this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
+
+                          this.checkClientWithProject();
+            }
+
+           },
+          err=>{
+            this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
+          }
+        );
+
+      },
+
+      nzCancelText: 'Cancel',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
+
+  showDeleteConfirm(element: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.DeleteClient(element);
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
+  checkClientWithProject(): void {
+    this.modal.confirm({
+      nzIconType:'',
+      nzTitle: 'This Client can not be deleted ',
+      nzContent: '<span">becuase it is has a project under it</span>',
+      nzOkText: 'Ok',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+//
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
   Edit(client: any): void {
     if(client)
    {
@@ -153,8 +236,9 @@ _commonData.getPermission()
   this._editClientService.titlePage='Edit Client';
   this._editClientService.formTitle='Edit Client Details';
   this._editClientService.isAdd=false;
-  this.router.navigate(['clientmanagement/add-client/']);
-  // clientmanagement/add-client
+  this.router.navigate(['/clientmanagement/add-client/']);
+
+
   }
   }
   setClient(client:Client){
@@ -186,9 +270,6 @@ _commonData.getPermission()
 
   }
   setContact(ClientContacts:any[]){
-    if(!ClientContacts?.length){
-      return;
-    }
    for(let i=0;i<ClientContacts.length;i++)
    {
      const contact={
@@ -203,14 +284,11 @@ _commonData.getPermission()
   }
   setContactCompany(comapanyContacts:any[])
   {
-    if(!comapanyContacts?.length){
-      return;
-    }
     for(let i=0;i<comapanyContacts.length;i++)
     {
       const contactPersonGuid={
         Guid:comapanyContacts[i].Guid,
-        ContactPersonGuid:comapanyContacts[i].EmployeeID
+        ContactPersonGuid:comapanyContacts[i].EmployeeGuid
       }
       this.CompanyContactsEdit.push(contactPersonGuid);
       this.employeesEdit.push(comapanyContacts[i].Employee)
@@ -218,9 +296,6 @@ _commonData.getPermission()
   }
   setOperatingAddress(OperatingAddress:any[])
   {
-    if(!OperatingAddress?.length){
-      return;
-    }
     for(let i=0;i<OperatingAddress.length;i++)
     {
       const opAddr={
@@ -235,9 +310,6 @@ _commonData.getPermission()
     }
   }
   setBillingAddress(BillingAddress:any[]){
-    if(!BillingAddress?.length){
-      return;
-    }
     for(let i=0;i<BillingAddress.length;i++)
     {
       const blAddr={
@@ -253,33 +325,8 @@ _commonData.getPermission()
       this.BillingAddressEdit.push(blAddr);
     }
   }
-  DeleteClient(client:any){
-    this._clientservice.deleteClient(client.Guid).subscribe(
-      (res:any)=>{
-        if(res.ResponseStatus==='Success')
-        {
-         this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
-         );
-         this.router.navigateByUrl('clients');
-        }
-
-       },
-      err=>{
-        this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
-      }
-    );
-   }
   authorizedPerson(key:string){
     return this._permission.authorizedPerson(key);
-    // if(key==='Create_Client')
-    // {
-    //   this.isAddButtonDisabled=true;
-    // }
-    // else{
-    //   this.isAddButtonDisabled=false;
-    // }
-
-
   }
 
   showModal(): void {
@@ -309,8 +356,7 @@ _commonData.getPermission()
     this.locationCheckbox = true;
     this.statusCheckbox = true;
     this.salesCheckbox = true;
-    this.clientContactCheckbox = false;
-    this.companyContactCheckbox = false;
+
   }
 
   addClientPage() {
@@ -412,7 +458,7 @@ _commonData.getPermission()
         this.totalPage = response.pagination.totalPage;
         this.loading = false;
         this._clientservice.setFristPageOfClients(response);
-        this.findlistofNames();
+        this.findlistofStatus();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
         console.log(response.data);
@@ -431,8 +477,18 @@ _commonData.getPermission()
       }
     );
   }
+//   public noWhitespaceValidator(control: FormControl) {
+//     const isWhitespace = (control.value || '').trim().length === 0;
+//     const isValid = !isWhitespace;
+//     return isValid ? null : { 'whitespace': true };
+// }
+
   SearchData(): void {
-    if (this.searchProject.value?.length > 1) {
+    if (this.searchProject.value?.length > 1 ) {
+      const x = this.searchProject.value as string;
+      if(x.substring(x.length -1) === ' ') {
+        return;
+      }
       this.loading = true;
       this._clientservice
         .getWithPagnationResut(1, 10, this.searchProject.value)
@@ -456,7 +512,7 @@ _commonData.getPermission()
             this.total = 0;
             this.totalPage = 0;
             this.searchStateFound = false;
-            this.notification.blank('  Project not found', '', {
+            this.notification.blank('  client not found', '', {
               nzPlacement: 'bottomLeft',
             });
           }
@@ -475,13 +531,13 @@ _commonData.getPermission()
     }
   }
 
-  findlistofNames(): void {
+  findlistofStatus(): void {
     this.listofNames = [''];
-    if(!this.clientStatuses?.length){
+    if(!this.clientStatus?.length){
       return;
     }
-    for (let i = 0; i < this.clientStatuses.length; i++) {
-      this.nameofclient = this.clientStatuses[i].StatusName;
+    for (let i = 0; i < this.clientStatus.length; i++) {
+      this.nameofclient = this.clientStatus[i];
       this.listofNames.push(this.nameofclient);
       this.filteredArray = this.listofNames.filter((item, pos) => {
         return this.listofNames.indexOf(item) == pos;
@@ -508,11 +564,11 @@ _commonData.getPermission()
 
   findlistSalesPersonNames(): void {
     this.ListOfSalesPerson = [''];
-    if(!this.employees.length){
+    if(!this.salesPerson.length){
       return;
     }
-    for (let i = 0; i < this.employees.length; i++) {
-      this.namesofSalesPerson = this.employees[i].Name;
+    for (let i = 0; i < this.salesPerson.length; i++) {
+      this.namesofSalesPerson = this.salesPerson[i];
       this.ListOfSalesPerson.push(this.namesofSalesPerson);
       this.filteredPersonArray = this.ListOfSalesPerson.filter((item, pos) => {
         return this.ListOfSalesPerson.indexOf(item) == pos;
@@ -582,14 +638,32 @@ getLocations(){
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
-    this.allClients = res.data;
 
+    this.allClients = res.data;
+    this.viewClient = [];
+    this.viewClient = [...res.data];
+    if(this.allClients!=null)
+    {
+      for (let i=0;i<this.allClients.length;i++)
+      {
+        if(this.allClients[i].SalesPerson)
+        this.salesPerson.push(this.allClients[i].SalesPerson.Name);
+      }
+
+    }
+
+    this.clientStatus = [...new Set(this.allClients.map(item => item.ClientStatusName))];
+    this.initializeData();
       });
 
 }
 getSalesPerson(){
   this.employeeService.getAll().subscribe((response: Employee[]) => {
-    this.employees = response;
+    if(response!=null)
+    {
+      this.employees = response;
+    }
+
   })
 }
   search(
@@ -646,6 +720,6 @@ getSalesPerson(){
       this.total=this.totalRecordBackup;
     }
 
-    // console.log(data);
+
   }
 }

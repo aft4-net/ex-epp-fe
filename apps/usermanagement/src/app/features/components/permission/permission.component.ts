@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AllPermitionData,
-  IPermissionModel,
-  IPermissionResponseModel,
-} from '../../Models/User/Permission-get.model';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {AllPermitionData,IPermissionModel,IPermissionResponseModel,} from '../../Models/User/Permission-get.model';
 import { NotificationBar } from '../../../utils/feedbacks/notification';
-import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from '../../../../../../../libs/common-services/commonData.service';
-import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionService } from '../../Services/permission/permission.service';
+import { fromEvent } from 'rxjs';
+import { GroupSetService } from '../../Services/group-set.service';
+import { GroupSetModel } from '../../Models/group-set.model';
 
 export interface GroupCheckBoxItem {
   label: string;
@@ -17,17 +15,20 @@ export interface GroupCheckBoxItem {
   checked: boolean;
   Guid: string;
 }
+
 export interface SelecttedPermission {
   Guid: string;
+  
 }
 
 @Component({
   selector: 'exec-epp-permission',
-  templateUrl: './permission.component.html',
+  templateUrl: './permission.component.html', 
   styleUrls: ['./permission.component.scss'],
 })
 export class PermissionComponent implements OnInit {
   permissionResponse?: IPermissionResponseModel;
+  groupDetail? : GroupSetModel;
   permissionData:any;
   parentPermission: any;
   onePermission: any;
@@ -44,19 +45,29 @@ export class PermissionComponent implements OnInit {
   listCheckBox: GroupCheckBoxItem[] = [];
 goupPermissions:IPermissionModel[] = [];
   selectedPermissionList: SelecttedPermission[] = [];
+  groupName : string | undefined;
   groupId: any;
+  @ViewChild('myDIVName') myDIVName: any;
+  disableOutsideClick = true;
+
   constructor(
     public _commonData:CommonDataService,
     private _notification: NzNotificationService,
     private route: ActivatedRoute,
     private _permissionService: PermissionService,
     private notification: NotificationBar,
-    private router:Router
+    private router:Router,
+    private _groupSetService: GroupSetService
   ) {}
 
   ngOnInit(): void {
 
     this.groupId = this.route.snapshot.paramMap.get('id');
+    this._groupSetService.LoadGroupDeatil(this.groupId).subscribe (
+      (result : any) => {
+        this.groupDetail = result
+      }
+    );
     this._permissionService.goupPermissions.forEach(element => {
       this.selectedPermissionList = [
         ...this.selectedPermissionList,
@@ -104,7 +115,7 @@ goupPermissions:IPermissionModel[] = [];
           ...this.listOfPermistion,
           {
             Parent: this.parentPermission,
-            Childs: this.childPermissions,
+            Childs: this.childPermissions.sort((a, b)=> a.PermissionCode < b.PermissionCode?-1:1),
           },
         ];
         this.childPermissions = [];
@@ -343,6 +354,10 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
 
 
   }
+
+  
+
+
   updateSingleChecked(event: any, index: number, guid: string): void {
     if (event) {
       let found=false;
@@ -426,7 +441,10 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
         );
         this.isLoding=false;
         this._commonData.getPermission();
+        this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
       });
+
+
   }
 
   permissionAssigned(id:string){
@@ -442,6 +460,21 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
 
     this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
   }
+
+  showModal(): void {
+    this.isLoding = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+   // this.isLoding = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+  //  this.isLoding = false;
+  }
+
   checkWhileAllSelected(){
    let interm=0;
    let check=0;

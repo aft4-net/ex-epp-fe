@@ -1,30 +1,32 @@
 .table_heading
 {
-background-color: #b8fab8 !important;
-font-weight: 700;
+background-color: #fafafa !important;
+font-weight: 550;
+font-size:small;
 }
+
 
 .table_evenrow_heading
 {
-background-color: #E8FFE8 !important;
+background-color: none !important;
 }
 
 .table_oddrow_heading
 {
-background-color: white !important;
+background-color: none !important;
 }
 
 .inner-content {
-    padding: 40px;
+    padding: 24px;
     background: #fff;
     height: 100%;
 }
 
 .table_heading
 {
-background-color: #E8FFE8 !important;
+background-color: #fafafa !important;
 }
-tr:nth-child(even) {background: #F9FFF9}
+tr:nth-child(even) {background: white}
 
 a {
   padding-right: 0.6vw;
@@ -38,10 +40,10 @@ nz-table.table-container.ant-table-wrapper {
   background:none !important;
 }
 
-tr.ant-table-row.ng-star-inserted {
+/* tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
   padding:16px !important;
-}
+} */
 .main_container_homepage {
   padding: 0px 2%;
 }
@@ -81,17 +83,17 @@ tr.ant-table-row.ng-star-inserted {
   border: 1px solid #ddd !important;
 }
 
-tr.ant-table-row.ng-star-inserted {
+/* tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
   padding:16px !important;
-}
+} */
 
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
 }
 
 .ant-table-column-sorter:active {
-  color: #bfbfbf;
+  color: #00A551;
 
   transition: color .3s;
 }
@@ -101,13 +103,13 @@ tr.ant-table-row.ng-star-inserted {
 }
 
 
+
 ::ng-deep .ant-table-pagination.ant-pagination {
    display: none !important;
 }
 .ant-pagination {
   float: right;
 }
-
 * {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -151,6 +153,10 @@ tr.ant-table-row.ng-star-inserted {
   color: white;
 }
 
+::ng-deep .ant-table-column-sorter {
+  margin-left: 5px !important;
+}
+
 ::ng-deep.ant-btn-link,.ant-btn-link:active, 
          .ant-btn-link:hover,ant-btn-link:focus {
   background-color: white !important;
@@ -168,13 +174,49 @@ tr.ant-table-row.ng-star-inserted {
   color: black;
 }
 
-::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down,
-          .ant-table-column-sorter-down.active,
-          .ant-table-column-sorter-up.active {
-  color: #595959 !important;
-}
-
 ::ng-deep.ant-checkbox-inner {
   border-color: black !important;
+}
+
+
+.table-operations {
+  margin-bottom: 2px;
+
+}
+
+.table-operations > button {
+  margin-right: 8px;
+  border-color: #00A551;
+}
+
+::ng-deep .ant-input-affix-wrapper {
+  padding: 1px 5px !important;
+
+}
+
+
+
+::ng-deep.ml-1{
+  padding-left: 9px;
+}
+header {
+  padding: 0px 2%;
+}
+
+.tdstyle{
+  font-size: small;
+}
+.Acttdstyle{
+  font-size: small;
+}
+
+::ng-deep .ant-modal-confirm .ant-modal-confirm-btns .ant-btn {
+  color: #00A551;
+  border: solid 1px #00A551;
+}
+
+::ng-deep .ant-modal-confirm .ant-modal-confirm-btns .ant-btn+.ant-btn {
+  background: #00A551;
+  color: white;
+  border: none;
 }

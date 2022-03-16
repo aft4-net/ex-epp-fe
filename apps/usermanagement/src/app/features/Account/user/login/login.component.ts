@@ -6,10 +6,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from 'apps/usermanagement/src/app/services/user/account.service';
-import { NotificationBar } from 'apps/usermanagement/src/app/utils/feedbacks/notification';
-import { FormValidator } from 'apps/usermanagement/src/app/utils/validator';
-
+import { AccountService } from '../../../Services/logIn/account.service';
+import { NotificationBar } from '../../../../utils/feedbacks/notification';
+import { FormValidator } from '../../../../utils/validator';
+import { AuthenticationService } from 'libs/common-services/Authentication.service';
+import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult } from '@azure/msal-browser';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-app-login',
@@ -19,15 +22,18 @@ import { FormValidator } from 'apps/usermanagement/src/app/utils/validator';
 export class LoginComponent {
   showPassword = false;
   loading = false;
+  cposition = '';
+  forgotPasswordUrl =
+    environment.redirectUri + '/usermanagement/forgotpassword';
   loginForm = new FormGroup({
     email: new FormControl('', [
       this.validator.validateEmail(),
       Validators.required,
     ]),
     password: new FormControl('', [
-      this.validator.validatePassword(),
+      //this.validator.validatePassword(),
       Validators.required,
-      Validators.minLength(8),
+      //Validators.minLength(8),
     ]),
   });
   get loginEmail(): AbstractControl | null {
@@ -37,31 +43,104 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  login() {
+  loginWithMSAccount() {
+    this.authService
+      .loginPopup()
+      .subscribe((response: AuthenticationResult) => {
+        const data = this.authService.instance.setActiveAccount(
+          response.account
+        );
+
+        if (response.account?.username) {
+          this._authenticationService
+            .getLoggedInUserAuthToken(response.account?.username)
+            .subscribe(
+              (res) => {
+                if (res.Data && res.Data.Token) {
+                  localStorage.setItem(
+                    'loggedInUserInfo',
+                    JSON.stringify(res.Data || '{}')
+                  );
+                }
+                this._authenticationService.storeLoginUser(response.account);
+                console.log(response.account);
+                this._authenticationService.hasData(true);
+                this.router.navigateByUrl('');
+              },
+              (error) => {
+                this.logout();
+                if ([401].includes(error.status)) {
+                  this.notification.showNotification({
+                    type: 'error',
+                    content: 'Unauthorized, please contact admin',
+                    duration: 5000,
+                  });
+                }
+              }
+            );
+
+          // window.location.reload();
+          //this.router.navigateByUrl('user-dashboard');
+        } else {
+          this.router.navigateByUrl('usermanagement');
+        }
+      });
+  }
+
+  logout() {
+    this.authService.logout();
+    window.sessionStorage.clear();
+    localStorage.removeItem('loggedInUserInfo');
+    window.location.reload();
+  }
+
+  signin() {
+    if (this.loginPassword?.value.length < 8){
+      this.notification.showNotification({
+        type: 'error',
+        content: 'Password length is required to be 8 minimum.',
+        duration: 5000,
+      });
+      return;
+      }
     this.loading = true;
-    this.accountService.signIn(this.loginForm.value).subscribe(
+    this._authenticationService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        this.router.navigateByUrl('application/personal-information');
-        window.location.reload();
-        this.loading = false;
+        if (res.Data && res.Data.Token) {
+          localStorage.setItem(
+            'loggedInUserInfo',
+            JSON.stringify(res.Data || '{}')
+          );
+        }
+        this._authenticationService.storeLoginUsers(res.Data);
+        if (res.ResponseStatus.toString().toLowerCase() === 'info') {
+          this.router.navigateByUrl('usermanagement/changepassword');
+        } else {
+          window.location.replace(window.location.origin);
+          this.router.navigateByUrl('');
+          this.loading = false;
+        }
       },
       (error) => {
         this.loading = false;
         console.log(error);
-        if(error === 'Not Found')
-        {
+        if (error?.error?.Message === 'Unauthorized') {
           this.notification.showNotification({
             type: 'error',
-            content: 'The account doesn not exist!',
+            content: 'Email or password is incorrect! Please try again',
             duration: 5000,
           });
           return;
         }
-        this.notification.showNotification({
-          type: 'error',
-          content: 'User email or password is incorrect, please try again!',
-          duration: 5000,
-        });
+        let msg = error.error?.Message;
+        if (msg) {
+          msg = msg.length > 200 ? msg.substring(0, 200 - 1) + '...' : msg;
+          this.notification.showNotification({
+            type: 'error',
+            content: msg,
+            duration: 5000,
+          });
+        }
       }
     );
   }
@@ -71,10 +150,10 @@ export class LoginComponent {
   }
 
   constructor(
-    private accountService: AccountService,
     private router: Router,
     private notification: NotificationBar,
-    private validator: FormValidator
+    private validator: FormValidator,
+    private authService: MsalService,
+    private _authenticationService: AuthenticationService
   ) {}
-
 }

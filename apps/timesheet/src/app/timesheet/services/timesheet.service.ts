@@ -11,9 +11,9 @@ import {
   TimesheetConfiguration,
   TimesheetResponse,
 } from '../../models/timesheetModels';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult, Pagination } from '../../models/PaginatedResult';
-import { delay, filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Client } from '../../models/client';
 import { DayAndDateService } from './day-and-date.service';
@@ -69,10 +69,11 @@ export class TimesheetService {
     return response.pipe(map((r) => r.body?.Data));
   }
 
-  getTimeEntry(timeEntryId: string) {
+  getTimeEntry(timeEntryId: string, requestedForApproval: boolean = false) {
     let params = new HttpParams();
 
     params = params.append('id', timeEntryId);
+    params = params.append('requestedForApproval', requestedForApproval);
 
     let response = this.http.get<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
@@ -82,10 +83,11 @@ export class TimesheetService {
     return response.pipe(map((r) => r.body?.Data));
   }
 
-  getTimeEntries(timesheetId: string, date?: Date, projectId?: string) {
+  getTimeEntries(timesheetId: string, date?: Date, projectId?: string, requestedForApproval: boolean = false) {
     let params = new HttpParams();
 
     params = params.append('timesheetId', timesheetId);
+    params = params.append('requestedForApproval', requestedForApproval);
 
     if (date) {
       date = new Date(
@@ -210,70 +212,6 @@ export class TimesheetService {
 
   //#endregion
 
-  //#region client and poject from mock server
-
-  getClients(clientIds?: string[]) {
-    if (clientIds) {
-      let params = new HttpParams();
-
-      for (const index in clientIds) {
-        params = params.append('id', clientIds[index]);
-      }
-
-      let response = this.http.get<Client[]>('http://localhost:3000/clients', {
-        observe: 'response',
-        params: params,
-      });
-
-      return response.pipe(map((r) => r.body));
-    } else {
-      return this.http.get<Client[]>('http://localhost:3000/clients');
-    }
-  }
-
-  getClient(clientId: string) {
-    let params = new HttpParams();
-
-    params = params.append('id', clientId);
-
-    let response = this.http.get<Client[]>('http://localhost:3000/clients', {
-      observe: 'response',
-      params: params,
-    });
-
-    return response.pipe(map((r) => r.body));
-  }
-
-  getProjects(userId: string, clientId?: string) {
-    let params = new HttpParams();
-
-    params = params.append('employeeId', userId);
-
-    if (clientId) {
-      params = params.append('clientId', clientId);
-    }
-
-    let response = this.http.get<Project[]>('http://localhost:3000/projects', {
-      observe: 'response',
-      params: params,
-    });
-
-    return response.pipe(map((r) => r.body));
-  }
-
-  getProject(projectId: string) {
-    let params = new HttpParams();
-
-    params = params.append('id', projectId);
-
-    let response = this.http.get<Project[]>('http://localhost:3000/projects', {
-      observe: 'response',
-      params: params,
-    });
-
-    return response.pipe(map((r) => r.body));
-  }
-  //#endregion
   getUserTimesheetApprovalSubmissions(
     pageIndex: number,
     pageSize: number,
@@ -460,7 +398,7 @@ params =params.append('status', `${status}` );
       let filteredProjectArray = [];
       return this.http.get(`${this.baseUrl}GetApprovalProjectDetails`).pipe(
         map((response: any) => {
-         
+
     for (let i = 0; i < response.Data.length; i++) {
       listOfProjects.push( response.Data[i].ProjectName);
      filteredProjectArray = listOfProjects.filter((item, pos) => {
@@ -483,12 +421,12 @@ params =params.append('status', `${status}` );
     );
 
           return projectFliter;
-  
+
         })
       );
     }
 
-    
+
   getClientsList(){
     let cleintFliter: { text: string; value: string ; checked:boolean;}[] = [] as {
       text: string;
@@ -504,10 +442,10 @@ params =params.append('status', `${status}` );
          filteredClientArray = listOfClients.filter((item, pos) => {
             return listOfClients.indexOf(item) == pos;
           });
-    
+
           listOfClients = filteredClientArray.filter((item) => item);
         }
-    
+
         for (let i = 0; i < listOfClients.length; i++) {
           cleintFliter.push({
             text: listOfClients[i],
@@ -515,7 +453,7 @@ params =params.append('status', `${status}` );
             checked: true,
           });
         }
-    
+
         cleintFliter = cleintFliter.filter(
           (word) => word
         );
@@ -524,6 +462,6 @@ params =params.append('status', `${status}` );
       })
     );
   }
-  
+
 
 }

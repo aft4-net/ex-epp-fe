@@ -1,16 +1,18 @@
-
 <div class="page-title">
   <div nz-row>
     <div nz-col nzSpan="20">
-      <h2> Employee Details</h2>
+      <h3 class="w-auto h-full font-semibold text-xl not-italic">{{title | titlecase}}</h3>
     </div>
-    <div nz-col nzSpan="4">
+    <div nz-col nzSpan="4"
+      *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">
       <div nz-row>
-        <div nz-col nzSpan="2">
-          <button nz-button (click)="Cancel()" class="cancelButton">Cancel</button>
+        <div nz-col nzSpan="8">
+          <button nz-button [disabled]="isClicked" (click)="saveNext()" class="saveButton">{{save}}</button>
         </div>
-        <div nz-col nzSpan="2">
-          <button nz-button *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" (click)="saveNext()" class="saveButton">{{save}}</button>
+        <div nz-col nzSpan="8">
+          <button nz-button (click)="Cancel()" class="cancelButton">Cancel</button>
         </div>
       </div>
     </div>
+  </div>
+</div>

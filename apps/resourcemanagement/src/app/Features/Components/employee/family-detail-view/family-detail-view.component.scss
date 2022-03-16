@@ -78,8 +78,8 @@
 
 
 .overflow-scroll {
-  max-height: 400px;
-  overflow-y: scroll;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .layer {
@@ -119,8 +119,16 @@ nz-breadcrumb {
   'Helvetica Neue',
   sans-serif
 }
-.breadcrumb h3 {
-  margin-bottom: 0px;
-  font-weight: bold;
-}
 
+.tdstyle{
+  font-size: small;
+}
+.Acttdstyle{
+  font-size: small;
+}
+.table_heading
+{
+background-color: #fafafa !important;
+font-weight: 650;
+font-size:small;
+}

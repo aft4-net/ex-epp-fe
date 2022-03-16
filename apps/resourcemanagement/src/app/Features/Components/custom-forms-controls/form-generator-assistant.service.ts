@@ -1,7 +1,6 @@
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { SelectOptionModel } from "../../Models/supporting-models/select-option.model";
 import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
-import { EmployeeStaticDataMockService } from "../../Services/external-api.services/employee-static-data.mock.service";
 
 export type ExtractedData = {
     prefix: any,
@@ -15,14 +14,9 @@ export class FormGeneratorAssistant {
     private _phonePrefices: string[] = []
 
     constructor(
-        private readonly _employeeStaticDataMockService: EmployeeStaticDataMockService,
-        private readonly _addressCountryStateService: CountriesMockService
+        private readonly _countriesMokService: CountriesMockService
     ) {
-        this._employeeStaticDataMockService.employeeIdNumberPrefices$
-            .subscribe((response: SelectOptionModel[]) => {
-                this._employeeIdNumberPrefices = response.map(option => option.value as string)
-            });
-        this._addressCountryStateService.getCountriesPhonePrefices()
+        this._countriesMokService.getCountriesPhonePrefices()
             .subscribe((response: SelectOptionModel[]) => {
                 this._phonePrefices = response.map(option => option.value as string)
             })
@@ -76,113 +70,6 @@ export class FormGeneratorAssistant {
         return result
     }
 
-    errorMessageforPersonalDetails(formGroup: FormGroup) {
-        let i = 0
-        Object.values(formGroup.controls).forEach(control => {
-            if (i === 0 || i === 1) {
-                this.errorMessageForGroups(control as FormGroup)
-            } else if (i === 4) {
-                this.errorMessageForEmail(control as FormArray)
-            } else if (i === 5) {
-                this.errorMessageForPhone(control as FormArray)
-            } else {
-                this.validateControl(control as FormControl)
-            }
-            i += 1
-        });
-    }
-
-    errorMessageforOrganizationDetails(formGroup: FormGroup) {
-        let i = 0
-        Object.values(formGroup.controls).forEach(control => {
-            if (i === 2) {
-                this.errorMessageForEmail(control as FormArray)
-            } else if (i === 3) {
-                this.errorMessageForPhone(control as FormArray)
-            } else {
-                this.validateControl(control as FormControl)
-            }
-            i += 1
-        });
-    }
-
-    errorMessageforAddressDetails(formGroup: FormGroup) {
-        let i = 0
-        Object.values(formGroup.controls).forEach(control => {
-            if (i === 6) {
-                this.errorMessageForPhone(control as FormArray)
-            } else {
-                this.validateControl(control as FormControl)
-            }
-            i += 1
-        });
-    }
-
-    errorMessageforFamilyDetails(formGroup: FormGroup) {
-        let i = 0
-        Object.values(formGroup.controls).forEach(control => {
-            if (i === 1) {
-                this.errorMessageForGroups(control as FormGroup)
-            } else {
-                this.validateControl(control as FormControl)
-            }
-            i += 1
-        });
-    }
-
-    errorMessageforEmergencyContactDetails(emergencyGroup: FormGroup, addressGroup: FormGroup) {
-        let i = 0
-        Object.values(emergencyGroup.controls).forEach(control => {
-            if (i === 0) {
-                this.errorMessageForGroups(control as FormGroup)
-            } else if (i === 2) {
-                this.errorMessageForEmail(control as FormArray)
-            } else if (i === 3) {
-                this.errorMessageForPhone(control as FormArray)
-            } else {
-                this.validateControl(control as FormControl)
-            }
-            i += 1
-        });
-        i = 0
-        Object.values(addressGroup.controls).forEach(control => {
-            this.validateControl(control as FormControl)
-            //   if (i === 6) {
-            //       this.errorMessageForPhone(control as FormArray)
-            //   } else {
-            //       this.validateControl(control as FormControl)
-            //   }
-            //   i += 1
-        });
-
-    }
-
-    errorMessageForGroups(formGroup: FormGroup) {
-        Object.values(formGroup.controls).forEach(control => {
-            this.validateControl(control as FormControl)
-        });
-    }
-
-    errorMessageForEmail(formArray: FormArray) {
-        Object.values(formArray.controls).forEach(control => {
-            this.validateControl(control as FormControl)
-        });
-    }
-
-    errorMessageForPhone(formArray: FormArray) {
-        Object.values(formArray.controls).forEach(control => {
-            this.errorMessageForGroups(control as FormGroup)
-        });
-    }
-
-    validateControl(control: FormControl) {
-        if (control.invalid) {
-            const value = control.value
-            control.setValue(null)
-            control.setValue(value)
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-        }
-    }
+    
 
 }

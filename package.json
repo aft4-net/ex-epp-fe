@@ -24,9 +24,12 @@
     "serve:all": "nx run-many --target serve --all",
     "start:all": "concurrently \"npm run start:epp-dashboard\" \"npm run start:usermanagement\" \"npm run start:timesheet\" \"npm run start:clientmanagement\" \"npm run start:configurationmodule\" \"npm run start:projectmanagement\" \"npm run start:resourcemanagement\"",
     "serve:dist": "concurrently  \"serve dist/epp-dashboard -l 4200 -s\" \"serve dist/usermanagement -l 4231 -s\" \"serve dist/timesheet -l 4233 -s\" \"serve dist/clientmanagement -l 4235 -s\" \"serve dist/configurationmodule -l 4232 -s\"",
-    "analyze:clientManagement" : "webpack-bundle-analyzer dist/apps/clientmanagement/stats.json",
-    "analyze:projectManagement" : "webpack-bundle-analyzer dist/apps/projectmanagement/stats.json",
-    "analyze:resourceManagement" : "webpack-bundle-analyzer dist/apps/resourcemanagement/stats.json"
+    "analyze:clientManagement": "webpack-bundle-analyzer dist/apps/clientmanagement/stats.json",
+    "analyze:projectManagement": "webpack-bundle-analyzer dist/apps/projectmanagement/stats.json",
+    "analyze:resourceManagement": "webpack-bundle-analyzer dist/apps/resourcemanagement/stats.json",
+    "analyze:timeSheet": "webpack-bundle-analyzer dist/apps/timesheet/stats.json",
+    "analyze:usermanagement": "webpack-bundle-analyzer dist/apps/usermanagement/stats.json"
+
 
   },
   "private": true,
@@ -44,6 +47,7 @@
     "@angular/router": "^12.2.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/icons-angular": "^13.0.1",
+    "@auth0/angular-jwt": "^5.0.2",
     "@azure/msal-angular": "^2.0.6",
     "@azure/msal-browser": "^2.20.0",
     "@nrwl/angular": "12.9.0",

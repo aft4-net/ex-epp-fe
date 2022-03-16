@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { PermissionListService } from './../../../../libs/common-services/permission.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 import { CommonDataService } from './../../../../libs/common-services/commonData.service';
@@ -29,15 +29,22 @@ export class AppComponent implements OnInit {
     this._commonData.getPermission();
     this.isLogin = this._authenticationService.loginStatus();
     if (!this.isLogin) {
-      this.router.navigateByUrl('usermanagement/sign_in');
+     // this.router.navigateByUrl('usermanagement/sign_in');
+      this.router.navigateByUrl('usermanagement/logIn');
     }
   }
   activePath(routePath: string) {
     if (this.route === '') this.route = this.router.url;
     return this.route == routePath;
   }
-  authorize(key: string) {
-    return this._permissionService.authorizedPerson(key);
+  authorize(keys: string[]) {
+    for(const key of keys) {
+      if(this._permissionService.authorizedPerson(key)){
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

@@ -1,24 +1,27 @@
-import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { Configuration } from 'msal';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DemoNgZorroAntdModule } from './ng-zorro-antd.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
 import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
-import { Configuration } from 'msal';
+import { environment } from './../../../../libs/environments/environment';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
-import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
-      redirectUri: 'https://epp-fe.excellerentsolutions.com/',
+      clientId: environment.clientId,
+      redirectUri: environment.redirectUri
     },
   });
 }
@@ -28,6 +31,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     DashboardComponent,
     HeaderComponent,
     FooterComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +86,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     ),
   ],
   providers: [
-   
+
     { provide: NZ_I18N, useValue: en_US },
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     {

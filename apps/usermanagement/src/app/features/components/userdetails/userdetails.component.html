@@ -1,9 +1,9 @@
 <nz-layout *ngIf="isLogin" style="background: white;" >
   <nz-content style="padding-right: 10%; padding-bottom: 3%;">
 
-  <div>
+  <div style="margin-top: -20px;">
     <h2 class="font-bold azk">Account</h2>
-    <form [formGroup]="userdetail" nzSpan="24" *ngIf="authorize('User_Management_Admin')">
+    <form [formGroup]="userdetail" nzSpan="24">
       <div nz-row>
         <div class="user-detail" style="margin-left: 3px;">
           <div class="user-detail-upper">
@@ -19,27 +19,15 @@
               <div nz-row >
                 <div nz-col class="gutter-row" nzSpan="24">
                   <div class="inner-box">
-                    <p style="font-size: 14px"> {{thePosition?.JobTitle }}</p> 
+                    <p style="font-size: 14px"> {{thePosition}} 
                   </div>
                 </div>
               </div>
                
             </div>
-            <app-avatar
-              icon="user"
-              size="65"
-              style="
-                margin-top: -62px;
-                margin-left: 2px;
-                margin-bottom: 60px;
-                width: 80px;
-                height: 80px;
-                line-height: 80px;
-                font-size: 40px;
-              "
-              class="ant-avatar ant-avatar-circle ant-avatar-icon"
-            >
-            </app-avatar>
+            <div>
+              <nz-avatar class="user-detail-avatar" [nzSize]="64" nzIcon="user"></nz-avatar>
+            </div>
             <br />
           </div>
           <div class="user-detail-lower">
@@ -52,19 +40,23 @@
               </div>
             </div>
             <div nz-row>
-              <div nz-col class="gutter-row" nzSpan="24">
+              <div nz-col class="gutter-row" nzSpan="22">
                 <div class="inner-box">
                   <span>{{userdetailInfo.Tel}}</span>
                 </div>
               </div>
+              <div nz-col class="gutter-row" nzSpan="2">
+                <div class="resetPassword" *ngIf="authorize('Update_User')">
+                  <a nz-button nzType="link" (click)="resetPassword()">
+                    Reset Password</a>
+                </div>
             </div>
-            <div>
-             
-              <nz-switch [ngModelOptions]="{standalone: true}" [ngModel]="userdetailInfo.Status==='Active'? true:false"></nz-switch>
-              
-            
-              
-              
+            </div>
+            <div style="margin-top:-10px">
+             <a (click)="UpdateStatus()" *ngIf="authorize('Update_User')">
+              <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
+              ></nz-switch>
+              </a>
             </div>
           </div>
         </div>
@@ -74,9 +66,52 @@
       </div>
     </form>
   </div>
-
+  <nz-modal
+  [nzWidth]="'410px'"
+  [(nzVisible)]="isModalVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+  (nzOnCancel)="isModalVisible=false"
+  >
+  <ng-template #modalTitle class="backChange">Add user to group
+  </ng-template>
+  
+  <ng-template #modalContent>
+  
+    <form  [formGroup]="groupfrm" (ngSubmit)="onSaveGroups()" #form>
+      <div nz-row>
+          <div nz-col nzSpan="24" class="forDes">
+              <div class="label">Groups
+              </div>
+              <nz-form-item>
+                <nz-form-control [nzSpan]="24" >
+                <nz-select
+        nzShowSearch
+        [nzShowArrow]="true"
+        name = "group"
+        nzMode = "tags"
+        formControlName="Groups"
+        placeholder="Search groups"
+      >
+       <nz-option *ngFor="let group of groupList" [nzValue]="group.Guid" [nzLabel]="group.Name"></nz-option>
+      </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+          </div>
+      </div><br>
+  </form>
+  <div class="addUserToGroup">
+      <button nz-button nzType="primary" [ngClass]="groupfrm.invalid ? 'disableAddUser' : 'addToGroup'" [disabled]="groupfrm.invalid" (click)="onSaveGroups()" [nzLoading]="loading">
+      {{ selectedGroups.length > 0? 'Update': 'Add' }}
+      </button>
+      &nbsp;
+      <button nz-button nzType="default" [disabled]="groupfrm.invalid" (click)="handleGroupCancel()">Clear</button>
+  </div>
+  </ng-template>
+  </nz-modal>
 <br />
-<div class="m-5">
+<div style="margin-top:-35px">
   <h2 class="font-bold azk">Permission groups</h2>
   <p class="azk">
     Use groups to precisely manage a user's access & roles (e.g. give them
@@ -87,57 +122,13 @@
       <button
         nz-button
         nzType="primary" 
-        (click)="onAddNewRecord()"
+        (click)="AddToGroup()"
         class="createGroupButton" 
       >
         Add to group
       </button>
     </div>
   </div>
-  <nz-modal
-    [(nzVisible)]="isModalVisible"
-    [nzTitle]="isUpdateMode ? 'Edit Look Up' : 'Add user to group'"
-    nzWidth="420px"
-    class="max-modal-width"  
-    [nzFooter]="null"
-    (nzOnCancel)="handleCancel()"
-  >
-    <ng-container *nzModalContent>
-      <form [formGroup]="userGroup">
-        <div nz-row [nzGutter]="16">
-          <div nz-col nzSpan="24">
-            <app-select
-              [enableHidding]="true"
-              [selectedSoFar]="fetchedGroupName"
-              #groupMember
-              [displayError]="groupMember.focusout"
-              errorMsg="Please select a Group"
-              [list]="listOfGroups"
-              fcn="GroupIDArray"
-              [form]="userGroup"
-              placeholder="Select a group"
-              [multiple]="true"
-              [isRequired]="true"
-              label="Please select a Group"
-            ></app-select>
-          </div>
-        </div>
-
-        <div nz-row nzJustify="end">
-          <div nz-col class="col-pad" nzSpan="3">
-            <app-button
-              [disabled]="!userGroup.valid"
-              [loading]="loading" *ngIf="authorize('Delete_Group')"
-              (click)="onSaveRecord()"
-              type="primary"
-            >
-              {{ isUpdateMode ? 'Remove' : 'Add' }}
-            </app-button>
-          </div>
-        </div>
-      </form>
-    </ng-container>
-  </nz-modal>
   <div *ngIf="!isModalVisible" class="azk" style="width: auto" >
     <div nz-row >
       <div nz-col nzSpan="24">
@@ -149,30 +140,24 @@
         >
           <thead>
             <tr>
-              <th>Group</th>
-              <th>Added</th>
-              <th>Action</th>
+              <th class="tdstyle" style="font-weight: bold;">Group</th>
+              <th class="tdstyle" style="font-weight: bold;">Added on</th>
+              <th class="tdstyle" style="font-weight:bold; text-align: right; margin-right: 60px;">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of table.data">
-              <td>{{ getGroupName(data?.GroupSetGuid) }}</td>
-              <td>{{ data?.CreatedDate | date }}</td>
-
-              <td>
+              <td class="tdstyle">{{ getGroupName(data?.GroupSetGuid) }}</td>
+              <td class="tdstyle">{{ data?.CreatedDate | date }}</td>
+              <td style="text-align: right;">
                 <a
-                *ngIf="authorize('Delete_Group')" (click)="onDeleteRecord(data.Guid)"
+                *ngIf="authorize('Delete_Group')" (click)="onDeleteRecord(data.Guid,data.GroupSetGuid)"
                   nzTooltipPlacement="bottom"
                   nz-tooltip
-                  nzTooltipTitle="Delete"
-                  nzTooltipColor="red"
-                >
-                  <i
-                    nz-icon
-                    style="font-size: 16px; color: red"
-                    nzType="delete"
-                    nzTheme="outline"
-                  ></i>
+                  nzTooltipTitle="Remove"
+                  nzTooltipColor="#00a551"
+                  nzTooltip>
+                  <i nz-icon style="font-size: 16px; color: black;" nzType="close-circle" nzTheme="outline"></i>
                 </a>
               </td>
             </tr>
@@ -180,7 +165,11 @@
         </nz-table>
       </div>
     </div>
+
+   
+     
   </div>
+
 </div>
 
 </nz-content>

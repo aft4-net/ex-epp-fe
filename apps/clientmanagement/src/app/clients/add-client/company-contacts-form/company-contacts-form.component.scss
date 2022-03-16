@@ -35,14 +35,7 @@ button.add-btn.ant-btn {
   color: red !important;
 }
 
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #FFFFFF;
-}
+
 .clear-btn {
   background: white;
   color: #00a551;
@@ -51,4 +44,39 @@ button.add-btn.ant-btn {
 }
 
 
+.company-contact-bg-color{
+  background-color: #00A551;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-style: normal;
+}
 
+::ng-deep .add-btn-wrapper{
+  background: #00A551 !important;
+    color: white !important;
+    float: left !important;
+    margin-right: 1vw;
+    position: relative;
+
+}
+.action-btn-wrapper{
+  display: flex;
+}
+
+
+label.label-for-company-contact {
+  margin-left: 0vw !important;
+  position:  relative !important;
+}
+.spacing{
+  width: 2vw !important;
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary {
+  border-color: #00A551 !important;
+  background: #00A551 !important;
+
+}
+::ng-deep .ant-btn-dangerous.ant-btn-primary:hover {
+  background: #00A551 !important;
+}
+h3{font-size: 16px;}

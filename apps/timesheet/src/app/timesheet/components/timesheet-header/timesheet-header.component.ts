@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
-import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfigResponse, TimesheetConfiguration } from '../../../models/timesheetModels';
+import { ApprovalEntity, ApprovalStatus, TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from '../../../models/timesheetModels';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { TimesheetStateService } from '../../state/timesheet-state.service';
-import { UserPermissionStateService } from '../../state/user-permission-state.service';
 import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.component';
+import { environment } from './../../../../environments/environment'
 
 @Component({
   selector: 'app-timesheet-header',
@@ -15,6 +15,7 @@ import { startingDateCriteria } from '../timesheet-detail/timesheet-detail.compo
   styleUrls: ['./timesheet-header.component.scss']
 })
 export class TimesheetHeaderComponent implements OnInit, OnChanges {
+  homeUrl = environment.redirectUri;
   @Input() timesheetConfig: TimesheetConfiguration | null = this.timesheetConfigStateService.defaultTimesheetConfig;
   @Input() timesheet: Timesheet | null = null;
   @Input() timeEntries: TimeEntry[] | null = null;
@@ -28,12 +29,14 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   configWeeklyTotalHour: number = 0;
   startingDateCriteria = startingDateCriteria
 
+  timesheetSubmitted = false;
+  timesheetApproved = false;
   validForApproal: boolean = false;
   btnText: string = "Request for Approval";
   timeSheetStatus = "not-submitted-enable";
   notSubmittedTooltip = "";
   toolTipColor = "red";
-  toolTipText = "The time is passed total hour"
+  toolTipText = "Total time logged has passed the weekly expected amount"
   rejectedTimesheet: TimesheetApproval | null = null;
 
   title$ = this.timesheetStateService.timesheetPageTitle$;
@@ -80,12 +83,14 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     let timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
 
     if (this.timesheetApprovals && this.timesheetApprovals.length > 0) {
+      this.timesheetSubmitted = true;
       for (let i = 0; i < this.timesheetApprovals.length; i++) {
         if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()) {
           break;
         }
 
         if (i === this.timesheetApprovals.length - 1) {
+          this.timesheetApproved = true;
           this.btnText = "Approved";
           this.timeSheetStatus = "submitted-class";
           return;
@@ -222,6 +227,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
         break;
     }
   }
+
   authorize(key: string){
     return this._permissionService.authorizedPerson(key);
   }

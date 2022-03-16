@@ -17,7 +17,7 @@ import { GroupUsers } from '../../Models/Group/GroupUsres';
 import { AuthenticationService } from './../../../../../../../libs/common-services/Authentication.service';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { GroupSetService } from '../../Services/group-set.service';
-import { PermissionService } from '../../services/permission/permission.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 
 
 @Component({
@@ -84,22 +84,37 @@ export class GroupDetailComponent implements OnInit {
     }
   ];
 
+  isNotsuperAdmin = true;
+
   ngOnInit() {
+    
     this.createGroupDescriptionControls();
     this.AddUserToGroupControls();
     this.groupId = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
-      this.groupDetail  = result
-      console.log(result)
+      this.groupDetail = result
     } );
     this.FeatchAllGroupsUsers();
     this._permissionService.Permission=[];
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
+    this.disableEdit();
+
   }
+  
+  disableEdit(){
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+        this.isNotsuperAdmin = false;
+        console.log(res);
+        console.log("was");
+      }
+      });
+  }
+
   createGroupDescriptionControls() {
     this.groupDescriptionEditForm = this.fb.group({
-      description: [[],[Validators.required]]
+      description: [[this.groupDetail?.Description],[Validators.maxLength(250)]]
     })
   }
   authorize(key:string){
@@ -191,32 +206,95 @@ export class GroupDetailComponent implements OnInit {
   }
 
   createGroupDeleteModal(): void {
-    const modal: NzModalRef = this.modal.confirm({
-    nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group',
-    nzContent: 'Users in this group will lose all permissions related to the group.' +
-                "Deleting a group can't be undone",
-    nzOkText: 'Delete Group',
-    nzOkType: 'default',
-    nzOkDanger: true,
-    nzOnOk: () => {
-      this.DeleteGroup();
-      modal.destroy()
-      }
+    const groupId = this.groupDetail?.Guid;
+     if(this.groupUserList.length > 0) {
+      const modal: NzModalRef = this.modal.create({
+       nzWidth:'400px',
+       nzTitle: 'Group Deletion',
+       nzContent: 'This group can not be deleted because there are users assigned to the group',
+       nzFooter: [
+        {
+          label: 'Ok',
+          type: 'primary',
+          onClick: () => {
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy()
+        }
+      ]
     });
   }
+   else {
+    this.groupSetService.isSuperAdmin(this.groupId).subscribe((res)=>{
+      if(res == true){
+       const modal: NzModalRef = this.modal.create({
+         nzWidth:'400px',
+         nzTitle: 'Super Admin',
+         nzContent: 'This Group Can Not Be Deleted',
+         nzFooter: [
+          {
+            label: 'Ok',
+            type: 'primary',
+            onClick: () => {
+              modal.destroy()
+            }
+          },
+          {
+            label: 'cancel',
+            type: 'default',
+            onClick: () => modal.destroy()
+          }
+        ]});
+      }
+      else {
+        const modal: NzModalRef = this.modal.create({
+        nzWidth:'400px',
+        nzTitle: 'Delete '+ this.groupDetail?.Name + ' Group?',
+        nzContent: "Are you sure you want to delete the group? Deleting a group can't be undone" ,
+        nzFooter: [
+          {
+            label: 'Delete Group?',
+            type: 'primary',
+            onClick: () => {
+              this.DeleteGroup();
+              modal.destroy()
+            }
+          },
+          {
+            label: 'cancel',
+            type: 'default',
+            onClick: () => modal.destroy()
+          }
+        ]
+      });
+    }
+  });}
+}
 
   createGroupMemeberDeleteModal(groupUserId :string): void {
-    const modal: NzModalRef = this.modal.confirm({
-    nzTitle: 'Remove user form group',
-    nzContent: 'The user will not a member of the '+ this.groupDetail?.Name+ " group and he/she will not have the permission that are provied to the group. <br/>" +
-                "Removing a user can't be undone",
-    nzOkText: 'Remove User',
-    nzOkType: 'default',
-    nzOkDanger: true,
-    nzOnOk: () => {
-        this.RemoveUserFromGroup(groupUserId);
-        modal.destroy()
-      }
+    const modal: NzModalRef = this.modal.create({
+    nzWidth:'400px',
+    nzTitle: 'Remove user?',
+    nzContent: 'Are you sure you want to remove user? This action can not be undone',
+    nzFooter: [
+        {
+          label: 'Yes, Remove',
+          type: 'primary',
+          onClick: () => {
+            this.RemoveUserFromGroup(groupUserId);
+            modal.destroy()
+          }
+        },
+        {
+          label: 'cancel',
+          type: 'default',
+          onClick: () => modal.destroy()
+        }
+      ]
     });
   }
 
@@ -235,6 +313,9 @@ export class GroupDetailComponent implements OnInit {
 
   EditGroupDescription() {
     this.isGroupEditVisible = true;
+    this.groupDescriptionEditForm.setValue({
+      description : this.groupDetail?.Description
+    });
   }
 
   SaveGroupDescription() {
@@ -242,15 +323,14 @@ export class GroupDetailComponent implements OnInit {
       Guid: this.groupId,
       Description: this.groupDescriptionEditForm.value.description
     };
-    console.log(this.editedGroupDetail.Description);
-    this.groupSetService.EditGroupDescription(this.editedGroupDetail).subscribe((x) => {
+    this.groupSetService.EditGroupDescription(this.editedGroupDetail).subscribe((response) => {
       this.handleCancel();
-      this.createNotification('Updating group description',x.ResponseStatus.toString().toLocaleLowerCase(), x.Message);
+      this.createNotification('Updating group description',response.ResponseStatus.toString().toLocaleLowerCase(), response.Message);
       this.groupSetService.LoadGroupDeatil(this.groupId).subscribe((result : any) => {
         this.groupDetail  = result
-        console.log(result)
       } );
     });
+    this.isGroupEditVisible = false;
   }
 
   assinedPermission(){
@@ -328,6 +408,7 @@ export class GroupDetailComponent implements OnInit {
       this.isAddToGroupVisible=false;
       this.createNotification('Adding Users',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
       this.FeatchAllGroupsUsers();
+      this.AddUserToGroupForm.reset();
     });
  }
 
@@ -348,4 +429,4 @@ export class GroupDetailComponent implements OnInit {
   this.AddUserToGroupForm.controls["Users"].markAsPristine()
  }
 
-}
+}  

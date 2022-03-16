@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { EmergencyContacts, IEmergencyContact } from '../../../Models/emergencycontact';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { Data } from '@angular/router';
+import { EmergencyContacts } from '../../../Models/emergencycontact';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
@@ -21,7 +20,7 @@ export class EmergencycontactViewComponent implements OnInit {
   listOfData: any[] = [];
   confirmModal?: NzModalRef;
   i = 0;
-  editId: string | null = null;
+  editId='00000000-0000-0000-0000-000000000000';
   IsEdit = false;
   editAt = -10;
   emptyData = [];
@@ -29,11 +28,12 @@ export class EmergencycontactViewComponent implements OnInit {
   constructor(
     private modalService: NzModalService,
     public form: FormGenerator,
-    private _employeeService: EmployeeService,
+    public _employeeService: EmployeeService,
     private notification: NotificationBar,
     private _permissionService: PermissionListService
   ) {
     if (_employeeService.employeeById) {
+     _employeeService.EmrContact = _employeeService.employeeById.guid;
       this.form.allEmergencyContacts = _employeeService.employeeById
         .EmergencyContact
         ? _employeeService.employeeById.EmergencyContact
@@ -93,7 +93,8 @@ export class EmergencycontactViewComponent implements OnInit {
   onCurrentPageDataChange(event: any) {}
   deleteRow(guid: string) {}
 
-  startEdit(index: number): void {
+  startEdit(index: number,id:string): void {
+    this._employeeService.EmrContact=id;
     if (index >= 0) {
       this.addbutton = 'Update';
       this.IsEdit = true;
@@ -102,9 +103,7 @@ export class EmergencycontactViewComponent implements OnInit {
       this.form.generateEmergencyContactForm(
         this.form.allEmergencyContacts[index]
       );
-      console.log('this.form.allEmergencyContacts[index]');
-      console.log(this.form.allEmergencyContacts[index]);
-      console.log('this.form.allEmergencyContacts[index]');
+
     }
   }
 
@@ -113,12 +112,12 @@ export class EmergencycontactViewComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.form.addressForm.reset();
+    this.form.emergencyAddress.reset();
     this.form.emergencyContact.reset();
   }
-  showConfirm(index: number): void {
+  showConfirm(index: number,id:string): void {
     this.confirmModal = this.modalService.confirm({
-      nzTitle: 'Do you want to delete this item?',
+      nzTitle: 'Do you want to delete Contact ?',
       nzContent: 'The action is not recoverable. ',
       nzOkType: 'primary',
       nzOkText: 'Yes',
@@ -131,7 +130,11 @@ export class EmergencycontactViewComponent implements OnInit {
             if (this.form.allEmergencyContacts.length < 1) {
               this.form.allEmergencyContacts = this.emptyData;
             }
+
           }
+
+          this._employeeService.deleteEmergencyContact(id);
+
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
         }).catch(() => console.log('Error.')),
     });

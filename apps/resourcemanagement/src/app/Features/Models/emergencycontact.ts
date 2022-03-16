@@ -1,8 +1,7 @@
 import { Address } from "./address.model";
-import { Relationship } from "./FamilyDetail/RelationshipModel";
 
 export interface EmergencyContacts {
-  guid: string
+  Guid: string
   FirstName: string
   FatherName: string
   GrandFatherName: string
@@ -29,21 +28,6 @@ export interface EmergencyContacts {
 
 
 
-// export interface Address {
-//   guid: string;
-//   isActive: boolean;
-//   isDeleted: boolean;
-//   createdDate: string;
-//   createdbyUserGuid: string;
-//   phoneNumber: string;
-//   country: string;
-//   stateRegionProvice: string;
-//   city: string;
-//   subCityZone: string;
-//   woreda: string;
-//   houseNumber: string;
-//   postalCode: number;
-// }
 
 export interface IEmergencyContact {
   guid?: string;

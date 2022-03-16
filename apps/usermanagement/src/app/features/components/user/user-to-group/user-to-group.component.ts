@@ -4,7 +4,7 @@ import { NotificationType, NotifierService } from "../../../../shared/services/n
 
 import { GroupSetModel } from "../../../Models/group-set.model";
 import { ResponseDTO } from "../../../Models/ResponseDTO";
-import { AddUserService } from "../../../services/add-user.service";
+import { AddUserService } from "../../../Services/add-user.service";
 
 @Component({
   selector: 'exec-epp-add-group',

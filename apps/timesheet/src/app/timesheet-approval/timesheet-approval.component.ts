@@ -1,20 +1,19 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TimesheetApproval, TimesheetApprovalProjectDetails } from '../models/timesheetModels';
+import { BehaviorSubject } from 'rxjs';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { TimesheetApproval } from '../models/timesheetModels';
 
 import { CommonDataService } from 'libs/common-services/commonData.service';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { NzNoAnimationModule } from 'ng-zorro-antd/core/no-animation';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { PaginatedResult } from '../models/PaginatedResult';
+import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
-import { delay } from 'rxjs/operators';
-import { PermissionListService } from 'libs/common-services/permission.service';
+import { TimesheetStateService } from '../timesheet/state/timesheet-state.service';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -87,29 +86,22 @@ export class TimesheetApprovalComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   public arrayOfCheckedId:string[] =[];
 
-  //setOfCheckedId:Set<Number>;
+  
 
   ids: number[]=[];
   resources: any;
-
-  // variables for generic method
-    // variables for generic method
-    // variables for generic method
-  // variables for generic method
     supervisorId!: string | null;
     pageSizeG = 7;
     pageIndexG = 1;
     statusG = '';
-    // searchKeyG :string | null = null;
     sortByG = '';
-    // weekG = '';
     sortG = 'Ascending';
     searchKeyGBinded :string | null = null;
     searchKeyG = '';
     weekGBinded: Date | null = null;
     weekG = '';
     projectNameG?:  string[];
-    clientNameG?: string[];  
+    clientNameG?: string[];
 
 
     filteredClientNamesList: { text: string; value: string ; checked:boolean;}[] = [] as {
@@ -122,7 +114,7 @@ export class TimesheetApprovalComponent implements OnInit {
     totalResponse!: number;
     totalPageResponse!: number;
     onwaiting=1;
-  loggedInUserInfo?: any; 
+  loggedInUserInfo?: any;
   filteredProjectNamesLists: { text: string; value: string ; checked:boolean;}[] = [] as {
     text: string;
     value: string;
@@ -137,13 +129,19 @@ export class TimesheetApprovalComponent implements OnInit {
     private notification:NzNotificationService,
     public _commonData:CommonDataService,
     private _permissionService:PermissionListService,
-  ) { }
+    private _timesheetStateService: TimesheetStateService
+  ) {
+    this._timesheetStateService.date = new Date();
+    this._timesheetStateService.setTimesheetPageTitle("Approve Timesheet");
+   }
 
 
 
   ngOnInit(): void {
+    this._timesheetStateService.setApproval(true);
+    this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
-    this.initialDataforTab();    
+    this.initialDataforTab();
     this._commonData.getPermission();
     this.getProjectsList();
     this.getClientsList();
@@ -154,7 +152,7 @@ getCurrentUser(){
     // eslint-disable-next-line prefer-const
     this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
     const user = JSON.parse(this.loggedInUserInfo);
-    this.supervisorId = user['EmployeeGuid'];
+    this.supervisorId = user['EmployeeId'];
   }
 }
 getProjectsList() {
@@ -164,7 +162,7 @@ getProjectsList() {
       console.log(result);
     }
   )
-  
+
 }
 
 getClientsList() {
@@ -174,10 +172,10 @@ getClientsList() {
       console.log(result);
     }
   )
-  
+
 }
 authorize(key:string){
-     
+
   return this._permissionService.authorizedPerson(key);
 }
 
@@ -202,7 +200,7 @@ authorize(key:string){
         // eslint-disable-next-line prefer-const
         this.loggedInUserInfo = localStorage.getItem('loggedInUserInfo');
         const user = JSON.parse(this.loggedInUserInfo);
-        this.supervisorId = user['EmployeeGuid'];
+        this.supervisorId = user['EmployeeId'];
       }
     }
 
@@ -219,7 +217,6 @@ authorize(key:string){
          this.weekG,
          this.sortG,
          this.statusG
-
       )
 
       .subscribe((response: PaginatedResult<TimesheetApproval[]>) => {
@@ -253,7 +250,7 @@ initialDataforTab() {
 }
 
   onAllTabClick() {
-    this.stateReset();   
+    this.stateReset();
     this.statusG = '';
     this.UpdateData();
 
@@ -273,12 +270,12 @@ initialDataforTab() {
   }
 
   onReviewTabClick() {
-   
+
     this.stateReset();
     this.statusG = 'Rejected';
     this.UpdateData();
 
-   
+
 
   }
 
@@ -287,6 +284,7 @@ test() {
   console.log("clicked");
 }
   timesheetBulkApproval(arrayOfIds:any[]){
+    console.log(arrayOfIds);
     this.timeSheetService.updateTimeSheetStatus(arrayOfIds).subscribe((response:any)=>{
       if (response.ResponseStatus.toString() == 'Success') {
         this.notification.success("Bulk approval successfull","", { nzPlacement: 'bottomRight' });
@@ -304,9 +302,9 @@ test() {
      }
 
 
-  onTabSelected(tab: any) {    
+  onTabSelected(tab: any) {
     if (tab == 1) {
-      this.currentNameSubject.next(true);     
+      this.currentNameSubject.next(true);
     }
     else {
       this.currentNameSubject.next(false);
@@ -360,15 +358,15 @@ sortDirectionMethod() {
   }
 
   FilterByProject(ProjectName:string[]) {
-    this.sortDirectionMethod();   
+    this.sortDirectionMethod();
 
     this.projectNameG = ProjectName;
-   
+
     this.UpdateData();
   }
 
   FilterByClient(ProjectName:string[]) {
-    this.sortDirectionMethod(); 
+    this.sortDirectionMethod();
     this.clientNameG = ProjectName;
     this.UpdateData();
   }
@@ -384,7 +382,8 @@ sortDirectionMethod() {
 
   stateReset():void
   {
-
+    this.searchKeyGBinded ='';
+    this.weekGBinded = null;
     this.sortByG = '';
 
     this.pageIndexG=1;
@@ -407,7 +406,7 @@ sortDirectionMethod() {
   }
   statusChanged(row:any)
   {
-  
+
    if(this.tabselected===1)
    {
     this.onAwaitingTabClick();
@@ -418,28 +417,35 @@ sortDirectionMethod() {
     }
   }
   onApprove(){
+    console.log(this.arrayOfCheckedId);
 
-    for (const element of this.setOfCheckedId) {     
-      this.arrayOfCheckedId.push(element);     
+    for (const element of this.setOfCheckedId) {
+      this.arrayOfCheckedId.push(element);
     }
 
-    this.timesheetBulkApproval(this.arrayOfCheckedId);    
+    console.log(this.arrayOfCheckedId);
+    this.timesheetBulkApproval(this.arrayOfCheckedId);
     this.arrayOfCheckedId.length=0;
-    this.qtyofItemsSelected = 0;    
+    this.qtyofItemsSelected = 0;
   }
 
 
     onSearchChange() {
       if(this.searchKeyGBinded) {
         if(this.searchKeyGBinded.length >= 2) {
-          this.searchKeyG = this.searchKeyGBinded
+       this.searchKeyG = this.searchKeyGBinded
+          console.log("start")
           this.UpdateData();
-        } 
+          console.log("Finishhh")
+        }
         else {
           this.searchKeyG = '';
+          console.log("startttttttttt")
           this.UpdateData();
+          console.log("startttttttttt")
         }
-      }    
+      }
+      
     }
 
   onWeekChange() {
@@ -459,6 +465,7 @@ sortDirectionMethod() {
      this.statusG,
      this.projectNameG,
      this.clientNameG);
+
 
   }
 }

@@ -47,8 +47,15 @@ export abstract class ApiService<T> {
   {
     return this.httpClient.put<T>(environment.baseApiUrl+'ClientDetails/EditClient', client);
   }
-  deleteClient(id: string): Observable<ResponseDTO<any>> {
-   return this.httpClient.delete<ResponseDTO<any>>(`${this.APIUrl}/${id}`);
+  deleteClient(id: string,ischeck:boolean): Observable<ResponseDTO<any>> {
+    if(ischeck)
+    {
+      return this.httpClient.delete<ResponseDTO<any>>(`${this.APIUrl}/check?id=${id}`); 
+    }
+    else{
+      return this.httpClient.delete<ResponseDTO<any>>(`${this.APIUrl}/${id}`);
+    }
+
  }
 
 
@@ -60,8 +67,8 @@ export abstract class ApiService<T> {
     return this.httpClient.delete(this.APIUrl + "/" + id);
   }
 
-  update(resource: T) {
-    return this.httpClient.put(`/${this.APIUrl}`, resource)
+  update(resource: any) {
+    return this.httpClient.put(`${this.APIUrl}/EditClient`, resource)
 
   }
 

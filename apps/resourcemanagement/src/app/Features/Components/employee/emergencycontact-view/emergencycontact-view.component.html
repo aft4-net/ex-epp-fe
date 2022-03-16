@@ -2,18 +2,25 @@
   <nz-breadcrumb>
     <div nz-row>
       <div nz-col nzSpan="22">
-        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Resources</nz-breadcrumb-item> <br />
-        <h3>Employees</h3>
-        <ng-template #employees>
-          <h3>Employees</h3>
+       <nz-breadcrumb-item> <a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          <a [routerLink]="['/resourcemanagement']">Resources</a></nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngIf="!_employeeService.isdefault && !_employeeService.isEdit;else editEmploye">
+          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a></nz-breadcrumb-item> <br />
+         <ng-template #editEmploye>
+          <nz-breadcrumb-item>
+            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
+         </ng-template>
+        <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!_employeeService.isdefault && !_employeeService.isEdit;else updatEmployee">Add Employee</h3>
+        <ng-template #updatEmployee>
+          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
     </div>
   </nz-breadcrumb>
   </div>
-<exec-epp-page-title></exec-epp-page-title>
+<exec-epp-page-title title="Emergency Contacts"></exec-epp-page-title>
 <div nz-row>
   <div nz-col nzSpan="4">
     <exec-epp-side-bar [active]="3"> </exec-epp-side-bar>
@@ -21,7 +28,6 @@
   <div nz-col nzSpan="20" class="inner-content">
     <div nz-row>
       <div nz-col nzSpan="20">
-        <h1>Emergency Contacts</h1>
       </div>
       <div nz-col nzSpan="4">
         <button
@@ -44,16 +50,16 @@
     >
       <thead>
         <tr class="tr">
-          <th>Full Name</th>
-          <th>Relationship with Employee</th>
-          <th>Contact Numbber</th>
-          <th>Location</th>
-          <th>Actions</th>
+          <th class="table_heading">Full Name</th>
+          <th class="table_heading">Relationship with Employee</th>
+          <th class="table_heading">Contact Numbber</th>
+          <th class="table_heading">Location</th>
+          <th class="table_heading">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of form.allEmergencyContacts; let i = index">
-          <td>
+          <td class="tdstyle">
             {{
               data.FirstName +
                 ' ' +
@@ -62,25 +68,25 @@
                 data.GrandFatherName
             }}
           </td>
-          <td>{{ data.Relationship }}</td>
-          <td>{{ data.PhoneNumber }}</td>
-          <td>{{ data.Country }}</td>
+          <td class="tdstyle">{{ data.Relationship }}</td>
+          <td class="tdstyle">{{ data.PhoneNumber }}</td>
+          <td class="tdstyle">{{ data.Country }}</td>
 
-          <td>
+          <td class="tdstyle">
             <div nz-row>
               <a
                 nz-col
                 nzSpan="2"
-                class="editable-cell"
-                [hidden]="editId === data.guid"
-                (click)="startEdit(i)"
+                
+                [hidden]="editId === data.Guid || editId !=='00000000-0000-0000-0000-000000000000'"
+                (click)="startEdit(i,data.Guid)"
               >
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                <i style="color:black;" nz-icon nzType="edit" nzTheme="outline"></i>
             </a>
               &nbsp; &nbsp;
               <a nz-col nzSpan="2"
-                 nz-popconfirm (click)="showConfirm(i)"
-                  ><i nz-icon nzType="delete" nzTheme="outline"></i
+                 nz-popconfirm (click)="showConfirm(i,data.email)"
+                  ><i style="color:black;" nz-icon nzType="delete" nzTheme="outline"></i
                 >
                   </a>
             </div>
@@ -101,7 +107,8 @@
   class="layer"
   nzMaskClosable="false"
 >
-  <ng-container *nzModalContent>
+  <ng-container *nzModalContent
+   class="overflow-scroll">
     <div>
       <div style="border: 2px solid #d9d9d9; border-radius: 5px">
         <div nz-col nzSpan="24">

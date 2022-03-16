@@ -19,13 +19,11 @@ import { CustomEmailMultipleComponent } from "./custom-controls/custom-email-mul
 import { CustomEmployeeDateofBirthComponent } from "./custom-controls/custom-employee-date-of-birth/custom-employee-date-of-birth.component";
 import { CustomEmployeeIdNumberComponent } from "./custom-controls/custom-employee-id-number/custom-employee-id-number.component";
 import { CustomFullNameComponent } from "./custom-controls/custom-full-name/custom-full-name.component";
-import { CustomGenderComponent } from "./custom-controls/custom-gender/custom-gender.component";
-import { CustomNationalityComponent } from "./custom-controls/custom-nationality/custom-nationality.component";
 import { CustomPhoneNumberMultipleComponent } from "./custom-controls/custom-phone-multiple/custom-phone-multiple.component";
-import { CustomPhoneNumberComponent } from "./custom-controls/custom-phone/custom-phone.component";
 import { CustomSelectMultipleComponent } from "./custom-controls/custom-select-multiple/custom-select-multiple.component";
 import { CustomSelectComponent } from "./custom-controls/custom-select/custom-select.component";
 import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom-text-box.component";
+
 import { CustomUploadComponent } from "./custom-controls/custom-upload/custom-upload.component";
 import { ExcelButtonsMultipleControlsComponent } from "./custom-buttons/excel-buttons-multiple-controls/excel-buttons-multiple-controls.component";
 
@@ -42,13 +40,9 @@ registerLocaleData(en);
         CustomUploadComponent,
         CustomFullNameComponent,
         CustomEmployeeIdNumberComponent,
-        CustomGenderComponent,
         CustomEmployeeDateofBirthComponent,
-        CustomPhoneNumberComponent,
         CustomPhoneNumberMultipleComponent,
         CustomEmailMultipleComponent,
-        CustomNationalityComponent,
-
         PersonalDetailGroupComponent,
         OrganizationalDetailGroupComponent,
         AddressDetailGroupComponent,
@@ -77,12 +71,8 @@ registerLocaleData(en);
         CustomFullNameComponent,
         CustomEmployeeIdNumberComponent,
         CustomEmployeeDateofBirthComponent,
-        CustomGenderComponent,
-        CustomPhoneNumberComponent,
         CustomPhoneNumberMultipleComponent,
         CustomEmailMultipleComponent,
-        CustomNationalityComponent,
-
         PersonalDetailGroupComponent,
         OrganizationalDetailGroupComponent,
         AddressDetailGroupComponent,

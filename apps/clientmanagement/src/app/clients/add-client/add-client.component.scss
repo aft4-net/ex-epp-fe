@@ -7,17 +7,7 @@
 }
 
 
-::ng-deep .ant-tabs-nav {
-  font-size: 26px;
-}
 
-::ng-deep .ant-tabs-tab-btn {
-  color: #262626;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-}
 
 .invalisForm {
   position: relative;
@@ -30,19 +20,22 @@
 
 
 .page-title {
-  font-family: SF Pro Display;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
+  padding-bottom: 5px;
+  /* or 140% */
+
   display: flex;
   align-items: center;
-  color: #262626;
 }
+*{
+  font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
+ }
 .tab-content {
   padding: 0px 20px 25px;
-  height: 85vh;
 
 }
 
@@ -50,7 +43,31 @@
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
 }
+c::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
+::ng-deep .ant-tabs-tab:hover {
+  color: #262626;
+}
+
+header {
+  padding: 0px 1.15%;
+
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background: #DCFFDC;
+}
+
+::ng-deep .ant-tabs-nav {
+  font-size: 26px;
+}
+
+::ng-deep .ant-tabs-tab-btn {
+  color: #262626;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
 
 ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list,
 .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-list {
@@ -94,46 +111,72 @@
 
 
 
-::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
-::ng-deep .ant-tabs-tab:hover {
-  color: #262626;
+
+::ng-deep .ant-table-wrapper {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
-
-header {
-  padding: 0px 2%;
-}
-
-::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
-  background: #DCFFDC;
-}
-
-
-
-::ng-deep .ant-btn {
-  background-color: #00A551;
-  font-family: SF Pro Display;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
-  color: #FFFFFF;
-}
-
-
-::ng-deep .ant-btn:not([disabled]):hover {
-  background: #03da6b !important;
-  color: white;
-
-}
-
-.clear-btn {
+.cancel-button{
   background: white;
   color: #00A551;
-  margin-right: 10px;
-  border: 0.5px solid #00A551;
+  border: 0.5px solid #00a551;
+  font-size: 1rem;
+  font-style: normal;
+  margin-right: 0.7vw;
+
+}
+
+.action-buttons{
+  background: #00A551;
+  color:white;
+  font-size: 1rem;
+  font-style: normal;
 }
 
 
+.client-detail-wrapper{
+  display: flex;
+}
+.contact-detail-wrapper{
+  display: flex;
+}
+.location-wrapper {
+  display: flex;
+}
+::ng-deep th.table_heading.ant-table-cell {
+  background-color: #fafafa !important;
+}
+
+span.ng-star-inserted.invalisForm {
+
+  position: fixed !important;
+  padding: 3.2px !important;
+
+}
+::ng-deep button.add-btn-wrapper.ant-btn
+{
+  background: #00A551 !important;
+    color: white !important;
+}
 
 
+// .justify-between.ant-row {
+//   border-bottom: 2px solid #D9D9D9 !important;
+//   border-top: 2px solid #D9D9D9 !important;
+// }
+.ant-col {
+  padding-bottom: 12px;
+  padding-top:12px;
 
+}
+
+::ng-deep .ant-tabs-nav-wrap {
+  padding-top: 8px  !important;
+}
+.header-separator{
+  border-top: 1px solid #ccc !important;
+}
+nz-breadcrumb.mt-4.ant-breadcrumb {
+  padding-top: 0.75rem !important;
+}

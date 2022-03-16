@@ -43,16 +43,17 @@ export class AuthGuard implements CanActivate {
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
     if (this.authService.isLogin()) {
       const userRole = this.permission.authorizedPerson(route.data.role);
-
+      if(!this.authService.isChangePass._isScalar){
+        //this.router.navigateByUrl('usermanagement/changepassword');
+      }
       // route.data.role.indexOf(userRole) === -1
       if (!userRole) {
-      // this was commented out b/c there is a problem with the list it is returning
-       //this.router.navigate(['']);
-       // return false;
+       this.router.navigate(['']);
+       return false;
       }
       return true;
     }
-    this.router.navigate(['/usermanagement/sign_in']);
+    this.router.navigate(['/usermanagement/logIn']);
     return false;
   }
 }

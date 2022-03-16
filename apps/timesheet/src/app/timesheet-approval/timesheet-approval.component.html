@@ -1,7 +1,4 @@
-<app-timesheet-header class="md:flex lg:flex xl:flex ml-8" [isApproved]=true>
-</app-timesheet-header>
 <hr class="mb-4">
-
 
 <div class="back">
   <div class="back-navigator">
@@ -33,8 +30,8 @@
   </div>
 
   </ng-container>
-  
-    
+
+
     <div nz-col nzSpan="10" class="ml-1" style="margin-right:12px;">
       <nz-input-group [nzSuffix]="suffixIconSearch" >
         <input  [(ngModel)]="searchKeyGBinded" (ngModelChange)="onSearchChange()" type="text" nz-input placeholder="Search by employee name" />
@@ -57,7 +54,7 @@
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
       >
         <div nzRight class="content">
-          <exec-epp-table (isApprovedReturned)="statusChanged($event)"  [status]= true  [ProjectName]="filteredProjectNamesLists" (FilterByProject)="FilterByProject($event)" [ClientName]="filteredClientNamesList" [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
+          <exec-epp-table   [ProjectName]="filteredProjectNamesLists" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" (isApprovedReturned)="statusChanged($event)"  [status]= true [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
           Showing {{ totalRecordsAll}} of {{totalResponse}} entries

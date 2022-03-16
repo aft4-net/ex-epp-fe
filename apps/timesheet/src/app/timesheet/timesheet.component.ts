@@ -3,9 +3,9 @@ import { TimeEntry, Timesheet, TimesheetApproval, TimesheetConfiguration } from 
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from './state/timesheet-configuration-state.service';
 import { TimesheetStateService } from './state/timesheet-state.service';
-import { UserPermissionStateService } from './state/user-permission-state.service';
 import { CommonDataService } from '../../../../../libs/common-services/commonData.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { LoadingStateService } from './state/loading-state.service';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -13,7 +13,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./timesheet.component.scss'],
 })
 export class TimesheetComponent implements OnInit {
-  userId: string = "";
+  userId = "";
   userPermissionList$: Observable<any[]> = new Observable();
 
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
@@ -22,23 +22,23 @@ export class TimesheetComponent implements OnInit {
   timesheetApprovals$: Observable<TimesheetApproval[] | null> = new Observable();
 
   approval$: Observable<boolean> = new Observable();
+  loading$: Observable<number>;
+  loading = true;
 
   constructor(
     private timesheetConfigurationStateService: TimesheetConfigurationStateService,
     private timesheetStateService: TimesheetStateService,
-    private userPermissionStateService: UserPermissionStateService,
     private commonDataService: CommonDataService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private loadingStateService: LoadingStateService
   ) {
-    let loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
+    const loggedInUserInfo = JSON.parse(localStorage.getItem("loggedInUserInfo") ?? "{}");
     this.userId = "";
     if (loggedInUserInfo) {
-      this.userId = loggedInUserInfo["EmployeeGuid"];
+      this.userId = loggedInUserInfo["EmployeeId"];
     }
 
     localStorage.setItem("userId", this.userId);
-    
-    this.userPermissionList$ = this.userPermissionStateService.permissionList$;
 
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
     this.timesheet$ = this.timesheetStateService.timesheet$;
@@ -46,13 +46,15 @@ export class TimesheetComponent implements OnInit {
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
 
     this.approval$  = this.timesheetStateService.approval$;
+    this.loading$ = this.loadingStateService.loading$;
 
-    this.userPermissionStateService.getUserPermission();
     this.timesheetConfigurationStateService.getTimesheetConfiguration();
   }
 
   ngOnInit(): void {
     this.commonDataService.getPermission();
+
+    this.loading$.subscribe(res => this.loading = res > 0);
     
     this.notification.info('', '', {nzDuration: 1, nzPauseOnHover: false });
   }

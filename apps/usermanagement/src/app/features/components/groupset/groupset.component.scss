@@ -106,10 +106,11 @@
     border-color: #1db360;
   }
 
-  .table_heading
+.table_heading
 {
-background-color: none !important;
-font-weight: 700;
+  background-color: #fafafa !important;
+  font-weight: 550;
+  font-size:small;
 }
 
 .table_evenrow_heading
@@ -123,7 +124,7 @@ background-color: none !important;
 }
 
 .inner-content {
-    padding: 40px;
+  padding: 16px 24px;
     background: #fff;
     height: 100%;
 }
@@ -272,15 +273,73 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
   color: #262626;
 }
 
+::ng-deep .ant-input-affix-wrapper {
+  padding: 1px 5px !important;
+}
 
-::ng-deep.ant-table-column-sorter-up,
-          .ant-table-column-sorter-down,
-          .ant-table-column-sorter-down.active,
-          .ant-table-column-sorter-up.active {
-  color: #595959 !important;
+::ng-deep .ant-table-column-sorter {
+  margin-left: 5px !important;
+}
+
+.savegroup {
+  // color: #fff;
+  background-color: #00a551 !important;
+  border-color: #00a551 !important;
+}
+
+.disableSavebutton {
+    color: rgba(0,0,0,.25) !important;
+    border-color: #d9d9d9 !important;
+    background: #f5f5f5 !important;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.groupCreateActions {
+  text-align: left;
+}
+
+::ng-deep .groupCreateActions .ant-btn-primary[disabled]
+.ant-btn-primary[disabled]:hover
+.ant-btn-primary[disabled]:focus {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
 }
 
 
-::ng-deep.anticon {
-  color:#595959 !important;
+::ng-deep .groupCreateActions .ant-btn[disabled]
+.ant-btn[disabled]:hover
+.ant-btn[disabled]:focus {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+
+.tdstyle{
+  font-size: small;
+}
+
+::ng-deep .ant-spin-dot-item  {
+
+  background-color: #00A551;
+
+}
+
+
+::ng-deep .defaultcolor .anticon {
+  color: gray !important;
+}
+
+::ng-deep .defaultcolor .ant-table-filter-open {
+  color: #595959;
+}
+
+.pagination {
+  margin-top:10px;
 }
