@@ -15,6 +15,7 @@ import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
 import { NzNotificationService } from "ng-zorro-antd/notification";
 import { Router } from "@angular/router";
+import { PermissionListService } from "libs/common-services/permission.service";
 
 @Injectable({
     providedIn: 'root'
@@ -56,7 +57,8 @@ export class FormGenerator extends FormGeneratorAssistant {
         private readonly _employeeService: EmployeeService,
         addressCountryService: CountriesMockService,
         private notification: NzNotificationService,
-        private _router: Router
+        private _router: Router,
+        private _permissionService: PermissionListService,
     ) {
         super(
             addressCountryService
@@ -80,8 +82,10 @@ export class FormGenerator extends FormGeneratorAssistant {
         if (this.isProfile) {
             this.organizationalForm.disable({ onlySelf: true });
             this.personalDetailsForm.disable({ onlySelf: true });
-            this.personalDetailsForm.get('phoneNumbers')?.enable();
-            this.personalDetailsForm.get('emailAddresses')?.enable()
+            if (this._permissionService.authorizedPerson('Update_My_Profile')) {
+                this.personalDetailsForm.get('phoneNumbers')?.enable();
+                this.personalDetailsForm.get('emailAddresses')?.enable()
+            }
         } else if (this.IsEdit) {
             this.personalDetailsForm.get('employeeIdNumber')?.disable();
         } else {
@@ -93,7 +97,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     validatePersonalDetail() {
         let valid = true;
         this._enableForms();
-        if(!this.personalDetailsForm.valid){
+        if (!this.personalDetailsForm.valid) {
             this.personalDetailsForm.updateValueAndValidity();
             valid = false;
         }
@@ -104,7 +108,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     validateOrganizationalDetail() {
         let valid = true;
         this._enableForms();
-        if(!this.organizationalForm.valid){
+        if (!this.organizationalForm.valid) {
             this.organizationalForm.updateValueAndValidity();
             valid = false;
         }
