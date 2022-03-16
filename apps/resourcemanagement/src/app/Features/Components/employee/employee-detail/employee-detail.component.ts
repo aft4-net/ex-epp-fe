@@ -800,7 +800,7 @@ FilterData(){
       });
     }
     OnDelete(employeeId: string): void {
-      this._assignResourceService.checkAssignmentStatus(employeeId).subscribe((res)=>{
+      this._clientDetailsService.checkAssignmentStatus(employeeId).subscribe((res)=>{
         this.assignmentStatus=res;
              console.log(this.assignmentStatus)
           this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>{

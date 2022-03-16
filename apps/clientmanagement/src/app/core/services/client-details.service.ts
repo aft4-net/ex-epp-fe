@@ -29,4 +29,16 @@ export class ClientDetailsService extends ApiService<Client> {
     );
     return result;
   }
+  checkAssignmentStatus(id:string):Observable<boolean>
+  {
+    const params = new HttpParams().set('id', id);
+    const result = this.httpClient.get(environment.apiUrl+'AssignResource/check_assignment_status/?'+params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        return response as boolean;
+      })
+    );
+    return result;
+  }
 }
