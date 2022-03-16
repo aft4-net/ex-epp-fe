@@ -17,7 +17,7 @@
   <div nz-row  [nzGutter]="20" nzHoverable="true" class="flex flex-row">
 
 
-    <div nz-col [nzSpan]="5" style="padding-top: 2%; " *ngIf="authorize('Employee_Module')">
+    <div nz-col [nzSpan]="5" style="padding-top: 2%; " *ngIf="(authorize('View_Employee') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">
       <nz-card nz-button  style="background-color: #fdfcfc; height: 110%;" nzHoverable="true"  nzSize="small">
         <nz-card-meta
         [nzTitle]="avatarTextTemplate"
