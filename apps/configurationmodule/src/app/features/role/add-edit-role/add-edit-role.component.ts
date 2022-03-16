@@ -68,6 +68,7 @@ export class AddEditRoleComponent implements OnInit {
         // this.closeModal.emit("close");
         this.roleForm.reset();
         this.closeModal.emit("close");
+        this.onSubmitClick = false;
         this.notification.create(
           'success',
           'Successfully Added!',
@@ -122,6 +123,7 @@ export class AddEditRoleComponent implements OnInit {
 
   resetForm() {
     this.roleForm.reset();
+    this.onSubmitClick = false;
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
