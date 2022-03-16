@@ -105,9 +105,6 @@ export class ViewProjectLayoutComponent implements OnInit {
           this.total = 0;
           this.totalPage = 0;
           this.searchStateFound = false;
-          this.notification.blank('  Project not found', '', {
-            nzPlacement: 'bottomLeft',
-          });
         }
       } else {
         this.searchKey = '';
@@ -181,11 +178,11 @@ export class ViewProjectLayoutComponent implements OnInit {
       .deleteProjectByState(this.projectToDelete.Guid)
       .subscribe((result: any) => {
         if (result.success === true) {
-          this.notification.success('Deleted', result.message);
+          this.notification.success( result.message,'');
           this.searchKey = '';
           this.getProjects();
         } else {
-          this.notification.error('Deleted', result.message);
+          this.notification.error(result.message,'');
         }
         this.loading = false;
       });

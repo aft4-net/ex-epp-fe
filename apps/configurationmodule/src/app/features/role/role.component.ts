@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Role } from '../../models/role';
-import { Pagination } from '../../models/pagination';
-import { RoleService } from '../../services/role.service';
-import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+
 import { CommonDataService } from '../../../../../../libs/common-services/commonData.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Pagination } from '../../models/pagination';
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
+import { Role } from '../../models/role';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'exec-epp-role',
