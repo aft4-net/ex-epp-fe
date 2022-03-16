@@ -3,8 +3,7 @@
 🔎 **Excellerent Enterprize portfolio(EPP)*
 
 This project was generated using [Nx](https://nx.dev). It uses Mono-repo Micro-front end architecture with Webpack 5's Module federation. 
-To quickly check the capability, please run the Dockerized build.
-
+To quickly check the capability, please run the Dockerized build. The
 > Run docker-compose up -d
 
 User Name aexcellerent@outlook.com Password : adminAdmin@123
@@ -39,6 +38,15 @@ npm run start:all
 # Building all projects
 ```
 npm run build-all
+```
+
+# Building apps
+```
+npm run build {app-name}
+```
+
+```
+eg. to build timesheet tun // npm run build timesheet
 ```
 
 # Building Timesheet
