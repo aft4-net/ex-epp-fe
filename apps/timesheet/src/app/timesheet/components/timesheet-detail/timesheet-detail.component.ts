@@ -599,8 +599,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       : (this.formData.project = '');
   }
 
-  submitForm(): void {debugger;
-    let date=new Date();
+  submitForm(): void {
+    
+  let date=new Date();
   if(this.project !=null){
     console.log(new Date(this.project.startDate));
     if( date<new Date(this.project.startDate)){
@@ -610,15 +611,14 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       );
         }
     else if( this.project.endDate != null) {
-      
-      if( new Date(this.project.endDate)<date) {      
+    if( new Date(this.project.endDate)<date) {      
      this.createNotification(
           'Warning',
           'Cannot add timesheet for project after project end date.'
         );
     }
   }
-else{
+    else{
     this.invalidEntries = [];
 
     for (const i in this.validateForm.controls) {
@@ -656,7 +656,7 @@ else{
       console.error(err);
     }
   }
-  }
+ }
 }
 
   addTimeEnteryForOneDay(timeEntry: TimeEntry) {
