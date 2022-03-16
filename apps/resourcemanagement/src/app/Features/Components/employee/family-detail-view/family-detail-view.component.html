@@ -37,7 +37,7 @@
           nz-button
           nzType="primary"
           (click)="addfamilies()"
-          *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))"
+          *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))"
         >
           <span>Add Family Details</span>
         </button>
@@ -54,7 +54,7 @@
         <tr class="tr">
           <th class="table_heading">Full Name</th>
           <th class="table_heading">Relationship with Employee</th>
-          <th class="table_heading">Action</th>
+          <th class="table_heading" *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -62,7 +62,7 @@
           <td class="tdstyle">{{ data.FullName }}</td>
           <td class="tdstyle">{{ data.Relationship?.Name }}</td>
 
-          <td class="tdstyle">
+          <td *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" class="tdstyle">
             <div nz-row>
               <div
                 nz-col
