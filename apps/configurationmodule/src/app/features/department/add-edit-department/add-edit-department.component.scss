@@ -48,61 +48,29 @@ button {
     height: 38px;
     border-radius: 2px;;
 }
-.ant-btn-primary.ant-btn:active {
-    background-color: #00A551;
-    border-color: #00A551;
-}
-
-.ant-btn:focus, .ant-btn:hover {
-    color: #00A551;
-    border-color: #00A551;
-}
-
-.ant-btn-primary.ant-btn:focus, .ant-btn-primary.ant-btn:hover {
-    color: #FFFFFF;
-    border-color: #00A551;
-}
-.ant-btn:focus {
-  border-color: #00A551;
-  color: #00A551;
-}
-.ant-btn:hover {
-  border-color: #2fad6c;
-  color: #2fad6c;
-}
-.ant-btn-primary {
-  border-color: #00A551;
-  background: #00A551;
-}
-
-.ant-btn-primary:focus{
-  border-color: #00A551;
-  background: #00A551;
-  color: #fff;
-}
-.ant-btn-primary:hover {
-  border-color: #2fad6c;
-  background: #2fad6c;
-  color: #fff;
-}
+::ng-deep .ant-btn-primary:hover,
+.ant-btn-primary:focus,
 .ant-btn-primary:active {
-  color: #fff;
-  border-color: #2fad6c;
-  background: #2fad6c;
+  background-color: #2fad6c;
+  border-color: #00a551;
 }
-
-.ant-btn-primary[disabled], .ant-btn-primary[disabled]:active, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:hover {
-    color: rgba(0,0,0,.25);
-    border-color: #d9d9d9;
-    background: #f5f5f5;
-    text-shadow: none;
-    box-shadow: none;
+::ng-deep  .ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,
+.ant-btn-primary[disabled]:active {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
 }
-
-.ant-btn-default[disabled], .ant-btn-default[disabled]:active, .ant-btn-default[disabled]:focus, .ant-btn-default[disabled]:hover {
-    color: rgba(0,0,0,.25);
-    border-color: #d9d9d9;
-    background: #f5f5f5;
-    text-shadow: none;
-    box-shadow: none;
+::ng-deep  .ant-btn-default[disabled],
+.ant-btn-default[disabled]:hover,
+.ant-btn-default[disabled]:focus,
+.ant-btn-default[disabled]:active {
+  color: rgba(0,0,0,.25) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+  text-shadow: none;
+  box-shadow: none;
 }

@@ -8,6 +8,7 @@
   background-color: #00a551;
   text-shadow: none;
   box-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
   }
   ::ng-deep .ant-btn-primary:hover,
   .ant-btn-primary:focus,
@@ -166,7 +167,7 @@ input {
     float: left;
 }
 .ant-table-column-title {
- padding-right: 10px;   
+ padding-right: 10px;
 }
 .tab-title{
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
