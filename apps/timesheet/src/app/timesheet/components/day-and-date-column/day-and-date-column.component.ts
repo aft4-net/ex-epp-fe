@@ -129,7 +129,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.clickEventType = ClickEventType.none;
   }
 
-  showFormDrawer() {
+  showFormDrawer() {debugger;
     if (this.clickEventType === ClickEventType.none) {
       this.clickEventType = ClickEventType.showFormDrawer;
       let dateColumnEvent: DateColumnEvent = {

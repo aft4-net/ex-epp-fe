@@ -110,7 +110,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria;
   isToday = true;
-
+  project:Project | null=null;
   $clients: Observable<Client[]>
   $projects: Observable<Project[]>
   $selectedClient: Observable<string | null>
@@ -154,7 +154,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.$disableDates = this._clientAndProjectStateService.$disableDate;
     this.loading$ = this.loadingStateService.loading$;
   }
-  
+
   ngOnInit(): void {
     this.timesheetStateService.setApproval(false);
     this.userId = localStorage.getItem('userId');
@@ -204,6 +204,16 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     });
 
     this.calcualteNoOfDaysBetweenDates();
+   
+    this.$selectedProject.subscribe(res=>{
+      if(res){
+        this.project=this._clientAndProjectStateService.getProjectById(res);
+        console.log("pro",this.project)
+      }
+      else{
+        this.project=null;
+      }
+    })
   }
   
   ngOnDestroy(): void {
@@ -365,7 +375,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
       }
-      
+
       this.checkTimeOverThreeWeeks(this.firstday1);
     });
   }
@@ -589,7 +599,26 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       : (this.formData.project = '');
   }
 
-  submitForm(): void {
+  submitForm(): void {debugger;
+    let date=new Date();
+  if(this.project !=null){
+    console.log(new Date(this.project.startDate));
+    if( date<new Date(this.project.startDate)){
+      this.createNotification(
+        'Warning',
+        'Cannot add timesheet for project before project start date.'
+      );
+        }
+    else if( this.project.endDate != null) {
+      
+      if( new Date(this.project.endDate)<date) {      
+     this.createNotification(
+          'Warning',
+          'Cannot add timesheet for project after project end date.'
+        );
+    }
+  }
+else{
     this.invalidEntries = [];
 
     for (const i in this.validateForm.controls) {
@@ -627,6 +656,8 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       console.error(err);
     }
   }
+  }
+}
 
   addTimeEnteryForOneDay(timeEntry: TimeEntry) {
     if (this.timeEntry) {
