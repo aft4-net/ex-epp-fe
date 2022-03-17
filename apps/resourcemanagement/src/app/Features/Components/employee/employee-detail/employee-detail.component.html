@@ -70,13 +70,13 @@
                   <td class="tdstyle capitalize">{{employeeView.Status }}</td>
                   <td class="actions Acttdstyle" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
 
-                    <span (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
+                    <a (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
                       <i nz-icon nzType="edit" style="color:black;"></i>
-                    </span>
+                    </a>
                     &nbsp; &nbsp;
-                    <span (click)="OnDelete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin'))">
+                    <a (click)="OnDelete(employeeView.EmployeeGUid)" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin'))">
                       <i nz-icon nzType="delete" style="color:black;"></i>
-                    </span>
+                    </a>
 
                     <!-- <nz-modal [(nzVisible)]="isVisible" nzWidth="700px" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
