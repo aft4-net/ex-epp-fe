@@ -8,6 +8,7 @@ import { FormGenerator } from "../../form-generator.model";
 import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
 import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { PermissionListService } from "libs/common-services/permission.service";
 
 @Component({
     selector: 'exec-epp-custom-phone-multiple',
@@ -28,18 +29,23 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
     @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>()
     required = true
     errMessages: string[] = []
+    editable = false;
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _countriesService: CountriesMockService
+        private readonly _countriesService: CountriesMockService,
+        private readonly _permissionListService: PermissionListService
     ) {
         this.prefices$ = this._countriesService.getCountriesPhonePrefices()
     }
 
     ngOnInit(): void {
+        this.editable = this._permissionListService.authorizedPerson('Create_Employee')
+            || this._permissionListService.authorizedPerson('Update_Employee')
+            || this._permissionListService.authorizedPerson('Update_My_Profile');
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
-            if(this.formArray.length > 1 || this.getControl(i).value) {
+            if (this.formArray.length > 1 || this.getControl(i).value) {
                 this.onPrefixChange(i);
             } else {
                 this._configureValidation(i);

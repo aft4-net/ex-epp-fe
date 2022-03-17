@@ -23,6 +23,7 @@
         </ng-template>
         <ng-template #suffixTemplate [hidden]="(maxAmount === 1)">
           <excel-buttons-multiple-controls
+            *ngIf="editable"
             [exMaxCount]="maxAmount"
             [exCount]="formArray.length"
             [exIndex]="i"

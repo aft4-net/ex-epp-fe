@@ -5,6 +5,7 @@ import { commonErrorMessage } from "../../shared/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
 import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
 import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
+import { PermissionListService } from "libs/common-services/permission.service";
 
 @Component({
     selector: 'exec-epp-custom-email-multiple',
@@ -23,14 +24,19 @@ export class CustomEmailMultipleComponent implements OnInit {
     @Output() reply = new EventEmitter<boolean>()
     required = true
     errMessages: string[] = []
+    editable = false;
 
 
     constructor(
-        private readonly _formGenerator: FormGenerator
+        private readonly _formGenerator: FormGenerator,
+        private readonly _permissionListService: PermissionListService
     ) {
     }
 
     ngOnInit(): void {
+        this.editable = this._permissionListService.authorizedPerson('Create_Employee')
+            || this._permissionListService.authorizedPerson('Update_Employee')
+            || this._permissionListService.authorizedPerson('Update_My_Profile');
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
         }
@@ -38,20 +44,20 @@ export class CustomEmailMultipleComponent implements OnInit {
 
     getControl(index: number): FormControl {
         const formControl = this._formGenerator.getFormControlfromArray(index, this.formArray)
-        if(formControl) {
+        if (formControl) {
             return formControl
         }
         return new FormControl
-        
+
     }
 
     onAddRemove(event: ExcelButtonResponse) {
-        if(event.action == ExcelControlResponseType.ExcelAdd) {
+        if (event.action == ExcelControlResponseType.ExcelAdd) {
             this.add()
         } else if (event.action == ExcelControlResponseType.ExcelRemove) {
             this.remove(event.data as number)
         } else {
-           console.log()
+            console.log()
         }
     }
 
