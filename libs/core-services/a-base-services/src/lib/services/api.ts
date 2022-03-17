@@ -18,18 +18,23 @@ export abstract class BaseSeedApiService {
         return this._baseUrl + (extentedURL ? '/' + extentedURL : '');
     }
 
-    private _getParams(params?: { [key: string]: any }) {
-        console.log('params', params)
-        const pars = new HttpParams();
+    private _getParams(params?: { [key: string]: undefined | boolean | number | string | boolean[] | number[] | string[] },) {
+        let pars = new HttpParams();
         if (params) {
             const KVps = Object.entries(params);
             console.log('KVpars', KVps)
             KVps.forEach(kV => {
-                if (kV[1] !== undefined)
-                    pars.set(kV[0], kV[1]);
+                if(kV[1]) {
+                    if (kV[1] instanceof Array) {
+                        kV[1].forEach(v => {
+                            pars = pars.append(kV[0], v);
+                        });
+                    } else {
+                        pars = pars.set(kV[0], kV[1]);
+                    }
+                }
             });
         }
-        console.log('params', pars)
         return pars;
     }
 
@@ -41,12 +46,12 @@ export abstract class BaseSeedApiService {
 
     protected _get<TResponse>(options: {
         extendedUrl?: string,
-        params?: { [key: string]: any },
+        params?: { [key: string]: undefined | boolean | number | string | boolean[] | number[] | string[] },
         extractor?: (response: any) => TResponse
     }): Observable<TResponse> {
         const r = this._httpClient.get<any>(
             this._getURL(options.extendedUrl),
-            { params: options.params }
+            { params: this._getParams(options.params) }
         )
             .pipe(
                 map(this._getExtractor<TResponse>(options.extractor))
@@ -99,7 +104,7 @@ export abstract class BaseSeedApiService {
 
     protected _delete<TResponse>(options: {
         extendedUrl?: string,
-        params?: { [key: string]: any },
+        params?: { [key: string]: boolean | number | string | boolean[] | number[] | string[] },
         extractor?: (response: any) => TResponse
     }): Observable<TResponse> {
         return this._httpClient.delete<any>(

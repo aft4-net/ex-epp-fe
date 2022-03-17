@@ -26,6 +26,7 @@ export class CustomEmailMultipleComponent implements OnInit {
     @Input() labelConfig = defaultFormLabellParameter
     @Input() controlConfig = defaultFormControlParameter
     @Input() formArray: FormArray = new FormArray([])
+    @Input() beValidate = false;
 
     @Output() reply = new EventEmitter<boolean>()
     required = true
@@ -94,15 +95,21 @@ export class CustomEmailMultipleComponent implements OnInit {
     }
 
     onChange(index: number) {
-        console.log('Email Input')
         this.errMessages[index] = commonErrorMessage.message.substring(0)
         const control = this.getControl(index);
-        console.log('Guid', this._formGenerator.Guid)
         if (!control.valid) return;
+        if(this.formArray.value
+            .filter((v: string, i: number) => 
+            i !== index && v === control.value).length >0){
+                this.errMessages[index] = 'The email already exists!';
+                control.addValidators(errValidator);
+                control.updateValueAndValidity();
+                control.removeValidators(errValidator)
+        }
+        if(!this.beValidate) return;
         return this._employeeApiService.checkEmailExistence(
             control.value, this._formGenerator.Guid
         ).subscribe(r => {
-            console.log('Response', r.ResponseStatus !== ResponseStatus.Success || r.Data, r)
             if (r.ResponseStatus !== 'Success' || r.Data) {
                 this.errMessages[index] = 'The email already exists!';
                 control.addValidators(errValidator);

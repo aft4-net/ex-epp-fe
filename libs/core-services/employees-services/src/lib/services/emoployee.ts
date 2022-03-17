@@ -43,17 +43,8 @@ export class EmployeeApiService extends BaseApiService {
     }
 
     public checkEmailExistence(email: string, guid?: string) {
-        let params = new HttpParams().set('email', email);
-        params = params.set('guid', guid ? guid : "00000000-0000-0000-0000-000000000000");
         return this._get<any>({
-            params: params,
-            extendedUrl: this._extraExtendedUrls.checkEmail
-        });
-    }
-
-    public checkPhoneExistence(phone: string, guid?: string) {
-        return this._get<ResponseDTO<boolean>>({
-            params: { phone: phone, guid: guid },
+            params: { email: email, guid: guid },
             extendedUrl: this._extraExtendedUrls.checkEmail
         });
     }
