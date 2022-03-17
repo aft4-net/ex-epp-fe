@@ -117,6 +117,7 @@ export class AddEditDepartmentComponent implements OnInit {
 
   resetForm() {
     this.departmentForm.reset();
+    this.onSubmitClick = false;
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
