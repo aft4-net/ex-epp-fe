@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     private _timesheetConfigStateService: TimesheetConfigurationStateService
   ) {
     this._timesheetConfigStateService.getTimesheetConfiguration();
+    console.log("constructor Job Title ", this.authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title']));
   }
   ngOnInit() {
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
@@ -32,6 +33,13 @@ export class AppComponent implements OnInit {
      // this.router.navigateByUrl('usermanagement/sign_in');
       this.router.navigateByUrl('usermanagement/logIn');
     }
+    this._commonData.permissionList$.subscribe((res) => {
+      setTimeout(() => {
+        this.defaultRoute();
+      }, 100);
+    })
+    // this.router.navigateByUrl('configurationmodule/job-title');
+    
   }
   activePath(routePath: string) {
     if (this.route === '') this.route = this.router.url;
@@ -45,6 +53,26 @@ export class AppComponent implements OnInit {
     }
 
     return false;
+  }
+
+  defaultRoute() {
+    if (this.authorize(['Create_Department', 'View_Department', 'Update_Department', 'Delete_Department'])) {
+      // default route
+    } else if (this.authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title'])) {
+      if(this.router.url === '/configurationmodule')
+        this.router.navigateByUrl('configurationmodule/job-title');
+    } else if (this.authorize(['Create_Country', 'Delete_Country', 'Update_Country', 'View_Country'])) {
+      if(this.router.url === '/configurationmodule')
+        this.router.navigateByUrl('configurationmodule/country');
+    } else if (this.authorize(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])) {
+      if(this.router.url === '/configurationmodule')
+        this.router.navigateByUrl('configurationmodule/duty-station');
+    } else if (this.authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])) {
+      if(this.router.url === '/configurationmodule')
+        this.router.navigateByUrl('configurationmodule/timesheet');
+    } else {
+      this.router.navigateByUrl('/');
+    }
   }
 
 }

@@ -5,6 +5,7 @@ import { commonErrorMessage } from "../../shared/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
 import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
 import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
+import { PermissionListService } from "libs/common-services/permission.service";
 
 @Component({
     selector: 'exec-epp-custom-email-multiple',
@@ -26,7 +27,8 @@ export class CustomEmailMultipleComponent implements OnInit {
 
 
     constructor(
-        private readonly _formGenerator: FormGenerator
+        private readonly _formGenerator: FormGenerator,
+        private _permissionService: PermissionListService,
     ) {
     }
 
@@ -34,6 +36,10 @@ export class CustomEmailMultipleComponent implements OnInit {
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
         }
+    }
+
+    authorize(key: string) {
+        return this._permissionService.authorizedPerson(key)
     }
 
     getControl(index: number): FormControl {
