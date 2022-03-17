@@ -31,7 +31,7 @@ export class ClientAndProjectService extends BaseQueryOnlyAPIService<Client> {
   }
 
   protected _extractMultiple(response: any): Client[] {
-    return response.Data.map((client: any) => {debugger;
+    return response.Data.map((client: any) => {
       return {
         id: client.Guid,
         name: client.ClientName,
