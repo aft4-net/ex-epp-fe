@@ -64,18 +64,28 @@ export class AddEditRoleComponent implements OnInit {
     this.onSubmitClick = true;
     if (this.roleForm.valid) {
       // this.closeModal.emit("close");
-      this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
-        // this.closeModal.emit("close");
-        this.roleForm.reset();
-        this.closeModal.emit("close");
-        this.onSubmitClick = false;
-        this.notification.create(
-          'success',
-          'Successfully Added!',
-          'Job Title',
-          { nzPlacement: 'bottomRight' }
-        );
-        this.update.emit("save");
+      this.roleConfigService.addRole(this.roleForm.value).subscribe((response: ResponseDTO<Role>)=>{
+        if (response.ResponseStatus.toString() === 'Success') {
+          // this.closeModal.emit("close");
+          this.roleForm.reset();
+          this.closeModal.emit("close");
+          this.onSubmitClick = false;
+          this.notification.create(
+            'success',
+            'Successfully Added!',
+            'Job Title',
+            { nzPlacement: 'bottomRight' }
+          );
+          this.update.emit("save");
+        } else {
+          this.onSubmitClick = false;
+          this.notification.create(
+            'error',
+            'Error',
+            response.Message,
+            { nzPlacement: 'bottomRight' }
+          );
+        }
       }, (error) => {
         this.notification.create(
           'error',
@@ -100,16 +110,26 @@ export class AddEditRoleComponent implements OnInit {
     if (this.roleForm.valid) {
       // this.closeModal.emit("close");
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
-        .subscribe((response)=>{
-          this.onSubmitClick = false;
-          this.closeModal.emit("close");
-          this.notification.create(
-            'success',
-            'Successfully Updated!',
-            'Job Title',
-            { nzPlacement: 'bottomRight' }
-          );
-          this.update.emit("update");
+        .subscribe((response: ResponseDTO<Role>)=>{
+          if (response.ResponseStatus.toString() === 'Success') {
+            this.onSubmitClick = false;
+            this.closeModal.emit("close");
+            this.notification.create(
+              'success',
+              'Successfully Updated!',
+              'Job Title',
+              { nzPlacement: 'bottomRight' }
+            );
+            this.update.emit("update");
+          } else {
+            this.onSubmitClick = false;
+            this.notification.create(
+              'error',
+              'Error',
+              response.Message,
+              { nzPlacement: 'bottomRight' }
+            );
+          }
         });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {
