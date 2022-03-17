@@ -2,13 +2,13 @@
     <div  class="content">
     <div class="justify-between mb-3" nz-row>
         <div class="tab-title"> Countries </div>
-    
+
         <button  nz-button nzType="primary"   (click)="openModal()" *ngIf="authorize('Create_Country')" >
             Add Country
         </button>
       </div>
 
-        <nz-table #countryTable [nzData]="countriesView" 
+        <nz-table #countryTable [nzData]="countriesView"
         [nzLoading]="loading"  #basicTable nzSize="small" [nzFrontPagination]="false">
             <thead>
                 <tr>
@@ -28,7 +28,7 @@
             </tbody>
         </nz-table>
         <span *ngIf="total>0 && authorize('View_Country')"  class="pagination flex justify-end">
-            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
+            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total?
               total : 10 * (pageIndex) }} of {{total}} entries
             <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="pageIndexChange($event)"
               nzSimple>
@@ -50,7 +50,7 @@
             </div>
 
             <div class="modal-footer">
-                <button *ngIf="isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Save</button>
+                <button *ngIf="isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Add</button>
                 <button *ngIf="!isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Update</button>
                 <button  nz-button nzType="default"  [disabled]="isFormDisabled" (click)="country.reset()">Clear</button>
             </div>
