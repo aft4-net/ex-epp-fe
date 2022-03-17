@@ -496,7 +496,7 @@ handleGroupCancel() {
             }
             this.notifier.notify(
               NotificationType.success,
-              'User is created successfully'
+              'User is Added successfully'
             );
             this.loadingOnSave = false;
             this.isUserModalVisible = false;
