@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { PermissionListService } from '../../../../../../../libs/common-services/permission.service';
 import { ToastrService } from 'ngx-toastr';
 import { Department } from '../../../models/department';
-import { ResponseDTO } from '../../../models/response-dto.model';
+import { ResponseDTO, ResponseDto } from '../../../models/response-dto.model';
 import { DepartmentService } from '../../../services/department.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -58,18 +58,27 @@ export class AddEditDepartmentComponent implements OnInit {
     this.onSubmitClick = true;
     if (this.departmentForm.valid) {
       // this.closeModal.emit("close");
-      this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response)=>{
-        // this.closeModal.emit("close");
-        this.departmentForm.reset();
-        this.closeModal.emit("close");
-        this.onSubmitClick = false;
-        this.notification.create(
-          'success',
-          'Successfully Added!',
-          'Department',
-          { nzPlacement: 'bottomRight' }
-        );
-        this.update.emit("save");
+      this.departmentConfigService.addDepartment(this.departmentForm.value).subscribe((response: ResponseDTO<Department>)=>{
+        if (response.ResponseStatus.toString() === 'Success') {
+          this.departmentForm.reset();
+          this.closeModal.emit("close");
+          this.onSubmitClick = false;
+          this.notification.create(
+            'success',
+            'Successfully Added!',
+            'Department',
+            { nzPlacement: 'bottomRight' }
+          );
+          this.update.emit("save");
+        } else {
+          this.onSubmitClick = false;
+          this.notification.create(
+            'error',
+            'Error',
+            response.Message,
+            { nzPlacement: 'bottomRight' }
+          );
+        }
       }, (error) => {
         this.notification.create(
           'error',
@@ -77,7 +86,6 @@ export class AddEditDepartmentComponent implements OnInit {
           error.message,
           { nzPlacement: 'bottomRight' }
         );
-        console.log(error);
       });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
@@ -94,16 +102,26 @@ export class AddEditDepartmentComponent implements OnInit {
     if (this.departmentForm.valid) {
       // this.closeModal.emit("close");
       this.departmentConfigService.updateDepartment(this.departmentForm.value, this.id ?? "")
-        .subscribe((response)=>{
-          this.onSubmitClick = false;
-          this.closeModal.emit("close");
-          this.notification.create(
-            'success',
-            'Successfully Updated!',
-            'Department',
-            { nzPlacement: 'bottomRight' }
-          );
-          this.update.emit("update");
+        .subscribe((response: ResponseDTO<Department>)=>{
+          if (response.ResponseStatus.toString() === 'Success') {
+            this.onSubmitClick = false;
+            this.closeModal.emit("close");
+            this.notification.create(
+              'success',
+              'Successfully Updated!',
+              'Department',
+              { nzPlacement: 'bottomRight' }
+            );
+            this.update.emit("update");
+          } else {
+            this.onSubmitClick = false;
+            this.notification.create(
+              'error',
+              'Error',
+              response.Message,
+              { nzPlacement: 'bottomRight' }
+            );
+          }
         });
     } else {
       Object.values(this.departmentForm.controls).forEach(control => {
