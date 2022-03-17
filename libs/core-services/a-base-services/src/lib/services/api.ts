@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from '../../../../../environments/environment';
@@ -12,20 +12,25 @@ export abstract class BaseSeedApiService {
     ) {
     }
 
-    private _getURL(extentedURL?: string) {
+    private _getURL(extentedURL?: string, params?: { [key: string]: any }) {
+        // const pars = this._getParams(params);
+        //const 
         return this._baseUrl + (extentedURL ? '/' + extentedURL : '');
     }
 
     private _getParams(params?: { [key: string]: any }) {
+        console.log('params', params)
+        const pars = new HttpParams();
         if (params) {
-            const newParams = {} as any;
-            Object.entries(params).forEach(kV => {
-                newParams[kV[0]] = JSON.stringify(kV[1]);
+            const KVps = Object.entries(params);
+            console.log('KVpars', KVps)
+            KVps.forEach(kV => {
+                if (kV[1] !== undefined)
+                    pars.set(kV[0], kV[1]);
             });
-            return newParams;
-        } else {
-            return {};
         }
+        console.log('params', pars)
+        return pars;
     }
 
     private _getExtractor<TResponse>(extractor?: (response: any) => TResponse) {
@@ -39,13 +44,15 @@ export abstract class BaseSeedApiService {
         params?: { [key: string]: any },
         extractor?: (response: any) => TResponse
     }): Observable<TResponse> {
-        return this._httpClient.get<any>(
+        const r = this._httpClient.get<any>(
             this._getURL(options.extendedUrl),
-            { ...this._getParams(options.params) }
+            { params: options.params }
         )
             .pipe(
                 map(this._getExtractor<TResponse>(options.extractor))
             )
+        console.log('API Call', r)
+        return r;
     }
 
     protected _post<TModel, TResponse>(options: {
@@ -176,7 +183,7 @@ export abstract class BaseApiService extends BaseSeedApiService {
 
     public add<TModel, TResponse>(item: TModel) {
         return this._post<any, TResponse>({
-            extendedUrl: this._extendedURLs.getOneByParameter,
+            extendedUrl: this._extendedURLs.add,
             item: item,
             extractor: (response: any) => response as TResponse
         });
@@ -184,7 +191,7 @@ export abstract class BaseApiService extends BaseSeedApiService {
 
     public update<TModel, TResponse>(item: TModel) {
         return this._put<TModel, TResponse>({
-            extendedUrl: this._extendedURLs.getOneByParameter,
+            extendedUrl: this._extendedURLs.update,
             item: item,
             extractor: (response: any) => response as TResponse
         });
@@ -197,7 +204,7 @@ export abstract class BaseApiService extends BaseSeedApiService {
             extractor: (response: any) => response as TResponse
         });
     }
-    
+
     protected _deleteOneByParameter<TResponse>(
         parameter: { name: string, value: any },
         extendedUrl?: string

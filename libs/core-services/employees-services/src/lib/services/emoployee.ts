@@ -1,13 +1,16 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BaseApiService } from "@exec-epp/core-services/a-base-services";
+import { BaseApiService, ResponseDTO } from "@exec-epp/core-services/a-base-services";
+import { Employee } from "../..";
 
 @Injectable()
 export class EmployeeApiService extends BaseApiService {
 
     private readonly _extraExtendedUrls = {
-        checkIdNumber: 'checkidnumber',
         getByEmail: 'GetEmployeeSelectionByEmail',
+        checkIdNumber: 'checkidnumber',
+        checkEmail: 'checkemail',
+        checkPhone: 'checkphone'
         // ...
     }
     /**
@@ -26,23 +29,32 @@ export class EmployeeApiService extends BaseApiService {
                 getById: 'GetEmployeeWithID',
                 // add: undefined,
                 // update: undefined,
-                
+
             }
-            );
-        
+        );
+
     }
 
     public checkId(employeeNumber: string) {
         return this._getOneByParameter<boolean>(
-            { name: 'idNumber', value: employeeNumber},
+            { name: 'idNumber', value: employeeNumber },
             this._extraExtendedUrls.checkIdNumber
         )
     }
 
-    public getByEmail(email: string) {
-        return this._getOneByParameter<boolean>(
-            { name: 'employeeEmail', value: email},
-            this._extraExtendedUrls.getByEmail
-        )
+    public checkEmailExistence(email: string, guid?: string) {
+        let params = new HttpParams().set('email', email);
+        params = params.set('guid', guid ? guid : "00000000-0000-0000-0000-000000000000");
+        return this._get<any>({
+            params: params,
+            extendedUrl: this._extraExtendedUrls.checkEmail
+        });
+    }
+
+    public checkPhoneExistence(phone: string, guid?: string) {
+        return this._get<ResponseDTO<boolean>>({
+            params: { phone: phone, guid: guid },
+            extendedUrl: this._extraExtendedUrls.checkEmail
+        });
     }
 }

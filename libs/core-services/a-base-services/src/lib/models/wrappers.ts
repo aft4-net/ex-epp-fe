@@ -19,6 +19,6 @@ export interface  Pagination {
 export interface ResponseDTO<T> {
     ResponseStatus: ResponseStatus;
     Message: string;
-    Mata: T;
+    Data: T;
     Ex: any;
 }

@@ -1,5 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   IPublicClientApplication,
   PublicClientApplication,
@@ -27,6 +27,7 @@ import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
 import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
 import { EmployeeComponent } from '../Features/Components/employee/employee.component';
+import { EmployeeApiService } from '@exec-epp/core-services/employees-services';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -112,6 +113,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     { provide: NZ_I18N, useValue: en_US },
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     MsalService,
+        { provide: EmployeeApiService, useClass: EmployeeApiService, multi: false }
   ],
 })
 export class RemoteEntryModule {}

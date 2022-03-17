@@ -1,7 +1,6 @@
 import { BaseAuditEntity } from "@exec-epp/core-services/a-base-services";
 
-export interface FamilyMemeber extends BaseAuditEntity {
-    EmployeeId?: string
+export interface FamilyMember extends BaseAuditEntity {
     Relationship: string
     FullName: string
     Gender?: string

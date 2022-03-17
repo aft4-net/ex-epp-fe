@@ -5,6 +5,7 @@ import { EmergencyContacts } from "./emergencycontact";
 import { Nationality } from "./Nationality";
 
 export interface Employee{
+  Guid?: string;
   guid?:string,
   EmployeeNumber:string,
   FirstName: string,
