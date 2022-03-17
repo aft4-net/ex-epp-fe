@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Role, RolePostModel } from '../../../models/role';
@@ -24,7 +24,7 @@ export class AddEditRoleComponent implements OnInit {
   isEdit!: boolean;
   departments: Department[] = [];
   onSubmitClick!: boolean;
-  
+
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         private departmentService: DepartmentService,
         private notification: NzNotificationService,
@@ -153,6 +153,13 @@ export class AddEditRoleComponent implements OnInit {
     this.departmentService.getAllDepartments().subscribe((response) => {
       this.departments = response.Data;
     })
+  }
+  get isFormDisabled():boolean{
+    return this.roleForm.invalid ;
+  }
+  get enableClear():boolean{
+    return (this.roleForm.get('Name') as AbstractControl).valid
+    || (this.roleForm.get('DepartmentGuid') as AbstractControl).valid;
   }
 
 }

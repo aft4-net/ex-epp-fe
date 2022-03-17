@@ -5,7 +5,8 @@
     [formControl]="getControl('employeeIdNumber')">
   </exec-epp-custom-employee-id-number>
 
-  <exec-epp-custom-full-name [formGroup]="getFormGroup('fullName')" >
+  <exec-epp-custom-full-name [formGroup]="getFormGroup('fullName')" 
+  [allRequired]="true">
   </exec-epp-custom-full-name>
   <exec-epp-custom-select
     [label]="'Gender'"

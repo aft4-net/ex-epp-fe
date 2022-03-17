@@ -130,7 +130,7 @@ export class GroupsetComponent implements OnInit {
       () => {
         this.notification.showNotification({
           type: 'success',
-          content: 'Group added successfully',
+          content: 'Group created successfully',
           duration: 5000,
         });
         this.FeatchAllgroups();
