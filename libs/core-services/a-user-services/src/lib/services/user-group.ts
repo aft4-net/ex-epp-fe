@@ -1,13 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BaseApiService } from "@exec-epp/core-services/a-base-services";
+import { BaseApiService, ResponseDTO } from "@exec-epp/core-services/a-base-services";
+import { UserGroup } from "../..";
 
 @Injectable()
-export class EmployeeApiService extends BaseApiService {
+export class UserGroupApiService extends BaseApiService {
 
     private readonly _extraExtendedUrls = {
-        checkIdNumber: 'checkidnumber',
-        getByEmail: 'GetEmployeeSelectionByEmail',
+        getGroupSetByUserId: 'GetGroupSetByUserId',
+        deleteUserFromGroup: 'RemoveUserFromGroup'
         // ...
     }
     /**
@@ -26,23 +27,21 @@ export class EmployeeApiService extends BaseApiService {
                 getById: 'GetEmployeeWithID',
                 // add: undefined,
                 // update: undefined,
-                
+
             }
-            );
-        
+        );
     }
 
-    public checkId(employeeNumber: string) {
-        return this._getOneByParameter<boolean>(
-            { name: 'idNumber', value: employeeNumber},
-            this._extraExtendedUrls.checkIdNumber
+    public deleteUserFromGroup(userId: string, groupId: string) {
+        this._deleteOneByParameter<boolean>(
+            { name: 'userId', value: userId }
         )
     }
 
-    public getByEmail(email: string) {
-        return this._getOneByParameter<boolean>(
-            { name: 'employeeEmail', value: email},
-            this._extraExtendedUrls.getByEmail
+    public getGroupSetByUserId(id: string) {
+        this._getOneByParameter<ResponseDTO<UserGroup[]>>(
+            { name: 'guid', value: id },
+            this._extraExtendedUrls.getGroupSetByUserId
         )
     }
 }
