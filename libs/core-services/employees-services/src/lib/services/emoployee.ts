@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from "@angular/core";
 import { BaseApiService } from "@exec-epp/core-services/a-base-services";
 
+@Injectable()
 export class EmployeeApiService extends BaseApiService {
 
     private readonly _extraExtendedUrls = {

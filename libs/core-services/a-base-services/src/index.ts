@@ -8,3 +8,4 @@ export * from './lib/models/wrappers';
 
 // Services
 export * from './lib/services/api';
+export * from './lib/services/states';
