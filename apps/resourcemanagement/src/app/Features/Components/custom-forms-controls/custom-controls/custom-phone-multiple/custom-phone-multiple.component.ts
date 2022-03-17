@@ -8,6 +8,7 @@ import { FormGenerator } from "../../form-generator.model";
 import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
 import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
 import { SelectOptionModel } from "../../../../Models/supporting-models/select-option.model";
+import { PermissionListService } from "libs/common-services/permission.service";
 
 @Component({
     selector: 'exec-epp-custom-phone-multiple',
@@ -31,7 +32,8 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
 
     constructor(
         private readonly _formGenerator: FormGenerator,
-        private readonly _countriesService: CountriesMockService
+        private readonly _countriesService: CountriesMockService,
+        private _permissionService: PermissionListService,
     ) {
         this.prefices$ = this._countriesService.getCountriesPhonePrefices()
     }
@@ -45,6 +47,10 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
                 this._configureValidation(i);
             }
         }
+    }
+    
+    authorize(key: string) {
+        return this._permissionService.authorizedPerson(key)
     }
 
     private _configureValidation(index: number) {

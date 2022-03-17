@@ -439,11 +439,12 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
           data.ResponseStatus,
           data.Message
         );
-        this.isLoding=false;
+        this.isLoding=true;
         this._commonData.getPermission();
-        this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
+       this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
+      
       });
-
+      
 
   }
 

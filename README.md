@@ -3,8 +3,7 @@
 🔎 **Excellerent Enterprize portfolio(EPP)*
 
 This project was generated using [Nx](https://nx.dev). It uses Mono-repo Micro-front end architecture with Webpack 5's Module federation. 
-To quickly check the capability, please run the Dockerized build.
-
+To quickly check the capability, please run the Dockerized build. The
 > Run docker-compose up -d
 
 User Name aexcellerent@outlook.com Password : adminAdmin@123
@@ -28,25 +27,47 @@ To get started
 # Installation and startup
 **Shell**
 ```
-git clone git@bitbucket.org:Excellerent_Solutions/excellerent-epp-fe.git 
 cd excellerent-epp-fe
 npm install
-npm run serve-all
+npm run start:all
+```
+```
+//Shell application(Epp Dashboard) will run on http://localhost:4200
 ```
 
-**Epp Dashboard**
-```sh
-$ cd mf-angular
-$ npm i
-$ npm run serve-all
+# Building all projects
 ```
+npm run build-all
 ```
-// runs on http://localhost:4200
+
+# Building apps
 ```
+npm run build {app-name}
+```
+
+```
+eg. to build timesheet tun // npm run build timesheet
+```
+
+# Building Timesheet
+```
+npm run build timesheet
+```
+
+
+
+
+# Generating Production build
+**Shell**
+```
+npm run deploy
+```
+
+
 
 ## Dockerized Build
 To run docekrized build run
-```sh
+```
 $ docker-compose up -d
 ```
 ```
