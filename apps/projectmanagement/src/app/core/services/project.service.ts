@@ -38,8 +38,9 @@ export class ProjectService extends ApiService<Project> {
   }
 
   
-  deleteProjectByState(id: string): Observable<{ success: boolean, message: string }> {
-    return this.delete(id)
+  deleteProjectByState(id: string, forcheck:boolean): Observable<{ success: boolean, message: string }> {
+
+    return this.httpClient.delete(environment.baseApiUrl+'Project/'+id+'/'+forcheck)
     .pipe(
       map((response: any) => {
         if(response.ResponseStatus === 'Success' || response.ResponseStatus === 1) {
