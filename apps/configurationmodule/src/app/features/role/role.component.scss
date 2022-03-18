@@ -45,154 +45,20 @@ input {
 .content {
     padding-left: 24px;
 }
-
-button {
-  height: 38px;
-  border-radius: 2px;
-  font-style: normal;
-  font-weight: 500;
-}
-button.ant-btn-primary {
-  background-color: #00A551;
+::ng-deep  .ant-btn-primary
+ {
   color: white;
+  border-color: #00a551;
+  background-color: #00a551;
+  text-shadow: none;
+  box-shadow: none;
 }
-
-.ant-btn-primary.ant-btn:active {
-  background-color: #00A551;
-  border-color: #00A551;
-}
-
-.ant-btn-primary:focus{
-  border-color: #00A551;
-  background: #00A551;
-  color: #fff;
-}
-.ant-btn-primary:hover {
-  border-color: #006E36;
-  background: #006E36;
-  color: #fff;
-}
+::ng-deep .ant-btn-primary:hover,
+.ant-btn-primary:focus,
 .ant-btn-primary:active {
-  color: #fff;
-  border-color: #005228;
-  background: #005228;
+  background-color: #2fad6c;
+  border-color: #00a551;
 }
-
-.ant-btn-primary {
-  border-color: #00A551;
-  background: #00A551;
-}
-
-.ant-btn:focus, .ant-btn:hover {
-    color: #00A551;
-    border-color: #00A551;
-}
-
-.ant-btn:focus {
-  border-color: #00A551;
-  color: #00A551;
-}
-.ant-btn:hover {
-  border-color: #006E36;
-  color: #006E36;
-}
-.ant-btn-primary {
-  border-color: #00A551;
-  background: #00A551;
-}
-
-.ant-btn-primary:focus{
-  border-color: #00A551;
-  background: #00A551;
-  color: #fff;
-}
-.ant-btn-primary:hover {
-  border-color: #006E36;
-  background: #006E36;
-  color: #fff;
-}
-.ant-btn-primary:active {
-  color: #fff;
-  border-color: #005228;
-  background: #005228;
-}
-
-button {
-  height: 38px;
-  border-radius: 2px;
-  font-style: normal;
-  font-weight: 500;
-}
-button.ant-btn-primary {
-  background-color: #00A551;
-  color: white;
-}
-
-.ant-btn-primary.ant-btn:active {
-  background-color: #00A551;
-  border-color: #00A551;
-}
-
-.ant-btn-primary:focus{
-  border-color: #00A551;
-  background: #00A551;
-  color: #fff;
-}
-.ant-btn-primary:hover {
-  border-color: #006E36;
-  background: #006E36;
-  color: #fff;
-}
-.ant-btn-primary:active {
-  color: #fff;
-  border-color: #005228;
-  background: #005228;
-}
-
-.ant-btn-primary {
-  border-color: #00A551;
-  background: #00A551;
-}
-
-.ant-btn:focus, .ant-btn:hover {
-    color: #00A551;
-    border-color: #00A551;
-}
-
-.ant-btn-primary.ant-btn:focus, .ant-btn-primary.ant-btn:hover {
-    color: #FFFFFF;
-    border-color: #00A551;
-}
-.ant-btn:focus {
-  border-color: #00A551;
-  color: #00A551;
-}
-.ant-btn:hover {
-  border-color: #006E36;
-  color: #006E36;
-}
-.ant-btn-primary {
-  border-color: #00A551;
-  background: #00A551;
-}
-
-.ant-btn-primary:focus{
-  border-color: #00A551;
-  background: #00A551;
-  color: #fff;
-}
-.ant-btn-primary:hover {
-  border-color: #006E36;
-  background: #006E36;
-  color: #fff;
-}
-.ant-btn-primary:active {
-  color: #fff;
-  border-color: #005228;
-  background: #005228;
-}
-
-
 .ant-table-filter-trigger.active {
     color: #00a551;
   }
@@ -278,5 +144,26 @@ button.ant-btn-primary {
     float: left;
 }
 .ant-table-column-title {
- padding-right: 10px;   
+ padding-right: 10px;
 }
+
+.tab-title{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #262626;
+  }
+  ::ng-deep .ant-table-content {
+    font-size: 16px !important;
+  }
+
+  .pagination {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #595959;
+  }
