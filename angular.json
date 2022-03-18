@@ -431,6 +431,106 @@
         }
       }
     },
+    "core-services-a-base-services": {
+      "projectType": "library",
+      "root": "libs/core-services/a-base-services",
+      "sourceRoot": "libs/core-services/a-base-services/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-services/a-base-services"],
+          "options": {
+            "jestConfig": "libs/core-services/a-base-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-services/a-base-services/src/**/*.ts",
+              "libs/core-services/a-base-services/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "core-services-a-user-services": {
+      "projectType": "library",
+      "root": "libs/core-services/a-user-services",
+      "sourceRoot": "libs/core-services/a-user-services/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-services/a-user-services"],
+          "options": {
+            "jestConfig": "libs/core-services/a-user-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-services/a-user-services/src/**/*.ts",
+              "libs/core-services/a-user-services/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "core-services-configuration-services": {
+      "projectType": "library",
+      "root": "libs/core-services/configuration-services",
+      "sourceRoot": "libs/core-services/configuration-services/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-services/configuration-services"],
+          "options": {
+            "jestConfig": "libs/core-services/configuration-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-services/configuration-services/src/**/*.ts",
+              "libs/core-services/configuration-services/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "core-services-employees-services": {
+      "projectType": "library",
+      "root": "libs/core-services/employees-services",
+      "sourceRoot": "libs/core-services/employees-services/src",
+      "prefix": "exec-epp",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/core-services/employees-services"],
+          "options": {
+            "jestConfig": "libs/core-services/employees-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core-services/employees-services/src/**/*.ts",
+              "libs/core-services/employees-services/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "epp-dashboard": {
       "projectType": "application",
       "root": "apps/epp-dashboard",

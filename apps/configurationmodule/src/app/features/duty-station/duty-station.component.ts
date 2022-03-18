@@ -8,6 +8,7 @@ import { CountryService } from '../../services/country.service';
 import { Country } from './../../models/country';
 import { DutyStation, DutyStationAndCountry } from './../../models/duty-station';
 import { DutyStationService } from './../../services/duty-station.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-duty-station',
@@ -34,6 +35,7 @@ export class DutyStationComponent implements OnInit {
     private dutyStationService: DutyStationService,
     private modalService: NzModalService,
     private commonDataService: CommonDataService,
+    private notification: NzNotificationService,
     private permissionListService: PermissionListService
   ) { }
 
@@ -101,10 +103,11 @@ export class DutyStationComponent implements OnInit {
   }
 
   save() {
-    if ((!this.country.value && this.country.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")) {
+     if ((!this.country.value && this.country.value === "") || (!this.dutyStation.value && this.dutyStation.value === "")) {
+     
       return;
     }
-
+  
     const dutyStation: DutyStation = {
       Guid: "00000000-0000-0000-0000-000000000000",
       CountryId: this.country.value,
@@ -117,8 +120,25 @@ export class DutyStationComponent implements OnInit {
           this.getDutyStation();
           this.closeModal();
         }
-      }, error => {
-        console.log(error);
+        if(response.Message=='Duty station registered successfully')
+        {
+          this.notification.create(
+            'Success',
+            'Duty station Added successfully',
+            dutyStation.Name,
+            { nzPlacement: 'bottomRight' }
+          );
+        }
+        else
+        {
+          this.notification.create(
+            'error',
+            'Duty station name already exists',
+            dutyStation.Name,
+            { nzPlacement: 'bottomRight' }
+          );
+          return;
+        }
       });
     }
     else {
@@ -149,16 +169,16 @@ export class DutyStationComponent implements OnInit {
           nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
           nzOkText: 'Ok',
           nzOkType: 'primary',
-          nzOkDanger: true
+          nzOkDanger: false
         });
       }
       else {
         this.modalService.confirm({
-          nzTitle: 'Delete Country?',
-          nzContent: 'Name: <b style="color: red;">' + dutyStation.Name + '</b>',
-          nzOkText: 'Yes',
+          nzTitle: 'Delete Duty Station?',
+          nzContent: 'Are you sure you want to delete this duty station?<br>this action cannot be undone.',
+          nzOkText: 'Yes, Delete',
           nzOkType: 'primary',
-          nzOkDanger: true,
+         nzOkDanger: false,
           nzOnOk: () => {
             this.dutyStationService.delete(dutyStation).subscribe(response => {
               if (response.ResponseStatus === "Success") {
@@ -168,7 +188,7 @@ export class DutyStationComponent implements OnInit {
               console.log(error);
             })
           },
-          nzCancelText: 'No'
+          nzCancelText: 'Cancel'
         });
       }
     });
