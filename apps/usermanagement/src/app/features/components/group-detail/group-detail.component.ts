@@ -99,7 +99,7 @@ export class GroupDetailComponent implements OnInit {
     this.assinedPermission();
     this._permissionService.getGroupPermissionById(this.groupId);
     this.disableEdit();
-
+alert("on group detail ngoninit")
   }
   
   disableEdit(){
