@@ -29,35 +29,35 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
     @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>()
     required = true
     errMessages: string[] = []
+    editable = false;
 
     constructor(
         private readonly _formGenerator: FormGenerator,
         private readonly _countriesService: CountriesMockService,
-        private _permissionService: PermissionListService,
+        private readonly _permissionListService: PermissionListService
     ) {
         this.prefices$ = this._countriesService.getCountriesPhonePrefices()
     }
 
     ngOnInit(): void {
+        this.editable = this._permissionListService.authorizedPerson('Create_Employee')
+            || this._permissionListService.authorizedPerson('Update_Employee')
+            || this._permissionListService.authorizedPerson('Update_My_Profile');
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
-            if(this.formArray.length > 1 || this.getControl(i).value) {
+            if (this.formArray.length > 1 || this.getControl(i).value) {
                 this.onPrefixChange(i);
             } else {
                 this._configureValidation(i);
             }
         }
     }
-    
-    authorize(key: string) {
-        return this._permissionService.authorizedPerson(key)
-    }
 
     private _configureValidation(index: number) {
         const prefix = this.getPrefixControl(index);
         const phone = this.getControl(index);
         phone.clearAsyncValidators();
-        phone.clearValidators();
+        phone.clearValidators(); 
         if (prefix.value === '+86') {
             phone.addValidators(validatePhoneNumberChina);
         } else if (prefix.value === '+251') {

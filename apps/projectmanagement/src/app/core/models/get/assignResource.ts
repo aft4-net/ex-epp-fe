@@ -7,5 +7,5 @@ export interface AssignResource {
     CreatedDate?: Date, 
     ProjectGuid?: string
     EmployeeGuid?: string,
-
+    Billable:boolean
 }
