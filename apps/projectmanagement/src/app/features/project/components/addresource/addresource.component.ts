@@ -601,9 +601,9 @@ export class AddresourceComponent implements OnInit {
   else      if(p==false && this.billableFilter.length==0)
   this.billableFilter.push({text:"No",value:"no"})
   else      if(p==null &&this.billableFilter.length!=0)
-  this.billableFilter=[{text:"No",value:"na"},...this.billableFilter];
+  this.billableFilter=[{text:"N/A",value:"na"},...this.billableFilter];
   else      if(p==null && this.billableFilter.length==0)
-  this.billableFilter.push({text:"No",value:"na"})
+  this.billableFilter.push({text:"N/A",value:"na"})
      });
    
   }

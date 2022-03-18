@@ -48,7 +48,8 @@
       </td>
       <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
       <td *ngIf="projectCreate?.ProjectType==='External' || projectForResource?.ProjectType==='External' ">
-      <span *ngIf=" resource?.Billable === false || resource.Billable===null "> No   </span>
+      <span *ngIf=" resource?.Billable === false  "> No   </span>
+      <span *ngIf="resource.Billable===null  "> N/A   </span>
       <span *ngIf="resource?.Billable === true" > Yes   </span>
      
       </td>
