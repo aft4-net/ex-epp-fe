@@ -3,7 +3,7 @@ import { Address, Addresss } from "../../Models/address.model";
 import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContacts } from "../../Models/emergencycontact";
 import { Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateMiddleName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
@@ -394,7 +394,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     private _createFullNameFormGroup() {
         return this._formBuilder.group({
             firstName: [null, [validateFirstName]],
-            middleName: [null, [validateFirstName]],
+            middleName: [null, [validateMiddleName]],
             lastName: [null, [validateFirstName]],
         })
     }
