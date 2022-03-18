@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import {
   AddProjectStateService,
-  ProjectService,
   EmployeeService,
   projectResourceType,
   Employee,
@@ -15,6 +14,7 @@ import {
   AssignResourceService,
   ProjectResourceStateService,
   Project,
+  ProjectCreate,
 } from '../../../../core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
@@ -38,8 +38,7 @@ export class AddresourceComponent implements OnInit {
     private assignResourceService: AssignResourceService,
     private router: Router,
     private projectCreateState: AddProjectStateService,
-    private employeeService: EmployeeService,
-    private projectService: ProjectService
+    private employeeService: EmployeeService
   ) {}
   total = 0;
   loading = false;
@@ -63,6 +62,12 @@ export class AddresourceComponent implements OnInit {
   resoureRemove!: AssignResource;
   projectForResource: Project = {} as Project;
   nzSortDirections = Array<'Ascending' | 'Descending' | null>();
+  switchValue=false;
+  projectCreate:ProjectCreate={} as ProjectCreate;
+  billableFilter: { text: string; value: string }[] = [] as {
+    text: string;
+    value: string;
+  }[];
   ngOnInit(): void {
     this.projectResourceStateService.isOnEditstate$.subscribe((res) => {
       this.isOnEditstate = res;
@@ -73,13 +78,18 @@ export class AddresourceComponent implements OnInit {
       this.projectForResource = this.projectResourceStateService.project;
       this.loading = true;
     }
+    else
+    this.projectCreateState.state$.subscribe(res=>{
+      this.projectCreate=res;
+    })
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees =  response.filter(p=>p.IsActive && !p.IsDeleted);
       if (this.projectResourceStateService.isOnEditstate) {
         this.projectResourceStateService.projectResourceList$.subscribe(
           (res) => {
-            this.projectResourcesView= res.reverse();
-            this. PageIndexChange(1);
+            this.projectResourcesView= res;
+            this.setBillableFilter()
+            this.PageIndexChange(1);
             this.pageIndex=1;
             this.total= this.projectResourcesView.length;
             this.loading = false;
@@ -94,14 +104,15 @@ export class AddresourceComponent implements OnInit {
         this.sortEmployees();
       }
     });
-
+ 
     this.addResorceForm = this.fb.group({
       resource: [null, Validators.required],
-
+      billable:[false],
       assignDate: [null, Validators.required],
     });
     this.editResorceForm = this.fb.group({
       resource: [null, Validators.required],
+      billable:[false], 
       assignDate: [null, Validators.required],
     });
 
@@ -145,7 +156,8 @@ export class AddresourceComponent implements OnInit {
           (new Date(this.editResorceForm.controls.assignDate.value).getTime() !=
             new Date(this.resourceEdit.AssignDate).getTime() ||
             this.editResorceForm.controls.resource.value.Guid !=
-              this.resourceEdit.EmployeeGuid)
+              this.resourceEdit.EmployeeGuid ||   
+                this.editResorceForm.controls.billable.value !=  this.resourceEdit.Billable)
         )
           this.disableUpdateButton = false;
         else this.disableUpdateButton = true;
@@ -176,6 +188,7 @@ export class AddresourceComponent implements OnInit {
             EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
             ProjectGuid: this.projectResourceStateService.project.Guid,
             AssignDate: this.addResorceForm.controls.assignDate.value,
+           Billable: this.addResorceForm.controls.billable.value,
           })
           .subscribe(
             (res) => {
@@ -193,16 +206,18 @@ export class AddresourceComponent implements OnInit {
         this.resources.push({
           EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
           AssignDate: this.addResorceForm.controls.assignDate.value,
+          Billable: this.addResorceForm.controls.billable.value,
         });
 
         this.projectResources = [
           {
             Empolyee: this.addResorceForm.controls.resource.value,
             AssignDate: this.addResorceForm.controls.assignDate.value,
+           Billable: this.addResorceForm.controls.billable.value,
           },
           ...this.projectResources,
         ];
-
+        this.setBillableFilter();
         this.projectCreateState.updateAssignResource(this.resources);
         this.sortEmployees();
         this.employees = this.employees.filter(
@@ -254,6 +269,10 @@ export class AddresourceComponent implements OnInit {
       this.editResorceForm.controls.assignDate.setValue(
         projectResource.AssignDate
       );
+      this.editResorceForm.controls.billable.setValue(
+        projectResource.Billable
+      );
+
       this.asignedResourseToEdit = projectResource;
       this.isEditMode = true;
       this.isModalVisible = true;
@@ -270,6 +289,7 @@ export class AddresourceComponent implements OnInit {
             EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
             ProjectGuid: this.projectResourceStateService.project.Guid,
             AssignDate: this.editResorceForm.controls.assignDate.value,
+            Billable: this.editResorceForm.controls.billable.value,
           })
           .subscribe(
             (res) => {
@@ -277,6 +297,7 @@ export class AddresourceComponent implements OnInit {
 
               this.addResorceForm.reset();
               this.notification.success('Resource updated successfully', '');
+             
             },
             (error) => {
               this.notification.error('Resource updated failed', '');
@@ -300,6 +321,8 @@ export class AddresourceComponent implements OnInit {
         this.editResorceForm.controls.assignDate.value;
       this.asignedResourseToEdit.Empolyee =
         this.editResorceForm.controls.resource.value;
+        this.asignedResourseToEdit.Billable=
+        this.editResorceForm.controls.billable.value;
 
       this.projectResources.map((s) =>
         s.Empolyee.Guid === this.asignedResourseToEdit.Empolyee.Guid
@@ -313,6 +336,7 @@ export class AddresourceComponent implements OnInit {
           : {
               employeeId: this.editResorceForm.controls.resource.value.Guid,
               assignedDate: this.editResorceForm.controls.assignDate.value,
+              billable: this.editResorceForm.controls.billable.value,
             }
       );
       if (!this.isOnEditstate)
@@ -324,14 +348,15 @@ export class AddresourceComponent implements OnInit {
             this.resources[i] = {
               EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
               AssignDate: this.editResorceForm.controls.assignDate.value,
+              Billable: this.editResorceForm.controls.billable.value,
             };
 
             this.projectCreateState.updateAssignResource(this.resources);
+
             break;
           }
         }
-
-    
+       
       this.isModalVisible = false;
       this.editResorceForm.reset();
       this.asignedResourseToEdit = {} as AssignResource;
@@ -361,6 +386,7 @@ export class AddresourceComponent implements OnInit {
       (res) => {
         this.removeResourceFromtable(this.resoureRemove.Empolyee.Guid);
         this.notification.success('Resource unassigned successfully', '');
+
         this.resoureRemove = {} as AssignResource;
       },
       (error) => {
@@ -393,6 +419,7 @@ export class AddresourceComponent implements OnInit {
       }
   
     this.resources = this.resources.filter((s) => s.EmployeeGuid != id);
+    this.setBillableFilter();
   }
 
   sortEmployees() {
@@ -515,8 +542,71 @@ export class AddresourceComponent implements OnInit {
       else
       this.projectResources.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
     } 
+
+  }
+    else if(SortColumn == "billable")
+    {
+      if (direction == 'ascend') {
+        if(this.isOnEditstate)
+        this.projectResourcesView.sort((a, b) => (a?.Billable > b.Billable  ? 1 : -1)); 
+        else
+        this.projectResources.sort((a, b) => (a?.Billable > b?.Billable ? 1 : -1));
+      } else if (direction == 'descend') {
+        if(this.isOnEditstate)
+        this.projectResourcesView.sort((a, b) => (a?.Billable < b?.Billable ? 1 : -1));
+        else
+        this.projectResources.sort((a, b) => (a?.Billable< b?.Billable? 1 : -1));
+    }
   }
   if(direction!=null&& this.isOnEditstate)
   this.PageIndexChange(this.pageIndex);    
   }
+  
+  billableChangeFilter(list:string[])
+  {
+
+    if(list===[] ||list.length==0 )
+      this.projectResourcesView=this. projectResourceStateService.resourcesOfProject;
+    else
+    {
+   let projectResourcesfilter = [] as AssignResource[];
+   for(let i=0;i<list.length;i++)
+{
+    if(list[i]=="yes")
+    projectResourcesfilter=[...this. projectResourceStateService.resourcesOfProject.filter(p=>p.Billable==true), ... projectResourcesfilter];
+    if(list[i]=="no")
+    projectResourcesfilter=[...this. projectResourceStateService.resourcesOfProject.filter(p=>p.Billable==false), ... projectResourcesfilter];
+    if(list[i]=="na")
+    projectResourcesfilter=[...this. projectResourceStateService.resourcesOfProject.filter(p=>p.Billable==null), ... projectResourcesfilter];
+}
+   this.projectResourcesView=projectResourcesfilter;
+ }  
+   this.total= this.projectResourcesView.length;
+   this.PageIndexChange(1);  
+  }
+  setBillableFilter()
+  {
+    this.billableFilter= [] as {
+      text: string;
+      value: string;
+    }[];
+    const unique= [...new Set(this.projectResourcesView.map(item => item.Billable))]
+    unique.forEach(p => {
+       if(p==true&&this.billableFilter.length==0)
+       this.billableFilter=[{text:"Yes",value:"yes"},...this.billableFilter];
+  else      if(p==true&&this.billableFilter.length!=0)
+  this.billableFilter.push({text:"Yes",value:"yes"})
+  else      if(p==false&&this.billableFilter.length!=0)
+  this.billableFilter=[{text:"No",value:"no"},...this.billableFilter];
+  else      if(p==false && this.billableFilter.length==0)
+  this.billableFilter.push({text:"No",value:"no"})
+  else      if(p==null &&this.billableFilter.length!=0)
+  this.billableFilter=[{text:"No",value:"na"},...this.billableFilter];
+  else      if(p==null && this.billableFilter.length==0)
+  this.billableFilter.push({text:"No",value:"na"})
+     });
+   
+  }
+
+
 }
