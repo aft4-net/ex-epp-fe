@@ -49,8 +49,8 @@ export class ViewProjectLayoutComponent implements OnInit {
   superVisorlist: string[] = [];
   statuslist: string[] = [];
   searchStateFound = false;
-  intiaload = true;
-  loggedInUserInfo?: any;
+ 
+ 
   nzSortDirections = Array<'Ascending' | 'Descending' | null>();
 
   SortColumn: string | null = null;
@@ -132,9 +132,6 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.getProjects();
   }
   getProjects() {
-    if (this.authorize('Projects_Admin')) {
-      this.id = '';
-    }
     this.projectService
       .getWithPagnationResut(
         this.pageIndex,
