@@ -30,8 +30,13 @@
   [nzData]="projectResources" >
   <thead>
     <tr>
-      <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('resource',$event)"> Resources </th>
-      <th [nzSortFn]="isOnEditstate" (nzSortOrderChange)="nzSortOrderChange('date',$event)" >Assigned Date</th>
+      <th [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('resource',$event)"> Resources </th>
+      <th [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('date',$event)" >Assigned Date</th>
+      <th  *ngIf="(projectCreate?.ProjectType==='External' || projectForResource?.ProjectType==='External' ) &&isOnEditstate ===true  "
+      [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('billable',$event)"  nzColumnKey="billable"
+      [nzFilterFn]="true" [nzFilters]="billableFilter" (nzFilterChange)="billableChangeFilter($event)" > Billable</th>
+          <th  *ngIf="(projectCreate?.ProjectType==='External' || projectForResource?.ProjectType==='External' )
+      &&isOnEditstate ===false "[nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('billable',$event)" > Billable</th>
       <th *ngIf="!isOnEditstate">Action</th>
       <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>
     </tr>
@@ -42,9 +47,14 @@
         {{ resource.Empolyee?.Name | titlecase }} - {{ resource.Empolyee?.Role }}
       </td>
       <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
-
+      <td *ngIf="projectCreate?.ProjectType==='External' || projectForResource?.ProjectType==='External' ">
+      <span *ngIf=" resource?.Billable === false  "> No   </span>
+      <span *ngIf="resource.Billable===null  "> N/A   </span>
+      <span *ngIf="resource?.Billable === true" > Yes   </span>
+     
+      </td>
       <td *ngIf="isOnEditstate">
-        <a *ngIf="authorize('Update_Resources')" class="text-black mr-3" (click)="editResource(resource.Empolyee.Guid)">
+        <a *ngIf="authorize('Update_Resources')" class="text-black " (click)="editResource(resource.Empolyee.Guid)">
           <i nz-icon nzType="edit" style="color:black;"></i>
         </a>
         &nbsp; &nbsp;
@@ -95,7 +105,7 @@
           <span class="redAstrics"> * </span>
         </nz-form-label>
 
-        <nz-form-control class="mb-5">
+        <nz-form-control >
           <nz-date-picker [nzShowToday]="false" [nzAutoFocus] [nzDisabledDate]="disabledEndDate" [nzAllowClear]
             nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
           </nz-date-picker>
@@ -111,6 +121,13 @@
         </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item *ngIf="projectCreate?.ProjectType==='External' || projectForResource?.ProjectType==='External' ">
+        <nz-form-label nzFor="billable"> Billable
+        </nz-form-label>
+        <nz-form-control nz-row>
+        <nz-switch formControlName="billable"></nz-switch>
+      </nz-form-control>
+      </nz-form-item>
       <div nz-row>
         <button type="submit"
           class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
@@ -144,7 +161,7 @@
           <nz-form-label nzFor="assignDate">Assigned Date
             <span class="redAstrics"> * </span>
           </nz-form-label>
-          <nz-form-control class="mb-5">
+          <nz-form-control >
             <nz-date-picker [nzShowToday]="false" [nzDisabledDate]="disabledEndDate" [nzAllowClear]
               nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
             </nz-date-picker>
@@ -160,6 +177,13 @@
               </span>
             </span>
           </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="projectCreate?.ProjectType==='External' || projectForResource?.ProjectType==='External' ">
+          <nz-form-label nzFor="billable"> Billable
+          </nz-form-label>
+          <nz-form-control nz-row>
+          <nz-switch formControlName="billable"></nz-switch>
+        </nz-form-control>
         </nz-form-item>
         <div nz-row>
           <button *ngIf="!isOnEditstate" type="submit"

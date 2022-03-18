@@ -86,10 +86,6 @@ ssgin-link {
 }
 
 
-::ng-deep .ant-modal-content  {
-  height: 24.5rem;
-}
-
 ::ng-deep .ant-form-item-label>label {
   margin: 0;
   font-size: medium;
@@ -251,4 +247,9 @@ nz-table  {
   font-weight: normal;
   font-size: 16px;
   color: #595959;
+}
+
+
+::ng-deep .ant-switch-checked {
+  background: #00A551;
 }

@@ -57,4 +57,9 @@ export class ProjectResourceStateService {
     this. assignResoursceService.getResourceOfProject( this.project.Guid).subscribe((d:AssignResource[])=>this.updateProjecResourcetList(d));
   }
 
+  get resourcesOfProject()
+  {
+      return this.projectResourceList.getValue()
+  }
+
 }
