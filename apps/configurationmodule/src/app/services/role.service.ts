@@ -39,17 +39,17 @@ export class RoleService {
     return this.http.get<Pagination>(this.baseUrl + "Role?"+params.toString());
   }
 
-  addRole(role: Role): Observable<ResponseDto<Role>> {
-    return this.http.post<ResponseDto<Role>>(this.baseUrl + "Role", role);
+  addRole(role: Role): Observable<ResponseDTO<Role>> {
+    return this.http.post<ResponseDTO<Role>>(this.baseUrl + "Role", role);
   }
 
-  updateRole(role: Role, id: string): Observable<ResponseDto<Role>> {
+  updateRole(role: Role, id: string): Observable<ResponseDTO<Role>> {
     role.Guid = id;
-    return this.http.put<ResponseDto<Role>>(this.baseUrl + "Role", role);
+    return this.http.put<ResponseDTO<Role>>(this.baseUrl + "Role", role);
   }
 
-  deleteRole(id: string): Observable<ResponseDto<Role>> {
-    return this.http.delete<ResponseDto<Role>>(this.baseUrl + "Role/?id="+ id);
+  deleteRole(id: string): Observable<ResponseDTO<Role>> {
+    return this.http.delete<ResponseDTO<Role>>(this.baseUrl + "Role/?id="+ id);
   }
 
   checkifRoleisDeletable(id:string) : Observable<any>{

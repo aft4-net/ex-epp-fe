@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Role, RolePostModel } from '../../../models/role';
@@ -24,7 +24,7 @@ export class AddEditRoleComponent implements OnInit {
   isEdit!: boolean;
   departments: Department[] = [];
   onSubmitClick!: boolean;
-  
+
   constructor(private fb: FormBuilder, private roleConfigService: RoleService,
         private departmentService: DepartmentService,
         private notification: NzNotificationService,
@@ -64,17 +64,28 @@ export class AddEditRoleComponent implements OnInit {
     this.onSubmitClick = true;
     if (this.roleForm.valid) {
       // this.closeModal.emit("close");
-      this.roleConfigService.addRole(this.roleForm.value).subscribe((response)=>{
-        // this.closeModal.emit("close");
-        this.roleForm.reset();
-        this.closeModal.emit("close");
-        this.notification.create(
-          'success',
-          'Successfully Added!',
-          'Job Title',
-          { nzPlacement: 'bottomRight' }
-        );
-        this.update.emit("save");
+      this.roleConfigService.addRole(this.roleForm.value).subscribe((response: ResponseDTO<Role>)=>{
+        if (response.ResponseStatus.toString() === 'Success') {
+          // this.closeModal.emit("close");
+          this.roleForm.reset();
+          this.closeModal.emit("close");
+          this.onSubmitClick = false;
+          this.notification.create(
+            'success',
+            'Successfully Added!',
+            'Job Title',
+            { nzPlacement: 'bottomRight' }
+          );
+          this.update.emit("save");
+        } else {
+          this.onSubmitClick = false;
+          this.notification.create(
+            'error',
+            'Error',
+            response.Message,
+            { nzPlacement: 'bottomRight' }
+          );
+        }
       }, (error) => {
         this.notification.create(
           'error',
@@ -99,16 +110,26 @@ export class AddEditRoleComponent implements OnInit {
     if (this.roleForm.valid) {
       // this.closeModal.emit("close");
       this.roleConfigService.updateRole(this.roleForm.value, this.id ?? "")
-        .subscribe((response)=>{
-          this.onSubmitClick = false;
-          this.closeModal.emit("close");
-          this.notification.create(
-            'success',
-            'Successfully Updated!',
-            'Job Title',
-            { nzPlacement: 'bottomRight' }
-          );
-          this.update.emit("update");
+        .subscribe((response: ResponseDTO<Role>)=>{
+          if (response.ResponseStatus.toString() === 'Success') {
+            this.onSubmitClick = false;
+            this.closeModal.emit("close");
+            this.notification.create(
+              'success',
+              'Successfully Updated!',
+              'Job Title',
+              { nzPlacement: 'bottomRight' }
+            );
+            this.update.emit("update");
+          } else {
+            this.onSubmitClick = false;
+            this.notification.create(
+              'error',
+              'Error',
+              response.Message,
+              { nzPlacement: 'bottomRight' }
+            );
+          }
         });
     } else {
       Object.values(this.roleForm.controls).forEach(control => {
@@ -122,6 +143,7 @@ export class AddEditRoleComponent implements OnInit {
 
   resetForm() {
     this.roleForm.reset();
+    this.onSubmitClick = false;
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
@@ -131,6 +153,13 @@ export class AddEditRoleComponent implements OnInit {
     this.departmentService.getAllDepartments().subscribe((response) => {
       this.departments = response.Data;
     })
+  }
+  get isFormDisabled():boolean{
+    return this.roleForm.invalid ;
+  }
+  get enableClear():boolean{
+    return (this.roleForm.get('Name') as AbstractControl).valid
+    || (this.roleForm.get('DepartmentGuid') as AbstractControl).valid;
   }
 
 }

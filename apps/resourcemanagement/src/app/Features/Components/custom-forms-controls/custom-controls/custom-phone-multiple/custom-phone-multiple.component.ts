@@ -57,7 +57,7 @@ export class CustomPhoneNumberMultipleComponent implements OnInit {
         const prefix = this.getPrefixControl(index);
         const phone = this.getControl(index);
         phone.clearAsyncValidators();
-        phone.clearValidators();
+        phone.clearValidators(); 
         if (prefix.value === '+86') {
             phone.addValidators(validatePhoneNumberChina);
         } else if (prefix.value === '+251') {

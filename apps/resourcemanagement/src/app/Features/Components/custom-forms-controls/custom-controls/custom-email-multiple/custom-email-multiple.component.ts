@@ -49,7 +49,6 @@ export class CustomEmailMultipleComponent implements OnInit {
             this.errMessages.push('')
         }
     }
-
     getControl(index: number): FormControl {
         const formControl = this._formGenerator.getFormControlfromArray(index, this.formArray)
         if (formControl) {
