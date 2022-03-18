@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { AbstractControl, AsyncValidator, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn } from "@angular/forms";
 import { Address, Addresss } from "../../Models/address.model";
 import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContacts } from "../../Models/emergencycontact";
@@ -9,16 +9,26 @@ import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
 import { FamilyDetail } from "../../Models/FamilyDetail/FamilyDetailModel";
 import { FormGeneratorAssistant } from "./form-generator-assistant.service";
-import { Injectable } from "@angular/core";
+import { Directive, Injectable } from "@angular/core";
 import { Nationality } from "../../Models/Nationality";
 import { Relationship } from "../../Models/Relationship";
 import { EmployeeService } from "../../Services/Employee/EmployeeService";
 import { NzNotificationService } from "ng-zorro-antd/notification";
 import { Router } from "@angular/router";
 import { PermissionListService } from "libs/common-services/permission.service";
+import { EmployeeApiService } from "@exec-epp/core-services/employees-services";
+import { HttpClient } from "@angular/common/http";
+import { ResponseStatus } from "@exec-epp/core-services/a-base-services";
+import { map } from "rxjs/operators";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
+})
+@Directive({
+    providers:[
+        HttpClient,
+        { provide: EmployeeApiService, useClass: EmployeeApiService, deps: [HttpClient], multi: false }
+    ]
 })
 export class FormGenerator extends FormGeneratorAssistant {
 
@@ -44,7 +54,9 @@ export class FormGenerator extends FormGeneratorAssistant {
     public isProfile = false;
     private _validate = false;
     private _employee?: Employee;
+    public Guid?: string
 
+    
     get IsEdit(): boolean {
         return this._isEdit
     }
@@ -58,7 +70,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         addressCountryService: CountriesMockService,
         private notification: NzNotificationService,
         private _router: Router,
-        private _permissionService: PermissionListService,
+        private _permissionService: PermissionListService
     ) {
         super(
             addressCountryService
@@ -95,6 +107,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     validatePersonalDetail() {
+        this._validate = true;
         let valid = true;
         this._enableForms();
         if (!this.personalDetailsForm.valid) {
@@ -107,6 +120,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     validateOrganizationalDetail() {
         let valid = true;
+        this._validate = true;
         this._enableForms();
         if (!this.organizationalForm.valid) {
             this.organizationalForm.updateValueAndValidity();
@@ -117,6 +131,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     save() {
+        this._validate = true;
         this._enableForms()
         let employee: Employee = {} as Employee
         employee = {
@@ -147,6 +162,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
 
             )
+        this._validate = false;
 
     }
     updateOneEmployee() {
@@ -178,6 +194,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
 
             )
+        this._validate = false;
 
     }
 
@@ -766,12 +783,14 @@ export class FormGenerator extends FormGeneratorAssistant {
         this.familyDetail = this._createFamilyDetailsForm()
     }
 
-    generateForms(employee?: Employee) {
+    // eslint-disable-next-line no-debugger
+    generateForms(employee?: Employee) {debugger;
         this._employee = employee;
+        this.Guid=employee?.Guid
         this._regenerateForm()
         if (employee) {
+            this._validate = true;
             this.emplyeeNumber = employee.EmployeeNumber;
-            console.log("What2");
             this._isEdit = true
             this._setPresonalDetail(employee)
             if (employee?.EmployeeOrganization) {
@@ -824,10 +843,6 @@ export class FormGenerator extends FormGeneratorAssistant {
         return commonErrorMessage.message.substring(0)
     }
 
-    triggerValidation(control: FormControl | FormArray | FormGroup) {
-        console.log()
-    }
-
     private _formValidation(formGroup: FormGroup) {
         this._enableForms();
         const value = formGroup.value;
@@ -856,6 +871,12 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._formValidation(emergencyGroup);
         this._formValidation(addressGroup);
 
+    }
+
+    private readonly _apiWait = (condition: { done: boolean }) => {
+        for (let i = 0; i < 20 && !condition.done; i++) {
+            setTimeout(() => {}, 100);
+        }
     }
 
 }
