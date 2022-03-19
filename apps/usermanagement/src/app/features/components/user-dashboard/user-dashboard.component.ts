@@ -477,7 +477,7 @@ handleGroupCancel() {
 
           EmployeeId : res.Data.Guid,
           FirstName : res.Data.FirstName,
-          MiddleName : res.Data.FatherName,
+          MiddleName : res.Data.FatherName?res.Data.FatherName:'',
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.EmployeeOrganization?.CompaynEmail,
