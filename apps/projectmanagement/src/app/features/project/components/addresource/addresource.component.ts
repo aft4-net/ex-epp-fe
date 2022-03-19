@@ -225,7 +225,7 @@ export class AddresourceComponent implements OnInit {
         );
       }
   
-      this.handleCancel();
+      this.addResorceForm.reset();
     } else {
       Object.values(this.addResorceForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -239,6 +239,7 @@ export class AddresourceComponent implements OnInit {
 
   showModal(): void {
     this.isModalVisible = true;
+    this.addResorceForm.controls.billable.setValue(false);
   }
 
   handleCancel(): void {
@@ -251,14 +252,16 @@ export class AddresourceComponent implements OnInit {
   resetForm() {
     this.addResorceForm.controls.resource.setValue('');
     this.addResorceForm.controls.assignDate.setValue('');
+    this.addResorceForm.controls.billable.setValue(false);
   }
   resetEditForm() {
     this.editResorceForm.controls.assignDate.setValue('');
     this.editResorceForm.controls.resource.setValue('');
+    this.editResorceForm.controls.billable.setValue(false);
   }
 
   editResource(id: string) {
-    this.addResorceForm.reset();
+   
     const projectResource = this.projectResources.find(
       (s) => s.Empolyee.Guid == id
     );
