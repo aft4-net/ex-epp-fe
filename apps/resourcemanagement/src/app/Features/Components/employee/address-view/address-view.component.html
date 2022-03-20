@@ -32,7 +32,7 @@
       <div nz-col nzSpan="21">
       </div>
       <div nz-col nzSpan="3">
-        <button class="addButton" *ngIf="(authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" nz-button (click)="addaddress()">
+        <button class="addButton" *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" nz-button (click)="addaddress()">
           <span>Add Address</span>
         </button>
       </div>
@@ -48,7 +48,7 @@
         <tr class="tr">
           <th class="table_heading" >Country</th>
           <th class="table_heading" >City/SubCity</th>
-          <th class="table_heading" style="max-width: 1px">Actions</th>
+          <th *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))" class="table_heading" style="max-width: 1px">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -56,9 +56,9 @@
           <td class="tdstyle" >{{ data.Country }}</td>
           <td class="tdstyle">{{ data.City }}</td>
 
-          <td>
+          <td *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">
             <div nz-row>
-              <div nz-col nzSpan="2" [hidden]="editId === data.Guid"(click)="startEdit(i)">
+              <div  nz-col nzSpan="2" [hidden]="editId === data.Guid"(click)="startEdit(i)">
                 <i style="color:black;" nz-icon nzType="edit"  nzTheme="outline"></i>
               </div>
               &nbsp; &nbsp;
@@ -72,11 +72,6 @@
         </tr>
       </tbody>
     </nz-table>
-    <div nz-col nzSpan="3">
-      <button class="addButtonwhenNodata" nz-button (click)="addaddress()">
-        <span> Add Address</span>
-      </button>
-    </div>
   </div>
 </div>
 

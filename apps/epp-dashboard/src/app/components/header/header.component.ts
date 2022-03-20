@@ -36,10 +36,10 @@ export class HeaderComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService,
 
   ) {
-   this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName)
+   this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName?this.loggedInUser.MiddleName:this.loggedInUser.LastName)
     this.thefullName = this.fullName;
     this.firsName = this.loggedInUser.FirstName ;
-    this.middleName = this.loggedInUser.MiddleName;
+    this.middleName = this.loggedInUser.MiddleName&&this.loggedInUser.MiddleName!==''?this.loggedInUser.MiddleName:this.loggedInUser.LastName;
     const namearray = this.firsName.split();
     const namearrays = this.middleName.split();
    this.firsName = namearray[0][0].toUpperCase();

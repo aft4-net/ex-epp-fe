@@ -15,7 +15,8 @@
       formControlName="UserName"
       
     >
-     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName"></nz-option>
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid"
+     [nzLabel]="employee.FirstName + ' ' + (employee.FatherName?employee.FatherName:employee.GrandFatherName)"></nz-option>
     </nz-select>
               </nz-form-control>
             </nz-form-item>

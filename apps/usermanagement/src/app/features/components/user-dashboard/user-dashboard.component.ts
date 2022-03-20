@@ -477,7 +477,7 @@ handleGroupCancel() {
 
           EmployeeId : res.Data.Guid,
           FirstName : res.Data.FirstName,
-          MiddleName : res.Data.FatherName,
+          MiddleName : res.Data.FatherName?res.Data.FatherName:'',
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.EmployeeOrganization?.CompaynEmail,
@@ -496,7 +496,7 @@ handleGroupCancel() {
             }
             this.notifier.notify(
               NotificationType.success,
-              'User is created successfully'
+              'User is Added successfully'
             );
             this.loadingOnSave = false;
             this.isUserModalVisible = false;

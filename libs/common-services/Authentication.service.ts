@@ -186,6 +186,7 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
           this.userSubject.next(users.Data);
           return users;
         }
+        users.Data.MiddleName = users.Data.MiddleName? users.Data.MiddleName : ''
         return users;
       }
     ));

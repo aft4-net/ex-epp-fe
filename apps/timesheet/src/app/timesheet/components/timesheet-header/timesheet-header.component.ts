@@ -144,7 +144,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
   }
 
   onRequestForApproval() {
-    let timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
+    const timesheetConfig = this.timesheetConfig ?? this.timesheetConfigStateService.defaultTimesheetConfig;
 
     if (!this.timesheet) {
       return;
@@ -157,7 +157,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
       if (this.timesheetApprovals) {
         for (let i = 0; i < this.timesheetApprovals.length; i++) {
-          if (this.timesheetApprovals[i].Status === Object.values(ApprovalStatus)[2].valueOf()) {
+          if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()) {
             this.rejectedTimesheet = this.timesheetApprovals[i];
           }
           if (this.rejectedTimesheet) {
@@ -172,7 +172,7 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
                 this.timesheetStateService.getTimeSheetApproval(this.timesheet.Guid);
               }
             }, error => {
-
+              console.log(error);
             });
 
             this.checkForSubmittedForApproal();

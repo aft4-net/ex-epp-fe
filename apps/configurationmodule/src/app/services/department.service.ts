@@ -45,17 +45,17 @@ export class DepartmentService {
     return this.http.get<Pagination>(this.baseUrl + "Department?"+params.toString());
   }
 
-  addDepartment(department: Department): Observable<ResponseDto<Department>> {
-    return this.http.post<ResponseDto<Department>>(this.baseUrl + "Department", department);
+  addDepartment(department: Department): Observable<ResponseDTO<Department>> {
+    return this.http.post<ResponseDTO<Department>>(this.baseUrl + "Department", department);
   }
 
-  updateDepartment(department: Department, id: string): Observable<ResponseDto<Department>> {
+  updateDepartment(department: Department, id: string): Observable<ResponseDTO<Department>> {
     department.Guid = id;
-    return this.http.put<ResponseDto<Department>>(this.baseUrl + "Department", department);
+    return this.http.put<ResponseDTO<Department>>(this.baseUrl + "Department", department);
   }
 
-  deleteDepartment(id: string): Observable<ResponseDto<Department>> {
-    return this.http.delete<ResponseDto<Department>>(this.baseUrl + "Department/?id="+ id);
+  deleteDepartment(id: string): Observable<ResponseDTO<Department>> {
+    return this.http.delete<ResponseDTO<Department>>(this.baseUrl + "Department/?id="+ id);
   }
   checkifDepartmentisDeletable(id:string) : Observable<any>{
     return this.http.get<any>(this.baseUrl+"Employee/checkDepartment/?idNumber="+id);
