@@ -31,6 +31,10 @@ export class ClientAndProjectService extends BaseQueryOnlyAPIService<Client> {
   }
 
   protected _extractMultiple(response: any): Client[] {
+    const hoursPerDay = 24;
+    const minutesPerHour = 60;
+    const secondsPerMinute = 60;
+    const millisecondsPerSecond = 1000;
     return response.Data.map((client: any) => {
       return {
         id: client.Guid,
@@ -39,8 +43,9 @@ export class ClientAndProjectService extends BaseQueryOnlyAPIService<Client> {
           return {
             id: project.Guid,
             name: project.ProjectName,
-            startDate:project.StartDate,
-            endDate:project.EndDate
+            startDate: project.StartDate,
+            endDate: project.EndDate ?? new Date(Date.now() + (hoursPerDay * minutesPerHour * secondsPerMinute * millisecondsPerSecond)),
+            assignedDate: project.AssignDate
           } as Project
         })
       } as Client;

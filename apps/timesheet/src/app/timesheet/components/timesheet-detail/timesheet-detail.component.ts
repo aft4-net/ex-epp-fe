@@ -47,11 +47,15 @@ export const startingDateCriteria = {} as {
   styleUrls: ['./timesheet-detail.component.scss'],
 })
 export class TimesheetDetailComponent implements OnInit, OnDestroy {
-  userId: string | null = null;
+  userId = "";
   clickEventType = ClickEventType.none;
   drawerVisible = false;
-  modalVisible = false;
+  invalidTimeEntriesModalVisible = false;
+  addTimeEntryModalVisible = false;
   validateForm!: FormGroup;
+
+  modalTitle = "";
+  modalMessages: string[] = []
 
   // Used for disabling client and project list when selected for edit.
   disableFromDate = false;
@@ -71,13 +75,14 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   timesheetApproved = false;
 
   timeEntry: TimeEntry | null = null;
+  newTimeEntry: TimeEntry | null = null;
   weeklyTotalHours = 0;
 
   invalidEntries: { Date: Date; Message: string }[] = [];
 
-  clients: Client[] | null = null;
-  clientsFiltered: Client[] | null = null;
-  projects: Project[] | null = null;
+  clients: Client[] = [];
+  clientsFiltered: Client[] = [];
+  projects: Project[] = [];
   projectsFiltered: Project[] | null = null;
   employee: Employee[] = [];
 
@@ -156,7 +161,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.timesheetStateService.setApproval(false);
-    this.userId = localStorage.getItem('userId');
+    this.userId = localStorage.getItem('userId') ?? "";
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
 
     this.timesheet$ = this.timesheetStateService.timesheet$;
@@ -185,12 +190,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.timesheetStateService.getTimesheet(this.userId);
     }
 
-    this.loadingSubscription = this.loading$.subscribe(res => {
-      if (res == 0 && !this.drawerVisible) {
-        this.checkForCurrentWeek();
-      }
-    })
-
     this.calculateWeeklyTotalHours();
 
     this.validateForm = this.fb.group({
@@ -203,6 +202,24 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     });
 
     this.calcualteNoOfDaysBetweenDates();
+
+    this.loadingSubscription = this.loading$.subscribe(res => {
+      if (res == 0 && !this.drawerVisible) {
+        this.checkForCurrentWeek();
+      }
+    })
+
+    this.loadingSubscription.add(
+      this.$clients.subscribe(response => {
+        this.clients = response;
+      })
+    );
+
+    this.loadingSubscription.add(
+      this.$projects.subscribe(response => {
+        this.projects = response;
+      })
+    )
   }
 
   ngOnDestroy(): void {
@@ -617,10 +634,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       } else {
         this.addTimeEntryForDateRange(timeEntry);
       }
-
-      if (!this.invalidEntries || this.invalidEntries.length == 0) {
-        this.closeFormDrawer();
-      }
     } catch (err) {
       console.error(err);
     }
@@ -649,12 +662,12 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
             this.timeEntry = null;
           } else {
-            this.addTimeEntry(timeEntry);
+            this.checkProjectDateBeforeAddTimeEntry(timeEntry);
           }
         });
 
     } else {
-      this.addTimeEntry(timeEntry);
+      this.checkProjectDateBeforeAddTimeEntry(timeEntry);
     }
   }
 
@@ -750,7 +763,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     }
 
     if (this.invalidEntries && this.invalidEntries.length > 0) {
-      this.modalVisible = true;
+      this.invalidTimeEntriesModalVisible = true;
       return;
     }
 
@@ -759,16 +772,85 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleOk() {
-    this.modalVisible = false;
+  checkProjectDateBeforeAddTimeEntry(timeEntry: TimeEntry) {
+    const project = this.projects.filter(p => p.id === timeEntry.ProjectId)[0];
+    const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    let projectEndDate = new Date(project.endDate);
+    projectEndDate = new Date(projectEndDate.getFullYear(), projectEndDate.getMonth(), projectEndDate.getDate());
+    let projectAssignedDate = new Date(project.assignedDate);
+    projectAssignedDate = new Date(projectAssignedDate.getFullYear(), projectAssignedDate.getMonth(), projectAssignedDate.getDate());
+
+    this.newTimeEntry = timeEntry;
+    this.modalTitle = "Add entry ?";
+    this.modalMessages = [];
+    if (date < projectAssignedDate) {
+      this.modalMessages.push("You are about to add time entry before your assigned date.");
+      this.modalMessages.push("Are you sure you want to continue?");
+      this.addTimeEntryModalVisible = true;
+      return;
+    }
+    else if (date > projectEndDate) {
+      this.modalMessages.push("You are about to add time entry after project end date.");
+      this.modalMessages.push("Are you sure you want to continue?");;
+      this.addTimeEntryModalVisible = true;
+      return;
+    }
+
+    this.addTimeEntry();
   }
 
-  addTimeEntry(timeEntry: TimeEntry) {
+  addTimeEntry() {
     if (!this.userId) {
       return;
     }
 
-    const date = new Date(timeEntry.Date);
+    if (!this.newTimeEntry) {
+      return;
+    }
+
+    const date = new Date(this.newTimeEntry.Date);
+    this.newTimeEntry.Date = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      3,
+      0,
+      0,
+      0
+    );
+
+    this.timesheetService.addTimeEntry(this.userId, this.newTimeEntry).subscribe(
+      (response) => {
+        if (response.ResponseStatus === "Success") {
+          this.timesheetStateService.getTimesheet(this.userId, this.date);
+
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
+        }
+        else {
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
+        }
+      },
+      (error) => {
+        this.createNotification(
+          "error",
+          error.message()
+        );
+      }
+    );
+
+    if (this.drawerVisible) {
+      this.closeFormDrawer();
+    }
+  }
+
+  updateTimeEntry(timeEntry: TimeEntry) {
+    const date = timeEntry.Date;
     timeEntry.Date = new Date(
       date.getFullYear(),
       date.getMonth(),
@@ -779,20 +861,34 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(
+    this.timesheetService.updateTimeEntry(timeEntry).subscribe(
       (response) => {
-        if (this.userId) {
+        if (response.ResponseStatus === "Success") {
           this.timesheetStateService.getTimesheet(this.userId, this.date);
+
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
         }
-        this.createNotification(
-          'success',
-          'Your Timesheet Added Successfully.'
-        );
+        else {
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
+        }
       },
       (error) => {
-        this.createNotification('warning', 'Warning');
+        this.createNotification(
+          'error',
+          error.message
+        );
       }
     );
+
+    if (this.drawerVisible) {
+      this.closeFormDrawer();
+    }
   }
 
   addTimeEntryForRangeOfDates(timeEntries: TimeEntry[]) {
@@ -817,50 +913,32 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       .addTimeEntryForRangeOfDates(this.userId, timeEntries)
       .subscribe(
         (response) => {
-          if (this.userId) {
+          if (response.ResponseStatus === "Success") {
             this.timesheetStateService.getTimesheet(this.userId, this.date);
+
+            this.createNotification(
+              response.ResponseStatus.toLowerCase(),
+              response.Message
+            );
           }
-          this.createNotification(
-            'success',
-            'Time entry for a range added successfully'
-          );
+          else {
+            this.createNotification(
+              response.ResponseStatus.toLowerCase(),
+              response.Message
+            );
+          }
         },
         (error) => {
           this.createNotification(
             'error',
-            'Error on adding time entry for a range'
+            error.message
           );
         }
       );
-  }
 
-  updateTimeEntry(timeEntry: TimeEntry) {
-    let date = timeEntry.Date;
-    timeEntry.Date = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      3,
-      0,
-      0,
-      0
-    );
-
-    this.timesheetService.updateTimeEntry(timeEntry).subscribe(
-      (response) => {
-        if (this.userId) {
-          this.timesheetStateService.getTimesheet(this.userId, this.date);
-        }
-        this.createNotification(
-          'success',
-          'Your Timesheet Updated Successfully.'
-        );
-      },
-      (error) => {
-        this.createNotification('error', 'Error on adding Timesheet.');
-        console.log(error);
-      }
-    );
+    if (this.drawerVisible) {
+      this.closeFormDrawer();
+    }
   }
 
   closeFormDrawer(): void {
@@ -876,6 +954,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   clearFormData() {
     this.timeEntry = null;
+    this.newTimeEntry = null;
     this.disableFromDate = false;
     this.disableToDate = false;
     this.disableClient = false;
