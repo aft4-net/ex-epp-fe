@@ -29,8 +29,6 @@
     "analyze:resourceManagement": "webpack-bundle-analyzer dist/apps/resourcemanagement/stats.json",
     "analyze:timeSheet": "webpack-bundle-analyzer dist/apps/timesheet/stats.json",
     "analyze:usermanagement": "webpack-bundle-analyzer dist/apps/usermanagement/stats.json"
-
-
   },
   "private": true,
   "dependencies": {

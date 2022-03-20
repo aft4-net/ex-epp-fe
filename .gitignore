@@ -39,7 +39,7 @@ testem.log
 Thumbs.db
 
 # Package lock json
-/package-lock.json
+package-lock.json
 
 # Ignore .history folder
 .history/*
