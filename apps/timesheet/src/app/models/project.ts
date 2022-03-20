@@ -3,4 +3,7 @@ export interface Project {
     name: string;
     clientId: string;
     employeeId: string;
+    startDate: Date;
+    endDate: Date;
+    assignedDate: Date;
 }
