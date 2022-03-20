@@ -39,7 +39,7 @@
   <ng-container *nzModalContent>
     <form [formGroup]="addResorceForm" nz-form [nzLayout]="'vertical'">
       <nz-form-item>
-        <nz-form-label nz-row nzFor="resource">Resource <span class="redAstrics"> * </span>
+        <nz-form-label  nzFor="resource">Resource <span class="redAstrics"> * </span>
         </nz-form-label>
 
         <nz-form-control  *ngIf="!isEditMode"nz-row nzErrorTip="Please select a Resource">
@@ -61,12 +61,12 @@
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item  >
+      <nz-form-item >
         <nz-form-label nzFor="assignDate">Assigned Date
           <span class="redAstrics"> * </span>
         </nz-form-label>
 
-        <nz-form-control [ngClass]=" !isProjectExternal ? 'mb-3':''">
+        <nz-form-control [ngClass]=" isProjectExternal ? 'mb-2':'mb-3'"   >
           <nz-date-picker [nzShowToday]="false" [nzAutoFocus] [nzDisabledDate]="disabledEndDate" [nzAllowClear]
             nzFormat="dd/MM/yyyy" formControlName="assignDate" nz-col nzSpan="12">
           </nz-date-picker>
@@ -82,14 +82,14 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item *ngIf="isProjectExternal" >
+      <nz-form-item *ngIf="isProjectExternal">
         <nz-form-label nzFor="billable"> Billable
         </nz-form-label>
-        <nz-form-control nz-row class="mt-2 mb-3">
+        <nz-form-control   class="mb-2">
         <nz-switch formControlName="billable"></nz-switch>
       </nz-form-control>
       </nz-form-item>
-      <div class="mb-5"  nz-row>
+      <div class="mb-4"  nz-row>
         <button *ngIf="!isEditMode" (click)="addButtonClicked()"
           class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
           Assign
@@ -114,8 +114,12 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="removeResourceModel" nzTitle="Resource unassign"
-  [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
+<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="removeResourceModel" 
+  [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal"[nzTitle]="unassingnTitleTemplate">  
+  <ng-template #unassingnTitleTemplate>
+   <span class="resourceModalTilte" > 
+    Resource unassign </span>
+ </ng-template>
   <ng-container *nzModalContent>
     <p> Are you sure to unassign this resource ? </p>
     <span class="flex justify-end">
@@ -125,13 +129,4 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal *ngIf="isOnEditstate" (nzOnCancel)="confirmCancelExit()" [(nzVisible)]="cancelModal" nzTitle="Exit"
-  [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" nzClassName="conform-modal">
-  <ng-container *nzModalContent>
-    <p> Are you sure to exit before updating project ? </p>
-    <span class="flex justify-end">
-      <button class="btn mr-8" (click)="confimeresredirect()">Yes, Exit</button>
-      <button class="btn-cancel " (click)="rediretCancel()"> Cancel </button>
-    </span>
-  </ng-container>
-</nz-modal>
+

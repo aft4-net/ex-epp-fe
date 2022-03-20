@@ -455,17 +455,7 @@ editResourceOnCreateState()
   confirmCancel() {
     this.removeResourceModel = false;
   }
-  confirmCancelExit() {
-    this.cancelModal = false;
-  }
 
-  confimeresredirect() {
-    this.router.navigateByUrl('projectmanagement');
-    this.cancelModal = false;
-  }
-  rediretCancel() {
-    this.cancelModal = false;
-  }
   navaigateToProject() {
     this.router.navigateByUrl('projectmanagement');
     this.projectResourceStateService.restUpdateProjectState();

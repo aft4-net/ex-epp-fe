@@ -196,11 +196,14 @@ form {
 }
 
 
+::ng-deep .conform-modal{
+ margin-bottom: 23%;
+}
 
 ::ng-deep .conform-modal .ant-modal-content {
 border: 0.5px solid #00a551;
 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-  width: 400px;
+  width: 410px;
 height: 147px !important;
 padding-top: 0px !important;
 background: #ffffff;
@@ -211,6 +214,7 @@ justify-self: center;
 ::ng-deep .conform-modal .ant-modal-header {
   font-size: 16px;
   padding-bottom: 3px;
+  margin-top: 2px;
   color: rgba(0,0,0,.85);
   background: #fff;
   border-bottom: none;
