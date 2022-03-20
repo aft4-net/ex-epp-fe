@@ -1,21 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  AddProjectStateService,
-  EmployeeService,
-  projectResourceType,
-  Employee,
-  AssignResource,
-  AssignResourceService,
-  ProjectResourceStateService,
-  Project,
-  ProjectCreate,
-} from '../../../../core';
+import {FormBuilder,FormControl,FormGroup,Validators,} from '@angular/forms';
+import {AddProjectStateService, EmployeeService,projectResourceType,Employee,AssignResource,
+  AssignResourceService,ProjectResourceStateService,Project,ProjectCreate,} from '../../../../core';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -28,7 +14,6 @@ import { PermissionListService } from '../../../../../../../../libs/common-servi
 })
 export class AddresourceComponent implements OnInit {
   addResorceForm!: FormGroup;
-  editResorceForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -40,18 +25,13 @@ export class AddresourceComponent implements OnInit {
     private projectCreateState: AddProjectStateService,
     private employeeService: EmployeeService
   ) {}
-  total = 0;
+ 
   loading = false;
-  isTablePagnation=true;
-  pageSize = 9;
-  pageIndex = 1;
-  totalPage!: number;
   resources: projectResourceType[] = [] as projectResourceType[];
   employees: Employee[] = [];
   asignedResourseToEdit!: AssignResource;
   removeResourceModel = false;
   projectResources: AssignResource[] = [];
-  projectResourcesView: AssignResource[] = [];
   isModalVisible = false;
   isEditMode = false;
   assignedDateError = false;
@@ -61,40 +41,52 @@ export class AddresourceComponent implements OnInit {
   resourceEdit: AssignResource = {} as AssignResource;
   resoureRemove!: AssignResource;
   projectForResource: Project = {} as Project;
-  nzSortDirections = Array<'Ascending' | 'Descending' | null>();
-  switchValue=false;
   projectCreate:ProjectCreate={} as ProjectCreate;
-  billableFilter: { text: string; value: string }[] = [] as {
-    text: string;
-    value: string;
-  }[];
+
+  isProjectExternal=false;
   ngOnInit(): void {
     this.projectResourceStateService.isOnEditstate$.subscribe((res) => {
       this.isOnEditstate = res;
     });
 
-    if (this.isOnEditstate) {
-      this.isTablePagnation=false;
-      this.projectForResource = this.projectResourceStateService.project;
-      this.loading = true;
-    }
-    else
+    if (!this.isOnEditstate) 
     this.projectCreateState.state$.subscribe(res=>{
       this.projectCreate=res;
+      if(this.projectCreate?.ProjectType==='External')
+      this.isProjectExternal=true;
+      else
+      this.isProjectExternal=false;
     })
+  this.getResources();
+  this.createForm();
+  this.valueChangeFormValidation()
+   }
+
+  createForm()
+  {
+    this.addResorceForm = this.fb.group({
+      resource: [null, Validators.required],
+      billable:[false],
+      assignDate: [null, Validators.required],
+    });
+}
+
+  getResources()
+  {
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees =  response.filter(p=>p.IsActive && !p.IsDeleted);
       if (this.projectResourceStateService.isOnEditstate) {
+
+        this.projectForResource = this.projectResourceStateService.project;
+        
+        if(this.projectForResource?.ProjectType==='External')
+                this.isProjectExternal=true;
         this.projectResourceStateService.projectResourceList$.subscribe(
           (res) => {
-            this.projectResourcesView= res;
-            this.setBillableFilter()
-            this.PageIndexChange(1);
-            this.pageIndex=1;
-            this.total= this.projectResourcesView.length;
-            this.loading = false;
-            if ( this.projectResourcesView)
-              this.projectResourcesView.forEach((p) => {
+            this.projectResources= res;
+ 
+            if ( this.projectResources)
+              this.projectResources.forEach((p) => {
                 this.employees = this.employees.filter(
                   (x) => x.Guid != p.EmployeeGuid
                 );
@@ -104,18 +96,10 @@ export class AddresourceComponent implements OnInit {
         this.sortEmployees();
       }
     });
- 
-    this.addResorceForm = this.fb.group({
-      resource: [null, Validators.required],
-      billable:[false],
-      assignDate: [null, Validators.required],
-    });
-    this.editResorceForm = this.fb.group({
-      resource: [null, Validators.required],
-      billable:[false], 
-      assignDate: [null, Validators.required],
-    });
+  }
 
+  valueChangeFormValidation()
+  {
     this.addResorceForm.valueChanges.subscribe(() => {
       if (this.addResorceForm.valid) {
         const projectAssignDate = formatDate(
@@ -135,96 +119,39 @@ export class AddresourceComponent implements OnInit {
           });
         else this.addResorceForm.controls.assignDate.setErrors(null);
       }
-    });
 
-    this.editResorceForm.valueChanges.subscribe(() => {
-      if (this.editResorceForm.valid) {
-        const projectAssignDate = formatDate(
-          this.editResorceForm.controls.assignDate.value,
-          'yyyy-MM-dd',
-          'en_US'
-        );
-        const hiredDate = formatDate(
-          this.editResorceForm.controls.resource.value.HiredDate,
-          'yyyy-MM-dd',
-          'en_US'
-        );
-
-        if (
-          this.editResorceForm &&
-          this.isOnEditstate &&
-          (new Date(this.editResorceForm.controls.assignDate.value).getTime() !=
+            if (this. addResorceForm &&this.isOnEditstate &&
+          (new Date(this. addResorceForm.controls.assignDate.value).getTime() !=
             new Date(this.resourceEdit.AssignDate).getTime() ||
-            this.editResorceForm.controls.resource.value.Guid !=
+            this. addResorceForm.controls.resource.value.Guid !=
               this.resourceEdit.EmployeeGuid ||   
-                this.editResorceForm.controls.billable.value !=  this.resourceEdit.Billable)
+                this. addResorceForm.controls.billable.value !=  this.resourceEdit.Billable)
         )
           this.disableUpdateButton = false;
         else this.disableUpdateButton = true;
-
-        if (projectAssignDate < hiredDate) {
-          this.editResorceForm.controls.assignDate.setErrors({
-            invalidDate: true,
-          });
-        } else this.editResorceForm.controls.assignDate.setErrors(null);
-      } else this.addResorceForm.controls.assignDate.setErrors(null);
     });
   }
-
   get assignDateControl() {
     return this.addResorceForm.controls.assignDate as FormControl;
   }
 
   get assignDateEditControl() {
-    return this.editResorceForm.controls.assignDate as FormControl;
+    return this. addResorceForm.controls.assignDate as FormControl;
   }
 
-  addResource() {
+  addButtonClicked() {
     if (this.addResorceForm.valid) {
       this.isModalVisible = false;
-      if (this.isOnEditstate) {
-        this.assignResourceService
-          .addResource({
-            EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
-            ProjectGuid: this.projectResourceStateService.project.Guid,
-            AssignDate: this.addResorceForm.controls.assignDate.value,
-           Billable: this.addResorceForm.controls.billable.value,
-          })
-          .subscribe(
-            (res) => {
-              this.projectResourceStateService.updateAssignResources();
-
-              this.addResorceForm.reset();
-              this.notification.success('Resource assigned successfully', '');
-            },
-            (error) => {
-              this.notification.error("Project's resource add fail", '');
-              this.addResorceForm.reset();
-            }
-          );
-      } else {
-        this.resources.push({
-          EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
-          AssignDate: this.addResorceForm.controls.assignDate.value,
-          Billable: this.addResorceForm.controls.billable.value,
-        });
-
-        this.projectResources = [
-          {
-            Empolyee: this.addResorceForm.controls.resource.value,
-            AssignDate: this.addResorceForm.controls.assignDate.value,
-           Billable: this.addResorceForm.controls.billable.value,
-          },
-          ...this.projectResources,
-        ];
-        this.setBillableFilter();
+      if (this.isOnEditstate) 
+       this.editStateAddResource()
+    else {
+      this.createStateaddResource();
         this.projectCreateState.updateAssignResource(this.resources);
         this.sortEmployees();
         this.employees = this.employees.filter(
           (s) => s.Guid !== this.addResorceForm.controls.resource.value.Guid
         );
       }
-  
       this.addResorceForm.reset();
     } else {
       Object.values(this.addResorceForm.controls).forEach((control) => {
@@ -237,134 +164,132 @@ export class AddresourceComponent implements OnInit {
     }
   }
 
+  editStateAddResource()
+  {
+    this.assignResourceService
+    .addResource({
+      EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
+      ProjectGuid: this.projectResourceStateService.project.Guid,
+      AssignDate: this.addResorceForm.controls.assignDate.value,
+     Billable: this.addResorceForm.controls.billable.value,
+    })
+    .subscribe(
+      (res) => {
+        this.projectResourceStateService.updateAssignResources();
+        this.notification.success('Resource assigned successfully', '');
+      },
+      (error) => {
+        this.notification.error("Project's resource add fail", '');
+      }
+    );
+  }
+
+  createStateaddResource()
+  {
+    this.resources.push({
+      EmployeeGuid: this.addResorceForm.controls.resource.value.Guid,
+      AssignDate: this.addResorceForm.controls.assignDate.value,
+      Billable: this.addResorceForm.controls.billable.value,
+    });
+
+    this.projectResources = [
+      {
+        Empolyee: this.addResorceForm.controls.resource.value,
+        AssignDate: this.addResorceForm.controls.assignDate.value,
+       Billable: this.addResorceForm.controls.billable.value,
+      },
+      ...this.projectResources,
+    ];
+    this.projectResourceStateService.updateProjecResourcetList(this.projectResources);
+  }
   showModal(): void {
     this.isModalVisible = true;
+    if(!this.isEditMode)
     this.addResorceForm.controls.billable.setValue(false);
   }
 
   handleCancel(): void {
     this.isModalVisible = false;
-    this.editResorceForm.reset();
-    this.addResorceForm.reset();
+    this. addResorceForm.reset();
     this.isEditMode = false;
   }
 
   resetForm() {
-    this.addResorceForm.controls.resource.setValue('');
-    this.addResorceForm.controls.assignDate.setValue('');
+    this.addResorceForm.reset()
+    this.addResorceForm.controls.resource.setValue(null);
+    this.addResorceForm.controls.assignDate.setValue(null);
     this.addResorceForm.controls.billable.setValue(false);
   }
-  resetEditForm() {
-    this.editResorceForm.controls.assignDate.setValue('');
-    this.editResorceForm.controls.resource.setValue('');
-    this.editResorceForm.controls.billable.setValue(false);
-  }
 
-  editResource(id: string) {
-   
+
+  editResource($event:any) {
+  
     const projectResource = this.projectResources.find(
-      (s) => s.Empolyee.Guid == id
+      (s) => s.Empolyee.Guid == $event
     );
 
     if (projectResource) {
+     
       this.resourceEdit = projectResource;
-      this.editResorceForm.controls.resource.setValue(projectResource.Empolyee);
-      this.editResorceForm.controls.assignDate.setValue(
+      this. addResorceForm.controls.resource.setValue(projectResource.Empolyee);
+  
+      this. addResorceForm.controls.assignDate.setValue(
         projectResource.AssignDate
       );
-      this.editResorceForm.controls.billable.setValue(
+      this. addResorceForm.controls.billable.setValue(
         projectResource.Billable
       );
 
       this.asignedResourseToEdit = projectResource;
       this.isEditMode = true;
       this.isModalVisible = true;
+  
     }
   }
 
   submitEditdValue() {
-    if (this.editResorceForm.valid) {
+    if (this. addResorceForm.valid) {
       this.isEditMode = false;
-      if (this.isOnEditstate) {
-        this.assignResourceService
-          .updateAssignResource({
-            Guid: this.asignedResourseToEdit.Guid,
-            EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
-            ProjectGuid: this.projectResourceStateService.project.Guid,
-            AssignDate: this.editResorceForm.controls.assignDate.value,
-            Billable: this.editResorceForm.controls.billable.value,
-          })
-          .subscribe(
-            (res) => {
-              this.projectResourceStateService.updateAssignResources();
-
-              this.addResorceForm.reset();
-              this.notification.success('Resource updated successfully', '');
-             
-            },
-            (error) => {
-              this.notification.error('Resource updated failed', '');
-              this.addResorceForm.reset();
-            }
-          );
-      }
-
-      if (
-        this.asignedResourseToEdit.Empolyee.Guid !=
-        this.editResorceForm.controls.resource.value.Guid
-      ) {
+      if (this.isOnEditstate)
+       this.editResourceonEditState();
+      else
+        this.editResourceOnCreateState();
+    
+      if (this.asignedResourseToEdit.Empolyee.Guid !=
+        this. addResorceForm.controls.resource.value.Guid) {
         this.employees.push(this.asignedResourseToEdit.Empolyee);
         this.employees = this.employees.filter(
           (s) =>
-            s.Guid !== this.editResorceForm.controls.resource.value.EmployeeGUid
+            s.Guid !== this. addResorceForm.controls.resource.value.EmployeeGUid
         );
         this.sortEmployees();
       }
-      this.asignedResourseToEdit.AssignDate =
-        this.editResorceForm.controls.assignDate.value;
-      this.asignedResourseToEdit.Empolyee =
-        this.editResorceForm.controls.resource.value;
-        this.asignedResourseToEdit.Billable=
-        this.editResorceForm.controls.billable.value;
+
+      this.asignedResourseToEdit.AssignDate =this. addResorceForm.controls.assignDate.value;
+      this.asignedResourseToEdit.Empolyee =this. addResorceForm.controls.resource.value;
+        this.asignedResourseToEdit.Billable=this. addResorceForm.controls.billable.value;
 
       this.projectResources.map((s) =>
         s.Empolyee.Guid === this.asignedResourseToEdit.Empolyee.Guid
           ? s
           : this.asignedResourseToEdit
       );
-
+      this.projectResourceStateService.updateProjecResourcetList(this.projectResources);
       this.resources.map((s) =>
         s.EmployeeGuid == this.asignedResourseToEdit.Empolyee.Guid
           ? s
           : {
-              employeeId: this.editResorceForm.controls.resource.value.Guid,
-              assignedDate: this.editResorceForm.controls.assignDate.value,
-              billable: this.editResorceForm.controls.billable.value,
+              employeeId: this. addResorceForm.controls.resource.value.Guid,
+              assignedDate: this. addResorceForm.controls.assignDate.value,
+              billable: this. addResorceForm.controls.billable.value,
             }
       );
-      if (!this.isOnEditstate)
-        for (let i = 0; i < this.resources.length; i++) {
-          if (
-            this.resources[i].EmployeeGuid ==
-            this.asignedResourseToEdit.Empolyee.Guid
-          ) {
-            this.resources[i] = {
-              EmployeeGuid: this.editResorceForm.controls.resource.value.Guid,
-              AssignDate: this.editResorceForm.controls.assignDate.value,
-              Billable: this.editResorceForm.controls.billable.value,
-            };
 
-            this.projectCreateState.updateAssignResource(this.resources);
-
-            break;
-          }
-        }
-       
       this.isModalVisible = false;
-      this.editResorceForm.reset();
+      this.  resetForm();
       this.asignedResourseToEdit = {} as AssignResource;
     } else {
-      Object.values(this.editResorceForm.controls).forEach((control) => {
+      Object.values(this. addResorceForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -372,9 +297,53 @@ export class AddresourceComponent implements OnInit {
       });
     }
   }
-  conformationDelete(resource: AssignResource) {
-    this.resoureRemove = resource;
 
+
+editResourceonEditState()
+{
+  this.assignResourceService
+  .updateAssignResource({
+    Guid: this.asignedResourseToEdit.Guid,
+    EmployeeGuid: this. addResorceForm.controls.resource.value.Guid,
+    ProjectGuid: this.projectResourceStateService.project.Guid,
+    AssignDate: this. addResorceForm.controls.assignDate.value,
+    Billable: this. addResorceForm.controls.billable.value,
+  })
+  .subscribe(
+    (res) => {
+      this.projectResourceStateService.updateAssignResources();
+
+      this.notification.success('Resource updated successfully', '');
+     
+    },
+    (error) => {
+      this.notification.error('Resource updated failed', '');
+    }
+  );
+}
+
+editResourceOnCreateState()
+{
+  for (let i = 0; i < this.resources.length; i++) {
+    if (
+      this.resources[i].EmployeeGuid ==
+      this.asignedResourseToEdit.Empolyee.Guid
+    ) {
+      this.resources[i] = {
+        EmployeeGuid: this. addResorceForm.controls.resource.value.Guid,
+        AssignDate: this. addResorceForm.controls.assignDate.value,
+        Billable: this. addResorceForm.controls.billable.value,
+      };
+
+      this.projectCreateState.updateAssignResource(this.resources);
+
+      break;
+    }
+  }
+}
+
+  conformationDelete($event: any) {
+    this.resoureRemove = $event;
     this.removeResourceModel = true;
   }
   deleteCancel() {
@@ -389,7 +358,9 @@ export class AddresourceComponent implements OnInit {
       (res) => {
         this.removeResourceFromtable(this.resoureRemove.Empolyee.Guid);
         this.notification.success('Resource unassigned successfully', '');
-
+     
+        this.projectResources=this.projectResources.filter(r=>r.Empolyee.Guid!=this.resoureRemove.Guid);
+       this.projectResourceStateService.updateProjecResourcetList(this.projectResources);
         this.resoureRemove = {} as AssignResource;
       },
       (error) => {
@@ -400,6 +371,7 @@ export class AddresourceComponent implements OnInit {
   }
 
   removeForAddReource(resource: AssignResource) {
+    this.resources=this.resources.filter(r=>r.EmployeeGuid!=resource.Empolyee.Guid);
     this.projectCreateState.updateAssignResource(this.resources);
     this.removeResourceFromtable(resource.Empolyee.Guid);
   }
@@ -413,16 +385,8 @@ export class AddresourceComponent implements OnInit {
     this.projectResources = this.projectResources.filter(
       (s) => s.Empolyee.Guid !== id
     );
-      if(this.isOnEditstate)
-      {
-        this.projectResourcesView =  this.projectResourcesView.filter(
-          (s) => s.Empolyee.Guid !== id
-        );
-        this.total= this.projectResourcesView.length;
-      }
-  
+    this.projectResourceStateService.updateProjecResourcetList(this.projectResources);
     this.resources = this.resources.filter((s) => s.EmployeeGuid != id);
-    this.setBillableFilter();
   }
 
   sortEmployees() {
@@ -509,107 +473,5 @@ export class AddresourceComponent implements OnInit {
   authorize(key: string) {
     return this.permissionList.authorizedPerson(key);
   }
-
-  PageIndexChange(pageIndex:number)
-  {
-    this.pageIndex=pageIndex
-   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*9).slice(0,9);
-  }
-
-  nzSortOrderChange(SortColumn: string, direction: string | null) {
-    if(SortColumn==="resource")
-   {    
-    if (direction == 'ascend') {
-      if(this.isOnEditstate)
-      this.projectResourcesView.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() > b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
-       else
-       this.projectResources.sort((a, b) => (a.Empolyee.Name.toLocaleLowerCase().trim() > b.Empolyee.Name.toLowerCase().trim() ? 1 : -1)); 
-    } else if (direction == 'descend') {
-      if(this.isOnEditstate)
-      this.projectResourcesView.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() < b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
-       else
-       this.projectResources.sort((a, b) => (a.Empolyee.Name.toLowerCase().trim() < b.Empolyee.Name.toLowerCase().trim() ? 1 : -1));
-   
-    } 
-  }
-  else if(SortColumn==="date")
-  {
-    if (direction == 'ascend') {
-      if(this.isOnEditstate)
-      this.projectResourcesView.sort((a, b) => (a.AssignDate > b.AssignDate  ? 1 : -1));
-      else
-      this.projectResources.sort((a, b) => (a.AssignDate > b.AssignDate  ? 1 : -1));
-    } else if (direction == 'descend') {
-      if(this.isOnEditstate)
-      this.projectResourcesView.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
-      else
-      this.projectResources.sort((a, b) => (a.AssignDate < b.AssignDate ? 1 : -1));
-    } 
-
-  }
-    else if(SortColumn == "billable")
-    {
-      if (direction == 'ascend') {
-        if(this.isOnEditstate)
-        this.projectResourcesView.sort((a, b) => (a?.Billable > b.Billable  ? 1 : -1)); 
-        else
-        this.projectResources.sort((a, b) => (a?.Billable > b?.Billable ? 1 : -1));
-      } else if (direction == 'descend') {
-        if(this.isOnEditstate)
-        this.projectResourcesView.sort((a, b) => (a?.Billable < b?.Billable ? 1 : -1));
-        else
-        this.projectResources.sort((a, b) => (a?.Billable< b?.Billable? 1 : -1));
-    }
-  }
-  if(direction!=null&& this.isOnEditstate)
-  this.PageIndexChange(this.pageIndex);    
-  }
-  
-  billableChangeFilter(list:string[])
-  {
-
-    if(list===[] ||list.length==0 )
-      this.projectResourcesView=this. projectResourceStateService.resourcesOfProject;
-    else
-    {
-   let projectResourcesfilter = [] as AssignResource[];
-   for(let i=0;i<list.length;i++)
-{
-    if(list[i]=="yes")
-    projectResourcesfilter=[...this. projectResourceStateService.resourcesOfProject.filter(p=>p.Billable==true), ... projectResourcesfilter];
-    if(list[i]=="no")
-    projectResourcesfilter=[...this. projectResourceStateService.resourcesOfProject.filter(p=>p.Billable==false), ... projectResourcesfilter];
-    if(list[i]=="na")
-    projectResourcesfilter=[...this. projectResourceStateService.resourcesOfProject.filter(p=>p.Billable==null), ... projectResourcesfilter];
-}
-   this.projectResourcesView=projectResourcesfilter;
- }  
-   this.total= this.projectResourcesView.length;
-   this.PageIndexChange(1);  
-  }
-  setBillableFilter()
-  {
-    this.billableFilter= [] as {
-      text: string;
-      value: string;
-    }[];
-    const unique= [...new Set(this.projectResourcesView.map(item => item.Billable))]
-    unique.forEach(p => {
-       if(p==true&&this.billableFilter.length==0)
-       this.billableFilter=[{text:"Yes",value:"yes"},...this.billableFilter];
-  else      if(p==true&&this.billableFilter.length!=0)
-  this.billableFilter.push({text:"Yes",value:"yes"})
-  else      if(p==false&&this.billableFilter.length!=0)
-  this.billableFilter=[{text:"No",value:"no"},...this.billableFilter];
-  else      if(p==false && this.billableFilter.length==0)
-  this.billableFilter.push({text:"No",value:"no"})
-  else      if(p==null &&this.billableFilter.length!=0)
-  this.billableFilter=[{text:"N/A",value:"na"},...this.billableFilter];
-  else      if(p==null && this.billableFilter.length==0)
-  this.billableFilter.push({text:"N/A",value:"na"})
-     });
-   
-  }
-
 
 }
