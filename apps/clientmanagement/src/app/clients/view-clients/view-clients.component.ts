@@ -207,19 +207,8 @@ _commonData.getPermission()
     });
   }
   checkClientWithProject(): void {
-    this.modal.confirm({
-      nzIconType:'',
-      nzTitle: 'This Client can not be deleted ',
-      nzContent: '<span">becuase it is has a project under it</span>',
-      nzOkText: 'Ok',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-//
-      },
-      nzCancelText: 'No',
-      nzOnCancel: () => {},
-    });
+
+this.notification.error("This Client can not be deleted ",'becuase it is has a project under it',{nzPlacement:'topRight'})
   }
   Edit(client: any): void {
     if(client)
