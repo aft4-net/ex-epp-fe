@@ -14,7 +14,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css'],
-  providers: [ProjectValidationService]
+  providers: [ProjectValidationService],
 })
 export class AddProjectComponent implements OnInit, OnDestroy {
   projectStatus!: boolean;

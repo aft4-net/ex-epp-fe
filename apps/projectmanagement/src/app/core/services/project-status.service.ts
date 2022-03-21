@@ -15,7 +15,5 @@ export class ProjectStatusService extends ApiService<ProjectStatus> {
     return 'ProjectStatus';
   }
 
-  getProjecUS(): ProjectStatus[] {
-    return [] as ProjectStatus[];
-  }
+  
 }
