@@ -97,7 +97,7 @@
 
         <button *ngIf="!isOnEditstate && isEditMode"(click)="submitEditdValue()" 
           class="bg-green-500 hover:border-transparent hover:bg-green-600 text-white font-bold py-2 px-3 border border-green-500 mr-3">
-          Edit
+          Update
         </button>
 
         <button (click)="submitEditdValue()" *ngIf="isOnEditstate &&isEditMode " [disabled]="disableUpdateButton"
