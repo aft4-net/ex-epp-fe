@@ -357,7 +357,7 @@ export class EmployeeService {
     }[];
 
     return this.http.get(environment.apiUrl+"/Employee/FilterData").pipe(map((response:any)=>{
-      console.log((response.Data.Status[0]));
+    
       if(Object.keys(response.Data).length!= 0)
       {
         for (let i = 0; i < response.Data.jobtype.length; i++){
@@ -479,7 +479,6 @@ export class EmployeeService {
     )
     .pipe(
       map((response: any) => {
-        console.log(response)
         return response as boolean;
       })
     );

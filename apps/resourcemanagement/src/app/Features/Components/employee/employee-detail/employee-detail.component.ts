@@ -811,7 +811,7 @@ FilterData(){
             this.supervisorStatus=res;
             this._employeeService.IsEmployeeTimeesheet(employeeId).subscribe((res)=>{
               this.timesheetStatus=res;
-         console.log(res)
+  
      if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true ||  this.timesheetStatus){
       let message=""
       if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.supervisorStatus==true &&  this.timesheetStatus==true)
