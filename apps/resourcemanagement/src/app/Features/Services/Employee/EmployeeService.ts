@@ -470,6 +470,20 @@ export class EmployeeService {
       })
     );
     return result;
+   }  
+
+
+   IsEmployeeTimeesheet(id: string):Observable<boolean> {
+    const params = new HttpParams().set('employeeGuid', id);
+    const result = this.http.get(environment.apiUrl+'/TimeSheet/IsEmployeeWithTimeesheetExists/?'+params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        console.log(response)
+        return response as boolean;
+      })
+    );
+    return result;
    }
 }
 
