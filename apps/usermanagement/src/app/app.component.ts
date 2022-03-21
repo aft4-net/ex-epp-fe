@@ -57,7 +57,7 @@ ngOnInit(): void {
       
       if(res.map(res => res.KeyValue).length > 0 && res.map(res => res.KeyValue).indexOf("View_User") === -1 && this.router.url == '/usermanagement') {
         this.groupsIsActive = true;
-        this.router.navigateByUrl("usermanagement/group");
+        this.router.navigateByUrl("usermanagement/groups");
       } else if (res.map(res => res.KeyValue).length > 0 && this.router.url == '/usermanagement') {
         this.usersIsActive = true;
         this.router.navigateByUrl("usermanagement/users");
