@@ -1,0 +1,57 @@
+<nz-table  [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="false"
+  [nzData]="projectResources" >
+  <thead>
+    <tr>
+      <th [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('resource',$event)"> Resources </th>
+      <th [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('date',$event)" >Assigned Date</th>
+      <th  *ngIf="  isProjectExternal &&isOnEditstate ===true  "
+      [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('billable',$event)"  nzColumnKey="billable"
+      [nzFilterFn]="true" [nzFilters]="billableFilter" (nzFilterChange)="billableChangeFilter($event)" > Billable</th>
+          <th  *ngIf=" isProjectExternal && isOnEditstate ===false "[nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('billable',$event)" > Billable</th>
+      <th *ngIf="!isOnEditstate">Action</th>
+      <th *ngIf="isOnEditstate && (authorize('Delete_Resources')||authorize('Update_Resources') ) ">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let resource of projectResources">
+      <td>
+        {{ resource.Empolyee?.Name | titlecase }} - {{ resource.Empolyee?.Role }}
+      </td>
+      <td>{{ resource.AssignDate | date: 'shortDate' }}</td>
+      <td *ngIf=" isProjectExternal ">
+      <span *ngIf=" resource?.Billable === false  "> No   </span>
+      <span *ngIf="resource.Billable===null  "> N/A   </span>
+      <span *ngIf="resource?.Billable === true" > Yes   </span>
+     
+      </td>
+      <td *ngIf="isOnEditstate">
+        <a *ngIf="authorize('Update_Resources')" class="text-black " (click)="editResource(resource.Empolyee.Guid)">
+          <i nz-icon nzType="edit" style="color:black;"></i>
+        </a>
+        &nbsp; &nbsp;
+        <a *ngIf="authorize('Delete_Resources')" class="text-black" (click)="conformationDelete(resource)">
+          <i nz-icon nzType="delete" style="color: black"></i>
+        </a>
+      </td>
+      <td *ngIf="!isOnEditstate">
+        <a class="text-black mr-3" (click)="editResource(resource.Empolyee.Guid)">
+          <i nz-icon nzType="edit" style="color:black;"></i>
+        </a>
+        &nbsp; &nbsp;
+        <a class="text-black" (click)="removeForAddReource(resource)">
+          <i nz-icon nzType="delete" style="color: black"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<ng-container *ngIf="total>0 && isOnEditstate" >
+    <div class="pagination flex justify-end ">
+  Showing  {{9 * (pageIndex -1) + 1 }}  -  {{ 9 * (pageIndex) > total? 
+    total : 9 * (pageIndex) }} of {{total}} entries
+  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="PageIndexChange($event)"
+    nzSimple>
+  </nz-pagination>
+</div>
+</ng-container>
