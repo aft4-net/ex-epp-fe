@@ -162,7 +162,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   listOfColumns!: ColumnItem[];
 
-  ngOnInit(): void {debugger;
+  ngOnInit(): void { 
 
     //this.loadingSpinnerService.messageSource.next(true);
 
@@ -212,7 +212,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this._employeeService.getFilterData().subscribe((data) => {
 
-     debugger;
+    
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
       this.statuses = data.StatusFilter;
@@ -433,7 +433,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this.loading = true;
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
-      (response: PaginationResult<IEmployeeViewModel[]>) => {debugger;
+      (response: PaginationResult<IEmployeeViewModel[]>) => { 
         if (response.Data) {
           this.loading = false;
           this.employeeViewModels$ = of(response.Data);
@@ -779,7 +779,7 @@ FilterData(){
     this._message.create(type, title, message);
   }
 
-  DeleteEmployee(employeeId: string): void {debugger;
+  DeleteEmployee(employeeId: string): void { 
 
     this._employeeService.DeleteEmployee(employeeId)
       .subscribe((result: any) => {
