@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
     private _timesheetConfigStateService: TimesheetConfigurationStateService
   ) {
     this._timesheetConfigStateService.getTimesheetConfiguration();
-    console.log("constructor Job Title ", this.authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title']));
   }
   ngOnInit() {
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
@@ -63,8 +62,10 @@ export class AppComponent implements OnInit {
 
   defaultRoute() {
     if (this.authorize(['Create_Department', 'View_Department', 'Update_Department', 'Delete_Department'])) {
-      this.departmentIsActive = true;
-      // default route
+      if(this.router.url === '/configurationmodule') {
+        this.departmentIsActive = true;
+        this.router.navigateByUrl('configurationmodule/department');
+      }
     } else if (this.authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title'])) {
       if(this.router.url === '/configurationmodule') {
         this.jobTitleIsActive = true;
