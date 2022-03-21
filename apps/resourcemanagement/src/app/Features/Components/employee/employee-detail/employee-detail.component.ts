@@ -151,11 +151,18 @@ export class EmployeeDetailComponent implements OnInit {
       filterFn: (list: string[], item: IEmployeeViewModel) =>
         list.some((name) => item.JoiningDate.indexOf(name) !== -1),
     },
+    {
+      name: 'Email',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) =>
+        a.OrganizationEmail.localeCompare(b.OrganizationEmail),
+    }
   ];
 
   listOfColumns!: ColumnItem[];
 
-  ngOnInit(): void {
+  ngOnInit(): void {debugger;
 
     //this.loadingSpinnerService.messageSource.next(true);
 
@@ -205,7 +212,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this._employeeService.getFilterData().subscribe((data) => {
 
-
+     debugger;
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
       this.statuses = data.StatusFilter;
@@ -303,19 +310,12 @@ export class EmployeeDetailComponent implements OnInit {
                   this.selectedJobType = name;
                 }),
             },
-            {
-              name: 'Location',
+            { 
+              name: 'Email',
               sortOrder: null,
               sortDirections: ['ascend', 'descend', null],
               sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) =>
-                a.Location.localeCompare(b.Location),
-              filterMultiple: true,
-              listOfFilter: this.empListCountry,
-              filterFn: (list: string[], item: IEmployeeViewModel) =>
-                list.some((name) => {
-                  // item.Location.indexOf(name) !== -1;
-                  this.selectedLocation = name;
-                }),
+                a.OrganizationEmail.localeCompare(b.OrganizationEmail),
             },
             {
               name: 'Status',
@@ -433,7 +433,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this.loading = true;
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
-      (response: PaginationResult<IEmployeeViewModel[]>) => {
+      (response: PaginationResult<IEmployeeViewModel[]>) => {debugger;
         if (response.Data) {
           this.loading = false;
           this.employeeViewModels$ = of(response.Data);
@@ -468,15 +468,11 @@ export class EmployeeDetailComponent implements OnInit {
               list.some((name) => item.JobTitle.indexOf(name) !== -1),
           },
           {
-            name: 'Location',
+            name: 'Email',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) =>
-              a.Location.localeCompare(b.Location),
-            filterMultiple: true,
-            listOfFilter: this.empListCountry,
-            filterFn: (list: string[], item: IEmployeeViewModel) =>
-              list.some((name) => item.Location.indexOf(name) !== -1),
+              a.OrganizationEmail.localeCompare(b.OrganizationEmail),
           },
           {
             name: 'Status',

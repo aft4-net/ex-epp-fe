@@ -39,8 +39,9 @@
                     (nzCheckedChange)="onAllChecked($event)"></th>-->
                       <th class="table_heading" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('FullName',$event)">Employee Name</th>
                       <th class="table_heading" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('JoiningDate',$event)">Joining Date</th>
+                      <th class="table_heading" nzColumnKey="Email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Email',$event)" >Email</th>
                       <th class="table_heading" nzColumnKey="gender" [nzSortFn]="true"  (nzSortOrderChange)="nzSortOrderChange('JobTitle',$event)" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
-                      <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <!-- <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th> -->
                       <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Status',$event)"  (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
                       <th class="table_heading" *ngIf="authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
                   </tr>
@@ -53,7 +54,7 @@
                     (nzCheckedChange)="onAllChecked($event)"></th>-->
                       <th class="table_heading" nzColumnKey="fullname" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('FullName',$event)">Employee</th>
                       <th class="table_heading" nzColumnKey="joindate" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('JoiningDate',$event)">Joining Date</th>
-                      <th class="table_heading" nzColumnKey="location" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Location',$event)" (nzFilterChange)="supervisorFilter($event)"  [nzFilterFn]="true"  [nzFilters]="Location">Location</th>
+                      <th class="table_heading" nzColumnKey="Email" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Email',$event)" >Email</th>
                       <th class="table_heading" nzColumnKey="jobtitle" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('JobTitle',$event)" (nzFilterChange)="ClientFilter($event)"  [nzFilterFn]="true" [nzFilters]="JobType">Job Title</th>
                       <th class="table_heading" nzColumnKey="status" [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('Status',$event)" (nzFilterChange)="statusFilter($event)"  [nzFilterFn]="true" [nzFilters]="statuses" >Status</th>
                       <th class="table_heading" *ngIf="authorize('Delete Employee') || authorize('Employee_Admin')|| authorize('Update_Employee')">Actions</th>
@@ -65,9 +66,9 @@
                  <!-- <td [nzChecked]="setOfCheckedId.has(employeeView.EmployeeGUid)" (nzCheckedChange)="onItemChecked(employeeView.EmployeeGUid, $event)"></td>-->
                   <td class="tdstyle capitalize">{{employeeView.FullName }} </td>
                   <td class="tdstyle ">{{employeeView.JoiningDate | date:'M/dd/yyyy' }}</td>
+                  <td class="tdstyle capitalize">{{employeeView.OrganizationEmail }}</td>
                   <td class="tdstyle capitalize ">{{employeeView.JobTitle }}</td>
-                  <td class="tdstyle capitalize">{{employeeView.Location }}</td>
-                  <td class="tdstyle capitalize">{{employeeView.Status }}</td>
+                   <td class="tdstyle capitalize">{{employeeView.Status }}</td>
                   <td class="actions Acttdstyle" *ngIf="(authorize('Delete_Employee') || authorize('Employee_Admin')|| authorize('Update_Employee'))">
 
                     <a (click)="Edit(employeeView.EmployeeGUid)" *ngIf="(authorize('Employee_Admin') || authorize('Update_Employee'))">
