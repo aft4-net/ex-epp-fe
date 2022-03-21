@@ -136,8 +136,7 @@ _commonData.getPermission()
 
 
     this._clientservice.deleteClient(client.Guid,true).subscribe((res:any)=>{
-    console.log(res);
-    console.log("fsfsfsfsfsfsfsf")
+
       if(res.ResponseStatus==='Success')
       {
 
@@ -189,7 +188,7 @@ _commonData.getPermission()
       },
 
       nzCancelText: 'Cancel',
-      nzOnCancel: () => console.log('Cancel'),
+      nzOnCancel: () => {},
     });
   }
 
@@ -204,7 +203,7 @@ _commonData.getPermission()
         this.DeleteClient(element);
       },
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel'),
+      nzOnCancel: () => {},
     });
   }
   checkClientWithProject(): void {
@@ -219,7 +218,7 @@ _commonData.getPermission()
 //
       },
       nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel'),
+      nzOnCancel: () => {},
     });
   }
   Edit(client: any): void {
@@ -371,7 +370,7 @@ _commonData.getPermission()
   }
 
   PageSizeChange(pageSize: number) {
-    console.log(pageSize);
+  
     this.pageSize = pageSize;
     this._clientservice
       .getWithPagnationResut(this.pageIndex, pageSize, this.searchProject.value)
@@ -386,7 +385,6 @@ _commonData.getPermission()
 
 
   getAllClientData(index: any) {
-    console.log(index);
 
       this._clientservice
         .getWithPagnationResut(index, 10, this.searchProject.value)
@@ -461,7 +459,7 @@ _commonData.getPermission()
         this.findlistofStatus();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
-        console.log(response.data);
+       
       });
 
     this._clientservice.fristPagantionClients$.subscribe(
@@ -552,14 +550,13 @@ _commonData.getPermission()
         checked: true,
       });
     }
-    console.log(this.namesofclientsfilterd);
+  
 
     this.namesofclientsfilterd = this.namesofclientsfilterd.filter(
       (word) => word
     );
     this.namesofclientsfilterd.shift();
 
-    console.log(this.namesofclientsfilterd);
   }
 
   findlistSalesPersonNames(): void {
@@ -588,7 +585,7 @@ _commonData.getPermission()
     this.namesofSalesfilterd = this.namesofSalesfilterd.filter((word) => word);
     this.namesofSalesfilterd.shift();
 
-    console.log(this.namesofSalesfilterd);
+    
   }
 
   findlistOfLocation(): void {
@@ -619,7 +616,7 @@ _commonData.getPermission()
     );
     this.namesofLocationsfilterd.shift();
 
-    console.log(this.namesofLocationsfilterd);
+    
   }
 
 getClientStatus() {
@@ -633,7 +630,7 @@ getLocations(){
   this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
     this.locations = res.data;
   }, error => {
-    console.log(error);
+  
   });
 }
 fetchAllData(){
