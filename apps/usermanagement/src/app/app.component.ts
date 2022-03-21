@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
 isLogin=false;
 checker1= false;
 counter = 1;
+usersIsActive!: boolean;
+groupsIsActive!: boolean;
 
 //user = this.accountService.userInfo;
 
@@ -45,13 +47,20 @@ ngOnInit(): void {
   else{
     let route ='usermanagement';
     this._commonData.permissionList$.subscribe(res => {
-      if(res.map(res => res.KeyValue).indexOf("View_User") === -1) {
-        route =this.route= 'usermanagement/group';
+      // if(res.map(res => res.KeyValue).indexOf("View_User") === -1) {
+      //   route =this.route= 'usermanagement/group';
+      // }
+      // else {
+      //   route = 'usermanagement'
+      // }
+      // this.router.navigateByUrl(route);
+      
+      if(res.map(res => res.KeyValue).length > 0 && res.map(res => res.KeyValue).indexOf("View_User") === -1 && this.router.url == '/usermanagement') {
+        this.groupsIsActive = true;
+        this.router.navigateByUrl("usermanagement/group");
+      } else {
+        this.usersIsActive = true;
       }
-      else {
-        route = 'usermanagement'
-      }
-      this.router.navigateByUrl(route);
     });
   }
   

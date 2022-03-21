@@ -1,17 +1,17 @@
-<div class="m-0 mr-6 ml-6 p-0 pt-6 pb-14">
-    <div class="flex flex-row justify-end content-between mb-7 text-center">
-        <div class="config-add-button">
-            <button nz-button nzType="primary" (click)="openModal()" *ngIf="authorize('Create_DutyStation')">
-                <span>Add Duty Station</span>
-            </button>
-        </div>
-    </div>
 
-    <div>
+<div class="content">
+        <div class="justify-between mb-3" nz-row>
+            <div class="tab-title"> Duty Stations</div>
+
+            <button  nz-button nzType="primary"   (click)="openModal()" *ngIf="authorize('Create_DutyStation')" >
+                Add Duty Station
+            </button>
+          </div>
+         <div>
         <nz-table   [nzLoading]="loading"   nzSize="small"   [nzFrontPagination]="false"  #dutyStationTable [nzData]="dutyStationListView">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Duty Stasion Name</th>
                     <th>Country</th>
                     <th>Actions</th>
                 </tr>
@@ -29,7 +29,7 @@
             </tbody>
         </nz-table>
         <span *ngIf="total>0 && authorize('View_DutyStation')"  class="pagination flex justify-end">
-            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
+            Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total?
               total : 10 * (pageIndex) }} of {{total}} entries
             <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="pageIndexChange($event)"
               nzSimple>
@@ -38,17 +38,17 @@
     </div>
 </div>
 
-<nz-modal 
-    [(nzVisible)]="addDutyStation" 
-    nzTitle="Add Duty Station" 
+<nz-modal
+    [(nzVisible)]="addDutyStation"
+    nzTitle="Add Duty Station"
     [nzFooter]="null"
-    nzClassName="config-add-country-modal" 
+    nzClassName="config-add-country-modal"
     (nzOnCancel)="updateModalState()"
      [nzWidth]="'410px'">
     <ng-container *nzModalContent>
         <form (ngSubmit)="save()" class="flex flex-col">
             <div class="w-full m-0 mb-2">
-                <label for="country">Country</label>
+                <nz-form-label nzfor="country" nzRequired>Country</nz-form-label>
                 <div class="w-full m-0 mt-2">
                     <nz-select id="country" [formControl]="country" class="w-full ml-8 h-9 rounded-sm border-gray-300">
                         <nz-option *ngFor="let country of (countries$ | async)" nzValue="{{country.Guid}}"
@@ -57,14 +57,14 @@
                 </div>
             </div>
             <div class="w-full m-0 mb-6">
-                <label for="Name">Name:</label>
+                <nz-form-label nzfor="Name" nzRequired>Name</nz-form-label>
                 <div class="m-0 mt-2">
                     <input nz-input id="Name" placeholder="Name" [formControl]="dutyStation" />
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button *ngIf="isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Save</button>
+                <button *ngIf="isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Add</button>
                 <button *ngIf="!isNew" nz-button nzType="primary" type="submit" [disabled]="isFormDisabled">Update</button>
                 <button  nz-button nzType="default" (click)="clearData()" [disabled]="!enableClear">Clear</button>
             </div>

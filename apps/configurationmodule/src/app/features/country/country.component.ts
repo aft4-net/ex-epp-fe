@@ -10,6 +10,7 @@ import { Country, SelectOption } from '../../models/country';
 import { CountryService } from '../../services/country.service';
 import { CountryListService } from './../../../../../../libs/common-services/country-list.service'
 import { environment } from './../../../environments/environment';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-country',
@@ -35,6 +36,7 @@ export class CountryComponent implements OnInit {
     private countryListSerive: CountryListService,
     private modalService: NzModalService,
     private commonDataService: CommonDataService,
+    private notification: NzNotificationService,
     private permissionListService: PermissionListService
   ) { }
 
@@ -59,6 +61,7 @@ export class CountryComponent implements OnInit {
   }
 
   openModal() {
+    this.addCountry = true;
     this.countryList$ = this.countryListSerive.getCountry(environment.apiUrl).pipe(
       map(res => res?.data ?? []),
       map(data => {
@@ -67,34 +70,53 @@ export class CountryComponent implements OnInit {
         })
       })
     );
-    this.addCountry = true;
+   
   }
 
   closeModal() {
     this.addCountry = false;
-
     this.clearData();
   }
 
   save() {
     if (!this.country.value && this.country.value === "") {
-      return;
+        return;
     }
-
+   
     const country: Country = {
       Guid: "00000000-0000-0000-0000-000000000000",
       Name: this.country.value
     };
-
+    
     if (this.isNew) {
       this.countryService.add(country).subscribe(response => {
         if (response.ResponseStatus === "Success") {
           this.getCountries();
           this.closeModal();
         }
+        if(response.Message=='Country registered successfully')
+        {
+          this.notification.create(
+            'Success',
+            'Country Added successfully',
+            country.Name,
+            { nzPlacement: 'bottomRight' }
+          );
+        }
+        else
+        {
+          this.notification.create(
+            'error',
+            'Country name already exists',
+            country.Name,
+            { nzPlacement: 'bottomRight' }
+          );
+          return;
+        }
       });
     }
-    else {
+    else 
+    {
       this.countryService.update({ Guid: this.countryId, Name: this.country.value }).subscribe(response => {
         if (response.ResponseStatus === "Success") {
           this.getCountries();
@@ -115,20 +137,20 @@ export class CountryComponent implements OnInit {
     this.countryService.checkifCountryisDeletable(country.Guid).subscribe((res) => {
       if (res === true) {
         this.modalService.confirm({
-          nzTitle: 'This Country can not be deleted b/c it is assigned to employee and/or duty station',
+          nzTitle: 'This Country can not be deleted b/c it is assigned to employee /or duty station',
           nzContent: 'Name: <b style="color: red;">' + country.Name + '</b>',
           nzOkText: 'Ok',
           nzOkType: 'primary',
-          nzOkDanger: true
+          nzOkDanger: false
         });
       }
       else {
         this.modalService.confirm({
           nzTitle: 'Delete Country?',
-          nzContent: 'Name: <b style="color: red;">' + country.Name + '</b>',
-          nzOkText: 'Yes',
+          nzContent: 'Are you sure you want to delete this country?<br>this action cannot be undone.',
+          nzOkText: 'Yes, Delete',
           nzOkType: 'primary',
-          nzOkDanger: true,
+         nzOkDanger: false,
           nzOnOk: () => {
             this.countryService.delete(country).subscribe(response => {
               if (response.ResponseStatus === "Success") {
@@ -138,7 +160,7 @@ export class CountryComponent implements OnInit {
               console.log(error);
             })
           },
-          nzCancelText: 'No'
+          nzCancelText: 'Cancel'
         });
       }
     });
@@ -149,17 +171,21 @@ export class CountryComponent implements OnInit {
     this.countryId = "";
     this.country.setValue("");
   }
+ 
 
   authorize(key:string){
     return this.permissionListService.authorizedPerson(key);
   }
-
+  get isFormDisabled():boolean{
+    return  this.country.invalid;
+  }
+  get enableClear():boolean{ 
+    return  this.country.valid;
+  }
   pageIndexChange(pageIndex:number)
   {
     this.pageIndex=pageIndex
    this.countriesView=  this.countries.slice((pageIndex-1)*10).slice(0,10);
   }
-  get isFormDisabled():boolean{
-    return this.country.invalid;
-  }
+ 
 }

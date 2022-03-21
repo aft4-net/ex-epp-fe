@@ -45,7 +45,7 @@
                 <label for="client" id="client" class="mb-2 font-semibold">Client<span
                         class="font-bold text-base text-red-500  ml-2">*</span></label>
                 <nz-select nzShowSearch nzAllowClear formControlName="client" [(ngModel)]="formData.client"
-                    [nzDisabled]="$disableClient | async" (ngModelChange)="onClientChange($event)">
+                    [nzDisabled]="($disableClient | async)" (ngModelChange)="onClientChange($event)">
 
 
                     <nz-option ng-selected="client.label == formData.client" *ngFor="let client of $clients | async"
@@ -56,7 +56,7 @@
                 <label for="project" id="project" class="mt-4 mb-2 font-semibold">Project<span
                         class="font-bold text-base text-red-500  ml-2">*</span></label>
                 <nz-select nzShowSearch nzAllowClear formControlName="project" [(ngModel)]="formData.project"
-                    [nzDisabled]="$disableProject | async" (ngModelChange)="onProjectChange($event)">
+                    [nzDisabled]="($disableProject | async)" (ngModelChange)="onProjectChange($event)">
 
 
                     <nz-option ng-selected="project.label == formData.project" *ngFor="let project of $projects | async"
@@ -74,18 +74,18 @@
                 <nz-form-item class="timesheet-hour">
                     <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
                         <input [(ngModel)]="formData.hours" nz-input formControlName="hours"
-                            placeholder="Please enter {{24-dateColumnTotalHour}} hours or less." type="number" min="1"
-                            max="{{24-dateColumnTotalHour}}" />
+                            placeholder="Please enter {{maxDateColumnTotalHour-dateColumnTotalHour}} hours or less." type="number" min="1"
+                            max="{{maxDateColumnTotalHour-dateColumnTotalHour}}" />
                         <ng-template #userErrorTpl let-control>
                             <ng-container *ngIf="formData.hours && formData.hours <=0 ">Time entry should not have less
                                 than or equal
                                 to 0 hours. Please enter more than 0 hours.</ng-container>
-                            <ng-container *ngIf="formData.hours && formData.hours > (24-dateColumnTotalHour) ">Time
+                            <ng-container *ngIf="formData.hours && formData.hours > (maxDateColumnTotalHour-dateColumnTotalHour) ">Time
                                 entry should not
-                                have more than 24 hours. Please enter {{24 - dateColumnTotalHour}} hours or less.
+                                have more than {{maxDateColumnTotalHour}} hours. Please enter {{maxDateColumnTotalHour - dateColumnTotalHour}} hours or less.
                             </ng-container>
-                            <ng-container *ngIf="control>=24">Time entry should not have more than 24 hours. Please
-                                enter 24 hours or
+                            <ng-container *ngIf="control>=maxDateColumnTotalHour">Time entry should not have more than {{maxDateColumnTotalHour}} hours. Please
+                                enter {{maxDateColumnTotalHour}} hours or
                                 less.</ng-container>
                         </ng-template>
                     </nz-form-control>
@@ -95,15 +95,15 @@
                 <textarea [(ngModel)]="formData.note" formControlName="note" nz-input rows="4">
                     {{ formData.note }}
                 </textarea>
-                <div *ngIf="timesheetApproval" class="mt-6">
+                <div *ngIf="timesheetApproval?.Comment" class="mt-6">
                     <strong>Manager's Note</strong>
                     <p>
-                      {{ timesheetApproval.Comment }}
+                      {{ timesheetApproval?.Comment }}
                     </p>
                 </div>
-                <div class="save-and-clear">
+                <div class="save-and-clear" *ngIf="!timesheetApproved">
                     <button id="save" class="mt-6 font-bold" nz-button
-                        [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (24-dateColumnTotalHour)">Save
+                        [disabled]="!formData.client || !formData.project ||!formData.hours || formData.hours <= 0 || formData.hours > (maxDateColumnTotalHour-dateColumnTotalHour)">Save
 
                     </button>
                     <button id="clear" class="mr-6 font-bold" nz-button (click)="resetForm($event)"
@@ -115,10 +115,23 @@
     </div>
 </nz-drawer>
 
-<nz-modal [(nzVisible)]="modalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true"
+<nz-modal [(nzVisible)]="addTimeEntryModalVisible" [nzTitle]="modalTitle" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" (nzOnCancel)="addTimeEntryModalVisible = false"
+  nzClassName="timesheet-conform-modal">
+  <ng-container *nzModalContent>
+    <div class="timesheet-modal-message">
+      <p *ngFor="let modalMessage of modalMessages" class="m-0" >{{ modalMessage }}</p>
+    </div>
+    <span class="flex justify-end">
+      <button nz-button class="yes-delete-btn mr-8" (click)="addTimeEntry();addTimeEntryModalVisible = false">Yes</button>
+      <button nz-button class="cancel" (click)="addTimeEntryModalVisible = false">Cancel</button>
+    </span>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="invalidTimeEntriesModalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true"
     [nzClosable]="false" nzClassName="invalid-time-entry-modal">
     <ng-container *nzModalContent>
-        <nz-table #invalidEntriesData [nzData]="invalidEntries??[]">
+        <nz-table #invalidEntriesData [nzData]="invalidEntries">
             <thead>
                 <tr>
                     <th>Time Entry Date</th>
@@ -138,7 +151,7 @@
             </tfoot>
         </nz-table>
         <span class="flex justify-center">
-            <button nz-button nzType="primary" (click)="handleOk()">OK</button>
+            <button nz-button nzType="primary" (click)="invalidTimeEntriesModalVisible = false">OK</button>
         </span>
     </ng-container>
 </nz-modal>

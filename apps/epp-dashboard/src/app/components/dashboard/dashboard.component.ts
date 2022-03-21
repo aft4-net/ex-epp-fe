@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
     private _permissionService:PermissionListService,
     private loadingSpinnerService: LoadingSpinnerService
     )  { 
-   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName)
+   this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName?this.userEmails.MiddleName:this.userEmails.GrandFatherName)
     const namearray=this.fullName.split(' ');
     this.fullName=namearray[0] + namearray[0];
     this.date = new Date();
@@ -57,7 +57,7 @@ getUsers() {
   getUser(){
     this._intialdataService.getUser( this.userEmails.Email).subscribe((response:any)=>{
       this.thePosition=response.EmployeeOrganization.Role.Name;
-      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName) + (' ') + (this.userEmails.LastName);
+      this.fullName = (this.userEmails.FirstName) + (' ') + (this.userEmails.MiddleName?this.userEmails.MiddleName + (' '):'') + (this.userEmails.LastName);
     });
   
  }

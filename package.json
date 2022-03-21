@@ -29,8 +29,6 @@
     "analyze:resourceManagement": "webpack-bundle-analyzer dist/apps/resourcemanagement/stats.json",
     "analyze:timeSheet": "webpack-bundle-analyzer dist/apps/timesheet/stats.json",
     "analyze:usermanagement": "webpack-bundle-analyzer dist/apps/usermanagement/stats.json"
-
-
   },
   "private": true,
   "dependencies": {
@@ -54,6 +52,7 @@
     "angular-file-uploader": "^7.1.1",
     "antd": "^4.17.1",
     "autoprefixer": "^10.3.7",
+    "concurrently": "^7.0.0",
     "msal": "^1.4.15",
     "msalx": "^0.1.2",
     "ng-zorro-antd": "^12.1.1",

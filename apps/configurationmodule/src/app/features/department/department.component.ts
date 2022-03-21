@@ -7,6 +7,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'exec-epp-department',
@@ -26,7 +27,7 @@ export class DepartmentComponent implements OnInit {
   idForEdit: string | null = null;
   searchTerm$ = new Subject<string>();
 
-  constructor(private departmentConfigService: DepartmentService,
+  constructor(private departmentConfigService: DepartmentService,private router: Router,
     private notification:NzNotificationService,
    // private toastrService: ToastrService,
     private _permissionService:PermissionListService,
@@ -37,6 +38,7 @@ export class DepartmentComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.defaultRoute();
     this.getDepartments();
   }
 
@@ -174,5 +176,31 @@ export class DepartmentComponent implements OnInit {
   }
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
+  }
+
+  defaultRoute() {
+    if (this.authorizeL(['Create_Department', 'View_Department', 'Update_Department', 'Delete_Department'])) {
+      // default route
+    } else if (this.authorizeL(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title'])) {
+      console.log("job title default route is called");
+      this.router.navigateByUrl('configurationmodule/job-title');
+    } else if (this.authorizeL(['Create_Country', 'Delete_Country', 'Update_Country', 'View_Country'])) {
+      this.router.navigateByUrl('configurationmodule/country');
+    } else if (this.authorizeL(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])) {
+      this.router.navigateByUrl('configurationmodule/duty-station');
+    } else if (this.authorizeL(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])) {
+      this.router.navigateByUrl('configurationmodule/timesheet');
+    } else {
+      // this.router.navigateByUrl('/');
+    }
+  }
+  authorizeL(keys: string[]) {
+    for(const key of keys) {
+      if(this._permissionService.authorizedPerson(key)){
+        return true;
+      }
+    }
+
+    return false;
   }
 }

@@ -39,32 +39,28 @@ export class TimesheetValidationService {
   isValidForAdd(
     timeEntry: TimeEntry,
     timeEntries: TimeEntry[],
-    timesheetApprovals: TimesheetApproval[],
-    timesheetConfiguration: TimesheetConfiguration
+    timesheetApprovals: TimesheetApproval[]
   ) {
     this.message = null;
 
     return this.isValidTimeEntry(
       timeEntry,
       timeEntries,
-      timesheetApprovals,
-      timesheetConfiguration
+      timesheetApprovals
     );
   }
 
   isValidForUpdate(
     timeEntry: TimeEntry,
     timeEntries: TimeEntry[],
-    timesheetApprovals: TimesheetApproval[],
-    timesheetConfiguration: TimesheetConfiguration
+    timesheetApprovals: TimesheetApproval[]
   ) {
     this.message = null;
 
     return this.isValidTimeEntry(
       timeEntry,
       timeEntries,
-      timesheetApprovals,
-      timesheetConfiguration
+      timesheetApprovals
     );
   }
 
@@ -89,8 +85,8 @@ export class TimesheetValidationService {
     timeEntries: TimeEntry[],
     timesheetConfiguration: TimesheetConfiguration
   ) {
-    let dates = [...new Set(timeEntries.map((te) => te.Date))];
-    let weekdays = dates.map((date) =>
+    const dates = [...new Set(timeEntries.map((te) => te.Date))];
+    const weekdays = dates.map((date) =>
       new Date(date).toLocaleString('en-us', { weekday: 'long' })
     );
 
@@ -136,8 +132,8 @@ export class TimesheetValidationService {
     }
 
     let totalHour = 0;
-    for (let date of dates) {
-      let workingDay = new Date(date).toLocaleString('en-us', {
+    for (const date of dates) {
+      const workingDay = new Date(date).toLocaleString('en-us', {
         weekday: 'long',
       });
 
@@ -160,6 +156,10 @@ export class TimesheetValidationService {
         this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${new Date(date).toDateString()} date to satisfy minimum working hours.`;
         return false;
       }
+      else if(totalHour > timesheetConfiguration.WorkingHours.Max) {
+        this.message = `Maximum working hour is not satisfied for a request for approval. Please add time entry lass than or equal to ${timesheetConfiguration.WorkingHours.Max} hours for ${new Date(date).toDateString()} date to satisfy maximum working hours`
+        return false;
+      }
     }
 
     return true;
@@ -168,8 +168,7 @@ export class TimesheetValidationService {
   isValidTimeEntry(
     timeEntry: TimeEntry,
     timeEntries: TimeEntry[],
-    timesheetApprovals: TimesheetApproval[],
-    timesheetConfiguration: TimesheetConfiguration
+    timesheetApprovals: TimesheetApproval[]
   ) {
     this.message = null;
 
@@ -247,7 +246,7 @@ export class TimesheetValidationService {
       toDate.getMonth(),
       toDate.getDate()
     );
-    let totalHour = timeEntries
+    const totalHour = timeEntries
       .filter(
         (te) =>
           new Date(te.Date).valueOf() === timeEntry?.Date.valueOf() &&
@@ -275,7 +274,7 @@ export class TimesheetValidationService {
       return false;
     }
 
-    let timesheetApproval = timesheetApprovals.filter(
+    const timesheetApproval = timesheetApprovals.filter(
       (tsa) =>
         tsa.TimesheetId === timeEntry.TimeSheetId &&
         tsa.ProjectId === timeEntry.ProjectId
