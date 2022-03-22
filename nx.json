@@ -51,6 +51,18 @@
     "core-model": {
       "tags": []
     },
+    "core-services-a-base-services": {
+      "tags": []
+    },
+    "core-services-a-user-services": {
+      "tags": []
+    },
+    "core-services-configuration-services": {
+      "tags": []
+    },
+    "core-services-employees-services": {
+      "tags": []
+    },
     "epp-dashboard": {
       "tags": []
     },

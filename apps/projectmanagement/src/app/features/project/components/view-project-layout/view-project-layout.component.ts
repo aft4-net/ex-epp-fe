@@ -49,8 +49,8 @@ export class ViewProjectLayoutComponent implements OnInit {
   superVisorlist: string[] = [];
   statuslist: string[] = [];
   searchStateFound = false;
-  intiaload = true;
-  loggedInUserInfo?: any;
+ 
+ 
   nzSortDirections = Array<'Ascending' | 'Descending' | null>();
 
   SortColumn: string | null = null;
@@ -105,9 +105,6 @@ export class ViewProjectLayoutComponent implements OnInit {
           this.total = 0;
           this.totalPage = 0;
           this.searchStateFound = false;
-          this.notification.blank('  Project not found', '', {
-            nzPlacement: 'bottomLeft',
-          });
         }
       } else {
         this.searchKey = '';
@@ -135,9 +132,6 @@ export class ViewProjectLayoutComponent implements OnInit {
     this.getProjects();
   }
   getProjects() {
-    if (this.authorize('Projects_Admin')) {
-      this.id = '';
-    }
     this.projectService
       .getWithPagnationResut(
         this.pageIndex,
@@ -171,26 +165,39 @@ export class ViewProjectLayoutComponent implements OnInit {
 
   deleteProjectConformation(data: Project) {
     this.projectToDelete = data;
-    this.deleteProjectModal = true;
+    this.projectService
+    .deleteProjectByState(this.projectToDelete.Guid,true).subscribe(
+      (result: any) => {
+        if (result.success === true) {
+          this.deleteProjectModal = true;
+        } else {
+          this.notification.warning(result.message,'');
+        }
+
+      }    
+    )
   }
 
   deleteProject() {
     this.loading = true;
     this.deleteProjectModal = false;
     this.projectService
-      .deleteProjectByState(this.projectToDelete.Guid)
-      .subscribe((result: any) => {
-        if (result.success === true) {
-          this.notification.success('Deleted', result.message);
-          this.searchKey = '';
-          this.getProjects();
-        } else {
-          this.notification.error('Deleted', result.message);
-        }
-        this.loading = false;
-      });
+    .deleteProjectByState(this.projectToDelete.Guid,false)
+    .subscribe((result: any) => {
+      if (result.success === true) {
+        this.notification.success( result.message,'');
+        this.searchKey = '';
+        this.getProjects();
+      } else {
+        this.notification.error(result.message,'');
+      }
+      this.loading = false;
+    });
+
     this.projectToDelete = {} as Project;
   }
+
+
   hidedeleteProjectModal() {
     this.deleteProjectModal = false;
     this.projectToDelete = {} as Project;

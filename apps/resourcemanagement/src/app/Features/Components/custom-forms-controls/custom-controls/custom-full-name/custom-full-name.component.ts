@@ -25,6 +25,7 @@ const errorMessageOptional: ValidatorResponse =
 export class CustomFullNameComponent implements OnInit {
 
     @Input() formGroup: FormGroup = new FormGroup({})
+    @Input() allRequired = false;
 
     constructor(
         private readonly _formGenerator: FormGenerator

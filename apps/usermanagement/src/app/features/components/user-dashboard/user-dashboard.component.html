@@ -139,7 +139,8 @@
       formControlName="UserName"
       placeholder="Select employee"
     >
-     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" [nzLabel]="employee.FirstName + ' ' + employee.FatherName + (employee.EmployeeOrganization?.Role?.Name  !== 'undefined' && employee.EmployeeOrganization?.Role?.Name !== null ? '- '+ employee.EmployeeOrganization?.Role?.Name: '')"></nz-option>
+     <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid" 
+     [nzLabel]="employee.FirstName + ' ' + (employee.FatherName?employee.FatherName:employee.GrandFatherName)+' ' + (employee.EmployeeOrganization?.Role?.Name  !== 'undefined' && employee.EmployeeOrganization?.Role?.Name !== null ? '- '+ employee.EmployeeOrganization?.Role?.Name: '')"></nz-option>
     </nz-select>
               </nz-form-control>
             </nz-form-item>

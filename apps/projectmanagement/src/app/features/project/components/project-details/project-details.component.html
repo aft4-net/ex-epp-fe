@@ -55,14 +55,18 @@
       </nz-tabset>
     </section>
     
-    <nz-modal (nzOnCancel)="confirmCancel()"  nzTitle="Exit " [(nzVisible)]="cancelModal"   [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
-      nzClassName="conform-modal">
+    <nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="cancelModal"   [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+      nzClassName="conform-modal"[nzTitle]="unassingnTitleTemplate">  
+      <ng-template #unassingnTitleTemplate>
+       <span class="resourceModalTilte" > 
+        Cancel  </span>
+     </ng-template>
       <ng-container *nzModalContent>
-        <p *ngIf="!isOnEditstate"> Are you sure to exit before saving project ? </p>
-        <p *ngIf="isOnEditstate" > Are you sure to exit before updating project ? </p>
+        <p *ngIf="!isOnEditstate"> Are you sure to cancel before saving project ? </p>
+        <p *ngIf="isOnEditstate" > Are you sure to cancel before updating project ? </p>
         <span class="flex justify-end">  
-        <button  class="btn mr-8" (click)="confimeresredirect()">Yes, Exit</button>
-          <button  class="btn-cancel " (click)="rediretCancel()"> Cancel </button>    
+        <button  class="btn mr-8" (click)="confimeresredirect()"> Yes </button>
+          <button  class="btn-cancel " (click)="rediretCancel()"> No </button>    
         </span>
       </ng-container>
     </nz-modal>

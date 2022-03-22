@@ -58,11 +58,7 @@ header {
     background-color:  #BFBFBF !important;
     border-color:#F5F5F5 !important; 
   }
-  ::ng-deep .ant-btn:active, .ant-btn:focus, .ant-btn:hover {
-
-    background:none !important;
-  
-  }
+ 
   .ant-btn:not([disabled]):hover {
   
     background: #00a551 !important;
@@ -185,7 +181,10 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
   align-items: center;
   color: #262626;
 }
-
+.resourceModalTilte{
+  font-weight: 500;
+  font-size: 17px;
+}
 
 
 

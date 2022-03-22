@@ -16,7 +16,7 @@
     </button>
   </div>
   <hr>
-
+  
   <section class="projects ">
     <div *ngIf="authorize('View_Project')">
       <div nz-row>
@@ -93,9 +93,12 @@
     </div>
   </section>
 </div>
-<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="deleteProjectModal" nzTitle="Delete project" [nzFooter]="null"
-  [nzCentered]="true" [nzClosable]="true" nzClassName="delete-conform-modal">
-
+<nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="deleteProjectModal"  [nzFooter]="null"
+  [nzCentered]="true" [nzClosable]="true" nzClassName="delete-conform-modal" [nzTitle]="unassingnTitleTemplate">  
+  <ng-template #unassingnTitleTemplate>
+   <span class="modalTitle" > 
+    Delete project </span>
+ </ng-template>
   <ng-container *nzModalContent>
     <p>
       Are you sure to delete this project ?<br>

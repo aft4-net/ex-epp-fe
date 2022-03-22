@@ -1,5 +1,5 @@
 import { registerLocaleData } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import en from "@angular/common/locales/en";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -26,6 +26,7 @@ import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom
 
 import { CustomUploadComponent } from "./custom-controls/custom-upload/custom-upload.component";
 import { ExcelButtonsMultipleControlsComponent } from "./custom-buttons/excel-buttons-multiple-controls/excel-buttons-multiple-controls.component";
+import{ EmployeeApiService } from '@exec-epp/core-services/employees-services'
 
 
 registerLocaleData(en);
@@ -59,7 +60,9 @@ registerLocaleData(en);
         AngularFileUploaderModule,
         DemoNgZorroAntdModule
     ],
-    providers: [{ provide: NZ_I18N, useValue: en_US }],
+    providers: [
+        { provide: NZ_I18N, useValue: en_US }
+    ],
     exports: [
         ExcelButtonsMultipleControlsComponent,
         CustomTextBoxComponent,

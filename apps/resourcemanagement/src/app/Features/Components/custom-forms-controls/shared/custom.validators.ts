@@ -80,11 +80,18 @@ export function validateName(
     kind: string
 ) {
     const parameters = [control, errorLog, null, kind]
-    return checkMultiple(
-        {
+    if(kind === 'Middle name' && control.value === null) {
+        return null;
+    } else {
+        const result = checkMultiple({
             method: checkrequired,
             parameters: parameters
-        },
+        });
+        if(result) {
+            return result;
+        }
+    }
+    return checkMultiple(
         {
             method: checkLetter,
             parameters: parameters

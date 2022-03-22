@@ -121,7 +121,7 @@ export class TimesheetService {
 
     params = params.append('employeeId', employeeId);
 
-    return this.http.post<any>(this.baseUrl + 'timeentries', timeEntry, {
+    return this.http.post<TimeEntryResponse>(this.baseUrl + 'timeentries', timeEntry, {
       headers: headers,
       params: params,
     });
@@ -134,7 +134,7 @@ export class TimesheetService {
 
     params = params.append('employeeId', employeeId);
 
-    return this.http.post<any>(
+    return this.http.post<TimeEntriesResponse>(
       this.baseUrl + 'TimeEntriesForRange',
       timeEntries,
       { headers: headers, params: params }

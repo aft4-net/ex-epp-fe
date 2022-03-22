@@ -5,8 +5,8 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { CityInStateService } from '../../../../core/services/CityInState.service';
 import { CityService } from '../../../../core/services/city.service';
-import { StateService } from '../../../../core/services/State.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { StateService } from '../../../../core/services/State.service';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 
@@ -313,8 +313,8 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
 showConfirm(index:number): void {
   this.confirmModal = this.modal.confirm({
     nzIconType:'',
-    nzTitle: 'Delete billing adress ?',
-    nzContent: '<b >Are you sure, you want to delete this billing address? this action cannot be undone</b>',
+    nzTitle: 'Delete billing adress?',
+    nzContent: 'Are you sure, you want to delete this billing address? <br/>This action cannot be undone!',
     nzOkText: 'Yes, Delete',
     nzCancelText: 'Cancel',
     nzOkDanger: true,

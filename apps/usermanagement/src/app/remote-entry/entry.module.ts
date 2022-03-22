@@ -39,7 +39,7 @@ const routes: Routes = [
     component: AppComponent,
     children: [
       {
-        path: '', 
+        path: 'users', 
         loadChildren: () =>
           import(
             '../features/components/user-dashboard/user-dashboard.module'
@@ -64,7 +64,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'group',
+        path: 'groups',
         component: GroupsetComponent,
         data: {
           breadcrumb: 'Groups',

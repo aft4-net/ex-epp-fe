@@ -29,6 +29,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 
 export class ViewClientsComponent implements OnInit  {
+  viewClient:Client[] = [];
   isAddButtonDisabled = false;
   isVisible = false;
 
@@ -130,28 +131,54 @@ _commonData.getPermission()
 
   }
 
+  isCheckng(client:any)
+  {
+
+
+    this._clientservice.deleteClient(client.Guid,true).subscribe((res:any)=>{
+
+      if(res.ResponseStatus==='Success')
+      {
+
+
+        this.DeleteClient(client);
+      }
+      else{
+        this.checkClientWithProject();
+      }
+
+    })
+
+  }
+
+
   DeleteClient(client:any){
+
+
     this.modal.confirm({
       nzIconType:'',
       nzTitle: 'Delete Client ?',
-      nzContent: '<span>Are you sure, you want to delete this client?</span>',
+      nzContent: '<span>Are you sure, you want to delete this client?<br/>This action cannot be undone!</span>',
       nzOkText: 'Yes, Delete',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
 
-        this._clientservice.deleteClient(client.Guid).subscribe(
+        this._clientservice.deleteClient(client.Guid,false).subscribe(
           (res:any)=>{
             if(res.ResponseStatus==='Success')
             {
              this.notification.success("Client Deleted Successfully","",{nzPlacement:'bottomRight'}
              );
-             this.initializeData();
-             
+             this.
+             initializeData();
             }
             else{
-            this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
+             // this.notification.error("You can't delete, this client has projects under it","",{nzPlacement:'bottomRight'});
+
+                          this.checkClientWithProject();
             }
+
            },
           err=>{
             this.notification.error("Client was not Deleted",'',{nzPlacement:'bottomRight'})
@@ -161,8 +188,27 @@ _commonData.getPermission()
       },
 
       nzCancelText: 'Cancel',
-      nzOnCancel: () => console.log('Cancel'),
+      nzOnCancel: () => {},
     });
+  }
+
+  showDeleteConfirm(element: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure, you want to cancel this client?',
+      nzContent: '<b style="color: red;"></b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.DeleteClient(element);
+      },
+      nzCancelText: 'No',
+      nzOnCancel: () => {},
+    });
+  }
+  checkClientWithProject(): void {
+
+this.notification.error("This Client can not be deleted ",'becuase it is has a project under it',{nzPlacement:'topRight'})
   }
   Edit(client: any): void {
     if(client)
@@ -313,7 +359,7 @@ _commonData.getPermission()
   }
 
   PageSizeChange(pageSize: number) {
-    console.log(pageSize);
+  
     this.pageSize = pageSize;
     this._clientservice
       .getWithPagnationResut(this.pageIndex, pageSize, this.searchProject.value)
@@ -328,7 +374,6 @@ _commonData.getPermission()
 
 
   getAllClientData(index: any) {
-    console.log(index);
 
       this._clientservice
         .getWithPagnationResut(index, 10, this.searchProject.value)
@@ -403,7 +448,7 @@ _commonData.getPermission()
         this.findlistofStatus();
         this.findlistSalesPersonNames();
         this.findlistOfLocation();
-        console.log(response.data);
+       
       });
 
     this._clientservice.fristPagantionClients$.subscribe(
@@ -494,14 +539,13 @@ _commonData.getPermission()
         checked: true,
       });
     }
-    console.log(this.namesofclientsfilterd);
+  
 
     this.namesofclientsfilterd = this.namesofclientsfilterd.filter(
       (word) => word
     );
     this.namesofclientsfilterd.shift();
 
-    console.log(this.namesofclientsfilterd);
   }
 
   findlistSalesPersonNames(): void {
@@ -530,7 +574,7 @@ _commonData.getPermission()
     this.namesofSalesfilterd = this.namesofSalesfilterd.filter((word) => word);
     this.namesofSalesfilterd.shift();
 
-    console.log(this.namesofSalesfilterd);
+    
   }
 
   findlistOfLocation(): void {
@@ -561,7 +605,7 @@ _commonData.getPermission()
     );
     this.namesofLocationsfilterd.shift();
 
-    console.log(this.namesofLocationsfilterd);
+    
   }
 
 getClientStatus() {
@@ -575,13 +619,15 @@ getLocations(){
   this.operatingAddressService.getData().subscribe((res:AllDataResponse<OperatingAddress[]>) => {
     this.locations = res.data;
   }, error => {
-    console.log(error);
+  
   });
 }
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
 
     this.allClients = res.data;
+    this.viewClient = [];
+    this.viewClient = [...res.data];
     if(this.allClients!=null)
     {
       for (let i=0;i<this.allClients.length;i++)

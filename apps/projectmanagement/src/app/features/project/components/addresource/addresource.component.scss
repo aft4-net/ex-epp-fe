@@ -8,7 +8,10 @@
 {
   color: red;
 }
-
+.resourceModalTilte{
+  font-weight: 500;
+  font-size: 17px;
+}
 
 .tab-title{
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -63,13 +66,7 @@ ssgin-link {
 ::ng-deep .ant-radio:hover .ant-radio-inner {
   border-color: #00a551;
 }
-::ng-deep .ant-table-tbody > tr > td {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-}
+
 
 
 *{
@@ -85,10 +82,6 @@ ssgin-link {
   margin-left: 10px;
 }
 
-
-::ng-deep .ant-modal-content  {
-  height: 24.5rem;
-}
 
 ::ng-deep .ant-form-item-label>label {
   margin: 0;
@@ -203,11 +196,14 @@ form {
 }
 
 
+::ng-deep .conform-modal{
+ margin-bottom: 23%;
+}
 
 ::ng-deep .conform-modal .ant-modal-content {
 border: 0.5px solid #00a551;
 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-  width: 390px;
+  width: 410px;
 height: 147px !important;
 padding-top: 0px !important;
 background: #ffffff;
@@ -218,6 +214,7 @@ justify-self: center;
 ::ng-deep .conform-modal .ant-modal-header {
   font-size: 16px;
   padding-bottom: 3px;
+  margin-top: 2px;
   color: rgba(0,0,0,.85);
   background: #fff;
   border-bottom: none;
@@ -237,18 +234,14 @@ font-size: 20px;
 margin-bottom: 40%;
 }
 
-nz-table  {
-  padding: 0px !important;
- }
+
  .btn:disabled:hover{
 
   background-color:  #BFBFBF !important;
   border-color:#F5F5F5 !important; 
 }
 
-.pagination {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  color: #595959;
+
+::ng-deep .ant-switch-checked {
+  background: #00A551;
 }

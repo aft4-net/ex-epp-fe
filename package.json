@@ -26,7 +26,9 @@
     "serve:dist": "concurrently  \"serve dist/epp-dashboard -l 4200 -s\" \"serve dist/usermanagement -l 4231 -s\" \"serve dist/timesheet -l 4233 -s\" \"serve dist/clientmanagement -l 4235 -s\" \"serve dist/configurationmodule -l 4232 -s\"",
     "analyze:clientManagement": "webpack-bundle-analyzer dist/apps/clientmanagement/stats.json",
     "analyze:projectManagement": "webpack-bundle-analyzer dist/apps/projectmanagement/stats.json",
-    "analyze:resourceManagement": "webpack-bundle-analyzer dist/apps/resourcemanagement/stats.json"
+    "analyze:resourceManagement": "webpack-bundle-analyzer dist/apps/resourcemanagement/stats.json",
+    "analyze:timeSheet": "webpack-bundle-analyzer dist/apps/timesheet/stats.json",
+    "analyze:usermanagement": "webpack-bundle-analyzer dist/apps/usermanagement/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +52,7 @@
     "angular-file-uploader": "^7.1.1",
     "antd": "^4.17.1",
     "autoprefixer": "^10.3.7",
+    "concurrently": "^7.0.0",
     "msal": "^1.4.15",
     "msalx": "^0.1.2",
     "ng-zorro-antd": "^12.1.1",

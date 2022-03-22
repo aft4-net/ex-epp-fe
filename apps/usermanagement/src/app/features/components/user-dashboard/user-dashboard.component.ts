@@ -243,7 +243,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
         if(val.length > 0){
           this.userList = val
           for(let i=0; i < this.userList.length;i++){
-            if(this.holdItDepartment.findIndex(x=>x.text === this.userList[i].Department.trim()) === -1 ){
+            if(this.holdItDepartment.findIndex(x=>x.text.trim() === this.userList[i].Department.trim()) === -1 ){
                 this.holdItDepartment.push(
                 {
                   text: this.userList.map(x=>x.Department)[i],
@@ -252,7 +252,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
               }
           }
           for(let i=0; i < this.userList.length;i++){
-            if(this.holdItJobTitle.findIndex(x=>x.text === this.userList[i].JobTitle.trim()) === -1){
+            if(this.holdItJobTitle.findIndex(x=>x.text.trim() === this.userList[i].JobTitle.trim()) === -1){
               this.holdItJobTitle.push(
                 {
                   text:this.userList.map(x=>x.JobTitle)[i],
@@ -263,7 +263,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
 
           }
           for(let i=0; i < this.userList.length;i++){
-              if(this.holdItStatus.findIndex(x=>x.text === this.userList[i].Status.trim()) === -1){
+              if(this.holdItStatus.findIndex(x=>x.text.trim() === this.userList[i].Status.trim()) === -1){
               this.holdItStatus.push(
                 {
                   text:this.userList.map(x=>x.Status)[i],
@@ -477,7 +477,7 @@ handleGroupCancel() {
 
           EmployeeId : res.Data.Guid,
           FirstName : res.Data.FirstName,
-          MiddleName : res.Data.FatherName,
+          MiddleName : res.Data.FatherName?res.Data.FatherName:'',
           LastName : res.Data.GrandFatherName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.EmployeeOrganization?.CompaynEmail,
@@ -496,7 +496,7 @@ handleGroupCancel() {
             }
             this.notifier.notify(
               NotificationType.success,
-              'User is created successfully'
+              'User is Added successfully'
             );
             this.loadingOnSave = false;
             this.isUserModalVisible = false;
