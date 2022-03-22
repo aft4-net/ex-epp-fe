@@ -91,10 +91,10 @@
                           <button class="actionButtons tdstyle"  [nzSize]="size" nz-button nzType="default" (click)="ShowDetail(user.UserId)" >
                               Show Detail
                           </button>
-                          <button class="actionButtons tdstyle" *ngIf="authorize('Update_User')"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
+                          <button class="actionButtons tdstyle" *ngIf="authorize('Update_User') && user.Status === 'Active'"  [nzSize]="size" nz-button nzType="default" (click)="AddToGroup(user.UserId,user.FullName)">
                               Add to group
                           </button>
-                          <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User') && (user.FullName.toLowerCase() !== 'admin admin admin')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
+                          <button class="actionButtons tdstyle"  *ngIf="authorize('Delete_User') && user.Status === 'Active' && (user.FullName.toLowerCase() !== 'admin admin admin')"  nz-button nzType="default" (click)="showConfirm(user.UserId)">
                               Remove
                           </button>
                         </nz-space>
