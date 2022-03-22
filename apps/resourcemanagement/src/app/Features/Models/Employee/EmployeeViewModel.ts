@@ -6,4 +6,5 @@ export interface IEmployeeViewModel {
     Location: string;
     Status: string;
     JoiningDate: string;
+    OrganizationEmail:string;
 }

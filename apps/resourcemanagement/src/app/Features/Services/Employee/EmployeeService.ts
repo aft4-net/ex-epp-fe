@@ -257,7 +257,7 @@ export class EmployeeService {
               TotalRecord: result.TotalRecord,
             },
           };
-          return this.paginatedResult;
+          return this.paginatedResult; 
         })
       );
   }
@@ -338,7 +338,7 @@ export class EmployeeService {
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
 
-  DeleteEmployee(employeeId:string) {debugger;
+  DeleteEmployee(employeeId:string) { 
     return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
   }
 
