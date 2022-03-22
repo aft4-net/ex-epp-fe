@@ -11,7 +11,7 @@
               <div nz-row>
                 <div nz-col class="gutter-row" nzSpan="24">
                   <div class="inner-box">
-                    <p style="margin: 0">{{userdetailInfo.FirstName + " " + userdetailInfo.MiddleName + " " +userdetailInfo.LastName}} </p>
+                    <p style="margin: 0">{{userdetailInfo.FirstName + " " +(userdetailInfo.MiddleName?userdetailInfo.MiddleName + " ":'') +userdetailInfo.LastName}} </p>
                   </div>
                 </div>
               </div>

@@ -3,7 +3,7 @@ import { Address, Addresss } from "../../Models/address.model";
 import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContacts } from "../../Models/emergencycontact";
 import { Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateMiddleName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
@@ -25,7 +25,7 @@ import { map } from "rxjs/operators";
     providedIn: 'root',
 })
 @Directive({
-    providers:[
+    providers: [
         HttpClient,
         { provide: EmployeeApiService, useClass: EmployeeApiService, deps: [HttpClient], multi: false }
     ]
@@ -56,7 +56,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     private _employee?: Employee;
     public Guid?: string
 
-    
+
     get IsEdit(): boolean {
         return this._isEdit
     }
@@ -394,7 +394,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     private _createFullNameFormGroup() {
         return this._formBuilder.group({
             firstName: [null, [validateFirstName]],
-            middleName: [null, [validateFirstName]],
+            middleName: [null, [validateMiddleName]],
             lastName: [null, [validateFirstName]],
         })
     }
@@ -450,7 +450,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._setControlValue(employeeIdNumber, this.getFormControl('employeeIdNumber', formGroup))
     }
 
-    private _setNames(first: string | null, middle: string | null, last: string | null, formGroup: FormGroup) {
+    private _setNames(first: string | null, middle: string | null | undefined, last: string | null, formGroup: FormGroup) {
         this._setControlValue(first, this.getFormControl('firstName', formGroup))
         this._setControlValue(middle, this.getFormControl('middleName', formGroup))
         this._setControlValue(last, this.getFormControl('lastName', formGroup))
@@ -493,40 +493,24 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _setPresonalDetail(employee: Employee) {
-
-        if (employee.EmployeeNumber) {
-
-            this._setEmployeeIdNumber(
-                employee.EmployeeNumber,
-                this.personalDetailsForm
-            )
-        }
-
-        if (employee.FirstName && employee.FatherName) {
-
-            this._setNames(
-                employee.FirstName,
-                employee.FatherName,
-                employee.GrandFatherName,
-                this.getFormGroup('fullName', this.personalDetailsForm)
-            )
-        }
-
-        if (employee.Gender) {
-
-            this._setControlValue(
-                employee.Gender,
-                this.getFormControl('gender', this.personalDetailsForm)
-            )
-        }
-
-        if (employee.DateofBirth) {
-
-            this._setControlValue(
-                employee.DateofBirth,
-                this.getFormControl('dateofBirth', this.personalDetailsForm)
-            )
-        }
+        this._setEmployeeIdNumber(
+            employee.EmployeeNumber,
+            this.personalDetailsForm
+        )
+        this._setNames(
+            employee.FirstName,
+            employee.FatherName,
+            employee.GrandFatherName,
+            this.getFormGroup('fullName', this.personalDetailsForm)
+        )
+        this._setControlValue(
+            employee.Gender,
+            this.getFormControl('gender', this.personalDetailsForm)
+        )
+        this._setControlValue(
+            employee.DateofBirth,
+            this.getFormControl('dateofBirth', this.personalDetailsForm)
+        )
 
         const emailArray: string[] = [employee.PersonalEmail]
         if (employee.PersonalEmail2 && employee.PersonalEmail2 !== null && employee.PersonalEmail2 !== '') {
@@ -585,14 +569,6 @@ export class FormGenerator extends FormGeneratorAssistant {
             ],
             this.getFormArray('companyEmail', this.organizationalForm)
         )
-        /* this._setPhoneArray(
-            [
-                organizationalDetail.PhoneNumber
-            ],
-            this.getFormArray('phoneNumber', this.organizationalForm)
-        )*/
-
-
         this._setControlValue(
             organizationalDetail.DepartmentId,
             this.getFormControl('department', this.organizationalForm)
@@ -746,16 +722,15 @@ export class FormGenerator extends FormGeneratorAssistant {
         )
     }
 
-    private _setFamilyDetail(familyDetail: FamilyDetail) {
-        const names = familyDetail.FullName.split(' ')
+    private _setFamilyDetail(familyDetail: FamilyDetail) {debugger;
+        let names: (string | null)[] = familyDetail.FullName.split(' ')
+        if (names.length === 2) names = [names[0], null, names[1]]
         this._setControlValue(
             familyDetail.Guid,
             this.getFormControl('guid', this.familyDetail)
         )
         this._setNames(
-            names[0],
-            (names.length === 3 ? names[1] : null),
-            (names.length === 3 ? names[2] : names[1]),
+            names[0], names[1], names[2],
             this.getFormGroup('fullName', this.familyDetail)
         )
         this._setControlValue(
@@ -784,9 +759,9 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     // eslint-disable-next-line no-debugger
-    generateForms(employee?: Employee) {debugger;
+    generateForms(employee?: Employee) {
         this._employee = employee;
-        this.Guid=employee?.Guid
+        this.Guid = employee?.Guid
         this._regenerateForm()
         if (employee) {
             this._validate = true;
@@ -875,7 +850,7 @@ export class FormGenerator extends FormGeneratorAssistant {
 
     private readonly _apiWait = (condition: { done: boolean }) => {
         for (let i = 0; i < 20 && !condition.done; i++) {
-            setTimeout(() => {}, 100);
+            setTimeout(() => { }, 100);
         }
     }
 

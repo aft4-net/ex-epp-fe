@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
 isLogin=false;
 checker1= false;
 counter = 1;
+usersIsActive!: boolean;
+groupsIsActive!: boolean;
 
 //user = this.accountService.userInfo;
 
@@ -54,7 +56,11 @@ ngOnInit(): void {
       // this.router.navigateByUrl(route);
       
       if(res.map(res => res.KeyValue).length > 0 && res.map(res => res.KeyValue).indexOf("View_User") === -1 && this.router.url == '/usermanagement') {
-        this.router.navigateByUrl("usermanagement/group");
+        this.groupsIsActive = true;
+        this.router.navigateByUrl("usermanagement/groups");
+      } else if (res.map(res => res.KeyValue).length > 0 && this.router.url == '/usermanagement') {
+        this.usersIsActive = true;
+        this.router.navigateByUrl("usermanagement/users");
       }
     });
   }

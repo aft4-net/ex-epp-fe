@@ -14,7 +14,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   selector: 'exec-epp-Add-Project',
   templateUrl: './Add-Project.component.html',
   styleUrls: ['./Add-Project.component.css'],
-  providers: [ProjectValidationService]
+  providers: [ProjectValidationService],
 })
 export class AddProjectComponent implements OnInit, OnDestroy {
   projectStatus!: boolean;
@@ -256,7 +256,7 @@ if( this.projectUpdate.ProjectName !== this.projectOld.ProjectName  ||
       this.clients = response.Data;
       for (let i = 0; i < this.clients.length; i++) {
         if (  this.clients[i].ClientName.toLowerCase().trim() ===
-          'Excellerent'.toString().toLowerCase().trim() ) {
+          'Internal'.toString().toLowerCase().trim() ) {
             this.internalClinetGuid=this.clients[i].Guid;
           break;
         }

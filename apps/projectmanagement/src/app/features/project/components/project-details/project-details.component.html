@@ -55,8 +55,12 @@
       </nz-tabset>
     </section>
     
-    <nz-modal (nzOnCancel)="confirmCancel()"  nzTitle="Cancel " [(nzVisible)]="cancelModal"   [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
-      nzClassName="conform-modal">
+    <nz-modal (nzOnCancel)="confirmCancel()"  [(nzVisible)]="cancelModal"   [nzFooter]="null" [nzCentered]="true" [nzClosable]="true"
+      nzClassName="conform-modal"[nzTitle]="unassingnTitleTemplate">  
+      <ng-template #unassingnTitleTemplate>
+       <span class="resourceModalTilte" > 
+        Cancel  </span>
+     </ng-template>
       <ng-container *nzModalContent>
         <p *ngIf="!isOnEditstate"> Are you sure to cancel before saving project ? </p>
         <p *ngIf="isOnEditstate" > Are you sure to cancel before updating project ? </p>

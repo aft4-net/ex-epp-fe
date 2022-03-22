@@ -81,3 +81,85 @@
   border-top-left-radius: 15px;
   background-color: #ffffff;
 }
+
+::ng-deep .timesheet-conform-modal {
+  width: 450px !important;
+}
+
+::ng-deep .timesheet-conform-modal .ant-modal-header {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+::ng-deep .timesheet-conform-modal .timesheet-modal-message p {
+    margin-bottom: 6px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+::ng-deep .timesheet-conform-modal .ant-modal-content {
+  border: 0.5px solid #00a551;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  height: 245px;
+  background: #ffffff;
+  align-self: center;
+  justify-self: center;
+}
+
+::ng-deep .timesheet-conform-modal .ant-modal-body {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+
+  //styleName: Body Text 1/Regular/16;
+
+
+}
+
+::ng-deep .timesheet-conform-modal .timesheet-modal-message {
+  margin-bottom: 2rem;
+}
+
+::ng-deep .timesheet-conform-modal .yes-delete-btn {
+  background-color: #00a551 !important;
+  border: #00a551;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+
+  position: static;
+  width: 109px;
+  height: 38px;
+  left: 74px;
+  top: 0px;
+  color: #ffffff !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+::ng-deep .timesheet-conform-modal .cancel {
+  border: 0.5px solid #00a551;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+
+  position: static;
+  width: auto;
+  height: 38px;
+  left: 74px;
+  top: 0px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #00a551;
+}

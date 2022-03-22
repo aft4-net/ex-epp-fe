@@ -23,10 +23,10 @@ const routes: Routes = [
    component: AppComponent,
     children: [
       {
-        path: '',
+        path: 'department',
         loadChildren: () => import('../features/department/department.module').then(m => m.DepartmentModule),
         data: {
-          breadcrumb: "Configuration"
+          breadcrumb: "Department"
         }
       },
       {
@@ -40,7 +40,7 @@ const routes: Routes = [
         path: 'job-title',
         component: RoleComponent,
         data: {
-          breadcrumb: "Job-Title"
+          breadcrumb: "Job Title"
         }
       },
       {

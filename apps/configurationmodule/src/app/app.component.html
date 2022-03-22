@@ -2,7 +2,7 @@
   <div class="flex-2 sm:w-2/4 lg:w-1/4 ml-4 sm:mt-3 sm:mb-3 sm:ml-0">
   <nz-breadcrumb [nzAutoGenerate]="true" class="flex sm:contents">
     <nz-breadcrumb-item [routerLink]="['/']"><a>Home</a></nz-breadcrumb-item>
-    <nz-breadcrumb-item [routerLink]="['/configurationmodule']"><a>Configuration</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item><a>Configuration</a></nz-breadcrumb-item>
     </nz-breadcrumb>
     <div class="w-auto h-7">
       <h3 class="w-auto h-full font-semibold text-xl not-italic">Manage Configuration</h3>
@@ -13,21 +13,21 @@
     <nz-sider  *ngIf="isLogin" [style.box-shadow]="{'box-shadow': 'inset -2px 0px 0px #DADADA'}"
       nzWidth="228px" nzHight="715px" class="inner-side-bar" nzTheme="light">
       <ul nz-menu nzMode="inline" class="sider-menu">
-        <li  nz-menu-item [nzSelected]='activePath("/configurationmodule")' *ngIf="authorize(['Create_Department', 'View_Department', 'Update_Department', 'Delete_Department'])">
-          <i nz-icon nzType="apartment" nzTheme="outline"></i><a [routerLinkActive]="['/configurationmodule']" [routerLink]="['/configurationmodule']" >Department</a>
+        <li  nz-menu-item [nzSelected]='activePath("/configurationmodule/department") || departmentIsActive' *ngIf="authorize(['Create_Department', 'View_Department', 'Update_Department', 'Delete_Department'])">
+          <i nz-icon nzType="apartment" nzTheme="outline"></i><a [routerLinkActive]="['/configurationmodule/department']" [routerLink]="['/configurationmodule/department']" >Department</a>
         </li>
-        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/job-title")' *ngIf="authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title'])">
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/job-title") || jobTitleIsActive' *ngIf="authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title'])">
           <i nz-icon nzType="user" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/job-title']" >Job Title</a>
         </li>
-        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/country")' *ngIf="authorize(['Create_Country', 'Delete_Country', 'Update_Country', 'View_Country'])">
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/country") || countryIsActive' *ngIf="authorize(['Create_Country', 'Delete_Country', 'Update_Country', 'View_Country'])">
           <i nz-icon nzType="flag" nzTheme="outline"></i>
           <a [routerLink]="['/configurationmodule/country']">Country</a>
         </li>
-        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/country")' *ngIf="authorize(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])">
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/duty-station") || dutyStationIsActive' *ngIf="authorize(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])">
           <i nz-icon nzType="flag" nzTheme="outline"></i>
           <a [routerLink]="['/configurationmodule/duty-station']">Duty Station</a>
         </li>
-        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/timesheet")' *ngIf="authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])">
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/timesheet") || timesheetIsActive' *ngIf="authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])">
           <i nz-icon nzType="clock-circle" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/timesheet']" >TimeSheet</a>
         </li>
       </ul>

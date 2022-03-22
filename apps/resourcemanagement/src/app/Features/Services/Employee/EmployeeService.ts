@@ -257,7 +257,7 @@ export class EmployeeService {
               TotalRecord: result.TotalRecord,
             },
           };
-          return this.paginatedResult;
+          return this.paginatedResult; 
         })
       );
   }
@@ -338,7 +338,7 @@ export class EmployeeService {
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
 
-  DeleteEmployee(employeeId:string) {debugger;
+  DeleteEmployee(employeeId:string) { 
     return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);
   }
 
@@ -357,7 +357,7 @@ export class EmployeeService {
     }[];
 
     return this.http.get(environment.apiUrl+"/Employee/FilterData").pipe(map((response:any)=>{
-      console.log((response.Data.Status[0]));
+    
       if(Object.keys(response.Data).length!= 0)
       {
         for (let i = 0; i < response.Data.jobtype.length; i++){
@@ -463,6 +463,19 @@ export class EmployeeService {
   IsEmployeeSupervisor(id: string):Observable<boolean> {
     const params = new HttpParams().set('id', id);
     const result = this.http.get(environment.apiUrl+'/project/isEmployeeSupervisor/?'+params.toString()
+    )
+    .pipe(
+      map((response: any) => {
+        return response as boolean;
+      })
+    );
+    return result;
+   }  
+
+
+   IsEmployeeTimeesheet(id: string):Observable<boolean> {
+    const params = new HttpParams().set('employeeGuid', id);
+    const result = this.http.get(environment.apiUrl+'/TimeSheet/IsEmployeeWithTimeesheetExists/?'+params.toString()
     )
     .pipe(
       map((response: any) => {

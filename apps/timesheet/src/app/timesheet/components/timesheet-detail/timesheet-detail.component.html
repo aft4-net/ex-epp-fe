@@ -115,10 +115,23 @@
     </div>
 </nz-drawer>
 
-<nz-modal [(nzVisible)]="modalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true"
+<nz-modal [(nzVisible)]="addTimeEntryModalVisible" [nzTitle]="modalTitle" [nzFooter]="null" [nzCentered]="true" [nzClosable]="true" (nzOnCancel)="addTimeEntryModalVisible = false"
+  nzClassName="timesheet-conform-modal">
+  <ng-container *nzModalContent>
+    <div class="timesheet-modal-message">
+      <p *ngFor="let modalMessage of modalMessages" class="m-0" >{{ modalMessage }}</p>
+    </div>
+    <span class="flex justify-end">
+      <button nz-button class="yes-delete-btn mr-8" (click)="addTimeEntry();addTimeEntryModalVisible = false">Yes</button>
+      <button nz-button class="cancel" (click)="addTimeEntryModalVisible = false">Cancel</button>
+    </span>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="invalidTimeEntriesModalVisible" nzTitle="Invalid Time Entries" [nzFooter]="null" [nzCentered]="true"
     [nzClosable]="false" nzClassName="invalid-time-entry-modal">
     <ng-container *nzModalContent>
-        <nz-table #invalidEntriesData [nzData]="invalidEntries??[]">
+        <nz-table #invalidEntriesData [nzData]="invalidEntries">
             <thead>
                 <tr>
                     <th>Time Entry Date</th>
@@ -138,7 +151,7 @@
             </tfoot>
         </nz-table>
         <span class="flex justify-center">
-            <button nz-button nzType="primary" (click)="handleOk()">OK</button>
+            <button nz-button nzType="primary" (click)="invalidTimeEntriesModalVisible = false">OK</button>
         </span>
     </ng-container>
 </nz-modal>

@@ -1,10 +1,10 @@
 import {
-ApprovalStatus,
-StartOfWeek,
-TimeEntry,
-Timesheet,
-TimesheetApproval,
-TimesheetConfiguration,
+  ApprovalStatus,
+  StartOfWeek,
+  TimeEntry,
+  Timesheet,
+  TimesheetApproval,
+  TimesheetConfiguration,
 } from '../../../models/timesheetModels';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
@@ -47,11 +47,15 @@ export const startingDateCriteria = {} as {
   styleUrls: ['./timesheet-detail.component.scss'],
 })
 export class TimesheetDetailComponent implements OnInit, OnDestroy {
-  userId: string | null = null;
+  userId = "";
   clickEventType = ClickEventType.none;
   drawerVisible = false;
-  modalVisible = false;
+  invalidTimeEntriesModalVisible = false;
+  addTimeEntryModalVisible = false;
   validateForm!: FormGroup;
+
+  modalTitle = "";
+  modalMessages: string[] = []
 
   // Used for disabling client and project list when selected for edit.
   disableFromDate = false;
@@ -67,17 +71,18 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   timesheetApprovals: TimesheetApproval[] | null = [];
   timesheetApproval: TimesheetApproval | null = null;
   timesheetReview: TimeEntry[] | null = [];
-  timesheetApprovals$: Observable<TimesheetApproval[] | null> =  new Observable();
+  timesheetApprovals$: Observable<TimesheetApproval[] | null> = new Observable();
   timesheetApproved = false;
 
   timeEntry: TimeEntry | null = null;
+  newTimeEntry: TimeEntry | null = null;
   weeklyTotalHours = 0;
 
   invalidEntries: { Date: Date; Message: string }[] = [];
 
-  clients: Client[] | null = null;
-  clientsFiltered: Client[] | null = null;
-  projects: Project[] | null = null;
+  clients: Client[] = [];
+  clientsFiltered: Client[] = [];
+  projects: Project[] = [];
   projectsFiltered: Project[] | null = null;
   employee: Employee[] = [];
 
@@ -110,7 +115,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   endValue1 = new Date();
   startingDateCriteria = startingDateCriteria;
   isToday = true;
-
   $clients: Observable<Client[]>
   $projects: Observable<Project[]>
   $selectedClient: Observable<string | null>
@@ -154,10 +158,10 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.$disableDates = this._clientAndProjectStateService.$disableDate;
     this.loading$ = this.loadingStateService.loading$;
   }
-  
+
   ngOnInit(): void {
     this.timesheetStateService.setApproval(false);
-    this.userId = localStorage.getItem('userId');
+    this.userId = localStorage.getItem('userId') ?? "";
     this.timesheetConfig$ = this.timesheetConfigurationStateService.timesheetConfiguration$;
 
     this.timesheet$ = this.timesheetStateService.timesheet$;
@@ -165,7 +169,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
 
 
-    this.timesheetConfig$.subscribe((tsc) =>{
+    this.timesheetConfig$.subscribe((tsc) => {
       this.timesheetConfig = tsc ?? this.timesheetConfigurationStateService.defaultTimesheetConfig;
       this.startingWeek(this.timesheetConfig.StartOfWeeks);
       this.maxDateColumnTotalHour = this.timesheetConfig.WorkingHours.Max;
@@ -186,12 +190,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.timesheetStateService.getTimesheet(this.userId);
     }
 
-    this.loadingSubscription = this.loading$.subscribe(res => {
-      if(res == 0 && !this.drawerVisible) {
-        this.checkForCurrentWeek();
-      }
-    })
-
     this.calculateWeeklyTotalHours();
 
     this.validateForm = this.fb.group({
@@ -204,8 +202,26 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     });
 
     this.calcualteNoOfDaysBetweenDates();
+
+    this.loadingSubscription = this.loading$.subscribe(res => {
+      if (res == 0 && !this.drawerVisible) {
+        this.checkForCurrentWeek();
+      }
+    })
+
+    this.loadingSubscription.add(
+      this.$clients.subscribe(response => {
+        this.clients = response;
+      })
+    );
+
+    this.loadingSubscription.add(
+      this.$projects.subscribe(response => {
+        this.projects = response;
+      })
+    )
   }
-  
+
   ngOnDestroy(): void {
     this.loadingSubscription.unsubscribe();
   }
@@ -241,7 +257,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     let dayOfWeek = daysOfWeek.indexOf(startOfWeeks[0].DayOfWeek)
-    if(dayOfWeek === -1){
+    if (dayOfWeek === -1) {
       dayOfWeek = 1;
     }
 
@@ -262,9 +278,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   nextWeek(count: any) {
     this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        StartOfWeeks: [{ DayOfWeek: "Monday", EffectiveDate: new Date(0) }],
         WorkingDays: [],
-        WorkingHours: {Min: 0, Max: 24}
+        WorkingHours: { Min: 0, Max: 24 }
       }
       this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + 7);
       const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
@@ -286,9 +302,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   lastastWeek(count: any) {
     this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        StartOfWeeks: [{ DayOfWeek: "Monday", EffectiveDate: new Date(0) }],
         WorkingDays: [],
-        WorkingHours: {Min: 0, Max: 24}
+        WorkingHours: { Min: 0, Max: 24 }
       }
 
       this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 7);
@@ -350,9 +366,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   selectedDate(date: Date) {
     this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? {
-        StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+        StartOfWeeks: [{ DayOfWeek: "Monday", EffectiveDate: new Date(0) }],
         WorkingDays: [],
-        WorkingHours: {Min: 0, Max: 24}
+        WorkingHours: { Min: 0, Max: 24 }
       }
 
       this.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -365,7 +381,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
       }
-      
+
       this.checkTimeOverThreeWeeks(this.firstday1);
     });
   }
@@ -387,11 +403,10 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     let date = new Date();
     date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    if(this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 * 24 * 3600000) {
+    if (this.dayAndDateService.getWeeksFirstDate(new Date()).getTime() - this.firstday1.getTime() < 7 * 24 * 3600000) {
       this.isToday = true;
     }
-    else
-    {
+    else {
       this.isToday = false;
     }
 
@@ -619,10 +634,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       } else {
         this.addTimeEntryForDateRange(timeEntry);
       }
-
-      if (!this.invalidEntries || this.invalidEntries.length == 0) {
-        this.closeFormDrawer();
-      }
     } catch (err) {
       console.error(err);
     }
@@ -651,12 +662,12 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
             this.timeEntry = null;
           } else {
-            this.addTimeEntry(timeEntry);
+            this.checkProjectDateBeforeAddTimeEntry(timeEntry);
           }
         });
 
     } else {
-      this.addTimeEntry(timeEntry);
+      this.checkProjectDateBeforeAddTimeEntry(timeEntry);
     }
   }
 
@@ -700,7 +711,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
         let timeEntryClone;
 
         if (tmpTimeEntry) {
-          tmpTimeEntry = {...tmpTimeEntry};
+          tmpTimeEntry = { ...tmpTimeEntry };
 
           tmpTimeEntry.Date = timeEntry.Date;
           tmpTimeEntry.Hour = tmpTimeEntry.Hour + timeEntry.Hour;
@@ -732,7 +743,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
 
-        const timeEntryClone = {...timeEntry};
+        const timeEntryClone = { ...timeEntry };
 
         if (
           this.timesheetValidationService.isValidForAdd(
@@ -752,7 +763,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     }
 
     if (this.invalidEntries && this.invalidEntries.length > 0) {
-      this.modalVisible = true;
+      this.invalidTimeEntriesModalVisible = true;
       return;
     }
 
@@ -761,16 +772,85 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleOk() {
-    this.modalVisible = false;
+  checkProjectDateBeforeAddTimeEntry(timeEntry: TimeEntry) {
+    const project = this.projects.filter(p => p.id === timeEntry.ProjectId)[0];
+    const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    let projectEndDate = new Date(project.endDate);
+    projectEndDate = new Date(projectEndDate.getFullYear(), projectEndDate.getMonth(), projectEndDate.getDate());
+    let projectAssignedDate = new Date(project.assignedDate);
+    projectAssignedDate = new Date(projectAssignedDate.getFullYear(), projectAssignedDate.getMonth(), projectAssignedDate.getDate());
+
+    this.newTimeEntry = timeEntry;
+    this.modalTitle = "Add entry ?";
+    this.modalMessages = [];
+    if (date < projectAssignedDate) {
+      this.modalMessages.push("You are about to add time entry before your assigned date.");
+      this.modalMessages.push("Are you sure you want to continue?");
+      this.addTimeEntryModalVisible = true;
+      return;
+    }
+    else if (date > projectEndDate) {
+      this.modalMessages.push("You are about to add time entry after project end date.");
+      this.modalMessages.push("Are you sure you want to continue?");;
+      this.addTimeEntryModalVisible = true;
+      return;
+    }
+
+    this.addTimeEntry();
   }
 
-  addTimeEntry(timeEntry: TimeEntry) {
+  addTimeEntry() {
     if (!this.userId) {
       return;
     }
 
-    const date = new Date(timeEntry.Date);
+    if (!this.newTimeEntry) {
+      return;
+    }
+
+    const date = new Date(this.newTimeEntry.Date);
+    this.newTimeEntry.Date = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      3,
+      0,
+      0,
+      0
+    );
+
+    this.timesheetService.addTimeEntry(this.userId, this.newTimeEntry).subscribe(
+      (response) => {
+        if (response.ResponseStatus === "Success") {
+          this.timesheetStateService.getTimesheet(this.userId, this.date);
+
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
+        }
+        else {
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
+        }
+      },
+      (error) => {
+        this.createNotification(
+          "error",
+          error.message()
+        );
+      }
+    );
+
+    if (this.drawerVisible) {
+      this.closeFormDrawer();
+    }
+  }
+
+  updateTimeEntry(timeEntry: TimeEntry) {
+    const date = timeEntry.Date;
     timeEntry.Date = new Date(
       date.getFullYear(),
       date.getMonth(),
@@ -781,20 +861,34 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       0
     );
 
-    this.timesheetService.addTimeEntry(this.userId, timeEntry).subscribe(
+    this.timesheetService.updateTimeEntry(timeEntry).subscribe(
       (response) => {
-        if (this.userId) {
+        if (response.ResponseStatus === "Success") {
           this.timesheetStateService.getTimesheet(this.userId, this.date);
+
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
         }
-        this.createNotification(
-          'success',
-          'Your Timesheet Added Successfully.'
-        );
+        else {
+          this.createNotification(
+            response.ResponseStatus.toLowerCase(),
+            response.Message
+          );
+        }
       },
       (error) => {
-        this.createNotification('warning', 'Warning');
+        this.createNotification(
+          'error',
+          error.message
+        );
       }
     );
+
+    if (this.drawerVisible) {
+      this.closeFormDrawer();
+    }
   }
 
   addTimeEntryForRangeOfDates(timeEntries: TimeEntry[]) {
@@ -819,50 +913,32 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       .addTimeEntryForRangeOfDates(this.userId, timeEntries)
       .subscribe(
         (response) => {
-          if (this.userId) {
+          if (response.ResponseStatus === "Success") {
             this.timesheetStateService.getTimesheet(this.userId, this.date);
+
+            this.createNotification(
+              response.ResponseStatus.toLowerCase(),
+              response.Message
+            );
           }
-          this.createNotification(
-            'success',
-            'Time entry for a range added successfully'
-          );
+          else {
+            this.createNotification(
+              response.ResponseStatus.toLowerCase(),
+              response.Message
+            );
+          }
         },
         (error) => {
           this.createNotification(
             'error',
-            'Error on adding time entry for a range'
+            error.message
           );
         }
       );
-  }
 
-  updateTimeEntry(timeEntry: TimeEntry) {
-    let date = timeEntry.Date;
-    timeEntry.Date = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      3,
-      0,
-      0,
-      0
-    );
-
-    this.timesheetService.updateTimeEntry(timeEntry).subscribe(
-      (response) => {
-        if (this.userId) {
-          this.timesheetStateService.getTimesheet(this.userId, this.date);
-        }
-        this.createNotification(
-          'success',
-          'Your Timesheet Updated Successfully.'
-        );
-      },
-      (error) => {
-        this.createNotification('error', 'Error on adding Timesheet.');
-        console.log(error);
-      }
-    );
+    if (this.drawerVisible) {
+      this.closeFormDrawer();
+    }
   }
 
   closeFormDrawer(): void {
@@ -878,6 +954,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   clearFormData() {
     this.timeEntry = null;
+    this.newTimeEntry = null;
     this.disableFromDate = false;
     this.disableToDate = false;
     this.disableClient = false;
@@ -946,7 +1023,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   }
 
   onFormToDateChange() {
-    if(!this.drawerVisible) {
+    if (!this.drawerVisible) {
       return;
     }
 
@@ -1018,7 +1095,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     );
   };
 
-  authorize(key: string){
+  authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
   }
 }

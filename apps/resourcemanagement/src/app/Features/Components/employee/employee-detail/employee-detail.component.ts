@@ -65,6 +65,7 @@ export class EmployeeDetailComponent implements OnInit {
   assignmentStatus: any;
   salesPersonStatus: any;
   supervisorStatus: any;
+  timesheetStatus: any;  
 
   constructor(
     private _clientDetailsService:ClientDetailsService,
@@ -151,11 +152,18 @@ export class EmployeeDetailComponent implements OnInit {
       filterFn: (list: string[], item: IEmployeeViewModel) =>
         list.some((name) => item.JoiningDate.indexOf(name) !== -1),
     },
+    {
+      name: 'Email',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) =>
+        a.OrganizationEmail.localeCompare(b.OrganizationEmail),
+    }
   ];
 
   listOfColumns!: ColumnItem[];
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
 
     //this.loadingSpinnerService.messageSource.next(true);
 
@@ -205,7 +213,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this._employeeService.getFilterData().subscribe((data) => {
 
-
+    
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
       this.statuses = data.StatusFilter;
@@ -303,19 +311,12 @@ export class EmployeeDetailComponent implements OnInit {
                   this.selectedJobType = name;
                 }),
             },
-            {
-              name: 'Location',
+            { 
+              name: 'Email',
               sortOrder: null,
               sortDirections: ['ascend', 'descend', null],
               sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) =>
-                a.Location.localeCompare(b.Location),
-              filterMultiple: true,
-              listOfFilter: this.empListCountry,
-              filterFn: (list: string[], item: IEmployeeViewModel) =>
-                list.some((name) => {
-                  // item.Location.indexOf(name) !== -1;
-                  this.selectedLocation = name;
-                }),
+                a.OrganizationEmail.localeCompare(b.OrganizationEmail),
             },
             {
               name: 'Status',
@@ -433,7 +434,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     this.loading = true;
     this._employeeService.SearchEmployeeData(this.employeeParams).subscribe(
-      (response: PaginationResult<IEmployeeViewModel[]>) => {
+      (response: PaginationResult<IEmployeeViewModel[]>) => { 
         if (response.Data) {
           this.loading = false;
           this.employeeViewModels$ = of(response.Data);
@@ -468,15 +469,11 @@ export class EmployeeDetailComponent implements OnInit {
               list.some((name) => item.JobTitle.indexOf(name) !== -1),
           },
           {
-            name: 'Location',
+            name: 'Email',
             sortOrder: null,
             sortDirections: ['ascend', 'descend', null],
             sortFn: (a: IEmployeeViewModel, b: IEmployeeViewModel) =>
-              a.Location.localeCompare(b.Location),
-            filterMultiple: true,
-            listOfFilter: this.empListCountry,
-            filterFn: (list: string[], item: IEmployeeViewModel) =>
-              list.some((name) => item.Location.indexOf(name) !== -1),
+              a.OrganizationEmail.localeCompare(b.OrganizationEmail),
           },
           {
             name: 'Status',
@@ -783,7 +780,7 @@ FilterData(){
     this._message.create(type, title, message);
   }
 
-  DeleteEmployee(employeeId: string): void {debugger;
+  DeleteEmployee(employeeId: string): void { 
 
     this._employeeService.DeleteEmployee(employeeId)
       .subscribe((result: any) => {
@@ -808,29 +805,47 @@ FilterData(){
 
           this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>{
             this.supervisorStatus=res;
-         
-     if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
+            this._employeeService.IsEmployeeTimeesheet(employeeId).subscribe((res)=>{
+              this.timesheetStatus=res;
+  
+     if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true ||  this.timesheetStatus){
       let message=""
-      if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.supervisorStatus==true)
-      message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project and  resource to a project";
+      if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.supervisorStatus==true &&  this.timesheetStatus==true)
+      message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project , resource to a project and timesheet under it";
+     else if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.timesheetStatus==true) 
+     message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project and there is timesheet under it ";
+     else if(this.salesPersonStatus==true   && this.supervisorStatus==true && this.timesheetStatus==true)
+     message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project and there is timesheet under it ";
+     else if (this.assignmentStatus==true   && this.supervisorStatus==true &&  this.timesheetStatus==true)
+     message="Cannot delete an employee that is assigned as a supervisor to a projec, a resource to a project and there is timesheet under it";
      else if(this.assignmentStatus==true  && this.salesPersonStatus==true ) 
      message="Cannot delete an employee that is assigned as a sales person to a client and a resource to a project";
      else if (this.assignmentStatus==true   && this.supervisorStatus==true)
      message="Cannot delete an employee that is assigned as a supervisor to a project and a resource to a project";
      else if(this.salesPersonStatus==true   && this.supervisorStatus==true)
      message="Cannot delete an employee that is assigned as a sales person to a client and a supervisor to a project ";
+     else if(this.assignmentStatus==true  &&  this.timesheetStatus==true ) 
+     message="Cannot delete an employee that is a resource to a project and there is timesheet under it";
+     else if (this.timesheetStatus==true  && this.supervisorStatus==true)
+     message="Cannot delete an employee that is assigned as a supervisor to a project and there is timesheet under it";
+     else if(this.salesPersonStatus==true   && this.timesheetStatus==true)
+     message="Cannot delete an employee that is assigned as a sales person to a client and there is timesheet under it ";
      else if (this.assignmentStatus)
      message="Cannot delete an employee that is assigned as a resource to a project";
      else if (this.salesPersonStatus)
      message="Cannot delete an employee that is assigned as a sales person to a client";
+     else if(this.timesheetStatus)
+     message="Cannot delete an employee there is timesheet under it";
      else
      message="Cannot delete an employee that is assigned as a supervisor to a project";
 
-    this.createNotification("","warning",message);
+    this.createNotification(message,"warning","");
+     
+     
       }
       else
         this.createGroupDeleteModal(employeeId);
-  
+    });
           });
            
         }
