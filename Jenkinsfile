@@ -39,6 +39,14 @@ pipeline{
               sh 'npm install'
               sh 'npm run deploy'
             }
+            when {
+                 branch 'master'
+             }
+         steps{
+              sh 'npm -v'
+              sh 'npm install'
+              sh 'npm run deploy'
+            }
         }   
     stage('Deploy to Staging')
         {
