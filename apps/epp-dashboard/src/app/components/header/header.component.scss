@@ -11,8 +11,11 @@
 }
 
 .page-header {
-  //position: fixed;
-  width: 100%;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
   
   .ant-badge {
     margin-top: 4px;
@@ -84,3 +87,30 @@
     }
   }
 }
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  overflow-y: scroll;
+}
+
+
+
+.navbar::-webkit-scrollbar {
+	display: none;
+  }
+/* Links inside the navbar */
+
+
+/* Main content */
+.main {
+  margin-top: 40px; /* Add a top margin to avoid content overlay */
+  overflow: hidden;
+  background: red;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
