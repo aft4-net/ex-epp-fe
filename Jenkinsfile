@@ -17,9 +17,9 @@ pipeline{
         }
         stage('npm build')
         {
-            when {
-                 branch 'develop'
-             }
+//            when {
+//                 branch 'develop'
+//             }
          steps{
               sh 'node -v'
               sh 'git branch'
@@ -39,12 +39,20 @@ pipeline{
               sh 'npm install'
               sh 'npm run deploy'
             }
+            when {
+                 branch 'master'
+             }
+         steps{
+              sh 'npm -v'
+              sh 'npm install'
+              sh 'npm run deploy'
+            }
         }   
     stage('Deploy to Staging')
         {
            when {
                 
-                branch 'master'  
+                branch 'release'  
             
             }
             steps{
