@@ -44,7 +44,7 @@ pipeline{
         {
            when {
                 
-                branch 'develop'  
+                branch 'release'  
             
             }
             steps{
