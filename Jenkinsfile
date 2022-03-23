@@ -28,7 +28,7 @@ pipeline{
               sh 'npm run deploy'
             }
         }    
-        stage('npm deploy')
+        stage('npm deploy for master')
         {
             when {
                  branch 'master'
@@ -39,12 +39,23 @@ pipeline{
               sh 'npm install'
               sh 'npm run deploy'
             }
+         }
+        stage('npm deploy for release')
+        {         
+            when {
+                 branch 'release'
+             }
+         steps{
+              sh 'npm -v'
+              sh 'npm install'
+              sh 'npm run deploy'
+            }
         }   
     stage('Deploy to Staging')
         {
            when {
                 
-                branch 'master'  
+                branch 'release'  
             
             }
             steps{

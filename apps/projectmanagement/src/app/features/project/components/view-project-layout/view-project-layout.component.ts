@@ -171,7 +171,7 @@ export class ViewProjectLayoutComponent implements OnInit {
         if (result.success === true) {
           this.deleteProjectModal = true;
         } else {
-          this.notification.error(result.message,'');
+          this.notification.warning(result.message,'');
         }
 
       }    

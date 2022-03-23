@@ -1,0 +1,26 @@
+*{
+    font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  
+   }
+
+  .pagination {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    color: #595959;
+  }
+  
+  ::ng-deep .ant-switch-checked {
+    background: #00A551;
+  }
+
+  ::ng-deep .ant-table-tbody > tr > td {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  
+ 
+   

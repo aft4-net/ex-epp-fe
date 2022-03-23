@@ -65,6 +65,7 @@ export class EmployeeDetailComponent implements OnInit {
   assignmentStatus: any;
   salesPersonStatus: any;
   supervisorStatus: any;
+  timesheetStatus: any;  
 
   constructor(
     private _clientDetailsService:ClientDetailsService,
@@ -804,29 +805,47 @@ FilterData(){
 
           this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>{
             this.supervisorStatus=res;
-         
-     if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true){
+            this._employeeService.IsEmployeeTimeesheet(employeeId).subscribe((res)=>{
+              this.timesheetStatus=res;
+  
+     if(this.assignmentStatus==true || this.salesPersonStatus==true || this.supervisorStatus==true ||  this.timesheetStatus){
       let message=""
-      if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.supervisorStatus==true)
-      message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project and  resource to a project";
+      if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.supervisorStatus==true &&  this.timesheetStatus==true)
+      message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project , resource to a project and timesheet under it";
+     else if(this.assignmentStatus==true  && this.salesPersonStatus==true && this.timesheetStatus==true) 
+     message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project and there is timesheet under it ";
+     else if(this.salesPersonStatus==true   && this.supervisorStatus==true && this.timesheetStatus==true)
+     message="Cannot delete an employee that is assigned as a sales person to a client , a supervisor to a project and there is timesheet under it ";
+     else if (this.assignmentStatus==true   && this.supervisorStatus==true &&  this.timesheetStatus==true)
+     message="Cannot delete an employee that is assigned as a supervisor to a projec, a resource to a project and there is timesheet under it";
      else if(this.assignmentStatus==true  && this.salesPersonStatus==true ) 
      message="Cannot delete an employee that is assigned as a sales person to a client and a resource to a project";
      else if (this.assignmentStatus==true   && this.supervisorStatus==true)
      message="Cannot delete an employee that is assigned as a supervisor to a project and a resource to a project";
      else if(this.salesPersonStatus==true   && this.supervisorStatus==true)
      message="Cannot delete an employee that is assigned as a sales person to a client and a supervisor to a project ";
+     else if(this.assignmentStatus==true  &&  this.timesheetStatus==true ) 
+     message="Cannot delete an employee that is a resource to a project and there is timesheet under it";
+     else if (this.timesheetStatus==true  && this.supervisorStatus==true)
+     message="Cannot delete an employee that is assigned as a supervisor to a project and there is timesheet under it";
+     else if(this.salesPersonStatus==true   && this.timesheetStatus==true)
+     message="Cannot delete an employee that is assigned as a sales person to a client and there is timesheet under it ";
      else if (this.assignmentStatus)
      message="Cannot delete an employee that is assigned as a resource to a project";
      else if (this.salesPersonStatus)
      message="Cannot delete an employee that is assigned as a sales person to a client";
+     else if(this.timesheetStatus)
+     message="Cannot delete an employee there is timesheet under it";
      else
      message="Cannot delete an employee that is assigned as a supervisor to a project";
 
-    this.createNotification("","warning",message);
+    this.createNotification(message,"warning","");
+     
+     
       }
       else
         this.createGroupDeleteModal(employeeId);
-  
+    });
           });
            
         }
