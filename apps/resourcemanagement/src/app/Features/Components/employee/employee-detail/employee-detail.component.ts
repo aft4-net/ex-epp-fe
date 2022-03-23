@@ -166,24 +166,26 @@ export class EmployeeDetailComponent implements OnInit {
   listOfColumns!: ColumnItem[];
 
   ngOnInit(): void { 
-
+    //this._employeeService.emailInUse = false;
     //this.loadingSpinnerService.messageSource.next(true);
-
+ 
     this.getfilterDataMenu();
-
+    
     if (this._authenticationService.isFromViewProfile() === 'true') {
 
    // this.loadingSpinnerService.messageSource.next(true);
+   
       this.uemail = this._authenticationService.getEmail();
+     
       this.getUser();
-      this._employeeService.emailInUse = true;
+     
       // setTimeout(() => {
       //   this.loadingSpinnerService.messageSource.next(false);
       // }, 1500);
       return;
 
     }
-    this._employeeService.emailInUse = false;
+    //this._employeeService.emailInUse = false;
     //  else{
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
@@ -200,6 +202,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     // this._employeeService.SearchEmployeeDataforFilter(this.employeeParams);
   }
+  
   ClientFilter(key: string[]) {
     this.clientlist = key;
     this.FilterData();
@@ -216,8 +219,6 @@ export class EmployeeDetailComponent implements OnInit {
   getfilterDataMenu(): void {
 
     this._employeeService.getFilterData().subscribe((data) => {
-
-    
       this.JobType = data.jobtitleFilter;
       this.Location = data.locationFilter;
       this.statuses = data.StatusFilter;
