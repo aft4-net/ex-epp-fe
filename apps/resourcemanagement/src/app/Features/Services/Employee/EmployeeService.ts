@@ -21,6 +21,7 @@ export class EmployeeService {
   public ephoto:any;
   public EmrContact:any | undefined;
   public isEdited = false;
+  public emailInUse = false;
 
   baseUrl = environment.apiUrl+ '/Employee';
   constructor(private http: HttpClient) {}
@@ -337,6 +338,10 @@ export class EmployeeService {
   getUser(email:string){
     return this.http.get<any>(this.baseUrl +'/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase());
    }
+   getUserByEmail(email:string){
+     
+    return this.http.get(`${environment.apiUrl}/User/GetUserByEmail?email=${email.toLowerCase()}`); 
+  }
 
   DeleteEmployee(employeeId:string) {debugger;
     return this.http.delete<unknown>(this.baseUrl +'/DeleteEmployee?employeeId=' + employeeId);

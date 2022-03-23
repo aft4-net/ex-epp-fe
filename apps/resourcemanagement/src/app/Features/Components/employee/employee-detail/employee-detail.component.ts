@@ -44,6 +44,8 @@ export class EmployeeDetailComponent implements OnInit {
   holdflag = false;
   JobTypeList: string[] = [];
 
+  useremail ="";
+
   clientlist: string[] = [];
   superVisorlist: string[] = [];
   statuslist: string[] = [];
@@ -166,12 +168,14 @@ export class EmployeeDetailComponent implements OnInit {
    // this.loadingSpinnerService.messageSource.next(true);
       this.uemail = this._authenticationService.getEmail();
       this.getUser();
+      this._employeeService.emailInUse = true;
       // setTimeout(() => {
       //   this.loadingSpinnerService.messageSource.next(false);
       // }, 1500);
       return;
 
     }
+    this._employeeService.emailInUse = false;
     //  else{
     this.employeeViewModel as IEmployeeViewModel[];
     this.FeatchAllEmployees();
@@ -216,6 +220,26 @@ export class EmployeeDetailComponent implements OnInit {
     return this._permissionService.authorizedPerson(key);
   }
 
+  validateCompanyEmailBeforeEdit(emailcomp : string)
+    {
+        
+        this._employeeService.getUserByEmail(emailcomp)
+      .subscribe( (response:any) => {
+        this.useremail = response["Email"];
+
+        if(emailcomp.toLowerCase()==this.useremail.toLowerCase())
+        {
+            this._employeeService.emailInUse = true;
+        }
+        else{ 
+            this._employeeService.emailInUse = false;
+        }
+
+      });
+
+     
+    }
+
   getUser() {
     this._employeeService.getUser(this.uemail).subscribe((response: any) => {
       this.theEmpguid = response.Guid;
@@ -227,6 +251,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     });
   }
+  
 
   EmployeeFilter(key: string[], name: any) {
 
@@ -657,6 +682,7 @@ FilterData(){
 
     this._employeeService.getEmployeeData(employeeId).subscribe((data: any) => {
 
+     this.validateCompanyEmailBeforeEdit(data["EmployeeOrganization"]["CompaynEmail"]);
 
       this._employeeService.empNum = data.EmployeeNumber;
 
