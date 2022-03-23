@@ -28,10 +28,10 @@ pipeline{
               sh 'npm run deploy'
             }
         }    
-        stage('npm deploy')
+        stage('npm deploy for release')
         {
             when {
-                 branch 'master'
+                 branch 'release'
              }
          steps{
               sh 'npm -v'
