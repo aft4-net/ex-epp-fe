@@ -49,23 +49,19 @@ export class AppComponent implements OnInit {
           this.departmentIsActive = true;
           this.router.navigateByUrl('configurationmodule/department');
         }
-        else if(res.map(res => res.KeyValue).length > 0 
-            && res.map(res => res.KeyValue).indexOf("View_Job_Title") !== -1) {
+        else if(res.map(res => res.KeyValue).indexOf("View_Job_Title") !== -1) {
           this.jobTitleIsActive = true;
           this.router.navigateByUrl('configurationmodule/job-title');
         }
-        else if(res.map(res => res.KeyValue).length > 0 
-            && res.map(res => res.KeyValue).indexOf("View_Country") !== -1) {
+        else if(res.map(res => res.KeyValue).indexOf("View_Country") !== -1) {
           this.countryIsActive = true;
           this.router.navigateByUrl('configurationmodule/country');
         }
-        else if(res.map(res => res.KeyValue).length > 0 
-            && res.map(res => res.KeyValue).indexOf("View_DutyStation") !== -1) {
+        else if(res.map(res => res.KeyValue).indexOf("View_DutyStation") !== -1) {
           this.dutyStationIsActive = true;
           this.router.navigateByUrl('configurationmodule/duty-station');
         }
-        else if(res.map(res => res.KeyValue).length > 0 
-            && res.map(res => res.KeyValue).indexOf("View_Timesheet_Configuration") !== -1 ) {
+        else if(res.map(res => res.KeyValue).indexOf("View_Timesheet_Configuration") !== -1 ) {
           this.timesheetIsActive = true;
           this.router.navigateByUrl('configurationmodule/timesheet');
         }
