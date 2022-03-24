@@ -5,6 +5,7 @@ import {AuthenticationService} from './../../../../../../../libs/common-services
 import { NotificationBar } from '../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../utils/validator';
 import { AccountService } from '../../Services/logIn/account.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'exec-epp-changepassword',
@@ -24,7 +25,7 @@ export class ChangepasswordComponent implements OnInit {
     private _changePass:AuthenticationService,
     private validator: FormValidator, 
     private router: Router, 
-    private notification: NotificationBar) {}
+    private notification: NotificationBar, private notificationService: NzNotificationService) {}
 
   changePasswordForm = new FormGroup({
     OldPassword: new FormControl(null, [
@@ -79,6 +80,7 @@ export class ChangepasswordComponent implements OnInit {
     this.showOldPassword = !this.showOldPassword;
   }
   ngOnInit(): void {
+    this.notificationService.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.changePasswordForm.controls.OldPassword.valueChanges.subscribe((val) => {
 
       this.changePasswordForm.controls.Password.setValidators([
