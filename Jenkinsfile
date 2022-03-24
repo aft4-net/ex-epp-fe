@@ -28,14 +28,18 @@ pipeline{
               //sh 'git branch -D develop'
             }
         }    
+<<<<<<< HEAD
         stage('npm deploy for master')
+=======
+        stage('npm deploy for release')
+>>>>>>> release
         {
             when {
-                 branch 'master'
+                 branch 'release'
              }
          steps{
               sh 'npm -v'
-              //sh 'git checkout -b develop origin/develop'
+              sh 'git checkout origin/release'
               sh 'npm install'
               sh 'npm run deploy'
             }
