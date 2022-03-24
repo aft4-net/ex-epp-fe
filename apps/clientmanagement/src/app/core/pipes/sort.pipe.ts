@@ -17,9 +17,9 @@ export class SortPipe implements PipeTransform {
 
     if (value) {
       value.sort((a: any, b: any) => {
-        if (a[sortField] < b[sortField]) {
+        if (a[sortField.toLowerCase()] < b[sortField.toLowerCase()]) {
           return -1 * multiplier;
-        } else if (a[sortField] > b[sortField]) {
+        } else if (a[sortField.toLowerCase()] > b[sortField.toLowerCase()]) {
           return 1 * multiplier;
         } else {
           return 0;
