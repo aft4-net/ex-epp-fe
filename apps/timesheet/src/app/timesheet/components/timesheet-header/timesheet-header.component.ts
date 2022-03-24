@@ -156,40 +156,26 @@ export class TimesheetHeaderComponent implements OnInit, OnChanges {
 
     if (this.timesheetValidationService.isValidForApproval(this.timeEntries, timesheetConfig)) {
       if (this.timesheetApprovals) {
-        for (let i = 0; i < this.timesheetApprovals.length; i++) {
-          if (this.timesheetApprovals[i].Status !== Object.values(ApprovalStatus)[1].valueOf()) {
-            this.rejectedTimesheet = this.timesheetApprovals[i];
+        this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
+          if (response && this.timesheet) {
+            this.timesheetStateService.getTimeSheetApproval(this.timesheet?.Guid);
           }
-          if (this.rejectedTimesheet) {
-            const temp = {
-              TimesheetId: this.rejectedTimesheet.TimesheetId,
-              ProjectId: this.rejectedTimesheet.ProjectId,
-              ApprovalStatus: Object.values(ApprovalStatus)[0].valueOf()
-            } as unknown as ApprovalEntity;
 
-            this.timesheetService.updateTimesheetApproval(temp).subscribe(response => {
-              if (this.timesheet) {
-                this.timesheetStateService.getTimeSheetApproval(this.timesheet.Guid);
-              }
-            }, error => {
-              console.log(error);
-            });
-
-            this.checkForSubmittedForApproal();
-            this.createNotification("info", "Timesheet resubmitted for approval", "bottomRight");
-          }
-        }
+          this.createNotification("info", "Timesheet resubmitted for approval", "bottomRight");
+        }, error => {
+          this.createNotification("error", error.message, "bottomRight");
+        });
       }
       else {
         this.timesheetService.addTimeSheetApproval(this.timesheet.Guid).subscribe(response => {
-          if (this.timesheet) {
+          if (response && this.timesheet) {
             this.timesheetStateService.getTimeSheetApproval(this.timesheet?.Guid)
           }
+
+          this.createNotification("info", "Timesheet requested for approval", "bottomRight");
         }, error => {
-
+          this.createNotification("error", error.message, "bottomRight");
         });
-
-        this.createNotification("info", "Timesheet requested for approval", "bottomRight");
       }
     }
   }

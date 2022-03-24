@@ -84,7 +84,6 @@
   <thead>
     <tr>
       <th [nzSortFn]="true"  (click)="sorter(1)" class="table_heading">Client Name</th>
-      <th *ngIf="locationCheckbox" [nzFilters]="namesofLocationsfilterd" (nzFilterChange)="search($event,searchstatusList,searchsalesPersonList)" [nzSortFn]="true"  (click)="sorter(2)" class="table_heading">Location</th>
       <th *ngIf="statusCheckbox" [nzFilters]="namesofclientsfilterd" (nzFilterChange)="search(searchAddressList,$event,searchsalesPersonList)" [nzSortFn]="true" [nzSortFn]="true"  (click)="sorter(3)" class="table_heading">Status</th>
       <th *ngIf="salesCheckbox" [nzFilters]="namesofSalesfilterd" (nzFilterChange)="search(searchAddressList,searchstatusList,$event)" [nzSortFn]="true" [nzSortFn]="true"  (click)="sorter(4)" class="table_heading">Sales Person</th>
       <!-- <th *ngIf="clientContactCheckbox" class="table_heading">Client Contact Person</th>
@@ -96,7 +95,6 @@
     <tr *ngFor="let value of clientsdata | sort:[sortByParam, sortDirection]" >
 
       <td >{{value.ClientName}}</td>
-      <td *ngIf="locationCheckbox">{{value.OperatingAddressCountry}}</td>
       <td *ngIf="statusCheckbox">{{value.ClientStatusName}}</td>
       <td *ngIf="salesCheckbox">{{value.SalesPersonName}}</td>
       <!-- <td *ngIf="clientContactCheckbox">{{value.ClientContacts[0].ContactPersonName}}</td>

@@ -15,8 +15,8 @@
   <div class="justify-between" nz-row>
     <div nz-col  class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col >
-      <button nz-button class="cancel-button" (click)="cancelAddClientPage()"  >   Cancel</button>
       <button  [nzLoading]="isLoading" [disabled]="updateClientState.updateButtonListener" class="action-buttons" type="submit" (click)="addClient()" nz-button> {{updateClientState.save}} </button>
+      <button nz-button class="cancel-button" (click)="cancelAddClientPage()"  >   Cancel</button>    
     </div>
   </div>
 </header>
@@ -26,7 +26,7 @@
   <div>
     <nz-tab [nzTitle]="detailsTitleTemplate" nzSelected>
       <ng-template #detailsTitleTemplate>
-        <span [ngClass]="addButtonClicked && !validateAddClientFormState?.clientDetailsForm ? 'invalisForm':''">
+        <span>
            <div class="client-detail-wrapper">
           <svg class="mr-3" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -46,9 +46,7 @@
 
     <ng-template #ClientTitleTmeplate>
 
-      <span (Click)="ClientContacTab()"
-        [ngClass]="addButtonClicked && ( !validateAddClientFormState?.clientContactsForm  ||
-       !validateAddClientFormState?.CompanyContactsForm ) ? 'invalisForm':''">
+      <span (Click)="ClientContacTab()">
        <div class="contact-detail-wrapper">
        <svg class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -94,7 +92,7 @@
   </nz-tab>
   <nz-tab class="error" [nzTitle]="ClientLocationTmeplate"   (nzClick)="LocationTab()">
     <ng-template #ClientLocationTmeplate>
-      <span (nzClick)="LocationTab()" [ngClass]="addButtonClicked && !validateAddClientFormState?.clientLocationForm ? 'invalisForm':''">
+      <span (nzClick)="LocationTab()" >
         <div class="location-wrapper">
         <svg class="mr-3" width="20" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path

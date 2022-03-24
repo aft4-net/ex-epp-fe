@@ -9,6 +9,7 @@ import { AddProjectComponent } from './components/Add-Project/Add-Project.compon
 import { ProjectResourceComponent } from './components/project-resource/project-resource.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { AddresourceComponent } from './components/addresource/addresource.component';
+import { ViewResourcesComponent } from './components/view-resources/view-resources.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AddresourceComponent } from './components/addresource/addresource.compo
     ProjectResourceComponent,
     ProjectDetailsComponent,
     AddresourceComponent,
+    ViewResourcesComponent,
   ],
   imports: [
     ReactiveFormsModule,

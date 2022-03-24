@@ -165,26 +165,39 @@ export class ViewProjectLayoutComponent implements OnInit {
 
   deleteProjectConformation(data: Project) {
     this.projectToDelete = data;
-    this.deleteProjectModal = true;
+    this.projectService
+    .deleteProjectByState(this.projectToDelete.Guid,true).subscribe(
+      (result: any) => {
+        if (result.success === true) {
+          this.deleteProjectModal = true;
+        } else {
+          this.notification.warning(result.message,'');
+        }
+
+      }    
+    )
   }
 
   deleteProject() {
     this.loading = true;
     this.deleteProjectModal = false;
     this.projectService
-      .deleteProjectByState(this.projectToDelete.Guid)
-      .subscribe((result: any) => {
-        if (result.success === true) {
-          this.notification.success( result.message,'');
-          this.searchKey = '';
-          this.getProjects();
-        } else {
-          this.notification.error(result.message,'');
-        }
-        this.loading = false;
-      });
+    .deleteProjectByState(this.projectToDelete.Guid,false)
+    .subscribe((result: any) => {
+      if (result.success === true) {
+        this.notification.success( result.message,'');
+        this.searchKey = '';
+        this.getProjects();
+      } else {
+        this.notification.error(result.message,'');
+      }
+      this.loading = false;
+    });
+
     this.projectToDelete = {} as Project;
   }
+
+
   hidedeleteProjectModal() {
     this.deleteProjectModal = false;
     this.projectToDelete = {} as Project;

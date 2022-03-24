@@ -1,8 +1,11 @@
+//::-webkit-scrollbar{
+//  display: none;
+//}
 ::ng-deep .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
-  position: absolute;
+  position: relative;
   top: 50%;
   right: 0;
-  width: 1px;
+  width: 10px;
   height: 1.6em;
   background-color: rgba(0,0,0,.06);
   transform: translateY(-50%);
@@ -50,11 +53,19 @@ flex-grow: 0;
 ::ng-deep .ant-modal-content
 {
   align-items: center;
-
+//height: 100%;
+//  display: flex;flex-direction: column;
 }
-::ng-deep .overflow-scroll{
-  height: 80vh;
-  overflow-x: auto !important;
+
+::ng-deep.ant-modal-wrap {
+  overflow: hidden;
+}
+ .overflow-scroll1{
+  height: 70vh;
+  //width: 0vw;
+  //width: 50%;
+  //overflow-x: hidden;
+  overflow-x: auto ;
 }
 
 ::ng-deep .ant-table-pagination-right {
@@ -86,4 +97,27 @@ height: 170px;
 }
 .commentLabel{
   font-weight: 500;
+}
+
+
+:host {
+  display: flex;
+  min-height: 200vh;
+  flex-direction: column;
+}
+
+.content {
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  background: #4caf50;
+  color: #fff;
+  padding: 1rem;
+  font-size: 2rem;
+}
+
+.modal-content-lg {
+  height: 125vh;
 }
