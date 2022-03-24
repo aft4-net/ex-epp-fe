@@ -121,6 +121,12 @@ export class CountryComponent implements OnInit {
         if (response.ResponseStatus === "Success") {
           this.getCountries();
           this.closeModal();
+          this.notification.create(
+            'Success',
+            'Country Update successfully',
+            country.Name,
+            { nzPlacement: 'bottomRight' }
+          );
         }
       });
     }
@@ -155,9 +161,20 @@ export class CountryComponent implements OnInit {
             this.countryService.delete(country).subscribe(response => {
               if (response.ResponseStatus === "Success") {
                 this.getCountries();
+                this.notification.create(
+                  'Success',
+                  'Country Delete successfully',
+                  country.Name,
+                  { nzPlacement: 'bottomRight' }
+                );
               }
             }, error => {
-              console.log(error);
+              this.notification.create(
+                'error',
+                'This Country not deleted please try agin',
+                country.Name,
+                { nzPlacement: 'bottomRight' }
+              );
             })
           },
           nzCancelText: 'Cancel'
