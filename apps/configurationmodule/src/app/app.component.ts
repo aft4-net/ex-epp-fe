@@ -29,20 +29,44 @@ export class AppComponent implements OnInit {
     private _timesheetConfigStateService: TimesheetConfigurationStateService
   ) {
     this._timesheetConfigStateService.getTimesheetConfiguration();
+    this._commonData.getPermission();
   }
   ngOnInit() {
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
-    this._commonData.getPermission();
     this.isLogin = this._authenticationService.loginStatus();
     if (!this.isLogin) {
      // this.router.navigateByUrl('usermanagement/sign_in');
       this.router.navigateByUrl('usermanagement/logIn');
     }
-    this._commonData.permissionList$.subscribe((res) => {
-      setTimeout(() => {
-        this.defaultRoute();
-      }, 100);
-    })
+    // this._commonData.permissionList$.subscribe((res) => {
+    //   setTimeout(() => {
+    //     this.defaultRoute();
+    //   }, 100);
+    // })
+    this._commonData.permissionList$.subscribe(res => {
+      if (res.map(res => res.KeyValue).length > 0 && this.router.url == '/configurationmodule') {
+        if(res.map(res => res.KeyValue).indexOf("View_Department") !== -1) {
+          this.departmentIsActive = true;
+          this.router.navigateByUrl('configurationmodule/department');
+        }
+        else if(res.map(res => res.KeyValue).indexOf("View_Job_Title") !== -1) {
+          this.jobTitleIsActive = true;
+          this.router.navigateByUrl('configurationmodule/job-title');
+        }
+        else if(res.map(res => res.KeyValue).indexOf("View_Country") !== -1) {
+          this.countryIsActive = true;
+          this.router.navigateByUrl('configurationmodule/country');
+        }
+        else if(res.map(res => res.KeyValue).indexOf("View_DutyStation") !== -1) {
+          this.dutyStationIsActive = true;
+          this.router.navigateByUrl('configurationmodule/duty-station');
+        }
+        else if(res.map(res => res.KeyValue).indexOf("View_Timesheet_Configuration") !== -1 ) {
+          this.timesheetIsActive = true;
+          this.router.navigateByUrl('configurationmodule/timesheet');
+        }
+      }
+    });
     // this.router.navigateByUrl('configurationmodule/job-title');
     
   }
@@ -87,7 +111,7 @@ export class AppComponent implements OnInit {
         this.router.navigateByUrl('configurationmodule/timesheet');
       }
     } else {
-      this.router.navigateByUrl('/');
+      //this.router.navigateByUrl('/');
     }
   }
 
