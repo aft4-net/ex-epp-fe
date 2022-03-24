@@ -245,3 +245,28 @@ margin-bottom: 40%;
 ::ng-deep .ant-switch-checked {
   background: #00A551;
 }
+
+.pageEdit{
+  height: 83vh;
+  overflow-y:auto;
+
+ }
+ 
+ .pageAdd{
+   height: 82vh;
+   overflow-y:auto;
+   width: 100%;
+  }
+ 
+  .tab-content {
+   padding:0px 20px 0px;
+ }
+ 
+
+ 
+
+
+ .pageContainer {
+  padding: 0px 2%;
+
+}

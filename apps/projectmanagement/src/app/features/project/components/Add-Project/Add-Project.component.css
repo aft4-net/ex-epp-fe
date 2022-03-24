@@ -179,8 +179,38 @@ margin-bottom: 40%;
 }
 
 
+/* .header {
+  position: fixed; 
+  top:3.30rem;
+  width: 100%;
+ }
+.page{
+ height: 82vh;
+ margin-top: 8.60rem;
+ overflow-y:auto;
+ width: 100%;
+} */
 
 
+.header {
+  position: fixed; 
+  top:3.30rem;
+  width: 100%;
+ }
+.pageEdit{
+ height: 83%;
+ margin-top: 8.60rem;
+ overflow-y:auto;
+ width: 100%;
+}
 
+.pageAdd{
+  height: 83vh;
+  overflow-y:auto;
+  width: 100%;
+ }
 
+ .tab-content {
+  padding:0px 20px 0px;
+}
 

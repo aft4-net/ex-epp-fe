@@ -9,8 +9,8 @@
 
 
 ::ng-deep .ant-table.ant-table-middle .ant-table-footer, .ant-table.ant-table-middle .ant-table-tbody>tr>td, .ant-table.ant-table-middle .ant-table-thead>tr>th, .ant-table.ant-table-middle .ant-table-title, .ant-table.ant-table-middle tfoot>tr>td, .ant-table.ant-table-middle tfoot>tr>th {
-  padding: 12px 8px;
-  font-size: 16px;
+  padding: 0.75rem .5rem;
+  font-size: 1rem;
   font-family: -apple-system, system-ui, BlinkMacSystemFont !important;
 align-items: center;
 color: #262626;
@@ -21,7 +21,7 @@ color: #262626;
   background: #F0F0F0 !important;
   font-style: normal;
 font-weight: 500;
-font-size: 16px;
+font-size: 1rem;
 
 align-items: center;
 
@@ -47,10 +47,11 @@ nz-table.table-container.ant-table-wrapper {
 
 .main_container_homepage {
   padding: 0px 2%;
+
 }
 
 ::ng-deep .ant-table-content {
-  font-size: 16px !important;
+  font-size: 1rem !important;
 }
 
 .ant-table-column-sorter:active {
@@ -67,7 +68,7 @@ nz-table.table-container.ant-table-wrapper {
 
 
 ::ng-deep .ant-table-content {
-  font-size: 16px !important;
+  font-size: 1rem !important;
 }
 
 .ant-table-column-sorter:active {
@@ -81,18 +82,14 @@ nz-table.table-container.ant-table-wrapper {
 }
 
 ::ng-deep .ant-table-column-sorters {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
 }
 
 ::ng-deep .ant-table-filter-column {
   display: inline-flex !important;
 }
 
-.manage-columns {
-
-  padding-bottom: 10px;
-}
 
 
 
@@ -103,7 +100,7 @@ nz-table.table-container.ant-table-wrapper {
   margin: -40px -8px -4px 40px;
   padding: 0 4px;
   color: #bfbfbf;
-  font-size: 12px;
+  font-size: .75rem;
   border-radius: 2px;
   cursor: pointer;
 background-color: #00A551;
@@ -113,7 +110,7 @@ background-color: #00A551;
 .pagination {
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 1 rem;
   color: #595959;
 }
 
@@ -133,7 +130,7 @@ background-color: #00A551;
 .ant-table.ant-table-small .ant-table-title,
 .ant-table.ant-table-small tfoot>tr>td,
 .ant-table.ant-table-small tfoot>tr>th {
-  padding: 7px !important;
+  padding: 0.438rem !important;
 }
 
 ::ng-deep .ant-table-filter-open {
@@ -189,10 +186,10 @@ background-color: #00A551;
 .btn-cancel {
   border: 1px solid #00A551;
   color: #00A551;
-  padding: 5px 16px;
+  padding: 0.313rem 1rem;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   background: white;
   border-radius: 2px;
 }
@@ -210,7 +207,7 @@ background-color: #00A551;
 .btn {
   border: #00a551;
   color: #FFFFFF;
-  padding: 5px 16px;
+  padding: 5px 1rem;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -293,8 +290,13 @@ nz-table {
 .main_container_homepage {
   padding: 0px 1.6% ;
 
+overflow: hidden !important;
+
+}
 
 
+body::-webkit-scrollbar {
+  display: none;
 }
 
 
@@ -302,8 +304,8 @@ nz-table {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 display: flex;
 align-items: center;
 color: #262626;
@@ -324,3 +326,34 @@ hr {
   font-weight: 500;
   font-size: 17px;
 }
+
+
+.header {
+  position: fixed; 
+  top:3.30rem;
+  width: 100%;
+ }
+.page{
+ height: 79vh;
+ margin-top: 8.60rem;
+ overflow-y:auto;
+}
+
+
+
+// .header {
+//   position: fixed; 
+//   top:3.30rem;
+//   width: 100%;
+//  }
+// .page{
+//  height: 79vh;
+//  margin-top: 8.60rem;
+//  }
+
+//  .tableBody{
+//   height: 50vh;
+//   overflow-y:auto;
+  
+//   }
+

@@ -32,3 +32,14 @@ hr {
     margin: 1em 0;
     padding: 0;
   }
+
+  .header {
+    position: fixed; 
+    top:3.30rem;
+    width: 100%;
+   }
+  .page{
+   height: 79vh;
+   margin-top: 8.60rem;
+   overflow-y:auto;
+  }

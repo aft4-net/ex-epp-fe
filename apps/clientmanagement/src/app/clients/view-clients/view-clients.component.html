@@ -1,5 +1,5 @@
 
-<header >
+<header  >
   <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
     <nz-breadcrumb-item><a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>
@@ -11,10 +11,12 @@
 
     <div *ngIf="authorizedPerson('Create_Client')"   nz-col Span="2" > <button  class="add-button-bg" (click)="addClientPage()"  nz-button> Add Client </button> </div>
   </div>
- </header>
 
- <hr class="header-separator">
- <div class="main-content">
+  <hr class="header-separator">
+ </header>
+<div class="page"> 
+
+ <div class="main-content mt-3" >
 
 <div nz-row class="ml-1 w-8 h-4">
   <div nz-col nzSpan="6" class="ml-1">
@@ -138,7 +140,7 @@
  </div>
 
 </div>
-
+</div> 
 
 
 

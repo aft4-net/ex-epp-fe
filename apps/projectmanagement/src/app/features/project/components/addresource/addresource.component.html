@@ -1,5 +1,6 @@
-<ng-container *ngIf="isOnEditstate" >
-  <a nz-row (click)="navaigateToProject()" class="m-0 mt-4 mr-3 mb-3" style="width: 76px;">
+<ng-container *ngIf="isOnEditstate" class="pageContainer"  >
+ <div class="pageContainer">
+  <a nz-row (click)="navaigateToProject()" class="m-0 mt-4 mr-3 mb-3 " style="width: 76px;">
     <svg width="76" height="24" viewBox="0 0 76 24" fill="none">
       <path d="M7.875 19L9.10875 17.59L5.10125 13H19.25V11H5.10125L9.1175 6.41L7.875 5L1.75 12L7.875 19Z"
         fill="#595959" />
@@ -8,8 +9,11 @@
         fill="#595959" />
     </svg>
   </a>
+</div>
 </ng-container>
 
+<div [ngClass]="isOnEditstate ? 'pageEdit  pageContainer' : 'pageAdd '">
+  <div [ngClass]="!isOnEditstate ? 'tab-content mt-3  ' : ''"  >
 <div class="justify-between mb-3" nz-row>
   <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>
 
@@ -28,7 +32,8 @@
 
 <exec-epp-view-resources (conformDelete)=" conformationDelete($event)"  (editProjectResource)="editResource($event)"
  (removeCreateResource)=" removeForAddReource($event)">   </exec-epp-view-resources>
-
+</div>
+</div>
 <nz-modal class="resourceModal" [ngClass]="isModalVisible ? 'p-28':''"  [(nzVisible)]="isModalVisible" 
   (nzOnCancel)="handleCancel()" [nzFooter]="null"[nzTitle]="titleTemplate">  
   <ng-template #titleTemplate>
