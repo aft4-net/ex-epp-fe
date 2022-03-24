@@ -12,6 +12,7 @@ pipeline{
         {
             steps{
               git credentialsId: 'jenkins-bitbucket-omeseret', url: 'https://bitbucket.org/Excellerent_Solutions/excellerent-epp-fe'
+        
             }
         }
         stage('npm build')
@@ -22,31 +23,19 @@ pipeline{
          steps{
               sh 'node -v'
               sh 'git branch'
-              sh 'git checkout origin/develop'
+              sh 'git branch -D develop && git checkout -b develop origin/develop'
               sh 'npm install'
               sh 'npm run deploy'
-              //sh 'git branch -D develop'
             }
         }    
-        stage('npm deploy for master')
-        {
-            when {
-                 branch 'master'
-             }
-         steps{
-              sh 'npm -v'
-              //sh 'git checkout -b develop origin/develop'
-              sh 'npm install'
-              sh 'npm run deploy'
-            }
-         }
         stage('npm deploy for release')
-        {         
+        {
             when {
                  branch 'release'
              }
          steps{
               sh 'npm -v'
+              sh 'git checkout origin/release'
               sh 'npm install'
               sh 'npm run deploy'
             }
