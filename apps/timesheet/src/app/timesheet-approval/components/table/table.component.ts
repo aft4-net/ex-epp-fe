@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 
 import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
+import { TimesheetApproval } from '../../../models/timesheetModels';
 
 interface ItemData {
-  TimesheetApprovalGuid:string,
+  TimesheetApprovalGuid: string,
   TimesheetId: string,
   name: string;
   dateRange: string;
@@ -25,18 +26,18 @@ interface DataItem {
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent {
-  timesheetDetail:any;
-  isModalVisible=false;
-  timesheetEntries:any;
-  entryDate:any;
-  hours=0;
+export class TableComponent implements OnChanges {
+  timesheetDetail: any;
+  isModalVisible = false;
+  timesheetEntries: any;
+  entryDate: any;
+  hours = 0;
 
-  total=10;
+  total = 10;
   pageIndex = 1;
   pageSize = 10;
 
-  sortByParam="";
+  sortByParam = "";
   sortDirection = "asc";
   checked = false;
   indeterminate = false;
@@ -47,11 +48,11 @@ export class TableComponent {
   //timesheetDetail:any;
   //isModalVisible=false;
 
-  arrayOfCheckedId:string[] =[];
+  arrayOfCheckedId: string[] = [];
 
 
 
-  @Input() rowData : any[] = [];
+  @Input() rowData: any[] = [];
   @Input() colsTemplate: TemplateRef<any>[] | undefined;
   @Input() headings: string[] | undefined;
   @Input() bulkCheck: boolean | undefined;
@@ -59,18 +60,18 @@ export class TableComponent {
 
   @Output() checkedListId = new EventEmitter<Set<number>>();
   @Output() sorter = new EventEmitter<string>();
-  @Input() ProjectName=[{ text: '', value: '', checked: false }];
-  @Input() ClientName =[{ text: '', value: '', checked: false }];
+  @Input() ProjectName = [{ text: '', value: '', checked: false }];
+  @Input() ClientName = [{ text: '', value: '', checked: false }];
   @Output() sortingDirection = new EventEmitter<string>();
   qtyofItemsChecked = 0
 
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
   @Output() CheckedIds = new EventEmitter<Set<string>>();
-  @Output() FilterByProject  = new EventEmitter<Array<string>>();
-  @Output() FilterByClient  = new EventEmitter<Array<string>>();
+  @Output() FilterByProject = new EventEmitter<Array<string>>();
+  @Output() FilterByClient = new EventEmitter<Array<string>>();
 
-  @Output() isApprovedReturned=new EventEmitter<boolean>();
+  @Output() isApprovedReturned = new EventEmitter<boolean>();
 
   listOfSelection = [
     {
@@ -81,14 +82,38 @@ export class TableComponent {
     }
   ];
 
-updateTimesheetAfterStatusChanged(row:boolean)
-{
-   this.isApprovedReturned.emit(row);
+  updateTimesheetAfterStatusChanged(row: boolean) {
+    this.isApprovedReturned.emit(row);
 
-}
-  constructor(private readonly timesheetService:TimesheetService,
-              private readonly _permissionService: PermissionListService)
-  {}
+  }
+  constructor(private readonly timesheetService: TimesheetService, private readonly _permissionService: PermissionListService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.ProjectName = [];
+    this.ClientName = [];
+
+    for (const data of this.rowData as TimesheetApproval[]) {
+      const tmpProjectName = { text: data.ProjectName, value: data.ProjectName, checked: false };
+
+      if (this.ProjectName.findIndex(p => p.text === tmpProjectName.text && p.value === tmpProjectName.value) >= 0) {
+        continue;
+      }
+      else {
+        this.ProjectName.push({ ...tmpProjectName });
+      }
+    }
+
+    for (const data of this.rowData as TimesheetApproval[]) {
+      const tmpClientName = { text: data.ClientName, value: data.ClientName, checked: false };
+
+      if (this.ClientName.findIndex(c => c.text === tmpClientName.text && c.value == tmpClientName.value) >= 0) {
+        continue;
+      }
+      else {
+        this.ClientName.push({ ...tmpClientName });
+      }
+    }
+  }
 
   updateCheckedSet(id: string, checked: boolean): void {
     if (checked) {
@@ -107,16 +132,16 @@ updateTimesheetAfterStatusChanged(row:boolean)
 
   }
   RemoveElementFromArray(element: string) {
-    this.arrayOfCheckedId.forEach((value,index)=>{
-        if(value==element) this.arrayOfCheckedId.splice(index,1);
+    this.arrayOfCheckedId.forEach((value, index) => {
+      if (value == element) this.arrayOfCheckedId.splice(index, 1);
     });
-}
+  }
 
   onItemChecked(id: string, checked: boolean): void {
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (checked? 1: -1);
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
-    this.qtyofItemsChecked= this.setOfCheckedId.size;
+    this.qtyofItemsChecked = this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
@@ -124,7 +149,7 @@ updateTimesheetAfterStatusChanged(row:boolean)
     //this.qtyofItemsChecked = this.qtyofItemsChecked + (value? 1: -1);
     this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.TimesheetApprovalGuid, value));
     this.refreshCheckedStatus();
-    this.qtyofItemsChecked= this.setOfCheckedId.size;
+    this.qtyofItemsChecked = this.setOfCheckedId.size;
     this.itemsSelected.emit(this.qtyofItemsChecked);
   }
 
@@ -139,14 +164,14 @@ updateTimesheetAfterStatusChanged(row:boolean)
     //this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
   }
 
-  sorterMethod(heading:string) {
-    if (heading === 'Name'){
+  sorterMethod(heading: string) {
+    if (heading === 'Name') {
       this.sortByParam = "name";
       this.sorter.emit("Name");
-    } else if (heading === 'Date Range'){
+    } else if (heading === 'Date Range') {
       this.sortByParam = "dateRange";
       this.sorter.emit("DateRange");
-    }else if (heading === 'Project'){
+    } else if (heading === 'Project') {
       this.sortByParam = "projectName";
       this.sorter.emit("Project");
     } else if (heading === 'Client Name') {
@@ -159,30 +184,31 @@ updateTimesheetAfterStatusChanged(row:boolean)
 
 
   showModal(row: any) {
-    this.isModalVisible=true;
-    this.timesheetDetail=row;
+    this.isModalVisible = true;
+    this.timesheetDetail = row;
     const timesheetId = row.TimesheetId;
-    const projectId=row.ProjectId;
-    const date =this.entryDate;
-    this.timesheetService.getTimeEntries(timesheetId, date,projectId, true).subscribe(
-      (entries)=>{this.timesheetEntries=entries;
-            });
+    const projectId = row.ProjectId;
+    const date = this.entryDate;
+    this.timesheetService.getTimeEntries(timesheetId, date, projectId, true).subscribe(
+      (entries) => {
+        this.timesheetEntries = entries;
+      });
   }
-  timesheetDetailClose(event: boolean){
-    this.isModalVisible=false;
+  timesheetDetailClose(event: boolean) {
+    this.isModalVisible = false;
   }
 
-  filterByProject(event:string[]){
+  filterByProject(event: string[]) {
     this.FilterByProject.emit(event);
 
-   }
-   filterByClient(event:string[]){
+  }
+  filterByClient(event: string[]) {
 
-     this.FilterByClient.emit(event);
-    }
-    authorize(key: string){
-      return this._permissionService.authorizedPerson(key);
-    }
+    this.FilterByClient.emit(event);
+  }
+  authorize(key: string) {
+    return this._permissionService.authorizedPerson(key);
+  }
 }
 
 
