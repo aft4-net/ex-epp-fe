@@ -98,6 +98,7 @@
 </div>
 
 <nz-modal
+  class="rm-form-modal"
   [(nzVisible)]="isVisible"
   [nzTitle]="addbutton + ' Emergency Contacts'"
   [nzWidth]="'60%'"
@@ -157,7 +158,7 @@
                   Address
                 </span>
               </ng-template>
-              <div class="overflow-scroll">
+              <div class="rm-form-modal-body">
                 <exec-epp-emergency-address-detail-group></exec-epp-emergency-address-detail-group>
               </div>
             </nz-tab>

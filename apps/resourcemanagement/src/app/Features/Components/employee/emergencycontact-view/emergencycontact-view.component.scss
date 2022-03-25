@@ -123,9 +123,9 @@
 }
 .overflow-scroll1{
   height: 70vh;
-  //width: 0vw;
+  width: 70vw;
   //width: 50%;
-  //overflow-x: hidden;
+  overflow-y: auto;
   overflow-x: auto ;
 }
 
@@ -135,6 +135,7 @@
   //width: 0vw;
   //width: 50%;
   //overflow-x: hidden;
+  overflow-y: auto;
   overflow-x: auto ;
 }
 
@@ -204,4 +205,12 @@ height: 40px;
 background-color: #fafafa !important;
 font-weight: 650;
 font-size:small;
+}
+
+.rm-form-modal {
+  height: 40vh !important;
+  max-width: 60vw !important;
+}
+.rm-form-modal-body {
+  overflow: auto !important;
 }

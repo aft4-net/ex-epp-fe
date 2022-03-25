@@ -27,6 +27,7 @@ import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom
 import { CustomUploadComponent } from "./custom-controls/custom-upload/custom-upload.component";
 import { ExcelButtonsMultipleControlsComponent } from "./custom-buttons/excel-buttons-multiple-controls/excel-buttons-multiple-controls.component";
 import{ EmployeeApiService } from '@exec-epp/core-services/employees-services'
+import { RMAddressModalComponent } from "./custom-modals/address-modal/address-modal.component";
 
 
 registerLocaleData(en);
@@ -49,7 +50,9 @@ registerLocaleData(en);
         AddressDetailGroupComponent,
         EmergencyContactDetailGroupComponent,
         EmergencyAddressDetailGroupComponent,
-        FamilyDetailGroupComponent
+        FamilyDetailGroupComponent,
+        // Modals
+        RMAddressModalComponent
     ],
     imports: [
         BrowserModule,
@@ -82,6 +85,8 @@ registerLocaleData(en);
         EmergencyContactDetailGroupComponent,
         EmergencyAddressDetailGroupComponent,
         FamilyDetailGroupComponent,
+        // Modals
+        RMAddressModalComponent
     ]
 })
 export class CustomFormsControlsModule { }
