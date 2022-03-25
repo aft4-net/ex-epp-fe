@@ -37,7 +37,7 @@ export class CustomDatepickerComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.defaultValue = this.endingDate.getTime() < Date.now()? this.endingDate: this.startingDate;
+        this.defaultValue = this.endingDate.getTime() < Date.now()? this.endingDate: this.startingDate.getTime() > Date.now()? this.startingDate : new Date(Date.now());
         console.log("qaQA");
         this.wanteddateFormat = (formatDate(this.currentDate,'M/dd/yyyy','en-US'));
         this.todaysYear = parseInt(this.wanteddateFormat.substring(this.wanteddateFormat.lastIndexOf('/')+1)); 
