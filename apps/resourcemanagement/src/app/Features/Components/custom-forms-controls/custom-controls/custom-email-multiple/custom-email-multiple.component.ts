@@ -119,10 +119,11 @@ export class CustomEmailMultipleComponent implements OnInit {
                 control.removeValidators(errValidator)
         }
         if(!this.beValidate) return;
-        return this._formGenerator.IsEdit
         return this._employeeApiService.checkEmailExistence(
             control.value, this._formGenerator.Guid
         ).subscribe(r => {
+            console.log('Response')
+            console.log(r)
             if (r.ResponseStatus !== 'Success' || r.Data) {
                 this.errMessages[index] = 'The email already exists!';
                 control.addValidators(errValidator);
