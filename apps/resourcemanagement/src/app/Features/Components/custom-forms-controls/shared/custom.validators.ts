@@ -372,7 +372,7 @@ function checkLetter(
     condition: { min?: number, max?: number },
     controlName: string
 ) {
-    if (!(/^[A-Za-z]+$/).test(control.value)) {
+    if (!(/^[A-Za-z\s]+$/).test(control.value)) {
         errorLog.message = 'Input contains invalid character(s)!'
         return { invalidCharacter: true }
     }

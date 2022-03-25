@@ -23,6 +23,7 @@ export class CustomDatepickerComponent implements OnInit {
     @Input() endingDate: Date = new Date(2100, 1, 1)
     @Input() required = true
     @Input() Birthday = true
+    defaultValue: Date = this.startingDate;
 
     @Output() formResponse = new EventEmitter()
 
@@ -36,6 +37,7 @@ export class CustomDatepickerComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.defaultValue = this.endingDate.getTime() < Date.now()? this.endingDate: this.startingDate.getTime() > Date.now()? this.startingDate : new Date(Date.now());
         console.log("qaQA");
         this.wanteddateFormat = (formatDate(this.currentDate,'M/dd/yyyy','en-US'));
         this.todaysYear = parseInt(this.wanteddateFormat.substring(this.wanteddateFormat.lastIndexOf('/')+1)); 
