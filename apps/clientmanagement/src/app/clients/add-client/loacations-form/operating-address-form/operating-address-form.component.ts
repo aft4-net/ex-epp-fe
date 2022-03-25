@@ -294,7 +294,8 @@ export class OperatingAddressFormComponent implements OnInit {
       nzCancelText: 'Cancel',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          if(typeof this.updateClientStateService.UpdateClientData.OperatingAddress[index].Guid!=='undefined'){
+          if(typeof this.updateClientStateService.UpdateClientData.OperatingAddress[index]?.Guid!=='undefined' &&
+         this.updateClientStateService.UpdateClientData.OperatingAddress[index]?.Guid != null){
           this.operatingAddressService.DeleteOperatingAddress(this.updateClientStateService.UpdateClientData.OperatingAddress[index].Guid).subscribe(
             (res:any)=>{
               if(res.ResponseStatus==='Success')
@@ -319,7 +320,7 @@ export class OperatingAddressFormComponent implements OnInit {
             );
           }
 
-        }).catch(() => console.log('Error.'))
+        }).catch((e) => console.log('Error.',e))
     });
   }
 }
