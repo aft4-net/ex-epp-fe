@@ -40,52 +40,31 @@ pipeline{
               sh 'npm run deploy'
             }
         }   
-    stage('Deploy to Staging')
-        {
-           when {
-                
-                branch 'release'  
-            
+    stage('Upload to S3') {
+            when {
+                 branch 'release'
+             }
+        steps{
+            script {
+
+                dir(''){
+
+                    pwd(); //Log current directory
+
+                    withAWS(region:'eu-west-3', credentials: 'omeseret-aws-cred') {
+
+                        def identity=awsIdentity();//Log AWS credentials
+
+                        // Upload files from working directory '' in your project workspace
+                        s3Upload(bucket:"epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
+                        // invalidate CloudFront distribution
+                        cfInvalidate(distribution:'E1GEJKK2Q316O2', paths:['/**/*'])
+                    }
+
+                };
+                cleanWs deleteDirs: true, notFailBuild: true 
             }
-            steps{
-                script {
-                        withDockerRegistry([ credentialsId: "dockerhubID-Blen", url: "" ]) 
-                        
-                            {
-                            sh "docker tag clientmanagement:latest blens/cm"
-                            sh "docker tag timesheet:latest blens/ts"
-                            sh "docker tag resourcemanagement:latest blens/rm"
-                            sh "docker tag projectmanagement:latest blens/pm"
-                            sh "docker tag applicant-tracking:latest blens/at"
-                            sh "docker tag usermanagement:latest blens/um"
-                            sh "docker tag epp-dashboard:latest blens/epp-dash"
-                            sh "docker tag configurationmodule:latest blens/configuration"
-                           
-                            
-                            sh "docker push blens/cm"
-                            sh "docker push blens/ts"
-                            sh "docker push blens/rm"
-                            sh "docker push blens/pm"
-                            sh "docker push blens/at"
-                            sh "docker push blens/um"
-                            sh "docker push blens/epp-dash"
-                            sh "docker push blens/configuration"
-                            
-                            }
-                 sshagent(credentials : ['staging']) {
-                 
-                  
-                  sh "rsync -rv --delete -e 'ssh' ./docker-compose.yml ubuntu@18.218.150.53:/home/ubuntu/deployment"  
-                  
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose -f /home/ubuntu/deployment/docker-compose.yml down"
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker system prune -af"
-                  sh "ssh -o StrictHostKeyChecking=no  ubuntu@18.218.150.53 sudo docker-compose -f /home/ubuntu/deployment/docker-compose.yml up -d "
-                  
-                 }
-            }
-            //clean the workspace after deployment 
-            cleanWs deleteDirs: true, notFailBuild: true 
-            }
+          }
         }    
         
     
