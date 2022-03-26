@@ -113,8 +113,9 @@
     <div>
       <div style="border: 2px solid #d9d9d9; border-radius: 5px">
         <div nz-col nzSpan="24">
+          <div class="overflow-scroll">
           <nz-tabset class="p-2" [nzTabPosition]="'left'">
-            <div class="overflow-scroll">
+            
               <nz-tab [nzTitle]="basic" nzSelected>
                 <ng-template #basic>
                   <span>
@@ -138,7 +139,7 @@
                   <exec-epp-emergency-contact-detail-group></exec-epp-emergency-contact-detail-group>
                 </div>
               </nz-tab>
-            </div>
+            
             <nz-tab [nzTitle]="address">
               <ng-template #address>
                 <span>
@@ -163,6 +164,7 @@
               </div>
             </nz-tab>
           </nz-tabset>
+        </div>
         </div>
       </div>
       <br />
