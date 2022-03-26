@@ -121,12 +121,13 @@
 ::ng-deep.ant-modal-wrap {
   overflow: hidden;
 }
-.overflow-scroll1{
+
+.overflow-scroll1 {
   height: 70vh;
   width: 70vw;
   //width: 50%;
   overflow-y: auto;
-  overflow-x: auto ;
+  overflow-x: auto;
 }
 
 
@@ -136,7 +137,7 @@
   //width: 50%;
   //overflow-x: hidden;
   overflow-y: auto;
-  overflow-x: auto ;
+  overflow-x: auto;
 }
 
 .ant-modal-content {
@@ -154,10 +155,10 @@
   opacity: 0.7;
   left: 0 px;
   top: 0 px;
-  width: 100% ;
-  height: 100% ;
-  z-index:999999;
-  background-color:#BEBEBE;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background-color: #BEBEBE;
   display: none;
   cursor: not-allowed;
 }
@@ -168,43 +169,45 @@ nz-breadcrumb {
   margin: -1px;
 
 }
+
 .breadcrumb {
   // box-shadow: 0px -3px 0px 0px #EAEAEA inset;
   background-color: #fff;
   padding: 11px 22px;
   // margin: -1px -120px;
   border-bottom: 3px solid #D9D9D9;
-  font-family:-apple-system,
-  BlinkMacSystemFont,
-  'Segoe UI',
-  Roboto,
-  Oxygen,
-  Ubuntu,
-  Cantarell,
-  'Open Sans',
-  'Helvetica Neue',
-  sans-serif
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif
 }
 
 
 .addButton {
-background-color: #00A551;
-color: white;
-height: 40px;
+  background-color: #00A551;
+  color: white;
+  height: 40px;
 
 }
 
-.tdstyle{
+.tdstyle {
   font-size: small;
 }
-.Acttdstyle{
+
+.Acttdstyle {
   font-size: small;
 }
-.table_heading
-{
-background-color: #fafafa !important;
-font-weight: 650;
-font-size:small;
+
+.table_heading {
+  background-color: #fafafa !important;
+  font-weight: 650;
+  font-size: small;
 }
 
 .overflow-scroll {
@@ -217,10 +220,35 @@ font-size:small;
   opacity: 0.7;
   left: 0 px;
   top: 0 px;
-  width: 100% ;
-  height: 100% ;
-  z-index:999999;
-  background-color:#BEBEBE;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background-color: #BEBEBE;
   display: none;
   cursor: not-allowed;
+}
+
+.exec-modal-tab::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-list {
+  width: 12vw !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.exec-modal-tab::ng-deep .ant-tabs-tab:hover {
+  background-color: #DCFFDC !important;
+  color: black !important;
+}
+
+.exec-modal-tab::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
+  background-color: #DCFFDC !important;
+}
+
+.exec-modal-tab::ng-deep .ant-tabs-left>.ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-left>div>.ant-tabs-nav .ant-tabs-ink-bar {
+  opacity: 0.0 !important;
+}
+
+.exec-modal-tab::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: black !important;
+  font-size: medium !important;
 }
