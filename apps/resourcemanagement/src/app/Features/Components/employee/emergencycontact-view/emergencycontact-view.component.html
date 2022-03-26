@@ -109,12 +109,12 @@
   nzMaskClosable="false"
 >
   <ng-container *nzModalContent
-   class="overflow-scroll">
+   class="layer">
     <div>
       <div style="border: 2px solid #d9d9d9; border-radius: 5px">
         <div nz-col nzSpan="24">
           <nz-tabset class="p-2" [nzTabPosition]="'left'">
-            <div>
+            <div class="overflow-scroll">
               <nz-tab [nzTitle]="basic" nzSelected>
                 <ng-template #basic>
                   <span>
@@ -134,7 +134,7 @@
                     Basic Details
                   </span>
                 </ng-template>
-                <div class="overflow-scroll">
+                <div >
                   <exec-epp-emergency-contact-detail-group></exec-epp-emergency-contact-detail-group>
                 </div>
               </nz-tab>
@@ -158,7 +158,7 @@
                   Address
                 </span>
               </ng-template>
-              <div class="rm-form-modal-body">
+              <div>
                 <exec-epp-emergency-address-detail-group></exec-epp-emergency-address-detail-group>
               </div>
             </nz-tab>

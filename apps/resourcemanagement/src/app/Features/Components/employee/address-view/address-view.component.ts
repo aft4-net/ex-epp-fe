@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService, StyleObjectLike } from 'ng-zorro-antd/modal';
 
 import { Address } from '../../../Models/address.model';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
@@ -23,6 +23,7 @@ export class AddressViewComponent implements OnInit {
   IsEdit = false;
   editAt = -10;
   addButton = 'Add';
+  modalSize = { height: '30vh' } as StyleObjectLike
 
   employeeAddress?: Address;
   emptyData = [];
