@@ -125,6 +125,7 @@ export class OperatingAddressFormComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible = false;
+    this.forms.reset();
   }
 
   submitForm() {

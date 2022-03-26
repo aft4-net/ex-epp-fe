@@ -76,8 +76,8 @@ nzSize="small"
         >
         <nz-option   *ngFor="let employee of employees"   nzLabel={{employee.Name}}-{{employee.Role}}  [nzValue]="employee.Name +'-'+ employee.Role"   ></nz-option>
         </nz-select>
-        <span *ngIf="clientExist"  class="error-block">
-          <b>This contact is already selected</b>
+        <span *ngIf="clientalreadyExist"  class="error-block">
+        This contact is already exists
         </span>
 
       </nz-form-control>
@@ -119,9 +119,9 @@ nzSize="small"
 
       </nz-form-item>
 
-<span style="color: #ff0000;">{{clientExist}}</span>
+
 <div class="footer-btn">
-  <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid">{{dynamicBtnValue}}</button><span class="spacing"></span>
+  <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid || clientalreadyExist">{{dynamicBtnValue}}</button><span class="spacing"></span>
   <button nz-button class="clear-btn" (click)="handleClear()" [disabled]="isClearButtonActive">Clear</button>
 
 
