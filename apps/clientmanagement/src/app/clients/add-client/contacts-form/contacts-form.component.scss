@@ -32,6 +32,7 @@ button.ant-btn {
 
 .footer-btn {
   float: $footer-btn;
+  margin-top: 1rem;
 }
 button.add-btn.ant-btn {
 
@@ -116,4 +117,9 @@ button.add-btn.ant-btn {
 }
 ::ng-deep th.table_heading.ant-table-cell {
   font-size: 16px !important;
+}
+
+.error-block
+{
+  color: red;
 }
