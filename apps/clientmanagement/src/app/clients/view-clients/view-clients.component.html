@@ -97,7 +97,6 @@
     <tr *ngFor="let value of clientsdata | sort:[sortByParam, sortDirection]" >
 
       <td >{{value.ClientName}}</td>
-      <td *ngIf="locationCheckbox">{{value.OperatingAddressCountry}}</td>
       <td *ngIf="statusCheckbox">{{value.ClientStatusName}}</td>
       <td *ngIf="salesCheckbox">{{value.SalesPersonName}}</td>
       <!-- <td *ngIf="clientContactCheckbox">{{value.ClientContacts[0].ContactPersonName}}</td>

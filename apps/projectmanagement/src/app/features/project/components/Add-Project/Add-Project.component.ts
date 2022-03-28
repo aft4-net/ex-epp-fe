@@ -256,7 +256,7 @@ if( this.projectUpdate.ProjectName !== this.projectOld.ProjectName  ||
       this.clients = response.Data;
       for (let i = 0; i < this.clients.length; i++) {
         if (  this.clients[i].ClientName.toLowerCase().trim() ===
-          'Excellerent'.toString().toLowerCase().trim() ) {
+          'Internal'.toString().toLowerCase().trim() ) {
             this.internalClinetGuid=this.clients[i].Guid;
           break;
         }

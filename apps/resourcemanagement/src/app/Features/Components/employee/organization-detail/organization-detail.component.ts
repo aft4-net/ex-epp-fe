@@ -23,4 +23,5 @@ export class OrganizationDetailComponent implements OnInit {
   }
 
   ngOnInit() {}
+  
 }

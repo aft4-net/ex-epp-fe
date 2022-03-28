@@ -625,9 +625,9 @@ getLocations(){
 fetchAllData(){
   this.fetchclientsService.getData().subscribe((res:AllDataResponse<Client[]>) => {
 
-    this.allClients = res.data;
+    this.allClients = res.data.filter(c=>c.ClientName!="Internal");
     this.viewClient = [];
-    this.viewClient = [...res.data];
+    this.viewClient = [... this.allClients];
     if(this.allClients!=null)
     {
       for (let i=0;i<this.allClients.length;i++)

@@ -146,6 +146,12 @@ export class DutyStationComponent implements OnInit {
         if (response.ResponseStatus === "Success") {
           this.getDutyStation();
           this.closeModal();
+          this.notification.create(
+            'Success',
+            'Duty station Update successfully',
+            dutyStation.Name,
+            { nzPlacement: 'bottomRight' }
+          );
         }
       }, error => {
         console.log(error);
@@ -183,6 +189,12 @@ export class DutyStationComponent implements OnInit {
             this.dutyStationService.delete(dutyStation).subscribe(response => {
               if (response.ResponseStatus === "Success") {
                 this.getDutyStation();
+                this.notification.create(
+                  'Success',
+                  'Duty station Deleted successfully',
+                  dutyStation.Name,
+                  { nzPlacement: 'bottomRight' }
+                );
               }
             }, error => {
               console.log(error);

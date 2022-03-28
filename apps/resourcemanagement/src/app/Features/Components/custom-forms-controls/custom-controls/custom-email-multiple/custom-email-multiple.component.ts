@@ -9,6 +9,8 @@ import { PermissionListService } from "libs/common-services/permission.service";
 import { EmployeeApiService } from "@exec-epp/core-services/employees-services";
 import { map } from "rxjs/operators";
 import { ResponseStatus } from "@exec-epp/core-services/a-base-services";
+import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
+
 
 const errValidator = ((c: AbstractControl) => {
     return { error: true };
@@ -32,13 +34,14 @@ export class CustomEmailMultipleComponent implements OnInit {
     required = true
     errMessages: string[] = []
     editable = false;
-
+    emailInUse = this._employeeService.emailInUse;
 
     constructor(
         private readonly _formGenerator: FormGenerator,
         private readonly _permissionListService: PermissionListService,
-        private readonly _employeeApiService: EmployeeApiService
-    ) {
+        private readonly _employeeApiService: EmployeeApiService,
+        private readonly _employeeService:EmployeeService
+    ) { 
     }
 
     ngOnInit(): void {
@@ -48,10 +51,20 @@ export class CustomEmailMultipleComponent implements OnInit {
         for (let i = 0; i < this.formArray.length; i++) {
             this.errMessages.push('')
         }
+      
+        this.emailInUse = this._employeeService.emailInUse;
+        
     }
     getControl(index: number): FormControl {
+
         const formControl = this._formGenerator.getFormControlfromArray(index, this.formArray)
-        if (formControl) {
+        if (formControl) {     
+            if(this.emailInUse){
+                formControl.disable();
+            }
+            else{
+                formControl.enable();
+            }
             return formControl
         }
         return new FormControl
@@ -109,6 +122,8 @@ export class CustomEmailMultipleComponent implements OnInit {
         return this._employeeApiService.checkEmailExistence(
             control.value, this._formGenerator.Guid
         ).subscribe(r => {
+            console.log('Response')
+            console.log(r)
             if (r.ResponseStatus !== 'Success' || r.Data) {
                 this.errMessages[index] = 'The email already exists!';
                 control.addValidators(errValidator);
@@ -116,6 +131,9 @@ export class CustomEmailMultipleComponent implements OnInit {
                 control.removeValidators(errValidator)
             }
         });
+       
+        
     }
+   
 
 }

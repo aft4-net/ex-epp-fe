@@ -79,10 +79,24 @@
 }
 
 
+::ng-deep.ant-modal-wrap {
+  overflow: hidden;
+}
+.overflow-scroll1{
+  height: 30vh;
+  //width: 0vw;
+  //width: 50%;
+  //overflow-x: hidden;
+  overflow-x: auto ;
+}
+
 
 .overflow-scroll {
-  overflow-x: auto;
-  overflow-y: auto;
+  height: 60vh;
+  //width: 0vw;
+  //width: 50%;
+  //overflow-x: hidden;
+  overflow-x: auto ;
 }
 
 .layer {
