@@ -49,13 +49,13 @@
 
 
 
-<div>
-<nz-modal class="modal-window-container" [(nzVisible)]="isVisible"  [nzTitle]="modalTitle" [nzWidth]="'24%'" [nzFooter]="footer"
+
+<nz-modal class="modal-window-container " [(nzVisible)]="isVisible"  [nzTitle]="modalTitle" [nzWidth]="'24%'" [nzFooter]="footer"
   (nzOnCancel)="exitModal()" (nzOnOk)="handleOk()"   >
   <ng-container *nzModalContent>
 
 
-    <form nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
+    <form  class="p-28" nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
       <nz-form-item>
         <nz-form-label class="client-label" [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
         <nz-form-control  nzErrorTip="Contact name is required"  [nzSm]="24" [nzXs]="24" nzHasFeedback>
@@ -125,9 +125,10 @@
         </nz-form-control>
 
       </nz-form-item>
+      <div *ngIf="contactExits" class="error-block" nz-row> Contact already exists </div>
       <div class="footer-btn">
         <button nz-button class="clear-btn" [disabled]="isClearButtonActive" (click)="handleClear()" >Clear</button>
-        <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid" [disabled]="clientContactUpdateBtn">{{dynamicBtnValue}}</button>
+        <button nz-button class="add-btn-wrapper" [disabled]="!addContactForm.valid" [disabled]="clientContactUpdateBtn ||contactExits">{{dynamicBtnValue}}</button>
 
       </div>
 
@@ -137,4 +138,4 @@
 
 
 </nz-modal>
-</div>
+

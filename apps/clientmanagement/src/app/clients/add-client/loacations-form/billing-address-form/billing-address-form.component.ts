@@ -144,7 +144,7 @@ export class BillingAddressFormComponent implements OnInit {confirmModal?: NzMod
 
   handleCancel(): void {
     this.isVisible = false;
-
+    this.forms.reset();
   }
 
 
