@@ -58,7 +58,7 @@ pipeline{
                         // Upload files from working directory '' in your project workspace
                         s3Upload(bucket:"qa.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
                         // invalidate CloudFront distribution
-                        // cfInvalidate(distribution:'E1GEJKK2Q316O2', paths:['/**/*'])
+                         cfInvalidate(distribution:'EMYS8NLRZ2ZZY', paths:['/**/*'])
                     }
 
                 };
