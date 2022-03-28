@@ -31,18 +31,18 @@
   align-items: center;
 }
 *{
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont !important;
 
  }
 .tab-content {
   padding: 0px 20px 25px;
+  height: 67vh;
+  overflow-y:auto;
+  width: 100%;
 
 }
 
-* {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont;
 
-}
 c::ng-deep ant-btn:hover, .ant-btn:focus, .ant-btn:active
 
 ::ng-deep .ant-tabs-tab:hover {
@@ -180,3 +180,14 @@ span.ng-star-inserted.invalisForm {
 nz-breadcrumb.mt-4.ant-breadcrumb {
   padding-top: 0.75rem !important;
 }
+
+
+header {
+  position: fixed; 
+  top:3.30rem;
+  width: 100%;
+ }
+.page{
+ height: 77vh;
+ margin-top: 11.60rem;
+ }

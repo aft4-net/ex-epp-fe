@@ -9,9 +9,9 @@
   <div nz-row>
     <div class="page-title"> {{updateClientState.titlePage}} </div>
   </div>
-</header>
+
 <hr class="header-separator">
-<header>
+
   <div class="justify-between" nz-row>
     <div nz-col  class="page-title"> {{updateClientState.formTitle}} </div>
     <div nz-col >
@@ -19,10 +19,11 @@
       <button nz-button class="cancel-button" (click)="cancelAddClientPage()"  >   Cancel</button>    
     </div>
   </div>
+  <hr class="header-separator">
 </header>
-<hr class="header-separator">
 
-<nz-tabset  [nzTabPosition]="position" [(nzSelectedIndex)]="activeTabIndex">
+
+<nz-tabset class="page"  [nzTabPosition]="position" [(nzSelectedIndex)]="activeTabIndex">
   <div>
     <nz-tab [nzTitle]="detailsTitleTemplate" nzSelected>
       <ng-template #detailsTitleTemplate>
