@@ -19,55 +19,30 @@ export class TimesheetValidationService {
 
   constructor(private timesheetConfigStateService: TimesheetConfigurationStateService) {
     this.date = new Date();
-    this.date = new Date(
-      this.date.getFullYear(),
-      this.date.getMonth(),
-      this.date.getDate()
-    );
-    this.fromDate = new Date(
-      this.date.getFullYear(),
-      this.date.getMonth(),
-      this.date.getDate() - this.date.getDay() + 1
-    );
-    this.toDate = new Date(
-      this.fromDate.getFullYear(),
-      this.fromDate.getMonth(),
-      this.fromDate.getDate() + 6
-    );
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+    this.fromDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - this.date.getDay() + 1);
+    this.toDate = new Date(this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate() + 6);
   }
 
-  isValidForAdd(
-    timeEntry: TimeEntry,
-    timeEntries: TimeEntry[],
-    timesheetApprovals: TimesheetApproval[]
-  ) {
+  isValidForAdd(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfig: TimesheetConfiguration) {
     this.message = null;
 
-    return this.isValidTimeEntry(
-      timeEntry,
-      timeEntries,
-      timesheetApprovals
-    );
+    return this.isValidTimeEntry(timeEntry, timeEntries, timesheetApprovals, timesheetConfig);
   }
 
-  isValidForUpdate(
-    timeEntry: TimeEntry,
-    timeEntries: TimeEntry[],
-    timesheetApprovals: TimesheetApproval[]
-  ) {
+  isValidForUpdate(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfig: TimesheetConfiguration) {
     this.message = null;
+    const timeEntriesForUpdate = [...timeEntries];
+    const timeEntryIndex = timeEntriesForUpdate.findIndex(te => new Date(te.Date).valueOf() === new Date(timeEntry.Date).valueOf() && te.ProjectId === timeEntry.ProjectId);
 
-    return this.isValidTimeEntry(
-      timeEntry,
-      timeEntries,
-      timesheetApprovals
-    );
+    if (timeEntryIndex >= 0) {
+      timeEntriesForUpdate.splice(timeEntryIndex, 1);
+    }
+
+    return this.isValidTimeEntry(timeEntry, timeEntriesForUpdate, timesheetApprovals, timesheetConfig);
   }
 
-  isValidForDelete(
-    timeEntry: TimeEntry,
-    timesheetApprovals: TimesheetApproval[]
-  ) {
+  isValidForDelete(timeEntry: TimeEntry, timesheetApprovals: TimesheetApproval[]) {
     this.message = null;
 
     if (this.isTimesheetRequestedForApproval(timeEntry, timesheetApprovals)) {
@@ -81,10 +56,7 @@ export class TimesheetValidationService {
     return true;
   }
 
-  isValidForApproval(
-    timeEntries: TimeEntry[],
-    timesheetConfiguration: TimesheetConfiguration
-  ) {
+  isValidForApproval(timeEntries: TimeEntry[], timesheetConfiguration: TimesheetConfiguration) {
     const dates = [...new Set(timeEntries.map((te) => te.Date))];
     const weekdays = dates.map((date) =>
       new Date(date).toLocaleString('en-us', { weekday: 'long' })
@@ -96,7 +68,7 @@ export class TimesheetValidationService {
       return false;
     }
 
-    if(!timesheetConfiguration?.StartOfWeeks) {
+    if (!timesheetConfiguration?.StartOfWeeks) {
       timesheetConfiguration.StartOfWeeks = this.timesheetConfigStateService.defaultTimesheetConfig.StartOfWeeks;
     }
 
@@ -156,7 +128,7 @@ export class TimesheetValidationService {
         this.message = `Minimum working hour is not satisfied for a request for approval. Please add time entry for ${new Date(date).toDateString()} date to satisfy minimum working hours.`;
         return false;
       }
-      else if(totalHour > timesheetConfiguration.WorkingHours.Max) {
+      else if (totalHour > timesheetConfiguration.WorkingHours.Max) {
         this.message = `Maximum working hour is not satisfied for a request for approval. Please add time entry lass than or equal to ${timesheetConfiguration.WorkingHours.Max} hours for ${new Date(date).toDateString()} date to satisfy maximum working hours`
         return false;
       }
@@ -165,41 +137,27 @@ export class TimesheetValidationService {
     return true;
   }
 
-  isValidTimeEntry(
-    timeEntry: TimeEntry,
-    timeEntries: TimeEntry[],
-    timesheetApprovals: TimesheetApproval[]
-  ) {
+  isValidTimeEntry(timeEntry: TimeEntry, timeEntries: TimeEntry[], timesheetApprovals: TimesheetApproval[], timesheetConfig: TimesheetConfiguration) {
     this.message = null;
 
-    // Future date validation
     if (this.isFutureDate(timeEntry)) {
       return false;
     }
 
-    // 24 hr validation for a time entry
-    if (this.isTimeEntryHourMoreThan24(timeEntry)) {
+    if (this.isTimeEntryHourMoreThanMaxHour(timeEntry, timesheetConfig)) {
       return false;
     }
 
-    // 24 hr validation for a day
     if (
-      this.isTimeEntriesHourMoreThan24(
-        timeEntry,
-        timeEntries,
-        this.fromDate,
-        this.toDate
-      )
+      this.isTimeEntriesHourMoreThanMaxHours(timeEntry, timeEntries, this.fromDate, this.toDate, timesheetConfig)
     ) {
       return false;
     }
 
-    // Timesheet approval status validation
     if (this.isTimesheetRequestedForApproval(timeEntry, timesheetApprovals)) {
       return false;
     }
 
-    // Displayed week's date validation
     if (this.isDateNotWithInTheWeek(timeEntry, this.fromDate, this.toDate)) {
       return false;
     }
@@ -208,11 +166,7 @@ export class TimesheetValidationService {
   }
 
   private isFutureDate(timeEntry: TimeEntry) {
-    const date = new Date(
-      this.date.getFullYear(),
-      this.date.getMonth(),
-      this.date.getDate()
-    );
+    const date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
     if (timeEntry.Date.valueOf() > date.valueOf()) {
       this.message = "Can't fill timesheet for the future.";
       return true;
@@ -221,31 +175,18 @@ export class TimesheetValidationService {
     return false;
   }
 
-  private isTimeEntryHourMoreThan24(timeEntry: TimeEntry): boolean {
-    if (timeEntry.Hour > 24) {
-      this.message = `Time entry should not have more than 24 hours. Please enter 24 hours or less for ${timeEntry.Date}`;
+  private isTimeEntryHourMoreThanMaxHour(timeEntry: TimeEntry, timesheetConfig: TimesheetConfiguration): boolean {
+    if (timeEntry.Hour > timesheetConfig.WorkingHours.Max) {
+      this.message = `Time entry should not have more than ${timesheetConfig.WorkingHours.Max} hours. Please enter ${timesheetConfig.WorkingHours.Max} hours or less for ${timeEntry.Date}`;
       return true;
     }
 
     return false;
   }
 
-  private isTimeEntriesHourMoreThan24(
-    timeEntry: TimeEntry,
-    timeEntries: TimeEntry[],
-    fromDate: Date,
-    toDate: Date
-  ) {
-    fromDate = new Date(
-      fromDate.getFullYear(),
-      fromDate.getMonth(),
-      fromDate.getDate()
-    );
-    toDate = new Date(
-      toDate.getFullYear(),
-      toDate.getMonth(),
-      toDate.getDate()
-    );
+  private isTimeEntriesHourMoreThanMaxHours(timeEntry: TimeEntry, timeEntries: TimeEntry[], fromDate: Date, toDate: Date, timesheetConfig: TimesheetConfiguration) {
+    fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+    toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
     const totalHour = timeEntries
       .filter(
         (te) =>
@@ -256,20 +197,15 @@ export class TimesheetValidationService {
       .map((te) => te.Hour)
       .reduce((prev, next) => prev + next, 0);
 
-    if (totalHour + timeEntry.Hour > 24) {
-      this.message = `Time entries for a day should not be more than 24 hours. Please enter ${
-        24 - totalHour
-      } hours or less for ${timeEntry.Date.toDateString()}`;
+    if (totalHour + timeEntry.Hour > timesheetConfig.WorkingHours.Max) {
+      this.message = `Time entries for a day should not be more than ${timesheetConfig.WorkingHours.Max} hours. Please enter ${timesheetConfig.WorkingHours.Max - totalHour} hours or less for ${timeEntry.Date.toDateString()}`;
       return true;
     }
 
     return false;
   }
 
-  private isTimesheetRequestedForApproval(
-    timeEntry: TimeEntry,
-    timesheetApprovals: TimesheetApproval[]
-  ) {
+  private isTimesheetRequestedForApproval(timeEntry: TimeEntry, timesheetApprovals: TimesheetApproval[]) {
     if (timesheetApprovals.length === 0) {
       return false;
     }
@@ -292,21 +228,9 @@ export class TimesheetValidationService {
     return false;
   }
 
-  private isDateNotWithInTheWeek(
-    timeEntry: TimeEntry,
-    fromDate: Date,
-    toDate: Date
-  ) {
-    fromDate = new Date(
-      fromDate.getFullYear(),
-      fromDate.getMonth(),
-      fromDate.getDate()
-    );
-    toDate = new Date(
-      toDate.getFullYear(),
-      toDate.getMonth(),
-      toDate.getDate()
-    );
+  private isDateNotWithInTheWeek(timeEntry: TimeEntry, fromDate: Date, toDate: Date) {
+    fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+    toDate = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
 
     if (timeEntry.Date < fromDate || timeEntry.Date > toDate) {
       this.message = `Time entry should be with in the week. please select or add time entrys between ${this.fromDate.toDateString()} and ${this.toDate.toDateString()}`;
