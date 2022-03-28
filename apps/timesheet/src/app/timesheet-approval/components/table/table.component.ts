@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
 
 import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { TimesheetService } from '../../../timesheet/services/timesheet.service';
@@ -26,7 +26,7 @@ interface DataItem {
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent implements OnChanges {
+export class TableComponent implements OnInit, OnChanges {
   timesheetDetail: any;
   isModalVisible = false;
   timesheetEntries: any;
@@ -64,6 +64,7 @@ export class TableComponent implements OnChanges {
   @Input() ClientName = [{ text: '', value: '', checked: false }];
   @Output() sortingDirection = new EventEmitter<string>();
   qtyofItemsChecked = 0
+  isFiltering = false;
 
   @Output() itemsSelected = new EventEmitter<number>();
   //@Output() CheckedIds = new EventEmitter<number[]>();
@@ -88,7 +89,16 @@ export class TableComponent implements OnChanges {
   }
   constructor(private readonly timesheetService: TimesheetService, private readonly _permissionService: PermissionListService) { }
 
+  ngOnInit(): void {
+    this.isFiltering = false;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+
+    if (this.isFiltering) {
+      return;
+    }
+
     this.ProjectName = [];
     this.ClientName = [];
 
@@ -199,11 +209,11 @@ export class TableComponent implements OnChanges {
   }
 
   filterByProject(event: string[]) {
+    this.isFiltering = true;
     this.FilterByProject.emit(event);
-
   }
   filterByClient(event: string[]) {
-
+    this.isFiltering = true;
     this.FilterByClient.emit(event);
   }
   authorize(key: string) {

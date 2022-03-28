@@ -42,7 +42,7 @@ export class ContactsFormComponent implements OnInit {
   found=false;
   updateContacts:UpdateClientContact[]=[];
   clientContactUpdateBtn!:boolean;
-
+  contactExits=false;
   constructor(
     private fb: FormBuilder,
     private modal: NzModalService,
@@ -100,7 +100,24 @@ Email:['',[Validators.required,Validators.email,Validators.maxLength(320),Valida
 
       }
 
-    });
+        let found=false;
+        for(let i=0;i<this.listData.length;i++)
+        {
+          if(this.addContactForm.value['ContactPersonName']?.toLowerCase()?.trim()==this.listData[i].ContactPersonName?.toLowerCase()?.trim()
+           &&   this.addContactForm.value['PhoneNumber']?.trim()==this.listData[i].PhoneNumber &&
+           this.addContactForm.value['PhoneNumberPrefix']==this.listData[i].PhoneNumberPrefix &&
+           this.addContactForm.value['Email']==this.listData[i].Email
+          )
+         { found=true;
+          break;
+        }
+        }
+        if(found!=false)
+        this.contactExits=true;
+        else
+        this.contactExits=false;
+      }
+    );
 
 
   }

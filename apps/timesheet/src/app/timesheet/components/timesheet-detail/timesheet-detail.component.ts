@@ -1039,7 +1039,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       return;
     }
     if (!position) {
-      position = 'topRight';
+      position = 'bottomRight';
     }
 
     switch (type.toLowerCase()) {

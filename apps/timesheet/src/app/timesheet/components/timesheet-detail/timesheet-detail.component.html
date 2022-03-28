@@ -2,7 +2,7 @@
     <app-date-selector [dates10]="firstday1 | date:'MMM d -' " [dates11]="lastday1 | date:'MMM d, y'"
         class="sm:flex  sm:ml-8" [isToday]="isToday" (valueChange)='selectedDate($event)' (valueChangeNextWeek)="nextWeek($event)"
         (valueChangeLastWeek)="lastastWeek($event)"></app-date-selector>
-    <div *ngIf="authorize('View_Timesheet')" class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-6">
+    <div *ngIf="authorize('View_Timesheet')" class=" {{ dateColumnContainerClass }} lg:flex xl:flex ml-2 mr-2 sm:ml-6 sm:mr-3  ">
         <div *ngFor="let myD of weekDays" class="lg:w-96 xl:w-96">
             <app-day-and-date-column [dates1]="myD | date:'dd'  " [item]="myD | date:'EE' " [date]="myD"
                 [timesheet]="(timesheet$ | async)"
