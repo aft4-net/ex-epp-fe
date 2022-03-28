@@ -85,15 +85,15 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _enableForms() {
-        this.organizationalForm.enable({ onlySelf: true });
-        this.personalDetailsForm.enable({ onlySelf: true });
+        this.organizationalForm.enable();
+        this.personalDetailsForm.enable();
     }
 
     private _disableForms() {
 
         if (this.isProfile) {
-            this.organizationalForm.disable({ onlySelf: true });
-            this.personalDetailsForm.disable({ onlySelf: true });
+            this.organizationalForm.disable();
+            this.personalDetailsForm.disable();
             if (this._permissionService.authorizedPerson('Update_My_Profile')) {
                 this.personalDetailsForm.get('phoneNumbers')?.enable();
                 this.personalDetailsForm.get('emailAddresses')?.enable()
