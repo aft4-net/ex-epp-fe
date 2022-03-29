@@ -77,29 +77,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   sortBy!: string;
   sortOrder!: string;
 
-  // listOfColumnsUser: ColumnItem<IUserModel>[] = [
-  //   {
-  //     name: 'User Name',
-  //     sortOrder: null,
-  //     sortDirections: ['ascend', 'descend', null],
-  //     sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
-  //     filterMultiple: false,
-  //     listOfFilter: this.userListFullName,
-  //     filterFn: null
-  //   }
-  // ];
-  // listOfColumnsLastActivityDate: ColumnItem<IUserModel>[] = [
-  // {
-  //     name: 'Last Activity',
-  //     sortOrder: null,
-  //     sortDirections: ['ascend', 'descend', null],
-  //     sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
-  //     filterMultiple: true,
-  //     listOfFilter:this.userListLastActivityDate,
-  //     filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
-  //   }
-  // ];
-
   @ViewChild('userNameInput') public input!: ElementRef;
 
   isLogin=false;
@@ -424,6 +401,7 @@ handleGroupCancel() {
             this.selectedUserValue = '';
             this.userfrm.reset();
             this.FeatchAllUsers();
+            this.FillTheFilter();
           },
           (err: any) => this.onShowError(err)
         )
@@ -515,6 +493,7 @@ handleGroupCancel() {
                 else
                 {
                   this.FeatchAllUsers();
+                  this.FillTheFilter();
                 }
               })
             modal.destroy()
