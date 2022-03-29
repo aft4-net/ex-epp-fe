@@ -3,7 +3,7 @@ export const environment = {
 
   apiUrl: 'https://api.epp-excellerentsolutions.com/api/v1',
   clientId: '30cff3d0-c714-4f42-a080-19c5d4ef720e',
-  redirectUri: 'https://s3.eu-west-3.amazonaws.com/www.epp-excellerentsolutions.com/'
+  redirectUri: 'https://www.epp-excellerentsolutions.com/'
 
   //apiUrl: 'http://localhost:14696/api/v1',
   //clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
