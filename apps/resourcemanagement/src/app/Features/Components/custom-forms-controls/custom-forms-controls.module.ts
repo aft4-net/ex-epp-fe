@@ -81,7 +81,7 @@ registerLocaleData(en);
         AddressDetailGroupComponent,
         EmergencyContactDetailGroupComponent,
         EmergencyAddressDetailGroupComponent,
-        FamilyDetailGroupComponent,
+        FamilyDetailGroupComponent
     ]
 })
 export class CustomFormsControlsModule { }

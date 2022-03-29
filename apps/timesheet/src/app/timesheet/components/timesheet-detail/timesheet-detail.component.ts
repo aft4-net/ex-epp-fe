@@ -99,7 +99,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   dateColumnTotalHour = 0;
   maxDateColumnTotalHour = 24;
   date: Date;
-  curr: Date;
   firstday1: Date;
   lastday1: Date;
   futereDate: any;
@@ -143,11 +142,10 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     private loadingStateService: LoadingStateService
   ) {
     this.timesheetStateService.setTimesheetPageTitle("Manage my Timesheet");
-    this.date = this.timesheetStateService.date;
-    this.curr = this.timesheetStateService.date;
 
-    this.firstday1 = this.dayAndDateService.getWeeksFirstDate(this.curr);
-    this.lastday1 = this.dayAndDateService.getWeeksLastDate(this.curr);
+    this.date = this.timesheetStateService.date;
+    this.firstday1 = this.dayAndDateService.getWeeksFirstDate(this.date);
+    this.lastday1 = this.dayAndDateService.getWeeksLastDate(this.date);
 
     this.$clients = this._clientAndProjectStateService.$clients;
     this.$projects = this._clientAndProjectStateService.$projects;
@@ -272,6 +270,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
     this.lastday1 = this.dayAndDateService.getWeekendLastDay();
 
+    this.timesheetValidationService.fromDate = this.firstday1;
+    this.timesheetValidationService.toDate = this.lastday1;
+
     this.checkTimeOverThreeWeeks(this.firstday1);
   }
 
@@ -289,6 +290,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.weekDays = this.dayAndDateService.getWeekByDate(date);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+      this.timesheetValidationService.fromDate = this.firstday1;
+      this.timesheetValidationService.toDate = this.lastday1;
 
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
@@ -315,6 +319,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.weekDays = this.dayAndDateService.getWeekByDate(date);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+      this.timesheetValidationService.fromDate = this.firstday1;
+      this.timesheetValidationService.toDate = this.lastday1;
 
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
@@ -377,6 +384,9 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.weekDays = this.dayAndDateService.getWeekByDate(date);
       this.firstday1 = this.dayAndDateService.getWeekendFirstDay();
       this.lastday1 = this.dayAndDateService.getWeekendLastDay();
+
+      this.timesheetValidationService.fromDate = this.firstday1;
+      this.timesheetValidationService.toDate = this.lastday1;
 
       if (this.userId) {
         this.timesheetStateService.getTimesheet(this.userId, this.weekDays[0]);
@@ -617,7 +627,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     try {
       const timeEntry: TimeEntry = {
         Guid: '00000000-0000-0000-0000-000000000000',
-        Note: this.validateForm.value.note,
+        Note: this.validateForm.value.note ?? "",
         Date: new Date(
           this.date.getFullYear(),
           this.date.getMonth(),
@@ -656,7 +666,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
           if (this.timeEntry) {
             timeEntry.Guid = this.timeEntry.Guid;
             timeEntry.Hour = this.timeEntry.Hour + timeEntry.Hour;
-            timeEntry.Note = this.timeEntry.Note + '\n' + timeEntry.Note;
+            timeEntry.Note = this.timeEntry.Note === "" ? timeEntry.Note : this.timeEntry.Note + '\n' + timeEntry.Note;
 
             this.updateTimeEntry(timeEntry);
 
@@ -682,20 +692,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.formData.fromDate,
       this.formData.toDate
     );
-
-    const fromDate = new Date(
-      this.date.getFullYear(),
-      this.date.getMonth(),
-      this.date.getDate() - this.date.getDay() + 1
-    );
-    const toDate = new Date(
-      fromDate.getFullYear(),
-      fromDate.getMonth(),
-      fromDate.getDate() + 6
-    );
-
-    this.timesheetValidationService.fromDate = fromDate;
-    this.timesheetValidationService.toDate = toDate;
 
     if (this.timesheet) {
       for (let i = 0; i < dates.length; i++) {
@@ -724,15 +720,13 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
         }
 
-        if (
-          this.timesheetValidationService.isValidForAdd(
-            timeEntryClone,
-            this.timeEntries ?? [],
-            this.timesheetApprovals ?? []
-          )
-        ) {
+        if (tmpTimeEntry && this.timesheetValidationService.isValidForUpdate(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
           timeEntries.push(timeEntryClone);
-        } else {
+        }
+        else if (this.timesheetValidationService.isValidForAdd(timeEntryClone, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)) {
+          timeEntries.push(timeEntryClone);
+        }
+        else {
           this.invalidEntries.push({
             Date: timeEntry.Date,
             Message: this.timesheetValidationService.message ?? '',
@@ -745,12 +739,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
         const timeEntryClone = { ...timeEntry };
 
-        if (
-          this.timesheetValidationService.isValidForAdd(
-            timeEntry,
-            this.timeEntries ?? [],
-            this.timesheetApprovals ?? []
-          )
+        if (this.timesheetValidationService.isValidForAdd(timeEntry, this.timeEntries ?? [], this.timesheetApprovals ?? [], this.timesheetConfig)
         ) {
           timeEntries.push(timeEntryClone);
         } else {
@@ -943,7 +932,6 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   closeFormDrawer(): void {
     this.clearFormData();
-    this._clientAndProjectStateService.reset();
     this.drawerVisible = false;
   }
 
@@ -960,7 +948,8 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
-    this.setDateColumnTotalHour();
+    this.setDateColumnTotalHour();    
+    this._clientAndProjectStateService.reset();
   }
 
   setDateColumnTotalHour() {
@@ -1050,7 +1039,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       return;
     }
     if (!position) {
-      position = 'topRight';
+      position = 'bottomRight';
     }
 
     switch (type.toLowerCase()) {

@@ -1,5 +1,7 @@
-<div class="md:flex flex-wrap md:flex-nowrap lg:space-x-36 w-full  mr-4 ">
-  <div class="flex-2 sm:w-2/4 lg:w-1/4 ml-4 sm:mt-4 sm:mb-4 sm:ml-0">
+
+
+<div class="md:flex flex-wrap md:flex-nowrap lg:space-x-36 w-full  mr-4">
+  <div class="flex-2 sm:w-4/6 lg:w-1/4 ml-4 sm:mt-4 sm:mb-4 sm:ml-0">
     <nz-breadcrumb>
       <nz-breadcrumb-item>
         <a href="{{homeUrl}}">Home</a>
@@ -32,7 +34,7 @@
     </div>
     <div *ngIf="(authorize('Submit_Timesheet') && !timesheetSubmitted) || authorize('Re-submit_Timesheet') || timesheetApproved" class="total-hours-completed justify-start items-start ml-0 mt-1" nz-tooltip
       [nzTooltipTitle]="notSubmittedTooltip">
-      <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-52 h-10 rounded lg:text-lg"
+      <button [disabled]="!validForApproal" class="{{ timeSheetStatus }}  mr-2 sm:w-42 h-10 rounded lg:text-lg"
         nz-button (click)="onRequestForApproval()">{{btnText}}</button>
     </div>
   </div>

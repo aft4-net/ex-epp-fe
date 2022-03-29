@@ -99,11 +99,11 @@ export class FamilyDetailViewComponent implements OnInit {
   }
 
   add(): void {
-    const families = this.form.getModelFamilyDetails() as FamilyDetail[];
+    const families = this.form.getModelFamilyDetails() as FamilyDetail;
     if (!this.IsEdit) {
-      this.form.allFamilyDetails = [...this.form.allFamilyDetails, families[0]];
+      this.form.allFamilyDetails = [...this.form.allFamilyDetails, families];
     } else {
-      this.form.allFamilyDetails[this.editAt] = families[0];
+      this.form.allFamilyDetails[this.editAt] = families;
       this.editAt = -10;
       this.IsEdit = false;
     }
