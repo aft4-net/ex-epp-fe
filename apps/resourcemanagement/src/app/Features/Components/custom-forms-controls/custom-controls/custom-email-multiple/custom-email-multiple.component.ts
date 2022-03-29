@@ -57,17 +57,7 @@ export class CustomEmailMultipleComponent implements OnInit {
     }
     getControl(index: number): FormControl {
 
-        const formControl = this._formGenerator.getFormControlfromArray(index, this.formArray)
-        if (formControl) {     
-            if(this.emailInUse){
-                formControl.disable();
-            }
-            else{
-                formControl.enable();
-            }
-            return formControl
-        }
-        return new FormControl
+        return this._formGenerator.getFormControlfromArray(index, this.formArray)as FormControl
 
     }
 
@@ -107,6 +97,8 @@ export class CustomEmailMultipleComponent implements OnInit {
     }
 
     onChange(index: number) {
+        console.log('Email')
+        console.log(this.formArray.disabled)
         this.errMessages[index] = commonErrorMessage.message.substring(0)
         const control = this.getControl(index);
         if (!control.valid) return;
@@ -119,10 +111,11 @@ export class CustomEmailMultipleComponent implements OnInit {
                 control.removeValidators(errValidator)
         }
         if(!this.beValidate) return;
-        return this._formGenerator.IsEdit
         return this._employeeApiService.checkEmailExistence(
             control.value, this._formGenerator.Guid
         ).subscribe(r => {
+            console.log('Response')
+            console.log(r)
             if (r.ResponseStatus !== 'Success' || r.Data) {
                 this.errMessages[index] = 'The email already exists!';
                 control.addValidators(errValidator);

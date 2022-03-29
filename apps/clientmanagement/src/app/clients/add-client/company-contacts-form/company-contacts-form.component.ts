@@ -102,6 +102,18 @@ clientalreadyExist=false;
 
 
       this.addContactForm.valueChanges.subscribe(x => {
+
+  console.log(this.listData);
+        let  found=false;
+       for(let i=0;i<this.listData.length;i++) 
+        { if (this.listData[i].Name==this.addContactForm.value['companyContactName'])
+           {  found=true; break;}  
+      }
+     if(found==true)
+     this.clientalreadyExist=true;
+     else
+     this.clientalreadyExist=false;
+     
         if(this.addContactForm.value['companyContactName']!='' ||
         this.addContactForm.value['phoneNumber']!='' ||
         this.addContactForm.value['emailAdress']!=''  ){
@@ -122,14 +134,7 @@ clientalreadyExist=false;
   }
   submitForm(): void {
     if (this.addContactForm.valid) {
-      this.listData.forEach((value: any, index: any) => {
-        if (value.companyContactName==this.addContactForm.value['companyContactName'])
-        {
-        this.clientalreadyExist=true;
 
-        }
-this.IsEdit
-      });
       if(!this.IsEdit){
 
        if(!this.clientalreadyExist){

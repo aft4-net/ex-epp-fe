@@ -42,6 +42,7 @@ export class UserdetailsComponent implements OnInit {
  // cgm=CustomFormModule;
   userId:any;
   thePosition : any;
+  employeeStatus!: string;
   userdetailInfo:any;
   isActive = false;
   isLoadingStatus = false;
@@ -145,7 +146,7 @@ export class UserdetailsComponent implements OnInit {
         //this.thePosition = response.Data.userListJobTitle; 
     this.userDetailService.getUser(this.userdetailInfo.Email).subscribe((res:any)=>{
      this.thePosition=res.EmployeeOrganization.Role.Name;
-   
+      this.employeeStatus = res.EmployeeOrganization.Status;
     });
       
      
@@ -324,6 +325,14 @@ AddToGroup()  {
   }
   UpdateStatus()
   {
+    if (this.employeeStatus === null || this.employeeStatus !== 'Active') {
+      this.notification.showNotification({
+        type: 'error',
+        content: 'Employee status is not Active.',
+        duration: 5000,
+      });
+       return;
+    }
     const usrDetail: IUserPutModel = {
       Guid:this.userdetailInfo.Guid,
       FirstName:this.userdetailInfo.FirstName,
