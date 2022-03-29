@@ -191,6 +191,17 @@
                 "path": "apps/clientmanagement/webpack.prod.config.js"
               }
             },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/clientmanagement/src/environments/environment.ts",
+                  "with": "apps/clientmanagement/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/clientmanagement/webpack.stage.config.js"
+              }
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -327,6 +338,17 @@
               "outputHashing": "all",
               "customWebpackConfig": {
                 "path": "apps/configurationmodule/webpack.prod.config.js"
+              }
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/configurationmodule/src/environments/environment.ts",
+                  "with": "apps/configurationmodule/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/configurationmodule/webpack.stage.config.js"
               }
             },
             "development": {
@@ -601,6 +623,17 @@
                 "path": "apps/epp-dashboard/webpack.prod.config.js"
               }
             },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/epp-dashboard/src/environments/environment.ts",
+                  "with": "apps/epp-dashboard/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/epp-dashboard/webpack.stage.config.js"
+              }
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -777,6 +810,17 @@
                 "path": "apps/projectmanagement/webpack.prod.config.js"
               }
             },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/projectmanagement/src/environments/environment.ts",
+                  "with": "apps/projectmanagement/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/projectmanagement/webpack.stage.config.js"
+              }
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -913,6 +957,17 @@
               "outputHashing": "all",
               "customWebpackConfig": {
                 "path": "apps/resourcemanagement/webpack.prod.config.js"
+              }
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/resourcemanagement/src/environments/environment.ts",
+                  "with": "apps/resourcemanagement/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/resourcemanagement/webpack.stage.config.js"
               }
             },
             "development": {
@@ -1075,6 +1130,17 @@
                 "path": "apps/timesheet/webpack.prod.config.js"
               }
             },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/timesheet/src/environments/environment.ts",
+                  "with": "apps/timesheet/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/timesheet/webpack.stage.config.js"
+              }
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -1215,6 +1281,17 @@
               "outputHashing": "all",
               "customWebpackConfig": {
                 "path": "apps/usermanagement/webpack.prod.config.js"
+              }
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/usermanagement/src/environments/environment.ts",
+                  "with": "apps/usermanagement/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/usermanagement/webpack.stage.config.js"
               }
             },
             "development": {
