@@ -53,7 +53,9 @@
   height: auto;
   float: left;
   padding: 24px;
-
+  overflow-y: auto;
+  height: 75vh;
+  width: 100%;
   font-weight: 500;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -120,7 +122,7 @@ nz-breadcrumb {
 .breadcrumb {
   // box-shadow: 0px -3px 0px 0px #EAEAEA inset;
   background-color: #fff;
-  padding: 11px 22px;
+  // padding: 11px 22px;
   // margin: -1px -120px;
   border-bottom: 3px solid #D9D9D9;
   font-family:-apple-system,
@@ -148,3 +150,17 @@ background-color: #fafafa !important;
 font-weight: 650;
 font-size:small;
 }
+
+.page{
+  height: 77vh;
+  margin-top: 12rem;
+ 
+  }
+
+  header{
+    padding: 0px 1%;
+    position: fixed; 
+    top:4.30rem;
+    width: 100%;
+
+  }

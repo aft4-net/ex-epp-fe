@@ -28,9 +28,7 @@ hr {
   padding: 0;
 }
 
-section {
-  padding: 0px 2%;
-}
+
 
 td {
   font-family: -apple-system, system-ui, BlinkMacSystemFont;
@@ -138,4 +136,20 @@ ant-table-column-title {
 ::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
   background-color: #00a551;
   border-color: #00a551;
+}
+
+
+
+ .page{
+  height: 83vh;
+  margin-top: 9.5rem;
+ }
+
+.content {
+  height: 69vh;
+  overflow-y: auto;
+  width: 100%;
+}
+.space {
+  padding: 0px 2%;
 }

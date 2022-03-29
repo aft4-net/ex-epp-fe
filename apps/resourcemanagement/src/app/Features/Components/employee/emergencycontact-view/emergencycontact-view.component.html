@@ -1,3 +1,4 @@
+<header>
 <div class="breadcrumb">
   <nz-breadcrumb>
     <div nz-row>
@@ -6,10 +7,10 @@
         <nz-breadcrumb-item>
           <a [routerLink]="['/resourcemanagement']">Resources</a></nz-breadcrumb-item>
         <nz-breadcrumb-item *ngIf="!_employeeService.isdefault && !_employeeService.isEdit;else editEmploye">
-          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a></nz-breadcrumb-item> <br />
+          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a></nz-breadcrumb-item> 
          <ng-template #editEmploye>
           <nz-breadcrumb-item>
-            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
+            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> 
          </ng-template>
         <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!_employeeService.isdefault && !_employeeService.isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
@@ -21,7 +22,8 @@
   </nz-breadcrumb>
   </div>
 <exec-epp-page-title title="Emergency Contacts"></exec-epp-page-title>
-<div nz-row>
+</header>
+<div nz-row class="page">
   <div nz-col nzSpan="4">
     <exec-epp-side-bar [active]="3"> </exec-epp-side-bar>
   </div>

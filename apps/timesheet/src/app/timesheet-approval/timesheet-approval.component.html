@@ -1,3 +1,4 @@
+<div class="page">
 <hr class="mb-4">
 
 <div class="back">
@@ -53,7 +54,7 @@
     <nz-tabset [nzAnimated]='false' nzRight [(nzSelectedIndex)]="tabselected" (nzSelectedIndexChange)="onTabSelected($event)">
       <nz-tab nzRight nzTitle="All" (nzClick)="onAllTabClick()"
       >
-        <div nzRight class="content">
+        <div nzRight class="content tab-content ">
           <exec-epp-table   [ProjectName]="filteredProjectNamesLists" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" (isApprovedReturned)="statusChanged($event)"  [status]= true [status]= true [rowData]="TimesheetApprovalResponse" (sortingDirection)="sorterDirection($event)" (sorter)="sorter($event)"></exec-epp-table>
 
           <span nz-row class="pagination  flex justify-end">
@@ -65,6 +66,7 @@
         </div>
       </nz-tab>
       <nz-tab nzTitle="Awaiting Approval" (nzClick)="onAwaitingTabClick()">
+        <div class="tab-content">
         <exec-epp-table (isApprovedReturned)="statusChanged($event)" [bulkCheck]= true [ProjectName]="filteredProjectNamesLists"  [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [bulkCheck]= true [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)" (CheckedIds)="emitArray($event)"
         (itemsSelected)="onItemCheckStatusChange($event)" ></exec-epp-table>
 
@@ -73,8 +75,10 @@
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
+        </div>
       </nz-tab>
       <nz-tab nzTitle="Approved" (nzClick)="onApprovedTabClick()">
+        <div class="tab-content">
         <exec-epp-table [ProjectName]="filteredProjectNamesLists" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
          <span nz-row class="pagination  flex justify-end">
@@ -82,9 +86,11 @@
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
+      </div>
       </nz-tab>
 
       <nz-tab nzTitle="Request for review" (nzClick)="onReviewTabClick()">
+        <div class="tab-content">
         <exec-epp-table [ProjectName]="filteredProjectNamesLists" [ClientName]="filteredClientNamesList" (FilterByProject)="FilterByProject($event)" (FilterByClient)="FilterByClient($event)" [rowData]="TimesheetApprovalResponse" (sorter)="sorter($event)"></exec-epp-table>
 
         <span nz-row class="pagination  flex justify-end">
@@ -92,11 +98,13 @@
           <nz-pagination [nzPageIndex]="pageIndexG" [nzTotal]="totalResponse" (nzPageIndexChange)="PageIndexChangeG($event)" nzSimple>
           </nz-pagination>
         </span>
+        </div>
       </nz-tab>
     </nz-tabset>
   </div>
+</div>
 
-
+</div>
 
 
 
