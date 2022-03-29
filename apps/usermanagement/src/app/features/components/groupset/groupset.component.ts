@@ -46,26 +46,8 @@ export class GroupsetComponent implements OnInit {
   pageIndex = 1;
   totalRows !: number;
   totalRecord !: number;
-  beginingRow !: number;
-  lastRow !: number;
   groupName!: string;
   isLogin = false;
-  listOfColumns!: ColumnItem<GroupSetModel>[];
-
-
-
-  listOfColumnsFullName: ColumnItem<GroupSetModel>[] = [
-    {
-      name: 'Group Name',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: GroupSetModel, b: GroupSetModel) => a.Name.localeCompare(b.Name),
-      filterMultiple: false,
-      listOfFilter: [],
-      filterFn: null
-    }
-  ]
-
 
   @ViewChild('searchInput') public input!: ElementRef;
 
@@ -177,8 +159,6 @@ export class GroupsetComponent implements OnInit {
         this.pageSize = response.pagination.PageSize;
         this.totalRecord = response.pagination.TotalRecord;
         this.totalRows = response.pagination.TotalRows;
-        this.lastRow = this.totalRows;
-        this.beginingRow = 1;
         this.loading = false;
       }
       else {
@@ -210,8 +190,6 @@ export class GroupsetComponent implements OnInit {
             this.pageSize = response.pagination.PageSize;
             this.totalRecord = response.pagination.TotalRecord;
             this.totalRows = response.pagination.TotalRows;
-            this.lastRow = this.totalRows;
-            this.beginingRow = 1;
             this.loading = false;
           }
           else {
@@ -240,14 +218,6 @@ export class GroupsetComponent implements OnInit {
           this.groupList = response.Data;
           this.totalRows = response.pagination.TotalRows;
           this.pageIndex = response.pagination.PageIndex;
-          if (this.totalRows === this.pageSize) {
-            this.lastRow = this.pageSize * index;
-            this.beginingRow = (this.totalRows * (index - 1)) + 1;
-          }
-          else if ((this.totalRows < this.pageSize)) {
-            this.lastRow = this.totalRecord;
-            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
-          }
           this.loading = false;
         });
     } else {
@@ -257,19 +227,24 @@ export class GroupsetComponent implements OnInit {
           this.groupList = response.Data;
           this.totalRows = response.pagination.TotalRows;
           this.pageIndex = response.pagination.PageIndex;
-          if (this.totalRows === this.pageSize) {
-            this.lastRow = this.pageSize * index;
-            this.beginingRow = (this.totalRows * (index - 1)) + 1;
-          }
-          else if ((this.totalRows < this.pageSize)) {
-            this.lastRow = this.totalRecord;
-            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
-          }
           this.loading = false;
         });
       this.searchStateFound = false;
       this.loading = false;
     }
+  }
+
+  NameSortOrderChange(event: any) {
+    this.groupParams.sortBy = "Name";
+    if (event === 'ascend')
+      this.groupParams.sortOrder = "Ascending";
+    else if (event === 'descend')
+      this.groupParams.sortOrder = "Descending";
+    else {
+      this.groupParams.sortOrder = "";
+      this.groupParams.sortBy = "";
+    }
+    this.FeatchAllgroups();
   }
 
   AddToGroup(userId: string) {

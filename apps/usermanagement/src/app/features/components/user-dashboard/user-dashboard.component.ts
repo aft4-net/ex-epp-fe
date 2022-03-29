@@ -5,7 +5,7 @@ import { NotificationType, NotifierService } from '../../../shared/services/noti
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, fromEvent, of } from 'rxjs';
 import { ResponseDTO, ResponseStatus } from '../../Models/ResponseDTO';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
 
 import { AddUserService } from '../../Services/add-user.service';
 import {AuthenticationService} from './../../../../../../../libs/common-services/Authentication.service'
@@ -59,12 +59,10 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   pageIndex = 1;
   totalRows !:number;
   totalRecord !: number;
-  beginingRow !: number;
-  lastRow !: number;
   userName!: string;
-  holdItDepartment: listtToFilter[] = [];
-  holdItJobTitle: listtToFilter[] = [];
-  holdItStatus: listtToFilter[] = [];
+  departmentList: listtToFilter[] = [];
+  jobTitleList: listtToFilter[] = [];
+  statusList: listtToFilter[] = [];
 
   userListJobTitle : NzTableFilterList=[];
   userListStatus: NzTableFilterList=[];
@@ -76,28 +74,31 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   loadingOnSaveGroup = false;
   listOfColumns!: ColumnItem<IUserModel>[];
   confirmModal?: NzModalRef;
-   listOfColumnsUser: ColumnItem<IUserModel>[] = [
-    {
-      name: 'User Name',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
-      filterMultiple: false,
-      listOfFilter: this.userListFullName,
-      filterFn: null
-    }
-  ];
-  listOfColumnsLastActivityDate: ColumnItem<IUserModel>[] = [
-  {
-      name: 'Last Activity',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
-      filterMultiple: true,
-      listOfFilter:this.userListLastActivityDate,
-      filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
-    }
-  ];
+  sortBy!: string;
+  sortOrder!: string;
+
+  // listOfColumnsUser: ColumnItem<IUserModel>[] = [
+  //   {
+  //     name: 'User Name',
+  //     sortOrder: null,
+  //     sortDirections: ['ascend', 'descend', null],
+  //     sortFn: (a: IUserModel, b: IUserModel) => a.FullName.localeCompare(b.FullName),
+  //     filterMultiple: false,
+  //     listOfFilter: this.userListFullName,
+  //     filterFn: null
+  //   }
+  // ];
+  // listOfColumnsLastActivityDate: ColumnItem<IUserModel>[] = [
+  // {
+  //     name: 'Last Activity',
+  //     sortOrder: null,
+  //     sortDirections: ['ascend', 'descend', null],
+  //     sortFn: (a: IUserModel, b: IUserModel) => a.LastActivityDate.localeCompare(b.LastActivityDate),
+  //     filterMultiple: true,
+  //     listOfFilter:this.userListLastActivityDate,
+  //     filterFn: (list: string[], item: IUserModel) => list.some(name => item.LastActivityDate.indexOf(name) !== -1)
+  //   }
+  // ];
 
   @ViewChild('userNameInput') public input!: ElementRef;
 
@@ -144,7 +145,9 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
     });
     this.groupfrm = new FormGroup({
       Groups: new FormControl([], Validators.required),
-  });
+    });
+    this.FillTheFilter();
+
     this.createUserDashboardControls();
     this.userList as IUserModel[];
     this.FeatchAllUsers();
@@ -171,7 +174,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
 
   FeatchAllUsers() {
     this.loading = true;
-    this.userParams.userName = this.userDashboardForm.value.userName;
+    this.userParams.searchKey = this.userDashboardForm.value.userName;
     this.userService.SearchUsers(this.userParams).subscribe((response:PaginationResult<IUserModel[]>) => {
       if(response.Data)
       {
@@ -182,9 +185,6 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
         this.pageSize=response.pagination.PageSize;
         this.totalRecord=response.pagination.TotalRecord
         this.totalRows=response.pagination.TotalRows;
-        this.lastRow = this.totalRows;
-        this.beginingRow = 1;
-        this.FillTheFilter();
         this.loading = false;
       }
       else
@@ -192,102 +192,45 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
         this.loading = false;
         this.userList = [];
         this.userList$=of([]);
-        this.FillTheFilter();
       }
 
     },error => {
       this.loading = false;
-      this.PopulateFilterColumns();
      });
     this.searchStateFound=false;
   }
 
-  PopulateFilterColumns() : ColumnItem<IUserModel>[] {
-    return this.listOfColumns = [
-          {
-            name: 'Department',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Department.localeCompare(b.Department),
-            filterMultiple: true,
-            listOfFilter:this.userListDepartment,
-            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Department.indexOf(name) !== -1)
-          },
-          {
-            name: 'Role',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.JobTitle.localeCompare(b.JobTitle),
-            filterMultiple: true,
-            listOfFilter: this.userListJobTitle,
-            filterFn: (list: string[], item: IUserModel) => list.some(name => item.JobTitle.indexOf(name) !== -1)
-          },
-          {
-            name: 'Status',
-            sortOrder: null,
-            sortDirections: ['ascend', 'descend', null],
-            sortFn: (a: IUserModel, b: IUserModel) => a.Status.localeCompare(b.Status),
-            filterMultiple: true,
-            listOfFilter: this.userListStatus,
-            filterFn: (list: string[], item: IUserModel) => list.some(name => item.Status.indexOf(name) !== -1)
-          }
-      ];
-  }
-
   FillTheFilter() {
-    this.holdItJobTitle.length = 0;
-    this.holdItStatus.length = 0;
-    this.holdItDepartment.length = 0;
-    this.userList$.subscribe(
-       val => {
-        if(val.length > 0){
-          this.userList = val
-          for(let i=0; i < this.userList.length;i++){
-            if(this.holdItDepartment.findIndex(x=>x.text.trim() === this.userList[i].Department.trim()) === -1 ){
-                this.holdItDepartment.push(
-                {
-                  text: this.userList.map(x=>x.Department)[i],
-                  value:this.userList.map(x=>x.Department)[i]
-                })
-              }
-          }
-          for(let i=0; i < this.userList.length;i++){
-            if(this.holdItJobTitle.findIndex(x=>x.text.trim() === this.userList[i].JobTitle.trim()) === -1){
-              this.holdItJobTitle.push(
-                {
-                  text:this.userList.map(x=>x.JobTitle)[i],
-                  value:this.userList.map(x=>x.JobTitle)[i]
-                }
-              )
-            }
-
-          }
-          for(let i=0; i < this.userList.length;i++){
-              if(this.holdItStatus.findIndex(x=>x.text.trim() === this.userList[i].Status.trim()) === -1){
-              this.holdItStatus.push(
-                {
-                  text:this.userList.map(x=>x.Status)[i],
-                  value:this.userList.map(x=>x.Status)[i]
-                }
-              )
-
-            }
-          }
-
-          this.userListDepartment= this.holdItDepartment,
-          this.userListStatus=this.holdItStatus,
-          this.userListJobTitle =this.holdItJobTitle
-          this.PopulateFilterColumns();
-        }
-        else{
-          this.PopulateFilterColumns();
+    this.userService.GetDistinctDepartments().subscribe(res => {
+      this.departmentList = [];
+      for(let i = 0; i< res.Data.length; i++) {
+        this.departmentList.push(
+          {
+            text: res.Data[i]['Name'],
+            value:res.Data[i]['Name'],
+          });
+          this.userListDepartment = this.departmentList;
       }
     });
+    this.userService.GetDistinctJobTitles().subscribe(res => {
+      this.jobTitleList = [];
+      for(let i = 0; i< res.Data.length; i++) {
+        this.jobTitleList.push(
+          {
+            text: res.Data[i]['Name'],
+            value:res.Data[i]['Name'],
+          });
+          this.userListJobTitle = this.jobTitleList;
+      }
+    });
+    this.statusList.push({text: "Active", value: "Active"});
+    this.statusList.push({text: "In-Active", value: "In-Active"});
+    this.userListStatus = this.statusList;
   }
 
   SearchUsersByUserName() {
     this.loading = true;
-    this.userParams.userName = this.userDashboardForm.value.userName;
+    this.userParams.searchKey = this.userDashboardForm.value.userName;
     this.userParams.pageIndex = 1;
       this.userService.SearchUsers(this.userParams)
       .subscribe((response: PaginationResult<IUserModel[]>) => {
@@ -299,9 +242,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
           this.pageSize=response.pagination.PageSize;
           this.totalRecord=response.pagination.TotalRecord
           this.totalRows=response.pagination.TotalRows;
-          this.lastRow = this.totalRows;
-          this.beginingRow = 1;
-          this.FillTheFilter();
+          // this.FillTheFilter();
           this.loading = false;
         }
         else
@@ -309,12 +250,12 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
           this.loading = false;
           this.userList = [];
           this.userList$=of([]);
-          this.FillTheFilter();
+          // this.FillTheFilter();
         }
         this.searchStateFound=true;
       },error => {
         this.loading = false;
-        this.PopulateFilterColumns();
+        // this.PopulateFilterColumns();
       });
   }
 
@@ -322,7 +263,7 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
   PageIndexChange(index: any): void {
     this.loading =true;
     this.userParams.pageIndex = index;
-    this.userParams.userName = this.userName ?? "";
+    this.userParams.searchKey = this.userName ?? "";
     if(this.searchStateFound == true)
     {
       this.userService.SearchUsers(this.userParams).subscribe(
@@ -331,18 +272,8 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
           this.userList= response.Data;
           this.totalRows = response.pagination.TotalRows;
           this.pageIndex = response.pagination.PageIndex;
-          if(this.totalRows === this.pageSize)
-          {
-            this.lastRow = this.pageSize * index;
-            this.beginingRow = (this.totalRows * (index-1)) + 1;
-          }
-          else if((this.totalRows < this.pageSize))
-          {
-            this.lastRow = this.totalRecord;
-            this.beginingRow = (this.totalRecord - this.totalRows) + 1;
-          }
           this.loading =false;
-          this.FillTheFilter();
+          // this.FillTheFilter();
         });
     } else {
       this.userService.SearchUsers(this.userParams)
@@ -351,18 +282,8 @@ export class UserDashboardComponent implements AfterViewInit, OnInit  {
         this.userList = response.Data;
         this.totalRows = response.pagination.TotalRows;
         this.pageIndex = response.pagination.PageIndex;
-        if(this.totalRows === this.pageSize)
-        {
-          this.lastRow = this.pageSize * index;
-          this.beginingRow = (this.totalRows * (index-1)) + 1;
-        }
-        else if((this.totalRows < this.pageSize))
-        {
-          this.lastRow = this.totalRecord;
-          this.beginingRow = (this.totalRecord - this.totalRows) + 1;
-        }
         this.loading =false;
-        this.FillTheFilter();
+        // this.FillTheFilter();
       });
       this.searchStateFound=false;
       this.loading = false;
@@ -530,6 +451,32 @@ handleGroupCancel() {
 
   createNotification(title: string,type: string, message : string): void {
     this.notify.create(type, title, message);
+  }
+
+  sortOrderChange(event: any, sortBy: string) {
+    // this.sortBy = "Name";
+    this.userParams.sortBy = sortBy;
+    if (event === 'ascend')
+      this.userParams.sortOrder = "Ascending";
+    else if (event === 'descend')
+      this.userParams.sortOrder = "Descending";
+    else {
+      this.userParams.sortOrder = "";
+      this.userParams.sortBy = "";
+    }
+    this.FeatchAllUsers();
+  }
+
+  filterChange(event: any, filterBy: string) {
+    if (filterBy === "Department") {
+      this.userParams.departmentFilter = event;
+    } else if (filterBy === "JobTitle") {
+      this.userParams.jobTitleFilter = event;
+    } else if (filterBy === "Status") {
+      this.userParams.statusFilter = event;
+    }
+    this.FeatchAllUsers();
+    
   }
 
   showConfirm(userGuid : string): void {
