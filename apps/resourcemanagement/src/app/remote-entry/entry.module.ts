@@ -33,7 +33,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: '5330d43a-fef4-402e-82cc-39fb061f9b97',
-      // redirectUri: 'https://s3.eu-west-3.amazonaws.com/www.epp-excellerentsolutions.com/',
+      // redirectUri: 'https://www.epp-excellerentsolutions.com/',
       redirectUri: 'http://localhost:4200/',
     },
   });
