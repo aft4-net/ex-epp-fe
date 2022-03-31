@@ -40,7 +40,7 @@ constructor(public _commonData:CommonDataService,
 ngOnInit(): void {
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
-    window.location.reload();
+    // window.location.reload();
     //this.router.navigateByUrl('usermanagement/sign_in');
     this.router.navigateByUrl('usermanagement/logIn');
   }
