@@ -38,36 +38,34 @@ export class AppComponent implements OnInit {
      // this.router.navigateByUrl('usermanagement/sign_in');
       this.router.navigateByUrl('usermanagement/logIn');
     }
-    // this._commonData.permissionList$.subscribe((res) => {
-    //   setTimeout(() => {
-    //     this.defaultRoute();
-    //   }, 100);
-    // })
+
     this._commonData.permissionList$.subscribe(res => {
       if (res.map(res => res.KeyValue).length > 0 && this.router.url == '/configurationmodule') {
         if(res.map(res => res.KeyValue).indexOf("View_Department") !== -1) {
           this.departmentIsActive = true;
-          this.router.navigateByUrl('configurationmodule/department');
+          this.router.navigate(["configurationmodule", "department"], {replaceUrl: true});
         }
         else if(res.map(res => res.KeyValue).indexOf("View_Job_Title") !== -1) {
           this.jobTitleIsActive = true;
-          this.router.navigateByUrl('configurationmodule/job-title');
+          this.router.navigate(["configurationmodule", "job-title"], {replaceUrl: true});
         }
         else if(res.map(res => res.KeyValue).indexOf("View_Country") !== -1) {
           this.countryIsActive = true;
-          this.router.navigateByUrl('configurationmodule/country');
+          this.router.navigate(["configurationmodule", "country"], {replaceUrl: true});
         }
         else if(res.map(res => res.KeyValue).indexOf("View_DutyStation") !== -1) {
           this.dutyStationIsActive = true;
-          this.router.navigateByUrl('configurationmodule/duty-station');
+          this.router.navigate(["configurationmodule", "duty-station"], {replaceUrl: true});
         }
         else if(res.map(res => res.KeyValue).indexOf("View_Timesheet_Configuration") !== -1 ) {
           this.timesheetIsActive = true;
-          this.router.navigateByUrl('configurationmodule/timesheet');
+          this.router.navigate(["configurationmodule", "timesheet"], {replaceUrl: true});
+        }
+        else {
+          this.router.navigate(["/"], {replaceUrl: true});
         }
       }
     });
-    // this.router.navigateByUrl('configurationmodule/job-title');
     
   }
   activePath(routePath: string) {
@@ -82,37 +80,6 @@ export class AppComponent implements OnInit {
     }
 
     return false;
-  }
-
-  defaultRoute() {
-    if (this.authorize(['Create_Department', 'View_Department', 'Update_Department', 'Delete_Department'])) {
-      if(this.router.url === '/configurationmodule') {
-        this.departmentIsActive = true;
-        this.router.navigateByUrl('configurationmodule/department');
-      }
-    } else if (this.authorize(['Create_Job_Title', 'View_Job_Title', 'Update_Job_Title', 'Delete_Job_Title'])) {
-      if(this.router.url === '/configurationmodule') {
-        this.jobTitleIsActive = true;
-        this.router.navigateByUrl('configurationmodule/job-title');
-      }
-    } else if (this.authorize(['Create_Country', 'Delete_Country', 'Update_Country', 'View_Country'])) {
-      if(this.router.url === '/configurationmodule') {
-        this.countryIsActive = true;
-        this.router.navigateByUrl('configurationmodule/country');
-      }
-    } else if (this.authorize(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])) {
-      if(this.router.url === '/configurationmodule') {
-        this.dutyStationIsActive = true;
-        this.router.navigateByUrl('configurationmodule/duty-station');
-      }
-    } else if (this.authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])) {
-      if(this.router.url === '/configurationmodule') {
-        this.timesheetIsActive = true;
-        this.router.navigateByUrl('configurationmodule/timesheet');
-      }
-    } else {
-      //this.router.navigateByUrl('/');
-    }
   }
 
 }
