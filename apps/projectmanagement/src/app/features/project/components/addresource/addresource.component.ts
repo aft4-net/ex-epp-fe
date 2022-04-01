@@ -456,10 +456,6 @@ editResourceOnCreateState()
     this.removeResourceModel = false;
   }
 
-  navaigateToProject() {
-    this.router.navigateByUrl('projectmanagement');
-    this.projectResourceStateService.restUpdateProjectState();
-  }
   authorize(key: string) {
     return this.permissionList.authorizedPerson(key);
   }

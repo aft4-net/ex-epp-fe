@@ -124,14 +124,14 @@ background-color: #00A551;
   float: left !important;
 }
 
-::ng-deep .ant-table.ant-table-small .ant-table-footer,
-.ant-table.ant-table-small .ant-table-tbody>tr>td,
-.ant-table.ant-table-small .ant-table-thead>tr>th,
-.ant-table.ant-table-small .ant-table-title,
-.ant-table.ant-table-small tfoot>tr>td,
-.ant-table.ant-table-small tfoot>tr>th {
-  padding: 0.438rem !important;
-}
+// ::ng-deep .ant-table.ant-table-small .ant-table-footer,
+// .ant-table.ant-table-small .ant-table-tbody>tr>td,
+// .ant-table.ant-table-small .ant-table-thead>tr>th,
+// .ant-table.ant-table-small .ant-table-title,
+// .ant-table.ant-table-small tfoot>tr>td,
+// .ant-table.ant-table-small tfoot>tr>th {
+//   padding: 0.438rem !important;
+// }
 
 ::ng-deep .ant-table-filter-open {
   color: #595959 !important;
@@ -334,7 +334,7 @@ hr {
   width: 100%;
  }
 .page{
- height: 80vh;
+ height: 81vh;
  margin-top: 8.60rem;
  overflow-y:auto;
  margin-bottom: 1rem;
@@ -342,19 +342,5 @@ hr {
 
 
 
-// .header {
-//   position: fixed; 
-//   top:3.30rem;
-//   width: 100%;
-//  }
-// .page{
-//  height: 79vh;
-//  margin-top: 8.60rem;
-//  }
 
-//  .tableBody{
-//   height: 50vh;
-//   overflow-y:auto;
-  
-//   }
 

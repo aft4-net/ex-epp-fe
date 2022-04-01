@@ -74,8 +74,11 @@
     </tbody>
   </nz-table>
   <span class="pagination" *ngIf="total > pageSize" nz-row class="pagination  flex justify-end">
-    Showing {{pageIndex}} - {{totalPage}} of {{total}} entries
-    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)" nzSimple>
+    Showing  {{10 * (pageIndex -1) + 1 }}  -       
+    {{ 9 * (pageIndex) > total? 
+      total : 9 * (pageIndex) }} of {{total}} entries
+    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total" (nzPageIndexChange)="PageIndexChange($event)"
+      nzSimple>
     </nz-pagination>
   </span>
 </div>

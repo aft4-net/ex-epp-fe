@@ -57,7 +57,7 @@
         <tbody>
 
           <tr *ngFor="let data of  basicTable.data; ">
-            <td>{{ data.ProjectName | titlecase }}</td>
+            <td>{{ data.ProjectName  }}</td>
             <td>
               <ng-template [ngIf]="data.Client?.ClientName ==='' || data.Client?.ClientName ===null "> N/A </ng-template>
               {{ data.Client?.ClientName | titlecase }}</td>

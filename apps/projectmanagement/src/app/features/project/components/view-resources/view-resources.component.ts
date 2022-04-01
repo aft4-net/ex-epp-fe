@@ -11,7 +11,7 @@ export class ViewResourcesComponent implements OnInit {
   total = 0;
   loading = false;
   isTablePagnation=true;
-  pageSize = 9;
+  pageSize = 10;
   pageIndex = 1;
  projectResourcesView: AssignResource[] = [];
   isOnEditstate = false;
@@ -76,7 +76,7 @@ export class ViewResourcesComponent implements OnInit {
   PageIndexChange(pageIndex:number)
   {
     this.pageIndex=pageIndex
-   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*9).slice(0,9);
+   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*10).slice(0,10);
   }
 
   nzSortOrderChange(SortColumn: string, direction: string | null) {

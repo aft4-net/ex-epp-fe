@@ -140,7 +140,7 @@ ant-table-column-title {
 
 
 
- .page{
+.page{
   height: 83vh;
   margin-top: 9.5rem;
  }
@@ -153,3 +153,110 @@ ant-table-column-title {
 .space {
   padding: 0px 2%;
 }
+
+
+.ant-table-column-sorter:active {
+  color: #bfbfbf;
+
+  transition: color .3s;
+}
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+}
+
+::ng-deep .ant-table-content {
+  font-size: 1rem !important;
+}
+
+.ant-table-column-sorter:active {
+  color: #bfbfbf;
+
+  transition: color .3s;
+}
+
+::ng-deep .ant-table {
+  border: 1px solid #ddd !important;
+}
+
+::ng-deep .ant-table-column-sorters {
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
+}
+
+::ng-deep .ant-table-filter-column {
+  display: inline-flex !important;
+}
+
+
+::ng-deep ant-table-filter-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: -40px -8px -4px 40px;
+  padding: 0 4px;
+  color: #bfbfbf;
+  font-size: .75rem;
+  border-radius: 2px;
+  cursor: pointer;
+background-color: #00A551;
+  transition: all .3s;
+}
+
+::ng-deep .ant-table-filter-open {
+  color: #595959 !important;
+}
+
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #00A551;
+  border-color: #00A551;
+}
+
+::ng-deep tr.ant-table-row.ng-star-inserted {
+  background-color: #ffffff;
+}
+
+::ng-deep .ant-spin-dot-item  {
+  background-color: #00A551;
+}
+::ng-deep .ant-btn-primary{
+  background-color: #00A551;
+  border-color: #00A551;
+  background:#00A551;
+}
+::ng-deep .ant-btn-primary:hover{
+  background-color: #006E36;
+  border-color: #006E36;
+  background:#006E36;
+}
+
+::ng-deep .ant-btn-primary:active {
+  background: #005228;
+  border-color: #006E36;
+  background:#006E36;
+}
+::ng-deep .ant-btn-primary:focus {
+  background-color: #00A551;
+  border-color: #00A551;
+  background:#00A551;
+}
+
+::ng-deep .ant-table-filter-trigger.active{
+  color: 	#808080
+}
+
+::ng-deep .ant-dropdown-menu-item-selected, .ant-dropdown-menu-submenu-title-selected{
+  color: #151615;
+}
+
+::ng-deep .ant-btn-link{
+  color: #00A551;
+}
+
+::ng-deep .ant-btn-link:hover{
+  color: #006E36;
+}
+::ng-deep .ant-btn-link:focus{
+  color: #00A551;
+}
+
