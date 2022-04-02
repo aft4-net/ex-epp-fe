@@ -6,7 +6,6 @@ $modalWindowPaddingTop:15px;
 $modalWindowPaddingBottom:50px;
 $footer-btn:left;
 $addBtnMarginRight:1rem;
-$transformBeforeErrorAstrics:translate(120px, 0%);
 $floatConfirmationBox:left;
 $padding-left:35%;
 $background:red;
@@ -50,10 +49,7 @@ button.add-btn.ant-btn {
   margin-bottom: 15px !important;
 }
 
-::ng-deep ::before {
 
-  transform: $transformBeforeErrorAstrics;
-}
 ::ng-deep .ant-btn-dangerous.ant-btn-primary {
   $background:red;
   $color:white;

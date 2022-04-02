@@ -26,7 +26,7 @@ export class AddresourceComponent implements OnInit {
     private employeeService: EmployeeService
   ) {}
  
-  loading = false;
+  loading = true;
   resources: projectResourceType[] = [] as projectResourceType[];
   employees: Employee[] = [];
   asignedResourseToEdit!: AssignResource;
@@ -50,6 +50,7 @@ export class AddresourceComponent implements OnInit {
     });
 
     if (!this.isOnEditstate) 
+  {this.loading=false;
     this.projectCreateState.state$.subscribe(res=>{
       this.projectCreate=res;
       if(this.projectCreate?.ProjectType==='External')
@@ -57,6 +58,7 @@ export class AddresourceComponent implements OnInit {
       else
       this.isProjectExternal=false;
     })
+  }
   this.getResources();
   this.createForm();
   this.valueChangeFormValidation()
@@ -73,18 +75,17 @@ export class AddresourceComponent implements OnInit {
 
   getResources()
   {
+    this.projectForResource = this.projectResourceStateService.project;  
+    if(this.projectForResource?.ProjectType==='External')
+    this.isProjectExternal=true;
+      
+    if(this.authorize('Assign_Resource'))
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees =  response.filter(p=>p.IsActive && !p.IsDeleted);
       if (this.projectResourceStateService.isOnEditstate) {
-
-        this.projectForResource = this.projectResourceStateService.project;
-        
-        if(this.projectForResource?.ProjectType==='External')
-                this.isProjectExternal=true;
         this.projectResourceStateService.projectResourceList$.subscribe(
           (res) => {
             this.projectResources= res;
- 
             if ( this.projectResources)
               this.projectResources.forEach((p) => {
                 this.employees = this.employees.filter(
@@ -94,8 +95,11 @@ export class AddresourceComponent implements OnInit {
           }
         );
         this.sortEmployees();
+        this.loading=false;
       }
     });
+    else
+    this.loading=false;
   }
 
   valueChangeFormValidation()

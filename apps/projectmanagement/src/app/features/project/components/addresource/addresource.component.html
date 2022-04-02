@@ -1,4 +1,4 @@
-
+<nz-spin   [nzSpinning]="loading" >
 <div [ngClass]="isOnEditstate ? '  pageContainer' : 'pageAdd '">
   <div [ngClass]="!isOnEditstate ? 'tab-content mt-3  ' : ''"  >
 <div class="justify-between mb-3" nz-row>
@@ -16,11 +16,11 @@
     </button>
   </div>
 </div>
-
 <exec-epp-view-resources (conformDelete)=" conformationDelete($event)"  (editProjectResource)="editResource($event)"
  (removeCreateResource)=" removeForAddReource($event)">   </exec-epp-view-resources>
 </div>
 </div>
+</nz-spin>
 <nz-modal class="resourceModal" [ngClass]="isModalVisible ? 'p-28':''"  [(nzVisible)]="isModalVisible" 
   (nzOnCancel)="handleCancel()" [nzFooter]="null"[nzTitle]="titleTemplate">  
   <ng-template #titleTemplate>
@@ -58,7 +58,7 @@
           <span class="redAstrics"> * </span>
         </nz-form-label>
 
-        <nz-form-control [ngClass]=" isProjectExternal ? 'mb-2':'mb-3'"   >
+        <nz-form-control [ngClass]=" isProjectExternal ? '':'mb-2'"   >
           <nz-date-picker [nzShowToday]="false" [nzAutoFocus] [nzDisabledDate]="disabledEndDate" [nzAllowClear]
             nzFormat="MM/dd/yyyy" formControlName="assignDate" nz-col nzSpan="12">
           </nz-date-picker>
@@ -75,10 +75,10 @@
       </nz-form-item>
 
       <nz-form-item *ngIf="isProjectExternal">
-        <nz-form-label nzFor="billable"> Billable
+        <nz-form-label nz-row nzFor="billable"> Billable
           <span class="redAstrics"> * </span>
         </nz-form-label>
-        <nz-form-control   class="mb-2">
+        <nz-form-control   class="mb-2"  >
         <nz-switch formControlName="billable"></nz-switch>
       </nz-form-control>
       </nz-form-item>

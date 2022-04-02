@@ -55,7 +55,7 @@
   <ng-container *nzModalContent>
 
 
-    <form  class="p-28" nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
+    <form   nz-form [nzLayout]="'vertical'" [formGroup]="addContactForm" (ngSubmit)="submitForm()">
       <nz-form-item>
         <nz-form-label class="client-label" [nzSm]="24" [nzXs]="24" nzRequired nzFor="contactName">Contact Person</nz-form-label>
         <nz-form-control  nzErrorTip="Contact name is required"  [nzSm]="24" [nzXs]="24" nzHasFeedback>

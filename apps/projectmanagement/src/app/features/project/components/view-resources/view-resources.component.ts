@@ -9,7 +9,6 @@ import { PermissionListService } from '../../../../../../../../libs/common-servi
 })
 export class ViewResourcesComponent implements OnInit {
   total = 0;
-  loading = false;
   isTablePagnation=true;
   pageSize = 10;
   pageIndex = 1;
@@ -37,8 +36,7 @@ export class ViewResourcesComponent implements OnInit {
       this.isOnEditstate = res;
     }); 
     if(this.isOnEditstate)
-     { this.isTablePagnation=false;   
-        this.loading = true;  
+     { this.isTablePagnation=false; 
         if(this.projectResourceStateService.project.ProjectType==='External')
         this.isProjectExternal=true;
       }
@@ -51,7 +49,6 @@ export class ViewResourcesComponent implements OnInit {
           this.PageIndexChange(1);
           this.pageIndex=1;
           this.total= this.projectResourcesView.length;
-          this.loading = false; 
           }
           else { 
     this.projectResources=res;       

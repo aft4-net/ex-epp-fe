@@ -179,17 +179,6 @@ margin-bottom: 40%;
 }
 
 
-/* .header {
-  position: fixed; 
-  top:3.30rem;
-  width: 100%;
- }
-.page{
- height: 82vh;
- margin-top: 8.60rem;
- overflow-y:auto;
- width: 100%;
-} */
 
 
 .header {
@@ -206,7 +195,7 @@ margin-bottom: 40%;
 }
 
 .pageAdd{
-  height: 79vh;
+  height: 80vh;
   overflow-y:auto;
   width: 100%;
   margin-bottom: 1rem;
