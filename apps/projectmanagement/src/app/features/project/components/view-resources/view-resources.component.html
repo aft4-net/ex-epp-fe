@@ -1,5 +1,6 @@
-<nz-table  [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="false" 
-  [nzData]="projectResources" >
+
+  <nz-table style="padding: 0px " nzSize="small" [nzLoading]="loading" [nzData]="projectResources"
+  [nzShowPagination]="false" class="mb-2" >
   <thead>
     <tr>
       <th [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('resource',$event)"> Resources </th>

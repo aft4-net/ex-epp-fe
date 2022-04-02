@@ -403,33 +403,35 @@ editResourceOnCreateState()
       if (
         !this.projectCreateState.projectData.StartDate ||
         !startValue ||
-        new Date(this.projectCreateState.projectData.StartDate).getDate() ===
-          startValue.getDate()
+        formatDate( this.projectCreateState.projectData.StartDate,'yyyy-MM-dd','en_US') === 
+          formatDate(  startValue,'yyyy-MM-dd','en_US') 
       ) {
         return false;
       }
 
       if (
         this.projectCreateState.projectData.EndDate != null &&
-        typeof this.projectCreateState.projectData.EndDate != 'undefined'
+        typeof this.projectCreateState.projectData.EndDate != 'undefined' &&
+        this.projectCreateState.projectData.EndDate!=""
       )
         return (
-          startValue.getTime() <
-            new Date(this.projectCreateState.projectData.StartDate).getTime() ||
-          startValue.getTime() >
-            new Date(this.projectCreateState.projectData.EndDate).getTime()
-        );
+          formatDate(  startValue,'yyyy-MM-dd','en_US')  <
+         formatDate( this.projectCreateState.projectData.StartDate,'yyyy-MM-dd','en_US')
+             ||
+            formatDate(  startValue,'yyyy-MM-dd','en_US') >
+            formatDate( this.projectCreateState.projectData.EndDate,'yyyy-MM-dd','en_US')    
+         )
       else
         return (
-          startValue.getTime() <
-          new Date(this.projectCreateState.projectData.StartDate).getTime()
-        );
+          formatDate(  startValue,'yyyy-MM-dd','en_US')  <
+          formatDate( this.projectCreateState.projectData.StartDate,'yyyy-MM-dd','en_US') );
+        
     } else if (this.isOnEditstate) {
       if (
         !startValue ||
         !this.projectForResource.StartDate ||
-        new Date(this.projectForResource.StartDate).getDate() ==
-          startValue.getDate()
+        formatDate(  this.projectForResource.StartDate,'yyyy-MM-dd','en_US')
+        ==  formatDate(  startValue,'yyyy-MM-dd','en_US')
       ) {
         return false;
       }
@@ -438,16 +440,14 @@ editResourceOnCreateState()
         typeof this.projectForResource.EndDate != 'undefined'
       )
         return (
-          startValue.getTime() <
-            new Date(this.projectForResource.StartDate).getTime() ||
-          startValue.getTime() >
-            new Date(this.projectForResource.EndDate).getTime()
-        );
+          formatDate(  startValue,'yyyy-MM-dd','en_US') <
+          formatDate( this.projectForResource.StartDate,'yyyy-MM-dd','en_US') ||
+          formatDate(  startValue,'yyyy-MM-dd','en_US') >
+          formatDate( this.projectForResource.EndDate,'yyyy-MM-dd','en_US') 
+        )
       else
-        return (
-          startValue.getTime() <
-          new Date(this.projectForResource.StartDate).getTime()
-        );
+        return ( formatDate(  startValue,'yyyy-MM-dd','en_US') <
+          formatDate( this.projectForResource.StartDate,'yyyy-MM-dd','en_US') );
     }
     return false;
   };
