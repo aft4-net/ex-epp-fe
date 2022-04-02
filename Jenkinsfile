@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   stages {
-            stage('Git checkout')
+    stage('Git checkout')
         {
             steps{
               git credentialsId: 'jenkins-bitbucket-omeseret', url: 'https://bitbucket.org/Excellerent_Solutions/excellerent-epp-fe'
@@ -32,9 +32,9 @@ pipeline {
                         def identity=awsIdentity();//Log AWS credentials
 
                         // Upload files from working directory '' in your project workspace
-                        s3Upload(bucket:"www.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
+                        s3Upload(bucket:"qa.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
                         // invalidate CloudFront distribution
-                        cfInvalidate(distribution:'E3WDXQPENQXJU', paths:['/**/*'])
+                         cfInvalidate(distribution:'EMYS8NLRZ2ZZY', paths:['/**/*'])
                     }
 
                 };
@@ -42,7 +42,5 @@ pipeline {
             }
         }
     }
-
   }
-
 }

@@ -471,14 +471,10 @@ this.notification.error("This Client can not be deleted ",'becuase it is has a p
 // }
 
   SearchData(): void {
-    if (this.searchProject.value?.length > 1 ) {
-      const x = this.searchProject.value as string;
-      if(x.substring(x.length -1) === ' ') {
-        return;
-      }
+    if (this.searchProject.value?.trim().length > 1 ) { 
       this.loading = true;
       this._clientservice
-        .getWithPagnationResut(1, 10, this.searchProject.value)
+        .getWithPagnationResut(1, 10, this.searchProject.value.trim() )
         .subscribe((response: PaginatedResult<Client[]>) => {
           if (response?.data?.length && response?.data.length > 0) {
             this.loading = false;

@@ -78,8 +78,8 @@
 
 
 .overflow-scroll {
-  overflow-x: auto;
-  overflow-y: auto;
+  height: 60vh;
+  overflow-y: auto !important;
 }
 
 .layer {

@@ -54,8 +54,8 @@ export class FormGenerator extends FormGeneratorAssistant {
     public isProfile = false;
     private _validate = false;
     private _employee?: Employee;
-    public Guid?: string
-
+    public Guid?: string;
+    public useremail:any;
 
     get IsEdit(): boolean {
         return this._isEdit
@@ -85,26 +85,31 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _enableForms() {
-        this.organizationalForm.enable({ onlySelf: true });
-        this.personalDetailsForm.enable({ onlySelf: true });
+        this.organizationalForm.enable();
+        this.personalDetailsForm.enable();
     }
 
     private _disableForms() {
 
         if (this.isProfile) {
-            this.organizationalForm.disable({ onlySelf: true });
-            this.personalDetailsForm.disable({ onlySelf: true });
+            this.organizationalForm.disable();
+            this.personalDetailsForm.disable();
             if (this._permissionService.authorizedPerson('Update_My_Profile')) {
                 this.personalDetailsForm.get('phoneNumbers')?.enable();
                 this.personalDetailsForm.get('emailAddresses')?.enable()
             }
         } else if (this.IsEdit) {
             this.personalDetailsForm.get('employeeIdNumber')?.disable();
+            
+         
         } else {
             this.organizationalForm.get('status')?.disable();
         }
 
+       
     }
+
+    
 
     validatePersonalDetail() {
         this._validate = true;
@@ -127,6 +132,9 @@ export class FormGenerator extends FormGeneratorAssistant {
             valid = false;
         }
         this._disableForms();
+
+      
+        
         return valid;
     }
 
@@ -165,6 +173,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._validate = false;
 
     }
+    
     updateOneEmployee() {
         this._enableForms()
         let employee: Employee = {} as Employee
@@ -227,6 +236,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     getModelOrganizationDetails() {
         const value = this.organizationalForm.value
         let temprepmanager = "";
+       
         if (value.reportingManager == null) {
             console.log("it was empty");
             temprepmanager = "00000000-0000-0000-0000-000000000000";
@@ -234,10 +244,11 @@ export class FormGenerator extends FormGeneratorAssistant {
         else {
             temprepmanager = value.reportingManager;
         }
+        
         return {
             CountryId: value.country,
             DutyBranchId: value.dutyStation,
-            CompaynEmail: value.companyEmail[0],
+            CompaynEmail: value.companyEmail[0], 
             JobTitleId: value.jobTitle,
             DepartmentId: value.department,
 
@@ -315,6 +326,8 @@ export class FormGenerator extends FormGeneratorAssistant {
     }
 
     private _createOrganizationalnalDetailsForm() {
+
+
         return this._formBuilder.group({
             country: [null, validateRequired],
             dutyStation: [null, validateRequired],
@@ -477,6 +490,8 @@ export class FormGenerator extends FormGeneratorAssistant {
                 }
             }
         }
+        
+           
     }
 
     private _setPhoneArray(phoneNumbers: string[], formArray: FormArray) {
@@ -604,6 +619,7 @@ export class FormGenerator extends FormGeneratorAssistant {
         if (this.isProfile) {
             this.organizationalForm.disable({ onlySelf: true });
         }
+        
     }
 
     private _setAddressDetail(address: Address) {

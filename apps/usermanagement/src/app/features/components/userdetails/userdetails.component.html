@@ -54,7 +54,8 @@
             </div>
             <div style="margin-top:-10px">
              <a (click)="UpdateStatus()" *ngIf="authorize('Update_User')">
-              <nz-switch [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
+              <nz-switch [disabled]="employeeStatus === null || employeeStatus !== 'Active'" [ngModelOptions]="{standalone: true}" [(ngModel)]="isActive" 
+                [nz-tooltip]="isActive?'User Status: Active': 'User Status: Not Active'"
               ></nz-switch>
               </a>
             </div>
