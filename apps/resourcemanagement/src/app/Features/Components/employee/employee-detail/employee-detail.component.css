@@ -1,8 +1,9 @@
 .table_heading
 {
 background-color: #fafafa !important;
+font-style: normal;
 font-weight: 550;
-font-size:small;
+font-size: 1rem;
 }
 
 
@@ -83,6 +84,13 @@ nz-table.table-container.ant-table-wrapper {
   border: 1px solid #ddd !important;
 }
 
+::ng-deep .ant-table.ant-table-small .ant-table-tbody>tr>td
+{
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+color: #262626;
+}
 /* tr.ant-table-row.ng-star-inserted {
   height: 56px !important;
   padding:16px !important;
@@ -222,7 +230,8 @@ header {
 }
 
 .page{
-  height:83vh;
+  background-color: #fff;
+  height:81vh;
   margin-top: 8rem;
   overflow-y:auto;
  }

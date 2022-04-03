@@ -1,9 +1,8 @@
 <section>
 <div class="main-content " style="margin: 0px 24px;">
   <h1 class="tab-title">Departments</h1>
-  <div nz-row>
+  <div nz-row class="mb-2">
     <div nz-col nzSpan="18">
-    <nz-form-item>
       <nz-form-control class="search" style="height: 40px !important;"    [nzSm]="8" [nzXs]="10" nzErrorTip="Please input search!">
         <nz-input-group nzSearch [nzSuffix]="suffixIconSearch" >
           <input  (keyup)="onSearchChange($event)" type="text" nz-input placeholder="Search by department" />
@@ -12,7 +11,6 @@
           <i nz-icon nzType="search"></i>
         </ng-template>
       </nz-form-control>
-    </nz-form-item>
     </div>
     <div nz-col nzSpan="6">
       <button nz-button nzType="primary" style="float: right" *ngIf="authorize('Create_Department')" (click)="showAddModal()">
