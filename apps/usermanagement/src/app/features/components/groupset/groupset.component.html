@@ -1,6 +1,8 @@
+<section>
 <nz-layout  *ngIf="isLogin">
   <nz-content>
-    <div style="margin-top: -20px;" class="inner-content">
+  
+    <div  class="inner-content">
       <div nz-row>
           <div nz-col nzSpan="14" >
             <h2 class="PageHeader">
@@ -115,7 +117,7 @@
       <br/>
       <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" nzSpan="24">
-            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]=false [nzData]="groupList"
+            <nz-table [nzLoading]="loading" nzSize="small"  #rowSelectionTable [nzFrontPagination]=false [nzData]="groupList"
               nzTableLayout="auto">
               <thead>
                 <tr>
@@ -145,5 +147,7 @@
             nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
         </div>
     </div>
+
   </nz-content>
 </nz-layout>
+</section>

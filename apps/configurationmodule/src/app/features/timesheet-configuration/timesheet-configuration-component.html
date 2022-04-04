@@ -1,3 +1,4 @@
+<section>
 <h3 class="w-96 h-9 mt-6 ml-6 font-semibold text-xl  text-black">Time Settings</h3>
 
 <form [formGroup]="timesheetConfigForm" (ngSubmit)="saveTimesheetConfiguration()" class="mt-4 ml-6">
@@ -46,3 +47,4 @@
     </div>
     <button *ngIf="authorize('Update_Timesheet_Configuration')" nz-button nzType="primary" style="margin-top: 24px;">Save Changes</button>
 </form>
+</section>

@@ -84,10 +84,7 @@ header {
   color: #262626;
   }
   
-.tab-content {
-    padding:0px 20px 0px;
-  }
- 
+
 
   ::ng-deep .ant-tabs-tab {
   color: #363636 !important;
@@ -186,6 +183,10 @@ box-shadow: inset -2px 0px 0px #DADADA !important;
   font-size: 17px;
 }
 
+
+.page{
+ height: 78.2vh;
+}
 
 
 

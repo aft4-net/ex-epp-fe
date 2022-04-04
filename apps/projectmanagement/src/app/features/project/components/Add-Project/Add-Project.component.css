@@ -182,5 +182,19 @@ margin-bottom: 40%;
 
 
 
+.pageEdit{
+ height: 82%;
+ overflow-y:auto;
+ width: 100%;
+}
 
+.pageAdd{
+  height: 76.5vh;
+  overflow-y:auto;
+  width: 100%;
+ }
+
+ .tab-content {
+  padding:0px 20px 0px;
+}
 
