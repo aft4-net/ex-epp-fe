@@ -1,4 +1,5 @@
-<div class="breadcrumb">
+<header>
+<div class="breadcrumb mt-2">
   <nz-breadcrumb>
     <div nz-row>
       <div nz-col nzSpan="22">
@@ -7,14 +8,14 @@
         <nz-breadcrumb-item>
           <a [routerLink]="['/resourcemanagement']">Resources</a></nz-breadcrumb-item>
         <nz-breadcrumb-item *ngIf="!employeeService.isdefault && !isEdit;else editEmploye">
-          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a></nz-breadcrumb-item> <br />
+          <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Add Employee</a></nz-breadcrumb-item> 
          <ng-template #editEmploye>
           <nz-breadcrumb-item>
-            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> <br />
+            <a [routerLink]="['/resourcemanagement/employee/add-employee/personal-info']"> Edit Employee</a></nz-breadcrumb-item> 
          </ng-template>
         <h3 class="w-auto h-full font-semibold text-xl not-italic" *ngIf="!employeeService.isdefault && !isEdit;else updatEmployee">Add Employee</h3>
         <ng-template #updatEmployee>
-          <h3 class="w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
+          <h3 class=" w-auto h-full font-semibold text-xl not-italic"> Edit Employee</h3>
         </ng-template>
       </div>
 
@@ -22,13 +23,13 @@
   </nz-breadcrumb>
   </div>
 <exec-epp-page-title></exec-epp-page-title>
-<div nz-row style="position: absolute;">
-  <div nz-col nzSpan="6.5" >
+</header>
+<div nz-row  >
+  <div nz-col nzSpan="4" >
     <exec-epp-side-bar [active]="0"> </exec-epp-side-bar>
   </div>
-  <div nz-col nzSpan="13" class="inner-content">
+  <div nz-col nzSpan="20" class="inner-content">
       <exec-epp-personal-details-group></exec-epp-personal-details-group>
-
   </div>
 </div>
 

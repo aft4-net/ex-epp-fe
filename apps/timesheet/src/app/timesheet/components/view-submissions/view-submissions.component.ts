@@ -92,7 +92,7 @@ export class ViewSubmissionsComponent implements OnInit {
   timeSheetHistory: any;
   total = 0;
   loading = true;
-  pageSize = 9;
+  pageSize = 10;
   pageIndex = 1;
   idParam = '';
   totalPage!: number;

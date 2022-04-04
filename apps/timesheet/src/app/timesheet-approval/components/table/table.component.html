@@ -1,4 +1,4 @@
-<nz-table *ngIf="authorize('View_Timesheet') || authorize('View_Timesheet_Submissions')" class="manager-table"
+<nz-table nzSize="small" *ngIf="authorize('View_Timesheet') || authorize('View_Timesheet_Submissions')" class="manager-table"
           #basicTable [nzData]="rowData" [nzFrontPagination]=false
           (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
   <thead>

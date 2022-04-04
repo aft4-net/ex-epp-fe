@@ -1,6 +1,6 @@
-<div class=" mt-3 main_container_homepage">
 
-  <nz-breadcrumb nz-page-header-breadcrumb class="mt-3">
+  <div class=" mt-3 main_container_homepage">
+ <nz-breadcrumb nz-page-header-breadcrumb >
     <nz-breadcrumb-item> <a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>
       <a>Projects</a>
@@ -16,11 +16,10 @@
     </button>
   </div>
   <hr>
-  
-  <section class="projects ">
-    <div *ngIf="authorize('View_Project')">
-      <div nz-row>
-        <div class="search">
+</div>
+<div class="page  mt-1" *ngIf="authorize('View_Project')">
+  <section class="projects main_container_homepage" >
+        <div class="search" nz-row>
           <nz-input-group style="height: 33px; width: 320px;" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
             <input  [formControl]="searchProject" type="text" nz-input placeholder="Search by project name " />
           </nz-input-group>
@@ -29,9 +28,10 @@
           </ng-template>
           <ng-template>Try</ng-template>
         </div>
-      </div>
-      <nz-table [nzLoading]="loading" [nzData]="projects" #basicTable nzSize="small" [nzFrontPagination]="false"
-        class="mt-3">
+    
+    
+
+        <nz-table style="padding: 0px;" nzSize="small" [nzLoading]="loading" [nzData]="projects" #basicTable [nzShowPagination]="false" class="mt-3 mb-2" >
 
         <thead>
           <tr>
@@ -50,10 +50,11 @@
               nzColumnKey="email">Action</th>
           </tr>
         </thead>
+        
         <tbody>
 
           <tr *ngFor="let data of  basicTable.data; ">
-            <td>{{ data.ProjectName | titlecase }}</td>
+            <td>{{ data.ProjectName  }}</td>
             <td>
               <ng-template [ngIf]="data.Client?.ClientName ==='' || data.Client?.ClientName ===null "> N/A </ng-template>
               {{ data.Client?.ClientName | titlecase }}</td>
@@ -90,9 +91,11 @@
           nzSimple>
         </nz-pagination>
       </span>
-    </div>
+  
   </section>
+
 </div>
+
 <nz-modal (nzOnCancel)="confirmCancel()" [(nzVisible)]="deleteProjectModal"  [nzFooter]="null"
   [nzCentered]="true" [nzClosable]="true" nzClassName="delete-conform-modal" [nzTitle]="unassingnTitleTemplate">  
   <ng-template #unassingnTitleTemplate>

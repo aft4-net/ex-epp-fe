@@ -45,6 +45,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.projectCreateState.restAddProjectDetails();
+    this.projectResourceStateService.restUpdateProjectState();
     this.editProjectStateService.restUpdateProjectState();
   }
 

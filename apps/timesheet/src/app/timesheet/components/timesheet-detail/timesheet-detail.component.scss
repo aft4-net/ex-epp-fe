@@ -163,3 +163,21 @@
   line-height: 24px;
   color: #00a551;
 }
+
+
+@media screen and (min-width: 400px) {
+  .page{
+    height: 71vh;
+    overflow-y:scroll;
+   width: 100%;
+   }
+}
+
+ @media screen and (min-width: 800px) {
+  .page{
+    height: 73.5vh;
+    overflow-y:auto;
+   width: 100%;
+   }
+}
+

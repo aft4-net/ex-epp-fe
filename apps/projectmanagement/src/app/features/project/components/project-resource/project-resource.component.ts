@@ -21,4 +21,8 @@ export class ProjectResourceComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.projectResourceStateService.restUpdateProjectState();
   }
+  navaigateToProject() {
+    this.router.navigateByUrl('projectmanagement');
+    this.projectResourceStateService.restUpdateProjectState();
+  }
 }
