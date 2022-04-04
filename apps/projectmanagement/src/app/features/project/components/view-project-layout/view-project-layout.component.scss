@@ -305,14 +305,10 @@ color: #262626;
 
 
 
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
+hr { display: block; height: 1px;
+  border: 0; border-top: 1px solid #ccc;
+  margin: 1em 0; padding: 0; }
+
 
 .modalTitle{
   font-weight: 500;
@@ -320,15 +316,8 @@ hr {
 }
 
 
-.header {
-  position: fixed; 
-  top:3.30rem;
-  height: 15%;
-  width: 100%;
- }
 .page{
- height: 78%;
- margin-top: 8.60rem;
+ height: 77.5%;
  overflow-y:auto;
  margin-bottom: 1rem;
 }

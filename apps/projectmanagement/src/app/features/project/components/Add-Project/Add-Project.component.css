@@ -181,24 +181,17 @@ margin-bottom: 40%;
 
 
 
-.header {
-  position: fixed; 
-  top:3.30rem;
-  width: 100%;
- }
+
 .pageEdit{
  height: 82%;
- margin-top: 8.60rem;
  overflow-y:auto;
  width: 100%;
- margin-bottom: 1rem
 }
 
 .pageAdd{
   height: 76.5vh;
   overflow-y:auto;
   width: 100%;
-  margin-bottom: 1rem;
  }
 
  .tab-content {

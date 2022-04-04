@@ -1,7 +1,6 @@
 
 <nz-spin [nzSpinning]="loading" nzSize="large" class="loading-timesheet">
   <div>
-  <header>
     <app-timesheet-header class="md:flex lg:flex xl:flex ml-8 "
       [approval]="(approval$ | async) ?? false"
       [timesheetConfig]="(timesheetConfig$ | async)"
@@ -12,7 +11,6 @@
       [weekLastDate]="(timesheet$ | async)?.ToDate ?? null">
     </app-timesheet-header>
     <nz-divider style="margin: 0rem;"></nz-divider>  
-  </header>
     <router-outlet></router-outlet> 
   
   </div>

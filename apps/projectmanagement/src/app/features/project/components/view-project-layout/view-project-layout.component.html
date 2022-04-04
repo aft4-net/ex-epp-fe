@@ -1,5 +1,4 @@
 
-<div class="header">
   <div class=" mt-3 main_container_homepage">
  <nz-breadcrumb nz-page-header-breadcrumb >
     <nz-breadcrumb-item> <a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
@@ -18,12 +17,9 @@
   </div>
   <hr>
 </div>
-</div>
-<div class="page">
+<div class="page  mt-1" *ngIf="authorize('View_Project')">
   <section class="projects main_container_homepage" >
-    <div *ngIf="authorize('View_Project')">
-    
-        <div class="search mt-3" nz-row>
+        <div class="search" nz-row>
           <nz-input-group style="height: 33px; width: 320px;" [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
             <input  [formControl]="searchProject" type="text" nz-input placeholder="Search by project name " />
           </nz-input-group>
@@ -95,7 +91,7 @@
           nzSimple>
         </nz-pagination>
       </span>
-    </div>
+  
   </section>
 
 </div>

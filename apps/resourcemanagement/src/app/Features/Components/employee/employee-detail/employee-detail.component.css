@@ -232,6 +232,5 @@ header {
 .page{
   background-color: #fff;
   height:81vh;
-  margin-top: 8rem;
   overflow-y:auto;
  }

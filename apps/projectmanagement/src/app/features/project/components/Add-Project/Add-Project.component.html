@@ -1,4 +1,3 @@
-<div class="header">
 
 <header *ngIf="isOnEditstate" class="container_homepage mt-3">
   <nz-breadcrumb nz-page-header-breadcrumb>
@@ -23,7 +22,7 @@
   </div>
   <hr *ngIf="isOnEditstate" />
 </header>
-</div>
+
 <nz-spin [nzSpinning]="isSpinning"  [ngClass]="isOnEditstate ? 'pageEdit  ' : 'pageAdd '">
    <div   [ngClass]="isOnEditstate ? 'page-edit mt-1 ' : 'mt-2 tab-content  '">
 <div  *ngIf="!isOnEditstate" nz-row class="tab-title mb-1">Project Details</div>
