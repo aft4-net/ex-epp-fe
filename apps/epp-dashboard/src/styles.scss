@@ -241,6 +241,8 @@
   color: #00A551 !important;
 }
 
-body {
-  overflow: hidden !important;
+@media screen and (min-device-width: 768px) {
+  body {
+    overflow: hidden !important;
+  }
 }
