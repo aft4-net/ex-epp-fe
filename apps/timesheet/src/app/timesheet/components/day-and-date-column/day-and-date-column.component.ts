@@ -200,12 +200,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     return this.isFutureDate;
   }
 
-  timesheetApproved() {
+  timesheetApproved = (): boolean => {
     if (!this.timesheetApprovals) {
       return false;
     }
 
-    for (let tsa of this.timesheetApprovals) {
+    for (const tsa of this.timesheetApprovals) {
       if (tsa.Status === Object.values(ApprovalStatus)[1].valueOf()){
         continue;
       }
