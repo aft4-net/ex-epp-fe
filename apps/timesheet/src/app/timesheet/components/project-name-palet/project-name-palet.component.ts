@@ -40,7 +40,21 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.timeEntry) {
-      this.project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string)
+      const project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string);
+      if(project) {
+        this.project = { ...project };
+      }
+      else{
+        this.project = {
+          id: this.timeEntry?.ProjectId,
+          name: "N/A",
+          clientId: "N/A",
+          employeeId: "N/A",
+          startDate: new Date(0),
+          assignedDate: new Date(0),
+          endDate: new Date()
+        }
+      }
     }
     if (this.timesheetApproval && this.timesheetApproval.Status === Object.values(ApprovalStatus)[1].valueOf()) {
       this.projectNamePaletClass = "project-name-palet-approved";
