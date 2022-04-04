@@ -109,8 +109,9 @@
 .table_heading
 {
   background-color: #fafafa !important;
+  font-style: normal;
   font-weight: 550;
-  font-size:small;
+  font-size: 1rem;
 }
 
 .table_evenrow_heading
@@ -124,7 +125,7 @@ background-color: none !important;
 }
 
 .inner-content {
-  padding: 16px 24px;
+  padding: 10px 24px;
     background: #fff;
     height: 100%;
 }
@@ -146,11 +147,14 @@ nz-table.table-container.ant-table-wrapper {
 ::ng-deep .ant-tabs-tab.ant-tabs-tab-active {
   background:none !important;
 }
-
-tr.ant-table-row.ng-star-inserted {
-  height: 56px !important;
-  padding:16px !important;
+::ng-deep .ant-table.ant-table-small .ant-table-tbody>tr>td
+{
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+color: #262626;
 }
+
 .main_container_homepage {
   padding: 0px 2%;
 }
@@ -190,10 +194,7 @@ tr.ant-table-row.ng-star-inserted {
   border: 1px solid #ddd !important;
 }
 
-tr.ant-table-row.ng-star-inserted {
-  height: 56px !important;
-  padding:16px !important;
-}
+
 
 ::ng-deep .ant-table-content {
   font-size: 16px !important;
@@ -322,7 +323,7 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 
 
 .tdstyle{
-  font-size: small;
+  // font-size: small;
 }
 
 ::ng-deep .ant-spin-dot-item  {
@@ -338,3 +339,9 @@ button.actionButtons, button.actionButtons:hover, button.actionButtons:active {
 .pagination {
   margin-top:10px;
 }
+
+section{
+  height: 78vh;
+  overflow-y:auto;
+  background: #fff !important;
+ }

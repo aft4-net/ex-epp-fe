@@ -9,9 +9,8 @@ import { PermissionListService } from '../../../../../../../../libs/common-servi
 })
 export class ViewResourcesComponent implements OnInit {
   total = 0;
-  loading = false;
   isTablePagnation=true;
-  pageSize = 9;
+  pageSize = 10;
   pageIndex = 1;
  projectResourcesView: AssignResource[] = [];
   isOnEditstate = false;
@@ -37,8 +36,7 @@ export class ViewResourcesComponent implements OnInit {
       this.isOnEditstate = res;
     }); 
     if(this.isOnEditstate)
-     { this.isTablePagnation=false;   
-        this.loading = true;  
+     { this.isTablePagnation=false; 
         if(this.projectResourceStateService.project.ProjectType==='External')
         this.isProjectExternal=true;
       }
@@ -51,7 +49,6 @@ export class ViewResourcesComponent implements OnInit {
           this.PageIndexChange(1);
           this.pageIndex=1;
           this.total= this.projectResourcesView.length;
-          this.loading = false; 
           }
           else { 
     this.projectResources=res;       
@@ -76,7 +73,7 @@ export class ViewResourcesComponent implements OnInit {
   PageIndexChange(pageIndex:number)
   {
     this.pageIndex=pageIndex
-   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*9).slice(0,9);
+   this.projectResources=  this.projectResourcesView.slice((pageIndex-1)*10).slice(0,10);
   }
 
   nzSortOrderChange(SortColumn: string, direction: string | null) {
