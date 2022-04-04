@@ -115,18 +115,12 @@
       <br/>
       <div nz-row style="margin-top:-10px">
         <div nz-col class="gutter-row" nzSpan="24">
-            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupList"
+            <nz-table [nzLoading]="loading" nzSize="middle" #rowSelectionTable [nzFrontPagination]=false [nzData]="groupList"
               nzTableLayout="auto">
               <thead>
                 <tr>
-                  <th class="tdstyle defaultcolor" style="font-weight:bold" *ngFor="let column of listOfColumnsFullName"
-                    [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                    [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-
-                  <th class="tdstyle defaultcolor" style="font-weight:bold" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
-                    [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                    [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                    [nzFilterFn]="column.filterFn">{{ column.name }}</th>
+                  <th class="tdstyle defaultcolor" style="font-weight:bold" 
+                  [nzSortFn]="true" (nzSortOrderChange)="NameSortOrderChange($event)">Group Name</th>
                   <th class="tdstyle defaultcolor" style="font-weight:bold">Action</th>
                 </tr>
               </thead>
@@ -144,7 +138,9 @@
         </div>
       </div>
         <div class="pagination" nz-row nzJustify="end" *ngIf="groupList.length > 0">
-          <p>Showing {{beginingRow}} - {{lastRow}} of  {{totalRecord}} entries</p>
+          <p>Showing {{ this.pageSize * (this.pageIndex -1) + 1 }} -
+            {{ this.pageSize * (this.pageIndex) > this.totalRecord ? this.totalRecord : this.pageSize * (this.pageIndex) }} of
+            {{this.totalRecord}} entries</p>
           <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
             nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
         </div>

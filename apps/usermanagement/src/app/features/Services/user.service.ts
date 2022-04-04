@@ -32,12 +32,28 @@ export class UserService {
     userParams: UserParams
   ): Observable<PaginationResult<IUserModel[]>> {
     let params = new HttpParams(); 
-    if(userParams.userName)
+    if(userParams.searchKey)
     {
-      params = params.append("userName", userParams.userName.toString());
+      params = params.append("searchKey", userParams.searchKey.toString());
     }
     params = params.append("pageIndex", userParams.pageIndex.toString());
-    params = params.append("pageSize", userParams.pageSize.toString())
+    params = params.append("pageSize", userParams.pageSize.toString());
+    if(userParams.sortBy) {
+      params = params.append('sortBy', `${userParams.sortBy}`);
+    }
+    
+    if(userParams.sortOrder) {
+      params =params.append('sortOrder',`${userParams.sortOrder}`);
+    }
+    userParams.departmentFilter?.forEach(filter => {
+      params = params.append("departmentFilter", filter);
+    });
+    userParams.jobTitleFilter?.forEach(filter => {
+      params = params.append("jobTitleFilter", filter);
+    });
+    userParams.statusFilter?.forEach(filter => {
+      params = params.append("statusFilter", filter);
+    });
     return this.http
       .get<PaginationResult<IUserModel[]>>(this.baseUrl + '/GetUsersForDashboard',{ params }).pipe(
         map((result: any) => {
@@ -53,6 +69,14 @@ export class UserService {
           return this.paginatedResult;
         })
       );
+  }
+
+  GetDistinctDepartments() : Observable<ResponseDTO<any>> {
+    return this.http.get<ResponseDTO<any>>(this.baseUrl + "/GetDistinctDepartments");
+  }
+
+  GetDistinctJobTitles() : Observable<ResponseDTO<any>> {
+    return this.http.get<ResponseDTO<any>>(this.baseUrl + "/GetDistinctJobTitles");
   }
   
   LoadUsersNotAssignedToGroup(groupId: string) : Observable<ResponseDTO<IGroupUsersView>>{

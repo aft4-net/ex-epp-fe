@@ -29,6 +29,7 @@ export class GroupDetailComponent implements OnInit {
 
   groupParams =  new GroupParams();
   constructor(private groupSetService : GroupSetService, private _router: Router,
+              private route : ActivatedRoute,
               private fb: FormBuilder,private notification: NzNotificationService,
               private modal: NzModalService, private activatedRoute: ActivatedRoute,
               private _authenticationService:AuthenticationService,
@@ -301,7 +302,7 @@ export class GroupDetailComponent implements OnInit {
     this.groupSetService.DeleteGroup(this.groupId).subscribe(
       (result) => {
         this.createNotification('Deleting group',result.ResponseStatus.toString().toLocaleLowerCase(), result.Message);
-        this._router.navigateByUrl('usermanagement/group');
+        this._router.navigate(['../../groups'], { relativeTo: this.route });
       }
     )
   }

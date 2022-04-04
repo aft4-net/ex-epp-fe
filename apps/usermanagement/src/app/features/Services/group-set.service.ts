@@ -58,23 +58,23 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
     }
       
     SearchUsers(groupParams: GroupParams): Observable<PaginationResult<GroupSetModel[]>> {
-      let params = new HttpParams(); 
+      let params = new HttpParams();
       if(groupParams.searchKey)
       {
         params = params.append("searchKey", groupParams.searchKey.toString());
       }
       params = params.append("pageIndex", groupParams.pageIndex);
       params = params.append("pageSize", groupParams.pageSize);
-      return this.http
-        .get<PaginationResult<GroupSetModel[]>>(`${libEnvironment.apiUrl}/GroupSet`,{
-            params: {
-              searhKey: groupParams.searchKey,
-              pageIndex: groupParams.pageIndex,
-              pageSize: groupParams.pageSize,
-            },
-          
 
-        }).pipe(
+      if(groupParams.sortBy) {
+        params = params.append('sortBy', `${groupParams.sortBy}`);
+      }
+      
+      if(groupParams.sortOrder) {
+        params = params.append('sortOrder',`${groupParams.sortOrder}`);
+      }
+      return this.http
+        .get<PaginationResult<GroupSetModel[]>>(`${libEnvironment.apiUrl}/GroupSet?` + params.toString()).pipe(
           map((result: any) => {
             this.paginatedResult = {
               Data: result.Data,
