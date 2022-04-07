@@ -13,10 +13,10 @@ pipeline {
     stage('npm deploy')
         {
          steps{
-              sh 'npm -v'
-              sh 'git branch'
-              sh 'npm install'
-              sh 'npm run deploy'
+              bash 'npm -v'
+              bash 'git branch'
+              bash 'npm install'
+              bash 'npm run deploy'
             }
         }  
     stage('Upload to S3') {
