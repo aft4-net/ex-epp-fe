@@ -27,7 +27,7 @@ pipeline {
 
                     pwd(); //Log current directory
 
-                    withAWS(region:'eu-west-3', credentials: 'omeseret-aws-cred') {
+                    withAWS(region:'eu-west-3', credentials: 'omeseret-aws-key') {
 
                         def identity=awsIdentity();//Log AWS credentials
 
