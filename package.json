@@ -53,6 +53,7 @@
     "antd": "^4.17.1",
     "autoprefixer": "^10.3.7",
     "concurrently": "^7.0.0",
+    "exceljs": "^4.3.0",
     "msal": "^1.4.15",
     "msalx": "^0.1.2",
     "ng-zorro-antd": "^12.1.1",
