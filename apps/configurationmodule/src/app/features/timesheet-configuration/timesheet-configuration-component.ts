@@ -37,7 +37,6 @@ export class TimesheetConfigurationComponent implements OnInit {
    
  });
   notificationweek=Object.values(NotificationWeek);
-  weekEnum:any;
  
   constructor(
     private router: Router,
@@ -48,11 +47,8 @@ export class TimesheetConfigurationComponent implements OnInit {
   ) { 
   }
 
-  ngOnInit(): void {debugger;
-   this.weekEnum=Object.values(this.notificationweek!);
-   console.log(this.weekEnum)
-   console.log(this.notificationweek)
-    this._commonDataService.getPermission();
+  ngOnInit(): void {
+       this._commonDataService.getPermission();
 
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
