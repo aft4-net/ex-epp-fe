@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject } from 'rxjs';
-import { TimesheetConfiguration } from './../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration } from './../models/timesheetModels';
 import { ConfigurationService } from './../services/configuration.service';
 
 @Injectable({
@@ -11,7 +11,11 @@ export class TimesheetConfigurationStateService {
   readonly defaultTimesheetConfig: TimesheetConfiguration = {
     StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: [],
-    WorkingHours: {Min: 0, Max: 24}
+    WorkingHours: {Min: 0, Max: 24},
+    Deadline: {
+      DeadlineDate:"Friday",
+      Week: NotificationWeek.next_week
+    }
   };
 
   private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>(this.defaultTimesheetConfig);

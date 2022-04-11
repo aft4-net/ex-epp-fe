@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
-import { TimesheetConfiguration } from '../../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration, TimesheetDeadline } from '../../models/timesheetModels';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class TimesheetConfigurationComponent implements OnInit {
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();;
   timesheetConfig: TimesheetConfiguration = this.timesheetConfigStateService.defaultTimesheetConfig;;
   timesheetConfigForm = new FormGroup({
-    startOfWeek: new FormControl('Monday'),
+    startOfWeek: new FormControl(),
     workingDays: new FormGroup({
       monday: new FormControl(true),
       tuesday: new FormControl(true),
@@ -29,18 +29,29 @@ export class TimesheetConfigurationComponent implements OnInit {
     workingHours: new FormGroup({
       min: new FormControl(0),
       max: new FormControl(24)
-    })
-  });
-
+    }),
+    deadline: new FormGroup({
+      deadlineDate : new FormControl(),
+      week : new FormControl()
+    }),
+   
+ });
+  notificationweek=Object.values(NotificationWeek);
+  weekEnum:any;
+ 
   constructor(
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
     private _permissionService:PermissionListService,
-    private _commonDataService: CommonDataService
+    private _commonDataService: CommonDataService,
+   
   ) { 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {debugger;
+   this.weekEnum=Object.values(this.notificationweek!);
+   console.log(this.weekEnum)
+   console.log(this.notificationweek)
     this._commonDataService.getPermission();
 
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
@@ -62,8 +73,20 @@ export class TimesheetConfigurationComponent implements OnInit {
         workingHours: {
           min: this.timesheetConfig.WorkingHours.Min,
           max: this.timesheetConfig.WorkingHours.Max
-        }
-      });
+        },
+        deadline:{
+         deadlineDate:{ 
+         monday: this.timesheetConfig.WorkingDays.indexOf("Monday") >= 0,
+         tuesday: this.timesheetConfig.WorkingDays.indexOf("Tuesday") >= 0,
+         wednesday: this.timesheetConfig.WorkingDays.indexOf("Wednesday") >= 0,
+         thursday: this.timesheetConfig.WorkingDays.indexOf("Thursday") >= 0,
+         friday: this.timesheetConfig.WorkingDays.indexOf("Friday") >= 0,
+         saturday: this.timesheetConfig.WorkingDays.indexOf("Saturday") >= 0,
+         sunday: this.timesheetConfig.WorkingDays.indexOf("Sunday") >= 0,
+        },
+        week:this.timesheetConfig.Deadline.Week,
+        
+      }});
     });
 
     if(!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
@@ -71,9 +94,11 @@ export class TimesheetConfigurationComponent implements OnInit {
     }
   }
 
-  saveTimesheetConfiguration() {
-    const configValues = this.timesheetConfigForm.value;
 
+  saveTimesheetConfiguration() {debugger;
+    
+     const configValues = this.timesheetConfigForm.value;
+console.log(this.notificationweek)
     const timesheetConfig: TimesheetConfiguration = {
       StartOfWeeks: [
         {
@@ -85,6 +110,10 @@ export class TimesheetConfigurationComponent implements OnInit {
       WorkingHours: {
         Min: configValues.workingHours.min,
         Max: configValues.workingHours.max
+      },
+      Deadline:{
+        DeadlineDate:configValues.deadline.deadlineDate,
+        Week:configValues.deadline.week
       }
     }
 
