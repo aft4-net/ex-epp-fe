@@ -8,10 +8,16 @@ export interface WorkingHours {
     Max: number;
 }
 
+export interface TimesheetEscalation {
+    ToSupervisor: number;
+    ToHR: number;
+}
+
 export interface TimesheetConfiguration {
     StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
     WorkingHours: WorkingHours;
+    TimesheetEscalation: TimesheetEscalation;
 }
 
 interface Response {

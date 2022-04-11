@@ -29,7 +29,13 @@ export class TimesheetConfigurationComponent implements OnInit {
     workingHours: new FormGroup({
       min: new FormControl(0),
       max: new FormControl(24)
-    })
+    }),
+    timesheetEscalation: new FormGroup(
+      {
+        toSupervisor: new FormControl(1),
+        toHR: new FormControl(2)
+      }
+    )
   });
 
   constructor(
@@ -62,6 +68,10 @@ export class TimesheetConfigurationComponent implements OnInit {
         workingHours: {
           min: this.timesheetConfig.WorkingHours.Min,
           max: this.timesheetConfig.WorkingHours.Max
+        },
+        timesheetEscalation: {
+          toSupervisor: this.timesheetConfig.TimesheetEscalation.ToSupervisor,
+          toHR: this.timesheetConfig.TimesheetEscalation.ToHR
         }
       });
     });
@@ -85,6 +95,10 @@ export class TimesheetConfigurationComponent implements OnInit {
       WorkingHours: {
         Min: configValues.workingHours.min,
         Max: configValues.workingHours.max
+      },
+      TimesheetEscalation: {
+        ToSupervisor: configValues.timesheetEscalation.toSupervisor,
+        ToHR: configValues.timesheetEscalation.toHR
       }
     }
 

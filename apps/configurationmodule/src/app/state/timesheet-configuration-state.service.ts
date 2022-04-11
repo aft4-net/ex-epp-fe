@@ -10,8 +10,9 @@ import { ConfigurationService } from './../services/configuration.service';
 export class TimesheetConfigurationStateService {
   readonly defaultTimesheetConfig: TimesheetConfiguration = {
     StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [],
-    WorkingHours: {Min: 0, Max: 24}
+    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    WorkingHours: {Min: 8, Max: 24},
+    TimesheetEscalation: {ToSupervisor: 1, ToHR: 2}
   };
 
   private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>(this.defaultTimesheetConfig);
