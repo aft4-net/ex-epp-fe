@@ -71,7 +71,7 @@
           <nz-select nzShowSearch nzAllowClear id="clientName" formControlName="client"
             nzPlaceHolder="Select client Name">
             <ng-container *ngFor="let client of clients">
-              <nz-option *ngIf="client.ClientName !== 'Internal'" nzLabel="{{ client.ClientName | titlecase }}"
+              <nz-option *ngIf="client.ClientName !== 'Internal' && client.ClientName !== 'Leave' " nzLabel="{{ client.ClientName | titlecase }}"
                 [nzValue]="client.Guid"></nz-option>
             </ng-container>
           </nz-select>
