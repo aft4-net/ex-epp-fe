@@ -43,6 +43,12 @@ export class TimesheetService {
 
   }
 
+  setHours(date: Date) {
+    const hours = (date.getTimezoneOffset() / 60) * -1
+
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, 0, 0, 0);
+  }
+
   //#region timesheet and timeEntry
 
   getTimeSheet(userId: string, date?: Date) {
@@ -53,8 +59,8 @@ export class TimesheetService {
     } else {
       fromDate = this.dayAndDateService.getWeeksFirstDate(new Date());
     }
-    fromDate.setHours(3, 0, 0, 0);
 
+    fromDate = this.setHours(fromDate);
 
     let params = new HttpParams();
 
@@ -90,15 +96,7 @@ export class TimesheetService {
     params = params.append('requestedForApproval', requestedForApproval);
 
     if (date) {
-      date = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        3,
-        0,
-        0,
-        0
-      );
+      date = this.setHours(date);
       params = params.append('date', date.toISOString());
     }
 
@@ -119,6 +117,8 @@ export class TimesheetService {
 
     let params = new HttpParams();
 
+    timeEntry.Date = this.setHours(new Date(timeEntry.Date));
+
     params = params.append('employeeId', employeeId);
 
     return this.http.post<TimeEntryResponse>(this.baseUrl + 'timeentries', timeEntry, {
@@ -132,6 +132,8 @@ export class TimesheetService {
 
     let params = new HttpParams();
 
+    timeEntries.forEach(te => te.Date = this.setHours(new Date(te.Date)));
+
     params = params.append('employeeId', employeeId);
 
     return this.http.post<TimeEntriesResponse>(
@@ -143,6 +145,8 @@ export class TimesheetService {
 
   updateTimeEntry(timeEntry: TimeEntry) {
     const headers = { 'content-type': 'application/json' };
+
+    timeEntry.Date = this.setHours(new Date(timeEntry.Date));
 
     return this.http.put<TimeEntryResponse>(
       this.baseUrl + 'timeentries',
