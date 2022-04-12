@@ -71,27 +71,19 @@ export class TimesheetConfigurationComponent implements OnInit {
           max: this.timesheetConfig.WorkingHours.Max
         },
         deadline:{
-         deadlineDate:{ 
-         monday: this.timesheetConfig.WorkingDays.indexOf("Monday") >= 0,
-         tuesday: this.timesheetConfig.WorkingDays.indexOf("Tuesday") >= 0,
-         wednesday: this.timesheetConfig.WorkingDays.indexOf("Wednesday") >= 0,
-         thursday: this.timesheetConfig.WorkingDays.indexOf("Thursday") >= 0,
-         friday: this.timesheetConfig.WorkingDays.indexOf("Friday") >= 0,
-         saturday: this.timesheetConfig.WorkingDays.indexOf("Saturday") >= 0,
-         sunday: this.timesheetConfig.WorkingDays.indexOf("Sunday") >= 0,
-        },
-        week:this.timesheetConfig.Deadline.Week,
-        
-      }});
+         deadlineDate:this.timesheetConfig.Deadline.DeadlineDate,
+         week:this.timesheetConfig.Deadline.Week,
+         },
+      });
     });
-
+console.log(this.timesheetConfigForm.value)
     if(!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
       this.timesheetConfigForm.disable();
     }
   }
 
 
-  saveTimesheetConfiguration() {debugger;
+  saveTimesheetConfiguration() {
     
      const configValues = this.timesheetConfigForm.value;
 console.log(this.notificationweek)
@@ -162,4 +154,5 @@ console.log(this.notificationweek)
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
   }
+
 }
