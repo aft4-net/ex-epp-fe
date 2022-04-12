@@ -10,13 +10,20 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@exec-epp/core-models": ["libs/core-model/src/index.ts"],
-      "@exec-epp/core-services": ["libs/core-services/src/index.ts"],
+      "@exec-epp/core-models": [
+        "libs/core-model/src/index.ts"
+      ],
+      "@exec-epp/core-services": [
+        "libs/core-services/src/index.ts"
+      ],
       "@exec-epp/core-services/a-base-services": [
         "libs/core-services/a-base-services/src/index.ts"
       ],
@@ -29,9 +36,16 @@
       "@exec-epp/core-services/employees-services": [
         "libs/core-services/employees-services/src/index.ts"
       ],
-      "@exec-epp/ng-zorro": ["libs/ng-zorro/src/index.ts"],
-      "@exec-epp/shared-components": ["libs/shared-components/src/index.ts"]
+      "@exec-epp/ng-zorro": [
+        "libs/ng-zorro/src/index.ts"
+      ],
+      "@exec-epp/shared-components": [
+        "libs/shared-components/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
