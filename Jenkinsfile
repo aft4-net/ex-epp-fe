@@ -31,19 +31,12 @@ pipeline{
                  branch 'release'
              }
          steps{
-<<<<<<< HEAD
-              bash 'npm -v'
-              bash 'git branch'
-              bash 'npm install'
-              bash 'npm run deploy'
-=======
               sh 'npm -v'
               sh 'git branch -D release || true'
               sh 'git checkout -b release origin/release'
               sh 'git branch'
               sh 'npm install'
               sh 'npm run deploy'
->>>>>>> develop
             }
         }
         stage('npm deploy for master')
@@ -71,16 +64,12 @@ pipeline{
 
                     pwd(); //Log current directory
 
-<<<<<<< HEAD
-                    withAWS(region:'eu-west-3', credentials: 'omeseret-aws-key') {
-=======
                     withAWS(region:'eu-west-3', credentials: 'blens-aws-cred') {
->>>>>>> develop
 
                         def identity=awsIdentity();//Log AWS credentials
 
                         // Upload files from working directory '' in your project workspace
-                        s3Upload(bucket:"www.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
+                        s3Upload(bucket:"qa.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
                         // invalidate CloudFront distribution
                          cfInvalidate(distribution:'EMYS8NLRZ2ZZY', paths:['/**/*'])
                     }
