@@ -1,3 +1,4 @@
+
 <header *ngIf="isOnEditstate" class="container_homepage mt-3">
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>
@@ -22,10 +23,10 @@
   <hr *ngIf="isOnEditstate" />
 </header>
 
-<nz-spin [nzSpinning]="isSpinning">
-  <div [ngClass]="isOnEditstate ? 'page-edit' : ''">
+<nz-spin [nzSpinning]="isSpinning"  [ngClass]="isOnEditstate ? 'pageEdit  ' : 'pageAdd '">
+   <div   [ngClass]="isOnEditstate ? 'page-edit mt-1 ' : 'mt-2 tab-content  '">
 <div  *ngIf="!isOnEditstate" nz-row class="tab-title mb-1">Project Details</div>
-    <form class="w-full max-w-4xl" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">
+    <form class="w-full max-w-4xl mb-2" nz-form [nzLayout]="'vertical'" [formGroup]="validateForm">
       <nz-form-item>
         <nz-form-label class="" [nzSm]="6" [nzXs]="24" nzFor="projectName">Project Name &nbsp;
           <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
@@ -70,7 +71,7 @@
           <nz-select nzShowSearch nzAllowClear id="clientName" formControlName="client"
             nzPlaceHolder="Select client Name">
             <ng-container *ngFor="let client of clients">
-              <nz-option *ngIf="client.ClientName !== 'Internal'" nzLabel="{{ client.ClientName | titlecase }}"
+              <nz-option *ngIf="client.ClientName !== 'Internal' && client.ClientName !== 'Leave' " nzLabel="{{ client.ClientName | titlecase }}"
                 [nzValue]="client.Guid"></nz-option>
             </ng-container>
           </nz-select>

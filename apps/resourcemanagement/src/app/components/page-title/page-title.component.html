@@ -6,7 +6,7 @@
     <div nz-col nzSpan="4"
     *ngIf="(authorize('Update_My_Profile') || authorize('Create_Employee') || authorize('Update_Employee') || authorize('Employee_Admin'))">
       <div nz-row>
-        <div nz-col nzSpan="8">
+        <div nz-col nzSpan="8" class="mr-2">
           <button nz-button [disabled]="isClicked" (click)="saveNext()" class="saveButton">{{save}}</button>
         </div>
         <div nz-col nzSpan="8">

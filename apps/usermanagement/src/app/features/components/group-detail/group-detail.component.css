@@ -278,10 +278,6 @@ tr.ant-table-row.ng-star-inserted {
   font-size: small;
 }
 
-::ng-deep .defaultcolor .anticon {
-  color: gray !important;
-}
-
 ::ng-deep .defaultcolor .ant-table-filter-open {
   color: #595959;
 }
@@ -305,3 +301,8 @@ tr.ant-table-row.ng-star-inserted {
   inline-size: 600px;
   overflow-wrap: break-word;
 }
+section{
+  height: 79vh;
+  overflow-y:auto;
+  background: #fff;
+ }

@@ -26,7 +26,7 @@ export class AddresourceComponent implements OnInit {
     private employeeService: EmployeeService
   ) {}
  
-  loading = false;
+  loading = true;
   resources: projectResourceType[] = [] as projectResourceType[];
   employees: Employee[] = [];
   asignedResourseToEdit!: AssignResource;
@@ -50,6 +50,7 @@ export class AddresourceComponent implements OnInit {
     });
 
     if (!this.isOnEditstate) 
+  {this.loading=false;
     this.projectCreateState.state$.subscribe(res=>{
       this.projectCreate=res;
       if(this.projectCreate?.ProjectType==='External')
@@ -57,6 +58,7 @@ export class AddresourceComponent implements OnInit {
       else
       this.isProjectExternal=false;
     })
+  }
   this.getResources();
   this.createForm();
   this.valueChangeFormValidation()
@@ -73,18 +75,17 @@ export class AddresourceComponent implements OnInit {
 
   getResources()
   {
+    this.projectForResource = this.projectResourceStateService.project;  
+    if(this.projectForResource?.ProjectType==='External')
+    this.isProjectExternal=true;
+      
+    if(this.authorize('Assign_Resource'))
     this.employeeService.getAll().subscribe((response: Employee[]) => {
       this.employees =  response.filter(p=>p.IsActive && !p.IsDeleted);
       if (this.projectResourceStateService.isOnEditstate) {
-
-        this.projectForResource = this.projectResourceStateService.project;
-        
-        if(this.projectForResource?.ProjectType==='External')
-                this.isProjectExternal=true;
         this.projectResourceStateService.projectResourceList$.subscribe(
           (res) => {
             this.projectResources= res;
- 
             if ( this.projectResources)
               this.projectResources.forEach((p) => {
                 this.employees = this.employees.filter(
@@ -94,8 +95,11 @@ export class AddresourceComponent implements OnInit {
           }
         );
         this.sortEmployees();
+        this.loading=false;
       }
     });
+    else
+    this.loading=false;
   }
 
   valueChangeFormValidation()
@@ -403,33 +407,35 @@ editResourceOnCreateState()
       if (
         !this.projectCreateState.projectData.StartDate ||
         !startValue ||
-        new Date(this.projectCreateState.projectData.StartDate).getDate() ===
-          startValue.getDate()
+        formatDate( this.projectCreateState.projectData.StartDate,'yyyy-MM-dd','en_US') === 
+          formatDate(  startValue,'yyyy-MM-dd','en_US') 
       ) {
         return false;
       }
 
       if (
         this.projectCreateState.projectData.EndDate != null &&
-        typeof this.projectCreateState.projectData.EndDate != 'undefined'
+        typeof this.projectCreateState.projectData.EndDate != 'undefined' &&
+        this.projectCreateState.projectData.EndDate!=""
       )
         return (
-          startValue.getTime() <
-            new Date(this.projectCreateState.projectData.StartDate).getTime() ||
-          startValue.getTime() >
-            new Date(this.projectCreateState.projectData.EndDate).getTime()
-        );
+          formatDate(  startValue,'yyyy-MM-dd','en_US')  <
+         formatDate( this.projectCreateState.projectData.StartDate,'yyyy-MM-dd','en_US')
+             ||
+            formatDate(  startValue,'yyyy-MM-dd','en_US') >
+            formatDate( this.projectCreateState.projectData.EndDate,'yyyy-MM-dd','en_US')    
+         )
       else
         return (
-          startValue.getTime() <
-          new Date(this.projectCreateState.projectData.StartDate).getTime()
-        );
+          formatDate(  startValue,'yyyy-MM-dd','en_US')  <
+          formatDate( this.projectCreateState.projectData.StartDate,'yyyy-MM-dd','en_US') );
+        
     } else if (this.isOnEditstate) {
       if (
         !startValue ||
         !this.projectForResource.StartDate ||
-        new Date(this.projectForResource.StartDate).getDate() ==
-          startValue.getDate()
+        formatDate(  this.projectForResource.StartDate,'yyyy-MM-dd','en_US')
+        ==  formatDate(  startValue,'yyyy-MM-dd','en_US')
       ) {
         return false;
       }
@@ -438,16 +444,14 @@ editResourceOnCreateState()
         typeof this.projectForResource.EndDate != 'undefined'
       )
         return (
-          startValue.getTime() <
-            new Date(this.projectForResource.StartDate).getTime() ||
-          startValue.getTime() >
-            new Date(this.projectForResource.EndDate).getTime()
-        );
+          formatDate(  startValue,'yyyy-MM-dd','en_US') <
+          formatDate( this.projectForResource.StartDate,'yyyy-MM-dd','en_US') ||
+          formatDate(  startValue,'yyyy-MM-dd','en_US') >
+          formatDate( this.projectForResource.EndDate,'yyyy-MM-dd','en_US') 
+        )
       else
-        return (
-          startValue.getTime() <
-          new Date(this.projectForResource.StartDate).getTime()
-        );
+        return ( formatDate(  startValue,'yyyy-MM-dd','en_US') <
+          formatDate( this.projectForResource.StartDate,'yyyy-MM-dd','en_US') );
     }
     return false;
   };
@@ -456,10 +460,6 @@ editResourceOnCreateState()
     this.removeResourceModel = false;
   }
 
-  navaigateToProject() {
-    this.router.navigateByUrl('projectmanagement');
-    this.projectResourceStateService.restUpdateProjectState();
-  }
   authorize(key: string) {
     return this.permissionList.authorizedPerson(key);
   }

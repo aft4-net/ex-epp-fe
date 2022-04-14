@@ -358,7 +358,7 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
   
 
 
-  updateSingleChecked(event: any, index: number, guid: string): void {
+  updateSingleChecked(event: any, index: number, guid: string): void { 
     if (event) {
       let found=false;
       this.listOfPermistion[index].Childs.forEach(element => {
@@ -366,7 +366,536 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
           found=true;
           this.updateAllPermissionChecked(event,index)
         }
+        
+        //my new added
+     
+        if(element.ParentCode != "006")
+        {
+          console.log(element.value + "--->"+ element.Name);
+        if(guid ==element.Guid && element.value =="Create_Client"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Client"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+            }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Client"){
+         
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Client"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.Name =="updategroup"){
+         
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.Name == "viewgroup"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Client"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Client"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Add_User"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_User"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_User"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_User"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_User"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_User"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Submit_Timesheet"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Timesheet"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Edit_Timesheet"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Timesheet"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Timesheet"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Timesheet"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Create_Project"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Project"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Project"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Project"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Project"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Project"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Resources"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Resources"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Resources"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Resources"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Assign_Resource"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Resources"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+          if(guid ==element.Guid && element.value =="Assign_Client"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Client"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Create_Employee"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Employee"){
+              
+              item.checked = true;          
+              found=false;
+
+              this.selectedPermissionList = [
+                ...this.selectedPermissionList,
+                { Guid: item.Guid,
+                 },
+              ];
+             
+            }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Employee"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Employee"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Employee"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Employee"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Create_Group"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Group"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Group"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Group"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Group"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Group"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value.trim() =="Remove_Client"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Client"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+      }
+      else{
+        console.log(element.value);
+        if(guid ==element.Guid && element.value =="Create_Department"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Department"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Department"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Department"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Department"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Department"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Create_Role"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Role"){
+            item.checked = true;
+            found=false; 
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Role"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Role"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Delete_Role"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Role"){
+            item.checked = true;
+            found=false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Create_Timesheet_Configuration"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Timesheet_Configuration"){
+            item.checked = true;
+            found = false;
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+            }
+          })
+        }
+        if(guid ==element.Guid && element.value =="Update_Timesheet_Configuration"){
+         
+          this.listOfPermistion[index].Childs.forEach((item) =>{
+           
+            if(item.value == "View_Timesheet_Configuration"){
+              
+            item.checked = true;
+            found = false;  
+
+            this.selectedPermissionList = [
+              ...this.selectedPermissionList,
+              { Guid: item.Guid,
+               },
+            ];
+          }
+          })
+        }
+      }
+
       });
+
      if(!found){
       this.selectedPermissionList = [
         ...this.selectedPermissionList,
@@ -374,7 +903,7 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
       ];
      }
     } else {
-
+     
       let count = 0;
       this.selectedPermissionList.forEach((element) => {
         if (element.Guid == guid) {
@@ -383,6 +912,7 @@ for (let i = 0; i < this.listOfPermistion.length; i++) {
         count++;
       });
     }
+
     if (this.listOfPermistion[index].Childs.every((item) => !item.checked)) {
       this.listOfPermistion[index].Parent.checkAll = false;
       this.listOfPermistion[index].Parent.indeterminate = false;

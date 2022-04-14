@@ -37,10 +37,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   @Input() timesheetreview: TimeEntry[] | null = null;
   @Output() moreTimeEntries: EventEmitter<number> = new EventEmitter();
 
-  totalHours: number = 0;
-  dateColumnHighlightClass: string = "date-column-with-highlight";
+  totalHours = 0;
+  dateColumnHighlightClass = "date-column-with-highlight";
   morePopover = false;
-  index: number = 0;
+  index = 0;
   overflow = false;
   moreEntries: any[] = [];
   overflowPt?: number = 0;
@@ -67,8 +67,9 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     this.timeEntries = this.timeEntries?.filter(te => new Date(te.Date).valueOf() === this.date.valueOf()) ?? null;
 
     if (this.timeEntries) {
-      let totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
+      const totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
+      this.sortTimeEntries();
     }
 
     let today = new Date();
@@ -91,6 +92,40 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     else {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
+  }
+
+  sortTimeEntries() {
+    this.timeEntries = this.timeEntries?.sort((a, b) => {
+      const a_status = this.timesheetApprovals?.find(tsa => tsa.ProjectId === a.ProjectId)?.Status;
+      const b_status = this.timesheetApprovals?.find(tsa => tsa.ProjectId === b.ProjectId)?.Status;
+
+      if(!a_status && !b_status) {
+        return 0;
+      }
+      else if(!b_status) {
+        return -1;
+      }
+      else if(!a_status) {
+        return 1;
+      }
+
+      if(a_status.toString() === b_status.toString()) {
+        return 0;
+      }
+      else if(a_status.toString() === "Approved") {
+        return -1;
+      }
+      else if(b_status.toString() === "Approved") {
+        return 1;
+      }
+      else if(a_status.toString() === "Rejected") {
+        return -1;
+      }
+      else if(b_status.toString() === "Rejected") {
+        return 1;
+      }
+      return 0;
+    }) ?? null;
   }
 
   onProjectNamePaletClicked(timeEntryEvent: TimeEntryEvent) {
@@ -205,7 +240,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       return false;
     }
 
-    for (let tsa of this.timesheetApprovals) {
+    for (const tsa of this.timesheetApprovals) {
       if (tsa.Status === Object.values(ApprovalStatus)[1].valueOf()){
         continue;
       }
