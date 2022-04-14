@@ -23,9 +23,10 @@ export class NotificationConfigurationComponent implements OnInit {
   public weekConfig= NotificationWeek ;
   isCurrentWeek=this.weekConfig.next_week;
   arrConfig=this.weekConfig as unknown as Array<string>;
-  time: Date | null = null;
+  time: number =new Date().setHours(6);
   defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
   selectedWeekConfig: any;
+
   constructor(   
     private timesheetConfigStateService: TimesheetConfigurationStateService,
   ) { }
@@ -40,7 +41,7 @@ export class NotificationConfigurationComponent implements OnInit {
    this.notificationConfigForm.setValue({
    
       deadlineDate : this.timesheetConfig.Deadline?.DeadlineDate,
-      deadlineTime:this.timesheetConfig.Deadline?.DeadlineTime,
+      deadlineTime:new Date().setHours(this.timesheetConfig.Deadline?.DeadlineTime!),
       deadlineWeek : this.selectedWeekConfig
    });
   });
@@ -53,7 +54,7 @@ export class NotificationConfigurationComponent implements OnInit {
 
     const deadlineConfig: TimesheetNotificationConfiguration= {
       DeadlineDate : configFormValues.deadlineDate,
-      DeadlineTime:configFormValues.deadlineTime,
+      DeadlineTime:configFormValues.deadlineTime.getHours(),
       Week : configFormValues.deadlineWeek
     }
     this.timesheetConfig.Deadline=deadlineConfig;debugger;

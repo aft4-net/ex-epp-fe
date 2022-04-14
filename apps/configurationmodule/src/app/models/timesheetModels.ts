@@ -1,3 +1,5 @@
+import { Data } from "@angular/router";
+
 export interface StartOfWeek {
     DayOfWeek: string;
     EffectiveDate: Date;
@@ -20,17 +22,12 @@ export interface TimesheetNotificationConfiguration{
     DeadlineTime: number;
     Week : NotificationWeek;
 }
-export enum DaySection{
-    am,
-    pm
-}
-
-
 
 
 export enum NotificationWeek {
+    current_week = "Current week",
    next_week= "Following week",
-  current_week = "Current week",
+  
  }
 
 interface Response {
