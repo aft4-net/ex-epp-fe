@@ -148,7 +148,6 @@ input {
 }
 
 .tab-title{
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 22px;
@@ -167,3 +166,8 @@ input {
     font-size: 16px;
     color: #595959;
   }
+
+  section{
+    height: 80vh;
+    overflow-y:auto;
+   }

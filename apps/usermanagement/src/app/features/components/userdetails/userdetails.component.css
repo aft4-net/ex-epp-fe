@@ -245,3 +245,10 @@
 .ant-avatar {
   margin-top: -40px !important
 }
+
+
+section{
+  height: 79vh;
+  overflow-y:auto;
+  background: white;
+ }

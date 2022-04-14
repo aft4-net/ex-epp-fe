@@ -75,8 +75,11 @@ button.is-yellow {
   border-color: #00A551;
 
   background-color: white;;
+}
 
 
-
+.tab-content {
+  height: 67vh;
+  overflow-y: auto;
 }
 

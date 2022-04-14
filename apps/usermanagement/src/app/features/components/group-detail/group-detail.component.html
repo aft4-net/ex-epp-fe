@@ -1,4 +1,6 @@
+
 <nz-layout  *ngIf="isLogin">
+  <section>
   <nz-content>
       <div style="margin-top: -20px;" class="inner-content">
         <div nz-row>
@@ -125,7 +127,7 @@
                 </div>
               </div>
               <br>
-              <nz-table nzSize="middle" #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupUserList"
+              <nz-table nzSize="small" #rowSelectionTable [nzFrontPagination]="false" [nzData]="groupUserList"
                   nzTableLayout="auto">
                   <div *ngIf="groupUserList.length > 0; else normalHeader">
                     <thead>
@@ -189,4 +191,5 @@
         </div>
       </div>
   </nz-content>
+</section>
 </nz-layout>

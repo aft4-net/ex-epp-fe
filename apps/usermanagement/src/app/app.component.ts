@@ -41,27 +41,18 @@ constructor(public _commonData:CommonDataService,
 ngOnInit(): void {
   this.isLogin=this._authenticationService.loginStatus();
   if(!this.isLogin){
-   // window.location.reload();
+    // window.location.reload();
     //this.router.navigateByUrl('usermanagement/sign_in');
     this.router.navigateByUrl('usermanagement/logIn');
   }
   else{
-    let route ='usermanagement';
     this._commonData.permissionList$.subscribe(res => {
-      // if(res.map(res => res.KeyValue).indexOf("View_User") === -1) {
-      //   route =this.route= 'usermanagement/group';
-      // }
-      // else {
-      //   route = 'usermanagement'
-      // }
-      // this.router.navigateByUrl(route);
-      
       if(res.map(res => res.KeyValue).length > 0 && res.map(res => res.KeyValue).indexOf("View_User") === -1 && this.router.url == '/usermanagement') {
         this.groupsIsActive = true;
-        this.router.navigateByUrl("usermanagement/groups");
+        this.router.navigate(["usermanagement", "groups"], {replaceUrl: true});
       } else if (res.map(res => res.KeyValue).length > 0 && this.router.url == '/usermanagement') {
         this.usersIsActive = true;
-        this.router.navigateByUrl("usermanagement/users");
+        this.router.navigate(["usermanagement", "users"], {replaceUrl: true});
       }
     });
   }

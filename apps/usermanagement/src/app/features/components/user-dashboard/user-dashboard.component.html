@@ -1,6 +1,8 @@
+
 <nz-layout  *ngIf="isLogin">
     <nz-content>
-      <div style="margin-top: -20px;" class="inner-content">
+      <section>
+      <div  class="inner-content">
       <div>
         <div nz-row>
           <div nz-col nzSpan="12"><h2 class="PageHeader">
@@ -25,37 +27,24 @@
         <br/>
         <div nz-row style="margin-top:-10px">
           <div nz-col class="gutter-row" nzSpan="24" class="userlist">
-              <nz-table [nzLoading]="loading" nzSize="small" #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
+              <nz-table [nzLoading]="loading" nzSize="small"  #rowSelectionTable [nzFrontPagination]="false" [nzData]="userList"
                 nzTableLayout="auto">
-                <div  *ngIf="userList.length > 0; else normalHeader">
-                  <thead>
-                    <tr>
-                      <th style="font-weight: bold;" class="tdstyle defaultcolor" *ngFor="let column of listOfColumnsUser"
-                        [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                        [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="font-weight: bold;" class="tdstyle defaultcolor" style="text-align:center !important; display:none"  *ngFor="let column of listOfColumnsLastActivityDate"
-                        [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                        [nzSortDirections]="column.sortDirections">{{column.name}}</th>
-                      <th style="font-weight: bold;" class="tdstyle defaultcolor" *ngFor="let column of listOfColumns" [nzSortOrder]="column.sortOrder"
-                        [nzSortFn]="column.sortFn" [nzSortDirections]="column.sortDirections"
-                        [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
-                        [nzFilterFn]="column.filterFn">{{ column.name }}</th>
-                      <th class="tdstyle defaultcolor" style="text-align:justify !important; font-weight: bold;" >Actions</th>
-                    </tr>
-                  </thead>
-                </div>
-                <ng-template #normalHeader>
-                  <thead>
-                    <tr>
-                      <th class="tdstyle" style="font-weight: bold;">User Name</th>
-                      <th class="tdstyle" style="display:none" >Last Activity Date</th>
-                      <th class="tdstyle" style="font-weight: bold;" >Department</th>
-                      <th class="tdstyle" style="font-weight: bold;">Role</th>
-                      <th class="tdstyle" style="font-weight: bold;">Status</th>
-                      <th class="tdstyle" style="font-weight: bold;">Actions</th>
-                    </tr>
-                  </thead>
-                </ng-template>
+                <thead>
+                  <tr>
+                    <th style="font-weight: bold;" class="tdstyle defaultcolor" 
+                      [nzSortFn]="true" (nzSortOrderChange)="sortOrderChange($event, 'FullName')">Full Name</th>
+                    <th style="font-weight: bold;" class="tdstyle defaultcolor" 
+                      [nzSortFn]="true" (nzSortOrderChange)="sortOrderChange($event, 'Department')"
+                      [nzFilterFn]="true" (nzFilterChange)="filterChange($event, 'Department')" [nzFilters]="userListDepartment">Department</th>
+                    <th style="font-weight: bold;" class="tdstyle defaultcolor" 
+                      [nzSortFn]="true" (nzSortOrderChange)="sortOrderChange($event, 'JobTitle')"
+                      [nzFilterFn]="true" (nzFilterChange)="filterChange($event, 'JobTitle')" [nzFilters]="userListJobTitle">Job Title</th>
+                    <th style="font-weight: bold;" class="tdstyle defaultcolor" 
+                      [nzSortFn]="true" (nzSortOrderChange)="sortOrderChange($event, 'Status')"
+                      [nzFilterFn]="true" (nzFilterChange)="filterChange($event, 'Status')" [nzFilters]="userListStatus">Status</th>
+                    <th class="tdstyle defaultcolor" style="text-align:justify !important; font-weight: bold;" >Actions</th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr *ngFor="let user of rowSelectionTable.data; let indexOfelement=index;" >
                     <td class="tdstyle" style="padding-left: 0">
@@ -106,13 +95,15 @@
           </div>
         </div>
         <div class="pagination" nz-row nzJustify="end" *ngIf="userList.length > 0">
-          <p>Showing {{beginingRow}} - {{lastRow}} of {{totalRecord}} entries</p>
+          <p>Showing {{ this.pageSize * (this.pageIndex -1) + 1 }} - 
+            {{ this.pageSize * (this.pageIndex) > this.totalRecord ? this.totalRecord : this.pageSize * (this.pageIndex) }} of
+            {{this.totalRecord}} entries</p>
           <nz-pagination [nzDisabled]="loading" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzTotal]="totalRecord"
             nzSimple (nzPageIndexChange)="PageIndexChange($event)"></nz-pagination>
         </div>
         </div>
       </div>
-
+    </section>
 
       <nz-modal
       [nzWidth]="'410px'"

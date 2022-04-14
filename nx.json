@@ -14,7 +14,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
@@ -32,21 +37,27 @@
     },
     "applicant-tracking-e2e": {
       "tags": [],
-      "implicitDependencies": ["applicant-tracking"]
+      "implicitDependencies": [
+        "applicant-tracking"
+      ]
     },
     "clientmanagement": {
       "tags": []
     },
     "clientmanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["clientmanagement"]
+      "implicitDependencies": [
+        "clientmanagement"
+      ]
     },
     "configurationmodule": {
       "tags": []
     },
     "configurationmodule-e2e": {
       "tags": [],
-      "implicitDependencies": ["configurationmodule"]
+      "implicitDependencies": [
+        "configurationmodule"
+      ]
     },
     "core-model": {
       "tags": []
@@ -68,7 +79,9 @@
     },
     "epp-dashboard-e2e": {
       "tags": [],
-      "implicitDependencies": ["epp-dashboard"]
+      "implicitDependencies": [
+        "epp-dashboard"
+      ]
     },
     "ng-zorro": {
       "tags": []
@@ -78,14 +91,27 @@
     },
     "projectmanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["projectmanagement"]
+      "implicitDependencies": [
+        "projectmanagement"
+      ]
+    },
+    "reports": {
+      "tags": []
+    },
+    "reports-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "reports"
+      ]
     },
     "resourcemanagement": {
       "tags": []
     },
     "resourcemanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["resourcemanagement"]
+      "implicitDependencies": [
+        "resourcemanagement"
+      ]
     },
     "shared-components": {
       "tags": []
@@ -95,14 +121,18 @@
     },
     "timesheet-e2e": {
       "tags": [],
-      "implicitDependencies": ["timesheet"]
+      "implicitDependencies": [
+        "timesheet"
+      ]
     },
     "usermanagement": {
       "tags": []
     },
     "usermanagement-e2e": {
       "tags": [],
-      "implicitDependencies": ["usermanagement"]
+      "implicitDependencies": [
+        "usermanagement"
+      ]
     }
   }
 }

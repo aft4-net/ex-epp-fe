@@ -1,5 +1,8 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import {
+  IPublicClientApplication,
+  PublicClientApplication,
+} from '@azure/msal-browser';
 import { MSAL_INSTANCE, MsalService } from '@azure/msal-angular';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
@@ -81,19 +84,24 @@ export function MSALInstanceFactory(): IPublicClientApplication {
               (m) => m.RemoteEntryModule
             ),
         },
+        {
+          path: 'reports',
+          loadChildren: () =>
+            import('reports/Module').then(
+              (m) => m.RemoteEntryModule),
+        },
       ],
       { initialNavigation: 'enabledBlocking' }
     ),
   ],
   providers: [
-
     { provide: NZ_I18N, useValue: en_US },
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
     {
       provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory
+      useFactory: MSALInstanceFactory,
     },
-    MsalService
+    MsalService,
   ],
   bootstrap: [AppComponent],
 })

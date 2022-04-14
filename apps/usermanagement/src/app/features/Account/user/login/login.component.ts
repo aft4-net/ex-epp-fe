@@ -117,7 +117,6 @@ export class LoginComponent {
           this.router.navigateByUrl('usermanagement/changepassword');
         } else {
           window.location.replace(window.location.origin);
-          this.router.navigateByUrl('');
           this.loading = false;
         }
       },
