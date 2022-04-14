@@ -30,6 +30,9 @@
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/timesheet") || timesheetIsActive' *ngIf="authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])">
           <i nz-icon nzType="clock-circle" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/timesheet']" >TimeSheet</a>
         </li>
+        <li nz-menu-item [nzSelected]='activePath("/configurationmodule/notification") || notificationIsActive'>
+          <i nz-icon nzType="clock-circle" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/notification']" >Notification</a>
+        </li>
       </ul>
     </nz-sider>
     <nz-content class="inner-content" nzWidth="978px" nzHeight="715px">

@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   timesheetIsActive! : boolean;
   countryIsActive! : boolean;
   dutyStationIsActive! : boolean;
-
+  notificationIsActive!:boolean;
   constructor(private router: Router, private notification: NzNotificationService,
     public _commonData: CommonDataService,
     private _authenticationService: AuthenticationService,
@@ -113,6 +113,11 @@ export class AppComponent implements OnInit {
     } else {
       //this.router.navigateByUrl('/');
     }
-  }
+    if(this.router.url === '/configurationmodule') {
+      this.notificationIsActive = true;
+      this.router.navigateByUrl('configurationmodule/notification');
+  
+    }
+    }
 
 }

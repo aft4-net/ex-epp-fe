@@ -12,19 +12,26 @@ export interface TimesheetConfiguration {
     StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
     WorkingHours: WorkingHours;
-    Deadline : TimesheetDeadline;
+    Deadline?:TimesheetNotificationConfiguration
+   
 }
-
-export interface TimesheetDeadline{
+export interface TimesheetNotificationConfiguration{
     DeadlineDate : string;
+    DeadlineTime: number;
     Week : NotificationWeek;
 }
+export enum DaySection{
+    am,
+    pm
+}
+
+
 
 
 export enum NotificationWeek {
-  current_week="Current week",
-  next_week="Next week",
-}
+   next_week= "Following week",
+  current_week = "Current week",
+ }
 
 interface Response {
     ResponseStatus: string;

@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
-import { NotificationWeek, TimesheetConfiguration, TimesheetDeadline } from '../../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration } from '../../models/timesheetModels';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 
 @Component({
@@ -30,13 +30,9 @@ export class TimesheetConfigurationComponent implements OnInit {
       min: new FormControl(0),
       max: new FormControl(24)
     }),
-    deadline: new FormGroup({
-      deadlineDate : new FormControl(),
-      week : new FormControl()
-    }),
    
  });
-  notificationweek=Object.values(NotificationWeek);
+ 
  
   constructor(
     private router: Router,
@@ -70,11 +66,7 @@ export class TimesheetConfigurationComponent implements OnInit {
           min: this.timesheetConfig.WorkingHours.Min,
           max: this.timesheetConfig.WorkingHours.Max
         },
-        deadline:{
-         deadlineDate:this.timesheetConfig.Deadline.DeadlineDate,
-         week:this.timesheetConfig.Deadline.Week,
-         },
-      });
+       });
     });
 console.log(this.timesheetConfigForm.value)
     if(!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
@@ -86,7 +78,7 @@ console.log(this.timesheetConfigForm.value)
   saveTimesheetConfiguration() {
     
      const configValues = this.timesheetConfigForm.value;
-console.log(this.notificationweek)
+
     const timesheetConfig: TimesheetConfiguration = {
       StartOfWeeks: [
         {
@@ -99,10 +91,6 @@ console.log(this.notificationweek)
         Min: configValues.workingHours.min,
         Max: configValues.workingHours.max
       },
-      Deadline:{
-        DeadlineDate:configValues.deadline.deadlineDate,
-        Week:configValues.deadline.week
-      }
     }
 
     this.timesheetConfigStateService.addTimesheetConfiguration(timesheetConfig);
