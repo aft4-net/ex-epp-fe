@@ -182,7 +182,6 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
         if(users.Data && users.Data.Token){
           localStorage.setItem('loggedInUserInfo', JSON.stringify(users.Data ||'{}'));
           this.loggedInUser = users.Data;
-          console.log(users.Data);
           this.userSubject.next(users.Data);
           return users;
         }
@@ -199,9 +198,7 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
   signOut() {
     localStorage.removeItem('loggedInUserInfo');
     this.userSubject.next(null);
-    console.log('ddd')
     this.router.navigate(['usermanagement/logIn']);
-    console.log('ddd'+ this.router)
     window.location.reload();
 
   }

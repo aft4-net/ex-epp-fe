@@ -22,10 +22,9 @@
       <td *ngIf=" isProjectExternal ">
       <span *ngIf=" resource?.Billable === false  "> No   </span>
       <span *ngIf="resource.Billable===null  "> N/A   </span>
-      <span *ngIf="resource?.Billable === true" > Yes   </span>
-     
+      <span *ngIf="resource?.Billable === true" > Yes   </span>  
       </td>
-      <td *ngIf="isOnEditstate">
+      <td *ngIf="isOnEditstate && (authorize('Update_Resources') || authorize('Delete_Resources'))">
         <a *ngIf="authorize('Update_Resources')" class="text-black " (click)="editResource(resource.Empolyee.Guid)">
           <i nz-icon nzType="edit" style="color:black;"></i>
         </a>
