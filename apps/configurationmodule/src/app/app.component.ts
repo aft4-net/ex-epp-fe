@@ -6,6 +6,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CommonDataService } from './../../../../libs/common-services/commonData.service';
 import { AuthenticationService } from './../../../../libs/common-services/Authentication.service'
 import { TimesheetConfigurationStateService } from './state/timesheet-configuration-state.service';
+import { environment } from './../environments/environment';
 
 @Component({
   selector: 'exec-epp-root',
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
     private _timesheetConfigStateService: TimesheetConfigurationStateService
   ) {
     this._timesheetConfigStateService.getTimesheetConfiguration();
-    this._commonData.getPermission();
+    this._commonData.getPermission(environment.apiUrl);
   }
   ngOnInit() {
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });

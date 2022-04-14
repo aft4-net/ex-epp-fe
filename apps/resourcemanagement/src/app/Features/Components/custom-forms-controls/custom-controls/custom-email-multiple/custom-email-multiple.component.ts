@@ -5,11 +5,12 @@ import { commonErrorMessage } from "../../shared/custom.validators";
 import { FormGenerator } from "../../form-generator.model";
 import { ExcelControlResponseType } from "../../shared/excel-control-response-type.enum";
 import { ExcelButtonResponse } from "../../shared/exel-control-response.model";
-import { PermissionListService } from "libs/common-services/permission.service";
+import { PermissionListService } from "./../../../../../../../../../libs/common-services/permission.service";
 import { EmployeeApiService } from "@exec-epp/core-services/employees-services";
 import { map } from "rxjs/operators";
 import { ResponseStatus } from "@exec-epp/core-services/a-base-services";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
+import { environment } from "./../../../../../../environments/environment";
 
 
 const errValidator = ((c: AbstractControl) => {
@@ -112,7 +113,7 @@ export class CustomEmailMultipleComponent implements OnInit {
         }
         if(!this.beValidate) return;
         return this._employeeApiService.checkEmailExistence(
-            control.value, this._formGenerator.Guid
+            environment.apiUrl, control.value, this._formGenerator.Guid
         ).subscribe(r => {
             console.log('Response')
             console.log(r)

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { AccountService } from '../../../Services/logIn/account.service';
 import { NotificationBar } from '../../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../../utils/validator';
-import { AuthenticationService } from 'libs/common-services/Authentication.service';
+import { AuthenticationService } from './../../../../../../../../libs/common-services/Authentication.service';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { environment } from '../../../../../environments/environment';
@@ -104,7 +104,7 @@ export class LoginComponent {
       return;
       }
     this.loading = true;
-    this._authenticationService.signIn(this.loginForm.value).subscribe(
+    this._authenticationService.signIn(environment.apiUrl, this.loginForm.value).subscribe(
       (res) => {
         if (res.Data && res.Data.Token) {
           localStorage.setItem(

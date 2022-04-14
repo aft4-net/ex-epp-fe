@@ -35,15 +35,16 @@ export class EmployeeApiService extends BaseApiService {
 
     }
 
-    public checkId(employeeNumber: string) {
+    public checkId(apiUrl: string, employeeNumber: string) {
         return this._getOneByParameter<boolean>(
+            apiUrl, 
             { name: 'idNumber', value: employeeNumber },
             this._extraExtendedUrls.checkIdNumber
         )
     }
 
-    public checkEmailExistence(email: string, guid?: string) {
-        return this._get<any>({
+    public checkEmailExistence(apiUrl: string, email: string, guid?: string) {
+        return this._get<any>(apiUrl, {
             params: { email: email, guid: guid },
             extendedUrl: this._extraExtendedUrls.checkEmail
         });

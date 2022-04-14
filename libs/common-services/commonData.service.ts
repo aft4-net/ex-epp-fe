@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from "../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 import {IntialdataService} from "./intialdata.service"
 @Injectable({
@@ -11,7 +10,6 @@ import {IntialdataService} from "./intialdata.service"
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    path = `${environment.apiUrl}/GroupSet`;
     permissionListSource = new BehaviorSubject<any[]>([]);
     permissionList$ = this.permissionListSource.asObservable();
 permissionList:any[]=[ ];
@@ -21,12 +19,19 @@ constructor(private _intialdataService: IntialdataService,private http: HttpClie
   
 }
 
-getPermission(): void {
-  this._intialdataService.getUserPermission().subscribe((res:any)=>{
+updateUrl(url: string) {
+  if(url.endsWith('/')) return url.substring(0, url.length - 1);
+  
+  return url;
+}
+
+getPermission(apiUrl: string): void {
+  apiUrl = this.updateUrl(apiUrl);
+  this._intialdataService.getUserPermission(apiUrl).subscribe((res:any)=>{
     this.permissionListSource.next(res.Data);
     this.permissionList=res.Data;  
     this.permissionList=this.permissionList;
-    this._intialdataService.getModulePermission().subscribe((res:any)=>{
+    this._intialdataService.getModulePermission(apiUrl).subscribe((res:any)=>{
       this.modulePermission=res.Data;
      
       this.modulePermission.forEach(parent => {
@@ -46,12 +51,13 @@ getPermission(): void {
 }
 
 
-getPermissionByEmail(): void {
-  this._intialdataService.getUsersPermissionByEmail().subscribe((res:any)=>{
+getPermissionByEmail(apiUrl: string): void {
+  apiUrl = this.updateUrl(apiUrl);
+  this._intialdataService.getUsersPermissionByEmail(apiUrl).subscribe((res:any)=>{
     this.permissionListSource.next(res.Data);
     this.permissionList=res.Data;  
     this.permissionList=this.permissionList;
-    this._intialdataService.getModulePermission().subscribe((res:any)=>{
+    this._intialdataService.getModulePermission(apiUrl).subscribe((res:any)=>{
       this.modulePermission=res.Data;
      
       this.modulePermission.forEach(parent => {
@@ -71,4 +77,4 @@ getPermissionByEmail(): void {
 }
 
 
-    } 
+} 

@@ -6,6 +6,7 @@ import { TimesheetConfigurationStateService } from '../../state/timesheet-config
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
 import { TimesheetConfiguration } from '../../models/timesheetModels';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-timesheet-configuration',
@@ -41,7 +42,7 @@ export class TimesheetConfigurationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._commonDataService.getPermission();
+    this._commonDataService.getPermission(environment.apiUrl);
 
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 

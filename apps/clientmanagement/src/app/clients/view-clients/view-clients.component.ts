@@ -21,6 +21,7 @@ import { UpdateClientStateService } from '../../core/State/update-client-state.s
 import { UpdateCompanyContact } from '../../core/models/update/UpdateCompanyContact';
 import { UpdateOperatingAddress } from '../../core/models/update/UpdateOperatingAddress';
 import { debounceTime } from 'rxjs/operators';
+import { environment } from 'apps/clientmanagement/src/environments/environment';
 
 @Component({
   selector: 'exec-epp-view-clients',
@@ -105,7 +106,7 @@ export class ViewClientsComponent implements OnInit  {
    private _editClientService:UpdateClientStateService
   ) {
 
-_commonData.getPermission()
+_commonData.getPermission(environment.apiUrl)
   }
   ngOnInit(): void {
     this.isAddButtonDisabled=this._permission.authorizedPerson('Create_Client');

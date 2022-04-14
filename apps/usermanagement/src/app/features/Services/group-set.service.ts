@@ -10,7 +10,6 @@ import { Pagination } from '../Models/Pagination';
 import { PaginationResult } from '../Models/PaginationResult';
 import { ResponseDTO } from '../../models/ResponseDTO';
 import { environment } from "../../../environments/environment";
-import {environment as libEnvironment} from 'libs/environments/environment'
 import { IGroupUsersView } from '../Models/User/GroupUsersView';
 import { GroupSetDescription } from '../Models/Group/GroupSetDescription';
 import { GroupUsers } from '../Models/Group/GroupUsres';
@@ -49,7 +48,7 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
     }
 
     CheckGroupNameExistance(groupName: string):Observable<ResponseDTO<boolean>> {
-      return this.http.get<ResponseDTO<any>>(`${libEnvironment.apiUrl}/GroupSet`+'/CheckGroupNameExistance?groupName' + groupName).pipe(
+      return this.http.get<ResponseDTO<any>>(`${environment.apiUrl}/GroupSet`+'/CheckGroupNameExistance?groupName' + groupName).pipe(
         map((result: ResponseDTO<boolean>) => {
           console.log(result);
           return result;   
@@ -66,7 +65,7 @@ import { GroupUsers } from '../Models/Group/GroupUsres';
       params = params.append("pageIndex", groupParams.pageIndex);
       params = params.append("pageSize", groupParams.pageSize);
       return this.http
-        .get<PaginationResult<GroupSetModel[]>>(`${libEnvironment.apiUrl}/GroupSet`,{
+        .get<PaginationResult<GroupSetModel[]>>(`${environment.apiUrl}/GroupSet`,{
             params: {
               searhKey: groupParams.searchKey,
               pageIndex: groupParams.pageIndex,
