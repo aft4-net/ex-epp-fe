@@ -53,7 +53,7 @@
     <nz-table style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
         <thead >
             <tr >
-                <!-- <th>S.No</th> -->
+                <th>S.No</th>
                 <th>Employee Name</th>
                 <th>Role</th>
                 <th>Billable Hours</th>
@@ -61,9 +61,10 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let data of reports">
-                <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="4">Project Name: {{data.projectName}}</th>
-                <tr *ngFor="let row of data.employees">
+            <ng-container *ngFor="let data of reports;">
+                <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="5">Project Name: {{data.projectName}}</th>
+                <tr *ngFor="let row of data.employees;let i=index; ">
+                    <td>{{i+1}}</td>
                     <td>{{row.employeeName}}</td>
                     <td>{{row.role}}</td>
                     <td>{{row.billableHours}}</td>
@@ -71,7 +72,8 @@
 
              </tr>
             </ng-container>
-            <tr style="font-size: large;" colspan="4">Total Hours
+            <tr style="font-size: small;" colspan="6">Total Hours
+                <td></td>
                 <td></td>
                 <td>50</td>
                 <td>180</td>
@@ -80,6 +82,7 @@
         </tbody>
         
     </nz-table>
+
 </div>
 
 

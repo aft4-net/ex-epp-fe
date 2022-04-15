@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewreportComponent } from './timesheetreports/viewreport/viewreport.component';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 
 
@@ -35,7 +36,9 @@ import { ViewreportComponent } from './timesheetreports/viewreport/viewreport.co
     
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
