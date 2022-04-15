@@ -1,1 +1,89 @@
-<p>viewreport works!</p>
+<div class=" mt-3 main_container_homepage"  >
+    <nz-breadcrumb nz-page-header-breadcrumb class="mt-4">
+      <nz-breadcrumb-item><a [routerLink]="['/']">Home</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['/reports']"> Reports</a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div class="justify-between" nz-row>
+      <div class="page-title" nz-col nzSpan="2"> Reports </div>
+  
+    </div>
+    <hr>
+</div>
+<br>
+<P calss="title" style="text-align:center   ">Monthly Timesheet - Summary</P>
+
+<!-- <nz-select>
+
+</nz-select> -->
+<div nz-row class="ml-1" style="padding: 0px 2%">
+    <div nz-col >
+        <nz-select  nzShowSearch nzAllowClear nzPlaceHolder="Select Client Name" >
+            <nz-option nzLabel="E2E" nzValue="E2E"></nz-option>
+              <nz-option nzLabel="Excellerent" nzValue="Excellerent"></nz-option>
+              
+        </nz-select>  
+           
+    </div>
+    
+    <div nz-col  class="ml-1" >
+        
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Project Name" >
+            <nz-option nzLabel="EPP" nzValue="EPP"></nz-option>
+              <nz-option nzLabel="EDC_DB" nzValue="EDC_DB"></nz-option>
+              
+        </nz-select>   
+        
+    </div>
+    <div nz-col class="ml-1"  >
+        <nz-date-picker nzMode="month"></nz-date-picker>
+    </div>
+    <div nz-col class="ml-1" style="border-right: 10px 2%;">
+        <button nz-button >
+            <i nz-icon nzType="download"></i>
+            Export to Excel
+          </button> 
+         
+      </div> 
+</div>
+   <br>
+    
+<div class="table_sumary">
+    <nz-table style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
+        <thead >
+            <tr >
+                <th>S.No</th>
+                <th>Employee Name</th>
+                <th>Role</th>
+                <th>Billable Hours</th>
+                <th>Non-Billable Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of reports;">
+                <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="5">Project Name: {{data.projectName}}</th>
+                <tr *ngFor="let row of data.employees;let i=index; ">
+                    <td>{{i+1}}</td>
+                    <td>{{row.employeeName}}</td>
+                    <td>{{row.role}}</td>
+                    <td>{{row.billableHours}}</td>
+                    <td>{{row.nonBillableHours}}</td>
+
+             </tr>
+            </ng-container>
+            <tr style="font-size: small;" colspan="6">Total Hours
+                <td></td>
+                <td></td>
+                <td>50</td>
+                <td>180</td>
+            </tr>
+            
+        </tbody>
+        
+    </nz-table>
+
+</div>
+
+
+   
