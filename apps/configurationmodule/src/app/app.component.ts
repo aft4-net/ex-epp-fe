@@ -60,7 +60,9 @@ export class AppComponent implements OnInit {
         else if(res.map(res => res.KeyValue).indexOf("View_Timesheet_Configuration") !== -1 ) {
           this.timesheetIsActive = true;
           this.router.navigate(["configurationmodule", "timesheet"], {replaceUrl: true});
-        }
+          this.notificationIsActive = true;
+          this.router.navigateByUrl('configurationmodule/notification');
+        }            
         else {
           this.router.navigate(["/"], {replaceUrl: true});
         }
