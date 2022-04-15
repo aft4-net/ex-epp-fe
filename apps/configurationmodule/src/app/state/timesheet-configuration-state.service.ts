@@ -14,8 +14,10 @@ export class TimesheetConfigurationStateService {
     WorkingHours: {Min: 0, Max: 24},
     Deadline: {
       DeadlineDate:"Friday",
-      DeadlineTime: 6,
-      Week: NotificationWeek.next_week
+      DeadlineTime: 12,
+      Week: NotificationWeek.next_week,
+      TimeZone:0
+      
     }
   };
 

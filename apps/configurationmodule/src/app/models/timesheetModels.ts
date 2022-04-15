@@ -14,13 +14,13 @@ export interface TimesheetConfiguration {
     StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
     WorkingHours: WorkingHours;
-    Deadline?:TimesheetNotificationConfiguration
-   
+    Deadline?:TimesheetNotificationConfiguration,     
 }
 export interface TimesheetNotificationConfiguration{
     DeadlineDate : string;
     DeadlineTime: number;
     Week : NotificationWeek;
+    TimeZone:number;
 }
 
 

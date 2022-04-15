@@ -17,19 +17,21 @@ export class NotificationConfigurationComponent implements OnInit {
   notificationConfigForm=new FormGroup({
       deadlineDate : new FormControl(),
       deadlineTime:new FormControl(),
-      deadlineWeek : new FormControl()
-     });
+      deadlineWeek : new FormControl(),
+       });
 
   public weekConfig= NotificationWeek ;
   isCurrentWeek=this.weekConfig.next_week;
   arrConfig=this.weekConfig as unknown as Array<string>;
-  time: number =new Date().setHours(6);
+  day=new Date();
+  time: Date =new Date(0,0,0,this.timesheetConfig.Deadline?.DeadlineTime,0,0);;
   defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
   selectedWeekConfig: any;
-
+  timezone=this.day.getTimezoneOffset();
+  
   constructor(   
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-  ) { }
+   ) { }
 
   ngOnInit(): void {debugger;
   
@@ -49,13 +51,14 @@ export class NotificationConfigurationComponent implements OnInit {
   weekChangeEvent(event:any){
     this.selectedWeekConfig=event.target.value;
   }
-  saveNotificationConfiguration(){
+  saveNotificationConfiguration(){debugger;
     const configFormValues= this.notificationConfigForm.value;
 
     const deadlineConfig: TimesheetNotificationConfiguration= {
       DeadlineDate : configFormValues.deadlineDate,
       DeadlineTime:configFormValues.deadlineTime.getHours(),
-      Week : configFormValues.deadlineWeek
+      Week : configFormValues.deadlineWeek,
+      TimeZone:this.timezone
     }
     this.timesheetConfig.Deadline=deadlineConfig;debugger;
     this.timesheetConfigStateService.addTimesheetConfiguration( this.timesheetConfig);
