@@ -29,13 +29,7 @@ export class TimesheetConfigurationComponent implements OnInit, OnDestroy {
     workingHours: new FormGroup({
       min: new FormControl(0),
       max: new FormControl(24)
-    }),
-    timesheetEscalation: new FormGroup(
-      {
-        toSupervisor: new FormControl(1),
-        toHR: new FormControl(2)
-      }
-    )
+    })
   });
   timesheetConfigSubscription: Subscription = new Subscription();
 
@@ -69,10 +63,6 @@ export class TimesheetConfigurationComponent implements OnInit, OnDestroy {
         workingHours: {
           min: this.timesheetConfig.WorkingHours.Min,
           max: this.timesheetConfig.WorkingHours.Max
-        },
-        timesheetEscalation: {
-          toSupervisor: this.timesheetConfig.TimesheetEscalation.ToSupervisor,
-          toHR: this.timesheetConfig.TimesheetEscalation.ToHR
         }
       });
     });
@@ -86,29 +76,22 @@ export class TimesheetConfigurationComponent implements OnInit, OnDestroy {
     this.timesheetConfigSubscription.unsubscribe();
   }
 
-
   saveTimesheetConfiguration() {
     const configValues = this.timesheetConfigForm.value;
 
-    const timesheetConfig: TimesheetConfiguration = {
-      StartOfWeeks: [
-        {
-          DayOfWeek: configValues.startOfWeek,
-          EffectiveDate: new Date(0)
-        }
-      ],
-      WorkingDays: this.getListOfWorkingDays(),
-      WorkingHours: {
-        Min: configValues.workingHours.min,
-        Max: configValues.workingHours.max
-      },
-      TimesheetEscalation: {
-        ToSupervisor: configValues.timesheetEscalation.toSupervisor,
-        ToHR: configValues.timesheetEscalation.toHR
+    this.timesheetConfig.StartOfWeeks = [
+      {
+        DayOfWeek: configValues.startOfWeek,
+        EffectiveDate: new Date(0)
       }
-    }
+    ];
+    this.timesheetConfig.WorkingDays = this.getListOfWorkingDays();
+    this.timesheetConfig.WorkingHours = {
+      Min: configValues.workingHours.min,
+      Max: configValues.workingHours.max
+    };
 
-    this.timesheetConfigStateService.addTimesheetConfiguration(timesheetConfig);
+    this.timesheetConfigStateService.addTimesheetConfiguration({ ...this.timesheetConfig });
   }
 
   getListOfWorkingDays(): string[] {

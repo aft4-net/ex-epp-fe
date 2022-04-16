@@ -9,8 +9,8 @@ export interface WorkingHours {
 }
 
 export interface TimesheetEscalation {
-    ToSupervisor: number;
-    ToHR: number;
+    FirstEscalation: number;
+    SecondEscalation: number;
 }
 
 export enum NotificationWeek {
@@ -18,7 +18,7 @@ export enum NotificationWeek {
     next_week= "Following week",  
 }
 
-export interface TimesheetNotificationConfiguration{
+export interface TimesheetNotification{
     DeadlineDate : string;
     DeadlineTime: number;
     Week : NotificationWeek;
@@ -29,8 +29,8 @@ export interface TimesheetConfiguration {
     StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
     WorkingHours: WorkingHours;
+    Deadline: TimesheetNotification;    
     TimesheetEscalation: TimesheetEscalation;
-    Deadline?:TimesheetNotificationConfiguration,     
 }
 
 interface Response {

@@ -12,7 +12,7 @@ export class TimesheetConfigurationStateService {
     StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
     WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     WorkingHours: {Min: 8, Max: 24},
-    TimesheetEscalation: {ToSupervisor: 1, ToHR: 2},
+    TimesheetEscalation: {FirstEscalation: 1, SecondEscalation: 2},
     Deadline: {
       DeadlineDate:"Friday",
       DeadlineTime: 12,
