@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
-import { TimesheetConfiguration } from '../../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration } from '../../models/timesheetModels';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class TimesheetConfigurationComponent implements OnInit {
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();;
   timesheetConfig: TimesheetConfiguration = this.timesheetConfigStateService.defaultTimesheetConfig;;
   timesheetConfigForm = new FormGroup({
-    startOfWeek: new FormControl('Monday'),
+    startOfWeek: new FormControl(),
     workingDays: new FormGroup({
       monday: new FormControl(true),
       tuesday: new FormControl(true),
@@ -29,19 +29,22 @@ export class TimesheetConfigurationComponent implements OnInit {
     workingHours: new FormGroup({
       min: new FormControl(0),
       max: new FormControl(24)
-    })
-  });
-
+    }),
+   
+ });
+ 
+ 
   constructor(
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
     private _permissionService:PermissionListService,
-    private _commonDataService: CommonDataService
+    private _commonDataService: CommonDataService,
+   
   ) { 
   }
 
   ngOnInit(): void {
-    this._commonDataService.getPermission();
+       this._commonDataService.getPermission();
 
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
@@ -62,17 +65,19 @@ export class TimesheetConfigurationComponent implements OnInit {
         workingHours: {
           min: this.timesheetConfig.WorkingHours.Min,
           max: this.timesheetConfig.WorkingHours.Max
-        }
-      });
+        },
+       });
     });
-
+console.log(this.timesheetConfigForm.value)
     if(!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
       this.timesheetConfigForm.disable();
     }
   }
 
+
   saveTimesheetConfiguration() {
-    const configValues = this.timesheetConfigForm.value;
+    
+     const configValues = this.timesheetConfigForm.value;
 
     const timesheetConfig: TimesheetConfiguration = {
       StartOfWeeks: [
@@ -85,7 +90,7 @@ export class TimesheetConfigurationComponent implements OnInit {
       WorkingHours: {
         Min: configValues.workingHours.min,
         Max: configValues.workingHours.max
-      }
+      },
     }
 
     this.timesheetConfigStateService.addTimesheetConfiguration(timesheetConfig);
@@ -137,4 +142,5 @@ export class TimesheetConfigurationComponent implements OnInit {
   authorize(key:string){
     return this._permissionService.authorizedPerson(key);
   }
+
 }
