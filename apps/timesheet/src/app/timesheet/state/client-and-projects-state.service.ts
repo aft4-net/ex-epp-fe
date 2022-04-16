@@ -138,7 +138,7 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
         return clients[0];
     }
 
-    private _findClientByProjectId(id: string): Client {
+    private _findClientByProjectId(id: string): Client | null {
         const state = this.State;
         let project: Project | null = null;
 
@@ -153,12 +153,23 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
                 return state.collection[i];
             }
         }
-        throw new Error("Client with the selected project does not exist!");
+        return null;
     }
 
-    private _findProjectFromClientById(client: Client, id: string): Project {
-        const projects = client.projects;
-        return projects.filter(project => project.id === id)[0];
+    private _findProjectFromClientById(client: Client | null, id: string): Project | null {
+        let projects = client?.projects;
+
+        if(!projects){
+            return null;
+        }
+
+        projects = projects.filter(project => project.id === id);
+        if(projects.length > 0) {
+            return projects[0];
+        }
+        else {
+            return null;
+        }
     }
 
     public set Client(id: string | null) {
@@ -192,8 +203,8 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
             const client = this._findClientByProjectId(id);
             const project = this._findProjectFromClientById(client, id);
             this.State = {
-                selectedClient: client.id,
-                selectedProject: project.id
+                selectedClient: client?.id,
+                selectedProject: project?.id
             }
         }
     }
@@ -210,8 +221,14 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
         }
     }
 
-    public getProjectById(id: string): Project {
+    public getProjectById(id: string): Project | null {
         const client = this._findClientByProjectId(id);
-        return this._findProjectFromClientById(client, id);
+        if(!client){
+            return null;
+        }
+
+        const project = this._findProjectFromClientById(client, id);
+
+        return project;
     }
 }

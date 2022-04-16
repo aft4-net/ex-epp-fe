@@ -1,5 +1,6 @@
-<nz-table  [nzLoading]="loading" nzSize="small" [nzBordered]="false" [nzFrontPagination]="false"
-  [nzData]="projectResources" >
+
+  <nz-table style="padding: 0px " nzSize="small"  [nzData]="projectResources"
+  [nzShowPagination]="false" class="mb-2" >
   <thead>
     <tr>
       <th [nzSortFn]="true" (nzSortOrderChange)="nzSortOrderChange('resource',$event)"> Resources </th>
@@ -21,10 +22,9 @@
       <td *ngIf=" isProjectExternal ">
       <span *ngIf=" resource?.Billable === false  "> No   </span>
       <span *ngIf="resource.Billable===null  "> N/A   </span>
-      <span *ngIf="resource?.Billable === true" > Yes   </span>
-     
+      <span *ngIf="resource?.Billable === true" > Yes   </span>  
       </td>
-      <td *ngIf="isOnEditstate">
+      <td *ngIf="isOnEditstate && (authorize('Update_Resources') || authorize('Delete_Resources'))">
         <a *ngIf="authorize('Update_Resources')" class="text-black " (click)="editResource(resource.Empolyee.Guid)">
           <i nz-icon nzType="edit" style="color:black;"></i>
         </a>
@@ -48,8 +48,8 @@
 
 <ng-container *ngIf="total>0 && isOnEditstate" >
     <div class="pagination flex justify-end ">
-  Showing  {{9 * (pageIndex -1) + 1 }}  -  {{ 9 * (pageIndex) > total? 
-    total : 9 * (pageIndex) }} of {{total}} entries
+  Showing  {{10 * (pageIndex -1) + 1 }}  -  {{ 10 * (pageIndex) > total? 
+    total : 10 * (pageIndex) }} of {{total}} entries
   <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="total+1" (nzPageIndexChange)="PageIndexChange($event)"
     nzSimple>
   </nz-pagination>
