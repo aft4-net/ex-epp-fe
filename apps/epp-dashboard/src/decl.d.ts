@@ -7,3 +7,5 @@ declare module 'projectmanagement/Module';
 declare module 'projectmanagement/Module';
 
 declare module 'configurationmodule/Module';
+
+declare module 'reports/Module';

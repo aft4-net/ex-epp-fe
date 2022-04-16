@@ -46,8 +46,10 @@
             <th class="table_heading" nzColumnKey="email" [nzSortFn]="true" (nzFilterChange)="supervisorFilter($event)"
               [nzFilterFn]="true" [nzFilters]="supervisors"
               (nzSortOrderChange)="nzSortOrderChange('supervisor',$event)">Supervisor Name</th>
-            <th *ngIf="authorize('Edit_Project') || authorize('Delete_Project')  " class="table_heading"
-              nzColumnKey="email">Action</th>
+
+            
+            <th class="table_heading" *ngIf="authorize('Edit_Project') || authorize('Delete_Project') || authorize('View_Resources') " >
+              Action</th>
           </tr>
         </thead>
         
@@ -62,17 +64,19 @@
             <td>
               <ng-template [ngIf]="data.Supervisor?.Name ==='' || data.Supervisor?.Name===null "> N/A </ng-template>
               {{ data.Supervisor?.Name | titlecase }} </td>
-            <td>
+            <td *ngIf="authorize('Edit_Project') || authorize('Delete_Project') || authorize('View_Resources') " >
               <a (click)="assignResource(data)">
 
                 <i *ngIf="authorize('View_Resources')" nz-icon [nzType]="'team'" nzMode="inline" nzTheme="outline"
                   style="color:black;"></i>
+                  &nbsp;
               </a>
-              &nbsp;
+             
               <a *ngIf="authorize('Update_Project')" (click)="editProject(data)" nzTooltipTitle="Edit">
                 <i nz-icon nzType="edit" style="color:black;"></i>
+                &nbsp;
               </a>
-              &nbsp;
+          
               <a *ngIf="authorize('Delete_Project')" (click)="deleteProjectConformation(data)">
                 <i nz-icon nzType="delete" style="color:black;"></i>
               </a>
