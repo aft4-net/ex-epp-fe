@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms'
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
-import { NotificationWeek, TimesheetConfiguration } from '../../models/timesheetModels';
+import { TimesheetConfiguration } from '../../models/timesheetModels';
 import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { CommonDataService } from './../../../../../../libs/common-services/comm
   templateUrl: './timesheet-configuration-component.html',
   styleUrls: ['./timesheet-configuration-component.scss']
 })
-export class TimesheetConfigurationComponent implements OnInit {
+export class TimesheetConfigurationComponent implements OnInit, OnDestroy {
   timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();;
   timesheetConfig: TimesheetConfiguration = this.timesheetConfigStateService.defaultTimesheetConfig;;
   timesheetConfigForm = new FormGroup({
@@ -29,26 +29,24 @@ export class TimesheetConfigurationComponent implements OnInit {
     workingHours: new FormGroup({
       min: new FormControl(0),
       max: new FormControl(24)
-    }),
-   
- });
- 
- 
+    })
+  });
+  timesheetConfigSubscription: Subscription = new Subscription();
+
   constructor(
     private router: Router,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-    private _permissionService:PermissionListService,
+    private _permissionService: PermissionListService,
     private _commonDataService: CommonDataService,
-   
-  ) { 
-  }
+
+  ) { }
 
   ngOnInit(): void {
-       this._commonDataService.getPermission();
+    this._commonDataService.getPermission();
 
     this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
-    this.timesheetConfig$.subscribe(tsc => {
+    this.timesheetConfigSubscription = this.timesheetConfig$.subscribe(tsc => {
       this.timesheetConfig = tsc ?? this.timesheetConfigStateService.defaultTimesheetConfig;
 
       this.timesheetConfigForm.setValue({
@@ -65,82 +63,81 @@ export class TimesheetConfigurationComponent implements OnInit {
         workingHours: {
           min: this.timesheetConfig.WorkingHours.Min,
           max: this.timesheetConfig.WorkingHours.Max
-        },
-       });
+        }
+      });
     });
-console.log(this.timesheetConfigForm.value)
-    if(!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
+
+    if (!this._permissionService.authorizedPerson("Update_Timesheet_Configuration")) {
       this.timesheetConfigForm.disable();
     }
   }
 
-
-  saveTimesheetConfiguration() {
-    
-     const configValues = this.timesheetConfigForm.value;
-
-    const timesheetConfig: TimesheetConfiguration = {
-      StartOfWeeks: [
-        {
-          DayOfWeek: configValues.startOfWeek,
-          EffectiveDate: new Date(0)
-        }
-      ],
-      WorkingDays: this.getListOfWorkingDays(),
-      WorkingHours: {
-        Min: configValues.workingHours.min,
-        Max: configValues.workingHours.max
-      },
-    }
-
-    this.timesheetConfigStateService.addTimesheetConfiguration(timesheetConfig);
+  ngOnDestroy(): void {
+    this.timesheetConfigSubscription.unsubscribe();
   }
 
-  getListOfWorkingDays(): string[]{
+  saveTimesheetConfiguration() {
+    const configValues = this.timesheetConfigForm.value;
+
+    this.timesheetConfig.StartOfWeeks = [
+      {
+        DayOfWeek: configValues.startOfWeek,
+        EffectiveDate: new Date(0)
+      }
+    ];
+    this.timesheetConfig.WorkingDays = this.getListOfWorkingDays();
+    this.timesheetConfig.WorkingHours = {
+      Min: configValues.workingHours.min,
+      Max: configValues.workingHours.max
+    };
+
+    this.timesheetConfigStateService.addTimesheetConfiguration({ ...this.timesheetConfig });
+  }
+
+  getListOfWorkingDays(): string[] {
     const workingDays: string[] = [];
-    
+
     const configValues = this.timesheetConfigForm.value
 
     // Monday
-    if(configValues.workingDays.monday) {
+    if (configValues.workingDays.monday) {
       workingDays.push("Monday");
     }
 
     // Tuesday
-    if(configValues.workingDays.tuesday) {
+    if (configValues.workingDays.tuesday) {
       workingDays.push("Tuesday");
     }
 
     // Wednesday
-    if(configValues.workingDays.wednesday) {
+    if (configValues.workingDays.wednesday) {
       workingDays.push("Wednesday");
     }
 
     // Thursday
-    if(configValues.workingDays.thursday) {
+    if (configValues.workingDays.thursday) {
       workingDays.push("Thursday");
     }
 
     // Friday
-    if(configValues.workingDays.friday) {
+    if (configValues.workingDays.friday) {
       workingDays.push("Friday");
     }
 
     // Saturday
-    if(configValues.workingDays.saturday) {
+    if (configValues.workingDays.saturday) {
       workingDays.push("Saturday");
     }
 
     // Sunday
-    if(configValues.workingDays.sunday) {
+    if (configValues.workingDays.sunday) {
       workingDays.push("Sunday");
     }
 
     return workingDays;
   }
 
-  authorize(key:string){
+  authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
   }
-
 }

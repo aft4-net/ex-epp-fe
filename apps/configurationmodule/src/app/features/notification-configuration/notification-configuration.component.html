@@ -1,51 +1,64 @@
+<div class="config-scroll">
+  <form [formGroup]="notificationConfigForm" (ngSubmit)="saveNotificationConfiguration()" class="mt-4 ml-6 ">
+    <h3 class="w-96 h-9 mt-4 font-semibold text-xl  text-black">Timesheet Reminders</h3>
 
-<h3 class="w-96 h-9 mt-4 ml-6 font-semibold text-xl  text-black">Timesheet Reminders</h3>
+    <h5 class="w-32 h-5 mt-auto mb-auto font-medium text-base not-tialic">Week Selection </h5>
+    <div class="flex flex-col content-start justify-content mt-4">
+      <p class="h-5 mt-auto mb-auto font-small text-base not-tialic">
+        Choose a specific week type to remind employees to submit timesheet.
+      </p>
+      <div class="flex flex-row mt-4 ml-0 space-x-8">
+        <div *ngFor="let val of weekConfig | keyvalue"
+          class=" ml-0 mt-auto mb-0 font-small text-base not-tialic justify-between">
+          <input formControlName="deadlineWeek" [(ngModel)]="selectedWeekConfig" type="radio" value="{{val.key}}"
+            (change)="weekChangeEvent($event)">{{' '+val.value}}
+        </div>
+      </div>
+    </div>
 
-<form [formGroup]="notificationConfigForm" (ngSubmit)="saveNotificationConfiguration()" class="mt-4 ml-6 ">
- 
-<h5 class="w-32 h-5 mt-auto mb-auto font-medium text-base not-tialic">Week Selection </h5>
-
-<div class="flex flex-col content-start justify-content mt-4">
-<p class="h-5 mt-auto mb-auto font-small text-base not-tialic">Choose a specific week type to remind employees to submit timesheet. </p>
-<div class="flex flex-row mt-4 ml-0 space-x-8">
-<div *ngFor="let val of weekConfig | keyvalue"  class=" ml-0 mt-auto mb-0 font-small text-base not-tialic justify-between">
-    <input
-    formControlName="deadlineWeek"
-    [(ngModel)]="selectedWeekConfig"
-    type="radio"
-    value="{{val.key}}"
-    (change)="weekChangeEvent($event)"
-    >{{' '+val.value}}
-</div>
-</div>
-
-
-    </div>  
     <h5 class=" h-5 mt-8 mb-auto font-medium text-base not-tialic">Day of the Week Selection </h5>
-    
-   <div class="flex flex-col content-center mt-4 mb-auto justify-content ">
-   <p class="h-5 mt-auto mb-auto font-small text-base not-tialic">Choose a specific day of the week to send reminder to employees. </p>
-   <div class="flex flex-row content-center space-between mt-4" >
-   <nz-select id="deadlineDate" formControlName="deadlineDate" class=" mt-auto w-36 h-10 mr-4 p-2 rounded-sm border-gray-300" >
-            <nz-option nzValue="Monday" nzLabel="Monday" class="font-normal text-base not-italic"></nz-option>
-            <nz-option nzValue="Tuesday" nzLabel="Tuesday" class="font-normal text-base not-italic"></nz-option>
-            <nz-option nzValue="Wednesday" nzLabel="Wednesday" class="font-normal text-base not-italic"></nz-option>
-            <nz-option nzValue="Thursday" nzLabel="Thursday" class="font-normal text-base not-italic"></nz-option>
-            <nz-option nzValue="Friday" nzLabel="Friday" class="font-normal text-base not-italic"></nz-option>
-            <nz-option nzValue="Saturday" nzLabel="Saturday" class="font-normal text-base not-italic"></nz-option>
-            <nz-option nzValue="Sunday" nzLabel="Sunday" class="font-normal text-base not-italic"></nz-option>
-        </nz-select> 
-        <nz-time-picker formControlName="deadlineTime" [(ngModel)]="time" [nzDefaultOpenValue]="defaultOpenValue" class="ml-4 mt-auto w-28 h-8 rounded-sm border-gray-300" style="margin-left: 12px;"></nz-time-picker>
+    <div class="flex flex-col content-center mt-4 mb-auto justify-content ">
+      <p class="h-5 mt-auto mb-auto font-small text-base not-tialic">
+        Choose a specific day of the week to send reminder to employees.
+      </p>
+      <div class="flex flex-row content-center space-between mt-4">
+        <nz-select id="deadlineDate" formControlName="deadlineDate"
+          class=" mt-auto w-36 h-10 mr-4 p-2 rounded-sm border-gray-300">
+          <nz-option nzValue="Monday" nzLabel="Monday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option nzValue="Tuesday" nzLabel="Tuesday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option nzValue="Wednesday" nzLabel="Wednesday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option nzValue="Thursday" nzLabel="Thursday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option nzValue="Friday" nzLabel="Friday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option nzValue="Saturday" nzLabel="Saturday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option nzValue="Sunday" nzLabel="Sunday" class="font-normal text-base not-italic"></nz-option>
+        </nz-select>
+        <nz-time-picker formControlName="deadlineTime" [(ngModel)]="time" [nzDefaultOpenValue]="defaultOpenValue"
+          class="ml-4 mt-auto w-28 h-8 rounded-sm border-gray-300" style="margin-left: 12px;"></nz-time-picker>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
 
+    <h3 class="w-96 h-9 mt-6 font-semibold text-xl  text-black">Escalation Reminders</h3>
+    <div formGroupName="timesheetEscalation">
+      <div class="mt-6">
+        <h5 class="mt-auto mb-auto font-medium text-base not-tialic">First Escalation</h5>
+        <p class="mt-auto mb-auto font-small text-base not-tialic">
+          Choose how many days after the reminder should the first escalation take place
+        </p>
+        <input formControlName="firstEscalation" type="number" min="1" step="1" (change)="onEscalationChange()"
+          class="mt-2 w-28 h-8 pt-1 pr-7 pb-1 pl-3 text-center bg-white border border-gray-300 escalation-date">
+      </div>
+
+      <div class="mt-6">
+        <h5 class="mt-auto mb-auto font-medium text-base not-tialic">Second Escalation</h5>
+        <p class="mt-auto mb-auto font-small text-base not-tialic">
+          Choose how many days after the reminder should the second escalation take place
+        </p>
+        <input formControlName="secondEscalation" type="number" min="2" step="1" (change)="onEscalationChange()"
+          class="mt-2 w-28 h-8 pt-1 pr-7 pb-1 pl-3 text-center bg-white border border-gray-300 escalation-date">
+      </div>
+    </div>
+
+    <button nz-button nzType="primary" style="margin-top: 24px;">Save Changes</button>
+  </form>
 </div>
-  </div>
-<nz-divider></nz-divider>
-<button  nz-button nzType="primary" style="margin-top: 24px;">Save Changes</button>
-</form>
-
-
-   
- 
-
-   
-   

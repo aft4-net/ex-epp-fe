@@ -1,5 +1,3 @@
-import { Data } from "@angular/router";
-
 export interface StartOfWeek {
     DayOfWeek: string;
     EffectiveDate: Date;
@@ -10,25 +8,30 @@ export interface WorkingHours {
     Max: number;
 }
 
-export interface TimesheetConfiguration {
-    StartOfWeeks: StartOfWeek[];
-    WorkingDays: string[];
-    WorkingHours: WorkingHours;
-    Deadline?:TimesheetNotificationConfiguration,     
+export interface TimesheetEscalation {
+    FirstEscalation: number;
+    SecondEscalation: number;
 }
-export interface TimesheetNotificationConfiguration{
+
+export enum NotificationWeek {
+    current_week = "Current week",
+    next_week= "Following week",  
+}
+
+export interface TimesheetNotification{
     DeadlineDate : string;
     DeadlineTime: number;
     Week : NotificationWeek;
     TimeZone:number;
 }
 
-
-export enum NotificationWeek {
-    current_week = "Current week",
-   next_week= "Following week",
-  
- }
+export interface TimesheetConfiguration {
+    StartOfWeeks: StartOfWeek[];
+    WorkingDays: string[];
+    WorkingHours: WorkingHours;
+    Deadline: TimesheetNotification;    
+    TimesheetEscalation: TimesheetEscalation;
+}
 
 interface Response {
     ResponseStatus: string;
