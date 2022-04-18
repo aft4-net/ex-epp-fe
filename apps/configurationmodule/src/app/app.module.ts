@@ -13,8 +13,7 @@ import { DepartmentComponent } from './features/department/department.component'
 import { AddEditDepartmentComponent } from './features/department/add-edit-department/add-edit-department.component';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from './interceptors/httpJWTInterceptor';
 import { CountryComponent } from './features/country/country.component';
 import { DutyStationComponent } from './features/duty-station/duty-station.component';
 import { DepartmentModule } from './features/department/department.module';

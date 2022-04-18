@@ -16,15 +16,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
-import { environment } from './../../../../libs/environments/environment';
+import { httpJWTInterceptor } from './interceptors/httpJWTInterceptor';
+import { environment } from './../environments/environment'
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: environment.clientId,
-      redirectUri: environment.redirectUri,
+      redirectUri: environment.redirectUrl
     },
   });
 }

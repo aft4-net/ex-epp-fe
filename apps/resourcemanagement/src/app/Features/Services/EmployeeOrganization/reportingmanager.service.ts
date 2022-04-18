@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'libs/environments/environment';
+import { environment } from './../../../../environments/environment';
 import { Role } from '../../../../../../configurationmodule/src/app/models/role';
 import { map } from 'rxjs/operators';
 import { SelectOptionModel } from '../../Models/supporting-models/select-option.model';

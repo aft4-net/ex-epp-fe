@@ -8,6 +8,7 @@ import { PermissionService } from '../../Services/permission/permission.service'
 import { fromEvent } from 'rxjs';
 import { GroupSetService } from '../../Services/group-set.service';
 import { GroupSetModel } from '../../Models/group-set.model';
+import { environment } from './../../../../environments/environment';
 
 export interface GroupCheckBoxItem {
   label: string;
@@ -970,7 +971,7 @@ fullPhrase= word[0].toUpperCase() + word.substr(1).toLowerCase();
           data.Message
         );
         this.isLoding=true;
-        this._commonData.getPermission();
+        this._commonData.getPermission(environment.apiUrl);
        this.router.navigateByUrl("usermanagement/group-detail/"+this.groupId)
       
       });

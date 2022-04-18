@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from "../environments/environment";
 import { ErrHandleService } from './error-handle.service';
 import {CommonDataService} from './commonData.service'
 @Injectable({
@@ -10,7 +9,6 @@ import {CommonDataService} from './commonData.service'
     httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    path = `${environment.apiUrl}/GroupSet`;
 constructor(private http: HttpClient, private errHandler: ErrHandleService,private _commonData:CommonDataService) {
 
 }

@@ -25,7 +25,7 @@ import { OrganizationDetailComponent } from '../Features/Components/employee/org
 import { PersonalInfoComponent } from '../Features/Components/employee/personal-info/personal-info.component';
 import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
-import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from './../Features/interceptors/httpJWTInterceptor';
 import { EmployeeComponent } from '../Features/Components/employee/employee.component';
 import { EmployeeApiService } from '@exec-epp/core-services/employees-services';
 

@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationService } from './../../../../../../libs/common-services/Authentication.service';
 import { LoadingSpinnerService} from '../../../../../../libs/common-services/loading-spinner.service';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { environment } from 'libs/environments/environment';
+import { environment } from './../../../environments/environment'
 import { IntialdataService } from '../../services/intialdata.service';
 import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 
@@ -21,7 +20,7 @@ export class HeaderComponent implements OnInit {
   middleName:any;
   thefullName = '';
   theGroup: any;
-  redirectUrl = environment.redirectUri;
+  redirectUrl = environment.redirectUrl;
   loggedInUser = JSON.parse(
     localStorage.getItem('loggedInUserInfo') ?? ''
   );
@@ -49,7 +48,7 @@ export class HeaderComponent implements OnInit {
     this.uemail = _authenticationService.getUserFullName();
   }
   getUser() {
-    this._authenticationService.getUser(this.uemail);
+    this._authenticationService.getUser(environment.apiUrl, this.uemail);
     setTimeout(() => {
       this.theGroup = this._authenticationService.position;
     }, 1000);
