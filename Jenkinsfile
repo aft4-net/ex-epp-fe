@@ -52,7 +52,7 @@ pipeline{
               sh 'npm install'
               sh 'npm run deploy'
             }
-        } 
+        }
         stage('Upload to QA S3') {
             when {
                  branch 'release'
