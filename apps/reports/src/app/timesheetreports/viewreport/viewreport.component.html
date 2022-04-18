@@ -18,6 +18,7 @@
 
 </nz-select> -->
 <div class="space-align-container">
+  
     <div nz-space nzAlign="center" class="space-align-block">
       <ng-container *nzSpaceItem>Client</ng-container>
       <nz-select *nzSpaceItem nzShowSearch nzAllowClear nzPlaceHolder="Select Client Name" >
@@ -34,11 +35,7 @@
             
       </nz-select>
       </div>
-    <div nz-space nzAlign="center" class="space-align-block">
-      <!-- <ng-container *nzSpaceItem>Month</ng-container> -->
-      <nz-date-picker nzMode="month" [nzDisabledDate]="disabledDate"></nz-date-picker>
-          
-    </div>
+    
     
 
     <!-- <div nz-space nzAlign="end" class="space-align-block">
@@ -53,6 +50,11 @@
       <span *nzSpaceItem class="mock-block">Block</span>
       
     </div> -->
+    <div nz-col [nzXs]="{ span: 5, offset: 1 }" [nzLg]="{ span: 6, offset: 1 }"></div>
+    <div nz-space nzAlign="center" class="space-align-block">
+      <nz-date-picker nzMode="month" [nzDisabledDate]="disabledDate"></nz-date-picker>
+          
+    </div>
     <div nz-space nzAlign="center" nzJustify="end" class="space-align-block">
        
             <button *nzSpaceItem nz-button nzType="default">Generate</button> 

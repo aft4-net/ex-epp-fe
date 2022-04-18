@@ -17,6 +17,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 registerLocaleData(en);
 
@@ -34,7 +35,8 @@ registerLocaleData(en);
     NzDatePickerModule,
     NzButtonModule,
     NzIconModule,
-   NzSpaceModule,
+    NzSpaceModule,
+    NzNotificationModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [

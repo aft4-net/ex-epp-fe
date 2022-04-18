@@ -10,7 +10,7 @@ import { ResponseDTO } from '../Models/ResponseDTO';
 import { ErrHandleService } from '../shared/services/error-handle.service';
 
 
-Injectable({providedIn: 'root'})
+@Injectable({providedIn: 'root'})
 export class ViewReportService {
   header = new HttpHeaders({ 'Content-Type': 'application/json' });
   routerInfo = '/viewreport';
