@@ -26,7 +26,7 @@ export class ViewreportComponent implements OnInit {
     this.today = new Date();
   const timeDefaultValue = setHours(new Date(), 0);
   }
-  size: NzButtonSize = 'large';
+ // size: NzButtonSize = 'large';
   //size: 'small' | 'middle' | 'large' | number = 'small';
    
 
@@ -78,7 +78,7 @@ export class ViewreportComponent implements OnInit {
     }
   
     getWeek(result: Date): void {
-      console.log('week: ', getISOWeek(result));
+     // console.log('week: ', getISOWeek(result));
     }
   
     
@@ -156,11 +156,6 @@ export class ViewreportComponent implements OnInit {
         }
       ]
     }
-   
-
-  ]
-    
-
-  
+  ] 
 }
 
