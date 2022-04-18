@@ -15,8 +15,10 @@ import { ViewreportComponent } from './timesheetreports/viewreport/viewreport.co
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
 
-
+registerLocaleData(en);
 
 @NgModule({
   declarations: [AppComponent, ViewreportComponent],
@@ -33,7 +35,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzButtonModule,
     NzIconModule,
    NzSpaceModule,
-   NzDatePickerModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [

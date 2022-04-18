@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NzButtonSize } from 'ng-zorro-antd/button';
 import en from '@angular/common/locales/en';
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 import { registerLocaleData } from '@angular/common';
 import { differenceInCalendarDays, setHours } from 'date-fns';
@@ -11,7 +9,6 @@ import { GetClient } from '../../Models/get-client';
 import { GetProject } from '../../Models/get-project';
 import { ViewReportService } from '../../services/view-report.service';
 
-
 @Component({
   selector: 'exec-epp-viewreport',
   templateUrl: './viewreport.component.html',
@@ -20,6 +17,7 @@ import { ViewReportService } from '../../services/view-report.service';
 export class ViewreportComponent implements OnInit {
 
  // date = null;
+ clientId:any;
  today:any; 
   isEnglish = false;
   //disabledDate = false;
@@ -35,28 +33,42 @@ export class ViewreportComponent implements OnInit {
 
   ngOnInit(): void {
     registerLocaleData(en);
+   this.getAllClientList();
+   this.getAllProjectList();
     this.today = new Date();
   const timeDefaultValue = setHours(new Date(), 0);
+  this.reportService.getProjectsListByClient(this.clientId)
+      .subscribe(async (response:any) => {
+         this.listOfProjects= response.Data;
+    });
+      
   }
- // size: NzButtonSize = 'large';
+  //size: NzButtonSize = 'large';
   //size: 'small' | 'middle' | 'large' | number = 'small';
   getAllClientList(){
     this.reportService.getClientList().subscribe(
-    (res) => {
-      this.listOfClients = res;
-    }
+    (async (res:any) => {
+      this.listOfClients = res.Data;
+    })
   );
 }
-
-
 getAllProjectList(){
   this.reportService.getProjectList().subscribe(
-  (res) => {
-    this.listOfProjects = res;
-  }
+  (async (res:any) => {
+    this.listOfProjects = res.Data;
+  })
 );
 }
 
+getClientName(value: any) {
+    
+  const result = this.listOfClients.find((obj) => {
+    
+    return obj.Guid === value;
+  });
+  //debugger;
+  return result?.Name;
+}
   range(start: number, end: number): number[] {
     const result: number[] = [];
     for (let i = start; i < end; i++) {
