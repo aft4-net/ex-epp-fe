@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import en from '@angular/common/locales/en';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 import { registerLocaleData } from '@angular/common';
 import { differenceInCalendarDays, setHours } from 'date-fns';
 
 import { DisabledTimeFn, DisabledTimePartial } from 'ng-zorro-antd/date-picker';
+import { GetClient } from '../../Models/get-client';
+import { GetProject } from '../../Models/get-project';
+import { ViewReportService } from '../../services/view-report.service';
 
 
 @Component({
@@ -19,7 +23,15 @@ export class ViewreportComponent implements OnInit {
  today:any; 
   isEnglish = false;
   //disabledDate = false;
-  constructor() { ;}
+  clientList: GetClient[] = [];
+  projectList: GetProject[] =[];
+  public listOfClients: [GetClient] | [] =[];
+  public listOfProjects: [GetProject] | [] =[];
+  constructor(
+    private reportService:ViewReportService
+  ) { 
+   
+  }
 
   ngOnInit(): void {
     registerLocaleData(en);
@@ -28,7 +40,22 @@ export class ViewreportComponent implements OnInit {
   }
  // size: NzButtonSize = 'large';
   //size: 'small' | 'middle' | 'large' | number = 'small';
-   
+  getAllClientList(){
+    this.reportService.getClientList().subscribe(
+    (res) => {
+      this.listOfClients = res;
+    }
+  );
+}
+
+
+getAllProjectList(){
+  this.reportService.getProjectList().subscribe(
+  (res) => {
+    this.listOfProjects = res;
+  }
+);
+}
 
   range(start: number, end: number): number[] {
     const result: number[] = [];

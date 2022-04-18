@@ -22,3 +22,4 @@ export interface ResponseDTO<T> {
     Data: T;
     Ex: any;
 }
+
