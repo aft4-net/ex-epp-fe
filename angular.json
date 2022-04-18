@@ -146,6 +146,16 @@
             "parallel": false
           }
         },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build clientmanagement --with-deps --configuration=staging",
+              "docker build -f Dockerfile.client-management . -t clientmanagement"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -290,6 +300,16 @@
           "options": {
             "commands": [
               "nx build configurationmodule --with-deps",
+              "docker build -f Dockerfile.configuration . -t configurationmodule"
+            ],
+            "parallel": false
+          }
+        },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build configurationmodule --with-deps --configuration=staging",
               "docker build -f Dockerfile.configuration . -t configurationmodule"
             ],
             "parallel": false
@@ -569,6 +589,16 @@
             "parallel": false
           }
         },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build epp-dashboard --with-deps --configuration=staging",
+              "docker build -f Dockerfile.epp-dashboard . -t epp-dashboard"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -761,6 +791,16 @@
           "options": {
             "commands": [
               "nx build projectmanagement --with-deps",
+              "docker build -f Dockerfile.project-management . -t projectmanagement"
+            ],
+            "parallel": false
+          }
+        },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build projectmanagement --with-deps --configuration=staging",
               "docker build -f Dockerfile.project-management . -t projectmanagement"
             ],
             "parallel": false
@@ -1043,6 +1083,16 @@
             "parallel": false
           }
         },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build resourcemanagement --with-deps --configuration=staging",
+              "docker build -f Dockerfile.resource-management . -t resourcemanagement"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -1214,6 +1264,16 @@
             "parallel": false
           }
         },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build timesheet --with-deps --configuration=staging",
+              "docker build -f Dockerfile.timesheet . -t timesheet"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -1358,6 +1418,16 @@
           "options": {
             "commands": [
               "nx build usermanagement --with-deps",
+              "docker build -f Dockerfile.usermanagement . -t usermanagement"
+            ],
+            "parallel": false
+          }
+        },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build usermanagement --with-deps --configuration=staging",
               "docker build -f Dockerfile.usermanagement . -t usermanagement"
             ],
             "parallel": false
