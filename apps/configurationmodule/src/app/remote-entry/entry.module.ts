@@ -16,6 +16,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { CountryComponent } from '../features/country/country.component';
 import { DutyStationComponent } from '../features/duty-station/duty-station.component';
 import { DepartmentModule } from '../features/department/department.module';
+import { NotificationConfigurationComponent } from '../features/notification-configuration/notification-configuration.component';
 const routes: Routes = [
   { 
     
@@ -55,6 +56,13 @@ const routes: Routes = [
         component: DutyStationComponent,
         data: {
           breadcrumb: "Duty Station"
+        }
+      },
+      {
+        path: "notification",
+        component: NotificationConfigurationComponent,
+        data: {
+          breadcrumb: "Notification"
         }
       }
     ]

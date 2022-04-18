@@ -17,6 +17,9 @@ import { httpJWTInterceptor } from './interceptors/httpJWTInterceptor';
 import { CountryComponent } from './features/country/country.component';
 import { DutyStationComponent } from './features/duty-station/duty-station.component';
 import { DepartmentModule } from './features/department/department.module';
+import { NotificationConfigurationComponent } from './features/notification-configuration/notification-configuration.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,7 @@ import { DepartmentModule } from './features/department/department.module';
     AddEditRoleComponent,
     CountryComponent,
     DutyStationComponent,
-
+    NotificationConfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +38,10 @@ import { DepartmentModule } from './features/department/department.module';
     ReactiveFormsModule,
     DemoNgZorroAntdModule,
     NzNotificationModule,
+    NzRadioModule,
+    NzTimePickerModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
-  ],
+   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: httpJWTInterceptor, multi: true },
   ],

@@ -46,8 +46,8 @@ pipeline{
              }
          steps{
               sh 'npm -v'
-              sh 'git branch -D master || true'
-              sh 'git checkout -b master origin/master'
+             // sh 'git branch -D master || true'
+             // sh 'git checkout -b master origin/master'
               sh 'git branch'
               sh 'npm install'
               sh 'npm run deploy'
