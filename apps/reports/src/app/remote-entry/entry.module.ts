@@ -9,15 +9,6 @@ import { ViewreportComponent } from '../timesheetreports/viewreport/viewreport.c
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon/icon.module';
-import { NzSpaceModule } from 'ng-zorro-antd/space/space.module';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb/breadcrumb.module';
-import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
 
 @NgModule({
@@ -28,14 +19,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
     BrowserAnimationsModule,
     NzNotificationModule,
     NzDatePickerModule,
-    NzDropDownModule,
-    NzBreadCrumbModule,
-    NzTableModule,
-    NzSelectModule,
-    NzFormModule,
-    NzButtonModule,
-    NzIconModule,
-    NzSpaceModule,
+    
     RouterModule.forChild([
       {
         path: '',
@@ -47,9 +31,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
       },
     ]),
   ],
-  providers: [
-    { provide: NZ_I18N, useValue: en_US }
-  ],
+  providers: [],
   
 })
 export class RemoteEntryModule {}
