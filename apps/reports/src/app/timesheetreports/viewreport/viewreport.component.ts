@@ -48,6 +48,7 @@ export class ViewreportComponent implements OnInit {
 
 
   reports: any[]=[
+    
     {
       projectName: "Epp",
       employees: [
@@ -119,11 +120,19 @@ export class ViewreportComponent implements OnInit {
         }
       ]
     }
-   
-
   ]
     
+ report :any []=[{
+  clientName:"",
+  
 
   
+
+
+ }
+   
+ 
+ ]
+
 }
 
