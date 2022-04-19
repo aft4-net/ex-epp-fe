@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CommonDataService } from '../../../../libs/common-services/commonData.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'exec-epp-root',
@@ -13,6 +14,6 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this._commonData.getPermission();
+    this._commonData.getPermission(environment.apiUrl);
   }
 }

@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { RemoteEntryComponent } from './entry.component';
 import { ViewreportComponent } from '../timesheetreports/viewreport/viewreport.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 
 @NgModule({
@@ -15,6 +17,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
     OverlayModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NzNotificationModule,
+    NzDatePickerModule,
+    
     RouterModule.forChild([
       {
         path: '',

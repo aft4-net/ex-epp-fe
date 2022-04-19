@@ -6,6 +6,7 @@ import { TimesheetStateService } from './state/timesheet-state.service';
 import { CommonDataService } from '../../../../../libs/common-services/commonData.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { LoadingStateService } from './state/loading-state.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'exec-epp-app-timesheet',
@@ -52,7 +53,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commonDataService.getPermission();
+    this.commonDataService.getPermission(environment.apiUrl);
 
     this.loading$.subscribe(res => this.loading = res > 0);
     

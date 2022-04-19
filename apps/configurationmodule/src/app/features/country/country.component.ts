@@ -41,7 +41,7 @@ export class CountryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.commonDataService.getPermission();
+    this.commonDataService.getPermission(environment.apiUrl);
     this.getCountries();
   }
 

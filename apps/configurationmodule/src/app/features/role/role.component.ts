@@ -9,6 +9,7 @@ import { Pagination } from '../../models/pagination';
 import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 import { Role } from '../../models/role';
 import { RoleService } from '../../services/role.service';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-role',
@@ -41,7 +42,7 @@ export class RoleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRoles();
-    this._commonData.getPermission();
+    this._commonData.getPermission(environment.apiUrl);
   }
 
   getPaginatedRoles() {

@@ -14,6 +14,7 @@ import { PermissionListService } from 'libs/common-services/permission.service';
 import { Router } from '@angular/router';
 import { TimesheetService } from '../timesheet/services/timesheet.service';
 import { TimesheetStateService } from '../timesheet/state/timesheet-state.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'exec-epp-timesheet-approval',
@@ -142,7 +143,7 @@ export class TimesheetApprovalComponent implements OnInit {
     this.notification.info('', '', { nzDuration: 1, nzPauseOnHover: false });
     this.getCurrentUser();
     this.initialDataforTab();
-    this._commonData.getPermission();
+    this._commonData.getPermission(environment.apiUrl);
     this.getProjectsList();
     this.getClientsList();
 

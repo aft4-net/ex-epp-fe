@@ -36,7 +36,7 @@ pipeline{
               sh 'git checkout -b release origin/release'
               sh 'git branch'
               sh 'npm install'
-              sh 'npm run deploy'
+              sh 'npm run stage'
             }
         }
         stage('npm deploy for master')
@@ -46,13 +46,13 @@ pipeline{
              }
          steps{
               sh 'npm -v'
-              sh 'git branch -D master || true'
-              sh 'git checkout -b master origin/master'
+             // sh 'git branch -D master || true'
+             // sh 'git checkout -b master origin/master'
               sh 'git branch'
               sh 'npm install'
               sh 'npm run deploy'
             }
-        } 
+        }
         stage('Upload to QA S3') {
             when {
                  branch 'release'

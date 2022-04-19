@@ -15,7 +15,7 @@ import { RemoteEntryModule } from './remote-entry/entry.module';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import en from '@angular/common/locales/en';
-import { httpJWTInterceptor } from 'libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from './Features/interceptors/httpJWTInterceptor';
 import { registerLocaleData } from '@angular/common';
 
 registerLocaleData(en);

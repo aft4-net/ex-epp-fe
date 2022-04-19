@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -12,31 +11,32 @@ export class IntialdataService {
     useEmails = JSON.parse(
     localStorage.getItem('loggedInUserInfo') ?? '{}'
   );
+  /*
   baseUrl = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`;
   baseUrlByEmail = `${environment.apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.useEmails.Email?.toLowerCase()}`;
   baseUrl2 = environment.apiUrl + '/Permission/module';
+  //*/
 
   constructor(private http: HttpClient) {
 }
 
-  getUserPermission(){
-    console.log(this.baseUrlByEmail);
-    return this.http.get(this.baseUrlByEmail).pipe(
+  getUserPermission(apiUrl: string){
+    return this.http.get(`${apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.useEmails.Email?.toLowerCase()}`).pipe(
       map((response:any)=>{
         return response;
       })
     );
   }
 
-  getUsersPermissionByEmail(){
-    return this.http.get(this.baseUrl).pipe(
+  getUsersPermissionByEmail(apiUrl: string){
+    return this.http.get(`${apiUrl}/UserGroups/GetPermissionsByUserEmail?email=${this.userEmail?.toLowerCase()}`).pipe(
       map((response:any)=>{
         return response;
       })
     );
   }
-  getModulePermission(){
 
-    return this.http.get(this.baseUrl2);
+  getModulePermission(apiUrl: string){
+    return this.http.get(apiUrl + '/Permission/module');
   }
 }

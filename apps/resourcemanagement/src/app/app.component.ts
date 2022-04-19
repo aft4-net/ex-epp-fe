@@ -2,6 +2,7 @@ import { CommonDataService } from '../../../../libs/common-services/commonData.s
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'exec-epp-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router,public _commonData:CommonDataService, private notification: NzNotificationService){
     this.route= router.url;
-    _commonData.getPermission();
+    _commonData.getPermission(environment.apiUrl);
 
   }
   ngOnInit(): void {
