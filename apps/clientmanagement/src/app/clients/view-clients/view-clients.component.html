@@ -85,20 +85,20 @@
 
   <thead>
     <tr>
-      <th [nzSortFn]="true"  (click)="sorter(1)" class="table_heading">Client Name</th>
-      <th *ngIf="statusCheckbox" [nzFilters]="namesofclientsfilterd" (nzFilterChange)="search(searchAddressList,$event,searchsalesPersonList)" [nzSortFn]="true" [nzSortFn]="true"  (click)="sorter(3)" class="table_heading">Status</th>
-      <th *ngIf="salesCheckbox" [nzFilters]="namesofSalesfilterd" (nzFilterChange)="search(searchAddressList,searchstatusList,$event)" [nzSortFn]="true" [nzSortFn]="true"  (click)="sorter(4)" class="table_heading">Sales Person</th>
+      <th [nzSortFn]="true"  (nzSortOrderChange)="sorter(1,$event)" class="table_heading">Client Name</th>
+      <th *ngIf="statusCheckbox" [nzFilters]="namesofclientsfilterd" (nzFilterChange)="search(searchAddressList,$event,searchsalesPersonList)" [nzSortFn]="true" [nzSortFn]="true"  (nzSortOrderChange)="sorter(3,$event)" class="table_heading">Status</th>
+      <th *ngIf="salesCheckbox" [nzFilters]="namesofSalesfilterd" (nzFilterChange)="search(searchAddressList,searchstatusList,$event)" [nzSortFn]="true" [nzSortFn]="true"  (nzSortOrderChange)="sorter(4,$event)" class="table_heading">Sales Person</th>
       <!-- <th *ngIf="clientContactCheckbox" class="table_heading">Client Contact Person</th>
       <th *ngIf="companyContactCheckbox" class="table_heading">Company Contact Person</th> -->
       <th *ngIf="authorizedPerson('Update_Client') || authorizedPerson('Delete_Client')"class="table_heading">Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let value of clientsdata | sort:[sortByParam, sortDirection]" >
+    <tr *ngFor="let value of clientsdata " >
 
       <td >{{value.ClientName}}</td>
       <td *ngIf="statusCheckbox">{{value.ClientStatusName}}</td>
-      <td *ngIf="salesCheckbox">{{value.SalesPersonName}}</td>
+      <td *ngIf="salesCheckbox">{{ value. SalesPerson?.Name}}</td>
       <!-- <td *ngIf="clientContactCheckbox">{{value.ClientContacts[0].ContactPersonName}}</td>
       <td *ngIf="companyContactCheckbox">{{value.CompanyContacts[0].Employee.Name}}</td> -->
 
