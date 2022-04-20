@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 // import { ResponseDTO } from '../../models/ResponseDTO';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError, observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { GetClient } from '../Models/get-client';
 import { GetProject } from '../Models/get-project';
+import { Report,projects } from '../Models/getReport';
 import { ResponseDTO } from '../Models/ResponseDTO';
 import { ErrHandleService } from '../shared/services/error-handle.service';
 
@@ -14,7 +15,9 @@ import { ErrHandleService } from '../shared/services/error-handle.service';
 export class ViewReportService {
   header = new HttpHeaders({ 'Content-Type': 'application/json' });
   routerInfo = '/viewreport';
-  path = `${environment.apiUrl}/reports`;
+ // path = `${environment.apiUrl}/reports`;
+ //path = `${environment.apiUrl}`
+
 
   private dataSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   data: Observable<boolean> = this.dataSource.asObservable();
@@ -54,13 +57,13 @@ export class ViewReportService {
 
    getClientList(): Observable<[GetClient]> {
     const url = `${environment.apiUrl}/Client`;
-  return this.http.get<[GetClient]>(url).pipe(
+    return this.http.get<[GetClient]>(url).pipe(
     catchError(this.formatErrors)
   );
   }
   getProjectList(): Observable<[GetProject]> {
     const url = `${environment.apiUrl}/Project`;
-  return this.http.get<[GetProject]>(url).pipe(
+    return this.http.get<[GetProject]>(url).pipe(
     catchError(this.formatErrors)
   );
   }
@@ -71,7 +74,12 @@ export class ViewReportService {
     catchError(this.formatErrors)
   );
 }
-
-   
-    
+getReports(ClientId?:string,ProjectId?:string):Observable<Report[]>
+{
+  ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
+const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f `;
+ return this.http.get(url).pipe(map((res:any)=>{
+  return res.Data;
+ }));
+}
 }

@@ -106,7 +106,7 @@ export class ViewClientsComponent implements OnInit  {
    private _editClientService:UpdateClientStateService
   ) {
 
-_commonData.getPermission(environment.apiUrl)
+ _commonData.getPermission(environment.apiUrl)
   }
   ngOnInit(): void {
     this.isAddButtonDisabled=this._permission.authorizedPerson('Create_Client');

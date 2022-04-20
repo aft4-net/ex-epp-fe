@@ -65,7 +65,7 @@
 
 
 
- 
+<!--  
 <div class="table_sumary">
     
 
@@ -102,6 +102,41 @@
         
     </nz-table>
 
+</div> -->
+<div>
+  <nz-table  [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
+    <thead >
+        <tr >
+            <th nzWidth="3%">S.No</th>
+            <th nzWidth="30%">Employee Name</th>
+            <th nzWidth="30%">Role</th>
+            <th nzWidth="15%">Billable Hours</th>
+            <th nzWidth="15%">Non-Billable Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let data of list;">
+            <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="5">
+              Project Name: {{data.ProjectName}}</th>
+            <tr *ngFor="let row of data.Employee;let i=index; ">
+                <td>{{i+1}}</td>
+                <td>{{row.FullName}}</td>
+                <td>{{row.EmployeeRoleName}}</td>
+                <td>{{row.BillableHours}}</td>
+                <td>{{row.NonBillableHours}}</td>
+
+         </tr>
+        </ng-container>
+        <tr style="font-size: small;" colspan="5">Total Hours
+            <td></td>
+            <td></td>
+            <td>{{sumBillableHours}}</td>
+            <td>{{sumNonBillableHours}}</td>
+        </tr>
+        
+    </tbody>
+    
+</nz-table>
 </div>
 
 
