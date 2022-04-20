@@ -12,6 +12,7 @@ import { GetClient } from '../../Models/get-client';
 import { GetProject } from '../../Models/get-project';
 import { ViewReportService } from '../../services/view-report.service';
 import { Report,projects } from '../../Models/getReport';
+import { ConstantPool } from '@angular/compiler';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -32,6 +33,8 @@ export class ViewreportComponent implements OnInit {
   filtered : any []=[];
   employee : any []=[];
   list : any []=[];
+  sumBillableHours=0;
+  sumNonBillableHours=0;
   public listOfClients: [GetClient] | [] =[];
   public listOfProjects: [GetProject] | [] =[];
   constructor(
@@ -87,6 +90,7 @@ getReport(){
   this.reportList=res;
 console.log("res===>",  this.reportList);
 this.filterProjects();
+this.sumHours();
   });
   return this.reportList;
  }
@@ -251,6 +255,16 @@ filterProjects(){
   //.log(this.filtered)
   
 
+}
+sumHours(){
+  this.reportList.forEach((i)=>{
+    this.sumBillableHours+=i.BillableHours;
+  });
+  this.reportList.forEach((i)=>{
+    this.sumNonBillableHours+=i.NonBillableHours;
+  });
+  console.log("Billable Hours"+this.sumBillableHours);
+  console.log("Non Billable Hours"+this.sumNonBillableHours);
 }
 
 

@@ -104,14 +104,14 @@
 
 </div> -->
 <div>
-  <nz-table  [nzScroll]="{y:'700px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
+  <nz-table  [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
     <thead >
         <tr >
-            <th>S.No</th>
-            <th>Employee Name</th>
-            <th>Role</th>
-            <th>Billable Hours</th>
-            <th>Non-Billable Hours</th>
+            <th nzWidth="3%">S.No</th>
+            <th nzWidth="30%">Employee Name</th>
+            <th nzWidth="30%">Role</th>
+            <th nzWidth="15%">Billable Hours</th>
+            <th nzWidth="15%">Non-Billable Hours</th>
         </tr>
     </thead>
     <tbody>
@@ -127,11 +127,11 @@
 
          </tr>
         </ng-container>
-        <tr style="font-size: small;" colspan="6">Total Hours
+        <tr style="font-size: small;" colspan="5">Total Hours
             <td></td>
             <td></td>
-            <td>50</td>
-            <td>180</td>
+            <td>{{sumBillableHours}}</td>
+            <td>{{sumNonBillableHours}}</td>
         </tr>
         
     </tbody>
