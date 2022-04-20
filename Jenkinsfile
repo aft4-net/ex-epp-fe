@@ -64,7 +64,7 @@ pipeline{
 
                     pwd(); //Log current directory
 
-                    withAWS(region:'eu-west-3', credentials: 'blens-aws-cred') {
+                    withAWS(region:'eu-west-3', credentials: 'blens-aws-key') {
 
                         def identity=awsIdentity();//Log AWS credentials
 
@@ -90,7 +90,7 @@ pipeline{
 
                     pwd(); //Log current directory
 
-                    withAWS(region:'eu-west-3', credentials: 'blens-aws-cred') {
+                    withAWS(region:'eu-west-3', credentials: 'blens-aws-key') {
 
                         def identity=awsIdentity();//Log AWS credentials
 

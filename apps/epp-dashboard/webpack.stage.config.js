@@ -24,13 +24,13 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       remotes: {
-        usermanagement: 'usermanagement@https://qa.epp-excellerentsolutions.com:4231/remoteEntry.js',
-        resourcemanagement: 'resourcemanagement@https://qa.epp-excellerentsolutions.com:4234/remoteEntry.js',
-        timesheet: 'timesheet@https://qa.epp-excellerentsolutions.com:4233/remoteEntry.js',
-        clientmanagement: 'clientmanagement@https://qa.epp-excellerentsolutions.com:4235/remoteEntry.js',
-        projectmanagement: 'projectmanagement@https://qa.epp-excellerentsolutions.com:4236/remoteEntry.js',
-        configurationmodule: 'configurationmodule@https://qa.epp-excellerentsolutions.com:4232/remoteEntry.js',
-        reports: 'reports@https://qa.epp-excellerentsolutions.com:4237/remoteEntry.js',
+        usermanagement: 'usermanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        resourcemanagement: 'resourcemanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        timesheet: 'timesheet@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        clientmanagement: 'clientmanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        projectmanagement: 'projectmanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        configurationmodule: 'configurationmodule@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        reports: 'reports@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },
