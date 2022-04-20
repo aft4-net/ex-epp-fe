@@ -36,7 +36,7 @@ export class ViewClientsComponent implements OnInit  {
 
   paginatedprojects$!: Observable<PaginatedResult<Client[]>>;
 
-  clientsdata: Client[] = [];
+  clientsdata: Client[] = [] as  Client[];
   searchProject = new FormControl();
   total = 10;
   totalRecordBackup=0;
@@ -50,8 +50,8 @@ export class ViewClientsComponent implements OnInit  {
   AllData!: PaginatedResult<Client[]>;
   searchStateFound = false;
   sortByParam="";
-  sortDirection = "asc";
-
+  sortDirection!:string |null;
+ sortIndex=0;
   clientCheckbox = true;
   locationCheckbox = true;
   statusCheckbox = true;
@@ -322,22 +322,39 @@ this.notification.error("This Client can not be deleted ",'becuase it is has a p
     this.isVisible = true;
   }
 
-  sorter(id:number) {
-    if (id === 1){
-      this.sortByParam = "ClientName";
-    } else if (id === 2){
-      this.sortByParam = "OperatingAddressCountry";
-    }else if (id === 3) {
-      this.sortByParam = "ClientStatusName";
-    } else if (id === 4) {
-      this.sortByParam = "SalesPersonName";
-    }
+  sorter(id:number,  direction: string | null) {
 
-    if (this.sortDirection === 'desc') {
-      this.sortDirection = 'asc';
-    } else {
-      this.sortDirection = 'desc';
-    }
+    this.sortIndex=id;
+    this.sortDirection=direction;
+      if(this.allClients)
+      if(id==1)
+   {  if (direction == 'ascend') 
+       this.allClients.sort((a, b) => (a.ClientName.toLocaleLowerCase().trim() > b.ClientName.toLowerCase().trim() ? 1 : -1)); 
+     else if (direction == 'descend') 
+    this.allClients.sort((a, b) => (a.ClientName.toLowerCase().trim() < b.ClientName.toLowerCase().trim() ? 1 : -1));
+   
+    
+  }
+  else if(id==3)
+  {
+
+    if (direction == 'ascend') 
+    this.allClients.sort((a, b) => (a.ClientStatusName > b.ClientStatusName ? 1 : -1)); 
+  else if (direction == 'descend') 
+ this.allClients.sort((a, b) => (a.ClientStatusName< b.ClientStatusName  ? 1 : -1));
+  }
+  else if(id==4)
+  {
+  if (direction == 'ascend') 
+    this.allClients.sort((a, b) => (a.SalesPerson.Name> b.SalesPerson.Name ? 1 : -1)); 
+  else if (direction == 'descend') 
+ this.allClients.sort((a, b) => (a.SalesPerson.Name<b.SalesPerson.Name ? 1 : -1));
+  }
+   this.pagantionChange();
+  }
+  pagantionChange()
+  { 
+   this.clientsdata=  this.allClients.slice((this.pageIndex-1)*10).slice(0,10);
   }
 
   onDefaultClick() {
@@ -410,25 +427,8 @@ this.notification.error("This Client can not be deleted ",'becuase it is has a p
 
 
     } else {
-      this._clientservice
-        .getWithPagnationResut(index, 10)
-        .subscribe((response: PaginatedResult<Client[]>) => {
-          this.clientsdata = response.data;
-          this.unfilteredData = response.data;
-          this.pageIndex = response.pagination.pageIndex;
-          this.pageSize = response.pagination.pageSize;
-          this.loading = false;
-          if((this.searchAddressList.length && this.searchAddressList.length > 0) || (this.searchstatusList.length && this.searchstatusList.length > 0) || (this.searchsalesPersonList.length && this.searchsalesPersonList.length > 0)){
-            this.search(
-              this.searchAddressList,
-              this.searchstatusList,
-              this.searchsalesPersonList
-            );
-
-          }
-
-
-        });
+       this.pagantionChange();
+      this.loading = false;
       this.searchStateFound = false;
     }}
   }

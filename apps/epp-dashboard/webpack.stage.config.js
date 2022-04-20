@@ -24,13 +24,13 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       remotes: {
-        usermanagement: 'usermanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
-        resourcemanagement: 'resourcemanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
-        timesheet: 'timesheet@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
-        clientmanagement: 'clientmanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
-        projectmanagement: 'projectmanagement@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
-        configurationmodule: 'configurationmodule@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
-        reports: 'reports@https://qa.epp-excellerentsolutions.com/remoteEntry.js',
+        usermanagement: 'usermanagement@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
+        resourcemanagement: 'resourcemanagement@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
+        timesheet: 'timesheet@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
+        clientmanagement: 'clientmanagement@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
+        projectmanagement: 'projectmanagement@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
+        configurationmodule: 'configurationmodule@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
+        reports: 'reports@https://s3.eu-west-3.amazonaws.com/qa.epp-excellerentsolutions.com/remoteEntry.js',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },
