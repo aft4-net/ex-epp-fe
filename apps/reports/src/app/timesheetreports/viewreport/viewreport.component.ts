@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { ResponseDTO } from './../../Models/ResponseDTO';
 import { Data } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +11,7 @@ import { DisabledTimeFn, DisabledTimePartial } from 'ng-zorro-antd/date-picker';
 import { GetClient } from '../../Models/get-client';
 import { GetProject } from '../../Models/get-project';
 import { ViewReportService } from '../../services/view-report.service';
-import { Report } from '../../Models/getReport';
+import { Report,projects } from '../../Models/getReport';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -28,6 +29,9 @@ export class ViewreportComponent implements OnInit {
   projectList: GetProject[] =[];
   reportList: Report[] = [];
   //data : any []=[];
+  filtered : any []=[];
+  employee : any []=[];
+  list : any []=[];
   public listOfClients: [GetClient] | [] =[];
   public listOfProjects: [GetProject] | [] =[];
   constructor(
@@ -37,6 +41,7 @@ export class ViewreportComponent implements OnInit {
   }
   ngOnInit(): void {
   this.map();
+  
   this.getReport();
   registerLocaleData(en); 
   this.getAllClientList();
@@ -48,7 +53,7 @@ export class ViewreportComponent implements OnInit {
          this.listOfProjects= response.Data;
          //console.log("projects"+this.listOfProjects);
     });
-      
+    //this.filterProjects();   
   }
   
   //size: NzButtonSize = 'large';
@@ -77,10 +82,13 @@ getClientName(value: any) {
   return result?.Name;
 }
 getReport(){
+ // clientId= "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
   this.reportService.getReports().subscribe((res:Report[])=>{
   this.reportList=res;
 console.log("res===>",  this.reportList);
+this.filterProjects();
   });
+  return this.reportList;
  }
   range(start: number, end: number): number[] {
     const result: number[] = [];
@@ -201,81 +209,51 @@ map (){
  }
 }
 
-  reports: any[]=[
+reports: any[]=[
     
-    {
-      projectName: '',
-      employees: [
-        {
-          no: "1",
-          employeeName: "Amanuel Zewdu",
-          role : "Developer",
-          billableHours: "8",
-          nonBillableHours:"0",
-          projectName : "Epp",
-          clientName:"Excellerent ",
-    
-        },
-        {
-          no: "2",
-          employeeName: "Ashenafi Fisseha",
-          role : "Developer",
-          billableHours: "8",
-          nonBillableHours:"0",
-          projectName : "Epp",
-          clientName:"Excellerent ",
-    
-        },
-        {
-          no: "3",
-          employeeName: "Yossef Assefa",
-          role : "Developer",
-          billableHours: "40",
-          nonBillableHours:"0",
-          projectName : "Epp",
-          clientName:"Excellerent ",
-    
-        },
-        
-      ]
-    },
-    {
-      projectName: "EDC_DB",
-      employees: [
-        {
-          no: "4",
-          employeeName: "Engdawork Berhane",
-          role : "Developer",
-          billableHours: "0",
-          nonBillableHours:"40",
-          projectName : "EDC_DB",
-          clientName:"E2E ",
-    
-        },
-        {
-          no: "5",
-          employeeName: "Hailu Debebe",
-          role : "Developer",
-          billableHours: "0",
-          nonBillableHours:"40",
-          projectName : "EDC_DB",
-          clientName:"E2E ",
-    
-        },
-        {
-          no: "6",
-          employeeName: "Abel Asrat",
-          role : "Developer",
-          billableHours: "0",
-          nonBillableHours:"40",
-          projectName : "EDC_DB",
-          clientName:"E2E ",
-    
-        }
-      ]
-    }
+  {
+    projectName: '',
+    employees: [ ]
+  }
+  
 
-  ]
+]
+filterProjects(){
+  let project = this.reportList.map (i => i.ProjectName)
+  .filter((value, index, self) => self.indexOf(value) === index)
+  //const list: any[] = [];
+  project.forEach(p => {
+    this.list.push({
+      ProjectName: p,
+      Employee: this.reportList.filter(t => t.ProjectName === p)
+    });
+  })
+  //console.log(project);
+  //console.log(this.list)
+  //console.log("AA"+this.reportList);
+  for (let i = 0; i< project.length;i++){
+    var push=  this.filtered.push(project[i]);
+    //this.reports.em
+    //this.filtered.push("Aman")
+    let x = this.reportList.length;
+    console.log(x);
+    console.log(project[0]);
+    console.log(this.reportList[0].ProjectName);
+    for (let j = 0; j<x;j++){
+      if (project[i] == this.reportList[j].ProjectName){
+        this.employee.push(this.reportList[j]);
+        
+    }
+    
+    }
+    this.filtered.push(this.employee);
+  }
+  //.log(this.filtered)
+  
+
+}
+
+
   
 
   // reports: any[]=[
@@ -354,12 +332,4 @@ map (){
 
   // ]
     
- report :any []=[{
-  clientName:"",
-  
- }
-   
- 
- ]
-
 }

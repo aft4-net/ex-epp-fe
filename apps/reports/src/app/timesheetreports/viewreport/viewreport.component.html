@@ -104,7 +104,7 @@
 
 </div> -->
 <div>
-  <nz-table style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
+  <nz-table  [nzScroll]="{y:'700px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
     <thead >
         <tr >
             <th>S.No</th>
@@ -115,15 +115,15 @@
         </tr>
     </thead>
     <tbody>
-        <ng-container *ngFor="let data of reportList;">
+        <ng-container *ngFor="let data of list;">
             <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="5">
               Project Name: {{data.ProjectName}}</th>
-            <tr *ngFor="let data of reportList;let i=index; ">
+            <tr *ngFor="let row of data.Employee;let i=index; ">
                 <td>{{i+1}}</td>
-                <td>{{data.FullName}}</td>
-                <td>{{data.EmployeeRoleName}}</td>
-                <td>{{data.BillableHours}}</td>
-                <td>{{data.NonBillableHours}}</td>
+                <td>{{row.FullName}}</td>
+                <td>{{row.EmployeeRoleName}}</td>
+                <td>{{row.BillableHours}}</td>
+                <td>{{row.NonBillableHours}}</td>
 
          </tr>
         </ng-container>

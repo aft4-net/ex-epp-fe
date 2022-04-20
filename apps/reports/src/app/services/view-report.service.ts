@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { GetClient } from '../Models/get-client';
 import { GetProject } from '../Models/get-project';
-import { Report } from '../Models/getReport';
+import { Report,projects } from '../Models/getReport';
 import { ResponseDTO } from '../Models/ResponseDTO';
 import { ErrHandleService } from '../shared/services/error-handle.service';
 
@@ -76,7 +76,8 @@ export class ViewReportService {
 }
 getReports(ClientId?:string,ProjectId?:string):Observable<Report[]>
 {
-const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport`;
+  ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
+const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f `;
  return this.http.get(url).pipe(map((res:any)=>{
   return res.Data;
  }));
