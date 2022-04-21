@@ -104,7 +104,7 @@
 
 </div> -->
 <div>
-  <nz-table  [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
+  <nz-table   [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports" nzShowPagination="false"  >
     <thead >
         <tr >
             <th nzWidth="3%">S.No</th>
@@ -116,8 +116,10 @@
     </thead>
     <tbody>
         <ng-container *ngFor="let data of list;">
-            <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="5">
-              Project Name: {{data.ProjectName}}</th>
+          <tr>
+            <td style=" background-color:rgb(214, 216, 216);" colspan="5">
+              Project Name: {{data.ProjectName}}</td>
+            </tr>
             <tr *ngFor="let row of data.Employee;let i=index; ">
                 <td>{{i+1}}</td>
                 <td>{{row.FullName}}</td>
@@ -127,12 +129,13 @@
 
          </tr>
         </ng-container>
-        <tr style="font-size: small;" colspan="5">Total Hours
-            <td></td>
-            <td></td>
-            <td>{{sumBillableHours}}</td>
-            <td>{{sumNonBillableHours}}</td>
+        <!-- <ng-template #outlet> -->
+          <tr >
+            <td nzWidth="25%" colspan="3">Total</td>
+            <td nzWidth="25%">{{sumBillableHours}}</td>
+            <td nzWidth="25%">{{sumNonBillableHours}}</td>
         </tr>
+        <!-- </ng-template> -->
         
     </tbody>
     
