@@ -12,7 +12,7 @@ import { RemoteEntryComponent } from './entry.component';
 import { RouterModule } from '@angular/router';
 import { ViewClientsComponent } from '../clients/view-clients/view-clients.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from './../core/interceptors/httpJWTInterceptor';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
 @NgModule({

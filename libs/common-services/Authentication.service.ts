@@ -7,7 +7,6 @@ import { LogInRequest } from 'apps/usermanagement/src/app/models/user/logInReque
 import { LogInResponse } from 'apps/usermanagement/src/app/models/user/logInResponse';
 import { ResponseDTO } from 'apps/usermanagement/src/app/models/ResponseDTO';
 import { Router } from '@angular/router';
-import { environment } from "./../environments/environment";
 import { map } from 'rxjs/operators';
 import {  JwtHelperService } from "@auth0/angular-jwt";
 
@@ -24,11 +23,8 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
   loggedInUser:any;
   useEmails = JSON.parse(localStorage.getItem('loggedInUserInfo') ?? '{}');
 
-    httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-
-    };
-    url=environment.apiUrl;
-    user:any
+  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+  user:any
   loginCount=0;
   position="";
   empGuid:string="";
@@ -49,9 +45,9 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
        return this.isLogin();
    }
 
-   getUser(email:string){
+   getUser(apiUrl: String, email:string){
      email = this.useEmails.Email;
-     this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+     this.http.get<any>(apiUrl+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
 
       (response) => {
        this.user=response;
@@ -62,9 +58,9 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
     );
     return this.position;
    }
-   getPosition(email:string){
+   getPosition(apiUrl: string, email:string){
     email = this.useEmails.Email;
-    this.http.get<any>(this.url+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
+    this.http.get<any>(apiUrl+'/Employee/GetEmployeeSelectionByEmail?employeeEmail=' + email.toLowerCase()).subscribe(
    
      (response) => {
       this.useEmails=response;
@@ -77,8 +73,8 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
    );
    return this.position;
   }
-   getLoggedInUserAuthToken(email?: string){
-    return this.http.get<any>(this.url + '/User/UserAuthToken?email=' + email?.toLowerCase());
+   getLoggedInUserAuthToken(apiUrl: string, email?: string){
+    return this.http.get<any>(apiUrl + '/User/UserAuthToken?email=' + email?.toLowerCase());
    }
 
    storeLoginUser(user:any){
@@ -175,14 +171,13 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
     localStorage.setItem('fromViewer','false');
   }
 
-  signIn(logInRequest: LogInRequest) {
+  signIn(apiUrl: string, logInRequest: LogInRequest) {
 
-    return this.http.post<ResponseDTO<LogInResponse>>(environment.apiUrl + '/User/logIn', logInRequest).pipe(
+    return this.http.post<ResponseDTO<LogInResponse>>(apiUrl + '/User/logIn', logInRequest).pipe(
       map((users) => {
         if(users.Data && users.Data.Token){
           localStorage.setItem('loggedInUserInfo', JSON.stringify(users.Data ||'{}'));
           this.loggedInUser = users.Data;
-          console.log(users.Data);
           this.userSubject.next(users.Data);
           return users;
         }
@@ -199,9 +194,7 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
   signOut() {
     localStorage.removeItem('loggedInUserInfo');
     this.userSubject.next(null);
-    console.log('ddd')
     this.router.navigate(['usermanagement/logIn']);
-    console.log('ddd'+ this.router)
     window.location.reload();
 
   }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import { PermissionListService } from '../../../../libs/common-services/permission.service';
-import { CommonDataService } from '../../../../libs/common-services/commonData.service';
-import {AuthenticationService} from './../../../../libs/common-services/Authentication.service'
+import { PermissionListService } from './../../../../libs/common-services/permission.service';
+import { CommonDataService } from './../../../../libs/common-services/commonData.service';
+import { AuthenticationService } from './../../../../libs/common-services/Authentication.service';
+import { environment } from './../environments/environment';
 interface RouteLinks {
   name: string;
   link: string;
@@ -34,7 +35,7 @@ constructor(public _commonData:CommonDataService,
   private _authenticationService:AuthenticationService, 
   private _permissionService: PermissionListService,
    private router: Router, private authService: MsalService){
-  this._commonData.getPermission();
+  this._commonData.getPermission(environment.apiUrl);
 }
 
 ngOnInit(): void {

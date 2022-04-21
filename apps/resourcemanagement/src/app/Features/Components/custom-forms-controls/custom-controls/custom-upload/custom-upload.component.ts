@@ -6,7 +6,7 @@ import { commonErrorMessage } from "../../shared/custom.validators";
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Observable, Observer, of } from "rxjs";
-import { environment } from "libs/environments/environment";
+import { environment } from "./../../../../../../environments/environment";
 import { EmployeeService } from "../../../../Services/Employee/EmployeeService";
 import { Router } from "@angular/router";
 

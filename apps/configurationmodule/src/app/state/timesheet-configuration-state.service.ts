@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject } from 'rxjs';
-import { TimesheetConfiguration } from './../models/timesheetModels';
+import {  NotificationWeek, TimesheetConfiguration } from './../models/timesheetModels';
 import { ConfigurationService } from './../services/configuration.service';
 
 @Injectable({
@@ -10,8 +10,15 @@ import { ConfigurationService } from './../services/configuration.service';
 export class TimesheetConfigurationStateService {
   readonly defaultTimesheetConfig: TimesheetConfiguration = {
     StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
-    WorkingDays: [],
-    WorkingHours: {Min: 0, Max: 24}
+    WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    WorkingHours: {Min: 8, Max: 24},
+    TimesheetEscalation: {FirstEscalation: 1, SecondEscalation: 2},
+    Deadline: {
+      DeadlineDate:"Friday",
+      DeadlineTime: 12,
+      Week: NotificationWeek.next_week,
+      TimeZone:0      
+    }
   };
 
   private timesheetConfigurationSource = new BehaviorSubject<TimesheetConfiguration>(this.defaultTimesheetConfig);
@@ -29,7 +36,7 @@ export class TimesheetConfigurationStateService {
       timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? this.defaultTimesheetConfig.StartOfWeeks;
       timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? this.defaultTimesheetConfig.WorkingDays;
       timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? this.defaultTimesheetConfig.WorkingHours;
-
+      timesheetConfig.Deadline=timesheetConfig.Deadline??this.defaultTimesheetConfig.Deadline;
       this.timesheetConfigurationSource.next(timesheetConfig);
     }, error => {
       console.log(error);

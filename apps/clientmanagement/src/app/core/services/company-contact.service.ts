@@ -1,7 +1,7 @@
 import { CompanyContact } from './../models/get/company-contact';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'libs/environments/environment';
+import { environment } from './../../../environments/environment';
 import { ApiService } from '..';
 
 @Injectable({

@@ -30,6 +30,7 @@ module.exports = {
         clientmanagement: 'clientmanagement@https://s3.eu-west-3.amazonaws.com/www.epp-excellerentsolutions.com/clientmanagement/remoteEntry.js',
         projectmanagement: 'projectmanagement@https://s3.eu-west-3.amazonaws.com/www.epp-excellerentsolutions.com/projectmanagement/remoteEntry.js',
         configurationmodule: 'configurationmodule@https://s3.eu-west-3.amazonaws.com/www.epp-excellerentsolutions.com/configurationmodule/remoteEntry.js',
+        reports: 'reports@https://s3.eu-west-3.amazonaws.com/www.epp-excellerentsolutions.com/reports/remoteEntry.js',
       },
       shared: {
         '@angular/core': { singleton: true, strictVersion: true },

@@ -5,6 +5,7 @@ import {CommonDataService} from './../../../../../../libs/common-services/common
 import { LoadingSpinnerService} from '../../../../../../libs/common-services/loading-spinner.service';
 import { IntialdataService } from '../../services/intialdata.service';
 import { Router } from '@angular/router';
+import { environment } from './../../../environments/environment';
 @Component({
   selector: 'exec-epp-dashboard',
   templateUrl: './dashboard.component.html',
@@ -39,7 +40,7 @@ update(){
 }
 
 getUsers() {
-  this._authenticationService.getUser(this.userEmails.Email);
+  this._authenticationService.getUser(environment.apiUrl, this.userEmails.Email);
 
   setTimeout(() => {
     this.thePosition = this._authenticationService.position;
@@ -49,7 +50,7 @@ getUsers() {
   ngOnInit(): void {
     this.getUsers();
     this.getUser();
-    this._commonData.getPermission();   
+    this._commonData.getPermission(environment.apiUrl);
     this.loadingSpinnerService.messageSource.subscribe((message) => {
     this.loading = message;
     });
