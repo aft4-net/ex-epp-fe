@@ -23,6 +23,8 @@ export class ViewreportComponent implements OnInit {
 
   //Data = null;
   clientId = "";
+  startDate:any;
+  endDate:any;
   today = new Date();
   isEnglish = false;
   clientList: GetClient[] = [];
@@ -42,13 +44,25 @@ export class ViewreportComponent implements OnInit {
    
   }
   ngOnInit(): void {
-    this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
+    //this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
+    const month = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);
+  this.startDate=  month.setDate(0);
+  const mm = new Date(this.today.getMonth());
+  console.log("+++++++++++");
+  console.log(mm);
+  console.log("mghdh+++++++++++++");
+  console.log("Check end date of month");
+  console.log(this.startDate);
+ 
+  this.endDate= month.setDate(1);
+  console.log("Check start date of month");
+  console.log(this.endDate);
   this.map();
   this.disabledDate;
   this.getReport();
   registerLocaleData(en); 
   this.getAllClientList();
-  this.getProjectListByClientId(this.clientId);
+  //this.getProjectListByClientId(this.clientId);
 
   }
   getAllClientList(){
@@ -73,10 +87,11 @@ export class ViewreportComponent implements OnInit {
     differenceInCalendarDays(current, this.today) > 0;
   onChangesFilterReport(event: string) {
     //this.clientId = event;
-    console.log(this.clientId);
+    console.log(event,this.clientId);
     console.log("wwwwwwwwwwwwwwww");
-    if (this.clientId !== event) {
-      this.getProjectListByClientId(event);
+    if (this.clientId === event) {
+      this.getProjectListByClientId(this.clientId);
+      console.log("correct one",this.clientId);
     }
   }
 
