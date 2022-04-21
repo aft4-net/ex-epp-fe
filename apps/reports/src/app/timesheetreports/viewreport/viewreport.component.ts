@@ -22,10 +22,9 @@ import { ConstantPool } from '@angular/compiler';
 export class ViewreportComponent implements OnInit {
 
   //Data = null;
-  clientId:any;
-  today:any; 
+  clientId = "";
+  today = new Date();
   isEnglish = false;
-  //disabledDate = false;
   clientList: GetClient[] = [];
   projectList: GetProject[] =[];
   reportList: Report[] = [];
@@ -43,31 +42,64 @@ export class ViewreportComponent implements OnInit {
    
   }
   ngOnInit(): void {
+    this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
   this.map();
-  
+  this.disabledDate;
   this.getReport();
   registerLocaleData(en); 
   this.getAllClientList();
-  this.getAllProjectList();
-  this.today = new Date();
-  const timeDefaultValue = setHours(new Date(), 0);
-  this.reportService.getProjectsListByClient(this.clientId)
-      .subscribe(async (response:any) => {
-         this.listOfProjects= response.Data;
-         //console.log("projects"+this.listOfProjects);
-    });
-    //this.filterProjects();   
+  this.getProjectListByClientId(this.clientId);
+
   }
-  
-  //size: NzButtonSize = 'large';
-  //size: 'small' | 'middle' | 'large' | number = 'small';
   getAllClientList(){
     this.reportService.getClientList().subscribe(
     (async (res:any) => {
-      this.listOfClients = res.Data;
+      this.clientList = res;
+     
     })
   );
+}
+  getProjectListByClientId(clientId:any)
+  {
+    this.reportService.getProjectByClientId(clientId).subscribe(res => {
+      this.projectList = res.Data;
+    });
+  }
+  onChangesFilterReportrr(values: string): void {
+    console.log(values, this.clientId);
+  }
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, this.today) > 0;
+  onChangesFilterReport(event: string) {
+    //this.clientId = event;
+    console.log(this.clientId);
+    console.log("wwwwwwwwwwwwwwww");
+    if (this.clientId !== event) {
+      this.getProjectListByClientId(event);
+    }
+  }
 
+
+getAllClientLisddt(){
+  this.reportService.getClientList().subscribe(
+  (async (res:any) => {
+    this.clientList = res;
+    this.clientList[0].Guid;
+    this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
+  for(let i=0;i<res.count();i++)
+  {
+    this.reportService.getProjectByClientId(this.clientId).subscribe(res => {
+      this.projectList = res.Data;
+    console.log("test for the first project");
+    console.log(res);
+    console.log("Project and and check ");
+    console.log(res.Data);
+    });
+  }
+   
+  })
+);
 }
 getAllProjectList(){
   this.reportService.getProjectList().subscribe(
@@ -82,13 +114,31 @@ getClientName(value: any) {
     return obj.Guid === value;
   });
   //debugger;
-  return result?.Name;
+  return result?.ClientName;
 }
+getClientDetail(){
+  this.reportService.getAllClientLists().subscribe((response: any) => {
+    this.clientList = response;
+    console.log("wwwwwwwwwwwwto check");
+    console.log(response);
+    console.log("tttttttttttttttttttooooooo");
+    console.log(response.data);
+  });
+  
+}
+
+FilterClients(cId:any)
+{
+  this.clientId = cId;
+  console.log(cId);
+ 
+}
+
 getReport(){
  // clientId= "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
   this.reportService.getReports().subscribe((res:Report[])=>{
   this.reportList=res;
-console.log("res===>",  this.reportList);
+console.log("wwwwwwwwwwwres===>",  this.reportList);
 this.filterProjects();
 this.sumHours();
   });
@@ -102,30 +152,9 @@ this.sumHours();
     return result;
   }
 
-  disabledDate = (current: Date): boolean =>
-    // Can not select days before today and today
-    differenceInCalendarDays(current, this.today) > 0;
+  
  
-  disabledDateTime: DisabledTimeFn = () => ({
-    nzDisabledHours: () => this.range(0, 24).splice(4, 20),
-    nzDisabledMinutes: () => this.range(30, 60),
-    nzDisabledSeconds: () => [55, 56]
-  });
 
-  disabledRangeTime: DisabledTimeFn = (_value, type?: DisabledTimePartial) => {
-    if (type === 'start') {
-      return {
-        nzDisabledHours: () => this.range(0, 60).splice(4, 20),
-        nzDisabledMinutes: () => this.range(30, 60),
-        nzDisabledSeconds: () => [55, 56]
-      };
-    }
-    return {
-      nzDisabledHours: () => this.range(0, 60).splice(20, 4),
-      nzDisabledMinutes: () => this.range(0, 31),
-      nzDisabledSeconds: () => [55, 56]
-    };
-  };
 
     // interface reports {
     //   no:number;

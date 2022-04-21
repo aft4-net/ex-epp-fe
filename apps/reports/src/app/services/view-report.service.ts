@@ -26,12 +26,17 @@ export class ViewReportService {
   private formatErrors(error: any) {
     return throwError(error.error);
   }
- 
+  getAllClientLists(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/ClientDetails/GetAll`)
+      .pipe(catchError(this.formatErrors));
+  }
+
+
   getClientName(
     params: any
   ): Observable<any> {
     return this.http
-      .get<any>(`${environment.apiUrl}/Client`, { params })
+      .get<any>(`${environment.apiUrl}/ClientDetails`, { params })
       .pipe(catchError(this.formatErrors));
   }
   getprojectData(params: any): Observable<any> {
@@ -40,11 +45,15 @@ export class ViewReportService {
       .pipe(catchError(this.formatErrors));
   }
  
+  // getProjectByClientId(id: string): Observable<ResponseDTO<any>> {
+  //   id="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
+  //   return this.http.get<any>(`${environment.apiUrl}/Project/ClientProjects(clientGuid)?clientGuid=${id}`)
+  //     .pipe(catchError(this.formatErrors));
+  // }
   getProjectByClientId(id: string): Observable<ResponseDTO<any>> {
-    return this.http.get<any>(`${environment.apiUrl}/Project/ClientProjects(clientGuid)?guid=${id}`)
+    return this.http.get<any>(`${environment.apiUrl}/Project/GetProjectsByClient?clientGuid=${id}`)
       .pipe(catchError(this.formatErrors));
   }
- 
 
 
   setRoutInfo(path: string) {
@@ -55,9 +64,9 @@ export class ViewReportService {
   }
 
 
-   getClientList(): Observable<[GetClient]> {
-    const url = `${environment.apiUrl}/Client`;
-    return this.http.get<[GetClient]>(url).pipe(
+  getClientList(): Observable<[GetClient]> {
+    const url = `${environment.apiUrl}/ClientDetails/GetAll`;
+  return this.http.get<[GetClient]>(url).pipe(
     catchError(this.formatErrors)
   );
   }
@@ -77,7 +86,7 @@ export class ViewReportService {
 getReports(ClientId?:string,ProjectId?:string):Observable<Report[]>
 {
   ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
-const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f `;
+const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f`;
  return this.http.get(url).pipe(map((res:any)=>{
   return res.Data;
  }));

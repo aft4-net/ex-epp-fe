@@ -9,7 +9,12 @@ import { ViewreportComponent } from '../timesheetreports/viewreport/viewreport.c
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import en from '@angular/common/locales/en';
+import { registerLocaleData } from '@angular/common';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
+registerLocaleData(en);
 
 @NgModule({
   declarations: [RemoteEntryComponent],
@@ -19,7 +24,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     BrowserAnimationsModule,
     NzNotificationModule,
     NzDatePickerModule,
-    
     RouterModule.forChild([
       {
         path: '',
@@ -31,7 +35,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
       },
     ]),
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   
 })
 export class RemoteEntryModule {}
