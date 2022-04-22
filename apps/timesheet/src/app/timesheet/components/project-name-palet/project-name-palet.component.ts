@@ -19,6 +19,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   @Output() paletEllipsisClicked = new EventEmitter<TimeEntryEvent>();
   @Output() editClicked = new EventEmitter<ClickEventType>();
   @Output() deleteClicked = new EventEmitter<ClickEventType>();
+  @Output() isOnLeave= new EventEmitter<boolean>();
   @Input() timeEntry: TimeEntry = {} as TimeEntry;
   @Input() timesheetApproval: TimesheetApproval | null = null;
   project: Project = {} as Project;
@@ -29,7 +30,6 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   startingDateCriteria = startingDateCriteria
   isApproved = false;
   isRejected = false;
-
   constructor(private timesheetService: TimesheetService,
     private readonly _clientAndProjectStateService: ClientAndProjectStateService,
     private readonly _permissionService: PermissionListService
@@ -43,6 +43,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
       const project = this._clientAndProjectStateService.getProjectById(this.timeEntry?.ProjectId as string);
       if(project) {
         this.project = { ...project };
+       this.checkOnLeave(this.project.name)?this.isOnLeave.emit(true):this.isOnLeave.emit(false);
       }
       else{
         this.project = {
@@ -77,7 +78,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     }
   }
   showPopover() {
-    if (this.clickEventType !== ClickEventType.none) {
+    if (this.clickEventType !== ClickEventType.none ) {
       return;
     }
     this.clickEventType = ClickEventType.showPaletPopover;
@@ -91,11 +92,10 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   }
 
   onProjectNamePaletClicked() {
-    if (this.clickEventType !== ClickEventType.none) {
+    if (this.clickEventType !== ClickEventType.none ) {
       this.clickEventType = ClickEventType.none;
       return;
     }
-
     if (this.startingDateCriteria.isBeforeThreeWeeks) {
       this.clickEventType = ClickEventType.none;
       return;
@@ -141,13 +141,19 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   deleteTimeEntry(): void {
     if (this.timeEntry) {
       this.timesheetService.deleteTimeEntry(this.timeEntry?.Guid).subscribe(response => {
+      if(this.checkOnLeave(this.project.name)) this.isOnLeave.emit(false);
         this.deleteClicked.emit(ClickEventType.deleteTimeEntry);
       });
     }
-  }
+  } 
   
   authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
+  }
+  checkOnLeave(projectName:string)
+  {  
+    return (projectName.trim()=="Casual Leave" || projectName.trim()=="Medical/Maternity" || projectName.trim()=="Sick Leave" 
+    || projectName.trim()=="Vacation" || projectName.trim()=="Leave")?true:false; 
   }
 }
 

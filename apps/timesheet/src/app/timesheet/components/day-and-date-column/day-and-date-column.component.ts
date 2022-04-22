@@ -14,7 +14,7 @@ export class DayAndDateDirective {
 
   }
 }
-@Component({
+@Component({  
   selector: 'app-day-and-date-column',
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
@@ -49,7 +49,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   startingDateCriteria = startingDateCriteria
   disabled = false
   isFutureDate = false;
-
+  isOnLeave=false;
   constructor(
     private timesheetService: TimesheetService,
     public elRef: ElementRef,
@@ -70,7 +70,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       const totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
       this.sortTimeEntries();
-    }
+    } 
 
     let today = new Date();
     today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -253,5 +253,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
+  }
+
+  checkOnLeave(isOnleave:boolean)
+  {
+   this.isOnLeave=isOnleave;
   }
 }

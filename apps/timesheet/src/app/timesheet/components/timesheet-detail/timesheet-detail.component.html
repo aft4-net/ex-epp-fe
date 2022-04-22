@@ -51,9 +51,10 @@
                 <nz-select nzShowSearch nzAllowClear formControlName="client" [(ngModel)]="formData.client"
                     [nzDisabled]="($disableClient | async)" (ngModelChange)="onClientChange($event)">
 
-
-                    <nz-option ng-selected="client.label == formData.client" *ngFor="let client of $clients | async"
-                        nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
+                    <ng-container *ngFor="let client of $clients | async">
+                    <nz-option *ngIf="!leaveforbiden ||  client.name !='Leave'" ng-selected="client.label == formData.client" 
+                         nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
+                   </ng-container>
                 </nz-select>
 
 
@@ -73,9 +74,9 @@
                     </nz-select>
                 </ng-template>
 
-                <label for="hours" id="hours" class="mt-4 mb-2 font-semibold">Hours<span
+                <label  for="hours" id="hours" class="mt-4 mb-2 font-semibold">Hours<span
                         class="font-bold text-base text-red-500  ml-2">*</span></label>
-                <nz-form-item class="timesheet-hour">
+                <nz-form-item   class="timesheet-hour">
                     <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
                         <input [(ngModel)]="formData.hours" nz-input formControlName="hours"
                             placeholder="Please enter {{maxDateColumnTotalHour-dateColumnTotalHour}} hours or less." type="number" min="1"
