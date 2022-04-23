@@ -1,6 +1,4 @@
-* {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
+
 .modal-footer{
     text-align: right;
     button {
@@ -56,15 +54,7 @@ button {
   font-size: 16px !important;
 }
 
-.tab-title{
-  font-style: normal;
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 32px;
-  display: flex;
-  align-items: center;
-  color: #262626;
-  }
+
   ::ng-deep .ant-table-content {
     font-size: 16px !important;
   }
