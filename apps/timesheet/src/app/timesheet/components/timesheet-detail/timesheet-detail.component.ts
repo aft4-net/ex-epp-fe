@@ -698,13 +698,13 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     );
 
     if (this.timesheet) {
-    let checkedLeavedates:Date[]=[];
+    let checkedLeaveDates:Date[]=[];
      for(const date of dates)
    {
      if(!this.isThereLeaveOnADay(date))
-     checkedLeavedates=[...checkedLeavedates,date]
+     checkedLeaveDates=[...checkedLeaveDates,date]
    }
-   dates=checkedLeavedates;
+   dates=checkedLeaveDates;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -1104,7 +1104,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   {   
     this.validateForm.controls.client.valueChanges.subscribe(()=>{
   const client=this.clients.find(c=>c.id==this.validateForm.controls.client.value);  
-    if(client?.name =="Leave" )
+    if(client?.name =="Leave")
     {
       this.validateForm.controls.fromDate.disable();
       this.validateForm.controls.toDate.disable();
@@ -1121,21 +1121,22 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   checkLeaveForLeaveInputOfADay()
 {
-   if(  this.timeEntries!=null )
-   { const dayEntery=this.timeEntries.filter(
+   if(this.formData.fromDate && this.timeEntries!=null )
+   { 
+     const dayEntery=this.timeEntries.filter(
       e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== (this.formData.fromDate
        && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
-  if(this.formData.fromDate && dayEntery.length>0 && this.projects!=null && this.clients!=null)
+
+  if( dayEntery.length>0)
   !this.isThereLeaveOnADay(this.formData.fromDate)?this.leaveforbiden=true:this.leaveforbiden=false;
-  else
-  this.leaveforbiden=false;
-  }else
-  this.leaveforbiden=false;
+  else   this.leaveforbiden=false;
+  }
+  else  this.leaveforbiden=false;
 }
 
 isThereLeaveOnADay(enteryDate:Date):boolean
 {
-  if(this.timeEntries!=null && this.projects!=null && this.clients!=null)
+  if(this.timeEntries!=null && this.clients!=null)
   { 
   const dayEntery=this.timeEntries.filter(
     e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== formatDate(enteryDate, 'yyyy-MM-dd', 'en_US'));
