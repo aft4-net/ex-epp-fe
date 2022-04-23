@@ -78,7 +78,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
     }
   }
   showPopover() {
-    if (this.clickEventType !== ClickEventType.none ) {
+    if (this.clickEventType !== ClickEventType.none) {
       return;
     }
     this.clickEventType = ClickEventType.showPaletPopover;
@@ -92,7 +92,7 @@ export class ProjectNamePaletComponent implements OnInit, OnChanges {
   }
 
   onProjectNamePaletClicked() {
-    if (this.clickEventType !== ClickEventType.none ) {
+    if (this.clickEventType !== ClickEventType.none) {
       this.clickEventType = ClickEventType.none;
       return;
     }

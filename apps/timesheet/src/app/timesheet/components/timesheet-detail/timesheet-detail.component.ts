@@ -583,7 +583,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.formData.toDate = this.date;
 
       this.drawerVisible = true;
-      this.checkLeaveForLeaveInputOfDay();
+      this.checkLeaveForLeaveInputOfADay();
     }
 
     this.clickEventType = ClickEventType.none;
@@ -692,12 +692,19 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
     const timeEntries: TimeEntry[] = [];
     let tmpTimeEntry: TimeEntry | null;
-    const dates = this.dayAndDateService.getRangeOfDates(
+    let dates = this.dayAndDateService.getRangeOfDates(
       this.formData.fromDate,
       this.formData.toDate
     );
 
     if (this.timesheet) {
+    let checkedLeavedates:Date[]=[];
+     for(const date of dates)
+   {
+     if(!this.isThereLeaveOnADay(date))
+     checkedLeavedates=[...checkedLeavedates,date]
+   }
+   dates=checkedLeavedates;
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -1112,36 +1119,40 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   });
   } 
 
-  checkLeaveForLeaveInputOfDay()
+  checkLeaveForLeaveInputOfADay()
+{
+   if(  this.timeEntries!=null )
+   { const dayEntery=this.timeEntries.filter(
+      e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== (this.formData.fromDate
+       && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
+  if(this.formData.fromDate && dayEntery.length>0 && this.projects!=null && this.clients!=null)
+  !this.isThereLeaveOnADay(this.formData.fromDate)?this.leaveforbiden=true:this.leaveforbiden=false;
+  else
+  this.leaveforbiden=false;
+  }else
+  this.leaveforbiden=false;
+}
+
+isThereLeaveOnADay(enteryDate:Date):boolean
 {
   if(this.timeEntries!=null && this.projects!=null && this.clients!=null)
   { 
-     const dayEntery=this.timeEntries.filter(
-      e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== (this.formData.fromDate
-       && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
-
-    if(dayEntery.length>0)
-  { let isThereLeave=false;
-    for(const entery of  dayEntery)
-  {
-             const project=this.projects.find(c=>c.id==entery?.ProjectId);  
-             if( project!=null)
-             if( (project?.name.trim()=="Casual Leave" || project?.name.trim()=="Medical/Maternity" ||
-              project?.name.trim()==="Sick Leave" || project?.name.trim()==="Vacation") || project?.name.trim()=="Leave")   
-            {
-              isThereLeave=true; 
-              break;
-            }  
+  const dayEntery=this.timeEntries.filter(
+    e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== formatDate(enteryDate, 'yyyy-MM-dd', 'en_US'));
+ 
+   for(const entery of dayEntery)
+   {   
+    for(const client of this.clients)
+    {
+      const project=client.projects.find(c=>c.id==entery.ProjectId); 
+      if( project!=null)
+      if( (project?.name.trim()=="Casual Leave" || project?.name.trim()=="Medical/Maternity" ||
+          project?.name.trim()==="Sick Leave" || project?.name.trim()==="Vacation") || project?.name.trim()=="Leave")   
+          return true;     
+    }
   }
-  if(!isThereLeave)
-  this.leaveforbiden=true;
-  else if (isThereLeave==true && dayEntery.length==1)
-  { 
-    this.leaveforbiden=false;
-  }
-  }else
-  this.leaveforbiden=false;
-  }
+ }
+  return false;
 }
 
 }
