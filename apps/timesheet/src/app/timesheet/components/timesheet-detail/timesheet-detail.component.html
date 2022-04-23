@@ -52,7 +52,7 @@
                     [nzDisabled]="($disableClient | async)" (ngModelChange)="onClientChange($event)">
 
                     <ng-container *ngFor="let client of $clients | async">
-                    <nz-option *ngIf="!leaveforbiden ||  client.name !='Leave'" ng-selected="client.label == formData.client" 
+                    <nz-option *ngIf="!leaveforbiden || client.name !=='Leave'" ng-selected="client.label == formData.client" 
                          nzValue="{{ client.id }}" nzLabel="{{ client.name }}"></nz-option>
                    </ng-container>
                 </nz-select>

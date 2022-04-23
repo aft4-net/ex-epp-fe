@@ -125,8 +125,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   loading$: Observable<number>;
   loadingSubscription = new Subscription();
- isOnLeave=false;
- leaveforbiden=false;
+  leaveforbiden=false;
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, this.date) > 0;
@@ -220,8 +219,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
         this.projects = response;
       })
     )
-    this.valueChangeInputleave(); 
-    // this.checkLeaveForLeaveInputOfDay();
+    this.valueChangeInputleave();
   }
 
   ngOnDestroy(): void {
@@ -1101,33 +1099,23 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   const client=this.clients.find(c=>c.id==this.validateForm.controls.client.value);  
     if(client?.name =="Leave" )
     {
-      this.isOnLeave=true;
       this.validateForm.controls.fromDate.disable();
       this.validateForm.controls.toDate.disable();
-
-      this.validateForm.controls.hours.disable();
-      
-      this.validateForm.controls.hours.setValue( this.timesheetConfig.WorkingHours.Min); 
-     
-     this.formData.hours=this.timesheetConfig.WorkingHours.Min;
-     
-  
+      this.validateForm.controls.hours.disable();   
+      this.validateForm.controls.hours.setValue(this.timesheetConfig.WorkingHours.Min);
     }
     else{
-
-      this.validateForm.controls.fromDate.enable();
-      this.validateForm.controls.toDate.enable();
-     this.validateForm.controls.hours.enable();
-     
-      this.isOnLeave=false;
+     this.validateForm.controls.fromDate.enable();
+     this.validateForm.controls.toDate.enable();
+    this.validateForm.controls.hours.enable();
     } 
   });
   } 
 
   checkLeaveForLeaveInputOfDay()
 {
-    if(this.timeEntries!=null && this.projects!=null && this.clients!=null)
-    { 
+  if(this.timeEntries!=null && this.projects!=null && this.clients!=null)
+  { 
      const dayEntery=this.timeEntries.filter(
       e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== (this.formData.fromDate
        && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
