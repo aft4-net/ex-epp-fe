@@ -704,7 +704,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
      if(!this.isThereLeaveOnADay(date))
      checkedLeaveDates=[...checkedLeaveDates,date]
    }
-   dates=checkedLeaveDates;
+   dates=[...checkedLeaveDates];
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -1121,15 +1121,13 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   checkLeaveForLeaveInputOfADay()
 {
-   if(this.formData.fromDate && this.timeEntries!=null )
-   { 
-     const dayEntery=this.timeEntries.filter(
-      e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== (this.formData.fromDate
-       && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
-
-  if( dayEntery.length>0)
-  !this.isThereLeaveOnADay(this.formData.fromDate)?this.leaveforbiden=true:this.leaveforbiden=false;
-  else   this.leaveforbiden=false;
+ if(this.formData.fromDate && this.timeEntries!=null )
+  { 
+    const dayEntery=this.timeEntries.filter(e=>formatDate(e.Date,'yyyy-MM-dd','en_US')==
+    (this.formData.fromDate && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
+     if( dayEntery.length>0)
+      !this.isThereLeaveOnADay(this.formData.fromDate)?this.leaveforbiden=true:this.leaveforbiden=false;
+     else   this.leaveforbiden=false;
   }
   else  this.leaveforbiden=false;
 }
@@ -1140,14 +1138,12 @@ isThereLeaveOnADay(enteryDate:Date):boolean
   { 
   const dayEntery=this.timeEntries.filter(
     e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== formatDate(enteryDate, 'yyyy-MM-dd', 'en_US'));
- 
    for(const entery of dayEntery)
    {   
     for(const client of this.clients)
     {
       const project=client.projects.find(c=>c.id==entery.ProjectId); 
-      if( project!=null)
-      if( (project?.name.trim()=="Casual Leave" || project?.name.trim()=="Medical/Maternity" ||
+      if((project?.name.trim()=="Casual Leave" || project?.name.trim()=="Medical/Maternity" ||
           project?.name.trim()==="Sick Leave" || project?.name.trim()==="Vacation") || project?.name.trim()=="Leave")   
           return true;     
     }
