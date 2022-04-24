@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { RemoteEntryComponent } from './entry.component';
-import { httpJWTInterceptor } from '../../../../../libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from './../core/interceptors/httpJWTInterceptor';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 @NgModule({
   declarations: [RemoteEntryComponent],

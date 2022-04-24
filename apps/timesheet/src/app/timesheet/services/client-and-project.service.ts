@@ -8,7 +8,7 @@ import { BaseQueryOnlyAPIService } from './base-api.service';
 //TimeSheet/
 
 function extractURL() {
-  const url = environment.apiUrl;
+  const url = environment.timesheetApiUrl;
   const length = url.indexOf('TimeSheet');
   if(length) {
     return url.substring(0, length);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,10 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from '../../../Services/logIn/account.service';
 import { NotificationBar } from '../../../../utils/feedbacks/notification';
 import { FormValidator } from '../../../../utils/validator';
-import { AuthenticationService } from 'libs/common-services/Authentication.service';
+import { AuthenticationService } from './../../../../../../../../libs/common-services/Authentication.service';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { environment } from '../../../../../environments/environment';
@@ -19,7 +18,7 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   showPassword = false;
   loading = false;
   cposition = '';
@@ -36,6 +35,9 @@ export class LoginComponent {
       //Validators.minLength(8),
     ]),
   });
+  ngOnInit(): void {
+    this.notification.showNotification({type: '', content: '', duration: 1});
+  }
   get loginEmail(): AbstractControl | null {
     return this.loginForm.get('email');
   }
@@ -104,7 +106,7 @@ export class LoginComponent {
       return;
       }
     this.loading = true;
-    this._authenticationService.signIn(this.loginForm.value).subscribe(
+    this._authenticationService.signIn(environment.apiUrl, this.loginForm.value).subscribe(
       (res) => {
         if (res.Data && res.Data.Token) {
           localStorage.setItem(
@@ -130,6 +132,8 @@ export class LoginComponent {
             duration: 5000,
           });
           return;
+        } else {
+          this.notification.showNotification({ type: 'error', content: error.message, duration: 5000 });
         }
         let msg = error.error?.Message;
         if (msg) {

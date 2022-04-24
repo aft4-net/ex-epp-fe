@@ -16,14 +16,11 @@ import { UserToGroupComponent } from './features/components/user/user-to-group/u
 import en from '@angular/common/locales/en';
 import { registerLocaleData } from '@angular/common';
 import { UserdetailsComponent } from './features/components/userdetails/userdetails.component';
-import { httpJWTInterceptor } from '../../../../libs/interceptor/httpJWTInterceptor';
+import { httpJWTInterceptor } from './services/interceptors/httpJWTInterceptor';
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import { environment } from '../../../../libs/environments/environment';
-//import { MsalModule, MSAL_INSTANCE } from '@azure/msal-angular';
+import { environment } from './../environments/environment';
 import { SharedModule } from './shared/modules/shared.module';
-//import { PageTemplateModule } from './shared/modules/templates/page-template.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { UserManagementModule } from './modules/userManagment/user-management.module';
 import { ChangepasswordComponent } from './features/Account/changepassword/changepassword.component';
 import { RouterModule } from '@angular/router';
 import { CustomFormModule } from './shared/modules/forms/custom-form.module';
