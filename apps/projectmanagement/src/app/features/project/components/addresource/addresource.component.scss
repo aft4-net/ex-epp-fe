@@ -31,9 +31,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-
   border-color: #00a551;
-
   color: #00a551;
 }
 
@@ -261,6 +259,11 @@ margin-bottom: 40%;
   padding: 0px 1.6%;
 }
 .title{
-  font-size:21px;
-  font-weight: 500;
+font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+font-style: normal;
+position: absolute;
+font-weight: 500;
+font-size: 21px;
+color: #262626;
+margin-top: 8px;
 }

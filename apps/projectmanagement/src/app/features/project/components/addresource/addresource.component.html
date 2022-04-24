@@ -3,8 +3,9 @@
   <div [ngClass]="!isOnEditstate ? 'tab-content mt-3 ' : ''"  >
 <div class="justify-between mb-3" nz-row>
   <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>     
-  <div *ngIf="isOnEditstate" class="title"> {{  projectForResource?.ProjectName }} -
-    Resources </div>
+  <div *ngIf="isOnEditstate" > 
+    <span class="title" >{{  projectForResource?.ProjectName }} -
+    Resources </span> </div>
     
   <div>
     <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
