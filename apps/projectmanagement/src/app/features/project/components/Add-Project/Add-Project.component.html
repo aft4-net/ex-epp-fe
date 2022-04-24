@@ -11,7 +11,7 @@
   </nz-breadcrumb>
 
   <div *ngIf="isOnEditstate" class="flex flex-row justify-between" nz-row>
-    <div  class="page-title">Edit Project</div>
+    <div><span class="page-title"> Edit Project </span></div>
     <div >
       <button   nz-button class="btn"  [nzLoading]="saveUpdateload"   (click)="saveProjectUpdate()" [disabled]="!enableUpdateButton || validateForm.invalid">
         Update

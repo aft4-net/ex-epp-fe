@@ -11,8 +11,7 @@
       <nz-breadcrumb-item *ngIf="isOnEditstate" > Edit Project</nz-breadcrumb-item>
     </nz-breadcrumb>        
  <div  class="flex flex-row justify-between " nz-row>
-        <div *ngIf="!isOnEditstate"  class="page-title">  Add Project </div>
-        <div *ngIf="isOnEditstate"  class="page-title">  Edit Project </div>
+        <div *ngIf="!isOnEditstate"> <span class="page-title"> Add Project </span></div>
         <div *ngIf="!isOnEditstate" > 
           <button nz-button class="btn"   [disabled]="!forrmvalid"   (click)="createProject() "
             [nzLoading]="isLoading" >
