@@ -25,6 +25,7 @@ export class ViewreportComponent implements OnInit {
   clientId = "";
   startDate:any;
   endDate:any;
+  defualtMonth: any;
   today = new Date();
   isEnglish = false;
   clientList: GetClient[] = [];
@@ -48,12 +49,16 @@ export class ViewreportComponent implements OnInit {
     const month = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);
   this.startDate=  month.setDate(0);
   const mm = new Date(this.today.getMonth());
+  const monthh = (new Date().getMonth() + 1).toString();
   console.log("+++++++++++");
-  console.log(mm);
-  console.log("mghdh+++++++++++++");
-  console.log("Check end date of month");
-  console.log(this.startDate);
- 
+  console.log(monthh);
+  const monthm = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const d = new Date();
+const namem = monthm[d.getMonth()- 1];
+  //console.log(namem);
+this.defualtMonth = monthm[d.getMonth()- 1]
+  console.log(namem);
   this.endDate= month.setDate(1);
   console.log("Check start date of month");
   console.log(this.endDate);
@@ -79,19 +84,13 @@ export class ViewreportComponent implements OnInit {
       this.projectList = res.Data;
     });
   }
-  onChangesFilterReportrr(values: string): void {
-    console.log(values, this.clientId);
-  }
+ 
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, this.today) > 0;
   onChangesFilterReport(event: string) {
-    //this.clientId = event;
-    console.log(event,this.clientId);
-    console.log("wwwwwwwwwwwwwwww");
     if (this.clientId === event) {
       this.getProjectListByClientId(this.clientId);
-      console.log("correct one",this.clientId);
     }
   }
 
