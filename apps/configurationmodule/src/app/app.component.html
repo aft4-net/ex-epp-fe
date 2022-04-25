@@ -24,7 +24,7 @@
           <a [routerLink]="['/configurationmodule/country']">Country</a>
         </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/duty-station") || dutyStationIsActive' *ngIf="authorize(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])">
-          <i nz-icon nzType="block" nzTheme="outline"></i>
+          <i nz-icon nzType="environment" nzTheme="outline"></i>
           <a [routerLink]="['/configurationmodule/duty-station']">Duty Station</a>
         </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/timesheet") || timesheetIsActive' *ngIf="authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])">
