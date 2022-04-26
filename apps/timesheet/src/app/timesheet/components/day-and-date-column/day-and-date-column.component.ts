@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
@@ -53,7 +53,8 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   constructor(
     private timesheetService: TimesheetService,
     public elRef: ElementRef,
-    private readonly _permissionService: PermissionListService
+    private readonly _permissionService: PermissionListService,
+    private cd:ChangeDetectorRef
   ) { }
 
   clickEventType = ClickEventType.none;
@@ -92,6 +93,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     else {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
+    this.cd.detectChanges()
   }
 
   sortTimeEntries() {

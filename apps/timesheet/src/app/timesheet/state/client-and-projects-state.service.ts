@@ -129,13 +129,10 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
 
     private _findClientById(id: string): Client {
         const state = this.State;
-        const clients = state.collection.filter(client => client.id === id);
-        if (clients.length === 0) {
-            throw new Error("Client with the selected id does not exist!");
-        } else if (clients[0].projects.length === 0) {
-            throw new Error("Client does not have active projects!");
-        }
-        return clients[0];
+        const client = state.collection.find(client => client.id === id);
+        if(!client || client?.projects.length === 0)
+        return {} as Client;
+        else  return client;
     }
 
     private _findClientByProjectId(id: string): Client | null {
@@ -182,7 +179,7 @@ export class ClientAndProjectStateService extends BaseStateService<ClientAndProj
                 selectedProject: null,
                 isProjectDisabled: false
             };
-            if (client.projects.length === 1) {
+            if (client.projects?.length === 1) {
                 state = {
                     ...state,
                     selectedProject: client.projects[0].id,
