@@ -83,10 +83,15 @@ export class ViewReportService {
     catchError(this.formatErrors)
   );
 }
-getReports(ClientId?:string,ProjectId?:string):Observable<Report[]>
+getReports(ClientId:string,_starday:string|null,_endDay:string|null,ProjectId?:string):Observable<Report[]>
 {
   ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
-const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f`;
+  //TimeSheet/TimeSheetReport/2022-03-03, 2022-3-30?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f
+let url =`${environment.apiUrl}/TimeSheet/TimeSheetReport/${_starday}, ${_endDay}?clientId=${ClientId}`;
+if(ProjectId)
+{
+url= url+'&&projectId=' + ProjectId;
+}
  return this.http.get(url).pipe(map((res:any)=>{
   return res.Data;
  }));

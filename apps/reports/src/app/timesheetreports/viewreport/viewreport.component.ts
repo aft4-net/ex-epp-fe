@@ -4,7 +4,7 @@ import { Data } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import en from '@angular/common/locales/en';
 
-import { registerLocaleData } from '@angular/common';
+import {DatePipe, registerLocaleData } from '@angular/common';
 import { differenceInCalendarDays, setHours } from 'date-fns';
 
 import { DisabledTimeFn, DisabledTimePartial } from 'ng-zorro-antd/date-picker';
@@ -13,6 +13,7 @@ import { GetProject } from '../../Models/get-project';
 import { ViewReportService } from '../../services/view-report.service';
 import { Report,projects } from '../../Models/getReport';
 import { ConstantPool } from '@angular/compiler';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -23,11 +24,23 @@ export class ViewreportComponent implements OnInit {
 
   //Data = null;
   clientId = "";
+  projectId?="";
   startDate:any;
   endDate:any;
-  defualtMonth: any;
+  defualtMonth: Date;
+  monthm: any;
+  month:any;
+  monthyear:any;
   today = new Date();
+  firstDay = new Date();
+  lastDay = new Date();
   isEnglish = false;
+  reportForm = new FormGroup({
+    clientIds: new FormControl(''),
+    ProjectIds: new FormControl(''),
+    months: new FormControl('')
+  });
+
   clientList: GetClient[] = [];
   projectList: GetProject[] =[];
   reportList: Report[] = [];
@@ -40,33 +53,54 @@ export class ViewreportComponent implements OnInit {
   public listOfClients: [GetClient] | [] =[];
   public listOfProjects: [GetProject] | [] =[];
   constructor(
-    private reportService:ViewReportService
-  ) { 
-   
+    private reportService:ViewReportService,
+    public datepipe: DatePipe
+  ) {
+    this.defualtMonth = new Date();
+    this.defualtMonth.setDate(-1 * (this.defualtMonth.getDate() + 1));
+  
+//let latest_date =this.datepipe.transform(this.defualtMonth, 'yyyy-MM-dd');
+
   }
+  allmonths = [
+    {name:'JANUARY',key:0},
+    {name:'FEBRUARY',key:1},
+    {name:'MARCH',key:2},
+    {name:'APRIL',key:3},
+    {name:'MAY',key:4},
+    {name:'JUNE',key:5},
+    {name:'JULAY',key:6},
+    {name:'AUGUST',key:7},
+    {name:'SEPTEMBER',key:8},
+    {name:'OCTOBER',key:9},
+    {name:'NOVEMBER',key:10},
+    {name:'DECEMBER',key:11}]
+    
   ngOnInit(): void {
     //this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
-    const month = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);
-  this.startDate=  month.setDate(0);
+    this.month = new Date().getMonth();
+    const monthhh = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);
+  this.startDate=  monthhh.setDate(0);
   const mm = new Date(this.today.getMonth());
   const monthh = (new Date().getMonth() + 1).toString();
   console.log("+++++++++++");
   console.log(monthh);
-  const monthm = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
+   this.monthm = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  
 const d = new Date();
-const namem = monthm[d.getMonth()- 1];
+const namem = this.monthm[d.getMonth()- 1];
   //console.log(namem);
-this.defualtMonth = monthm[d.getMonth()- 1]
+// this.defualtMonth = this.monthm[d.getMonth()- 1]
   console.log(namem);
-  this.endDate= month.setDate(1);
+  this.endDate= monthhh.setDate(1);
   console.log("Check start date of month");
   console.log(this.endDate);
   this.map();
   this.disabledDate;
-  this.getReport();
+  //this.getReport();
   registerLocaleData(en); 
   this.getAllClientList();
+  
   //this.getProjectListByClientId(this.clientId);
 
   }
@@ -74,7 +108,9 @@ this.defualtMonth = monthm[d.getMonth()- 1]
     this.reportService.getClientList().subscribe(
     (async (res:any) => {
       this.clientList = res;
-     
+     this.clientId =this.clientList[0].Guid;;
+     console.log(this.clientId);
+     console.log("++wwwwwwwwwwwwwwwwwwwwwwwtttttttttttttttttt++");
     })
   );
 }
@@ -82,12 +118,17 @@ this.defualtMonth = monthm[d.getMonth()- 1]
   {
     this.reportService.getProjectByClientId(clientId).subscribe(res => {
       this.projectList = res.Data;
+      
     });
   }
- 
-  disabledDate = (current: Date): boolean =>
+   
+  disabledDate = (current: Date): any =>
     // Can not select days before today and today
-    differenceInCalendarDays(current, this.today) > 0;
+    //differenceInCalendarMonths(current,this.today.getMonth()>0)
+      differenceInCalendarDays(current, this.today) > 0;
+      
+    
+
   onChangesFilterReport(event: string) {
     if (this.clientId === event) {
       this.getProjectListByClientId(this.clientId);
@@ -147,10 +188,35 @@ FilterClients(cId:any)
   console.log(cId);
  
 }
-
-getReport(){
+onGenerateReports()
+{
+  console.log("Selected Client");
+  console.log(this.clientId);
+  console.log("Selected Projects")
+  console.log(this.projectId);
+  console.log("Selected month")
+  console.log(this.defualtMonth);
+this.firstDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth(), 1);
+this.lastDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth() + 1, 0);
+const fromDate = this.datepipe.transform(this.firstDay, 'yyyy-MM-dd');
+ 
+console.log("forst date")
+console.log(this.firstDay);
+console.log("Short date date")
+console.log(fromDate);
+console.log("last date")
+console.log(this.lastDay);
+this.getReport(this.clientId,this.firstDay,this.lastDay,this.projectId);
+}
+getReport(cID:string,sDate:Date,eDate:Date,pID?:string){
  // clientId= "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
-  this.reportService.getReports().subscribe((res:Report[])=>{
+ const sDatestring = this.datepipe.transform(sDate, 'yyyy-MM-dd');
+ const eDatestring = this.datepipe.transform(eDate, 'yyyy-MM-dd');
+ console.log("hhhhhhhhhhhhhhhhhh");
+ console.log(sDatestring);
+ console.log("eeeeeeeee");
+ console.log(eDatestring);
+  this.reportService.getReports(cID,sDatestring,eDatestring, pID).subscribe((res:Report[])=>{
   this.reportList=res;
 console.log("wwwwwwwwwwwres===>",  this.reportList);
 this.filterProjects();
@@ -182,6 +248,10 @@ this.sumHours();
     // }
     onChange(): void {
       ;
+    }
+
+    onMonthChange(monthDate: Date){
+      //TODO: on Month Change
     }
   
     getWeek(result: Date): void {

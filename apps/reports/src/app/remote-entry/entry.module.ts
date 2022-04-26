@@ -11,7 +11,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import en from '@angular/common/locales/en';
-import { registerLocaleData } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
 registerLocaleData(en);
@@ -24,6 +24,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     NzNotificationModule,
     NzDatePickerModule,
+    
     RouterModule.forChild([
       {
         path: '',
@@ -35,7 +36,7 @@ registerLocaleData(en);
       },
     ]),
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },DatePipe],
   
 })
 export class RemoteEntryModule {}
