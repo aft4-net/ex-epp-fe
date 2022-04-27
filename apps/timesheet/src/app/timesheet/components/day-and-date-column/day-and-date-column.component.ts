@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, Directive, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { PermissionListService } from './../../../../../../../libs/common-services/permission.service';
 import { DateColumnEvent, TimeEntryEvent } from '../../../models/clickEventEmitObjectType';
 import { ClickEventType } from '../../../models/clickEventType';
@@ -14,7 +14,7 @@ export class DayAndDateDirective {
 
   }
 }
-@Component({
+@Component({  
   selector: 'app-day-and-date-column',
   templateUrl: './day-and-date-column.component.html',
   styleUrls: ['./day-and-date-column.component.scss']
@@ -49,11 +49,12 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
   startingDateCriteria = startingDateCriteria
   disabled = false
   isFutureDate = false;
-
+  isOnLeave=false;
   constructor(
     private timesheetService: TimesheetService,
     public elRef: ElementRef,
-    private readonly _permissionService: PermissionListService
+    private readonly _permissionService: PermissionListService,
+    private cd:ChangeDetectorRef
   ) { }
 
   clickEventType = ClickEventType.none;
@@ -70,7 +71,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
       const totalHours = this.timeEntries?.map(timeEntry => timeEntry.Hour).reduce((prev, next) => prev + next, 0);
       this.totalHours = totalHours ? totalHours : 0;
       this.sortTimeEntries();
-    }
+    } 
 
     let today = new Date();
     today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -92,6 +93,7 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
     else {
       this.dateColumnHighlightClass = "date-column-with-highlight";
     }
+    this.cd.detectChanges()
   }
 
   sortTimeEntries() {
@@ -253,5 +255,10 @@ export class DayAndDateColumnComponent implements OnInit, OnChanges {
 
   authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
+  }
+
+  checkOnLeave(isOnleave:boolean)
+  {
+   this.isOnLeave=isOnleave;
   }
 }

@@ -4,11 +4,11 @@
       <div class="flex bg-gray-100 rounded ml-2 ">
         <h1 class="date   font-sans text-base  text-gray-500 ml-2 font-semibold  m-2" style="font-size: 1.2rem;"> {{item}} {{dates1}}</h1>
       </div>
-
+ 
       <h3 *ngIf="totalHours > 0" class="hour mt-2 mr-2 font-sans text-base  text-gray-500 font-bold">{{ totalHours }} Hrs</h3>
     </div>
     <div class="sm:hidden lg:block">
-      <div *ngIf="!timesheetApproved() && authorize('Edit_TimeEntry')" (click)="showFormDrawer()" class="add-btn cursor-pointer flex justify-center items-center border pt-2 pb-2 ml-2 mr-2 mt-4"
+      <div *ngIf="!timesheetApproved() && authorize('Edit_TimeEntry') && !isOnLeave" (click)="showFormDrawer()" class="add-btn cursor-pointer flex justify-center items-center border pt-2 pb-2 ml-2 mr-2 mt-4"
         [hidden]="disabled">
         <svg class="text-xl" viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em"
           height="1em" data-icon="plus-circle" aria-hidden="true">
@@ -19,7 +19,7 @@
         <p class="text-sm m-0 ml-2">Add</p>
       </div>
     </div>
-    <div *ngIf="!timesheetApproved() && authorize('Edit_TimeEntry')" (click)="showFormDrawer()" class="w-full grid justify-end lg:hidden"
+    <div *ngIf="!timesheetApproved() && authorize('Edit_TimeEntry') && !isOnLeave" (click)="showFormDrawer()" class="w-full grid justify-end lg:hidden"
        [hidden]="disabled">
       <svg class="stroke-current text-green-600 text-xl mb-4 mt-4 mr-4" viewBox="64 64 896 896" focusable="false"
         fill="currentColor" width="1em" height="1em" data-icon="plus-circle" aria-hidden="true">
@@ -46,7 +46,7 @@
           [timesheetApproval]="timesheetApprovalForaProject(timeEntry.ProjectId)"
           (projectNamePaletClicked)="onProjectNamePaletClicked($event)"
           (paletEllipsisClicked)="onPaletEllipsisClicked($event)" (editClicked)="onEditButtonClicked($event)"
-          (deleteClicked)="onDeleteButtonClicked($event)">
+          (deleteClicked)="onDeleteButtonClicked($event)"(isOnLeave)="checkOnLeave($event)" >
         </app-project-name-palet>
         {{checkOverflow(item)}}
       </div>
