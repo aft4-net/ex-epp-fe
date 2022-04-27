@@ -47,7 +47,6 @@ export class DepartmentComponent implements OnInit {
       this.pagination = response;
       this.listOfDepartments = [];
       this.listOfDepartments = [...response.Data];
-      console.log("list of departments is : ", this.listOfDepartments);
     });
   }
 

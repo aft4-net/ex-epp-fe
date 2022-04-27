@@ -20,8 +20,10 @@
     border-color: #2fad6c;
     background: #2fad6c;
 }
-  
+.content {
+    padding:0px 20px 0px;
+  }
 .config-scroll{
-    height: 72vh;
+    height: 80vh;
     overflow-y:auto;
 }

@@ -1,11 +1,12 @@
 <nz-spin   [nzSpinning]="loading" >
 <div [ngClass]="isOnEditstate ? '  pageContainer' : 'pageAdd '">
-  <div [ngClass]="!isOnEditstate ? 'tab-content mt-3  ' : ''"  >
+  <div [ngClass]="!isOnEditstate ? 'tab-content mt-3 ' : ''"  >
 <div class="justify-between mb-3" nz-row>
-  <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>
-
-  <div *ngIf="isOnEditstate" style=" font-size: '22px'; "> {{  projectForResource?.ProjectName }} -
-    Resources </div>
+  <div *ngIf="!isOnEditstate" class="tab-title"> Resources </div>     
+  <div *ngIf="isOnEditstate" > 
+    <span class="title" >{{  projectForResource?.ProjectName }} -
+    Resources </span> </div>
+    
   <div>
     <button *ngIf="!isOnEditstate" class="btn" (click)="showModal()">
       Assign resource

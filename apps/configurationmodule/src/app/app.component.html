@@ -24,14 +24,14 @@
           <a [routerLink]="['/configurationmodule/country']">Country</a>
         </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/duty-station") || dutyStationIsActive' *ngIf="authorize(['Create_DutyStation', 'Update_DutyStation', 'Delete_DutyStation', 'View_DutyStation'])">
-          <i nz-icon nzType="flag" nzTheme="outline"></i>
+          <i nz-icon nzType="environment" nzTheme="outline"></i>
           <a [routerLink]="['/configurationmodule/duty-station']">Duty Station</a>
         </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/timesheet") || timesheetIsActive' *ngIf="authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])">
           <i nz-icon nzType="clock-circle" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/timesheet']" >TimeSheet</a>
         </li>
         <li nz-menu-item [nzSelected]='activePath("/configurationmodule/notification") || notificationIsActive' *ngIf="authorize(['View_Timesheet_Configuration', 'Update_Timesheet_Configuration'])">
-          <i nz-icon nzType="clock-circle" nzTheme="outline"></i> <a [routerLink]="['/configurationmodule/notification']" >Notification</a>
+          <i nz-icon nzType="bell" nzTheme="outline"></i><a [routerLink]="['/configurationmodule/notification']" >Notification</a>
         </li>
       </ul>
     </nz-sider>
