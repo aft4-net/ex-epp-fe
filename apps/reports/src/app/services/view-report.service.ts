@@ -65,12 +65,23 @@ export class ViewReportService {
   }
 
 
-  getClientList(): Observable<[GetClient]> {
-    const url = `${environment.apiUrl}/ClientDetails/GetAll`;
-  return this.http.get<[GetClient]>(url).pipe(
+  getClientList(): Observable<GetClient[]> {
+    const url = `${environment.apiUrl}/ClientDetails`;
+  return this.http.get<any>(url).pipe(
+    map(responses => {
+      const clients: GetClient[] = [];
+      for(const response of responses.Data) {
+        clients.push({
+          Guid: response.Guid,
+          ClientName: response.ClientName
+        });
+      }
+      return clients;
+    }),
     catchError(this.formatErrors)
   );
   }
+  
   getProjectList(): Observable<[GetProject]> {
     const url = `${environment.apiUrl}/Project`;
     return this.http.get<[GetProject]>(url).pipe(
@@ -88,11 +99,15 @@ getReports(ClientId:string,_starday:string|null,_endDay:string|null,ProjectId?:s
 {
   //ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
   //TimeSheet/TimeSheetReport/2022-03-03, 2022-3-30?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f
+  console.log("Before send service");
+  console.log(ProjectId);
 let url =`${environment.apiUrl}/TimeSheet/TimeSheetReport/${_starday}, ${_endDay}?clientId=${ClientId}`;
 if(ProjectId)
 {
 url= url+'&&projectId=' + ProjectId;
+console.log("Inside if statment",ProjectId);
 }
+console.log("End Of sssssss",ProjectId);
  return this.http.get(url).pipe(map((res:any)=>{
   return res.Data;
  }));
