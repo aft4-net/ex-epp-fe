@@ -47,7 +47,14 @@ p{
 .nz-date-picker {
         margin: 0 8px 12px 0;
       }
-
+      .nz-divider {
+        color: #333;
+        font-weight: normal;
+      }
+      .inner-box {
+        background: hsl(210, 50%, 99%);
+        padding: 4px 0;
+      }
 
 
 

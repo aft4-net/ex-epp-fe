@@ -51,7 +51,7 @@ export class ViewReportService {
   //     .pipe(catchError(this.formatErrors));
   // }
   getProjectByClientId(id: string): Observable<ResponseDTO<any>> {
-    return this.http.get<any>(`${environment.apiUrl}/Project/GetProjectsByClient?clientGuid=${id}`)
+    return this.http.get<any>(`${environment.apiUrl}/Project/ClientProjects(clientGuid)?clientGuid=${id}`)
       .pipe(catchError(this.formatErrors));
   }
 
@@ -77,8 +77,8 @@ export class ViewReportService {
   );
   }
   getProjectsListByClient(ClientId: string): Observable<ResponseDTO< [GetProject]>> {
-    
-    const url = `${environment.apiUrl}/Project/ClientProjects(clientGuid)?guid=${ClientId}`;
+    //Project/ClientProjects(clientGuid)?clientGuid
+    const url = `${environment.apiUrl}/Project/ClientProjects(clientGuid)?clientGuid=${ClientId}`;
   return this.http.get<ResponseDTO< [GetProject]>>(url).pipe(
     catchError(this.formatErrors)
   );

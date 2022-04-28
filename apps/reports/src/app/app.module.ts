@@ -20,6 +20,7 @@ import en from '@angular/common/locales/en';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { FormsModule } from '@angular/forms';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 registerLocaleData(en);
 
@@ -41,6 +42,7 @@ registerLocaleData(en);
     NzNotificationModule,
     NzLayoutModule,
     FormsModule,
+    NzGridModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [

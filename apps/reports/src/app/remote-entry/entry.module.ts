@@ -13,6 +13,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import en from '@angular/common/locales/en';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 registerLocaleData(en);
 
@@ -24,7 +25,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     NzNotificationModule,
     NzDatePickerModule,
-    
+    NzGridModule,
     RouterModule.forChild([
       {
         path: '',
