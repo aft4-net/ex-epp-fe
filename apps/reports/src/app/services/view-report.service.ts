@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { GetClient } from '../Models/get-client';
 import { GetProject } from '../Models/get-project';
 import { Report,projects } from '../Models/getReport';
+import { ReportWithCriteria } from '../Models/reportWithCriteria';
 import { ResponseDTO } from '../Models/ResponseDTO';
 import { ErrHandleService } from '../shared/services/error-handle.service';
 
@@ -83,9 +84,9 @@ export class ViewReportService {
     catchError(this.formatErrors)
   );
 }
-getReports(ClientId:string,_starday:string|null,_endDay:string|null,ProjectId?:string):Observable<Report[]>
+getReports(ClientId:string,_starday:string|null,_endDay:string|null,ProjectId?:string[]):Observable<Report[]>
 {
-  ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
+  //ClientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f"
   //TimeSheet/TimeSheetReport/2022-03-03, 2022-3-30?clientId=d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f
 let url =`${environment.apiUrl}/TimeSheet/TimeSheetReport/${_starday}, ${_endDay}?clientId=${ClientId}`;
 if(ProjectId)
@@ -95,5 +96,20 @@ url= url+'&&projectId=' + ProjectId;
  return this.http.get(url).pipe(map((res:any)=>{
   return res.Data;
  }));
+}
+getReportsByCriteria(body: ReportWithCriteria):Observable<Report[]>
+{
+const url =`${environment.apiUrl}/TimeSheet/TimeSheetReport`+ body;
+console.log("to check byyy wwwwwwwwwww ffffffffffffffffffffff")
+
+ return this.http.get(url).pipe(map((res:any)=>{
+  return res.Data;
+ }));
+}
+getReportsByCriterias(body: ReportWithCriteria): Observable<any> {
+  console.log("who is who ");
+  return this.http
+    .post(`${environment.apiUrl}/TimeSheet/TimeSheetReport`, body) 
+    .pipe(catchError(this.formatErrors));
 }
 }

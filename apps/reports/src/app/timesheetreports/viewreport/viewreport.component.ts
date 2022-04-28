@@ -14,6 +14,7 @@ import { ViewReportService } from '../../services/view-report.service';
 import { Report,projects } from '../../Models/getReport';
 import { ConstantPool } from '@angular/compiler';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ReportWithCriteria } from '../../Models/reportWithCriteria';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -23,7 +24,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ViewreportComponent implements OnInit {
 
   clientId = "";
-  projectId?="";
+  projectId: string[] = [];
   startDate:any;
   endDate:any;
   defualtMonth: Date;
@@ -37,7 +38,7 @@ export class ViewreportComponent implements OnInit {
   loading = false;
   reportForm = new FormGroup({
     clientIds: new FormControl(''),
-    ProjectIds: new FormControl(''),
+    ProjectIds: new FormControl([]),
     months: new FormControl('')
   });
   selectedproject = [];
@@ -50,7 +51,7 @@ export class ViewreportComponent implements OnInit {
   sumBillableHours=0;
   sumNonBillableHours=0;
   public listOfClients: [GetClient] | [] =[];
-  public listOfProjects: [GetProject] | [] =[];
+  public listOfProjects = [];
   constructor(
     private reportService:ViewReportService,
     public datepipe: DatePipe
@@ -94,7 +95,8 @@ const namem = this.monthm[d.getMonth()- 1];
      this.firstDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth(), 1);
      this.lastDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth() + 1, 0);
      
-     this.getReport(this.clientId,this.firstDay,this.lastDay,this.projectId);
+    
+     this.getReport(this.clientId,this.firstDay,this.lastDay,this.projectId);  
     })
   );
 }
@@ -102,7 +104,10 @@ const namem = this.monthm[d.getMonth()- 1];
   {
     this.reportService.getProjectByClientId(clientId).subscribe(res => {
       this.projectList = res.Data;
-      
+      this.projectId = [];
+      this.projectList.forEach(project => {
+        this.projectId.push(project.Guid);
+      });
     });
   }
    
@@ -114,8 +119,11 @@ const namem = this.monthm[d.getMonth()- 1];
 
   onChangesFilterReport(event: string) {
     this.loading = true;
-    if (this.clientId === event) {
+   
+    //this.clientId = event;
+    if (this.clientId==event) {
       this.getProjectListByClientId(this.clientId);
+     
     }
   }
 
@@ -139,7 +147,7 @@ getAllClientLisddt(){
 getAllProjectList(){
   this.reportService.getProjectList().subscribe(
   (async (res:any) => {
-    this.listOfProjects = res.Data;
+    this.projectId = res.Data;
   })
 );
 }
@@ -172,12 +180,21 @@ this.lastDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMo
 
 this.getReport(this.clientId,this.firstDay,this.lastDay,this.projectId);
 }
-getReport(cID:string,sDate:Date,eDate:Date,pID?:string){
+getReport(cID:string,sDate:Date,eDate:Date,pID?:string[]){
  // clientId= "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
  const sDatestring = this.datepipe.transform(sDate, 'yyyy-MM-dd');
  const eDatestring = this.datepipe.transform(eDate, 'yyyy-MM-dd');
+ const data: ReportWithCriteria = {
+   ClientGuid: cID,
+   SelectedProjects: pID ?? [],
+   StarDate: sDatestring ?? "",
+   EndDate: eDatestring ?? ""
+ }
+
  this.loading = true;
-  this.reportService.getReports(cID,sDatestring,eDatestring, pID).subscribe((res:Report[])=>{
+ this.reportService.getReports(cID,sDatestring,eDatestring,pID).subscribe((res:Report[])=>{
+
+  //this.reportService.getReportsByCriteria(data).subscribe((res:Report[])=>{
   this.reportList=res;
 this.filterProjects();
 this.sumHours();
@@ -203,7 +220,81 @@ this.sumHours();
     getWeek(result: Date): void {
      // console.log('week: ', getISOWeek(result));
     }
+    reports: any[]=[
+      {
+        projectName: "Epp",
+        employees: [
+          {
+            no: "1",
+            employeeName: "Amanuel Zewdu",
+            role : "Developer",
+            billableHours: "8",
+            nonBillableHours:"0",
+            projectName : "Epp",
+            clientName:"Excellerent ",
+      
+          },
+          {
+            no: "2",
+            employeeName: "Ashenafi Fisseha",
+            role : "Developer",
+            billableHours: "8",
+            nonBillableHours:"0",
+            projectName : "Epp",
+            clientName:"Excellerent ",
+      
+          },
+          {
+            no: "3",
+            employeeName: "Yossef Assefa",
+            role : "Developer",
+            billableHours: "40",
+            nonBillableHours:"0",
+            projectName : "Epp",
+            clientName:"Excellerent ",
+      
+          },
+          
+        ]
+      },
+      {
+        projectName: "EDC_DB",
+        employees: [
+          {
+            no: "4",
+            employeeName: "Engdawork Berhane",
+            role : "Developer",
+            billableHours: "0",
+            nonBillableHours:"40",
+            projectName : "EDC_DB",
+            clientName:"E2E ",
+      
+          },
+          {
+            no: "5",
+            employeeName: "Hailu Debebe",
+            role : "Developer",
+            billableHours: "0",
+            nonBillableHours:"40",
+            projectName : "EDC_DB",
+            clientName:"E2E ",
+      
+          },
+          {
+            no: "6",
+            employeeName: "Abel Asrat",
+            role : "Developer",
+            billableHours: "0",
+            nonBillableHours:"40",
+            projectName : "EDC_DB",
+            clientName:"E2E ",
+      
+          }
+        ]
+      }
+     
   
+    ]
     data :any []= [
       {
         ProjectId: "4fc4c039-a216-40b1-af26-4ed35b19a046",
@@ -277,6 +368,7 @@ filterProjects(){
   let project = this.reportList.map (i => i.ProjectName)
   .filter((value, index, self) => self.indexOf(value) === index)
   //const list: any[] = [];
+  this.list = [];
   project.forEach(p => {
     this.list.push({
       ProjectName: p,

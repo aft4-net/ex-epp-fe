@@ -1,4 +1,9 @@
-export interface reportWithCriteria {
-    Guid: string,
-    ClientName: string
+import { GetProject } from "./get-project";
+
+export interface ReportWithCriteria {
+    ClientGuid: string;
+    SelectedProjects: string[];
+    StarDate: string;
+    EndDate: string;
+   
 }
