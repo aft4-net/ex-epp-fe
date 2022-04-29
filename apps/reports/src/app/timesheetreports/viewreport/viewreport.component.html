@@ -62,7 +62,7 @@
   
   </div>
 <br/>
-  <nz-table   [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports" nzShowPagination="false"  >
+  <nz-table  [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="list" nzShowPagination="false"  >
     <thead >
         <tr >
             <th nzWidth="3%">S.No</th>
@@ -87,13 +87,19 @@
 
          </tr>
         </ng-container>
-        <!-- <ng-template #outlet> -->
+      
           <tr >
             <td nzWidth="25%" colspan="3">Total</td>
             <td nzWidth="25%">{{sumBillableHours}}</td>
             <td nzWidth="25%">{{sumNonBillableHours}}</td>
         </tr>
-        <!-- </ng-template> -->
+        
+        <!-- <ng-template #outlet> <tr  style="font-size: small;" colspan="5">Total Hours
+          <td></td>
+          <td></td>
+          <td>{{sumBillableHours}}</td>
+          <td>{{sumNonBillableHours}}</td>
+      </tr></ng-template> -->
         
     </tbody>
     

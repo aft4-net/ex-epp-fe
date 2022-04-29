@@ -77,7 +77,7 @@ const d = new Date();
 const namem = this.monthm[d.getMonth()- 1];
   //console.log(namem);
 // this.defualtMonth = this.monthm[d.getMonth()- 1]
-  this.map();
+
   this.disabledDate;
   //this.getReport();
   registerLocaleData(en); 
@@ -220,148 +220,18 @@ this.sumHours();
     getWeek(result: Date): void {
      // console.log('week: ', getISOWeek(result));
     }
-    reports: any[]=[
-      {
-        projectName: "Epp",
-        employees: [
-          {
-            no: "1",
-            employeeName: "Amanuel Zewdu",
-            role : "Developer",
-            billableHours: "8",
-            nonBillableHours:"0",
-            projectName : "Epp",
-            clientName:"Excellerent ",
+    
+    
       
-          },
-          {
-            no: "2",
-            employeeName: "Ashenafi Fisseha",
-            role : "Developer",
-            billableHours: "8",
-            nonBillableHours:"0",
-            projectName : "Epp",
-            clientName:"Excellerent ",
-      
-          },
-          {
-            no: "3",
-            employeeName: "Yossef Assefa",
-            role : "Developer",
-            billableHours: "40",
-            nonBillableHours:"0",
-            projectName : "Epp",
-            clientName:"Excellerent ",
-      
-          },
-          
-        ]
-      },
-      {
-        projectName: "EDC_DB",
-        employees: [
-          {
-            no: "4",
-            employeeName: "Engdawork Berhane",
-            role : "Developer",
-            billableHours: "0",
-            nonBillableHours:"40",
-            projectName : "EDC_DB",
-            clientName:"E2E ",
-      
-          },
-          {
-            no: "5",
-            employeeName: "Hailu Debebe",
-            role : "Developer",
-            billableHours: "0",
-            nonBillableHours:"40",
-            projectName : "EDC_DB",
-            clientName:"E2E ",
-      
-          },
-          {
-            no: "6",
-            employeeName: "Abel Asrat",
-            role : "Developer",
-            billableHours: "0",
-            nonBillableHours:"40",
-            projectName : "EDC_DB",
-            clientName:"E2E ",
-      
-          }
-        ]
-      }
-     
-  
-    ]
-    data :any []= [
-      {
-        ProjectId: "4fc4c039-a216-40b1-af26-4ed35b19a046",
-        ProjectName: "AAA",
-        ClientGuid: "e177648b-3cf7-42ce-a047-e47f450416fc",
-        ClientName: "Ingrem Barge",
-        ClientManagerName: null,
-        EmployeeGuid: "0cf7169d-5c7c-4ed1-b43e-ddf5d5f46f6e",
-        FirstName: "Meba",
-        LastName: "Feyissa",
-        FullName: "Meba Feyissa",
-        EmployeeRoleName: "Product Owner I",
-        BillableHours: 18,
-        NonBillableHours: 0
-      },
-      {
-        ProjectId: "61849171-acd6-4dd2-8f71-bf2d1f7d5687",
-        ProjectName: "AAA",
-        ClientGuid: "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f",
-        ClientName: "Engage2Excel",
-        ClientManagerName: "Patrick Elalouf",
-        EmployeeGuid: "a7d3695b-2cfd-4907-9390-c87c66511081",
-        FirstName: "Brook   ",
-        LastName: " ",
-        FullName: "Brook     ",
-        EmployeeRoleName: "Senior Developer II",
-        BillableHours: 0,
-        NonBillableHours: 80
-      },
-      {
-        ProjectId: "21923ea8-6ac5-463f-a715-c042cd0c363c",
-        ProjectName: "BBB",
-        ClientGuid: "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f",
-        ClientName: "Engage2Excel",
-        ClientManagerName: "Patrick Elalouf",
-        EmployeeGuid: "562f820e-6414-438e-a02e-edafa76e6beb",
-        FirstName: "Ashenafi ",
-        LastName: " ",
-        FullName: "Ashenafi   ",
-        EmployeeRoleName: "Senior Developer I",
-        BillableHours: 0,
-        NonBillableHours: 64
-      },
-      {
-        ProjectId: "31feded5-ad32-4cc0-90e5-7c49d4ea57fa",
-        ProjectName: "BBB",
-        ClientGuid: "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f",
-        ClientName: "Engage2Excel",
-        ClientManagerName: "Patrick Elalouf",
-        EmployeeGuid: "716e6ff1-f9f9-43b3-b21c-92403d07b5d7",
-        FirstName: "Esayas   ",
-        LastName: " ",
-        FullName: "Esayas     ",
-        EmployeeRoleName: "Technical Lead",
-        BillableHours: 0,
-        NonBillableHours: 76
-      },];
-      
-map (){
- for (let i = 0; i<= this.data.length;i++){
-  this.data.forEach(function(value){
-  //console.log("Aman"+value);
+// map (){
+//  for (let i = 0; i<= this.data.length;i++){
+//   this.data.forEach(function(value){
+//   //console.log("Aman"+value);
     
 
-  });
- }
-}
+//   });
+//  }
+// }
 
 
 filterProjects(){
@@ -394,6 +264,8 @@ filterProjects(){
 
 }
 sumHours(){
+  this.sumNonBillableHours=0;
+  this.sumBillableHours=0;
   this.reportList.forEach((i)=>{
     this.sumBillableHours+=i.BillableHours;
   });
