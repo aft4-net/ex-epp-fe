@@ -1,5 +1,5 @@
 export const environment = {
   production: true,  
-  apiUrl : 'http://localhost:14696/api/v1',
-  redirectUri: 'http://localhost:4200'
+  apiUrl : 'https://api.epp-excellerentsolutions.com/api/v1',
+  redirectUri: 'https://www.epp-excellerentsolutions.com'
 };

@@ -945,6 +945,26 @@
       "sourceRoot": "apps/reports/src",
       "prefix": "exec-epp",
       "architect": {
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build reports --with-deps",
+              "docker build -f Dockerfile.reports . -t reports"
+            ],
+            "parallel": false
+          }
+        },
+        "stage": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build reports --with-deps --configuration=staging",
+              "docker build -f Dockerfile.reports . -t reports"
+            ],
+            "parallel": false
+          }
+        },
         "build": {
           "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
@@ -988,6 +1008,17 @@
               "outputHashing": "all",
               "customWebpackConfig": {
                 "path": "apps/reports/webpack.prod.config.js"
+              }
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/reports/src/environments/environment.ts",
+                  "with": "apps/reports/src/environments/environment.stage.ts"
+                }
+              ],
+              "customWebpackConfig": {
+                "path": "apps/reports/webpack.stage.config.js"
               }
             },
             "development": {
