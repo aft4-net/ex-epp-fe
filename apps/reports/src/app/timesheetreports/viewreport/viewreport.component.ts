@@ -4,7 +4,7 @@ import { Data } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import en from '@angular/common/locales/en';
 
-import { registerLocaleData } from '@angular/common';
+import {DatePipe, registerLocaleData } from '@angular/common';
 import { differenceInCalendarDays, setHours } from 'date-fns';
 
 import { DisabledTimeFn, DisabledTimePartial } from 'ng-zorro-antd/date-picker';
@@ -13,6 +13,8 @@ import { GetProject } from '../../Models/get-project';
 import { ViewReportService } from '../../services/view-report.service';
 import { Report,projects } from '../../Models/getReport';
 import { ConstantPool } from '@angular/compiler';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ReportWithCriteria } from '../../Models/reportWithCriteria';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -21,58 +23,131 @@ import { ConstantPool } from '@angular/compiler';
 })
 export class ViewreportComponent implements OnInit {
 
-  //Data = null;
-  clientId:any;
-  today:any; 
+  clientId = "";
+  projectId: string[] = [];
+  startDate:any;
+  endDate:any;
+  defualtMonth: Date;
+  monthm: any;
+  month:any;
+  monthyear:any;
+  today = new Date();
+  firstDay = new Date();
+  lastDay = new Date();
   isEnglish = false;
-  //disabledDate = false;
+  loading = false;
+  reportForm = new FormGroup({
+    clientIds: new FormControl(''),
+    ProjectIds: new FormControl([]),
+    months: new FormControl('')
+  });
+  selectedproject = [];
   clientList: GetClient[] = [];
   projectList: GetProject[] =[];
   reportList: Report[] = [];
-  //data : any []=[];
   filtered : any []=[];
   employee : any []=[];
   list : any []=[];
   sumBillableHours=0;
   sumNonBillableHours=0;
   public listOfClients: [GetClient] | [] =[];
-  public listOfProjects: [GetProject] | [] =[];
+  public listOfProjects = [];
   constructor(
-    private reportService:ViewReportService
-  ) { 
-   
+    private reportService:ViewReportService,
+    public datepipe: DatePipe
+  ) {
+    this.defualtMonth = new Date();
+    this.defualtMonth.setDate(-1 * (this.defualtMonth.getDate() + 1));
   }
+  listOfOption: Array<{ label: string; value: string }> = [];
+  listOfTagOptions = [];
   ngOnInit(): void {
-  this.map();
+    
+    const children: Array<{ label: string; value: string }> = [];
+    for (let i = 10; i < 36; i++) {
+      children.push({ label: i.toString(36) + i, value: i.toString(36) + i });
+    }
+    this.listOfOption = children;
+    //this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
+    this.month = new Date().getMonth();
+ 
+   this.monthm = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   
-  this.getReport();
+const d = new Date();
+const namem = this.monthm[d.getMonth()- 1];
+  //console.log(namem);
+// this.defualtMonth = this.monthm[d.getMonth()- 1]
+  this.map();
+  this.disabledDate;
+  //this.getReport();
   registerLocaleData(en); 
   this.getAllClientList();
-  this.getAllProjectList();
-  this.today = new Date();
-  const timeDefaultValue = setHours(new Date(), 0);
-  this.reportService.getProjectsListByClient(this.clientId)
-      .subscribe(async (response:any) => {
-         this.listOfProjects= response.Data;
-         //console.log("projects"+this.listOfProjects);
-    });
-    //this.filterProjects();   
-  }
   
-  //size: NzButtonSize = 'large';
-  //size: 'small' | 'middle' | 'large' | number = 'small';
+  //this.getProjectListByClientId(this.clientId);
+
+  }
   getAllClientList(){
     this.reportService.getClientList().subscribe(
     (async (res:any) => {
-      this.listOfClients = res.Data;
+      this.clientList = res;
+     this.clientId =this.clientList[0].Guid;
+     this.getProjectListByClientId(this.clientId);
+     this.firstDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth(), 1);
+     this.lastDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth() + 1, 0);
+     
+    
+     this.getReport(this.clientId,this.firstDay,this.lastDay,this.projectId);  
     })
   );
+}
+  getProjectListByClientId(clientId:any)
+  {
+    this.reportService.getProjectByClientId(clientId).subscribe(res => {
+      this.projectList = res.Data;
+      this.projectId = [];
+      this.projectList.forEach(project => {
+        this.projectId.push(project.Guid);
+      });
+    });
+  }
+   
+  disabledDate = (current: Date): any =>
+    // Can not select days before today and today
+      differenceInCalendarDays(current, this.today) > 0;
+      
+    
 
+  onChangesFilterReport(event: string) {
+    this.loading = true;
+   
+    //this.clientId = event;
+    if (this.clientId==event) {
+      this.getProjectListByClientId(this.clientId);
+     
+    }
+  }
+
+
+getAllClientLisddt(){
+  this.reportService.getClientList().subscribe(
+  (async (res:any) => {
+    this.clientList = res;
+    this.clientList[0].Guid;
+    this.clientId=this.clientList[0].Guid;;
+  for(let i=0;i<res.count();i++)
+  {
+    this.reportService.getProjectByClientId(this.clientId).subscribe(res => {
+      this.projectList = res.Data;
+    });
+  }
+   
+  })
+);
 }
 getAllProjectList(){
   this.reportService.getProjectList().subscribe(
   (async (res:any) => {
-    this.listOfProjects = res.Data;
+    this.projectId = res.Data;
   })
 );
 }
@@ -82,13 +157,45 @@ getClientName(value: any) {
     return obj.Guid === value;
   });
   //debugger;
-  return result?.Name;
+  return result?.ClientName;
 }
-getReport(){
+getClientDetail(){
+  this.reportService.getAllClientLists().subscribe((response: any) => {
+    this.clientList = response;
+  });
+  
+}
+
+FilterClients(cId:any)
+{
+  this.clientId = cId;
+  console.log(cId);
+ 
+}
+onGenerateReports()
+{
+  this.loading = true;
+this.firstDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth(), 1);
+this.lastDay = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth() + 1, 0);
+
+this.getReport(this.clientId,this.firstDay,this.lastDay,this.projectId);
+}
+getReport(cID:string,sDate:Date,eDate:Date,pID?:string[]){
  // clientId= "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
-  this.reportService.getReports().subscribe((res:Report[])=>{
+ const sDatestring = this.datepipe.transform(sDate, 'yyyy-MM-dd');
+ const eDatestring = this.datepipe.transform(eDate, 'yyyy-MM-dd');
+ const data: ReportWithCriteria = {
+   ClientGuid: cID,
+   SelectedProjects: pID ?? [],
+   StarDate: sDatestring ?? "",
+   EndDate: eDatestring ?? ""
+ }
+
+ this.loading = true;
+ this.reportService.getReports(cID,sDatestring,eDatestring,pID).subscribe((res:Report[])=>{
+
+  //this.reportService.getReportsByCriteria(data).subscribe((res:Report[])=>{
   this.reportList=res;
-console.log("res===>",  this.reportList);
 this.filterProjects();
 this.sumHours();
   });
@@ -102,49 +209,92 @@ this.sumHours();
     return result;
   }
 
-  disabledDate = (current: Date): boolean =>
-    // Can not select days before today and today
-    differenceInCalendarDays(current, this.today) > 0;
- 
-  disabledDateTime: DisabledTimeFn = () => ({
-    nzDisabledHours: () => this.range(0, 24).splice(4, 20),
-    nzDisabledMinutes: () => this.range(30, 60),
-    nzDisabledSeconds: () => [55, 56]
-  });
-
-  disabledRangeTime: DisabledTimeFn = (_value, type?: DisabledTimePartial) => {
-    if (type === 'start') {
-      return {
-        nzDisabledHours: () => this.range(0, 60).splice(4, 20),
-        nzDisabledMinutes: () => this.range(30, 60),
-        nzDisabledSeconds: () => [55, 56]
-      };
-    }
-    return {
-      nzDisabledHours: () => this.range(0, 60).splice(20, 4),
-      nzDisabledMinutes: () => this.range(0, 31),
-      nzDisabledSeconds: () => [55, 56]
-    };
-  };
-
-    // interface reports {
-    //   no:number;
-    //   employeeName:string;
-    //   role:string;
-    //   billableHours:string ;
-    //   nonBillableHours:string;
-    //   projectName:string;
-    //   clientName:string;
-          
-    // }
     onChange(): void {
       ;
+    }
+
+    onMonthChange(monthDate: Date){
+      //TODO: on Month Change
     }
   
     getWeek(result: Date): void {
      // console.log('week: ', getISOWeek(result));
     }
+    reports: any[]=[
+      {
+        projectName: "Epp",
+        employees: [
+          {
+            no: "1",
+            employeeName: "Amanuel Zewdu",
+            role : "Developer",
+            billableHours: "8",
+            nonBillableHours:"0",
+            projectName : "Epp",
+            clientName:"Excellerent ",
+      
+          },
+          {
+            no: "2",
+            employeeName: "Ashenafi Fisseha",
+            role : "Developer",
+            billableHours: "8",
+            nonBillableHours:"0",
+            projectName : "Epp",
+            clientName:"Excellerent ",
+      
+          },
+          {
+            no: "3",
+            employeeName: "Yossef Assefa",
+            role : "Developer",
+            billableHours: "40",
+            nonBillableHours:"0",
+            projectName : "Epp",
+            clientName:"Excellerent ",
+      
+          },
+          
+        ]
+      },
+      {
+        projectName: "EDC_DB",
+        employees: [
+          {
+            no: "4",
+            employeeName: "Engdawork Berhane",
+            role : "Developer",
+            billableHours: "0",
+            nonBillableHours:"40",
+            projectName : "EDC_DB",
+            clientName:"E2E ",
+      
+          },
+          {
+            no: "5",
+            employeeName: "Hailu Debebe",
+            role : "Developer",
+            billableHours: "0",
+            nonBillableHours:"40",
+            projectName : "EDC_DB",
+            clientName:"E2E ",
+      
+          },
+          {
+            no: "6",
+            employeeName: "Abel Asrat",
+            role : "Developer",
+            billableHours: "0",
+            nonBillableHours:"40",
+            projectName : "EDC_DB",
+            clientName:"E2E ",
+      
+          }
+        ]
+      }
+     
   
+    ]
     data :any []= [
       {
         ProjectId: "4fc4c039-a216-40b1-af26-4ed35b19a046",
@@ -213,36 +363,23 @@ map (){
  }
 }
 
-reports: any[]=[
-    
-  {
-    projectName: '',
-    employees: [ ]
-  }
-  
 
-]
 filterProjects(){
   let project = this.reportList.map (i => i.ProjectName)
   .filter((value, index, self) => self.indexOf(value) === index)
   //const list: any[] = [];
+  this.list = [];
   project.forEach(p => {
     this.list.push({
       ProjectName: p,
       Employee: this.reportList.filter(t => t.ProjectName === p)
     });
   })
-  //console.log(project);
-  //console.log(this.list)
-  //console.log("AA"+this.reportList);
   for (let i = 0; i< project.length;i++){
     var push=  this.filtered.push(project[i]);
     //this.reports.em
     //this.filtered.push("Aman")
     let x = this.reportList.length;
-    console.log(x);
-    console.log(project[0]);
-    console.log(this.reportList[0].ProjectName);
     for (let j = 0; j<x;j++){
       if (project[i] == this.reportList[j].ProjectName){
         this.employee.push(this.reportList[j]);
@@ -266,84 +403,4 @@ sumHours(){
   console.log("Billable Hours"+this.sumBillableHours);
   console.log("Non Billable Hours"+this.sumNonBillableHours);
 }
-
-
-  
-
-  // reports: any[]=[
-    
-  //   {
-  //     projectName: "Epp",
-  //     employees: [
-  //       {
-  //         no: "1",
-  //         employeeName: "Amanuel Zewdu",
-  //         role : "Developer",
-  //         billableHours: "8",
-  //         nonBillableHours:"0",
-  //         projectName : "Epp",
-  //         clientName:"Excellerent ",
-    
-  //       },
-  //       {
-  //         no: "2",
-  //         employeeName: "Ashenafi Fisseha",
-  //         role : "Developer",
-  //         billableHours: "8",
-  //         nonBillableHours:"0",
-  //         projectName : "Epp",
-  //         clientName:"Excellerent ",
-    
-  //       },
-  //       {
-  //         no: "3",
-  //         employeeName: "Yossef Assefa",
-  //         role : "Developer",
-  //         billableHours: "40",
-  //         nonBillableHours:"0",
-  //         projectName : "Epp",
-  //         clientName:"Excellerent ",
-    
-  //       },
-        
-  //     ]
-  //   },
-  //   {
-  //     projectName: "EDC_DB",
-  //     employees: [
-  //       {
-  //         no: "4",
-  //         employeeName: "Engdawork Berhane",
-  //         role : "Developer",
-  //         billableHours: "0",
-  //         nonBillableHours:"40",
-  //         projectName : "EDC_DB",
-  //         clientName:"E2E ",
-    
-  //       },
-  //       {
-  //         no: "5",
-  //         employeeName: "Hailu Debebe",
-  //         role : "Developer",
-  //         billableHours: "0",
-  //         nonBillableHours:"40",
-  //         projectName : "EDC_DB",
-  //         clientName:"E2E ",
-    
-  //       },
-  //       {
-  //         no: "6",
-  //         employeeName: "Abel Asrat",
-  //         role : "Developer",
-  //         billableHours: "0",
-  //         nonBillableHours:"40",
-  //         projectName : "EDC_DB",
-  //         clientName:"E2E ",
-    
-  //       }
-  //     ]
-  //   }
-
-  // ]
-    
 }
