@@ -1,5 +1,5 @@
 export interface GetProject {
     Guid: string,
-    Name: string,
+    ProjectName: string,
     ClientGuid: string
 }
