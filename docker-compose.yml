@@ -47,3 +47,5 @@ services:
     image: blens/epp-dash
     ports:
       - '3200:80'
+  reposts:
+    image: blens/reposts
