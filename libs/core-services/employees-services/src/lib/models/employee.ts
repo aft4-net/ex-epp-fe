@@ -12,9 +12,10 @@ export interface Employee extends BaseAuditEntity{
 export interface PersonalDetail extends BaseAuditEntity{
     EmployeeId?: string;
     EmployeeNumber:string;
-    FirstName: string;
-    MiddleName: string;
-    LastName: string;
+    // FirstName: string;
+    // MiddleName: string;
+    // LastName: string;
+    FullName: string;
     PersonalPhoneNumbers: string[];
     PersonalEmailAddresses: string[];
     DateofBirth : Date;

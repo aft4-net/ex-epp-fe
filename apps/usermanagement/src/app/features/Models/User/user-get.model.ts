@@ -4,9 +4,10 @@ export interface IUserGetModel
     UserName: string
     Password: string
     Email: string
-    FirstName: string
-    MiddleName: string
-    LastName: string
+    // FirstName: string
+    // MiddleName: string
+    // LastName: string
+    FullName: string
     Status: string
     LastActivityDate: Date
     EmployeeId: string

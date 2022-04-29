@@ -335,9 +335,10 @@ AddToGroup()  {
     }
     const usrDetail: IUserPutModel = {
       Guid:this.userdetailInfo.Guid,
-      FirstName:this.userdetailInfo.FirstName,
-      MiddleName:this.userdetailInfo.MiddleName,
-      LastName:this.userdetailInfo.LastName,
+      // FirstName:this.userdetailInfo.FirstName,
+      // MiddleName:this.userdetailInfo.MiddleName,
+      // LastName:this.userdetailInfo.LastName,
+      FullName: this.userdetailInfo.FullName,
       Status:this.isActive?'Active':'NotActive',
       Email:this.userdetailInfo.Email,
       Tel: this.userdetailInfo.Tel,
