@@ -20,7 +20,7 @@
     <div nz-col class="gutter-row" [nzSpan]="14"><div class="inner-box">
       <div nz-space nzAlign="center" class="space-align-none">
         <ng-container *nzSpaceItem>Client:</ng-container>
-        <nz-select *nzSpaceItem  nzShowSearch  [(ngModel)]="clientId" (ngModelChange)="onChangesFilterReport($event)">
+        <nz-select style="width: 200px;" *nzSpaceItem  nzShowSearch  [(ngModel)]="clientId" (ngModelChange)="onChangesFilterReport($event)">
           <nz-option *ngFor="let client of clientList" [nzLabel]="client.ClientName" [nzValue]="client.Guid"    ></nz-option>
         </nz-select>
         <ng-container *nzSpaceItem>Project</ng-container>
@@ -30,7 +30,7 @@
           <nz-option   *ngFor="let project of projectList" [nzLabel]="project.ProjectName"  [nzValue]="project.Guid"   ></nz-option>
      
         </nz-select>
-        <ng-template #tagPlaceHolder let-projectList>  ({{ projectList.length }})  </ng-template>
+        <ng-template #tagPlaceHolder let-projectList> Project ({{ projectList.length }})  </ng-template>
         <nz-date-picker *nzSpaceItem [nzAllowClear]="false" nzMode="month" [(ngModel)]="defualtMonth" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disabledDate" ></nz-date-picker>
        
       </div>
@@ -51,14 +51,14 @@
   
   </div>
 <br/>
-  <nz-table  [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="list" nzShowPagination="false"  >
+  <nz-table   [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="list" nzShowPagination="false"  >
     <thead >
         <tr >
-            <th nzWidth="3%">S.No</th>
-            <th nzWidth="30%">Employee Name</th>
-            <th nzWidth="30%">Role</th>
-            <th nzWidth="15%">Billable Hours</th>
-            <th nzWidth="15%">Non-Billable Hours</th>
+            <th nzWidth="5%">S.No</th>
+            <th nzWidth="25%">Employee Name</th>
+            <th nzWidth="25%">Role</th>
+            <th nzWidth="20%">Billable Hours</th>
+            <th nzWidth="20%">Non-Billable Hours</th>
         </tr>
     </thead>
     <tbody>
@@ -75,23 +75,38 @@
                 <td>{{row.NonBillableHours}}</td>
 
          </tr>
+        
         </ng-container>
       
-          <tr >
-            <td nzWidth="25%" colspan="3">Total</td>
+          <!-- <tr >
+            <td nzWidth="50%" colspan="3">Total</td>
             <td nzWidth="25%">{{sumBillableHours}}</td>
             <td nzWidth="25%">{{sumNonBillableHours}}</td>
         </tr>
-        
-        <!-- <ng-template #outlet> <tr  style="font-size: small;" colspan="5">Total Hours
-          <td></td>
-          <td></td>
+         -->
+        <!-- <ng-template #outlet> <tr  style="font-size: small;">
+          <td  colspan="5">Total Hours</td>
+          <td nzWidth="25%" colspan="2"></td>
           <td>{{sumBillableHours}}</td>
           <td>{{sumNonBillableHours}}</td>
       </tr></ng-template> -->
         
     </tbody>
+  </nz-table>
+  
     
+<nz-table style="padding: 0px 2%;" class="view-report-table" nzSize="small" nzShowPagination="false">
+   <thead>
+    <tr  >
+      <th nzWidth="6%">Total</th>
+      <th nzWidth="25%"></th>
+      <th nzWidth="25%"></th>
+      <th nzWidth="20%">{{sumBillableHours}}</th>
+      <th nzWidth="22%">{{sumNonBillableHours}}</th>
+  </tr>
+   </thead>
+
+  
 </nz-table>
 </div>
 
