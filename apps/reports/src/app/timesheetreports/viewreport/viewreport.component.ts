@@ -24,8 +24,8 @@ export class ViewreportComponent implements OnInit {
   projectId: string[] = [];
   startDate: any;
   endDate: any;
-  defualtMonth: Date;
-  monthm: any;
+  defualtMonth: any;
+  monthm= ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   month: any;
   monthyear: any;
   today = new Date();
@@ -47,14 +47,17 @@ export class ViewreportComponent implements OnInit {
   list: any[] = [];
   sumBillableHours = 0;
   sumNonBillableHours = 0;
+ 
   public listOfClients: [GetClient] | [] = [];
   public listOfProjects = [];
   constructor(
     private reportService: ViewReportService,
     public datepipe: DatePipe
   ) {
-    this.defualtMonth = new Date();
+   // const mm = new Date();
+   this.defualtMonth = new Date();
     this.defualtMonth.setDate(-1 * (this.defualtMonth.getDate() + 1));
+   // this.defualtMonth.setMonth(this.monthm[mm.getMonth() -1]);
   }
   listOfOption: Array<{ label: string; value: string }> = [];
   listOfTagOptions = [];
@@ -75,6 +78,8 @@ export class ViewreportComponent implements OnInit {
 
     const d = new Date();
     const namem = this.monthm[d.getMonth() - 1];
+    this.month = this.monthm[this.defualtMonth.getMonth() -1]
+ 
     //console.log(namem);
     // this.defualtMonth = this.monthm[d.getMonth()- 1]
 
@@ -112,7 +117,9 @@ export class ViewreportComponent implements OnInit {
 
   disabledDate = (current: Date): any =>
     // Can not select days before today and today
+    // this.monthm[d.getMonth() - 1]
     differenceInCalendarDays(current, this.today) > 0;
+   // differenceInCalendarMonths(current: any,this: any.today: any: any);
 
 
 
