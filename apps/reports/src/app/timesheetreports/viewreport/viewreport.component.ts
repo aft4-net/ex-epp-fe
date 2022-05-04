@@ -196,6 +196,8 @@ getReport(cID:string,sDate:Date,eDate:Date,pID?:string[]){
 
   //this.reportService.getReportsByCriteria(data).subscribe((res:Report[])=>{
   this.reportList=res;
+  console.log("output");
+  console.log(res);
 this.filterProjects();
 this.sumHours();
   });

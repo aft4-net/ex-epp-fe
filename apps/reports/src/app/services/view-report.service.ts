@@ -104,7 +104,7 @@ getReports(ClientId:string,_starday:string|null,_endDay:string|null,ProjectId?:s
 let url =`${environment.apiUrl}/TimeSheet/TimeSheetReport/${_starday}, ${_endDay}?clientId=${ClientId}`;
 if(ProjectId)
 {
-url= url+'&&projectId=' + ProjectId;
+url= url+'&&projectIds=' + ProjectId;
 console.log("Inside if statment",ProjectId);
 }
 console.log("End Of sssssss",ProjectId);
