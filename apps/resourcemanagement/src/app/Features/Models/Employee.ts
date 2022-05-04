@@ -8,9 +8,10 @@ export interface Employee{
   Guid?: string;
   guid?:string,
   EmployeeNumber:string,
-  FirstName: string,
-  FatherName: string,
-  GrandFatherName: string,
+  // FirstName: string,
+  // FatherName: string,
+  // GrandFatherName: string,
+  FullName: string,
   MobilePhone: string,
   Phone1: string,
   Phone2: string,

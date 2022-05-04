@@ -49,6 +49,11 @@ export function validateEmployeeIdNumber(
     )
 }
 
+export function validateFullName(control: AbstractControl) {
+    resetError(true);
+    return validateName(control, commonErrorMessage, 'Full Name');
+}
+
 export function validateFirstName(
     control: AbstractControl
 ) {

@@ -374,9 +374,10 @@ handleGroupCancel() {
         const user: IUserPostModel =   {
 
           EmployeeId : res.Data.Guid,
-          FirstName : res.Data.FirstName,
-          MiddleName : res.Data.FatherName?res.Data.FatherName:'',
-          LastName : res.Data.GrandFatherName,
+          // FirstName : res.Data.FirstName,
+          // MiddleName : res.Data.FatherName?res.Data.FatherName:'',
+          // LastName : res.Data.GrandFatherName,
+          FullName: res.Data.FullName,
           Tel:res.Data.MobilePhone,
           Email: res.Data.EmployeeOrganization?.CompaynEmail,
           UserName: res.Data.EmployeeOrganization?.CompaynEmail,

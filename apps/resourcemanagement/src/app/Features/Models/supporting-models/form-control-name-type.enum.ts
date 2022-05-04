@@ -7,9 +7,10 @@ export enum FormControlType {
 
 export enum FormControlName {
     EmployeeIdNumber,
-    FirstName,
-    MiddleName,
-    LastName,
+    // FirstName,
+    // MiddleName,
+    // LastName,
+    FullName,
     Gender,
     DateofBirth,
     PhoneNumber,
