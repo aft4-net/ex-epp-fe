@@ -14,22 +14,22 @@ export interface TimesheetEscalation {
 }
 
 export enum NotificationWeek {
-    current_week = "Current week",
-    next_week= "Following week",  
+    current_week = "current_week",
+    next_week = "next_week",
 }
 
-export interface TimesheetNotification{
-    DeadlineDate : string;
+export interface TimesheetDeadline {
+    DeadlineDate: string;
     DeadlineTime: number;
-    Week : NotificationWeek;
-    TimeZone:number;
+    Week: NotificationWeek;
+    TimeZone: number;
 }
 
 export interface TimesheetConfiguration {
     StartOfWeeks: StartOfWeek[];
     WorkingDays: string[];
     WorkingHours: WorkingHours;
-    Deadline: TimesheetNotification;    
+    TimesheetDeadline: TimesheetDeadline;
     TimesheetEscalation: TimesheetEscalation;
 }
 
@@ -42,4 +42,3 @@ interface Response {
 export interface TimesheetConfigResponse extends Response {
     Data: TimesheetConfiguration;
 }
- 

@@ -10,8 +10,8 @@
       <div class="flex flex-row mt-4 ml-0 space-x-8">
         <div *ngFor="let val of weekConfig | keyvalue"
           class=" ml-0 mt-auto mb-0 font-small text-base not-tialic justify-between">
-          <input formControlName="deadlineWeek" [(ngModel)]="selectedWeekConfig" type="radio" value="{{val.key}}"
-            (change)="weekChangeEvent($event)">{{' '+val.value}}
+          <input formControlName="deadlineWeek" [(ngModel)]="selectedWeekConfig" type="radio" value="{{val.key}}" name="week">
+          {{' '+ val.value.replace("_", " ") | titlecase}}
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
       </div>
     </div>
     <nz-divider></nz-divider>
- 
+
     <h3 class="w-96 h-9 mt-6 font-semibold text-xl  text-black">Escalation Reminders</h3>
     <div formGroupName="timesheetEscalation">
       <div class="mt-6">
