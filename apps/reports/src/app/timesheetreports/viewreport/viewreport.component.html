@@ -14,104 +14,51 @@
 <br>
 <P calss="title" style="text-align:center   ">Monthly Timesheet - Summary</P>
 
-<!-- <nz-select>
-
-</nz-select> -->
-<div class="space-align-container">
-  
-    <div nz-space nzAlign="center" class="space-align-block">
-      <ng-container *nzSpaceItem>Client</ng-container>
-      <nz-select *nzSpaceItem nzShowSearch nzAllowClear nzPlaceHolder="Select Client Name" >
-        <nz-option nzLabel="E2E" nzValue="E2E"></nz-option>
-          <nz-option nzLabel="Excellerent" nzValue="Excellerent"></nz-option>
-          
-    </nz-select>
-    </div>
-    <div nz-space nzAlign="center" class="space-align-block">
-        <ng-container *nzSpaceItem>Project</ng-container>
-        <nz-select *nzSpaceItem nzShowSearch nzAllowClear nzPlaceHolder="Select project Name" >
-          <nz-option nzLabel="EPP" nzValue="EPP"></nz-option>
-            <nz-option nzLabel="EDC_DB" nzValue="EDC_DB"></nz-option>
-            
-      </nz-select>
-      </div>
-    
-    
-
-    <!-- <div nz-space nzAlign="end" class="space-align-block">
-      <ng-container *nzSpaceItem>end</ng-container>
-      <button *nzSpaceItem nz-button nzType="primary">Button</button>
-      <span *nzSpaceItem class="mock-block">Block</span>
-    </div> -->
-
-    <!-- <div nz-space nzAlign="baseline" class="space-align-block">
-      <ng-container *nzSpaceItem>baseline</ng-container>
-      <button *nzSpaceItem nz-button nzType="primary">Button</button>
-      <span *nzSpaceItem class="mock-block">Block</span>
-      
-    </div> -->
-    <div nz-col [nzXs]="{ span: 5, offset: 1 }" [nzLg]="{ span: 6, offset: 1 }"></div>
-    <div nz-space nzAlign="center" class="space-align-block">
-      <nz-date-picker nzMode="month" [nzDisabledDate]="disabledDate"></nz-date-picker>
-          
-    </div>
-    <div nz-space nzAlign="center" nzJustify="end" class="space-align-block">
-       
-            <button *nzSpaceItem nz-button nzType="default">Generate</button> 
-            <button *nzSpaceItem nz-button nzType="default"><span>Export</span><i nz-icon nzType="download"></i>
-                </button>   
-      </div>
-  </div>
-
-
-
-<!--  
-<div class="table_sumary">
-    
-
-    <nz-table style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports"  >
-        <thead >
-            <tr >
-                <th>S.No</th>
-                <th>Employee Name</th>
-                <th>Role</th>
-                <th>Billable Hours</th>
-                <th>Non-Billable Hours</th>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-container *ngFor="let data of reports;">
-                <th style="font-size:small; background-color:rgb(122, 124, 124); font-weight:100;" colspan="5">Project Name: {{data.projectName}}</th>
-                <tr *ngFor="let row of data.employees;let i=index; ">
-                    <td>{{i+1}}</td>
-                    <td>{{row.employeeName}}</td>
-                    <td>{{row.role}}</td>
-                    <td>{{row.billableHours}}</td>
-                    <td>{{row.nonBillableHours}}</td>
-
-             </tr>
-            </ng-container>
-            <tr style="font-size: small;" colspan="6">Total Hours
-                <td></td>
-                <td></td>
-                <td>50</td>
-                <td>180</td>
-            </tr>
-            
-        </tbody>
-        
-    </nz-table>
-
-</div> -->
 <div>
-  <nz-table   [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="reports" nzShowPagination="false"  >
+  <!-- <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" style="padding: 0px 2%;"> -->
+  <div nz-row [nzGutter]="16" style="padding: 0px 2%;">
+    <div nz-col class="gutter-row" [nzSpan]="16"><div class="inner-box">
+      <div nz-space nzAlign="center" class="space-align-none">
+        <nz-select style="width: 200px;" *nzSpaceItem  nzShowSearch [nzCustomTemplate]="defaultTemplate"  [(ngModel)]="clientId" (ngModelChange)="onChangesFilterReport($event)">
+          <nz-option  *ngFor="let client of clientList" [nzLabel]="client.ClientName" [nzValue]="client.Guid"    ></nz-option>
+        </nz-select>
+        <ng-template #defaultTemplate let-selected>Client:
+          {{ selected.nzLabel }}
+        </ng-template>
+        <nz-select *nzSpaceItem nzShowSearch nzAllowClear [nzMaxTagCount]="0"
+        [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" nzPlaceHolder="Please Select project Name"
+        [(ngModel)]="projectId" >
+          <nz-option   *ngFor="let project of projectList" [nzLabel]="project.ProjectName"  [nzValue]="project.Guid"   ></nz-option>
+     
+        </nz-select>
+        <ng-template #tagPlaceHolder let-projectList> Projects ({{ projectList.length }})  </ng-template>
+        <nz-date-picker *nzSpaceItem [nzAllowClear]="false" nzMode="month" [(ngModel)]="defualtMonth" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disabledDate" ></nz-date-picker>
+        <button *nzSpaceItem nz-button  nzType="primary" (click)="onGenerateReports()"> Apply Filters</button> 
+      </div>
+      <div nz-space nzAlign="center" class="space-align-none">
+        
+      </div>
+    </div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box"></div></div>
+    <div nz-col class="gutter-row" [nzSpan]="2">
+      <div class="inner-box">
+        <div nz-space nzAlign="end" nzJustify="end" class="space-align-default">
+          <button *nzSpaceItem nz-button nzType="default" (click)="onExportClicked()"><span>Export</span><i nz-icon nzType="download"></i>
+          </button>    
+   </div>
+      </div>
+    </div>
+  </div>
+<br/>
+  <nz-table   [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="list" nzShowPagination="false"  >
     <thead >
         <tr >
-            <th nzWidth="3%">S.No</th>
-            <th nzWidth="30%">Employee Name</th>
-            <th nzWidth="30%">Role</th>
-            <th nzWidth="15%">Billable Hours</th>
-            <th nzWidth="15%">Non-Billable Hours</th>
+            <th nzWidth="5%">S.No</th>
+            <th nzWidth="25%">Employee Name</th>
+            <th nzWidth="25%">Role</th>
+            <th nzWidth="20%">Billable Hours</th>
+            <th nzWidth="20%">Non-Billable Hours</th>
         </tr>
     </thead>
     <tbody>
@@ -128,17 +75,38 @@
                 <td>{{row.NonBillableHours}}</td>
 
          </tr>
+        
         </ng-container>
-        <!-- <ng-template #outlet> -->
-          <tr >
-            <td nzWidth="25%" colspan="3">Total</td>
+      
+          <!-- <tr >
+            <td nzWidth="50%" colspan="3">Total</td>
             <td nzWidth="25%">{{sumBillableHours}}</td>
             <td nzWidth="25%">{{sumNonBillableHours}}</td>
         </tr>
-        <!-- </ng-template> -->
+         -->
+        <!-- <ng-template #outlet> <tr  style="font-size: small;">
+          <td  colspan="5">Total Hours</td>
+          <td nzWidth="25%" colspan="2"></td>
+          <td>{{sumBillableHours}}</td>
+          <td>{{sumNonBillableHours}}</td>
+      </tr></ng-template> -->
         
     </tbody>
+  </nz-table>
+  
     
+<nz-table style="padding: 0px 2%;" class="view-report-table" nzSize="small" nzShowPagination="false">
+   <thead>
+    <tr  >
+      <th nzWidth="6%">Total</th>
+      <th nzWidth="25%"></th>
+      <th nzWidth="25%"></th>
+      <th nzWidth="20%">{{sumBillableHours}}</th>
+      <th nzWidth="22%">{{sumNonBillableHours}}</th>
+  </tr>
+   </thead>
+
+  
 </nz-table>
 </div>
 

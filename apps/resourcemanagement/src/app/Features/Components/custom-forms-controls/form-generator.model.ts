@@ -3,7 +3,7 @@ import { Address, Addresss } from "../../Models/address.model";
 import { CountriesMockService } from "../../Services/external-api.services/countries.mock.service";
 import { EmergencyContacts } from "../../Models/emergencycontact";
 import { Observable, of } from "rxjs";
-import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFirstName, validateMiddleName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
+import { commonErrorMessage, resetError, validateAddressNonRequired, validateAddressRequired, validateCity, validateEmailAddress, validateEmployeeIdNumber, validateFullName, validateFirstName, validateMiddleName, validatePhoneNumber, validateRequired } from "./shared/custom.validators";
 
 import { Employee } from "../../Models/Employee";
 import { EmployeeOrganization } from "../../Models/EmployeeOrganization/EmployeeOrganization";
@@ -215,9 +215,10 @@ export class FormGenerator extends FormGeneratorAssistant {
         return {
             guid: this.employeId,
             EmployeeNumber: value.employeeIdNumber,
-            FirstName: value.fullName.firstName,
-            FatherName: value.fullName.middleName,
-            GrandFatherName: value.fullName.lastName,
+            // FirstName: value.fullName.firstName,
+            // FatherName: value.fullName.middleName,
+            // GrandFatherName: value.fullName.lastName,
+            FullName: value.fullName,
             Gender: value.gender,
             PersonalEmail: value.emailAddresses[0],
             PersonalEmail2: value.emailAddresses.length > 1 ? value.emailAddresses[1] : undefined,
@@ -312,7 +313,7 @@ export class FormGenerator extends FormGeneratorAssistant {
     private _createPersonalDetailsForm() {
         return this._formBuilder.group({
             employeeIdNumber: [null, validateRequired],
-            fullName: this._createFullNameFormGroup(),
+            fullName: [null, validateRequired], // this._createFullNameFormGroup(),
             gender: [null, validateRequired],
             dateofBirth: [null, validateRequired],
             emailAddresses: this._formBuilder.array([
@@ -463,6 +464,10 @@ export class FormGenerator extends FormGeneratorAssistant {
         this._setControlValue(employeeIdNumber, this.getFormControl('employeeIdNumber', formGroup))
     }
 
+    private _setFullName(fullName: string, formGroup: FormGroup) {
+        this._setControlValue(fullName, this.getFormControl('fullName', formGroup));
+    }
+
     private _setNames(first: string | null, middle: string | null | undefined, last: string | null, formGroup: FormGroup) {
         this._setControlValue(first, this.getFormControl('firstName', formGroup))
         this._setControlValue(middle, this.getFormControl('middleName', formGroup))
@@ -512,12 +517,17 @@ export class FormGenerator extends FormGeneratorAssistant {
             employee.EmployeeNumber,
             this.personalDetailsForm
         )
-        this._setNames(
-            employee.FirstName,
-            employee.FatherName,
-            employee.GrandFatherName,
-            this.getFormGroup('fullName', this.personalDetailsForm)
-        )
+        this._setControlValue(employee.FullName, this.getFormControl('fullName', this.personalDetailsForm));
+        // this._setNames(
+        //     employee.FirstName,
+        //     employee.FatherName,
+        //     employee.GrandFatherName,
+        //     this.getFormGroup('fullName', this.personalDetailsForm)
+        // )
+        // this._setFullName(
+        //     employee.FullName,
+        //     this.personalDetailsForm
+        // )
         this._setControlValue(
             employee.Gender,
             this.getFormControl('gender', this.personalDetailsForm)

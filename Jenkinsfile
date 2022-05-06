@@ -71,7 +71,7 @@ pipeline{
                         // Upload files from working directory '' in your project workspace
                         s3Upload(bucket:"qa.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
                         // invalidate CloudFront distribution
-                         cfInvalidate(distribution:'EMYS8NLRZ2ZZY', paths:['/**/*'])
+                         cfInvalidate(distribution:'E3EIFG2NUQVCIW', paths:['/*'])
                     }
 
                 };
@@ -97,7 +97,7 @@ pipeline{
                         // Upload files from working directory '' in your project workspace
                         s3Upload(bucket:"www.epp-excellerentsolutions.com", workingDir:'dist/apps', includePathPattern:'**/*', excludePathPattern:'**/.gitkeep');
                         // invalidate CloudFront distribution
-                         cfInvalidate(distribution:'E3KQRZ3RKXONE', paths:['/**/*'])
+                         cfInvalidate(distribution:'E3KQRZ3RKXONE', paths:['/*'])
                     }
 
                 };

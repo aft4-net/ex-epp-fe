@@ -35,6 +35,7 @@ import { TimesheetStateService } from '../../state/timesheet-state.service';
 import { TimesheetValidationService } from '../../services/timesheet-validation.service';
 import { differenceInCalendarDays } from 'date-fns';
 import { LoadingStateService } from '../../state/loading-state.service';
+import { formatDate } from '@angular/common';
 
 export const startingDateCriteria = {} as {
   isBeforeThreeWeeks: boolean;
@@ -124,7 +125,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   loading$: Observable<number>;
   loadingSubscription = new Subscription();
-
+  leaveforbiden=false;
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, this.date) > 0;
@@ -165,7 +166,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
-
+   
 
     this.timesheetConfig$.subscribe((tsc) => {
       this.timesheetConfig = tsc ?? this.timesheetConfigurationStateService.defaultTimesheetConfig;
@@ -218,6 +219,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
         this.projects = response;
       })
     )
+    this.valueChangeInputleave();
   }
 
   ngOnDestroy(): void {
@@ -581,6 +583,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.formData.toDate = this.date;
 
       this.drawerVisible = true;
+      this.checkLeaveForLeaveInputOfADay();
     }
 
     this.clickEventType = ClickEventType.none;
@@ -634,7 +637,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
           this.date.getDate()
         ),
         Index: 1,
-        Hour: this.validateForm.value.hours,
+        Hour: this.validateForm.controls.hours.value,
         ProjectId: this.validateForm.value.project,
         TimeSheetId: '00000000-0000-0000-0000-000000000000',
       };
@@ -679,6 +682,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     } else {
       this.checkProjectDateBeforeAddTimeEntry(timeEntry);
     }
+    this.validateForm.reset();
   }
 
   addTimeEntryForDateRange(timeEntry: TimeEntry) {
@@ -688,12 +692,19 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
     const timeEntries: TimeEntry[] = [];
     let tmpTimeEntry: TimeEntry | null;
-    const dates = this.dayAndDateService.getRangeOfDates(
+    let dates = this.dayAndDateService.getRangeOfDates(
       this.formData.fromDate,
       this.formData.toDate
     );
 
     if (this.timesheet) {
+    let checkedLeaveDates:Date[]=[];
+     for(const date of dates)
+   {
+     if(!this.isThereLeaveOnADay(date))
+     checkedLeaveDates=[...checkedLeaveDates,date]
+   }
+   dates=[...checkedLeaveDates];
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -1087,4 +1098,58 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   authorize(key: string) {
     return this._permissionService.authorizedPerson(key);
   }
+
+
+  valueChangeInputleave()  
+  {   
+    this.validateForm.controls.client.valueChanges.subscribe(()=>{
+  const client=this.clients.find(c=>c.id==this.validateForm.controls.client.value);  
+    if(client?.name =="Leave")
+    {
+      this.validateForm.controls.fromDate.disable();
+      this.validateForm.controls.toDate.disable();
+      this.validateForm.controls.hours.disable();   
+      this.validateForm.controls.hours.setValue(this.timesheetConfig.WorkingHours.Min);
+    }
+    else{
+     this.validateForm.controls.fromDate.enable();
+     this.validateForm.controls.toDate.enable();
+    this.validateForm.controls.hours.enable();
+    } 
+  });
+  } 
+
+  checkLeaveForLeaveInputOfADay()
+{
+ if(this.formData.fromDate && this.timeEntries!=null )
+  { 
+    const dayEntery=this.timeEntries.filter(e=>formatDate(e.Date,'yyyy-MM-dd','en_US')==
+    (this.formData.fromDate && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
+     if( dayEntery.length>0)
+      !this.isThereLeaveOnADay(this.formData.fromDate)?this.leaveforbiden=true:this.leaveforbiden=false;
+     else   this.leaveforbiden=false;
+  }
+  else  this.leaveforbiden=false;
+}
+
+isThereLeaveOnADay(enteryDate:Date):boolean
+{
+  if(this.timeEntries!=null && this.clients!=null)
+  { 
+  const dayEntery=this.timeEntries.filter(
+    e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== formatDate(enteryDate, 'yyyy-MM-dd', 'en_US'));
+   for(const entery of dayEntery)
+   {   
+    for(const client of this.clients)
+    {
+      const project=client.projects.find(c=>c.id==entery.ProjectId); 
+      if((project?.name.trim()=="Casual Leave" || project?.name.trim()=="Medical/Maternity" ||
+          project?.name.trim()==="Sick Leave" || project?.name.trim()==="Vacation") || project?.name.trim()=="Leave")   
+          return true;     
+    }
+  }
+ }
+  return false;
+}
+
 }

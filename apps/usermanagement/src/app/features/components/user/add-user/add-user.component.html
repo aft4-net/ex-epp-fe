@@ -16,7 +16,7 @@
       
     >
      <nz-option *ngFor="let employee of employeeList" [nzValue]="employee.Guid"
-     [nzLabel]="employee.FirstName + ' ' + (employee.FatherName?employee.FatherName:employee.GrandFatherName)"></nz-option>
+     [nzLabel]="employee.FullName"></nz-option> <!-- employee.FirstName + ' ' + (employee.FatherName?employee.FatherName:employee.GrandFatherName) -->
     </nz-select>
               </nz-form-control>
             </nz-form-item>

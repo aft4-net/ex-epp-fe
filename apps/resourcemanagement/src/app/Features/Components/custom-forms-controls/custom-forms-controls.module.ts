@@ -27,6 +27,7 @@ import { CustomTextBoxComponent } from "./custom-controls/custom-text-box/custom
 import { CustomUploadComponent } from "./custom-controls/custom-upload/custom-upload.component";
 import { ExcelButtonsMultipleControlsComponent } from "./custom-buttons/excel-buttons-multiple-controls/excel-buttons-multiple-controls.component";
 import{ EmployeeApiService } from '@exec-epp/core-services/employees-services'
+import { CustomNameComponent } from "./custom-controls/custom-name/custom-name.component";
 
 
 registerLocaleData(en);
@@ -40,6 +41,7 @@ registerLocaleData(en);
         CustomDatepickerComponent,
         CustomUploadComponent,
         CustomFullNameComponent,
+        CustomNameComponent,
         CustomEmployeeIdNumberComponent,
         CustomEmployeeDateofBirthComponent,
         CustomPhoneNumberMultipleComponent,

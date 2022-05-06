@@ -128,7 +128,7 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
    }
 
    getFullName(){
-    this.fullName = ((this.loggedInUser.FirstName) + (this.loggedInUser.LastName));
+    this.fullName = this.loggedInUser.FullName; // ((this.loggedInUser.FirstName) + (this.loggedInUser.LastName));
     console.log(this.fullName);
     return this.fullName
   }
@@ -181,7 +181,7 @@ import {  JwtHelperService } from "@auth0/angular-jwt";
           this.userSubject.next(users.Data);
           return users;
         }
-        users.Data.MiddleName = users.Data.MiddleName? users.Data.MiddleName : ''
+        // users.Data.MiddleName = users.Data.MiddleName? users.Data.MiddleName : ''
         return users;
       }
     ));

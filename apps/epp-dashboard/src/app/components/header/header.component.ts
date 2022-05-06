@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   isLogin = false;
   uemail: any;
   fullName: any;
-  firsName:any;
+  firstName:any;
   middleName:any;
   thefullName = '';
   theGroup: any;
@@ -35,15 +35,22 @@ export class HeaderComponent implements OnInit {
     private loadingSpinnerService: LoadingSpinnerService,
 
   ) {
-   this.fullName = (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName?this.loggedInUser.MiddleName:this.loggedInUser.LastName)
+   this.fullName =this.loggedInUser.FullName; // (this.loggedInUser.FirstName) + (' ') + (this.loggedInUser.MiddleName?this.loggedInUser.MiddleName:this.loggedInUser.LastName)
     this.thefullName = this.fullName;
-    this.firsName = this.loggedInUser.FirstName ;
-    this.middleName = this.loggedInUser.MiddleName&&this.loggedInUser.MiddleName!==''?this.loggedInUser.MiddleName:this.loggedInUser.LastName;
-    const namearray = this.firsName.split();
+  //   this.firstName = this.loggedInUser.FirstName ;
+  //   this.middleName = this.loggedInUser.MiddleName&&this.loggedInUser.MiddleName!==''?this.loggedInUser.MiddleName:this.loggedInUser.LastName;
+  //   const namearray = this.firstName.split();
+  //   const namearrays = this.middleName.split();
+  //  this.firstName = namearray[0][0].toUpperCase();
+  //  this.middleName = namearrays[0][0].toUpperCase();
+  //  this.fullName = this.firstName + ' '+ this.middleName
+    this.firstName = this.fullName.split(" ")[0];
+    this.middleName = this.fullName.split(" ")[1];
+    const namearray = this.firstName.split();
     const namearrays = this.middleName.split();
-   this.firsName = namearray[0][0].toUpperCase();
-   this.middleName = namearrays[0][0].toUpperCase();
-   this.fullName = this.firsName + ' '+ this.middleName
+    this.firstName = namearray[0][0].toUpperCase();
+    this.middleName = namearrays[0][0].toUpperCase();
+    this.fullName = this.firstName + ' ' + this.middleName;
 
     this.uemail = _authenticationService.getUserFullName();
   }
