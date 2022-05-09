@@ -66,14 +66,18 @@ export class ViewReportService {
 
 
   getClientList(): Observable<GetClient[]> {
-    const url = `${environment.apiUrl}/ClientDetails`;
+    const url = `${environment.apiUrl}/Project/all`;
     return this.http.get<any>(url).pipe(
       map(responses => {
         const clients: GetClient[] = [];
         for (const response of responses.Data) {
+          const index = clients.findIndex(c => c.Guid === response.Client.Guid && c.ClientName === response.Client.ClientName);
+          if(index >= 0) {
+            continue;
+          }
           clients.push({
-            Guid: response.Guid,
-            ClientName: response.ClientName
+            Guid: response.Client.Guid,
+            ClientName: response.Client.ClientName
           });
         }
         return clients;

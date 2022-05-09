@@ -286,13 +286,39 @@ export class ViewreportComponent implements OnInit {
   private prepareTimesheetSummaryReportTable() {
     const table = document.createElement("table");
 
-    const clients = this.getClients(false);
+    const forDetail = false;
+    const clients = this.getClients(forDetail);
+    for (const client of clients) {
+      const clientIndex = clients.indexOf(client);
+
+      let sNo = 0;
+      const projects = this.getClientProjects(client.Client);
+      for (const project of projects) {
+        const projectIndex = projects.indexOf(project);
+        const assignedResources = this.getAssignedResources(project.ProjectName, sNo, forDetail);
+        sNo += assignedResources.length;
+        projects[projectIndex]["assignedResources"] = assignedResources;
+      }
+      clients[clientIndex]["projects"] = projects;
+    }
+
+    const tableHeader = document.createElement("thead");
+    const tableHeaderRow = document.createElement("tr");
+    const tableHeaderCol = document.createElement("th");
+    tableHeaderCol.colSpan = Object.keys(clients[0].projects[0].assignedResources[0]).length;
+    tableHeaderCol.textContent = "Monthly Timesheet - Summary";
+    tableHeaderRow.appendChild(tableHeaderCol);
+    tableHeader.appendChild(tableHeaderRow);
+    table.appendChild(tableHeader);
 
     for (const client of clients) {
       //Client row
       const clientKeys1 = Object.keys(client).filter(ck => ck.toUpperCase() === "Client".toUpperCase() || ck.toUpperCase() === "Month".toUpperCase());
       const clientHeader1 = document.createElement("tr");
       for (const clientKey of clientKeys1) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
         const header = document.createElement("th");
         if (clientKey === "Client") {
           header.colSpan = 2;
@@ -304,7 +330,7 @@ export class ViewreportComponent implements OnInit {
         detail.textContent = client[clientKey];
         clientHeader1.appendChild(detail);
 
-        if(clientKeys1.indexOf(clientKey) != clientKeys1.length - 1) {
+        if (clientKeys1.indexOf(clientKey) != clientKeys1.length - 1) {
           clientHeader1.appendChild(document.createElement("td"));
         }
       }
@@ -313,6 +339,9 @@ export class ViewreportComponent implements OnInit {
       const clientKeys2 = Object.keys(client).filter(ck => ck.toUpperCase() === "ClientManager".toUpperCase() || ck.toUpperCase() === "ReportDate".toUpperCase());
       const clientHeader2 = document.createElement("tr");
       for (const clientKey of clientKeys2) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
         const header = document.createElement("th");
         if (clientKey === "ClientManager") {
           header.colSpan = 2;
@@ -324,17 +353,16 @@ export class ViewreportComponent implements OnInit {
         detail.textContent = client[clientKey];
         clientHeader2.appendChild(detail);
 
-        if(clientKeys1.indexOf(clientKey) != clientKeys1.length - 1) {
+        if (clientKeys1.indexOf(clientKey) != clientKeys1.length - 1) {
           clientHeader2.appendChild(document.createElement("td"));
         }
       }
       table.appendChild(clientHeader2);
 
-      //project row;      
-      let sNo = 0;
-      const projects = this.getClientProjects(client.Client);
+      //project row;
+      const projects = client.projects;
       //Assigned Recouce header row
-      const assignedResource = this.getAssignedResources(projects[0].ProjectName, sNo, false)[0];
+      const assignedResource = projects[0].assignedResources[0];
       const assignedResourceHeaderRow = document.createElement("tr");
       for (const assigendresourceKey in assignedResource) {
         const header = document.createElement("th");
@@ -345,6 +373,9 @@ export class ViewreportComponent implements OnInit {
       for (const project of projects) {
         const projectDetail = document.createElement("tr");
         for (const projectKey in project) {
+          if (projectKey.toUpperCase() === "assignedResources".toUpperCase()) {
+            continue;
+          }
           const detail = document.createElement('td');
           detail.colSpan = Object.keys(assignedResource).length;
           detail.textContent = `${this.addSpaceInBetween(projectKey)} : ${project[projectKey as keyof typeof project]}`
@@ -353,8 +384,7 @@ export class ViewreportComponent implements OnInit {
         table.appendChild(projectDetail);
 
         //Assigned Resouce
-        const assignedResources = this.getAssignedResources(project.ProjectName, sNo, false);
-        sNo += assignedResources.length;
+        const assignedResources = project.assignedResources;
         for (const assignedResource of assignedResources) {
           const assignedResourceRow = document.createElement("tr");
           for (const assignedResourceKey in assignedResource) {
@@ -373,12 +403,38 @@ export class ViewreportComponent implements OnInit {
   private prepareTimesheetDetailReportTable() {
     const table = document.createElement("table");
 
-    const clients = this.getClients(true);
+    const forDetail = true;
+    const clients = this.getClients(forDetail);
+    for (const client of clients) {
+      const groupedReportIndex = clients.indexOf(client);
+
+      let sNo = 0;
+      const projects = this.getClientProjects(client.Client);
+      for (const project of projects) {
+        const projectIndex = projects.indexOf(project);
+        const assignedResources = this.getAssignedResources(project.ProjectName, sNo, forDetail);
+        sNo += assignedResources.length;
+        projects[projectIndex]["assignedResources"] = assignedResources;
+      }
+      clients[groupedReportIndex]["projects"] = projects;
+    }
+
+    const tableHeader = document.createElement("thead");
+    const tableHeaderRow = document.createElement("tr");
+    const tableHeaderCol = document.createElement("th");
+    tableHeaderCol.colSpan = Object.keys(clients[0].projects[0].assignedResources[0]).length;
+    tableHeaderCol.textContent = "Monthly Timesheet - Detail";
+    tableHeaderRow.appendChild(tableHeaderCol);
+    tableHeader.appendChild(tableHeaderRow);
+    table.appendChild(tableHeader);
 
     for (const client of clients) {
       //Client
       const clientHeaderRow = document.createElement("tr");
       for (const clientKey in client) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
         const header = document.createElement("th");
         if (clientKey === "Client") {
           header.colSpan = 2;
@@ -393,6 +449,9 @@ export class ViewreportComponent implements OnInit {
 
       const clientDetailRow = document.createElement("tr");
       for (const clientKey in client) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
         const column = document.createElement("td");
         if (clientKey === "Client") {
           column.colSpan = 2;
@@ -406,10 +465,9 @@ export class ViewreportComponent implements OnInit {
       table.appendChild(clientDetailRow);
 
       //project row;
-      let sNo = 0;
-      const projects = this.getClientProjects(client.Client);
+      const projects = client.projects;
       //Assigned Recouce header row
-      const assignedResource = this.getAssignedResources(projects[0].ProjectName, sNo)[0];
+      const assignedResource = projects[0].assignedResources[0];
       const assignedResourceHeaderRow = document.createElement("tr");
       for (const assigenedresourceKey in assignedResource) {
         const header = document.createElement("th");
@@ -423,6 +481,9 @@ export class ViewreportComponent implements OnInit {
       for (const project of projects) {
         const projectDetailRow = document.createElement("tr");
         for (const projectKey in project) {
+          if (projectKey.toUpperCase() === "assignedResources".toUpperCase()) {
+            continue;
+          }
           const column = document.createElement('td');
           column.colSpan = Object.keys(assignedResource).length + 1;
           column["textContent"] = `${this.addSpaceInBetween(projectKey)} : ${project[projectKey as keyof typeof project]}`
@@ -431,8 +492,7 @@ export class ViewreportComponent implements OnInit {
         table.appendChild(projectDetailRow);
 
         //Assigned Resouce
-        const assignedResources = this.getAssignedResources(project.ProjectName, sNo);
-        sNo += assignedResources.length;
+        const assignedResources = project.assignedResources;
         for (const assignedResource of assignedResources) {
           const assignedResourceDetailRow = document.createElement("tr");
           for (const assignedResourceKey in assignedResource) {
@@ -458,7 +518,7 @@ export class ViewreportComponent implements OnInit {
         Client: report.Client,
         ClientManager: report.ClientManager,
         Month: "_" + report.Month,
-        ReportDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
+        ReportDate: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
       }
 
       if (forDetail) {
@@ -528,7 +588,7 @@ export class ViewreportComponent implements OnInit {
       const assigendResource: Record<string, any> = {}
       assigendResource["SNo"] = (assignedResources.length + sNo + 1);
       assigendResource["Name"] = report.Name;
-      if(!forDetail) {
+      if (!forDetail) {
         assigendResource[" "] = " ";
       }
       assigendResource["Role"] = report.Role;
@@ -610,7 +670,7 @@ export class ViewreportComponent implements OnInit {
     let totalTimeEntryHours = 0;
     if (forDetail) {
       timeEntryDatas.forEach(ted => {
-        timeEntryData[`'${ted.Date.getDate()}/${ted.Date.getMonth()}`] = ted.Hour;
+        timeEntryData[`'${ted.Date.getDate()}/${ted.Date.getMonth() + 1}`] = ted.Hour;
         totalTimeEntryHours += isNaN(parseInt(ted.Hour)) ? 0 : parseInt(ted.Hour);
       });
     }
