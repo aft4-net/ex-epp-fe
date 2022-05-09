@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import en from '@angular/common/locales/en';
 
 import { DatePipe, registerLocaleData } from '@angular/common';
@@ -12,14 +12,19 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ReportWithCriteria } from '../../Models/reportWithCriteria';
 
 import * as XLSX from "xlsx";
+import { Observable, Subscription } from 'rxjs';
+import { TimesheetConfiguration } from '../../Models/timesheetModels';
+import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 
 @Component({
   selector: 'exec-epp-viewreport',
   templateUrl: './viewreport.component.html',
   styleUrls: ['./viewreport.component.scss']
 })
-export class ViewreportComponent implements OnInit {
-
+export class ViewreportComponent implements OnInit, OnDestroy {
+  timesheetConfig$: Observable<TimesheetConfiguration> = new Observable();
+  timesheetConfig: TimesheetConfiguration = this.timesheetConfigStateService.defaultTimesheetConfig;
+  timesheetConfigSubscription: Subscription = new Subscription();
   clientId = "";
   projectId: string[] = [];
   startDate: any;
@@ -52,13 +57,15 @@ export class ViewreportComponent implements OnInit {
   public listOfProjects = [];
   constructor(
     private reportService: ViewReportService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private timesheetConfigStateService: TimesheetConfigurationStateService
   ) {
     // const mm = new Date();
     this.defualtMonth = new Date();
     this.defualtMonth.setDate(-1 * (this.defualtMonth.getDate() + 1));
     // this.defualtMonth.setMonth(this.monthm[mm.getMonth() -1]);
   }
+
   listOfOption: Array<{ label: string; value: string }> = [];
   listOfTagOptions = [];
 
@@ -88,8 +95,15 @@ export class ViewreportComponent implements OnInit {
     registerLocaleData(en);
     this.getAllClientList();
 
-    //this.getProjectListByClientId(this.clientId);
+    this.timesheetConfig$ = this.timesheetConfigStateService.timesheetConfiguration$;
 
+    this.timesheetConfigSubscription = this.timesheetConfig$.subscribe(tsc => {
+      this.timesheetConfig = tsc ?? this.timesheetConfigStateService.defaultTimesheetConfig;
+    });
+
+  }
+  ngOnDestroy(): void {
+    this.timesheetConfigSubscription.unsubscribe();
   }
   getAllClientList() {
     this.reportService.getClientList().subscribe(
@@ -397,6 +411,40 @@ export class ViewreportComponent implements OnInit {
       }
     }
 
+    const totalRow = document.createElement("tr");
+    for (const assignedResourceKey in clients[0].projects[0].assignedResources[0]) {
+      const col = document.createElement("td");
+      if (assignedResourceKey === "SNo") {
+        col.textContent = "Total";
+      }
+      else if (assignedResourceKey === "TotalBillable") {
+        let totalBillable = 0;
+        for (const client of clients) {
+          for (const project of client.projects) {
+            for (const assignedResource of project.assignedResources) {
+              totalBillable += assignedResource["TotalBillable"];
+            }
+          }
+        }
+        col.textContent = totalBillable.toString();
+      }
+      else if (assignedResourceKey === "TotalNonBillable") {
+        let totalNonBillable = 0;
+        for (const client of clients) {
+          for (const project of client.projects) {
+            for (const assignedResource of project.assignedResources) {
+              totalNonBillable += assignedResource["TotalNonBillable"];
+            }
+          }
+        }
+
+        col.textContent = totalNonBillable.toString();
+      }
+
+      totalRow.appendChild(col);
+    }
+    table.appendChild(totalRow);
+
     return table;
   }
 
@@ -508,6 +556,43 @@ export class ViewreportComponent implements OnInit {
       }
     }
 
+    const totalRow = document.createElement("tr");
+    for (const assignedResourceKey in clients[0].projects[0].assignedResources[0]) {
+      const col = document.createElement("td");
+      if (assignedResourceKey === "SNo") {
+        col.textContent = "Total";
+      }
+      else if(assignedResourceKey === "Name") {
+        col.colSpan = 2;
+      }
+      else if (assignedResourceKey === "TotalBillable") {
+        let totalBillable = 0;
+        for (const client of clients) {
+          for (const project of client.projects) {
+            for (const assignedResource of project.assignedResources) {
+              totalBillable += assignedResource["TotalBillable"];
+            }
+          }
+        }
+        col.textContent = totalBillable.toString();
+      }
+      else if (assignedResourceKey === "TotalNonBillable") {
+        let totalNonBillable = 0;
+        for (const client of clients) {
+          for (const project of client.projects) {
+            for (const assignedResource of project.assignedResources) {
+              totalNonBillable += assignedResource["TotalNonBillable"];
+            }
+          }
+        }
+
+        col.textContent = totalNonBillable.toString();
+      }
+
+      totalRow.appendChild(col);
+    }
+    table.appendChild(totalRow);
+
     return table;
   }
 
@@ -611,6 +696,7 @@ export class ViewreportComponent implements OnInit {
   }
 
   private getProjectTimeEntryData(projectName: string, name: string, billable: boolean, forDetail = true) {
+    const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const timeEntryDatas = this.reportsForExport.reduce((timeEntryDatas: Record<string, any>[], report) => {
       if (report.ProjectName != projectName) return timeEntryDatas;
       if (report.Name != name) return timeEntryDatas;
@@ -665,6 +751,18 @@ export class ViewreportComponent implements OnInit {
 
       return 0;
     })
+
+    for (let i = 0; i < timeEntryDatas.length; i++) {
+      const day = timeEntryDatas[i].Date.getDay();
+      const index = this.timesheetConfig.WorkingDays.findIndex(d => d.toUpperCase() === weekDays[day].toUpperCase());
+      if (index >= 0) {
+        continue;
+      }
+
+      if (timeEntryDatas[i].Hour === "0") {
+        timeEntryDatas[i].Hour = "";
+      }
+    }
 
     const timeEntryData: Record<string, any> = {};
     let totalTimeEntryHours = 0;
