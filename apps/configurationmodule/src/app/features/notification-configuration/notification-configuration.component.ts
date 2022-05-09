@@ -45,7 +45,7 @@ export class NotificationConfigurationComponent implements OnInit {
       this.timesheetConfig = config ?? this.timesheetConfigStateService.defaultTimesheetConfig;
       this.selectedWeekConfig = Object.keys(this.weekConfig)[Object.values(this.weekConfig).indexOf(this.timesheetConfig.TimesheetDeadline.Week)];
       this.notificationConfigForm.setValue({
-        deadlineDate: this.timesheetConfig.TimesheetDeadline?.DeadlineDate,
+        deadlineDate: this.timesheetConfig.TimesheetDeadline.DeadlineDate,
         deadlineTime: new Date().setHours(this.timesheetConfig.TimesheetDeadline.DeadlineTime),
         deadlineWeek: this.selectedWeekConfig,
         timesheetEscalation: {
@@ -55,6 +55,49 @@ export class NotificationConfigurationComponent implements OnInit {
       });
     });
   }
+
+  onDeadLineWeekChage() {
+    const configValue = this.notificationConfigForm.value;
+    if (configValue.deadlineWeek === this.notificationweek[0]) {
+      this.notificationConfigForm.controls.deadlineDate.setValue(this.getLastDayFromTimesheetConfig())
+      this.notificationConfigForm.controls.deadlineDate.disable();
+    }
+    else {
+      this.notificationConfigForm.controls.deadlineDate.setValue(this.timesheetConfig.TimesheetDeadline.DeadlineDate);
+      this.notificationConfigForm.controls.deadlineDate.enable();
+    }
+  }
+
+  getLastDayFromTimesheetConfig() {
+    const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const startDay = this.timesheetConfig.StartOfWeeks[0].DayOfWeek;
+    const orderedWeekDays = [startDay];
+    const workingDays = this.timesheetConfig.WorkingDays;
+    const orderedWorkingDays = [startDay];
+
+    let startDayIndex = weekDays.findIndex(d => d.toUpperCase() === startDay.toUpperCase());
+
+    while (orderedWeekDays.length < weekDays.length) {
+      startDayIndex++;
+      if (startDayIndex == weekDays.length) {
+        startDayIndex = 0;
+      }
+      orderedWeekDays.push(weekDays[startDayIndex]);
+    }
+
+    for (const day of orderedWeekDays) {
+      if (day.toUpperCase() === startDay.toUpperCase()) {
+        continue;
+      }
+      const index = workingDays.findIndex(d => d.toUpperCase() === day.toUpperCase());
+      if (index >= 0) {
+        orderedWorkingDays.push(workingDays[index]);
+      }
+    }
+
+    return orderedWorkingDays[orderedWorkingDays.length - 1];
+  }
+
   weekChangeEvent(event: any) {
     this.selectedWeekConfig = event.target.value;
   }
