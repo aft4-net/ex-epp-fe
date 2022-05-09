@@ -104,4 +104,24 @@
     </ng-template>
   </div>
 
+  <div *ngIf="authorize('Project_Module')" class="mb-4">
+    <div style="background-color: #fdfcfc; height: 110%;"  nzHoverable="true" nzSize="small">
+      <nz-card-meta
+      [nzTitle]="confTextTemplate"
+      [nzAvatar]="configurationTemplate"
+    ></nz-card-meta>
+    </div>
+    <ng-template #configurationTemplate>
+      <!-- <i nz-icon [nzType]="'setting'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"></i> -->
+    </ng-template>
+    <ng-template #confTextTemplate>
+      <a (click)="closeSidenav()" routerLink="reports" style="color: black;" >
+        <p style="font-size:16px; font-weight: normal;"> <i nz-icon [nzType]="'bar-chart'" nzTheme="outline" style="color: #00a551;  font-size: '30px';"> 
+          <span> </span>  </i>  Reports</p>
+      </a>
+
+
+    </ng-template>
+  </div>
+
 </div>
