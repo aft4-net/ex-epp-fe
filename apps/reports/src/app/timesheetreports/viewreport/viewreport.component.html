@@ -31,7 +31,7 @@
           <nz-option   *ngFor="let project of projectList" [nzLabel]="project.ProjectName"  [nzValue]="project.Guid"   ></nz-option>
      
         </nz-select>
-        <ng-template #tagPlaceHolder let-projectList  #defaultTemplatep> Projects:   
+        <ng-template #tagPlaceHolder let-projectList  #defaultTemplatep> Projects  
           <nz-badge 
           nzStandalone
           [nzCount]="projectList.length" 
