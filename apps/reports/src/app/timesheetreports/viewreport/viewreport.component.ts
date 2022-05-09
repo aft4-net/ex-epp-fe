@@ -25,7 +25,7 @@ export class ViewreportComponent implements OnInit {
   startDate: any;
   endDate: any;
   defualtMonth: any;
-  monthm= ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  monthm = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   month: any;
   monthyear: any;
   today = new Date();
@@ -47,21 +47,21 @@ export class ViewreportComponent implements OnInit {
   list: any[] = [];
   sumBillableHours = 0;
   sumNonBillableHours = 0;
- 
+
   public listOfClients: [GetClient] | [] = [];
   public listOfProjects = [];
   constructor(
     private reportService: ViewReportService,
     public datepipe: DatePipe
   ) {
-   // const mm = new Date();
-   this.defualtMonth = new Date();
+    // const mm = new Date();
+    this.defualtMonth = new Date();
     this.defualtMonth.setDate(-1 * (this.defualtMonth.getDate() + 1));
-   // this.defualtMonth.setMonth(this.monthm[mm.getMonth() -1]);
+    // this.defualtMonth.setMonth(this.monthm[mm.getMonth() -1]);
   }
   listOfOption: Array<{ label: string; value: string }> = [];
   listOfTagOptions = [];
-  
+
   reportsForExport: any[] = [];
 
   ngOnInit(): void {
@@ -78,8 +78,8 @@ export class ViewreportComponent implements OnInit {
 
     const d = new Date();
     const namem = this.monthm[d.getMonth() - 1];
-    this.month = this.monthm[this.defualtMonth.getMonth() -1]
- 
+    this.month = this.monthm[this.defualtMonth.getMonth() - 1]
+
     //console.log(namem);
     // this.defualtMonth = this.monthm[d.getMonth()- 1]
 
@@ -119,7 +119,7 @@ export class ViewreportComponent implements OnInit {
     // Can not select days before today and today
     // this.monthm[d.getMonth() - 1]
     differenceInCalendarDays(current, this.today) > 0;
-   // differenceInCalendarMonths(current: any,this: any.today: any: any);
+  // differenceInCalendarMonths(current: any,this: any.today: any: any);
 
 
 
@@ -263,13 +263,13 @@ export class ViewreportComponent implements OnInit {
     const fromDate = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth(), 1);
     const toDate = new Date(this.defualtMonth.getFullYear(), this.defualtMonth.getMonth() + 1, 0);
     const clientId = this.clientId;
-    const projectIds = [ ...this.projectId ];
+    const projectIds = [...this.projectId];
 
     this.reportService.getTimesheetReportForExport(fromDate, toDate, clientId, projectIds).subscribe(res => {
       this.reportsForExport = res ?? [];
 
       this.exportToExcel();
-    },error => {
+    }, error => {
       console.log(error);
     });
   }
@@ -286,37 +286,83 @@ export class ViewreportComponent implements OnInit {
   private prepareTimesheetSummaryReportTable() {
     const table = document.createElement("table");
 
-    const clients = this.getClients(false);
-    const clientHeader = document.createElement("tr");
-    for (const clientKey in clients[0]) {
-      const header = document.createElement("th");
-      header.style.backgroundColor = "dimgray";
-      if (clientKey === "Client") {
-        header.colSpan = 2;
-      }
-      header.textContent = this.addSpaceInBetween(clientKey);
-      clientHeader.appendChild(header);
-    }
-    table.appendChild(clientHeader);
-
+    const forDetail = false;
+    const clients = this.getClients(forDetail);
     for (const client of clients) {
-      const clientDetail = document.createElement("tr");
-      //Client row
-      for (const clientKey in client) {
-        const detail = document.createElement("td");
-        if (clientKey === "Client") {
-          detail.colSpan = 2;
-        }
-        detail.textContent = client[clientKey as keyof typeof client];
-        clientDetail.appendChild(detail);
-      }
-      table.appendChild(clientDetail);
+      const clientIndex = clients.indexOf(client);
 
-      //project row;      
       let sNo = 0;
       const projects = this.getClientProjects(client.Client);
+      for (const project of projects) {
+        const projectIndex = projects.indexOf(project);
+        const assignedResources = this.getAssignedResources(project.ProjectName, sNo, forDetail);
+        sNo += assignedResources.length;
+        projects[projectIndex]["assignedResources"] = assignedResources;
+      }
+      clients[clientIndex]["projects"] = projects;
+    }
+
+    const tableHeader = document.createElement("thead");
+    const tableHeaderRow = document.createElement("tr");
+    const tableHeaderCol = document.createElement("th");
+    tableHeaderCol.colSpan = Object.keys(clients[0].projects[0].assignedResources[0]).length;
+    tableHeaderCol.textContent = "Monthly Timesheet - Summary";
+    tableHeaderRow.appendChild(tableHeaderCol);
+    tableHeader.appendChild(tableHeaderRow);
+    table.appendChild(tableHeader);
+
+    for (const client of clients) {
+      //Client row
+      const clientKeys1 = Object.keys(client).filter(ck => ck.toUpperCase() === "Client".toUpperCase() || ck.toUpperCase() === "Month".toUpperCase());
+      const clientHeader1 = document.createElement("tr");
+      for (const clientKey of clientKeys1) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
+        const header = document.createElement("th");
+        if (clientKey === "Client") {
+          header.colSpan = 2;
+        }
+        header.textContent = this.addSpaceInBetween(clientKey);
+        clientHeader1.appendChild(header);
+
+        const detail = document.createElement("td");
+        detail.textContent = client[clientKey];
+        clientHeader1.appendChild(detail);
+
+        if (clientKeys1.indexOf(clientKey) != clientKeys1.length - 1) {
+          clientHeader1.appendChild(document.createElement("td"));
+        }
+      }
+      table.appendChild(clientHeader1);
+
+      const clientKeys2 = Object.keys(client).filter(ck => ck.toUpperCase() === "ClientManager".toUpperCase() || ck.toUpperCase() === "ReportDate".toUpperCase());
+      const clientHeader2 = document.createElement("tr");
+      for (const clientKey of clientKeys2) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
+        const header = document.createElement("th");
+        if (clientKey === "ClientManager") {
+          header.colSpan = 2;
+        }
+        header.textContent = this.addSpaceInBetween(clientKey);
+        clientHeader2.appendChild(header);
+
+        const detail = document.createElement("td");
+        detail.textContent = client[clientKey];
+        clientHeader2.appendChild(detail);
+
+        if (clientKeys1.indexOf(clientKey) != clientKeys1.length - 1) {
+          clientHeader2.appendChild(document.createElement("td"));
+        }
+      }
+      table.appendChild(clientHeader2);
+
+      //project row;
+      const projects = client.projects;
       //Assigned Recouce header row
-      const assignedResource = this.getAssignedResources(projects[0].ProjectName, sNo, false)[0];
+      const assignedResource = projects[0].assignedResources[0];
       const assignedResourceHeaderRow = document.createElement("tr");
       for (const assigendresourceKey in assignedResource) {
         const header = document.createElement("th");
@@ -327,6 +373,9 @@ export class ViewreportComponent implements OnInit {
       for (const project of projects) {
         const projectDetail = document.createElement("tr");
         for (const projectKey in project) {
+          if (projectKey.toUpperCase() === "assignedResources".toUpperCase()) {
+            continue;
+          }
           const detail = document.createElement('td');
           detail.colSpan = Object.keys(assignedResource).length;
           detail.textContent = `${this.addSpaceInBetween(projectKey)} : ${project[projectKey as keyof typeof project]}`
@@ -335,8 +384,7 @@ export class ViewreportComponent implements OnInit {
         table.appendChild(projectDetail);
 
         //Assigned Resouce
-        const assignedResources = this.getAssignedResources(project.ProjectName, sNo, false);
-        sNo += assignedResources.length;
+        const assignedResources = project.assignedResources;
         for (const assignedResource of assignedResources) {
           const assignedResourceRow = document.createElement("tr");
           for (const assignedResourceKey in assignedResource) {
@@ -348,38 +396,68 @@ export class ViewreportComponent implements OnInit {
         }
       }
     }
-    
+
     return table;
   }
 
   private prepareTimesheetDetailReportTable() {
     const table = document.createElement("table");
 
-    const clients = this.getClients(true);
-    const clientHeaderRow = document.createElement("tr");
-    for (const clientKey in clients[0]) {
-      const header = document.createElement("th");
-      if (clientKey === "Client") {
-        header.colSpan = 2;
+    const forDetail = true;
+    const clients = this.getClients(forDetail);
+    for (const client of clients) {
+      const groupedReportIndex = clients.indexOf(client);
+
+      let sNo = 0;
+      const projects = this.getClientProjects(client.Client);
+      for (const project of projects) {
+        const projectIndex = projects.indexOf(project);
+        const assignedResources = this.getAssignedResources(project.ProjectName, sNo, forDetail);
+        sNo += assignedResources.length;
+        projects[projectIndex]["assignedResources"] = assignedResources;
       }
-      else if (clientKey === "Legend") {
-        header.colSpan = 2 + (this.getTimeEntryDateCount());
-      }
-      header["textContent"] = this.addSpaceInBetween(clientKey);
-      clientHeaderRow.appendChild(header);
+      clients[groupedReportIndex]["projects"] = projects;
     }
-    table.appendChild(clientHeaderRow);
+
+    const tableHeader = document.createElement("thead");
+    const tableHeaderRow = document.createElement("tr");
+    const tableHeaderCol = document.createElement("th");
+    tableHeaderCol.colSpan = Object.keys(clients[0].projects[0].assignedResources[0]).length;
+    tableHeaderCol.textContent = "Monthly Timesheet - Detail";
+    tableHeaderRow.appendChild(tableHeaderCol);
+    tableHeader.appendChild(tableHeaderRow);
+    table.appendChild(tableHeader);
 
     for (const client of clients) {
-      const clientDetailRow = document.createElement("tr");
-      //Client row
+      //Client
+      const clientHeaderRow = document.createElement("tr");
       for (const clientKey in client) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
+        const header = document.createElement("th");
+        if (clientKey === "Client") {
+          header.colSpan = 2;
+        }
+        else if (clientKey === "Legend") {
+          header.colSpan = this.getTimeEntryDateCount() + 2;
+        }
+        header["textContent"] = this.addSpaceInBetween(clientKey);
+        clientHeaderRow.appendChild(header);
+      }
+      table.appendChild(clientHeaderRow);
+
+      const clientDetailRow = document.createElement("tr");
+      for (const clientKey in client) {
+        if (clientKey.toUpperCase() === "projects".toUpperCase()) {
+          continue;
+        }
         const column = document.createElement("td");
         if (clientKey === "Client") {
           column.colSpan = 2;
         }
         else if (clientKey === "Legend") {
-          column.colSpan = 2 + (new Date(2022, 2, 0).getDate());
+          column.colSpan = this.getTimeEntryDateCount() + 2;
         }
         column["textContent"] = client[clientKey as keyof typeof client];
         clientDetailRow.appendChild(column);
@@ -387,10 +465,9 @@ export class ViewreportComponent implements OnInit {
       table.appendChild(clientDetailRow);
 
       //project row;
-      let sNo = 0;
-      const projects = this.getClientProjects(client.Client);
+      const projects = client.projects;
       //Assigned Recouce header row
-      const assignedResource = this.getAssignedResources(projects[0].ProjectName, sNo)[0];
+      const assignedResource = projects[0].assignedResources[0];
       const assignedResourceHeaderRow = document.createElement("tr");
       for (const assigenedresourceKey in assignedResource) {
         const header = document.createElement("th");
@@ -404,6 +481,9 @@ export class ViewreportComponent implements OnInit {
       for (const project of projects) {
         const projectDetailRow = document.createElement("tr");
         for (const projectKey in project) {
+          if (projectKey.toUpperCase() === "assignedResources".toUpperCase()) {
+            continue;
+          }
           const column = document.createElement('td');
           column.colSpan = Object.keys(assignedResource).length + 1;
           column["textContent"] = `${this.addSpaceInBetween(projectKey)} : ${project[projectKey as keyof typeof project]}`
@@ -412,8 +492,7 @@ export class ViewreportComponent implements OnInit {
         table.appendChild(projectDetailRow);
 
         //Assigned Resouce
-        const assignedResources = this.getAssignedResources(project.ProjectName, sNo);
-        sNo += assignedResources.length;
+        const assignedResources = project.assignedResources;
         for (const assignedResource of assignedResources) {
           const assignedResourceDetailRow = document.createElement("tr");
           for (const assignedResourceKey in assignedResource) {
@@ -439,7 +518,7 @@ export class ViewreportComponent implements OnInit {
         Client: report.Client,
         ClientManager: report.ClientManager,
         Month: "_" + report.Month,
-        ReportDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
+        ReportDate: `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
       }
 
       if (forDetail) {
@@ -509,6 +588,9 @@ export class ViewreportComponent implements OnInit {
       const assigendResource: Record<string, any> = {}
       assigendResource["SNo"] = (assignedResources.length + sNo + 1);
       assigendResource["Name"] = report.Name;
+      if (!forDetail) {
+        assigendResource[" "] = " ";
+      }
       assigendResource["Role"] = report.Role;
       if (forDetail) {
         assigendResource["Billable"] = report.Billable ? "Y" : "N";
@@ -554,15 +636,15 @@ export class ViewreportComponent implements OnInit {
 
     const months = [...(new Set(this.reportsForExport.map(rep => new Date(rep.Date).getMonth())))];
 
-    for(const month of months) {
+    for (const month of months) {
       const date = new Date(this.defualtMonth);
       let fromDate = new Date(date.getFullYear(), month, 1);
       const toDate = new Date(date.getFullYear(), month + 1, 0);
 
-      while(fromDate <= toDate) {
+      while (fromDate <= toDate) {
         const index = timeEntryDatas.findIndex(ted => new Date(ted.Date).valueOf() === fromDate.valueOf());
 
-        if(index < 0) {
+        if (index < 0) {
           timeEntryDatas.push({
             Date: new Date(fromDate),
             Hour: "0"
@@ -574,10 +656,10 @@ export class ViewreportComponent implements OnInit {
     }
 
     timeEntryDatas.sort((prev, next) => {
-      if(prev.Date < next.Date) {
+      if (prev.Date < next.Date) {
         return -1;
       }
-      else if(prev.Date > next.Date) {
+      else if (prev.Date > next.Date) {
         return 1;
       }
 
@@ -588,7 +670,7 @@ export class ViewreportComponent implements OnInit {
     let totalTimeEntryHours = 0;
     if (forDetail) {
       timeEntryDatas.forEach(ted => {
-        timeEntryData[`'${ted.Date.getDate()}/${ted.Date.getMonth()}`] = ted.Hour;
+        timeEntryData[`'${ted.Date.getDate()}/${ted.Date.getMonth() + 1}`] = ted.Hour;
         totalTimeEntryHours += isNaN(parseInt(ted.Hour)) ? 0 : parseInt(ted.Hour);
       });
     }
@@ -614,13 +696,13 @@ export class ViewreportComponent implements OnInit {
     return val.replace(/[a-z]/gi, (m, o) => (m < "[" && o) ? ` ${m}` : (o) ? m : m.toUpperCase())
   }
 
-  private getTimeEntryDateCount(){
+  private getTimeEntryDateCount() {
     const date = new Date(this.defualtMonth);
     const months = [...(new Set(this.reportsForExport.map(rep => new Date(rep.Date).getMonth())))];
 
     let totalDate = 0;
 
-    for(const month of months) {
+    for (const month of months) {
       const tmpDate = new Date(date.getFullYear(), month + 1, 0);
       totalDate += tmpDate.getDate();
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject } from 'rxjs';
-import {  NotificationWeek, TimesheetConfiguration } from './../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration } from './../models/timesheetModels';
 import { ConfigurationService } from './../services/configuration.service';
 
 @Injectable({
@@ -9,15 +9,15 @@ import { ConfigurationService } from './../services/configuration.service';
 })
 export class TimesheetConfigurationStateService {
   readonly defaultTimesheetConfig: TimesheetConfiguration = {
-    StartOfWeeks: [{DayOfWeek: "Monday", EffectiveDate: new Date(0)}],
+    StartOfWeeks: [{ DayOfWeek: "Monday", EffectiveDate: new Date(0) }],
     WorkingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    WorkingHours: {Min: 8, Max: 24},
-    TimesheetEscalation: {FirstEscalation: 1, SecondEscalation: 2},
-    Deadline: {
-      DeadlineDate:"Friday",
+    WorkingHours: { Min: 8, Max: 24 },
+    TimesheetEscalation: { FirstEscalation: 1, SecondEscalation: 2 },
+    TimesheetDeadline: {
+      DeadlineDate: "Friday",
       DeadlineTime: 12,
       Week: NotificationWeek.next_week,
-      TimeZone:0      
+      TimeZone: 0
     }
   };
 
@@ -31,12 +31,12 @@ export class TimesheetConfigurationStateService {
 
   getTimesheetConfiguration() {
     this.configurationService.getTimeSheetConfiguration().subscribe(response => {
-      const timesheetConfig : TimesheetConfiguration = response ?? this.defaultTimesheetConfig;
+      const timesheetConfig: TimesheetConfiguration = response ?? this.defaultTimesheetConfig;
 
       timesheetConfig.StartOfWeeks = timesheetConfig.StartOfWeeks ?? this.defaultTimesheetConfig.StartOfWeeks;
       timesheetConfig.WorkingDays = timesheetConfig.WorkingDays ?? this.defaultTimesheetConfig.WorkingDays;
       timesheetConfig.WorkingHours = timesheetConfig.WorkingHours ?? this.defaultTimesheetConfig.WorkingHours;
-      timesheetConfig.Deadline=timesheetConfig.Deadline??this.defaultTimesheetConfig.Deadline;
+      timesheetConfig.TimesheetDeadline = timesheetConfig.TimesheetDeadline ?? this.defaultTimesheetConfig.TimesheetDeadline;
       this.timesheetConfigurationSource.next(timesheetConfig);
     }, error => {
       console.log(error);
@@ -45,15 +45,15 @@ export class TimesheetConfigurationStateService {
 
   addTimesheetConfiguration(timesheetConfig: TimesheetConfiguration) {
     this.configurationService.addTimeSheetConfiguration(timesheetConfig).subscribe(response => {
-      if(response?.ResponseStatus === "Success") {
+      if (response?.ResponseStatus === "Success") {
         this.createNotification("success", "Timesheet configuration updated successfully");
         this.getTimesheetConfiguration();
       }
-      else{
+      else {
         this.createNotification("warning", "There was some problem updating the timesheet configuration");
       }
     }, error => {
-        this.createNotification("error", error.message);
+      this.createNotification("error", error.message);
     });
   }
 

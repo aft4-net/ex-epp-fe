@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { NotificationWeek, TimesheetConfiguration, TimesheetNotification } from '../../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration, TimesheetDeadline } from '../../models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class NotificationConfigurationComponent implements OnInit {
   isCurrentWeek = this.weekConfig.next_week;
   arrConfig = this.weekConfig as unknown as Array<string>;
   day = new Date();
-  time: Date = new Date(0, 0, 0, this.timesheetConfig.Deadline?.DeadlineTime, 0, 0);;
+  time: Date = new Date(0, 0, 0, this.timesheetConfig.TimesheetDeadline?.DeadlineTime, 0, 0);;
   defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
   selectedWeekConfig: any;
   timezone = this.day.getTimezoneOffset();
@@ -43,10 +43,10 @@ export class NotificationConfigurationComponent implements OnInit {
 
     this.timesheetConfig$.subscribe(config => {
       this.timesheetConfig = config ?? this.timesheetConfigStateService.defaultTimesheetConfig;
-      this.selectedWeekConfig = Object.keys(this.weekConfig)[Object.values(this.weekConfig).indexOf(this.timesheetConfig.Deadline.Week)];
+      this.selectedWeekConfig = Object.keys(this.weekConfig)[Object.values(this.weekConfig).indexOf(this.timesheetConfig.TimesheetDeadline.Week)];
       this.notificationConfigForm.setValue({
-        deadlineDate: this.timesheetConfig.Deadline?.DeadlineDate,
-        deadlineTime: new Date().setHours(this.timesheetConfig.Deadline.DeadlineTime),
+        deadlineDate: this.timesheetConfig.TimesheetDeadline?.DeadlineDate,
+        deadlineTime: new Date().setHours(this.timesheetConfig.TimesheetDeadline.DeadlineTime),
         deadlineWeek: this.selectedWeekConfig,
         timesheetEscalation: {
           firstEscalation: this.timesheetConfig.TimesheetEscalation.FirstEscalation,
@@ -60,7 +60,7 @@ export class NotificationConfigurationComponent implements OnInit {
   }
 
   onEscalationChange() {
-    if(this.notificationConfigForm.value.timesheetEscalation.secondEscalation > this.notificationConfigForm.value.timesheetEscalation.firstEscalation) return;
+    if (this.notificationConfigForm.value.timesheetEscalation.secondEscalation > this.notificationConfigForm.value.timesheetEscalation.firstEscalation) return;
 
     this.notificationConfigForm.patchValue({
       timesheetEscalation: {
@@ -72,13 +72,13 @@ export class NotificationConfigurationComponent implements OnInit {
   saveNotificationConfiguration() {
     const configFormValues = this.notificationConfigForm.value;
 
-    const deadlineConfig: TimesheetNotification = {
+    const deadlineConfig: TimesheetDeadline = {
       DeadlineDate: configFormValues.deadlineDate,
       DeadlineTime: new Date(configFormValues.deadlineTime).getHours(),
       Week: configFormValues.deadlineWeek,
       TimeZone: this.timezone
     }
-    this.timesheetConfig.Deadline = deadlineConfig;
+    this.timesheetConfig.TimesheetDeadline = deadlineConfig;
     this.timesheetConfig.TimesheetEscalation.FirstEscalation = configFormValues.timesheetEscalation.firstEscalation;
     this.timesheetConfig.TimesheetEscalation.SecondEscalation = configFormValues.timesheetEscalation.secondEscalation;
     this.timesheetConfigStateService.addTimesheetConfiguration({ ...this.timesheetConfig });
