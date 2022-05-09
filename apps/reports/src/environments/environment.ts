@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl : 'http://localhost:14696/api/v1',
-  redirectUri: 'http://localhost:4200'
+  redirectUri: 'http://localhost:4200',
+  timesheetApiUrl: 'http://localhost:14696/api/v1/TimeSheet/'
 };
 /*
  * For easier debugging in development mode, you can import the following file
