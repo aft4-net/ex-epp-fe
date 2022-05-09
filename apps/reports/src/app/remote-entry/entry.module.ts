@@ -14,6 +14,7 @@ import en from '@angular/common/locales/en';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 registerLocaleData(en);
 
@@ -26,6 +27,7 @@ registerLocaleData(en);
     NzNotificationModule,
     NzDatePickerModule,
     NzGridModule,
+    NzBadgeModule,
     RouterModule.forChild([
       {
         path: '',

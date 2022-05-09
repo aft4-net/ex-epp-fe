@@ -25,14 +25,21 @@
         <ng-template #defaultTemplate let-selected>Client:
           {{ selected.nzLabel }}
         </ng-template>
-        <nz-select *nzSpaceItem nzShowSearch nzAllowClear [nzMaxTagCount]="0"
-        [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" nzPlaceHolder="Please Select project Name"
-        [(ngModel)]="projectId" >
+        <nz-select style="width: 200px;" *nzSpaceItem nzShowSearch nzAllowClear [nzMaxTagCount]="0" [nzCustomTemplate]="defaultTemplatep" 
+        [nzMaxTagPlaceholder]="tagPlaceHolder"  nzMode="multiple" nzPlaceHolder="Please Select project Name"
+        [(ngModel)]="projectId" > 
           <nz-option   *ngFor="let project of projectList" [nzLabel]="project.ProjectName"  [nzValue]="project.Guid"   ></nz-option>
      
         </nz-select>
-        <ng-template #tagPlaceHolder let-projectList> Projects ({{ projectList.length }})  </ng-template>
+        <ng-template #tagPlaceHolder let-projectList  #defaultTemplatep> Projects  
+          <nz-badge 
+          nzStandalone
+          [nzCount]="projectList.length" 
+          [nzStyle]="{ backgroundColor: '#fff', color: '#262626', boxShadow: '0 0 0 2px #d9d9d9 inset' }"
+        ></nz-badge>
+            </ng-template>
         <nz-date-picker *nzSpaceItem [nzAllowClear]="false" nzMode="month" [(ngModel)]="defualtMonth" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disabledDate" ></nz-date-picker>
+        
         <button *nzSpaceItem nz-button  nzType="primary" (click)="onGenerateReports()"> Apply Filters</button> 
       </div>
       <div nz-space nzAlign="center" class="space-align-none">
@@ -51,7 +58,7 @@
     </div>
   </div>
 <br/>
-  <nz-table   [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="list" nzShowPagination="false"  >
+  <nz-table overflow:auto  [nzScroll]="{y:'400px'}" style="padding: 0px 2%;" class="view-report-table" nzSize="small" [nzLoading]="" [nzData]="list" nzShowPagination="false"  >
     <thead >
         <tr >
             <th nzWidth="5%">S.No</th>

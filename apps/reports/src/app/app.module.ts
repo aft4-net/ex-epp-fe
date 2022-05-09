@@ -21,6 +21,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { FormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 registerLocaleData(en);
 
@@ -43,6 +44,7 @@ registerLocaleData(en);
     NzLayoutModule,
     FormsModule,
     NzGridModule,
+    NzBadgeModule,
     RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
   ],
   providers: [
