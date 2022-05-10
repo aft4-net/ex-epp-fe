@@ -14,6 +14,7 @@
     nzHasFeedback>
       <input nz-input
       class="excel-single-control"
-      [formControl]="formControl" nzPlaceholder="'Full Name'"/>
+      [formControl]="formControl" nzPlaceholder="'Full Name'"
+      (ngModelChange)="onChange()" />
     </nz-form-control>
   </nz-form-item>
