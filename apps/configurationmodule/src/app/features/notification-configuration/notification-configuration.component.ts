@@ -33,6 +33,7 @@ export class NotificationConfigurationComponent implements OnInit {
   defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
   selectedWeekConfig: any;
   timezone = this.day.getTimezoneOffset();
+  workingDays: string[] = [];
 
   constructor(
     private timesheetConfigStateService: TimesheetConfigurationStateService,
@@ -43,6 +44,7 @@ export class NotificationConfigurationComponent implements OnInit {
 
     this.timesheetConfig$.subscribe(config => {
       this.timesheetConfig = config ?? this.timesheetConfigStateService.defaultTimesheetConfig;
+      this.workingDays = this.timesheetConfig.WorkingDays;
       this.selectedWeekConfig = Object.keys(this.weekConfig)[Object.values(this.weekConfig).indexOf(this.timesheetConfig.TimesheetDeadline.Week)];
       this.notificationConfigForm.setValue({
         deadlineDate: this.timesheetConfig.TimesheetDeadline.DeadlineDate,
@@ -53,6 +55,7 @@ export class NotificationConfigurationComponent implements OnInit {
           secondEscalation: this.timesheetConfig.TimesheetEscalation.SecondEscalation
         }
       });
+      this.onDeadLineWeekChage();
     });
   }
 

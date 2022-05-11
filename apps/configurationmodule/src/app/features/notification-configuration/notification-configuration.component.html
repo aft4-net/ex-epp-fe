@@ -25,13 +25,7 @@
       <div class="flex flex-row content-center space-between mt-2">
         <nz-select id="deadlineDate" formControlName="deadlineDate"
           class=" mt-auto w-36 h-10 mr-4 p-2 rounded-sm border-gray-300">
-          <nz-option nzValue="Monday" nzLabel="Monday" class="font-normal text-base not-italic"></nz-option>
-          <nz-option nzValue="Tuesday" nzLabel="Tuesday" class="font-normal text-base not-italic"></nz-option>
-          <nz-option nzValue="Wednesday" nzLabel="Wednesday" class="font-normal text-base not-italic"></nz-option>
-          <nz-option nzValue="Thursday" nzLabel="Thursday" class="font-normal text-base not-italic"></nz-option>
-          <nz-option nzValue="Friday" nzLabel="Friday" class="font-normal text-base not-italic"></nz-option>
-          <nz-option nzValue="Saturday" nzLabel="Saturday" class="font-normal text-base not-italic"></nz-option>
-          <nz-option nzValue="Sunday" nzLabel="Sunday" class="font-normal text-base not-italic"></nz-option>
+          <nz-option *ngFor="let workingDay of workingDays" nzValue="{{workingDay}}" nzLabel="{{workingDay}}" class="font-normal text-base not-italic"></nz-option>
         </nz-select>
         <nz-time-picker *ngIf="false" formControlName="deadlineTime" [(ngModel)]="time" [nzDefaultOpenValue]="defaultOpenValue"
           class="ml-2 mt-auto w-28 h-8 rounded-sm border-gray-300" style="margin-left: 12px;"></nz-time-picker>
