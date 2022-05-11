@@ -15,6 +15,7 @@ import * as XLSX from "xlsx";
 import { Observable, Subscription } from 'rxjs';
 import { TimesheetConfiguration } from '../../Models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
+import { PermissionListService } from '../../../../../../libs/common-services/permission.service';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -58,7 +59,8 @@ export class ViewreportComponent implements OnInit, OnDestroy {
   constructor(
     private reportService: ViewReportService,
     public datepipe: DatePipe,
-    private timesheetConfigStateService: TimesheetConfigurationStateService
+    private timesheetConfigStateService: TimesheetConfigurationStateService,
+    private permissionService: PermissionListService
   ) {
     // const mm = new Date();
     this.defualtMonth = new Date();
@@ -806,5 +808,9 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     }
 
     return totalDate;
+  }
+
+  authorize(key:string){
+    return this.permissionService.authorizedPerson(key);
   }
 }

@@ -14,7 +14,7 @@
 <br>
 <P calss="title" style="text-align:center   ">Monthly Timesheet - Summary</P>
 
-<div>
+<div *ngIf='authorize("View_Monthly_Timesheet_Report")'>
   <!-- <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }" style="padding: 0px 2%;"> -->
   <div nz-row [nzGutter]="16" style="padding: 0px 2%;">
     <div nz-col class="gutter-row" [nzSpan]="16"><div class="inner-box">
