@@ -15,6 +15,9 @@ import * as XLSX from "xlsx";
 import { Observable, Subscription } from 'rxjs';
 import { TimesheetConfiguration } from '../../Models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
+import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
+import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -58,7 +61,9 @@ export class ViewreportComponent implements OnInit, OnDestroy {
   constructor(
     private reportService: ViewReportService,
     public datepipe: DatePipe,
-    private timesheetConfigStateService: TimesheetConfigurationStateService
+    private timesheetConfigStateService: TimesheetConfigurationStateService,
+    private permissionService: PermissionListService,
+    private commonDataService: CommonDataService
   ) {
     // const mm = new Date();
     this.defualtMonth = new Date();
@@ -72,7 +77,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
   reportsForExport: any[] = [];
 
   ngOnInit(): void {
-
+    this.commonDataService.getPermission(environment.apiUrl);
     const children: Array<{ label: string; value: string }> = [];
     for (let i = 10; i < 36; i++) {
       children.push({ label: i.toString(36) + i, value: i.toString(36) + i });
@@ -806,5 +811,9 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     }
 
     return totalDate;
+  }
+
+  authorize(key:string){
+    return this.permissionService.authorizedPerson(key);
   }
 }
