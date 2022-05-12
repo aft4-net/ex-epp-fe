@@ -17,15 +17,16 @@ import { EmployeeParams } from '../../../Models/Employee/EmployeeParams';
 import { EmployeeService } from '../../../Services/Employee/EmployeeService';
 import { FormGenerator } from '../../custom-forms-controls/form-generator.model';
 import { IEmployeeViewModel } from '../../../Models/Employee/EmployeeViewModel';
-import { NotificationBar } from 'apps/resourcemanagement/src/app/utils/feedbacks/notification';
+import { NotificationBar } from './../../../../utils/feedbacks/notification';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableFilterList } from 'ng-zorro-antd/table';
 import { PaginationResult } from '../../../Models/PaginationResult';
-import { PermissionListService } from 'libs/common-services/permission.service';
-import { listtToFilter } from '../../../Models/listToFilter';
-import { LoadingSpinnerService } from 'libs/common-services/loading-spinner.service';
-import {AssignResourceService} from '../../../../../../../projectmanagement/src/app/core/services/assign-resource.service';
-import {ClientDetailsService} from '../../../../../../../clientmanagement/src/app/core/services/client-details.service';
+import { PermissionListService } from './../../../../../../../../libs/common-services/permission.service';
+import { listtToFilter } from './../../../Models/listToFilter';
+import { LoadingSpinnerService } from './../../../../../../../../libs/common-services/loading-spinner.service';
+import {AssignResourceService} from './../../../../../../../projectmanagement/src/app/core/services/assign-resource.service';
+import {ClientDetailsService} from './../../../../../../../clientmanagement/src/app/core/services/client-details.service';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-employee-detail',
@@ -824,13 +825,13 @@ FilterData(){
       });
     }
     OnDelete(employeeId: string): void {
-      this._clientDetailsService.checkAssignmentStatus(employeeId).subscribe((res)=>{
+      this._clientDetailsService.checkAssignmentStatus(employeeId, environment.apiUrl).subscribe((res)=>{
         this.assignmentStatus=res;
       
-          this._clientDetailsService.checkSalesPersonStatus(employeeId).subscribe((res)=>{
+          this._clientDetailsService.checkSalesPersonStatus(employeeId, environment.apiUrl).subscribe((res)=>{
             this.salesPersonStatus=res;
 
-          this._employeeService.IsEmployeeSupervisor(employeeId).subscribe((res)=>{
+          this._employeeService.IsEmployeeSupervisor(employeeId, environment.apiUrl).subscribe((res)=>{
             this.supervisorStatus=res;
             this._employeeService.IsEmployeeTimeesheet(employeeId).subscribe((res)=>{
               this.timesheetStatus=res;
