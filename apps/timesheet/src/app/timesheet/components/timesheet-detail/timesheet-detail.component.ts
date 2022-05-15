@@ -82,16 +82,13 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   invalidEntries: { Date: Date; Message: string }[] = [];
 
   clients: Client[] = [];
-  clientsFiltered: Client[] = [];
   projects: Project[] = [];
-  projectsFiltered: Project[] | null = null;
-  employee: Employee[] = [];
 
   formData: TimeEntryFormData = {
     fromDate: new Date(),
     toDate: new Date(),
-    client: '', //this.clients,
-    project: '', //this.projects
+    client: '',
+    project: '',
     hours: null,
     note: '',
   };
@@ -125,7 +122,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
 
   loading$: Observable<number>;
   loadingSubscription = new Subscription();
-  leaveforbiden=false;
+  leaveforbiden = false;
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
     differenceInCalendarDays(current, this.date) > 0;
@@ -166,7 +163,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.timesheet$ = this.timesheetStateService.timesheet$;
     this.timeEntries$ = this.timesheetStateService.timeEntries$;
     this.timesheetApprovals$ = this.timesheetStateService.timesheetApprovals$;
-   
+
 
     this.timesheetConfig$.subscribe((tsc) => {
       this.timesheetConfig = tsc ?? this.timesheetConfigurationStateService.defaultTimesheetConfig;
@@ -229,13 +226,13 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   initializeClient() {
     this.$selectedClient.subscribe(clientId => {
       this.formData.client = clientId;
-    });
+    }).unsubscribe();
   }
 
   initializeProject() {
     this.$selectedProject.subscribe(projectId => {
       this.formData.project = projectId;
-    });
+    }).unsubscribe();
   }
 
   onClientChange(event: string) {
@@ -582,19 +579,16 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
       this.formData.fromDate = this.date;
       this.formData.toDate = this.date;
 
-      this.drawerVisible = true;
       this.checkLeaveForLeaveInputOfADay();
+
+      this.drawerVisible = true;
     }
 
     this.clickEventType = ClickEventType.none;
   }
 
   setDefaultClient(clients: Client[] | null) {
-    if (!clients) {
-      return;
-
-    } else if (this.formData.client && this.formData.client != '') {
-
+    if (!clients || (this.formData.client && this.formData.client != '')) {
       return;
     }
 
@@ -604,11 +598,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   }
 
   setDefaultProject(projects: Project[] | null) {
-    if (!projects) {
-      return;
-
-    } else if (this.formData.project && this.formData.project != '') {
-
+    if (!projects || (this.formData.project && this.formData.project != '')) {
       return;
     }
 
@@ -698,13 +688,12 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     );
 
     if (this.timesheet) {
-    let checkedLeaveDates:Date[]=[];
-     for(const date of dates)
-   {
-     if(!this.isThereLeaveOnADay(date))
-     checkedLeaveDates=[...checkedLeaveDates,date]
-   }
-   dates=[...checkedLeaveDates];
+      let checkedLeaveDates: Date[] = [];
+      for (const date of dates) {
+        if (!this.isThereLeaveOnADay(date))
+          checkedLeaveDates = [...checkedLeaveDates, date]
+      }
+      dates = [...checkedLeaveDates];
       for (let i = 0; i < dates.length; i++) {
         timeEntry.Date = new Date(dates[i]);
         timeEntry.TimeSheetId = this.timesheet.Guid;
@@ -959,7 +948,7 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
     this.disableClient = false;
     this.disableProject = false;
     this.validateForm.reset();
-    this.setDateColumnTotalHour();    
+    this.setDateColumnTotalHour();
     this._clientAndProjectStateService.reset();
   }
 
@@ -1100,56 +1089,49 @@ export class TimesheetDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  valueChangeInputleave()  
-  {   
-    this.validateForm.controls.client.valueChanges.subscribe(()=>{
-  const client=this.clients.find(c=>c.id==this.validateForm.controls.client.value);  
-    if(client?.name =="Leave")
-    {
-      this.validateForm.controls.fromDate.disable();
-      this.validateForm.controls.toDate.disable();
-      this.validateForm.controls.hours.disable();   
-      this.validateForm.controls.hours.setValue(this.timesheetConfig.WorkingHours.Min);
-    }
-    else{
-     this.validateForm.controls.fromDate.enable();
-     this.validateForm.controls.toDate.enable();
-    this.validateForm.controls.hours.enable();
-    } 
-  });
-  } 
-
-  checkLeaveForLeaveInputOfADay()
-{
- if(this.formData.fromDate && this.timeEntries!=null )
-  { 
-    const dayEntery=this.timeEntries.filter(e=>formatDate(e.Date,'yyyy-MM-dd','en_US')==
-    (this.formData.fromDate && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US' )));
-     if( dayEntery.length>0)
-      !this.isThereLeaveOnADay(this.formData.fromDate)?this.leaveforbiden=true:this.leaveforbiden=false;
-     else   this.leaveforbiden=false;
+  valueChangeInputleave() {
+    this.validateForm.controls.client.valueChanges.subscribe(() => {
+      const client = this.clients.find(c => c.id == this.validateForm.controls.client.value);
+      if (client?.name == "Leave") {
+        this.validateForm.controls.fromDate.disable();
+        this.validateForm.controls.toDate.disable();
+        this.validateForm.controls.hours.disable();
+        this.formData.hours = this.timesheetConfig.WorkingHours.Min;
+      }
+      else {
+        this.validateForm.controls.fromDate.enable();
+        this.validateForm.controls.toDate.enable();
+        this.validateForm.controls.hours.enable();
+        this.formData.hours = null;
+      }
+    });
   }
-  else  this.leaveforbiden=false;
-}
 
-isThereLeaveOnADay(enteryDate:Date):boolean
-{
-  if(this.timeEntries!=null && this.clients!=null)
-  { 
-  const dayEntery=this.timeEntries.filter(
-    e=>formatDate(e.Date,'yyyy-MM-dd','en_US')== formatDate(enteryDate, 'yyyy-MM-dd', 'en_US'));
-   for(const entery of dayEntery)
-   {   
-    for(const client of this.clients)
-    {
-      const project=client.projects.find(c=>c.id==entery.ProjectId); 
-      if((project?.name.trim()=="Casual Leave" || project?.name.trim()=="Medical/Maternity" ||
-          project?.name.trim()==="Sick Leave" || project?.name.trim()==="Vacation") || project?.name.trim()=="Leave")   
-          return true;     
+  checkLeaveForLeaveInputOfADay() {
+    if (this.formData.fromDate && this.timeEntries != null) {
+      const dayEntery = this.timeEntries.filter(e => formatDate(e.Date, 'yyyy-MM-dd', 'en_US') ==
+        (this.formData.fromDate && formatDate(this.formData.fromDate, 'yyyy-MM-dd', 'en_US')));
+      if (dayEntery.length > 0)
+        !this.isThereLeaveOnADay(this.formData.fromDate) ? this.leaveforbiden = true : this.leaveforbiden = false;
+      else this.leaveforbiden = false;
     }
+    else this.leaveforbiden = false;
   }
- }
-  return false;
-}
+
+  isThereLeaveOnADay(enteryDate: Date): boolean {
+    if (this.timeEntries != null && this.clients != null) {
+      const dayEntery = this.timeEntries.filter(
+        e => formatDate(e.Date, 'yyyy-MM-dd', 'en_US') == formatDate(enteryDate, 'yyyy-MM-dd', 'en_US'));
+      for (const entery of dayEntery) {
+        for (const client of this.clients) {
+          const project = client.projects.find(c => c.id == entery.ProjectId);
+          if ((project?.name.trim() == "Casual Leave" || project?.name.trim() == "Medical/Maternity" ||
+            project?.name.trim() === "Sick Leave" || project?.name.trim() === "Vacation") || project?.name.trim() == "Leave")
+            return true;
+        }
+      }
+    }
+    return false;
+  }
 
 }
