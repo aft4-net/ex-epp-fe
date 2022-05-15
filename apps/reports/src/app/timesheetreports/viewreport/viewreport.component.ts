@@ -16,8 +16,6 @@ import { Observable, Subscription } from 'rxjs';
 import { TimesheetConfiguration } from '../../Models/timesheetModels';
 import { TimesheetConfigurationStateService } from '../../state/timesheet-configuration-state.service';
 import { PermissionListService } from './../../../../../../libs/common-services/permission.service';
-import { CommonDataService } from './../../../../../../libs/common-services/commonData.service';
-import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'exec-epp-viewreport',
@@ -62,13 +60,10 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     private reportService: ViewReportService,
     public datepipe: DatePipe,
     private timesheetConfigStateService: TimesheetConfigurationStateService,
-    private permissionService: PermissionListService,
-    private commonDataService: CommonDataService
+    private permissionService: PermissionListService
   ) {
-    // const mm = new Date();
     this.defualtMonth = new Date();
     this.defualtMonth.setDate(-1 * (this.defualtMonth.getDate() + 1));
-    // this.defualtMonth.setMonth(this.monthm[mm.getMonth() -1]);
   }
 
   listOfOption: Array<{ label: string; value: string }> = [];
@@ -77,26 +72,18 @@ export class ViewreportComponent implements OnInit, OnDestroy {
   reportsForExport: any[] = [];
 
   ngOnInit(): void {
-    this.commonDataService.getPermission(environment.apiUrl);
     const children: Array<{ label: string; value: string }> = [];
     for (let i = 10; i < 36; i++) {
       children.push({ label: i.toString(36) + i, value: i.toString(36) + i });
     }
     this.listOfOption = children;
-    //this.clientId="d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
     this.month = new Date().getMonth();
 
     this.monthm = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    const d = new Date();
-    const namem = this.monthm[d.getMonth() - 1];
     this.month = this.monthm[this.defualtMonth.getMonth() - 1]
 
-    //console.log(namem);
-    // this.defualtMonth = this.monthm[d.getMonth()- 1]
-
     this.disabledDate;
-    //this.getReport();
     registerLocaleData(en);
     this.getAllClientList();
 
@@ -135,17 +122,12 @@ export class ViewreportComponent implements OnInit, OnDestroy {
   }
 
   disabledDate = (current: Date): any =>
-    // Can not select days before today and today
-    // this.monthm[d.getMonth() - 1]
     differenceInCalendarDays(current, this.today) > 0;
-  // differenceInCalendarMonths(current: any,this: any.today: any: any);
 
 
 
   onChangesFilterReport(event: string) {
     this.loading = true;
-
-    //this.clientId = event;
     if (this.clientId == event) {
       this.getProjectListByClientId(this.clientId);
 
@@ -203,20 +185,11 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     this.getReport(this.clientId, this.firstDay, this.lastDay, this.projectId);
   }
   getReport(cID: string, sDate: Date, eDate: Date, pID?: string[]) {
-    // clientId= "d1f25a6c-3e2e-4d69-882b-9f67f65a6b7f";
     const sDatestring = this.datepipe.transform(sDate, 'yyyy-MM-dd');
     const eDatestring = this.datepipe.transform(eDate, 'yyyy-MM-dd');
-    const data: ReportWithCriteria = {
-      ClientGuid: cID,
-      SelectedProjects: pID ?? [],
-      StarDate: sDatestring ?? "",
-      EndDate: eDatestring ?? ""
-    }
 
     this.loading = true;
     this.reportService.getReports(cID, sDatestring, eDatestring, pID).subscribe((res: Report[]) => {
-
-      //this.reportService.getReportsByCriteria(data).subscribe((res:Report[])=>{
       this.reportList = res;
       this.filterProjects();
       this.sumHours();
@@ -231,16 +204,8 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  onChange(): void {
-    ;
-  }
-
   onMonthChange(monthDate: Date) {
     //TODO: on Month Change
-  }
-
-  getWeek(result: Date): void {
-    // console.log('week: ', getISOWeek(result));
   }
 
   filterProjects() {
@@ -253,18 +218,16 @@ export class ViewreportComponent implements OnInit, OnDestroy {
         Employee: this.reportList.filter(t => t.ProjectName === p)
       });
     })
-    for (let i = 0; i < project.length; i++) {
-      let x = this.reportList.length;
-      for (let j = 0; j < x; j++) {
-        if (project[i] == this.reportList[j].ProjectName) {
-          this.employee.push(this.reportList[j]);
-
+    for(const proj of project){
+      for (const report of this.reportList) {
+        if (proj == report.ProjectName) {
+          this.employee.push(report);
         }
-
       }
       this.filtered.push(this.employee);
     }
   }
+
   sumHours() {
     this.sumNonBillableHours = 0;
     this.sumBillableHours = 0;
@@ -602,7 +565,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
   }
 
   private getClients(forDetail = true) {
-    const clients = this.reportsForExport.reduce((clients: Record<string, any>[], report) => {
+    return this.reportsForExport.reduce((clients: Record<string, any>[], report) => {
       const date = new Date(report.ReportDate);
       const client: Record<string, any> = {
         Client: report.Client,
@@ -622,8 +585,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
           c.Month === client.Month &&
           c.ReportDate === client.ReportDate
         ) {
-          if (!forDetail) return true;
-          else if (c.Legend === client.Legend) return true;
+          if (!forDetail || c.Legend === client.Legend) return true;
         }
 
         return false;
@@ -635,12 +597,10 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
       return clients;
     }, []);
-
-    return clients;
   }
 
   private getClientProjects(client: string) {
-    const projects = this.reportsForExport.reduce((projects: Record<string, any>[], report) => {
+    return this.reportsForExport.reduce((projects: Record<string, any>[], report) => {
       if (report.Client != client) return projects;
 
       const index = projects.findIndex(p => p.ProjectName === report.ProjectName);
@@ -652,13 +612,11 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       });
 
       return projects;
-    }, [])
-
-    return projects;
+    }, []);
   }
 
   private getAssignedResources(projectName: string, sNo: number, forDetail = true) {
-    const assignedResources = this.reportsForExport.reduce((assignedResources: Record<string, any>[], report) => {
+    return this.reportsForExport.reduce((assignedResources: Record<string, any>[], report) => {
       if (projectName != report.ProjectName) return assignedResources;
 
       const index = assignedResources.findIndex(ar => {
@@ -696,17 +654,15 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
       return assignedResources;
     }, []);
-
-    return assignedResources;
   }
 
   private getProjectTimeEntryData(projectName: string, name: string, billable: boolean, forDetail = true) {
     const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const timeEntryDatas = this.reportsForExport.reduce((timeEntryDatas: Record<string, any>[], report) => {
-      if (report.ProjectName != projectName) return timeEntryDatas;
-      if (report.Name != name) return timeEntryDatas;
+    const timeEntryDatas = this.reportsForExport.reduce((tmpTimeEntryDatas: Record<string, any>[], report) => {
+      if (report.ProjectName != projectName) return tmpTimeEntryDatas;
+      if (report.Name != name) return tmpTimeEntryDatas;
 
-      const index = timeEntryDatas.findIndex(ted => {
+      const index = tmpTimeEntryDatas.findIndex(ted => {
         if (
           ted.Date === report.Date &&
           ted.Hour === report.Hours
@@ -715,14 +671,14 @@ export class ViewreportComponent implements OnInit, OnDestroy {
         return false;
       });
 
-      if (index >= 0) return timeEntryDatas;
+      if (index >= 0) return tmpTimeEntryDatas;
 
-      timeEntryDatas.push({
+      tmpTimeEntryDatas.push({
         Date: new Date(report.Date),
         Hour: report.Hours
       })
 
-      return timeEntryDatas;
+      return tmpTimeEntryDatas;
     }, []);
 
     const months = [...(new Set(this.reportsForExport.map(rep => new Date(rep.Date).getMonth())))];
@@ -757,15 +713,15 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       return 0;
     })
 
-    for (let i = 0; i < timeEntryDatas.length; i++) {
-      const day = timeEntryDatas[i].Date.getDay();
+    for (const data of timeEntryDatas) {
+      const day = data.Date.getDay();
       const index = this.timesheetConfig.WorkingDays.findIndex(d => d.toUpperCase() === weekDays[day].toUpperCase());
       if (index >= 0) {
         continue;
       }
 
-      if (timeEntryDatas[i].Hour === "0") {
-        timeEntryDatas[i].Hour = "";
+      if (data.Hour === "0" || isNaN(parseInt(data.Hour)) ) {
+        data.Hour = "";
       }
     }
 
