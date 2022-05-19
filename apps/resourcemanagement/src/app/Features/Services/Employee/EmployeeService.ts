@@ -463,9 +463,10 @@ export class EmployeeService {
 
     return this.http.delete<any>(environment.apiUrl + "/PersonalAddress/?id="+ id).subscribe();
   }
-  IsEmployeeSupervisor(id: string):Observable<boolean> {
+  IsEmployeeSupervisor(id: string, apiUrl?: string):Observable<boolean> {
+    if(!apiUrl) apiUrl = environment.apiUrl;
     const params = new HttpParams().set('id', id);
-    const result = this.http.get(environment.apiUrl+'/project/isEmployeeSupervisor/?'+params.toString()
+    const result = this.http.get(apiUrl+'/project/isEmployeeSupervisor/?'+params.toString()
     )
     .pipe(
       map((response: any) => {
@@ -476,9 +477,10 @@ export class EmployeeService {
    }  
 
 
-   IsEmployeeTimeesheet(id: string):Observable<boolean> {
+   IsEmployeeTimeesheet(id: string, apiUrl?: string):Observable<boolean> {
+     if(!apiUrl) apiUrl = environment.apiUrl;
     const params = new HttpParams().set('employeeGuid', id);
-    const result = this.http.get(environment.apiUrl+'/TimeSheet/IsEmployeeWithTimeesheetExists/?'+params.toString()
+    const result = this.http.get(apiUrl+'/TimeSheet/IsEmployeeWithTimeesheetExists/?'+params.toString()
     )
     .pipe(
       map((response: any) => {

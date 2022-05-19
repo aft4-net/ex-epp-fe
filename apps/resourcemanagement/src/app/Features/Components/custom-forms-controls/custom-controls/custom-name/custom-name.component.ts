@@ -35,4 +35,26 @@ export class CustomNameComponent {
     constructor() {
         // constructor method
     }
+
+    onChange() {
+      this.errMessage = '';
+      const value = this.formControl.value;
+      if (value) {
+        this.formControl.removeValidators(errValidator);
+
+        const re = /[a-zA-Z]+[\s][a-zA-Z]+/; // '^[a-zA-Z][a-zA-Z0-9-_ ]+$'
+        if (re.test(value)) {
+            // valid full name
+        } else {
+          this.errMessage = "Full name is not valid!";
+        }
+      } else {
+        this.errMessage = commonErrorMessage.message.substring(0)
+      }
+      if(this.errMessage && this.errMessage !== '') {
+        this.formControl.addValidators(errValidator);
+      }
+      this.formControl.updateValueAndValidity();
+      this.formResponse.emit(this.formControl.value)
+    }
   }

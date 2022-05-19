@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject } from 'rxjs';
-import { NotificationWeek, TimesheetConfiguration } from './../models/timesheetModels';
+import { NotificationWeek, TimesheetConfiguration } from './../Models/timesheetModels';
 import { ConfigurationService } from './../services/configuration.service';
 
 @Injectable({
